@@ -43,14 +43,14 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { exerciseCategories, getExercisesByCategory } from '../data/exercises'
+import { pronunciationCategories, getExercisesByCategory } from '../data/exercises'
 import SoundCard from '../components/SoundCard.vue'
 
 const route = useRoute()
 const categoryId = computed(() => route.query.category || 'vowels')
 
 const currentCategory = computed(() => 
-  exerciseCategories.find(cat => cat.id === categoryId.value)
+  pronunciationCategories.find(cat => cat.id === categoryId.value)
 )
 
 const currentExercises = computed(() => 

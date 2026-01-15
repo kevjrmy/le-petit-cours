@@ -7,18 +7,24 @@
         <p class="subtitle">Apprends à bien prononcer en français !</p>
       </div>
 
-      <!-- Categories Grid -->
+      <!-- Main Categories Grid -->
       <div class="categories-grid">
         <router-link
           v-for="category in categories"
           :key="category.id"
-          :to="{ name: 'exercises', query: { category: category.id } }"
+          :to="{ 
+            name: (category.id === 'pronunciation' || category.id === 'stories') ? 'subcategories' : 'coming-soon',
+            params: { mainCategory: category.id }
+          }"
           class="category-card"
-          :data-color="category.id"
+          :style="{ backgroundColor: category.color }"
         >
           <div class="category-icon">{{ category.icon }}</div>
           <h2 class="category-title">{{ category.title }}</h2>
           <p class="category-description">{{ category.description }}</p>
+          <span v-if="category.id !== 'pronunciation' && category.id !== 'stories'" class="coming-soon-badge">
+            Bientôt disponible
+          </span>
         </router-link>
       </div>
 
@@ -31,9 +37,9 @@
 </template>
 
 <script setup>
-import { exerciseCategories } from '../data/exercises'
+import { mainCategories } from '../data/exercises'
 
-const categories = exerciseCategories
+const categories = mainCategories
 </script>
 
 <style scoped>
@@ -83,22 +89,11 @@ const categories = exerciseCategories
   text-decoration: none;
   transition: transform 0.2s;
   height: 100%;
+  position: relative;
 }
 
 .category-card:hover {
   transform: scale(1.05);
-}
-
-.category-card[data-color="vowels"] {
-  background-color: #60a5fa;
-}
-
-.category-card[data-color="syllables"] {
-  background-color: #4ade80;
-}
-
-.category-card[data-color="consonants"] {
-  background-color: #a78bfa;
 }
 
 .category-icon {
@@ -114,6 +109,16 @@ const categories = exerciseCategories
 
 .category-description {
   opacity: 0.9;
+}
+
+.coming-soon-badge {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
 .footer {
