@@ -14,7 +14,35 @@
       </div>
 
       <!-- Exercises Grid -->
-      <div class="exercises-grid">
+      <div v-if="categoryId === 'words'" class="game-start-section">
+        <div class="game-intro">
+          <p class="game-description">
+            Devine comment se prononcent les mots ! Tu verras un mot écrit et tu devras choisir la bonne prononciation parmi plusieurs options.
+          </p>
+          <div class="game-stats">
+            <div class="stat">
+              <div class="stat-icon">📝</div>
+              <div class="stat-text">{{ currentExercises.length }} mots</div>
+            </div>
+            <div class="stat">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-text">Choix multiples</div>
+            </div>
+            <div class="stat">
+              <div class="stat-icon">🔊</div>
+              <div class="stat-text">Audio inclus</div>
+            </div>
+          </div>
+          <router-link
+            :to="{ name: 'word-game' }"
+            class="start-game-button"
+          >
+            🎮 Commencer l'exercice
+          </router-link>
+        </div>
+      </div>
+
+      <div v-else class="exercises-grid">
         <router-link
           v-for="exercise in currentExercises"
           :key="exercise.id"
@@ -113,6 +141,67 @@ const currentExercises = computed(() =>
 
 .exercises-grid a {
   text-decoration: none;
+}
+
+.game-start-section {
+  display: flex;
+  justify-content: center;
+}
+
+.game-intro {
+  background-color: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  padding: 3rem;
+  text-align: center;
+  max-width: 600px;
+}
+
+.game-description {
+  font-size: 1.125rem;
+  color: #374151;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.game-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-icon {
+  font-size: 2rem;
+}
+
+.stat-text {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.start-game-button {
+  display: inline-block;
+  background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  color: white;
+  font-size: 1.25rem;
+  font-weight: bold;
+  padding: 1rem 3rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.start-game-button:hover {
+  transform: scale(1.05);
 }
 
 .empty-state {

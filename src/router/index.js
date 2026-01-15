@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import SubcategoriesView from '../views/SubcategoriesView.vue'
 import ExercisesView from '../views/ExercisesView.vue'
 import ExerciseDetailView from '../views/ExerciseDetailView.vue'
+import WordGameView from '../views/WordGameView.vue'
 import StoriesListView from '../views/StoriesListView.vue'
 import StoryDetailView from '../views/StoryDetailView.vue'
 import ComingSoonView from '../views/ComingSoonView.vue'
@@ -30,6 +31,11 @@ const router = createRouter({
       name: 'exercise-detail',
       component: ExerciseDetailView,
       props: true
+    },
+    {
+      path: '/word-game',
+      name: 'word-game',
+      component: WordGameView
     },
     {
       path: '/stories',

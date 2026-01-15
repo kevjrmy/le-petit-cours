@@ -59,6 +59,13 @@ export const pronunciationCategories = [
     description: 'Découvre les consonnes',
     color: '#a78bfa',
     icon: '✏️'
+  },
+  {
+    id: 'words',
+    title: 'Les Mots',
+    description: 'Lis et devine la prononciation',
+    color: '#f59e0b',
+    icon: '🎯'
   }
 ]
 
@@ -112,6 +119,148 @@ export const exercises = {
     { id: 'c3', letter: 'T', word: 'Tarte', pronunciation: 'teh' },
     { id: 'c4', letter: 'D', word: 'Dodo', pronunciation: 'deh' },
     { id: 'c5', letter: 'M', word: 'Maman', pronunciation: 'em' }
+  ],
+  words: [
+    {
+      id: 'w1',
+      word: 'chat',
+      options: ['cha', 'chat', 'chate'],
+      correctAnswer: 'cha',
+      hint: 'Le T est muet à la fin'
+    },
+    {
+      id: 'w2',
+      word: 'fille',
+      options: ['fil', 'fille', 'fie'],
+      correctAnswer: 'fie',
+      hint: 'Les deux L font le son "ye"'
+    },
+    {
+      id: 'w3',
+      word: 'eau',
+      options: ['o', 'eau', 'é-o'],
+      correctAnswer: 'o',
+      hint: 'EAU se prononce comme O'
+    },
+    {
+      id: 'w4',
+      word: 'pain',
+      options: ['pin', 'pain', 'pan'],
+      correctAnswer: 'pin',
+      hint: 'AIN se prononce "in"'
+    },
+    {
+      id: 'w5',
+      word: 'œuf',
+      options: ['oeuf', 'euf', 'œuf'],
+      correctAnswer: 'euf',
+      hint: 'Œ se prononce "eu"'
+    },
+    {
+      id: 'w6',
+      word: 'chien',
+      options: ['chi-en', 'chien', 'chin'],
+      correctAnswer: 'chin',
+      hint: 'IEN se prononce "in"'
+    },
+    {
+      id: 'w7',
+      word: 'maison',
+      options: ['mai-zon', 'mai-son', 'mé-zon'],
+      correctAnswer: 'mé-zon',
+      hint: 'AI se prononce "é", S entre voyelles fait "z"'
+    },
+    {
+      id: 'w8',
+      word: 'rouge',
+      options: ['rouj', 'rouge', 'rouge'],
+      correctAnswer: 'rouj',
+      hint: 'GE se prononce "je"'
+    },
+    {
+      id: 'w9',
+      word: 'oiseau',
+      options: ['oi-zo', 'oi-seau', 'wa-zo'],
+      correctAnswer: 'wa-zo',
+      hint: 'OI se prononce "wa", S entre voyelles = "z"'
+    },
+    {
+      id: 'w10',
+      word: 'nez',
+      options: ['né', 'nez', 'nè'],
+      correctAnswer: 'né',
+      hint: 'Le Z final est muet'
+    },
+    {
+      id: 'w11',
+      word: 'garçon',
+      options: ['gar-son', 'gar-kon', 'gar-çon'],
+      correctAnswer: 'gar-son',
+      hint: 'Ç se prononce comme "ss"'
+    },
+    {
+      id: 'w12',
+      word: 'heure',
+      options: ['heure', 'eur', 'heu-re'],
+      correctAnswer: 'eur',
+      hint: 'Le H est muet, EUR se prononce "eur"'
+    },
+    {
+      id: 'w13',
+      word: 'pied',
+      options: ['pied', 'pi-ed', 'pié'],
+      correctAnswer: 'pié',
+      hint: 'IED se prononce "ié", le D est muet'
+    },
+    {
+      id: 'w14',
+      word: 'automne',
+      options: ['o-tomne', 'au-tom-ne', 'o-ton'],
+      correctAnswer: 'o-ton',
+      hint: 'AU = "o", MN ensemble = "n", E final muet'
+    },
+    {
+      id: 'w15',
+      word: 'monsieur',
+      options: ['mon-sieur', 'mon-sieu', 'me-sieu'],
+      correctAnswer: 'me-sieu',
+      hint: 'MON se prononce "me", SIEUR = "sieu"'
+    },
+    {
+      id: 'w16',
+      word: 'femme',
+      options: ['fem-me', 'fame', 'fam'],
+      correctAnswer: 'fam',
+      hint: 'FEMME se prononce "fam" (exception !)'
+    },
+    {
+      id: 'w17',
+      word: 'gentil',
+      options: ['jen-til', 'jan-ti', 'jan-til'],
+      correctAnswer: 'jan-ti',
+      hint: 'GEN = "jan", TIL = "ti" (L muet)'
+    },
+    {
+      id: 'w18',
+      word: 'été',
+      options: ['été', 'è-té', 'é-té'],
+      correctAnswer: 'é-té',
+      hint: 'Les deux É se prononcent "é"'
+    },
+    {
+      id: 'w19',
+      word: 'clown',
+      options: ['klown', 'clown', 'klon'],
+      correctAnswer: 'klon',
+      hint: 'C = "k", OW = "o", N final se prononce'
+    },
+    {
+      id: 'w20',
+      word: 'sept',
+      options: ['sept', 'sète', 'sèt'],
+      correctAnswer: 'sèt',
+      hint: 'Le P et le T finaux sont muets'
+    }
   ]
 }
 
@@ -124,29 +273,61 @@ export const stories = {
       description: 'L\'histoire d\'un petit chat qui explore',
       duration: '5 min',
       difficulty: 'Facile',
-      content: `Il était une fois un petit chat gris qui s'appelait Minou. Minou adorait explorer le jardin.
+      content: `Le secret du jardin de Minou
 
-Un matin, Minou voit quelque chose briller sous un buisson. "Qu'est-ce que c'est ?" se demande-t-il.
+Il était une fois, dans un jardin rempli de fleurs et d’herbe douce, un petit chat gris nommé Minou.
+Minou n’était pas un chat ordinaire : il était curieux, très curieux. Trop curieux, disaient parfois les oiseaux.
 
-Il s'approche doucement. C'est une belle coccinelle rouge avec des points noirs ! La coccinelle bouge ses petites ailes.
+Chaque matin, Minou sortait de la maison en bâillant et en s’étirant.
+— Une nouvelle aventure m’attend, pensait-il.
 
-"Bonjour !" dit Minou. "Tu veux jouer avec moi ?"
+Ce matin-là, le jardin était étrangement silencieux. Pas un bruit.
+Soudain, quelque chose brilla près du vieux pommier.
 
-Mais la coccinelle s'envole. Minou essaie de la suivre. Il saute ! Il court ! Il tourne en rond !
+— « Oh ! Qu’est-ce que c’est que ça ? » murmura Minou.
 
-Soudain, Minou arrive devant une grande flaque d'eau. Il voit son reflet. "Qui est ce chat ?" pense-t-il.
+Il avança à pas de velours, la queue bien droite. Sous une feuille verte se trouvait une coccinelle rouge, brillante comme un petit bouton magique.
 
-Il touche l'eau avec sa patte. SPLASH ! De l'eau partout !
+— « Bonjour, petite boule rouge », dit Minou. « Tu es perdue ? »
 
-Minou secoue sa patte mouillée. Il rit. "C'est moi dans l'eau !"
+La coccinelle ouvrit lentement ses ailes.
+— « Je ne suis pas perdue », répondit-elle. « Je cherche le secret du jardin. »
 
-La coccinelle revient et se pose sur le nez de Minou. Chatouille, chatouille !
+Minou ouvrit de grands yeux.
+— « Le secret du jardin ? Il y a un secret ici ? »
 
-"Tu es mon amie maintenant," dit Minou en souriant.
+La coccinelle s’envola doucement.
+— « Suis-moi si tu es courageux. »
 
-Et depuis ce jour, Minou et la coccinelle jouent ensemble tous les matins dans le jardin.
+Minou hésita une seconde… puis bondit.
+— « Attends-moi ! »
 
-**FIN**`
+Ils traversèrent les fleurs, passèrent sous un banc et arrivèrent devant une grande flaque d’eau brillante comme un miroir.
+
+Minou se pencha et vit son reflet.
+— « Oh ! Je croyais que c’était un autre chat ! » dit-il en riant.
+
+Il posa sa patte dans l’eau.
+— SPLASH !
+
+— « Oups… » fit Minou, mouillé jusqu’aux moustaches.
+
+La coccinelle se posa sur son nez.
+— « Le secret du jardin, Minou, ce n’est pas un trésor caché », dit-elle doucement.
+— « Alors c’est quoi ? »
+
+Minou regarda autour de lui : les fleurs, le soleil, l’eau qui brillait, les oiseaux qui chantaient de nouveau.
+
+— « Le secret… » continua la coccinelle, « c’est de prendre le temps de regarder. »
+
+Minou sourit.
+— « Alors j’aime ce secret. »
+
+Depuis ce jour, chaque matin, Minou explore le jardin avec son amie la coccinelle, sans courir trop vite, en regardant bien autour de lui.
+
+Et le jardin, lui, ne se tait plus jamais.
+
+FIN`
     }
   ],
   'adult-learner-stories': [],
