@@ -1,5 +1,5 @@
 <template>
-    <DefaultLayout title="Une journée à Paris">
+    <AltLayout title="Une journée à Paris">
         <main class="story-container">
 
             <div class="story-header">
@@ -14,8 +14,10 @@
                     </div>
 
                     <div class="card-body">
-                        <button class="btn-read" @click="readAloud(step.text)">
-                            🔊 Écouter la partie {{ index + 1 }}
+                        <button class="btn-read" :class="{ 'is-playing': playingIndex === index }"
+                            @click="readAloud(step.text, index)">
+                            <span v-if="playingIndex === index">✨ Lecture en cours...</span>
+                            <span v-else>🔊 Écouter la partie {{ index + 1 }}</span>
                         </button>
 
                         <details class="correction">
@@ -30,12 +32,12 @@
                 <RouterLink to="/dictees" class="btn-back">← Retour aux chapitres</RouterLink>
             </div>
         </main>
-    </DefaultLayout>
+    </AltLayout>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import { ref, onMounted } from 'vue'
+import AltLayout from '@/layouts/AltLayout.vue'
 
 // Centralisation du contenu
 const steps = [
@@ -53,22 +55,41 @@ const steps = [
     }
 ]
 
-const readAloud = (text) => {
+// Track which part is playing (-1 means nothing is playing)
+const playingIndex = ref(-1)
+
+const readAloud = (text, index) => {
     window.speechSynthesis.cancel()
+
     const utterance = new SpeechSynthesisUtterance(text)
     utterance.lang = 'fr-FR'
-    utterance.rate = 0.85 // Un peu plus lent pour les enfants
+    utterance.rate = 0.85
 
-    // On récupère les voix disponibles
+    // Visual feedback logic
+    utterance.onstart = () => {
+        playingIndex.value = index
+    }
+    utterance.onend = () => {
+        playingIndex.value = -1
+    }
+    utterance.onerror = () => {
+        playingIndex.value = -1
+    }
+
     const voices = window.speechSynthesis.getVoices()
-    // On cherche une voix française de qualité (souvent nommée Thomas ou Amélie sur macOS/iOS)
     const frenchVoice = voices.find(v => v.lang === 'fr-FR' && v.name.includes('Google')) ||
         voices.find(v => v.lang.startsWith('fr'))
 
     if (frenchVoice) utterance.voice = frenchVoice
-
     window.speechSynthesis.speak(utterance)
 }
+
+onMounted(() => {
+    window.speechSynthesis.getVoices()
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices()
+    }
+})
 </script>
 
 <style scoped>
