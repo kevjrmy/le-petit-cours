@@ -1,59 +1,30 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import SubcategoriesView from '../views/SubcategoriesView.vue'
-import ExercisesView from '../views/ExercisesView.vue'
-import ExerciseDetailView from '../views/ExerciseDetailView.vue'
-import WordGameView from '../views/WordGameView.vue'
-import StoriesListView from '../views/StoriesListView.vue'
-import StoryDetailView from '../views/StoryDetailView.vue'
-import ComingSoonView from '../views/ComingSoonView.vue'
+
+// Book chapters configuration
+const chapters = [
+  { path: '/', name: 'home', title: 'Sommaire', folder: 'home', file: 'index' },
+  { path: '/dictees', name: 'dictees', title: 'Dictées', page: 1, folder: 'dictees', file: 'index' },
+  { path: '/prononciation', name: 'prononciation', title: 'Prononciation', page: 12, folder: 'prononciation', file: 'index' },
+  { path: '/exercices', name: 'exercices', title: 'Exercices', page: 27, folder: 'exercices', file: 'index' },
+  { path: '/lecture', name: 'lecture', title: 'Lecture', page: 41, folder: 'lecture', file: 'index' },
+
+  { path: '/a-propos', name: 'about', title: 'À propos', page: 100, folder: 'pages', file: 'a-propos' },
+  { path: '/contact', name: 'contact', title: 'Contact', page: 102, folder: 'pages', file: 'contact' },
+]
+
+const routes = chapters.map(chapter => ({
+  path: chapter.path,
+  name: chapter.name,
+  component: () => import(`../views/${chapter.folder}/${chapter.file}.vue`),
+  meta: {
+    title: chapter.title,
+    page: chapter.page,
+  },
+}))
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView
-    },
-    {
-      path: '/:mainCategory/subcategories',
-      name: 'subcategories',
-      component: SubcategoriesView
-    },
-    {
-      path: '/exercises',
-      name: 'exercises',
-      component: ExercisesView
-    },
-    {
-      path: '/exercise/:id',
-      name: 'exercise-detail',
-      component: ExerciseDetailView,
-      props: true
-    },
-    {
-      path: '/word-game',
-      name: 'word-game',
-      component: WordGameView
-    },
-    {
-      path: '/stories',
-      name: 'stories-list',
-      component: StoriesListView
-    },
-    {
-      path: '/story/:id',
-      name: 'story-detail',
-      component: StoryDetailView,
-      props: true
-    },
-    {
-      path: '/:mainCategory/coming-soon',
-      name: 'coming-soon',
-      component: ComingSoonView
-    }
-  ]
+  history: createWebHistory(),
+  routes,
 })
 
 export default router
