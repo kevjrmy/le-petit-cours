@@ -1,24 +1,22 @@
 <template>
-  <HeaderBar />
+  <DefaultLayout title="Sommaire">
+    <main id="home">
+        <ul class="toc">
+        <li v-for="route in categories" :key="route.name">
+          <RouterLink :to="route.path" class="title">
+            {{ route.meta.title }}
+          </RouterLink>
+          <span class="dots"></span>
+          <span class="page">{{ route.meta.page }}</span>
+        </li>
+      </ul>
 
-  <main id="home">
-    <h2>Sommaire</h2>
-
-    <ul class="toc">
-      <li v-for="route in categories" :key="route.name">
-        <RouterLink :to="route.path" class="title">
-          {{ route.meta.title }}
-        </RouterLink>
-        <span class="dots"></span>
-        <span class="page">{{ route.meta.page }}</span>
-      </li>
-    </ul>
-
-  </main>
+    </main>
+  </DefaultLayout>
 </template>
 
 <script setup>
-import HeaderBar from '@/components/HeaderBar.vue'
+import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -30,15 +28,6 @@ const categories = router
 </script>
 
 <style scoped>
-#home {
-  padding: 1.5rem;
-}
-
-h2 {
-  margin-bottom: 1.5rem;
-  font-size: 1.4rem;
-}
-
 /* Table of contents */
 .toc {
   list-style: none;

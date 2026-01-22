@@ -13,7 +13,7 @@
   --clr-lightgrey: lightgrey;
   --clr-darkgrey: grey;
   --box-shadow: 2px 2px 8px rgb(0 0 0 / 10%);
-  --max-width: 430px;
+  --max-width: 1000px;
   --overlay: #00000080;
 }
 
@@ -39,8 +39,11 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   isolation: isolate;
-  padding: 1rem;
+  padding: 1.5rem;
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 ul:where([role=list]),

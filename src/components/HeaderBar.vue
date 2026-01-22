@@ -9,16 +9,14 @@
         <button class="menu-btn" @click="toggleMenu">
             <IconMdiMenu width="20" height="20" />
         </button>
-
-        <h1 v-if="title">{{ title }}</h1>
     </header>
 
     <div v-if="isOpen" class="overlay" @click="closeMenu"></div>
 
     <aside :class="{ open: isOpen }">
         <nav>
-            <RouterLink to="/">Accueil</RouterLink>
-            <RouterLink to="/categories">Catégories</RouterLink>
+            <RouterLink to="/">Sommaire</RouterLink>
+            <RouterLink to="/contact">Contact</RouterLink>
             <RouterLink to="/a-propos">À propos</RouterLink>
         </nav>
     </aside>
@@ -27,13 +25,6 @@
 <script setup>
 import { ref } from 'vue'
 import logo from '@/assets/logo.svg'
-
-defineProps({
-    title: {
-        type: String,
-        default: ''
-    }
-})
 
 const isOpen = ref(false)
 
@@ -52,7 +43,6 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem;
 }
 
 /* Overlay */

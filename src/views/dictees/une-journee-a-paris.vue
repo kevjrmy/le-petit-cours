@@ -1,0 +1,168 @@
+<template>
+    <DefaultLayout title="Une journée à Paris">
+        <main class="story-container">
+
+            <div class="story-header">
+                <span class="difficulty-tag">🌟 Niveau Facile</span>
+                <p class="instruction">Écoute bien et écris les phrases dans ton cahier.</p>
+            </div>
+
+            <div class="story-content">
+                <section v-for="(step, index) in steps" :key="index" class="story-block">
+                    <div class="image-container">
+                        <img :src="step.image" :alt="'Illustration partie ' + (index + 1)" class="story-img" />
+                    </div>
+
+                    <div class="card-body">
+                        <button class="btn-read" @click="readAloud(step.text)">
+                            🔊 Écouter la partie {{ index + 1 }}
+                        </button>
+
+                        <details class="correction">
+                            <summary>Vérifier l'orthographe</summary>
+                            <p class="text-reveal">{{ step.text }}</p>
+                        </details>
+                    </div>
+                </section>
+            </div>
+
+            <div class="story-footer">
+                <RouterLink to="/dictees" class="btn-back">← Retour aux chapitres</RouterLink>
+            </div>
+        </main>
+    </DefaultLayout>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import DefaultLayout from '@/layouts/DefaultLayout.vue'
+
+// Centralisation du contenu
+const steps = [
+    {
+        image: '/dictees/paris/paris-1.png',
+        text: "Aujourd'hui, nous allons à la Tour Eiffel. Elle est très grande et très belle !"
+    },
+    {
+        image: '/dictees/paris/paris-2.png',
+        text: "Ensuite, nous prenons un bateau sur la Seine pour voir les ponts de Paris."
+    },
+    {
+        image: '/dictees/paris/paris-3.png',
+        text: "Pour finir, nous mangeons un bon croissant chaud dans une petite boulangerie."
+    }
+]
+
+const readAloud = (text) => {
+    window.speechSynthesis.cancel()
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.lang = 'fr-FR'
+    utterance.rate = 0.85 // Un peu plus lent pour les enfants
+
+    // On récupère les voix disponibles
+    const voices = window.speechSynthesis.getVoices()
+    // On cherche une voix française de qualité (souvent nommée Thomas ou Amélie sur macOS/iOS)
+    const frenchVoice = voices.find(v => v.lang === 'fr-FR' && v.name.includes('Google')) ||
+        voices.find(v => v.lang.startsWith('fr'))
+
+    if (frenchVoice) utterance.voice = frenchVoice
+
+    window.speechSynthesis.speak(utterance)
+}
+</script>
+
+<style scoped>
+.story-container {
+    padding: 1rem 1.5rem 4rem;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.story-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.difficulty-tag {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border: 1px solid #c8e6c9;
+}
+
+.story-block {
+    margin-bottom: 3rem;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eee;
+}
+
+.image-container {
+    width: 100%;
+    background-color: #f5f5f5;
+}
+
+.story-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-read {
+    background: #2c3e50;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    width: 100%;
+}
+
+/* Using native <details> for the correction toggle */
+.correction {
+    width: 100%;
+    text-align: center;
+}
+
+summary {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    cursor: pointer;
+    user-select: none;
+    padding: 0.5rem;
+}
+
+.text-reveal {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #fdfdfd;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #34495e;
+}
+
+.btn-back {
+    display: inline-block;
+    margin-top: 2rem;
+    text-decoration: none;
+    color: #95a5a6;
+    font-weight: 500;
+}
+</style>
