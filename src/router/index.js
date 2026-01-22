@@ -8,8 +8,8 @@ const chapters = [
   // Dictées
   { path: '/dictees', name: 'dictees', title: 'Dictées', folder: 'dictees', file: 'index', page: 1 },
   { path: '/dictees/une-journee-a-paris', name: 'dictee-paris', title: 'Dictée: Une journée à Paris', page: 2, folder: 'dictees', file: 'une-journee-a-paris' },
-  { path: '/dictees/la-pierre-de-rosette', name: 'dictee-inter', title: 'Dictée: La pierre de Rosette', page: 5, folder: 'dictees', file: 'la-pierre-de-rosette' },
-  { path: '/dictees/la-philosophie-sous-la-renaissance', name: 'dictee-diff', title: 'Dictée: La philosophie sous la renaissance', page: 8, folder: 'dictees', file: 'la-philosophie-sous-la-renaissance' },
+  { path: '/dictees/la-pierre-de-rosette', name: 'dictee-inter', title: 'Dictée: La pierre de Rosette', page: 3, folder: 'dictees', file: 'la-pierre-de-rosette' },
+  { path: '/dictees/la-philosophie-sous-la-renaissance', name: 'dictee-diff', title: 'Dictée: La philosophie sous la renaissance', page: 4, folder: 'dictees', file: 'la-philosophie-sous-la-renaissance' },
   
   // Prononciation
   { path: '/prononciation', name: 'prononciation', title: 'Prononciation', page: 12, folder: 'prononciation', file: 'index' },

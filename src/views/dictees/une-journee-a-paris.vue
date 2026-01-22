@@ -59,22 +59,23 @@ const steps = [
 const playingIndex = ref(-1)
 
 const readAloud = (text, index) => {
+    // If we click the one already playing, stop it and reset index
+    if (playingIndex.value === index) {
+        window.speechSynthesis.cancel()
+        playingIndex.value = -1
+        return
+    }
+
+    // Otherwise, cancel anything else and play new part
     window.speechSynthesis.cancel()
 
     const utterance = new SpeechSynthesisUtterance(text)
     utterance.lang = 'fr-FR'
     utterance.rate = 0.85
 
-    // Visual feedback logic
-    utterance.onstart = () => {
-        playingIndex.value = index
-    }
-    utterance.onend = () => {
-        playingIndex.value = -1
-    }
-    utterance.onerror = () => {
-        playingIndex.value = -1
-    }
+    utterance.onstart = () => { playingIndex.value = index }
+    utterance.onend = () => { playingIndex.value = -1 }
+    utterance.onerror = () => { playingIndex.value = -1 }
 
     const voices = window.speechSynthesis.getVoices()
     const frenchVoice = voices.find(v => v.lang === 'fr-FR' && v.name.includes('Google')) ||

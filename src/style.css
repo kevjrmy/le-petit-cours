@@ -90,3 +90,7 @@ h5,
 h6 {
   overflow-wrap: break-word;
 }
+
+h1 {
+  text-align: center;
+}

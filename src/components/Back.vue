@@ -3,8 +3,8 @@
     <button @click="goBack" class="logo">
       <IconBack height="1.5rem" width="1.5rem" />
     </button>
-    <h1 v-if="title">{{ title }}</h1>
   </header>
+  <h1 v-if="title">{{ title }}</h1>
 </template>
 
 <script setup>
