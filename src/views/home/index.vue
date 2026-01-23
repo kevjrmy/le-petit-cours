@@ -42,10 +42,6 @@ const categories = router
   font-size: 1.1rem;
 }
 
-.title {
-  white-space: nowrap;
-}
-
 .dots {
   flex: 1;
   border-bottom: 1px dotted var(--clr-darkgrey);
