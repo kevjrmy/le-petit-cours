@@ -48,8 +48,8 @@ const dicteeChapters = [
     isComingSoon: true 
   },
   { 
-    path: '/dictees/la-philosophie-sous-la-renaissance', 
-    displayTitle: 'La philosophie sous la Renaissance', 
+    path: '/dictees/les-fleurs-du-mal', 
+    displayTitle: 'Les fleurs du mal', 
     level: 'hard', 
     levelLabel: 'Difficile', 
     page: 4,

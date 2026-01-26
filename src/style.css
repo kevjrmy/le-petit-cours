@@ -9,7 +9,8 @@
   --clr-secondary: #5599ff;
   --clr-green: #4CAF50;
   --clr-yellow: #FFC107;
-  --clr-red: #E53935;
+  --clr-red: #d40000;
+  --clr-lightred: #E53935;
   --clr-lightgrey: lightgrey;
   --clr-darkgrey: grey;
   --box-shadow: 2px 2px 8px rgb(0 0 0 / 10%);
@@ -31,6 +32,7 @@ body {
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   color: var(--clr-text);
+  background-color: var(--clr-background);
 }
 
 #app {
