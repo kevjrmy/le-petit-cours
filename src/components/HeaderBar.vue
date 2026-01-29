@@ -2,7 +2,7 @@
     <header>
         <div class="logo">
             <RouterLink to="/">
-                <img :src="logo" alt="logo" height="40px" />
+                <img src="/logo.svg" alt="logo" height="40px" />
             </RouterLink>
         </div>
 
@@ -29,7 +29,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import logo from '@/assets/logo.svg'
 
 const isOpen = ref(false)
 

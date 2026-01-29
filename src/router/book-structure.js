@@ -49,6 +49,14 @@ export const bookStructure = [
       { path: '/exercices', name: 'exercices', title: 'Liste des Exercices', file: 'index' },
       { path: '/exercices/puzzle-de-mots', name: 'ex-puzzle', title: 'Le Puzzle de Mots', file: 'puzzle-de-mots' }
     ]
+  },
+  {
+    chapter: "Prononciation",
+    folder: "prononciation",
+    pages: [
+      { path: '/prononciation', name: 'prononciation', title: 'Sommaire Prononciation', file: 'index' },
+      { path: '/prononciation/le-son-o', name: 'son-o', title: 'Le son [o]', file: 'le-son-o' },
+    ]
   }
 ]
 

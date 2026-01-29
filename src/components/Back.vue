@@ -1,10 +1,13 @@
 <template>
-  <header>
-    <button @click="goBack" class="logo">
-      <IconBack height="1.5rem" width="1.5rem" />
+  <header class="back-header">
+    <button @click="goBack" class="back-btn" aria-label="Retour">
+      <IconBack height="1.8rem" width="1.8rem" />
     </button>
+
+    <h1 v-if="title" class="page-title">{{ title }}</h1>
+
+    <div class="spacer"></div>
   </header>
-  <h1 v-if="title">{{ title }}</h1>
 </template>
 
 <script setup>
@@ -28,3 +31,35 @@ const goBack = () => {
   }
 }
 </script>
+
+<style scoped>
+.back-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.back-btn {
+  color: var(--clr-primary);
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  transition: transform 0.2s;
+}
+
+.back-btn:hover {
+  transform: translateX(-5px);
+}
+
+.page-title {
+  font-size: 1.3rem;
+  margin: 0;
+  text-align: center;
+  flex: 1;
+}
+
+.spacer {
+  width: 2.8rem;
+}
+</style>

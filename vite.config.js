@@ -22,28 +22,39 @@ export default defineConfig({
     }),
     VitePWA({
       registerType: 'autoUpdate',
-      injectRegister: false,
-
+      injectRegister: 'auto',
+      pwaAssets: {
+        disabled: false,
+        config: true,
+      },
       manifest: {
+        id: '/',
         name: 'Le Petit Cours',
         short_name: 'le-petit-cours',
         description: 'Petite app pour apprendre le français',
+        start_url: '/',
+        scope: '/',
         theme_color: '#ffffff',
+        background_color: '#ffffff',
+        display: 'standalone',
+        orientation: 'portrait-primary',
+        lang: 'fr',
+        dir: 'ltr',
 
         icons: [{
-          src: 'pwa-64x64.png',
+          src: '/pwa-64x64.png',
           sizes: '64x64',
           type: 'image/png',
         }, {
-          src: 'pwa-192x192.png',
+          src: '/pwa-192x192.png',
           sizes: '192x192',
           type: 'image/png',
         }, {
-          src: 'pwa-512x512.png',
+          src: '/pwa-512x512.png',
           sizes: '512x512',
           type: 'image/png',
         }, {
-          src: 'maskable-icon-512x512.png',
+          src: '/maskable-icon-512x512.png',
           sizes: '512x512',
           type: 'image/png',
           purpose: 'maskable',
@@ -58,7 +69,7 @@ export default defineConfig({
       },
 
       devOptions: {
-        enabled: false,
+        enabled: true,
         navigateFallback: 'index.html',
         suppressWarnings: true,
         type: 'module',
