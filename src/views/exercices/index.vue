@@ -1,33 +1,16 @@
 <template>
   <DefaultLayout title="Exercices">
     <main id="exercices-index">
-      <p class="intro-text">Pratique ton français en t'amusant avec ces trois jeux !</p>
+      <p class="intro-text">Pratique ton français en t'amusant avec nos jeux pédagogiques !</p>
 
       <div class="ex-list">
-        <RouterLink to="/exercices/puzzle-de-mots" class="ex-card puzzle">
-          <div class="ex-icon">🧩</div>
+        <RouterLink v-for="page in exercicesPages" :key="page.path" :to="page.path"
+          :class="['ex-card', getCategoryClass(page.path)]">
+          <div class="ex-icon">{{ getIcon(page.path) }}</div>
           <div class="ex-info">
-            <h3>Le Puzzle de Mots</h3>
-            <p>Remets les mots dans le bon ordre pour construire la phrase.</p>
-            <span class="skill-tag">Syntaxe</span>
-          </div>
-        </RouterLink>
-
-        <RouterLink to="/exercices/le-detective" class="ex-card detective">
-          <div class="ex-icon">🔍</div>
-          <div class="ex-info">
-            <h3>Le Détective d'Erreurs</h3>
-            <p>Trouve la faute cachée dans la phrase (orthographe ou grammaire).</p>
-            <span class="skill-tag">Orthographe</span>
-          </div>
-        </RouterLink>
-
-        <RouterLink to="/exercices/les-syllabes" class="ex-card syllabes">
-          <div class="ex-icon">🗣️</div>
-          <div class="ex-info">
-            <h3>Le Maître des Syllabes</h3>
-            <p>Découpe les mots en syllabes et prononce-les correctement.</p>
-            <span class="skill-tag">Prononciation</span>
+            <h3>{{ page.title }}</h3>
+            <p>Relève le défi pour progresser en {{ getTag(page.path).toLowerCase() }}.</p>
+            <span class="skill-tag">{{ getTag(page.path) }}</span>
           </div>
         </RouterLink>
       </div>
@@ -36,18 +19,47 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import { bookStructure } from '@/router/book-structure'
+
+// On récupère uniquement les pages du chapitre Exercices (en excluant l'index)
+const exercicesPages = computed(() => {
+  const chapter = bookStructure.find(c => c.folder === 'exercices')
+  return chapter ? chapter.pages.filter(p => p.path !== '/exercices') : []
+})
+
+// Logique pour déterminer le style et l'icône selon le chemin
+const getCategoryClass = (path) => {
+  if (path.includes('puzzle')) return 'puzzle'
+  if (path.includes('detective')) return 'detective'
+  return 'syllabes'
+}
+
+const getIcon = (path) => {
+  if (path.includes('puzzle')) return '🧩'
+  if (path.includes('detective')) return '🔍'
+  return '🗣️'
+}
+
+const getTag = (path) => {
+  if (path.includes('puzzle')) return 'Syntaxe'
+  if (path.includes('detective')) return 'Orthographe'
+  return 'Prononciation'
+}
 </script>
 
 <style scoped>
 #exercices-index {
-  padding: 1.5rem;
+  padding: 1rem;
   max-width: 700px;
   margin: 0 auto;
 }
 
 .intro-text {
-  color: #555;
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--clr-alt-text);
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -55,50 +67,65 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 .ex-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.2rem;
 }
 
 .ex-card {
   display: flex;
   align-items: center;
-  padding: 1.5rem;
+  padding: 1.2rem;
   background: white;
-  border-radius: 16px;
+  border-radius: 12px;
   text-decoration: none;
   color: inherit;
-  border: 2px solid transparent;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-  transition: all 0.3s ease;
+  border: 1px solid var(--clr-border);
+  box-shadow: var(--box-shadow);
+  transition: all 0.2s ease;
 }
 
-/* Different borders for different games */
-.puzzle:hover { border-color: #ff9800; transform: translateY(-3px); }
-.detective:hover { border-color: #2196f3; transform: translateY(-3px); }
-.syllabes:hover { border-color: #e91e63; transform: translateY(-3px); }
+.ex-info h3 {
+  font-family: var(--font-serif);
+  margin: 0 0 0.3rem 0;
+  font-size: 1.2rem;
+  color: var(--clr-text);
+}
+
+.ex-info p {
+  margin: 0 0 0.8rem 0;
+  font-size: 0.9rem;
+  color: var(--clr-alt-text);
+}
 
 .ex-icon {
   font-size: 2.5rem;
   margin-right: 1.5rem;
 }
 
-.ex-info h3 {
-  margin: 0 0 0.4rem 0;
-  font-size: 1.2rem;
+/* Interaction subtile au survol */
+.ex-card:hover {
+  transform: translateX(8px);
 }
 
-.ex-info p {
-  margin: 0 0 0.8rem 0;
-  font-size: 0.95rem;
-  color: #666;
-  line-height: 1.4;
+.puzzle:hover {
+  border-color: var(--clr-primary);
+}
+
+.detective:hover {
+  border-color: var(--clr-red);
+}
+
+.syllabes:hover {
+  border-color: var(--clr-green);
 }
 
 .skill-tag {
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   padding: 0.2rem 0.6rem;
-  background: #f0f0f0;
+  background: var(--clr-alt-background);
   border-radius: 4px;
   font-weight: bold;
-  color: #555;
 }
 </style>

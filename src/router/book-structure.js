@@ -47,7 +47,11 @@ export const bookStructure = [
     folder: "exercices",
     pages: [
       { path: '/exercices', name: 'exercices', title: 'Liste des Exercices', file: 'index' },
-      { path: '/exercices/puzzle-de-mots', name: 'ex-puzzle', title: 'Le Puzzle de Mots', file: 'puzzle-de-mots' }
+      { path: '/exercices/puzzle-de-mots', name: 'ex-puzzle', title: 'Le Puzzle de Mots', file: 'puzzle-de-mots' },
+      { path: '/exercices/le-son-o', name: 'ex-le-son-o', title: 'Le son [o]', file: 'le-son-o' },
+      { path: '/exercices/le-detective', name: 'ex-le-detective', title: 'Le détective', file: 'le-detective' },
+      { path: '/exercices/les-syllabes', name: 'ex-les-syllabes', title: 'Les syllabes', file: 'les-syllabes' },
+      { path: '/exercices/le-tri-de-la-marchande', name: 'ex-le-tri-de-la-marchande', title: 'Le tri de la marchande', file: 'le-tri-de-la-marchande' }
     ]
   },
   {
