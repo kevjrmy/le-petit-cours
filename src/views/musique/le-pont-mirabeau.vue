@@ -41,7 +41,7 @@
                         Des éternels regards l'onde si lasse<br><br>
 
                         Vienne la nuit sonne l'heure<br>
-                        Les jours s'en vont je demeure<em></p>
+                        Les jours s'en vont je demeure</em></p>
                     </div>
                 </section>
 
