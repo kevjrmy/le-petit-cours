@@ -61,6 +61,16 @@ export const bookStructure = [
       { path: '/prononciation', name: 'prononciation', title: 'Sommaire Prononciation', file: 'index' },
       { path: '/prononciation/le-son-o', name: 'son-o', title: 'Le son [o]', file: 'le-son-o' },
     ]
+  },
+  {
+    chapter: "Musique",
+    folder: "musique",
+    pages: [
+      { path: '/musique', name: 'musique', title: 'Les grandes chansons françaises', file: 'index' },
+      { path: '/musique/la-vie-en-rose', name: 'musique-vie-rose', title: 'La vie en rose', file: 'la-vie-en-rose' },
+      { path: '/musique/non-je-ne-regrette-rien', name: 'musique-regrette-rien', title: 'Non, je ne regrette rien', file: 'non-je-ne-regrette-rien' },
+      { path: '/musique/le-pont-mirabeau', name: 'musique-pont-mirabeau', title: 'Le pont Mirabeau', file: 'le-pont-mirabeau' }
+    ]
   }
 ]
 

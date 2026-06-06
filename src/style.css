@@ -1,23 +1,20 @@
 :root {
-  --clr-background: #FAFAFA;
-  --clr-alt-background: #F5F5F5;
-  --clr-text: #2D2D2D;
-  --clr-alt-text: #757575;
-  --clr-border: rgba(45, 45, 45, 0.2);
-  --clr-primary: #0066ff;
-  --clr-alt-primary: #0044aa;
-  --clr-secondary: #5599ff;
-  --clr-green: #4CAF50;
-  --clr-yellow: #FFC107;
-  --clr-red: #d40000;
-  --clr-lightred: #E53935;
-  --clr-lightgrey: lightgrey;
-  --clr-darkgrey: grey;
-  --box-shadow: 2px 2px 8px rgb(0 0 0 / 10%);
-  --max-width: 1000px;
-  --overlay: #00000080;
-  --font-serif: "Georgia", "Charter", "Bitstream Charter", "Palatino", "Times New Roman", serif;
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --clr-paper: #fbf7f2;
+  --clr-paper-soft: #ffffff;
+  --clr-ink: #232323;
+  --clr-ink-muted: #6f6a60;
+  --clr-ink-soft: #8f8578;
+  --clr-flag-blue: #1b365f;
+  --clr-flag-red: #c21807;
+  --clr-flag-white: #ffffff;
+  --clr-navy: #1b365f;
+  --clr-red: #c21807;
+  --clr-border: rgba(35, 35, 35, 0.12);
+  --clr-shadow: rgba(38, 42, 49, 0.08);
+  --max-width: 1080px;
+  --radius: 28px;
+  --font-serif: "Georgia", "Times New Roman", serif;
+  --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 * {
@@ -26,28 +23,45 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
+  min-height: 100vh;
   font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
+  line-height: 1.65;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  color: var(--clr-text);
-  background-color: var(--clr-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--clr-ink);
+  background: #f7efe3;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle at 25% 10%, rgba(255, 255, 255, 0.32) 0%, transparent 18%),
+    radial-gradient(circle at 85% 16%, rgba(255, 255, 255, 0.24) 0%, transparent 12%);
+  pointer-events: none;
+  opacity: 0.55;
 }
 
 #app {
-  width: 100%;
-  max-width: var(--max-width);
+  position: relative;
+  width: min(100%, var(--max-width));
   min-height: 100vh;
   min-height: 100dvh;
-  isolation: isolate;
-  padding: 1.5rem;
-  margin: auto;
+  margin: 0 auto;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.75rem;
+  background: rgba(255, 251, 244, 0.98);
+  border: 1px solid rgba(35, 35, 35, 0.08);
+  border-radius: 24px;
 }
 
 ul:where([role=list]),
@@ -56,7 +70,6 @@ ul:where([role=tab]),
 ul:where([role=menu]) {
   list-style: none;
 }
-
 
 img,
 picture,
@@ -75,14 +88,18 @@ select {
 }
 
 button {
-  background: none;
   border: none;
   cursor: pointer;
 }
 
 a {
-  text-decoration: none;
   color: inherit;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--clr-navy);
 }
 
 p,
@@ -95,16 +112,219 @@ h6 {
   overflow-wrap: break-word;
 }
 
-h1 {
-  text-align: center;
-}
-
 h1,
 h2,
 h3,
 h4,
+h5,
+h6,
 .chapter-title,
 .navigation-hint,
 .tagline {
   font-family: var(--font-serif);
+}
+
+h1 {
+  font-size: clamp(2.4rem, 3.5vw, 4.2rem);
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+  text-align: center;
+}
+
+h2 {
+  font-size: clamp(1.55rem, 2.2vw, 2.35rem);
+  margin-bottom: 0.85rem;
+}
+
+h3 {
+  font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+}
+
+p,
+li,
+label,
+button {
+  font-family: var(--font-sans);
+  color: var(--clr-ink);
+}
+
+main,
+section,
+article,
+aside,
+header,
+footer {
+  width: 100%;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+section,
+article,
+.card,
+.lesson-card,
+.topic-card,
+.intro-card,
+.chapter-section,
+.story-block,
+.song-container,
+.sound-item,
+.context-box,
+.video-section,
+.lyrics-section,
+.context-section {
+  background: rgba(255, 255, 250, 0.94);
+  border: 1px solid rgba(35, 35, 35, 0.08);
+  border-radius: 22px;
+  box-shadow: none;
+  padding: 1.6rem;
+}
+
+section + section,
+article + article {
+  margin-top: 1rem;
+}
+
+nav a,
+.btn-link,
+.study-btn,
+.back-link,
+.btn-back,
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: transform 0.18s ease, background-color 0.18s ease;
+}
+
+button,
+.study-btn {
+  background: var(--clr-flag-red);
+  color: var(--clr-flag-white);
+  box-shadow: none;
+}
+
+button:hover,
+.study-btn:hover,
+.btn-link:hover,
+.back-link:hover {
+  transform: translateY(-1px);
+}
+
+.btn-link,
+.back-link {
+  color: var(--clr-flag-blue);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(27, 54, 95, 0.16);
+}
+
+.btn-link {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.page-title,
+.chapter-title,
+.tagline {
+  color: var(--clr-flag-blue);
+}
+
+.page-title {
+  font-size: 1.85rem;
+  margin: 0;
+}
+
+.tagline {
+  font-size: 1.05rem;
+  color: var(--clr-ink-muted);
+  text-align: center;
+  margin-top: -0.4rem;
+  letter-spacing: 0.04em;
+}
+
+.chapter-title {
+  font-size: 1.35rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.8rem;
+}
+
+.navigation-hint {
+  color: var(--clr-ink-soft);
+  font-size: 0.98rem;
+}
+
+.page-num,
+.page-number {
+  color: var(--clr-ink-soft);
+  letter-spacing: 0.12em;
+}
+
+.difficulty-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(194, 24, 7, 0.12);
+  color: var(--clr-flag-blue);
+  border: 1px solid rgba(27, 54, 95, 0.14);
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.95rem;
+}
+
+footer.book-footer {
+  padding: 1.25rem 0 0;
+  text-align: center;
+  margin-top: auto;
+}
+
+.page-indicator {
+  border-top: 1px solid var(--clr-border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0.65rem;
+  min-width: 90px;
+}
+
+details {
+  background: linear-gradient(180deg, rgba(248, 230, 217, 0.95), rgba(255, 249, 241, 0.9));
+  border: 1px solid rgba(143, 45, 69, 0.14);
+  border-radius: 20px;
+  padding: 0.9rem 1rem;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+@media (max-width: 860px) {
+  #app {
+    padding: 1.2rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .btn-link,
+  .study-btn,
+  .back-link,
+  button {
+    width: 100%;
+  }
 }

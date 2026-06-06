@@ -42,50 +42,99 @@ const closeMenu = () => {
 </script>
 
 <style scoped>
-/* Header */
 header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 2rem;
+    gap: 1rem;
+    margin-bottom: 1.8rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(35, 35, 35, 0.12);
 }
 
-/* Overlay */
+.logo img {
+    display: block;
+    border-radius: 0.8rem;
+    border: 1px solid rgba(35, 35, 35, 0.08);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.35rem 0.5rem;
+}
+
+.menu-btn {
+    width: 3.2rem;
+    height: 3.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(223, 189, 171, 0.18);
+    border: 1px solid rgba(143, 45, 69, 0.16);
+    color: var(--clr-navy);
+}
+
+.menu-btn:hover {
+    transform: translateY(-1px);
+}
+
 .overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.32);
     z-index: 1;
 }
 
-/* Aside menu */
 aside {
     position: fixed;
     top: 0;
     left: 0;
-    width: 280px;
-    max-width: 100%;
+    width: min(320px, 85vw);
     height: 100dvh;
-    max-height: 100%;
-    background: white;
+    background: rgba(245, 238, 226, 0.98);
     transform: translateX(-100%);
-    transition: transform 0.25s ease;
+    transition: transform 0.28s ease;
     z-index: 2;
-    padding: 2rem 1.5rem;
-}
-
-aside .menu-logo {
-    margin: auto;
+    padding: 2.2rem 1.6rem;
+    border-right: 1px solid rgba(35, 35, 35, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 aside.open {
     transform: translateX(0);
 }
 
+aside .menu-logo {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(35, 35, 35, 0.08);
+}
+
 nav {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    margin-top: 2rem;
+}
+
+nav a {
+    color: var(--clr-ink);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 0.85rem 1rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(35, 35, 35, 0.08);
+}
+
+nav a:hover {
+    background: rgba(223, 189, 171, 0.16);
+    color: var(--clr-navy);
+}
+
+@media (min-width: 860px) {
+    header {
+        margin-bottom: 2.2rem;
+    }
 }
 </style>

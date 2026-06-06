@@ -37,29 +37,38 @@ const goBack = () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(35, 35, 35, 0.08);
 }
 
 .back-btn {
-  color: var(--clr-primary);
-  display: flex;
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
   align-items: center;
-  padding: 0.5rem;
-  transition: transform 0.2s;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(223, 189, 171, 0.22);
+  border: 1px solid rgba(35, 35, 35, 0.12);
+  color: var(--clr-navy);
+  transition: transform 0.2s ease;
 }
 
 .back-btn:hover {
-  transform: translateX(-5px);
+  transform: translateX(-2px);
 }
 
 .page-title {
-  font-size: 1.3rem;
+  font-size: 1.45rem;
   margin: 0;
   text-align: center;
   flex: 1;
+  letter-spacing: 0.02em;
 }
 
 .spacer {
-  width: 2.8rem;
+  width: 3rem;
 }
 </style>
