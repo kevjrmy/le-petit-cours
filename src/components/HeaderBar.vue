@@ -16,7 +16,7 @@
     <aside :class="{ open: isOpen }">
         <div class="menu-logo">
             <RouterLink to="/">
-                <img :src="logo" alt="logo" height="24px" />
+                <img src="/logo.svg" alt="logo" height="24px" />
             </RouterLink>
         </div>
         <nav @click="closeMenu">
