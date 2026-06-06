@@ -51,7 +51,8 @@ export const bookStructure = [
       { path: '/exercices/le-son-o', name: 'ex-le-son-o', title: 'Le son [o]', file: 'le-son-o' },
       { path: '/exercices/le-detective', name: 'ex-le-detective', title: 'Le détective', file: 'le-detective' },
       { path: '/exercices/les-syllabes', name: 'ex-les-syllabes', title: 'Les syllabes', file: 'les-syllabes' },
-      { path: '/exercices/le-tri-de-la-marchande', name: 'ex-le-tri-de-la-marchande', title: 'Le tri de la marchande', file: 'le-tri-de-la-marchande' }
+      { path: '/exercices/le-tri-de-la-marchande', name: 'ex-le-tri-de-la-marchande', title: 'Le tri de la marchande', file: 'le-tri-de-la-marchande' },
+      { path: '/exercices/simulateur-medical', name: 'ex-simulateur-medical', title: 'Simulateur Médical', file: 'simulateur-medical' }
     ]
   },
   {
@@ -70,6 +71,14 @@ export const bookStructure = [
       { path: '/musique/la-vie-en-rose', name: 'musique-vie-rose', title: 'La vie en rose', file: 'la-vie-en-rose' },
       { path: '/musique/non-je-ne-regrette-rien', name: 'musique-regrette-rien', title: 'Non, je ne regrette rien', file: 'non-je-ne-regrette-rien' },
       { path: '/musique/le-pont-mirabeau', name: 'musique-pont-mirabeau', title: 'Le pont Mirabeau', file: 'le-pont-mirabeau' }
+    ]
+  },
+  {
+    chapter: "Vocabulaire Médical",
+    folder: "vocabulaire",
+    pages: [
+      { path: '/vocabulaire', name: 'vocabulaire', title: 'Vocabulaire Médical', file: 'index' },
+      { path: '/vocabulaire/flashcards', name: 'vocab-flashcards', title: 'Cartes Mémoire', file: 'flashcards' }
     ]
   }
 ]
