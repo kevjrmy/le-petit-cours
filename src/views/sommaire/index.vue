@@ -2,12 +2,6 @@
   <DefaultLayout title="Sommaire">
     <main id="home">
       <p class="tagline">Apprendre le français, page après page.</p>
-      <p role="note" class="navigation-hint">
-        Comme dans un livre, tournez les pages en glissant votre doigt sur l'écran.
-        <span class="swipe-icon">
-          <IconRight height="1.2rem" width="1.2rem" />
-        </span>
-      </p>
 
       <div class="book-toc">
         <details v-for="chapitre in bookStructure" :key="chapitre.chapter"
@@ -36,7 +30,6 @@
 <script setup>
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import { bookStructure, flattenedPages } from '@/router/book-structure'
-import IconRight from '~icons/mdi/arrow-right'
 
 // Fonction pour retrouver l'index (numéro de page) basé sur le chemin
 const getPageNumber = (path) => {
@@ -51,9 +44,8 @@ const getPageNumber = (path) => {
   opacity: 0;
 }
 
-#home .tagline, #home .note { animation-delay: 0.1s; }
-#home .navigation-hint { animation-delay: 0.3s; }
-#home .book-toc { animation-delay: 0.5s; }
+#home .tagline { animation-delay: 0.1s; }
+#home .book-toc { animation-delay: 0.3s; }
 
 .tagline {
   font-style: italic;
@@ -75,30 +67,6 @@ const getPageNumber = (path) => {
   height: 1px;
   background: var(--clr-border);
   opacity: 0.5;
-}
-
-.navigation-hint {
-  color: var(--clr-alt-text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1ch;
-  padding: 1rem;
-  text-align: center;
-  font-size: 0.9rem;
-}
-
-.swipe-icon {
-  display: inline-flex;
-  align-items: center;
-  margin-left: 0.5rem;
-  vertical-align: middle;
-  color: var(--clr-primary);
-  animation: slide-out 2s ease-in-out 1s 2;
-}
-
-.navigation-hint:hover .swipe-icon {
-  animation: slide-out 2s ease-in-out infinite;
 }
 
 .book-toc {
@@ -161,23 +129,6 @@ const getPageNumber = (path) => {
 }
 
 /* Animations */
-@keyframes slide-out {
-  0% {
-    transform: translateX(0);
-    opacity: 0.5;
-  }
-
-  50% {
-    transform: translateX(10px);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateX(0);
-    opacity: 0.5;
-  }
-}
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
