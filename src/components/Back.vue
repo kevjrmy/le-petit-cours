@@ -38,37 +38,45 @@ const goBack = () => {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.2rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(35, 35, 35, 0.08);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 3px solid var(--clr-blue);
 }
 
 .back-btn {
-  width: 3rem;
-  height: 3rem;
+  width: 2.75rem;
+  height: 2.75rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
-  background: rgba(223, 189, 171, 0.22);
-  border: 1px solid rgba(35, 35, 35, 0.12);
-  color: var(--clr-navy);
-  transition: transform 0.2s ease;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1.5px solid var(--clr-border);
+  color: var(--clr-blue);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
 
 .back-btn:hover {
+  background: var(--clr-blue-light);
+  border-color: var(--clr-blue);
   transform: translateX(-2px);
 }
 
+.back-btn:focus-visible {
+  outline: 2px solid var(--clr-blue);
+  outline-offset: 3px;
+}
+
 .page-title {
-  font-size: 1.45rem;
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  color: var(--clr-blue-dark);
   margin: 0;
   text-align: center;
   flex: 1;
-  letter-spacing: 0.02em;
 }
 
 .spacer {
-  width: 3rem;
+  width: 2.75rem;
 }
 </style>

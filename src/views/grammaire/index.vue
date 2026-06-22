@@ -1,18 +1,14 @@
 <template>
-  <AltLayout title="Orthographe">
+  <AltLayout title="Grammaire">
     <main>
       <p class="intro">
-        Apprenez à bien accorder les mots en genre, en nombre et à utiliser
-        les déterminants et pronoms correctement.
+        Étudiez les règles essentielles de la grammaire française : conjugaison,
+        accord et structure des phrases.
       </p>
 
       <nav class="lesson-nav" aria-label="Leçons disponibles">
-        <RouterLink to="/orthographe/les-determinants-possessifs" class="lesson-row">
-          <span class="lesson-title">Les déterminants possessifs</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/orthographe/les-pronoms-possessifs" class="lesson-row">
-          <span class="lesson-title">Les pronoms possessifs</span>
+        <RouterLink to="/grammaire/verbe-1er-groupe" class="lesson-row">
+          <span class="lesson-title">Les verbes du 1<sup>er</sup> groupe</span>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
       </nav>

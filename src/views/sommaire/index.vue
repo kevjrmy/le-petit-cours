@@ -1,136 +1,132 @@
 <template>
   <DefaultLayout title="Sommaire">
     <main id="home">
-      <p class="tagline">Apprendre le français, page après page.</p>
-
-      <div class="book-toc">
-        <details v-for="chapitre in bookStructure" :key="chapitre.chapter"
-          v-show="chapitre.pages.some(p => p.path !== '/')" open class="chapter-section">
-          <summary class="chapter-title">
-            {{ chapitre.chapter }}
-          </summary>
-
-          <ul class="toc-list">
-            <li v-for="page in chapitre.pages" :key="page.path" class="toc-item">
-              <template v-if="page.path !== '/'">
-                <RouterLink :to="page.path" class="title">
-                  {{ page.title }}
-                </RouterLink>
-                <span class="dots"></span>
-                <span class="page-num">{{ getPageNumber(page.path) }}</span>
-              </template>
-            </li>
-          </ul>
-        </details>
-      </div>
+      <RouterLink
+        v-for="ch in chapters"
+        :key="ch.folder"
+        :to="ch.path"
+        class="chapter-row"
+      >
+        <span class="chapter-name">{{ ch.title }}</span>
+        <span class="chapter-count">{{ ch.count }}&thinsp;{{ ch.countLabel }}</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </RouterLink>
     </main>
   </DefaultLayout>
 </template>
 
 <script setup>
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
-import { bookStructure, flattenedPages } from '@/router/book-structure'
 
-// Fonction pour retrouver l'index (numéro de page) basé sur le chemin
-const getPageNumber = (path) => {
-  const index = flattenedPages.findIndex(p => p.path === path)
-  return index !== -1 ? index : ''
+// Discover all view files at build time — no hardcoding needed.
+// Keys are relative to this file (src/views/sommaire/index.vue),
+// so `../` resolves to src/views/.
+const allViews = import.meta.glob('../**/*.vue')
+
+const SKIP = new Set(['sommaire', 'annexe'])
+
+const chapterConfig = {
+  grammaire:     { title: 'Grammaire',      label: 'leçon',    labelPlural: 'leçons'    },
+  orthographe:   { title: 'Orthographe',   label: 'leçon',    labelPlural: 'leçons'    },
+  dictees:       { title: 'Dictées',        label: 'dictée',   labelPlural: 'dictées'   },
+  exercices:     { title: 'Exercices',      label: 'exercice', labelPlural: 'exercices' },
+  lecture:       { title: 'Lecture',        label: 'texte',    labelPlural: 'textes'    },
+  prononciation: { title: 'Prononciation',  label: 'leçon',    labelPlural: 'leçons'    },
+  musique:       { title: 'Musique',        label: 'chanson',  labelPlural: 'chansons'  },
+  vocabulaire:   { title: 'Vocabulaire',    label: 'activité', labelPlural: 'activités' },
 }
+
+const ORDER = ['grammaire', 'orthographe', 'dictees', 'exercices', 'lecture', 'prononciation', 'musique', 'vocabulaire']
+
+// Group files by folder
+const folderMap = {}
+for (const path of Object.keys(allViews)) {
+  const m = path.match(/^\.\.\/([^/]+)\/([^/]+)\.vue$/)
+  if (!m) continue
+  const [, folder, file] = m
+  if (SKIP.has(folder)) continue
+  ;(folderMap[folder] ??= []).push(file)
+}
+
+// Keep only folders with at least one non-index file
+const chapters = Object.entries(folderMap)
+  .filter(([, files]) => files.some(f => f !== 'index'))
+  .map(([folder, files]) => {
+    const cfg = chapterConfig[folder] ?? { title: folder, label: 'page', labelPlural: 'pages' }
+    const count = files.filter(f => f !== 'index').length
+    return {
+      folder,
+      path: `/${folder}`,
+      title: cfg.title,
+      count,
+      countLabel: count === 1 ? cfg.label : cfg.labelPlural,
+    }
+  })
+  .sort((a, b) => {
+    const ia = ORDER.indexOf(a.folder)
+    const ib = ORDER.indexOf(b.folder)
+    if (ia === -1 && ib === -1) return 0
+    if (ia === -1) return 1
+    if (ib === -1) return -1
+    return ia - ib
+  })
 </script>
 
 <style scoped>
-#home > * {
-  animation: fadeIn 0.8s ease-out forwards;
-  opacity: 0;
-}
-
-#home .tagline { animation-delay: 0.1s; }
-#home .book-toc { animation-delay: 0.3s; }
-
-.tagline {
-  font-style: italic;
-  font-size: 1.1rem;
-  color: var(--clr-alt-text);
-  display: inline-block;
-  position: relative;
-  padding: 1rem;
-  width: 100%;
-  text-align: center;
-}
-
-.tagline::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 25%;
-  right: 25%;
-  height: 1px;
-  background: var(--clr-border);
-  opacity: 0.5;
-}
-
-.book-toc {
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-.chapter-section {
-  margin-bottom: 2rem;
-}
-
-.chapter-title {
-  font-size: 1.4rem;
-  font-weight: bold;
-  cursor: pointer;
-  list-style: none;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.chapter-title::-webkit-details-marker {
-  display: none;
-}
-
-.toc-list {
-  list-style: none;
-  padding: 0 0 0 1rem;
-  margin: 0;
-}
-
-.toc-item {
+#home {
   display: flex;
-  align-items: baseline;
-  margin-bottom: 0.8rem;
-  font-size: 1.05rem;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
-.title {
-  transition: color 0.2s;
+.chapter-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius);
+  background: var(--clr-page);
+  color: var(--clr-ink);
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
 }
 
-.title:hover {
-  color: var(--clr-primary);
+.chapter-row:hover {
+  border-color: var(--clr-blue);
+  background: var(--clr-blue-light);
+  color: var(--clr-blue-dark);
 }
 
-.dots {
+.chapter-name {
+  font-family: var(--font-serif);
+  font-size: 1rem;
   flex: 1;
-  border-bottom: 2px dotted var(--clr-lightgrey);
-  margin: 0 0.5rem;
-  position: relative;
-  top: -4px;
 }
 
-.page-num {
-  font-family: 'Courier New', Courier, monospace;
-  font-weight: bold;
-  min-width: 25px;
-  text-align: right;
+.chapter-count {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  color: var(--clr-ink-soft);
+  background: var(--clr-blue-light);
+  border-radius: 99px;
+  padding: 0.15rem 0.55rem;
+  white-space: nowrap;
+  transition: color 0.15s;
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.chapter-row:hover .chapter-count {
+  color: var(--clr-blue);
+}
+
+.arrow {
+  color: var(--clr-ink-soft);
+  font-size: 0.85rem;
+  transition: transform 0.15s, color 0.15s;
+}
+
+.chapter-row:hover .arrow {
+  transform: translateX(3px);
+  color: var(--clr-blue);
 }
 </style>
