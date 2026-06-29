@@ -32,6 +32,10 @@ const router = createRouter({
     // Musique
     { path: '/musique', name: 'musique', component: () => import('../views/musique/index.vue') },
 
+    // Conversation
+    { path: '/conversation', name: 'conversation', component: () => import('../views/conversation/index.vue') },
+    { path: '/conversation/a-la-boulangerie', name: 'conv-a-la-boulangerie', component: () => import('../views/conversation/a-la-boulangerie.vue') },
+
     // Vocabulaire
     { path: '/vocabulaire', name: 'vocabulaire', component: () => import('../views/vocabulaire/index.vue') },
     { path: '/vocabulaire/100-mots-les-plus-utilises', name: 'vocab-100-mots', component: () => import('../views/vocabulaire/100-mots-les-plus-utilises.vue') },
