@@ -35,9 +35,10 @@ const chapterConfig = {
   musique:       { title: 'Musique',        label: 'chanson',  labelPlural: 'chansons'  },
   vocabulaire:   { title: 'Vocabulaire',    label: 'activité', labelPlural: 'activités' },
   conversation:  { title: 'Conversation',   label: 'dialogue', labelPlural: 'dialogues' },
+  litterature:   { title: 'Littérature',    label: 'page',     labelPlural: 'pages'     },
 }
 
-const ORDER = ['grammaire', 'orthographe', 'dictees', 'exercices', 'lecture', 'prononciation', 'musique', 'vocabulaire', 'conversation']
+const ORDER = ['grammaire', 'orthographe', 'dictees', 'exercices', 'lecture', 'litterature', 'prononciation', 'musique', 'vocabulaire', 'conversation']
 
 // Group files by folder
 const folderMap = {}

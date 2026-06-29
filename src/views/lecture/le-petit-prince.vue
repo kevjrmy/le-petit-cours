@@ -121,6 +121,40 @@
         </table>
       </article>
 
+      <!-- ── Compréhension (quiz) ────────────────── -->
+      <article class="quiz">
+        <h2>Avez-vous compris ?</h2>
+        <p class="quiz-intro">Répondez aux questions pour vérifier votre compréhension.</p>
+
+        <div
+          v-for="(item, qi) in questions"
+          :key="qi"
+          class="question"
+        >
+          <p class="q-text"><span class="q-num">{{ qi + 1 }}.</span> {{ item.q }}</p>
+          <div class="q-options">
+            <button
+              v-for="(opt, oi) in item.options"
+              :key="oi"
+              type="button"
+              class="q-option"
+              :class="optionClass(qi, oi)"
+              :disabled="picks[qi] !== null"
+              @click="pick(qi, oi)"
+            >
+              <span class="q-mark" aria-hidden="true"></span>
+              {{ opt }}
+            </button>
+          </div>
+        </div>
+
+        <div v-if="allAnswered" class="quiz-score" :class="{ perfect: score === questions.length }">
+          <span v-if="score === questions.length">🎉 Bravo ! {{ score }} / {{ questions.length }} — tout est correct !</span>
+          <span v-else>Vous avez {{ score }} / {{ questions.length }}. Relisez le texte et réessayez 💪</span>
+          <button class="btn-retry" @click="resetQuiz">Recommencer le quiz</button>
+        </div>
+      </article>
+
       <!-- ── Traduction cachée ───────────────────── -->
       <article>
         <details class="translation">
@@ -169,24 +203,70 @@
         </details>
       </article>
 
-      <button
-        class="download-btn"
-        @click="() => window.print()"
-        aria-label="Télécharger ce texte en PDF"
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3v14m0 0-5-5m5 5 5-5"/>
-          <path d="M3 20h18"/>
-        </svg>
-        <span>Télécharger</span>
-      </button>
-
     </main>
   </AltLayout>
 </template>
 
 <script setup>
+import { reactive, computed } from 'vue'
 import AltLayout from '@/layouts/AltLayout.vue'
+
+const questions = [
+  {
+    q: 'Quel âge avait le narrateur quand il a vu l\'image ?',
+    options: ['Six ans', 'Dix ans', 'Vingt ans'],
+    answer: 0,
+  },
+  {
+    q: 'Que faisait le serpent boa dans l\'image ?',
+    options: ['Il dormait', 'Il avalait un fauve', 'Il chassait un oiseau'],
+    answer: 1,
+  },
+  {
+    q: 'Combien de mois dorment les serpents boas pendant leur digestion ?',
+    options: ['Trois mois', 'Six mois', 'Douze mois'],
+    answer: 1,
+  },
+  {
+    q: 'Que représentait vraiment le dessin numéro 1 ?',
+    options: ['Un chapeau', 'Un serpent boa qui digérait un éléphant', 'Un éléphant seul'],
+    answer: 1,
+  },
+  {
+    q: 'Que voyaient les grandes personnes dans le dessin ?',
+    options: ['Un serpent', 'Un chapeau', 'Un éléphant'],
+    answer: 1,
+  },
+  {
+    q: 'Quelle carrière le narrateur a-t-il abandonnée ?',
+    options: ['Une carrière de peintre', 'Une carrière de pilote', 'Une carrière de professeur'],
+    answer: 0,
+  },
+]
+
+const picks = reactive(questions.map(() => null))
+
+function pick(qi, oi) {
+  if (picks[qi] !== null) return
+  picks[qi] = oi
+}
+
+function optionClass(qi, oi) {
+  if (picks[qi] === null) return ''
+  if (oi === questions[qi].answer) return 'is-correct'
+  if (oi === picks[qi]) return 'is-wrong'
+  return 'is-neutral'
+}
+
+const allAnswered = computed(() => picks.every(p => p !== null))
+
+const score = computed(() =>
+  picks.reduce((n, p, qi) => n + (p === questions[qi].answer ? 1 : 0), 0)
+)
+
+function resetQuiz() {
+  picks.forEach((_, i) => { picks[i] = null })
+}
 </script>
 
 <style scoped>
@@ -272,6 +352,141 @@ td em {
 tr:last-child td { border-bottom: none; }
 tr:nth-child(even) td { background: var(--clr-blue-light); }
 
+/* ── Quiz ─────────────────────────────────────── */
+.quiz-intro {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--clr-ink-mid);
+  margin: 0 0 1rem;
+}
+
+.question {
+  margin-bottom: 1.1rem;
+}
+
+.q-text {
+  font-family: var(--font-serif);
+  font-size: 0.97rem;
+  color: var(--clr-ink);
+  margin: 0 0 0.5rem;
+  line-height: 1.5;
+}
+
+.q-num {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--clr-blue);
+  margin-right: 0.3rem;
+}
+
+.q-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.q-option {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.65rem 0.9rem;
+  border: 1.5px solid var(--clr-border);
+  border-radius: var(--radius);
+  background: var(--clr-page);
+  color: var(--clr-ink);
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.q-option:not(:disabled):hover {
+  border-color: var(--clr-blue);
+  background: var(--clr-blue-light);
+  color: var(--clr-blue-dark);
+}
+
+.q-mark {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--clr-border);
+  flex-shrink: 0;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.q-option:disabled {
+  cursor: default;
+}
+
+.q-option.is-correct {
+  border-color: #4CAF50;
+  background: #F1FBF2;
+  color: #2E7D32;
+  font-weight: 600;
+}
+
+.q-option.is-correct .q-mark {
+  border-color: #4CAF50;
+  background: #4CAF50;
+}
+
+.q-option.is-wrong {
+  border-color: var(--clr-red);
+  background: var(--clr-red-light);
+  color: var(--clr-red);
+}
+
+.q-option.is-wrong .q-mark {
+  border-color: var(--clr-red);
+  background: var(--clr-red);
+}
+
+.q-option.is-neutral {
+  opacity: 0.5;
+}
+
+.quiz-score {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius);
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: var(--clr-red-light);
+  color: var(--clr-red);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.quiz-score.perfect {
+  background: #F1FBF2;
+  color: #2E7D32;
+}
+
+.btn-retry {
+  padding: 0.55rem 1.25rem;
+  background: transparent;
+  border: 1.5px solid currentColor;
+  border-radius: var(--radius);
+  color: inherit;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btn-retry:hover {
+  opacity: 0.7;
+}
+
 /* ── Hidden translation ───────────────────────── */
 .translation {
   border: 1px solid var(--clr-border);
@@ -329,31 +544,9 @@ tr:nth-child(even) td { background: var(--clr-blue-light); }
   margin: 0;
 }
 
-/* ── Download button ──────────────────────────── */
-.download-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-  margin: 0.5rem auto 0;
-  padding: 0.85rem 1.5rem;
-  border: 1px solid var(--clr-border);
-  border-radius: var(--radius);
-  color: var(--clr-ink-soft);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  transition: border-color 0.15s, color 0.15s;
-}
-
-.download-btn:hover {
-  border-color: var(--clr-blue);
-  color: var(--clr-blue);
-}
-
 @media print {
+  .quiz,
   .translation { display: none !important; }
-  .download-btn { display: none !important; }
   .hl-word { border-bottom: none; }
 }
 </style>

@@ -1,18 +1,14 @@
 <template>
-  <AltLayout title="Conversation">
+  <AltLayout title="Littérature">
     <main>
       <p class="intro">
-        Mises en situation de la vie quotidienne. Complétez les dialogues
-        et entraînez-vous à parler français au niveau A2.
+        Découvrez les grands classiques de la littérature française :
+        romans, théâtre, poésie et essais à lire au moins une fois.
       </p>
 
-      <nav class="lesson-nav" aria-label="Dialogues disponibles">
-        <RouterLink to="/conversation/a-la-boulangerie" class="lesson-row">
-          <span class="lesson-title">🥖 À la boulangerie</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/conversation/a-disneyland-paris" class="lesson-row">
-          <span class="lesson-title">🏰 À Disneyland Paris</span>
+      <nav class="lesson-nav" aria-label="Pages disponibles">
+        <RouterLink to="/litterature/introduction" class="lesson-row">
+          <span class="lesson-title">📚 Introduction — 25 classiques</span>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
       </nav>

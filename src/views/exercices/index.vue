@@ -23,6 +23,7 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 const exercises = [
   { path: '/exercices/emoji-francais', title: 'Emoji & Français', icon: '😄', category: 'puzzle', tag: 'Vocabulaire' },
+  { path: '/exercices/quel-groupe-verbe-appartient', title: 'Quel groupe ?', icon: '🔤', category: 'puzzle', tag: 'Conjugaison' },
 ]
 </script>
 

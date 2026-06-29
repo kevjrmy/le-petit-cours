@@ -1,14 +1,14 @@
 <template>
-  <DefaultLayout title="À la boulangerie">
+  <DefaultLayout title="À Disneyland Paris">
     <main id="dialogue">
 
       <div class="scene">
         <p class="scene-intro">
-          🥖 Sophie entre dans une boulangerie. Elle veut acheter du pain.
+          🏰 Léo arrive à l'entrée de Disneyland Paris. Il veut acheter des billets pour visiter le parc.
           Glissez les mots à la bonne place, ou écrivez-les (les accents ne comptent pas).
         </p>
         <p class="scene-hint">
-          <em>(Sophie entra en una panadería y quiere comprar pan. Arrastra o escribe las palabras; los acentos no cuentan.)</em>
+          <em>(Léo llega a la entrada de Disneyland Paris y quiere comprar entradas. Arrastra o escribe las palabras; los acentos no cuentan.)</em>
         </p>
       </div>
 
@@ -31,7 +31,7 @@
       <div class="chat">
         <template v-for="(line, i) in dialogue" :key="i">
           <div class="bubble-row" :class="line.who">
-            <span class="speaker">{{ line.who === 'cliente' ? 'Sophie' : 'La boulangère' }}</span>
+            <span class="speaker">{{ line.who === 'visiteur' ? 'Léo' : "L'employé" }}</span>
             <p class="bubble">
               <template v-for="(part, j) in line.parts" :key="j">
                 <span v-if="part.text">{{ part.text }}</span>
@@ -90,7 +90,7 @@
 
       <!-- ── Résultat ─────────────────────────────── -->
       <div v-if="checked" class="result" :class="{ perfect: allCorrect }">
-        <span v-if="allCorrect">🎉 Bravo Sophie ! Tout est correct !</span>
+        <span v-if="allCorrect">🎉 Bravo Léo ! Tout est correct !</span>
         <span v-else>
           {{ correctCount }} / {{ blanks.length }} corrects.
           Corrigez les mots en rouge et réessayez 💪
@@ -114,50 +114,64 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 // Each blank: id, answer (canonical), accept (extra accepted spellings)
 const dialogue = [
-  { who: 'boulangere', parts: [
-    { text: 'Bonjour, madame ! Vous ' },
-    { id: 1, answer: 'désirez', accept: ['desirez'] },
+  { who: 'employe', parts: [
+    { text: 'Bonjour et bienvenue à Disneyland Paris ! Je peux vous ' },
+    { id: 1, answer: 'aider' },
     { text: ' ?' },
   ]},
-  { who: 'cliente', parts: [
-    { text: 'Bonjour ! Je ' },
-    { id: 2, answer: 'voudrais' },
-    { text: ' une baguette, s\'il vous plaît.' },
+  { who: 'visiteur', parts: [
+    { text: 'Bonjour ! Je voudrais deux ' },
+    { id: 2, answer: 'billets', accept: ['billet'] },
+    { text: ' pour aujourd\'hui, s\'il vous plaît.' },
   ]},
-  { who: 'boulangere', parts: [
-    { text: 'Très bien. Et avec ' },
-    { id: 3, answer: 'ceci' },
+  { who: 'employe', parts: [
+    { text: 'Très bien. C\'est pour deux ' },
+    { id: 3, answer: 'adultes', accept: ['adulte'] },
     { text: ' ?' },
   ]},
-  { who: 'cliente', parts: [
-    { text: 'Je voudrais aussi deux ' },
-    { id: 4, answer: 'croissants', accept: ['croissant'] },
-    { text: ', s\'il vous plaît.' },
+  { who: 'visiteur', parts: [
+    { text: 'Non, un adulte et un ' },
+    { id: 4, answer: 'enfant' },
+    { text: '.' },
   ]},
-  { who: 'boulangere', parts: [
-    { text: 'Voilà. Ce sera ' },
-    { id: 5, answer: 'tout' },
+  { who: 'employe', parts: [
+    { text: 'Parfait. Vous préférez le château ou les ' },
+    { id: 5, answer: 'attractions', accept: ['attraction'] },
     { text: ' ?' },
   ]},
-  { who: 'cliente', parts: [
-    { text: 'Oui, c\'est tout. ' },
-    { id: 6, answer: 'Combien', accept: ['combien'] },
+  { who: 'visiteur', parts: [
+    { text: 'Les attractions ! Et à quelle heure est le ' },
+    { id: 6, answer: 'spectacle' },
+    { text: ' de nuit ?' },
+  ]},
+  { who: 'employe', parts: [
+    { text: 'Il commence à 22 heures, devant le château.' },
+  ]},
+  { who: 'visiteur', parts: [
+    { text: 'Super ! ' },
+    { id: 7, answer: 'Combien', accept: ['combien'] },
     { text: ' ça coûte ?' },
   ]},
-  { who: 'boulangere', parts: [
-    { text: 'Ça fait 3 ' },
-    { id: 7, answer: 'euros', accept: ['euro'] },
-    { text: ' 50, s\'il vous plaît.' },
+  { who: 'employe', parts: [
+    { text: 'Ça fait 180 ' },
+    { id: 8, answer: 'euros', accept: ['euro'] },
+    { text: ' en tout.' },
   ]},
-  { who: 'cliente', parts: [
-    { text: 'Voilà. ' },
-    { id: 8, answer: 'Merci', accept: ['merci'] },
-    { text: ' beaucoup !' },
+  { who: 'visiteur', parts: [
+    { text: 'Voilà ma ' },
+    { id: 9, answer: 'carte' },
+    { text: ' bancaire.' },
   ]},
-  { who: 'boulangere', parts: [
-    { text: 'Merci à vous. ' },
-    { id: 9, answer: 'Au revoir', accept: ['au revoir'] },
-    { text: ' et bonne journée !' },
+  { who: 'employe', parts: [
+    { text: 'Merci. Voici vos billets et un ' },
+    { id: 10, answer: 'plan' },
+    { text: ' du parc. Bonne ' },
+    { id: 11, answer: 'visite' },
+    { text: ' !' },
+  ]},
+  { who: 'visiteur', parts: [
+    { id: 12, answer: 'Merci', accept: ['merci'] },
+    { text: ' beaucoup ! Au revoir !' },
   ]},
 ]
 
@@ -443,12 +457,12 @@ onBeforeUnmount(() => {
   max-width: 85%;
 }
 
-.bubble-row.cliente {
+.bubble-row.visiteur {
   align-self: flex-end;
   align-items: flex-end;
 }
 
-.bubble-row.boulangere {
+.bubble-row.employe {
   align-self: flex-start;
   align-items: flex-start;
 }
@@ -472,12 +486,12 @@ onBeforeUnmount(() => {
   border: 1px solid var(--clr-border);
 }
 
-.bubble-row.boulangere .bubble {
+.bubble-row.employe .bubble {
   background: var(--clr-page);
   border-bottom-left-radius: 4px;
 }
 
-.bubble-row.cliente .bubble {
+.bubble-row.visiteur .bubble {
   background: var(--clr-blue-light);
   border-bottom-right-radius: 4px;
 }

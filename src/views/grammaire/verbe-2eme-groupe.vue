@@ -1,25 +1,26 @@
 <template>
-  <AltLayout title="Les verbes du 1er groupe">
+  <AltLayout title="Les verbes du 2ème groupe">
     <main class="lesson">
 
       <!-- ── Règle ─────────────────────────────────── -->
       <article>
         <div class="rule">
-          Les verbes du <strong class="hl-blue">1<sup>er</sup> groupe</strong> ont un infinitif
-          qui se termine en <strong class="hl-red">-ER</strong>.
-          C'est le groupe le plus grand : plus de <strong class="hl-blue">90 %</strong>
-          des verbes français y appartiennent.
+          Les verbes du <strong class="hl-blue">2<sup>ème</sup> groupe</strong> ont un infinitif
+          qui se termine en <strong class="hl-red">-IR</strong>
+          et un participe présent en <strong class="hl-red">-ISSANT</strong>
+          (fin<strong class="hl-red">issant</strong>).
+          C'est un groupe régulier d'environ <strong class="hl-blue">300</strong> verbes.
         </div>
 
         <div class="verb-examples">
-          <span class="verb-pill">parl<span class="inf-end">er</span></span>
-          <span class="verb-pill">aim<span class="inf-end">er</span></span>
-          <span class="verb-pill">march<span class="inf-end">er</span></span>
-          <span class="verb-pill">mang<span class="inf-end">er</span></span>
-          <span class="verb-pill">regard<span class="inf-end">er</span></span>
-          <span class="verb-pill">écout<span class="inf-end">er</span></span>
-          <span class="verb-pill">travaill<span class="inf-end">er</span></span>
-          <span class="verb-pill">chant<span class="inf-end">er</span></span>
+          <span class="verb-pill">fin<span class="inf-end">ir</span></span>
+          <span class="verb-pill">chois<span class="inf-end">ir</span></span>
+          <span class="verb-pill">grand<span class="inf-end">ir</span></span>
+          <span class="verb-pill">réuss<span class="inf-end">ir</span></span>
+          <span class="verb-pill">roug<span class="inf-end">ir</span></span>
+          <span class="verb-pill">obé<span class="inf-end">ir</span></span>
+          <span class="verb-pill">rempl<span class="inf-end">ir</span></span>
+          <span class="verb-pill">applaud<span class="inf-end">ir</span></span>
         </div>
       </article>
 
@@ -27,115 +28,105 @@
       <article>
         <h2>La conjugaison au présent</h2>
         <p class="method">
-          Retirez <strong class="hl-red">-ER</strong> pour obtenir le
+          Retirez <strong class="hl-red">-IR</strong> pour obtenir le
           <strong class="hl-blue">radical</strong>, puis ajoutez la terminaison.
+          Au pluriel, on intercale <strong class="hl-red">-ISS-</strong>.
         </p>
         <p class="method-example">
-          <strong>parl<span class="hl-red">er</span></strong>
+          <strong>fin<span class="hl-red">ir</span></strong>
           <span class="arrow-inline" aria-hidden="true">→</span>
-          radical <strong class="hl-blue">parl-</strong>
+          radical <strong class="hl-blue">fin-</strong>
           <span class="arrow-inline" aria-hidden="true">+</span>
           terminaison
         </p>
 
         <table>
-          <caption class="sr-only">Conjugaison des verbes du 1er groupe au présent</caption>
+          <caption class="sr-only">Conjugaison des verbes du 2ème groupe au présent</caption>
           <thead>
             <tr>
               <th>Pronom</th>
               <th class="col-end">Terminaison</th>
-              <th>parl<span class="th-end">er</span></th>
-              <th>aim<span class="th-end">er</span></th>
+              <th>fin<span class="th-end">ir</span></th>
+              <th>chois<span class="th-end">ir</span></th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="person">je&nbsp;/ j'</td>
-              <td class="ending">-<strong>e</strong></td>
-              <td><span class="stem">parl</span><span class="end">e</span></td>
-              <td><span class="stem">aim</span><span class="end">e</span></td>
+              <td class="person">je / j'</td>
+              <td class="ending">-<strong>is</strong></td>
+              <td><span class="stem">fin</span><span class="end">is</span></td>
+              <td><span class="stem">chois</span><span class="end">is</span></td>
             </tr>
             <tr>
               <td class="person">tu</td>
-              <td class="ending">-<strong>es</strong></td>
-              <td><span class="stem">parl</span><span class="end">es</span></td>
-              <td><span class="stem">aim</span><span class="end">es</span></td>
+              <td class="ending">-<strong>is</strong></td>
+              <td><span class="stem">fin</span><span class="end">is</span></td>
+              <td><span class="stem">chois</span><span class="end">is</span></td>
             </tr>
             <tr>
               <td class="person">il / elle</td>
-              <td class="ending">-<strong>e</strong></td>
-              <td><span class="stem">parl</span><span class="end">e</span></td>
-              <td><span class="stem">aim</span><span class="end">e</span></td>
+              <td class="ending">-<strong>it</strong></td>
+              <td><span class="stem">fin</span><span class="end">it</span></td>
+              <td><span class="stem">chois</span><span class="end">it</span></td>
             </tr>
             <tr>
               <td class="person">nous</td>
-              <td class="ending">-<strong>ons</strong></td>
-              <td><span class="stem">parl</span><span class="end">ons</span></td>
-              <td><span class="stem">aim</span><span class="end">ons</span></td>
+              <td class="ending">-<strong>issons</strong></td>
+              <td><span class="stem">fin</span><span class="end">issons</span></td>
+              <td><span class="stem">chois</span><span class="end">issons</span></td>
             </tr>
             <tr>
               <td class="person">vous</td>
-              <td class="ending">-<strong>ez</strong></td>
-              <td><span class="stem">parl</span><span class="end">ez</span></td>
-              <td><span class="stem">aim</span><span class="end">ez</span></td>
+              <td class="ending">-<strong>issez</strong></td>
+              <td><span class="stem">fin</span><span class="end">issez</span></td>
+              <td><span class="stem">chois</span><span class="end">issez</span></td>
             </tr>
             <tr>
               <td class="person">ils / elles</td>
-              <td class="ending">-<strong>ent</strong></td>
-              <td><span class="stem">parl</span><span class="end">ent</span></td>
-              <td><span class="stem">aim</span><span class="end">ent</span></td>
+              <td class="ending">-<strong>issent</strong></td>
+              <td><span class="stem">fin</span><span class="end">issent</span></td>
+              <td><span class="stem">chois</span><span class="end">issent</span></td>
             </tr>
           </tbody>
         </table>
 
         <div class="example">
-          Tu <strong class="hl-blue">parles</strong> très bien français.
+          Je <strong class="hl-blue">finis</strong> mes devoirs.
         </div>
         <div class="example">
-          Nous <strong class="hl-blue">aimons</strong> la musique.
+          Nous <strong class="hl-blue">choisissons</strong> un cadeau.
         </div>
         <div class="example">
-          Ils <strong class="hl-blue">travaillent</strong> beaucoup.
+          Les enfants <strong class="hl-blue">grandissent</strong> vite.
         </div>
       </article>
 
       <!-- ── À retenir ──────────────────────────────── -->
       <article>
         <div class="attention">
-          Les formes <em>je, tu, il/elle</em> et <em>ils/elles</em> se
-          prononcent de la même façon :
-          <strong class="hl-blue">parl<span class="end">e</span></strong>,
-          <strong class="hl-blue">parl<span class="end">es</span></strong>,
-          <strong class="hl-blue">parl<span class="end">ent</span></strong>
-          → toutes sonnent « parl ».
-          Le <span class="end">-s</span> et le <span class="end">-ent</span> finaux sont muets.
+          On reconnaît un verbe du 2<sup>ème</sup> groupe à sa forme
+          <em>nous</em> en <strong class="hl-blue">-issons</strong> et à son participe
+          présent en <strong class="hl-blue">-issant</strong>
+          (<strong class="hl-blue">fin<span class="end">issant</span></strong>).
+          C'est ce <strong class="hl-red">-iss-</strong> qui le distingue des verbes en
+          <strong>-IR</strong> du 3<sup>ème</sup> groupe.
         </div>
       </article>
 
-      <!-- ── Exception -GER ────────────────────────── -->
+      <!-- ── Exception : faux 2ème groupe ──────────── -->
       <article>
         <div class="exception">
-          <strong>Verbes en <span class="hl-red">-GER</span></strong>
-          (manger, nager, voyager…) : on ajoute un <strong class="hl-red">e</strong>
-          avant <strong>-ons</strong> pour conserver le son doux du
-          <strong class="hl-red">G</strong>.
+          <strong>Attention :</strong> tous les verbes en <span class="hl-red">-IR</span>
+          ne sont pas du 2<sup>ème</sup> groupe. Certains appartiennent au
+          <strong class="hl-red">3<sup>ème</sup> groupe</strong> et n'ont pas le
+          <strong class="hl-red">-iss-</strong> :
         </div>
         <div class="example exception-ex">
-          nous mang<strong class="hl-red">e</strong>ons
+          partir → nous part<strong class="hl-red">ons</strong>
           <span class="sep">·</span>
-          nous nag<strong class="hl-red">e</strong>ons
+          venir → nous ven<strong class="hl-red">ons</strong>
           <span class="sep">·</span>
-          nous voyag<strong class="hl-red">e</strong>ons
-        </div>
-        <div class="exception" style="margin-top: 0.75rem;">
-          <strong>Verbes en <span class="hl-red">-CER</span></strong>
-          (commencer, placer…) : la cédille remplace le
-          <strong class="hl-red">C</strong> devant <strong>-ons</strong>.
-        </div>
-        <div class="example exception-ex">
-          nous commen<strong class="hl-red">ç</strong>ons
-          <span class="sep">·</span>
-          nous pla<strong class="hl-red">ç</strong>ons
+          dormir → nous dorm<strong class="hl-red">ons</strong>
         </div>
       </article>
 

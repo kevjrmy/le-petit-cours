@@ -11,6 +11,14 @@
           <span class="lesson-title">Les verbes du 1<sup>er</sup> groupe</span>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
+        <RouterLink to="/grammaire/verbe-2eme-groupe" class="lesson-row">
+          <span class="lesson-title">Les verbes du 2<sup>ème</sup> groupe</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </RouterLink>
+        <RouterLink to="/grammaire/verbe-3eme-groupe" class="lesson-row">
+          <span class="lesson-title">Les verbes du 3<sup>ème</sup> groupe</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </RouterLink>
       </nav>
     </main>
   </AltLayout>

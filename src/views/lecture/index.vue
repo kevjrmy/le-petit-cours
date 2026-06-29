@@ -14,6 +14,13 @@
           </span>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
+        <RouterLink to="/lecture/entretien-d-embauche" class="lesson-row">
+          <span class="lesson-title">
+            Un entretien d'embauche
+            <span class="author">Dialogue · Suisse romande</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </RouterLink>
       </nav>
     </main>
   </AltLayout>
