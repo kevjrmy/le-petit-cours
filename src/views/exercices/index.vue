@@ -6,7 +6,6 @@
       <div class="ex-list">
         <RouterLink v-for="ex in exercises" :key="ex.path" :to="ex.path"
           :class="['ex-card', ex.category]">
-          <div class="ex-icon" aria-hidden="true">{{ ex.icon }}</div>
           <div class="ex-info">
             <h3>{{ ex.title }}</h3>
             <p>Relève le défi pour progresser en {{ ex.tag.toLowerCase() }}.</p>
@@ -22,8 +21,10 @@
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 const exercises = [
-  { path: '/exercices/emoji-francais', title: 'Emoji & Français', icon: '😄', category: 'puzzle', tag: 'Vocabulaire' },
-  { path: '/exercices/quel-groupe-verbe-appartient', title: 'Quel groupe ?', icon: '🔤', category: 'puzzle', tag: 'Conjugaison' },
+  { path: '/exercices/emoji-francais', title: 'Emoji & Français', category: 'puzzle', tag: 'Vocabulaire' },
+  { path: '/exercices/quel-groupe-verbe-appartient', title: 'Quel groupe ?', category: 'puzzle', tag: 'Conjugaison' },
+  { path: '/exercices/les-articles', title: 'Quel article ?', category: 'puzzle', tag: 'Grammaire' },
+  { path: '/exercices/la-negation', title: 'Mets à la négative', category: 'puzzle', tag: 'Grammaire' },
 ]
 </script>
 
@@ -65,11 +66,6 @@ const exercises = [
   border-color: var(--clr-blue);
   background: var(--clr-blue-light);
   transform: translateX(4px);
-}
-
-.ex-icon {
-  font-size: 1.8rem;
-  flex-shrink: 0;
 }
 
 .ex-info h3 {

@@ -21,6 +21,13 @@
           </span>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
+        <RouterLink to="/lecture/le-comte-de-monte-cristo" class="lesson-row">
+          <span class="lesson-title">
+            <em>Le Comte de Monte-Cristo</em> — Chapitre I
+            <span class="author">Alexandre Dumas</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </RouterLink>
       </nav>
     </main>
   </AltLayout>

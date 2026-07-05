@@ -15,6 +15,10 @@
           <span class="lesson-title">🏰 À Disneyland Paris</span>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
+        <RouterLink to="/conversation/chez-le-medecin" class="lesson-row">
+          <span class="lesson-title">🩺 Chez le médecin</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </RouterLink>
       </nav>
     </main>
   </AltLayout>
