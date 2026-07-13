@@ -71,6 +71,7 @@ const router = createRouter({
     { path: '/theme/les-loisirs', name: 'theme-les-loisirs', component: () => import('../views/theme/les-loisirs.vue') },
     { path: '/theme/la-nourriture', name: 'theme-la-nourriture', component: () => import('../views/theme/la-nourriture.vue') },
     { path: '/theme/si-je-devais-realiser-un-film', name: 'theme-si-je-devais-realiser-un-film', component: () => import('../views/theme/si-je-devais-realiser-un-film.vue') },
+    { path: '/theme/ah-si-jetais-riche', name: 'theme-ah-si-jetais-riche', component: () => import('../views/theme/ah-si-jetais-riche.vue') },
   ]
 })
 

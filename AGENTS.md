@@ -93,7 +93,7 @@ description: |
   - conversation: `a-disneyland-paris.vue`, `a-la-boulangerie.vue`, `chez-le-medecin.vue`, `a-la-pharmacie.vue`
   - prononciation: `les-syllabes-courantes.vue`
   - dictees, musique: index only (no lesson files yet)
-  - theme: `la-famille.vue`, `les-loisirs.vue`, `la-nourriture.vue`, `si-je-devais-realiser-un-film.vue`
+  - theme: `la-famille.vue`, `les-loisirs.vue`, `la-nourriture.vue`, `si-je-devais-realiser-un-film.vue`, `ah-si-jetais-riche.vue`
 
 whenToUse: |
   Use this assistant for any work inside the `le-petit-cours` codebase: adding lessons,

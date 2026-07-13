@@ -39,6 +39,13 @@
           </div>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
+        <RouterLink to="/theme/ah-si-jetais-riche" class="topic-row">
+          <div class="topic-info">
+            <span class="topic-title">Ah, si j'étais riche !</span>
+            <span class="topic-desc">Que feriez-vous avec une grande fortune ? Voyages, dons, retraite anticipée… rêvez en français.</span>
+          </div>
+          <span class="arrow" aria-hidden="true">→</span>
+        </RouterLink>
       </nav>
     </main>
   </DefaultLayout>
