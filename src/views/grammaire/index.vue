@@ -27,6 +27,14 @@
           <span class="lesson-title">La négation</span>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
+        <RouterLink to="/grammaire/le-futur-proche" class="lesson-row">
+          <span class="lesson-title">Le futur proche</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </RouterLink>
+        <RouterLink to="/grammaire/les-verbes-pronominaux" class="lesson-row">
+          <span class="lesson-title">Les verbes pronominaux</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </RouterLink>
       </nav>
     </main>
   </AltLayout>

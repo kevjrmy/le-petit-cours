@@ -1,68 +1,73 @@
 <template>
-  <DefaultLayout title="Prononciation">
-    <main class="prononciation-index">
-      <header class="chapter-intro">
-        <p>Apprenez à maîtriser les sons de la langue française et à bien articuler.</p>
-      </header>
+  <AltLayout title="Prononciation">
+    <main>
+      <p class="intro">
+        Apprenez à lire et à prononcer le français en comprenant les principaux groupes de lettres et leurs sons.
+      </p>
 
-      <div class="topics-grid">
-        <div class="topic-card">
-          <h3>Le son [o]</h3>
-          <p>Différencier "o", "au" et "eau".</p>
-          <RouterLink to="/prononciation/le-son-o" class="study-btn">Écouter et pratiquer</RouterLink>
-        </div>
-
-        <div class="topic-card">
-          <h3>Les voyelles nasales</h3>
-          <p>Maîtriser les sons "an", "in" et "on".</p>
-          <RouterLink to="/prononciation/voyelles-nasales" class="study-btn">Écouter et pratiquer</RouterLink>
-        </div>
-      </div>
+      <nav class="lesson-nav" aria-label="Leçons disponibles">
+        <RouterLink to="/prononciation/les-syllabes-courantes" class="lesson-row">
+          <span class="lesson-title">Les syllabes les plus courantes</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </RouterLink>
+      </nav>
     </main>
-  </DefaultLayout>
+  </AltLayout>
 </template>
 
 <script setup>
-import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import AltLayout from '@/layouts/AltLayout.vue'
 </script>
 
 <style scoped>
-.chapter-intro {
-  margin-bottom: 2rem;
-  text-align: center;
+.intro {
   font-family: var(--font-serif);
   font-style: italic;
-  color: var(--clr-alt-text);
+  color: var(--clr-ink-mid);
+  font-size: 1rem;
+  line-height: 1.75;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--clr-border-soft);
 }
 
-.topics-grid {
-  display: grid;
-  gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
-
-.topic-card {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  border: 1px solid var(--clr-border);
-  box-shadow: var(--box-shadow);
+.lesson-nav {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 }
 
-.topic-card h3 {
-  color: var(--clr-green);
-  /* Couleur spécifique pour la prononciation */
-  margin-bottom: 0.5rem;
-}
-
-.study-btn {
-  margin-top: auto;
-  padding-top: 1rem;
-  color: var(--clr-primary);
-  font-weight: bold;
+.lesson-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.1rem;
+  background: var(--clr-page);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius);
+  color: var(--clr-ink);
   text-decoration: none;
-  border-top: 1px dotted var(--clr-border);
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.lesson-row:hover {
+  border-color: var(--clr-blue);
+  color: var(--clr-blue-dark);
+  background: var(--clr-blue-light);
+}
+
+.lesson-title {
+  font-family: var(--font-serif);
+  font-size: 0.97rem;
+}
+
+.arrow {
+  color: var(--clr-ink-soft);
+  font-size: 0.9rem;
+  transition: transform 0.15s, color 0.15s;
+}
+
+.lesson-row:hover .arrow {
+  transform: translateX(3px);
+  color: var(--clr-blue);
 }
 </style>

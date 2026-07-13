@@ -25,6 +25,7 @@ const exercises = [
   { path: '/exercices/quel-groupe-verbe-appartient', title: 'Quel groupe ?', category: 'puzzle', tag: 'Conjugaison' },
   { path: '/exercices/les-articles', title: 'Quel article ?', category: 'puzzle', tag: 'Grammaire' },
   { path: '/exercices/la-negation', title: 'Mets à la négative', category: 'puzzle', tag: 'Grammaire' },
+  { path: '/exercices/le-futur-proche', title: 'Le futur proche', category: 'puzzle', tag: 'Grammaire' },
 ]
 </script>
 

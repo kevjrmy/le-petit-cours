@@ -84,13 +84,16 @@ description: |
   - Global CSS: `src/style.css` — edit tokens here, never in components.
 
   ## Current chapters and lesson files
-  - grammaire: `verbe-1er-groupe.vue`, `verbe-2eme-groupe.vue`, `verbe-3eme-groupe.vue`
+  - grammaire: `verbe-1er-groupe.vue`, `verbe-2eme-groupe.vue`, `verbe-3eme-groupe.vue`, `les-articles.vue`, `la-negation.vue`, `le-futur-proche.vue`, `les-verbes-pronominaux.vue`
   - orthographe: `les-determinants-possessifs.vue`, `les-pronoms-possessifs.vue`
-  - lecture: `le-petit-prince.vue`, `entretien-d-embauche.vue`
+  - lecture: `le-petit-prince.vue`, `entretien-d-embauche.vue`, `le-comte-de-monte-cristo.vue`
   - litterature: `introduction.vue`
-  - exercices (interactive, no PDF): `emoji-francais.vue`, `quel-groupe-verbe-appartient.vue`
-  - vocabulaire: `100-mots-les-plus-utilises.vue`
-  - dictees, prononciation, musique, vocabulaire: index only (no lesson files yet)
+  - exercices (interactive, no PDF): `emoji-francais.vue`, `quel-groupe-verbe-appartient.vue`, `les-articles.vue`, `la-negation.vue`, `le-futur-proche.vue`
+  - vocabulaire: `100-mots-les-plus-utilises.vue`, `le-docteur.vue`
+  - conversation: `a-disneyland-paris.vue`, `a-la-boulangerie.vue`, `chez-le-medecin.vue`, `a-la-pharmacie.vue`
+  - prononciation: `les-syllabes-courantes.vue`
+  - dictees, musique: index only (no lesson files yet)
+  - theme: `la-famille.vue`, `les-loisirs.vue`, `la-nourriture.vue`, `si-je-devais-realiser-un-film.vue`
 
 whenToUse: |
   Use this assistant for any work inside the `le-petit-cours` codebase: adding lessons,

@@ -19,6 +19,10 @@
           <span class="lesson-title">🩺 Chez le médecin</span>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
+        <RouterLink to="/conversation/a-la-pharmacie" class="lesson-row">
+          <span class="lesson-title">À la pharmacie</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </RouterLink>
       </nav>
     </main>
   </AltLayout>
