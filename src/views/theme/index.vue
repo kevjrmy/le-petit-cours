@@ -32,10 +32,10 @@
           </div>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
-        <RouterLink to="/theme/si-je-devais-realiser-un-film" class="topic-row">
+        <RouterLink to="/theme/ecrire-un-livre" class="topic-row">
           <div class="topic-info">
-            <span class="topic-title">Si je devais réaliser un film...</span>
-            <span class="topic-desc">Film d'auteur ou hollywoodien ? Imaginez votre film idéal et défendez votre choix.</span>
+            <span class="topic-title">Si je devais écrire un livre...</span>
+            <span class="topic-desc">Roman littéraire ou populaire ? Imaginez votre livre idéal et défendez votre choix.</span>
           </div>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>

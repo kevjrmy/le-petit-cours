@@ -35,6 +35,10 @@
           <span class="lesson-title">Les verbes pronominaux</span>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
+        <RouterLink to="/grammaire/les-adverbes" class="lesson-row">
+          <span class="lesson-title">Les adverbes</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </RouterLink>
       </nav>
     </main>
   </AltLayout>

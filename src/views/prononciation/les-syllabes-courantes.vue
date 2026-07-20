@@ -2,244 +2,70 @@
   <AltLayout title="Les syllabes les plus courantes">
     <main class="lesson">
 
-      <!-- Règle -->
+      <!-- Règle générale -->
       <article>
         <div class="rule">
           En français, plusieurs <strong class="hl-blue">groupes de lettres</strong> se prononcent toujours de la même façon. Apprendre ces <strong class="hl-blue">syllabes types</strong> permet de lire n'importe quel mot, même sans le connaître.
-          En espagnol, chaque lettre a une seule prononciation. En français, la même lettre peut se prononcer différemment selon les lettres qui l'entourent, donc il faut mémoriser les combinaisons.
-        </div>
-      </article>
-
-      <!-- Sons du groupe OU / U -->
-      <article>
-        <h2>1. « ou » et « u »</h2>
-        <p class="method">
-          Ces deux sons n'existent pas en espagnol avec la même distinction. Il faut faire attention.
-        </p>
-
-        <table>
-          <caption class="sr-only">Comparaison des sons ou et u</caption>
-          <thead>
-            <tr>
-              <th>Graphie</th>
-              <th>Son phonétique</th>
-              <th>Exemples</th>
-              <th>Traducción (ES)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="graphie">ou</td>
-              <td class="phone">/u/</td>
-              <td><strong>ou</strong>rs, t<strong>ou</strong>r, v<strong>ou</strong>s</td>
-              <td class="transl">como « u » en español (luna)</td>
-            </tr>
-            <tr>
-              <td class="graphie">u</td>
-              <td class="phone">/y/</td>
-              <td>t<strong>u</strong>, r<strong>u</strong>e, l<strong>u</strong>ne</td>
-              <td class="transl">no existe en español: labios de « u », lengua de « i »</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="attention">
-          « tu » et « tout » se prononcent <strong class="hl-red">différemment</strong>. Pratiquez devant un miroir pour distinguer les lèvres.
-        </div>
-      </article>
-
-      <!-- Sons EU -->
-      <article>
-        <h2>2. « eu » et « oeu »</h2>
-        <p class="method">
-          Le son /oe/ ou /o/ selon la position dans le mot (ouvert en syllabe fermée, fermé en syllabe ouverte).
-        </p>
-
-        <table>
-          <caption class="sr-only">Sons eu et oeu</caption>
-          <thead>
-            <tr>
-              <th>Graphie</th>
-              <th>Son phonétique</th>
-              <th>Exemples</th>
-              <th>Traducción (ES)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="graphie">eu (ouvert)</td>
-              <td class="phone">/oe/</td>
-              <td>p<strong>eu</strong>r, c<strong>oeu</strong>r, s<strong>oeu</strong>r</td>
-              <td class="transl">miedo, corazón, hermana</td>
-            </tr>
-            <tr>
-              <td class="graphie">eu (fermé)</td>
-              <td class="phone">/o/</td>
-              <td>j<strong>eu</strong>, bl<strong>eu</strong>, f<strong>eu</strong></td>
-              <td class="transl">juego, azul, fuego</td>
-            </tr>
-          </tbody>
-        </table>
-      </article>
-
-      <!-- Sons AN / EN / AM / EM -->
-      <article>
-        <h2>3. « an » / « en » / « am » / « em »</h2>
-        <p class="method">
-          Toutes ces graphies donnent le même son nasal /a/.
-        </p>
-
-        <table>
-          <caption class="sr-only">Sons nasaux an en am em</caption>
-          <thead>
-            <tr>
-              <th>Graphie</th>
-              <th>Son phonétique</th>
-              <th>Exemples</th>
-              <th>Traducción (ES)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="graphie">an / am</td>
-              <td class="phone">/ɑ̃/</td>
-              <td><strong>an</strong>s, ch<strong>am</strong>ps, gr<strong>an</strong>d</td>
-              <td class="transl">años, campos, grande</td>
-            </tr>
-            <tr>
-              <td class="graphie">en / em</td>
-              <td class="phone">/ɑ̃/</td>
-              <td><strong>en</strong>fant, t<strong>em</strong>ps, v<strong>en</strong>t</td>
-              <td class="transl">niño, tiempo, viento</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="attention">
-          Attention: « <strong class="hl-red">en</strong> » dans un mot peut se prononcer /ɑ̃/ mais jamais /en/ comme en espagnol (el « e » se nazaliza, no se pronuncia abierto).
-        </div>
-      </article>
-
-      <!-- Sons IN / AIN / EIN / IM / AIM -->
-      <article>
-        <h2>4. « in » / « ain » / « ein » / « im » / « aim »</h2>
-        <p class="method">
-          Toutes ces graphies donnent le même son nasal /e/.
-        </p>
-
-        <table>
-          <caption class="sr-only">Sons nasaux in ain ein im aim</caption>
-          <thead>
-            <tr>
-              <th>Graphie</th>
-              <th>Exemples</th>
-              <th>Traducción (ES)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="graphie">in / im</td>
-              <td><strong>in</strong>viter, s<strong>im</strong>ple, v<strong>in</strong></td>
-              <td class="transl">invitar, simple, vino</td>
-            </tr>
-            <tr>
-              <td class="graphie">ain / aim</td>
-              <td>m<strong>ain</strong>, f<strong>aim</strong>, pl<strong>ain</strong></td>
-              <td class="transl">mano, hambre, plano</td>
-            </tr>
-            <tr>
-              <td class="graphie">ein</td>
-              <td>pl<strong>ein</strong>, p<strong>ein</strong>ture</td>
-              <td class="transl">lleno, pintura</td>
-            </tr>
-          </tbody>
-        </table>
-      </article>
-
-      <!-- Sons ON / OM -->
-      <article>
-        <h2>5. « on » / « om »</h2>
-        <p class="method">
-          Son nasal /o/. La bouche est arrondie et le son passe par le nez.
-        </p>
-        <div class="example">
-          b<strong class="hl-blue">on</strong>, m<strong class="hl-blue">on</strong>sieur, s<strong class="hl-blue">on</strong>, n<strong class="hl-blue">om</strong>, t<strong class="hl-blue">om</strong>ber
-          <span class="note">(buen, monsieur, su, nombre, caer)</span>
         </div>
         <div class="attention">
-          Quand « on » est suivi d'une voyelle, le son nasal disparait parfois : b<strong class="hl-red">on</strong>ne se prononce /bɔn/ (pas nasal). La nasalisation disparait devant une double consonne ou quand on ajoute un « e ».
+          💡 <strong>Tip para hispanohablantes:</strong> A diferencia del español, donde cada letra tiene una pronunciación fija, en francés la combinación de letras cambia el sonido.
+          <strong>Haz clic en los botones 🔊 y en las palabras de ejemplo para escuchar cómo se pronuncian.</strong>
         </div>
       </article>
 
-      <!-- Sons OI -->
-      <article>
-        <h2>6. « oi »</h2>
-        <p class="method">
-          La graphie « oi » se prononce toujours /wa/. Ce son n'existe pas en espagnol et surprend souvent les hispanophones.
-        </p>
-        <div class="example">
-          m<strong class="hl-blue">oi</strong>, t<strong class="hl-blue">oi</strong>, r<strong class="hl-blue">oi</strong>, v<strong class="hl-blue">oi</strong>ture, b<strong class="hl-blue">oi</strong>re
-          <span class="note">(yo, tú, rey, coche, beber)</span>
+      <!-- Section des sons -->
+      <article v-for="(section, idx) in sections" :key="idx" class="sound-section">
+        <h2>{{ idx + 1 }}. {{ section.title }}</h2>
+        <p class="method">{{ section.description }}</p>
+
+        <table>
+          <caption class="sr-only">Graphies et sons pour {{ section.title }}</caption>
+          <thead>
+            <tr>
+              <th>Graphie</th>
+              <th>Son</th>
+              <th>Pronunciación (ES)</th>
+              <th>Écouter</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="row in section.table" :key="row.graphie">
+              <td class="graphie">{{ row.graphie }}</td>
+              <td class="phone">{{ row.phone }}</td>
+              <td class="transl">{{ row.transl }}</td>
+              <td class="play-cell">
+                <button class="play-btn" @click="speak(row.soundVal || row.graphie)" aria-label="Écouter la syllabe">
+                  🔊
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="examples-container">
+          <span class="examples-label">Exemples :</span>
+          <div class="examples-list">
+            <button
+              v-for="ex in section.examples"
+              :key="ex.word"
+              class="word-btn"
+              @click="speak(ex.word)"
+              :aria-label="'Écouter le mot ' + ex.word"
+            >
+              <span class="word-fr">{{ ex.word }}</span>
+              <span class="word-translation">({{ ex.es }})</span>
+              <span class="word-icon" aria-hidden="true">🔊</span>
+            </button>
+          </div>
+        </div>
+
+        <div v-if="section.note" class="attention note-box">
+          <strong>Note :</strong> {{ section.note }}
         </div>
       </article>
 
-      <!-- Sons AU / EAU -->
-      <article>
-        <h2>7. « au » / « eau »</h2>
-        <p class="method">
-          Les deux graphies se prononcent /o/, comme le son « o » fermé en espagnol.
-        </p>
-        <div class="example">
-          ch<strong class="hl-blue">au</strong>d, <strong class="hl-blue">au</strong>jourd'hui, g<strong class="hl-blue">eau</strong>, bure<strong class="hl-blue">au</strong>, t<strong class="hl-blue">eau</strong>
-          <span class="note">(caliente, hoy, pastel, oficina, taladro)</span>
-        </div>
-      </article>
-
-      <!-- Sons CH -->
-      <article>
-        <h2>8. « ch »</h2>
-        <p class="method">
-          En français, « ch » se prononce toujours /sh/, jamais /k/ comme dans certains mots espagnols ou grecs.
-        </p>
-        <div class="example">
-          <strong class="hl-blue">ch</strong>at, <strong class="hl-blue">ch</strong>aud, <strong class="hl-blue">ch</strong>eval, dou<strong class="hl-blue">ch</strong>e
-          <span class="note">(gato, caliente, caballo, ducha)</span>
-        </div>
-        <div class="exception">
-          Exception : les mots d'origine grecque ou latine gardent le son /k/ : <strong class="hl-red">ch</strong>oriste, <strong class="hl-red">ch</strong>rysanthème.
-        </div>
-      </article>
-
-      <!-- Sons ILL / IL -->
-      <article>
-        <h2>9. « ill » / « il » (en fin de mot)</h2>
-        <p class="method">
-          La combinaison « ill » ou « il » en fin de mot se prononce /ij/, similaire au son « y » de l'espagnol (comme dans « yo »).
-        </p>
-        <div class="example">
-          fam<strong class="hl-blue">ille</strong>, trav<strong class="hl-blue">aille</strong>r, ore<strong class="hl-blue">ille</strong>, solem<strong class="hl-blue">il</strong>
-          <span class="note">(familia, trabajar, oreja, sol)</span>
-        </div>
-        <div class="exception">
-          Exception : dans certains mots, « ill » garde le son /il/ : v<strong class="hl-red">ill</strong>e, tranqu<strong class="hl-red">ill</strong>e, m<strong class="hl-red">ill</strong>e.
-        </div>
-      </article>
-
-      <!-- Sons GN -->
-      <article>
-        <h2>10. « gn »</h2>
-        <p class="method">
-          La graphie « gn » se prononce /nj/, exactement comme le son « ñ » de l'espagnol. C'est l'un des rares sons faciles pour un hispanophone.
-        </p>
-        <div class="example">
-          vi<strong class="hl-blue">gn</strong>e, monta<strong class="hl-blue">gn</strong>e, si<strong class="hl-blue">gn</strong>er, ba<strong class="hl-blue">gn</strong>oire
-          <span class="note">(vid, montaña, firmar, bañera)</span>
-        </div>
-      </article>
-
-      <button
-        class="download-btn"
-        @click="downloadPdf"
-        aria-label="Télécharger cette leçon en PDF"
-      >
+      <!-- Bouton de téléchargement -->
+      <button class="download-btn" @click="downloadPdf" aria-label="Télécharger cette leçon en PDF">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M12 3v14m0 0-5-5m5 5 5-5"/>
           <path d="M3 20h18"/>
@@ -254,6 +80,177 @@
 <script setup>
 import AltLayout from '@/layouts/AltLayout.vue'
 
+const sections = [
+  {
+    title: '« ou » et « u »',
+    description: 'Ces deux sons se distinguent clairement en français, mais n\'existent pas de la même façon en espagnol.',
+    table: [
+      { graphie: 'ou', phone: '/u/', transl: 'Como la "u" en español (ej. luna).', soundVal: 'ou' },
+      { graphie: 'u', phone: '/y/', transl: 'No existe en español. Coloca los labios en posición de "u" y di una "i".', soundVal: 'u' }
+    ],
+    examples: [
+      { word: 'ours', es: 'oso' },
+      { word: 'tour', es: 'torre' },
+      { word: 'vous', es: 'usted(es)' },
+      { word: 'tu', es: 'tú' },
+      { word: 'rue', es: 'calle' },
+      { word: 'lune', es: 'luna' }
+    ],
+    note: '« tu » (tú) et « tout » (todo) ont des prononciations différentes.'
+  },
+  {
+    title: '« eu » et « œu »',
+    description: 'Ce son n\'existe pas en espagnol. Il est plus ou moins ouvert selon sa position dans le mot.',
+    table: [
+      { graphie: 'eu / œu', phone: '/œ/ (ouvert)', transl: 'Boca abierta en forma de "o", pronunciando una "e".', soundVal: 'peur' },
+      { graphie: 'eu', phone: '/ø/ (fermé)', transl: 'Boca cerrada en forma de "o", pronunciando une "e".', soundVal: 'bleu' }
+    ],
+    examples: [
+      { word: 'peur', es: 'miedo' },
+      { word: 'cœur', es: 'corazón' },
+      { word: 'sœur', es: 'hermana' },
+      { word: 'jeu', es: 'juego' },
+      { word: 'bleu', es: 'azul' },
+      { word: 'feu', es: 'fuego' }
+    ],
+    note: 'Le son est généralement ouvert devant une consonne prononcée, et fermé à la fin d\'un mot.'
+  },
+  {
+    title: '« an », « en », « am », « em »',
+    description: 'Le son nasal /ɑ̃/. La bouche est bien ouverte, la langue reculée et le son passe par le nez.',
+    table: [
+      { graphie: 'an / am', phone: '/ɑ̃/', transl: 'Sonido "a" nasalizado. No pronuncies la "n" ni la "m".', soundVal: 'an' },
+      { graphie: 'en / em', phone: '/ɑ̃/', transl: 'Se pronuncia exactamente igual que "an".', soundVal: 'en' }
+    ],
+    examples: [
+      { word: 'ans', es: 'años' },
+      { word: 'champs', es: 'campos' },
+      { word: 'grand', es: 'grande' },
+      { word: 'enfant', es: 'niño' },
+      { word: 'temps', es: 'tiempo' },
+      { word: 'vent', es: 'viento' }
+    ],
+    note: 'Évitez de prononcer « en » comme le mot espagnol "en". Le son doit être nasal.'
+  },
+  {
+    title: '« in », « ain », « ein », « im », « aim »',
+    description: 'Le son nasal /ɛ̃/. La bouche est étirée comme pour un sourire.',
+    table: [
+      { graphie: 'in / im', phone: '/ɛ̃/', transl: 'Sonido "e" nasalizado (sonrisa abierta).', soundVal: 'in' },
+      { graphie: 'ain / aim', phone: '/ɛ̃/', transl: 'Se prononce exactement de la même manière.', soundVal: 'main' },
+      { graphie: 'ein', phone: '/ɛ̃/', transl: 'Même prononciation nasale.', soundVal: 'plein' }
+    ],
+    examples: [
+      { word: 'vin', es: 'vino' },
+      { word: 'inviter', es: 'invitar' },
+      { word: 'simple', es: 'simple' },
+      { word: 'main', es: 'mano' },
+      { word: 'faim', es: 'hambre' },
+      { word: 'plein', es: 'lleno' }
+    ]
+  },
+  {
+    title: '« on » et « om »',
+    description: 'Le son nasal /ɔ̃/. Les lèvres sont très arrondies et projetées vers l\'avant.',
+    table: [
+      { graphie: 'on / om', phone: '/ɔ̃/', transl: 'Sonido "o" nasalizado. Labios muy redondeados.', soundVal: 'on' }
+    ],
+    examples: [
+      { word: 'bon', es: 'bueno' },
+      { word: 'nom', es: 'nombre' },
+      { word: 'maison', es: 'casa' },
+      { word: 'ballon', es: 'pelota' },
+      { word: 'tomber', es: 'caer' }
+    ],
+    note: 'Si le "n" est doublé (ex: bonne) ou suivi d\'une voyelle, la nasalisation disparaît.'
+  },
+  {
+    title: '« oi »',
+    description: 'La combinaison « oi » produit un son de diphtongue unique.',
+    table: [
+      { graphie: 'oi', phone: '/wa/', transl: 'Suena como "ua" rápido en español (ej. agua).', soundVal: 'moi' }
+    ],
+    examples: [
+      { word: 'moi', es: 'yo' },
+      { word: 'toi', es: 'tú' },
+      { word: 'roi', es: 'rey' },
+      { word: 'voiture', es: 'coche' },
+      { word: 'boire', es: 'beber' }
+    ]
+  },
+  {
+    title: '« au » et « eau »',
+    description: 'Ces graphies représentent le même son vocalique simple.',
+    table: [
+      { graphie: 'au / eau', phone: '/o/', transl: 'Se pronuncia exactamente como la "o" del español.', soundVal: 'eau' }
+    ],
+    examples: [
+      { word: 'chaud', es: 'caliente' },
+      { word: 'eau', es: 'agua' },
+      { word: 'beau', es: 'bello' },
+      { word: 'bureau', es: 'oficina' },
+      { word: 'gâteau', es: 'pastel' }
+    ]
+  },
+  {
+    title: '« ch »',
+    description: 'La prononciation de « ch » en français diffère de celle de l\'espagnol.',
+    table: [
+      { graphie: 'ch', phone: '/ʃ/', transl: 'Como el sonido "sh" en inglés (ej. show) o al pedir silencio (¡shh!).', soundVal: 'chat' }
+    ],
+    examples: [
+      { word: 'chat', es: 'gato' },
+      { word: 'chaud', es: 'caliente' },
+      { word: 'cheval', es: 'caballo' },
+      { word: 'douche', es: 'ducha' }
+    ],
+    note: 'Quelques rares exceptions d\'origine grecque se prononcent /k/ (ex: chorale, chaos).'
+  },
+  {
+    title: '« ill » et « il »',
+    description: 'Le son semi-consonantique /j/ en fin de mot.',
+    table: [
+      { graphie: 'ill / il', phone: '/j/', transl: 'Como la "y" española en "yo" (seseo/yeísmo).', soundVal: 'fille' }
+    ],
+    examples: [
+      { word: 'famille', es: 'familia' },
+      { word: 'fille', es: 'chica / hija' },
+      { word: 'soleil', es: 'sol' },
+      { word: 'travail', es: 'trabajo' }
+    ],
+    note: 'Exceptions importantes : ville, mille, tranquille se prononcent avec le son /l/.'
+  },
+  {
+    title: '« gn »',
+    description: 'Une des syllabes les plus faciles à maîtriser pour les hispanophones.',
+    table: [
+      { graphie: 'gn', phone: '/ɲ/', transl: 'Se pronuncia exactamente igual que la "ñ" española.', soundVal: 'montagne' }
+    ],
+    examples: [
+      { word: 'montagne', es: 'montaña' },
+      { word: 'espagnol', es: 'español' },
+      { word: 'gagner', es: 'ganar' },
+      { word: 'baignoire', es: 'bañera' }
+    ]
+  }
+]
+
+function speak(text) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel()
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.lang = 'fr-FR'
+    
+    const voices = window.speechSynthesis.getVoices()
+    const frVoice = voices.find(v => v.lang.startsWith('fr'))
+    if (frVoice) {
+      utterance.voice = frVoice
+    }
+    
+    window.speechSynthesis.speak(utterance)
+  }
+}
+
 function downloadPdf() {
   window.print()
 }
@@ -261,29 +258,26 @@ function downloadPdf() {
 
 <style scoped>
 .lesson {
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
-/* Inline helpers */
 .hl-blue { color: var(--clr-blue); font-weight: 700; }
 .hl-red  { color: var(--clr-red);  font-weight: 700; }
 
-.note {
-  color: var(--clr-ink-soft);
-  font-size: 0.82em;
-  font-style: italic;
+.sound-section {
+  border-bottom: 1px solid var(--clr-border-soft);
+  padding-bottom: 1.5rem;
 }
 
-.sep {
-  color: var(--clr-border);
-  margin: 0 0.25rem;
+.sound-section:last-of-type {
+  border-bottom: none;
 }
 
-/* Method line */
 .method {
   color: var(--clr-ink-mid);
-  font-size: 0.9rem;
-  margin-bottom: 0.35rem;
+  font-size: 0.92rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
 }
 
 /* Table */
@@ -291,13 +285,12 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1rem;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
 }
 
 caption.sr-only {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  width: 1px; height: 1px;
   overflow: hidden;
   clip: rect(0 0 0 0);
 }
@@ -315,22 +308,23 @@ th {
 }
 
 td {
-  padding: 0.45rem 0.75rem;
+  padding: 0.5rem 0.75rem;
   border-bottom: 1px solid var(--clr-border-soft);
   color: var(--clr-ink);
+  vertical-align: middle;
 }
 
 td.graphie {
   font-family: var(--font-mono);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: var(--clr-blue);
   white-space: nowrap;
 }
 
 td.phone {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--clr-red);
   font-weight: 600;
 }
@@ -341,17 +335,103 @@ td.transl {
   font-size: 0.85rem;
 }
 
-tr:last-child td {
-  border-bottom: none;
+.play-cell {
+  width: 50px;
+  text-align: center;
 }
 
-tr:nth-child(even) td {
+.play-btn {
+  background: var(--clr-blue-light);
+  border: 1px solid var(--clr-blue-mid);
+  color: var(--clr-blue-dark);
+  font-size: 0.95rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.play-btn:hover {
+  background: var(--clr-blue-mid);
+}
+
+.play-btn:active {
+  transform: scale(0.95);
+}
+
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: var(--clr-blue-light); }
+
+/* Examples */
+.examples-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.examples-label {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--clr-ink-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.35rem;
+}
+
+.examples-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.word-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--clr-page);
+  border: 1px solid var(--clr-border);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.word-btn:hover {
+  border-color: var(--clr-blue);
   background: var(--clr-blue-light);
 }
 
-/* Examples */
-.example + .example {
-  margin-top: 0.5rem;
+.word-btn:active {
+  transform: scale(0.98);
+}
+
+.word-fr {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--clr-ink);
+  font-size: 0.92rem;
+}
+
+.word-translation {
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--clr-ink-soft);
+}
+
+.word-icon {
+  font-size: 0.78rem;
+  color: var(--clr-blue-mid);
+  margin-left: 0.15rem;
+}
+
+.note-box {
+  margin-top: 1rem;
+  font-size: 0.9rem;
 }
 
 /* Download button */
@@ -360,7 +440,7 @@ tr:nth-child(even) td {
   flex-direction: column;
   align-items: center;
   gap: 0.35rem;
-  margin: 0.5rem auto 0;
+  margin: 1.5rem auto 0;
   padding: 0.85rem 1.5rem;
   border: 1px solid var(--clr-border);
   border-radius: var(--radius);
@@ -377,6 +457,14 @@ tr:nth-child(even) td {
 }
 
 @media print {
-  .download-btn { display: none !important; }
+  .download-btn,
+  .play-cell,
+  .word-icon { display: none !important; }
+  .word-btn {
+    border: none;
+    padding: 0;
+    cursor: default;
+    background: transparent;
+  }
 }
 </style>

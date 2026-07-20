@@ -28,6 +28,13 @@
           </span>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
+        <RouterLink to="/lecture/le-tour-du-monde" class="lesson-row">
+          <span class="lesson-title">
+            <em>Le Tour du monde en 80 jours</em> — Chapitre I
+            <span class="author">Jules Verne</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </RouterLink>
       </nav>
     </main>
   </AltLayout>

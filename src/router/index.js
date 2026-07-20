@@ -20,6 +20,7 @@ const router = createRouter({
     { path: '/grammaire/la-negation', name: 'grammaire-la-negation', component: () => import('../views/grammaire/la-negation.vue') },
     { path: '/grammaire/le-futur-proche', name: 'grammaire-le-futur-proche', component: () => import('../views/grammaire/le-futur-proche.vue') },
     { path: '/grammaire/les-verbes-pronominaux', name: 'grammaire-les-verbes-pronominaux', component: () => import('../views/grammaire/les-verbes-pronominaux.vue') },
+    { path: '/grammaire/les-adverbes', name: 'grammaire-les-adverbes', component: () => import('../views/grammaire/les-adverbes.vue') },
 
     // Dictées
     { path: '/dictees', name: 'dictees', component: () => import('../views/dictees/index.vue') },
@@ -31,12 +32,16 @@ const router = createRouter({
     { path: '/exercices/les-articles', name: 'ex-les-articles', component: () => import('../views/exercices/les-articles.vue') },
     { path: '/exercices/la-negation', name: 'ex-la-negation', component: () => import('../views/exercices/la-negation.vue') },
     { path: '/exercices/le-futur-proche', name: 'ex-le-futur-proche', component: () => import('../views/exercices/le-futur-proche.vue') },
+    { path: '/exercices/conjugaison-present', name: 'ex-conjugaison-present', component: () => import('../views/exercices/conjugaison-present.vue') },
+    { path: '/exercices/les-adverbes', name: 'ex-les-adverbes', component: () => import('../views/exercices/les-adverbes.vue') },
+    { path: '/exercices/phrases-en-desordre', name: 'ex-phrases-en-desordre', component: () => import('../views/exercices/phrases-en-desordre.vue') },
 
     // Lecture
     { path: '/lecture', name: 'lecture', component: () => import('../views/lecture/index.vue') },
     { path: '/lecture/le-petit-prince', name: 'lecture-le-petit-prince', component: () => import('../views/lecture/le-petit-prince.vue') },
     { path: '/lecture/entretien-d-embauche', name: 'lecture-entretien-d-embauche', component: () => import('../views/lecture/entretien-d-embauche.vue') },
     { path: '/lecture/le-comte-de-monte-cristo', name: 'lecture-le-comte-de-monte-cristo', component: () => import('../views/lecture/le-comte-de-monte-cristo.vue') },
+    { path: '/lecture/le-tour-du-monde', name: 'lecture-le-tour-du-monde', component: () => import('../views/lecture/le-tour-du-monde.vue') },
 
     // Prononciation
     { path: '/prononciation', name: 'prononciation', component: () => import('../views/prononciation/index.vue') },
@@ -70,7 +75,7 @@ const router = createRouter({
     { path: '/theme/la-famille', name: 'theme-la-famille', component: () => import('../views/theme/la-famille.vue') },
     { path: '/theme/les-loisirs', name: 'theme-les-loisirs', component: () => import('../views/theme/les-loisirs.vue') },
     { path: '/theme/la-nourriture', name: 'theme-la-nourriture', component: () => import('../views/theme/la-nourriture.vue') },
-    { path: '/theme/si-je-devais-realiser-un-film', name: 'theme-si-je-devais-realiser-un-film', component: () => import('../views/theme/si-je-devais-realiser-un-film.vue') },
+    { path: '/theme/ecrire-un-livre', name: 'theme-ecrire-un-livre', component: () => import('../views/theme/ecrire-un-livre.vue') },
     { path: '/theme/ah-si-jetais-riche', name: 'theme-ah-si-jetais-riche', component: () => import('../views/theme/ah-si-jetais-riche.vue') },
   ]
 })

@@ -23,9 +23,12 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 const exercises = [
   { path: '/exercices/emoji-francais', title: 'Emoji & Français', category: 'puzzle', tag: 'Vocabulaire' },
   { path: '/exercices/quel-groupe-verbe-appartient', title: 'Quel groupe ?', category: 'puzzle', tag: 'Conjugaison' },
+  { path: '/exercices/conjugaison-present', title: 'Conjugaison au présent', category: 'puzzle', tag: 'Conjugaison' },
   { path: '/exercices/les-articles', title: 'Quel article ?', category: 'puzzle', tag: 'Grammaire' },
   { path: '/exercices/la-negation', title: 'Mets à la négative', category: 'puzzle', tag: 'Grammaire' },
   { path: '/exercices/le-futur-proche', title: 'Le futur proche', category: 'puzzle', tag: 'Grammaire' },
+  { path: '/exercices/les-adverbes', title: 'Les adverbes', category: 'puzzle', tag: 'Grammaire' },
+  { path: '/exercices/phrases-en-desordre', title: 'Phrases en désordre', category: 'puzzle', tag: 'Syntaxe' },
 ]
 </script>
 
