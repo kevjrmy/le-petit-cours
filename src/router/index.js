@@ -24,6 +24,7 @@ const router = createRouter({
 
     // Dictées
     { path: '/dictees', name: 'dictees', component: () => import('../views/dictees/index.vue') },
+    { path: '/dictees/une-journee-en-vacances', name: 'dictee-une-journee-en-vacances', component: () => import('../views/dictees/une-journee-en-vacances.vue') },
 
     // Exercices
     { path: '/exercices', name: 'exercices', component: () => import('../views/exercices/index.vue') },

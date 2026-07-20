@@ -32,8 +32,8 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 const dicteeChapters = [
   { 
-    path: '/dictees/une-journee-a-paris', 
-    displayTitle: 'Une journée à Paris', 
+    path: '/dictees/une-journee-en-vacances', 
+    displayTitle: 'Une journée en vacances', 
     level: 'easy', 
     levelLabel: 'Facile', 
     page: 2,

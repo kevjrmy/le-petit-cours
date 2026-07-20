@@ -92,7 +92,8 @@ description: |
   - vocabulaire: `100-mots-les-plus-utilises.vue`, `le-docteur.vue`
   - conversation: `a-disneyland-paris.vue`, `a-la-boulangerie.vue`, `chez-le-medecin.vue`, `a-la-pharmacie.vue`
   - prononciation: `les-syllabes-courantes.vue`
-  - dictees, musique: index only (no lesson files yet)
+  - dictees: `une-journee-en-vacances.vue`
+  - musique: index only (no lesson files yet)
   - theme: `la-famille.vue`, `les-loisirs.vue`, `la-nourriture.vue`, `ecrire-un-livre.vue`, `ah-si-jetais-riche.vue`
 
 whenToUse: |
