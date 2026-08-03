@@ -1,19 +1,19 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-03; updated=2026-08-03 -->
 <template>
-  <DefaultLayout title="À la pharmacie">
+  <DefaultLayout title="En vacances">
     <main id="dialogue">
 
       <div class="scene">
         <p class="scene-intro">
-          Lucas va à la pharmacie pour chercher des médicaments et demander des conseils.
+          🏖️ Lucas et Marc discutent de leurs projets de vacances d'été.
           Glissez les mots à la bonne place, ou écrivez-les (les accents ne comptent pas).
         </p>
         <p class="scene-hint">
-          <em>(Lucas va a la farmacia para comprar medicamentos y pedir consejos. Arrastra o escribe las palabras; los acentos no cuentan.)</em>
+          <em>(Lucas y Marc hablan de sus planes de vacaciones de verano. Arrastra o escribe las palabras; los acentos no cuentan.)</em>
         </p>
       </div>
 
-      <!-- Banque de mots -->
+      <!-- ── Banque de mots ───────────────────────── -->
       <div class="word-bank" aria-label="Mots à placer">
         <span class="word-bank-label">Mots à placer :</span>
         <span
@@ -24,15 +24,15 @@
           @pointerdown.prevent="startDrag($event, w, { type: 'bank' })"
         >{{ w.text }}</span>
         <span v-if="bank.length === 0" class="word-bank-empty">
-          Tous les mots sont placés.
+          Tous les mots sont placés ✦
         </span>
       </div>
 
-      <!-- Dialogue -->
+      <!-- ── Dialogue ─────────────────────────────── -->
       <div class="chat">
         <template v-for="(line, i) in dialogue" :key="i">
           <div class="bubble-row" :class="line.who">
-            <span class="speaker">{{ line.who === 'client' ? 'Lucas' : 'Le pharmacien' }}</span>
+            <span class="speaker">{{ line.who === 'lucas' ? 'Lucas' : 'Marc' }}</span>
             <p class="bubble">
               <template v-for="(part, j) in line.parts" :key="j">
                 <span v-if="part.text">{{ part.text }}</span>
@@ -83,22 +83,22 @@
         </template>
       </div>
 
-      <!-- Actions -->
+      <!-- ── Actions ──────────────────────────────── -->
       <div class="actions">
         <button class="btn-check" @click="check">Vérifier</button>
         <button v-if="checked" class="btn-reset" @click="reset">Recommencer</button>
       </div>
 
-      <!-- Résultat -->
+      <!-- ── Résultat ─────────────────────────────── -->
       <div v-if="checked" class="result" :class="{ perfect: allCorrect }">
-        <span v-if="allCorrect">Bravo Lucas ! Tout est correct !</span>
+        <span v-if="allCorrect">🎉 Bravo ! Le dialogue est parfaitement complété !</span>
         <span v-else>
           {{ correctCount }} / {{ blanks.length }} corrects.
-          Corrigez les mots en rouge et réessayez.
+          Corrigez les mots en rouge et réessayez 💪
         </span>
       </div>
 
-      <!-- Fantôme de glissement -->
+      <!-- ── Fantôme de glissement ────────────────── -->
       <div
         v-if="drag.active"
         class="drag-ghost chip"
@@ -114,71 +114,51 @@ import { ref, reactive, computed, onBeforeUnmount } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 const dialogue = [
-  { who: 'pharmacien', parts: [
-    { text: 'Bonjour monsieur. Que puis-je faire pour vous aujourd\'hui ?' }
+  { who: 'lucas', parts: [
+    { text: 'Salut Marc ! Tu es prêt pour les ' },
+    { id: 1, answer: 'vacances', accept: ['vacance'] },
+    { text: ' ?' },
   ]},
-  { who: 'client', parts: [
-    { text: 'Bonjour. Je viens chercher des ' },
-    { id: 1, answer: 'médicaments', accept: ['medicaments', 'médicament', 'medicament'] },
-    { text: '. Voici mon ' },
-    { id: 2, answer: 'ordonnance', accept: ['ordonnances'] },
-    { text: '.' }
+  { who: 'marc', parts: [
+    { text: 'Oui ! Je pars ' },
+    { id: 2, answer: 'demain', accept: ['demain'] },
+    { text: ' matin au bord de la mer.' },
   ]},
-  { who: 'pharmacien', parts: [
-    { text: 'D\'accord, voyons voir. C\'est pour un ' },
-    { id: 3, answer: 'sirop', accept: ['sirops'] },
-    { text: ' contre la ' },
-    { id: 4, answer: 'toux' },
-    { text: ' et des ' },
-    { id: 5, answer: 'comprimés', accept: ['comprimes', 'comprimé', 'comprime'] },
-    { text: '.' }
+  { who: 'lucas', parts: [
+    { text: 'C\'est génial ! Tu vas voyager en ' },
+    { id: 3, answer: 'train', accept: ['train'] },
+    { text: ' ou en voiture ?' },
   ]},
-  { who: 'client', parts: [
-    { text: 'Oui, j\'ai une mauvaise toux sèche depuis deux jours.' }
+  { who: 'marc', parts: [
+    { text: 'En train, c\'est plus rapide. Et toi, où ' },
+    { id: 4, answer: 'vas', accept: ['vas'] },
+    { text: '-tu cet été ?' },
   ]},
-  { who: 'pharmacien', parts: [
-    { text: 'Prenez-vous d\'autres ' },
-    { id: 6, answer: 'traitements', accept: ['traitement'] },
-    { text: ' en ce moment ?' }
+  { who: 'lucas', parts: [
+    { text: 'Je vais passer une semaine à la ' },
+    { id: 5, answer: 'montagne', accept: ['montagne'] },
+    { text: ' avec ma famille.' },
   ]},
-  { who: 'client', parts: [
-    { text: 'Non, aucun. Mais j\'ai aussi un peu de ' },
-    { id: 7, answer: 'fièvre', accept: ['fievre'] },
-    { text: ' et des ' },
-    { id: 8, answer: 'maux', accept: ['mal'] },
-    { text: ' de tête.' }
+  { who: 'marc', parts: [
+    { text: 'Super ! Vous avez ' },
+    { id: 6, answer: 'réservé', accept: ['reserve', 'reserva'] },
+    { text: ' un hôtel ou un camping ?' },
   ]},
-  { who: 'pharmacien', parts: [
-    { text: 'Je comprends. Pour la fièvre, vous pouvez prendre du ' },
-    { id: 9, answer: 'paracétamol', accept: ['paracetamol'] },
-    { text: ' toutes les six heures.' }
+  { who: 'lucas', parts: [
+    { text: 'Nous avons loué une jolie ' },
+    { id: 7, answer: 'maison', accept: ['maison'] },
+    { text: ' près du lac.' },
   ]},
-  { who: 'client', parts: [
-    { text: 'D\'accord. Quelle est la ' },
-    { id: 10, answer: 'posologie', accept: ['posologies'] },
-    { text: ' pour le sirop ?' }
+  { who: 'marc', parts: [
+    { text: 'Magnifique ! J\'espère qu\'il fera beau avec du ' },
+    { id: 8, answer: 'soleil', accept: ['soleil'] },
+    { text: ' !' },
   ]},
-  { who: 'pharmacien', parts: [
-    { text: 'Prenez une cuillère à soupe matin, midi et soir après les ' },
-    { id: 11, answer: 'repas' },
-    { text: '.' }
+  { who: 'lucas', parts: [
+    { text: 'Oui ! Bon ' },
+    { id: 9, answer: 'voyage', accept: ['voyage'] },
+    { text: ' et à bientôt !' },
   ]},
-  { who: 'client', parts: [
-    { text: 'Très bien. Est-ce que ce sirop provoque de la ' },
-    { id: 12, answer: 'somnolence' },
-    { text: ' ?' }
-  ]},
-  { who: 'pharmacien', parts: [
-    { text: 'Oui, un peu. Il vaut mieux éviter de conduire. Avez-vous besoin d\'autres ' },
-    { id: 13, answer: 'conseils', accept: ['conseil'] },
-    { text: ' ?' }
-  ]},
-  { who: 'client', parts: [
-    { text: 'Non, c\'est tout. Merci beaucoup pour votre aide.' }
-  ]},
-  { who: 'pharmacien', parts: [
-    { text: 'Je vous en prie. Soignez-vous bien et bonne journée !' }
-  ]}
 ]
 
 const blanks = dialogue.flatMap(l => l.parts.filter(p => p.id != null))
@@ -366,7 +346,6 @@ onBeforeUnmount(() => {
   gap: 1.25rem;
 }
 
-/* Scene */
 .scene-intro {
   font-family: var(--font-serif);
   font-size: 1rem;
@@ -383,7 +362,6 @@ onBeforeUnmount(() => {
   margin: 0.35rem 0 0;
 }
 
-/* Word bank */
 .word-bank {
   display: flex;
   flex-wrap: wrap;
@@ -409,38 +387,48 @@ onBeforeUnmount(() => {
 }
 
 .word-bank-empty {
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
+  font-size: 0.82rem;
+  color: var(--clr-blue-dark);
   font-style: italic;
-  color: var(--clr-ink-soft);
 }
 
-/* Chips */
 .chip {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  padding: 0.25rem 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-sm);
   background: var(--clr-page);
-  border: 1px solid var(--clr-border);
-  border-radius: 99px;
-  color: var(--clr-ink);
+  border: 1.5px solid var(--clr-blue);
+  color: var(--clr-blue-dark);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.9rem;
   cursor: grab;
   user-select: none;
-  -webkit-user-select: none;
   touch-action: none;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-  transition: opacity 0.12s, box-shadow 0.12s, transform 0.12s;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
-.chip:active {
-  cursor: grabbing;
+.chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(24, 84, 160, 0.2);
 }
 
 .chip.dragging {
-  opacity: 0.3;
+  opacity: 0.4;
 }
 
-/* Chat */
+.drag-ghost {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 8px 20px rgba(24, 84, 160, 0.3);
+  background: var(--clr-page);
+  border-color: var(--clr-blue);
+  cursor: grabbing;
+}
+
 .chat {
   display: flex;
   flex-direction: column;
@@ -454,57 +442,67 @@ onBeforeUnmount(() => {
   max-width: 85%;
 }
 
-.bubble-row.client {
-  align-self: flex-end;
-  align-items: flex-end;
+.bubble-row.lucas {
+  align-self: flex-start;
 }
 
-.bubble-row.pharmacien {
-  align-self: flex-start;
-  align-items: flex-start;
+.bubble-row.marc {
+  align-self: flex-end;
 }
 
 .speaker {
-  font-family: var(--font-sans);
-  font-size: 0.68rem;
-  font-weight: 600;
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   color: var(--clr-ink-soft);
+  padding: 0 0.4rem;
+}
+
+.bubble-row.marc .speaker {
+  text-align: right;
 }
 
 .bubble {
-  margin: 0;
-  padding: 0.7rem 0.95rem;
-  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
   font-family: var(--font-serif);
-  font-size: 0.97rem;
-  line-height: 2.2;
-  border: 1px solid var(--clr-border);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
 }
 
-.bubble-row.pharmacien .bubble {
+.bubble-row.lucas .bubble {
   background: var(--clr-page);
-  border-bottom-left-radius: 4px;
+  border: 1px solid var(--clr-border);
+  border-bottom-left-radius: 0.25rem;
+  color: var(--clr-ink);
 }
 
-.bubble-row.client .bubble {
+.bubble-row.marc .bubble {
   background: var(--clr-blue-light);
-  border-bottom-right-radius: 4px;
+  border: 1px solid rgba(24, 84, 160, 0.2);
+  border-bottom-right-radius: 0.25rem;
+  color: var(--clr-blue-dark);
 }
 
-/* Slots */
 .slot {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   vertical-align: middle;
-  margin: 0 0.15rem;
-  padding: 0.1rem;
+  margin: 0 0.25rem;
+  padding: 0.1rem 0.25rem;
   border-bottom: 2px dashed var(--clr-blue);
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.5);
-  transition: background 0.12s, border-color 0.12s, box-shadow 0.12s;
+  border-radius: var(--radius-sm);
+  background: rgba(24, 84, 160, 0.05);
+  position: relative;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.slot.over {
+  background: rgba(24, 84, 160, 0.18);
+  border-bottom-style: solid;
 }
 
 .slot.filled {
@@ -512,29 +510,47 @@ onBeforeUnmount(() => {
   background: transparent;
 }
 
-.slot.over {
-  background: #fff;
-  border-bottom-color: var(--clr-blue-dark);
-  box-shadow: 0 0 0 2px var(--clr-blue);
+.slot.is-correct {
+  border-color: #2E7D32;
+  background: rgba(46, 125, 50, 0.1);
 }
 
-/* Typed input and autocomplete */
+.slot.is-wrong {
+  border-color: var(--clr-red);
+  background: var(--clr-red-light);
+}
+
+.chip.placed {
+  cursor: grab;
+}
+
+.slot.is-correct .chip.placed {
+  border-color: #2E7D32;
+  color: #2E7D32;
+  background: #E8F5E9;
+  cursor: default;
+}
+
+.slot.is-wrong .chip.placed {
+  border-color: var(--clr-red);
+  color: var(--clr-red);
+  background: var(--clr-red-light);
+}
+
 .slot-input-wrap {
   position: relative;
   display: inline-flex;
 }
 
 .slot-input {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  width: 100%;
-  min-width: 4ch;
-  padding: 0.15rem 0.3rem;
   border: none;
   background: transparent;
-  color: var(--clr-ink);
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--clr-blue-dark);
   text-align: center;
   outline: none;
+  width: 100%;
 }
 
 .suggest {
@@ -542,123 +558,91 @@ onBeforeUnmount(() => {
   top: calc(100% + 4px);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 900;
-  margin: 0;
-  padding: 0.25rem;
-  list-style: none;
-  min-width: max-content;
   background: var(--clr-page);
   border: 1px solid var(--clr-border);
-  border-radius: var(--radius);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 12px rgba(26, 26, 46, 0.15);
+  list-style: none;
+  padding: 0.25rem 0;
+  margin: 0;
+  z-index: 30;
+  min-width: 6rem;
 }
 
 .suggest li {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  padding: 0.3rem 0.7rem;
-  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
   color: var(--clr-ink);
-  white-space: nowrap;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .suggest li:hover {
   background: var(--clr-blue-light);
+  color: var(--clr-blue-dark);
 }
 
-.slot.is-correct {
-  border-bottom-color: #4CAF50;
-}
-
-.slot.is-correct .chip.placed {
-  background: #F1FBF2;
-  border-color: #4CAF50;
-  color: #2E7D32;
-  font-weight: 600;
-  cursor: default;
-}
-
-.slot.is-wrong {
-  border-bottom-color: var(--clr-red);
-}
-
-.slot.is-wrong .chip.placed {
-  background: var(--clr-red-light);
-  border-color: var(--clr-red);
-  color: var(--clr-red);
-}
-
-/* Drag ghost */
-.drag-ghost {
-  position: fixed;
-  z-index: 1000;
-  transform: translate(-50%, -50%) scale(1.05);
-  pointer-events: none;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  opacity: 0.95;
-}
-
-/* Actions */
 .actions {
   display: flex;
-  gap: 0.6rem;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.btn-check,
+.btn-reset {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .btn-check {
-  flex: 1;
-  padding: 0.8rem 1.5rem;
   background: var(--clr-blue);
+  border: 1px solid var(--clr-blue);
   color: var(--clr-page);
-  border-radius: var(--radius);
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background 0.15s;
 }
 
 .btn-check:hover {
   background: var(--clr-blue-dark);
+  border-color: var(--clr-blue-dark);
 }
 
 .btn-reset {
-  padding: 0.8rem 1.25rem;
-  background: transparent;
-  border: 1.5px solid var(--clr-border);
-  border-radius: var(--radius);
+  background: var(--clr-page);
+  border: 1px solid var(--clr-border);
   color: var(--clr-ink-mid);
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
 }
 
 .btn-reset:hover {
   border-color: var(--clr-blue);
   color: var(--clr-blue);
+  background: var(--clr-blue-light);
 }
 
-/* Result */
 .result {
-  text-align: center;
-  padding: 0.85rem 1rem;
+  padding: 1rem 1.25rem;
   border-radius: var(--radius);
-  font-family: var(--font-sans);
-  font-size: 0.9rem;
-  font-weight: 600;
-  background: var(--clr-red-light);
-  color: var(--clr-red);
+  background: var(--clr-blue-light);
+  border: 1px solid var(--clr-border);
+  color: var(--clr-blue-dark);
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  text-align: center;
 }
 
 .result.perfect {
-  background: #F1FBF2;
+  background: #E8F5E9;
+  border-color: #A5D6A7;
   color: #2E7D32;
 }
 
-@media print {
-  .word-bank,
-  .actions { display: none; }
+@media (max-width: 794px) {
+  .bubble-row {
+    max-width: 92%;
+  }
 }
 </style>

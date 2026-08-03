@@ -1,3 +1,4 @@
+<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
 <template>
   <AltLayout title="Littérature — 25 classiques">
     <main class="lesson">

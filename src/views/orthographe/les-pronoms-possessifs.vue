@@ -1,3 +1,4 @@
+<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
 <template>
   <AltLayout title="Les pronoms possessifs">
     <main class="lesson">
@@ -100,7 +101,7 @@
 
       <button
         class="download-btn"
-        @click="() => window.print()"
+        @click="downloadPdf"
         aria-label="Télécharger cette leçon en PDF"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -116,6 +117,10 @@
 
 <script setup>
 import AltLayout from '@/layouts/AltLayout.vue'
+
+function downloadPdf() {
+  window.print()
+}
 </script>
 
 <style scoped>

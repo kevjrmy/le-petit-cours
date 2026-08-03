@@ -1,3 +1,4 @@
+<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
 <template>
   <DefaultLayout title="Sommaire">
     <main id="home">
@@ -7,7 +8,10 @@
         :to="ch.path"
         class="chapter-row"
       >
-        <span class="chapter-name">{{ ch.title }}</span>
+        <span class="chapter-name">
+          {{ ch.title }}
+          <span v-if="newChapterFolders.has(ch.folder)" class="new-badge">Nouveau</span>
+        </span>
         <span class="chapter-count">{{ ch.count }}&thinsp;{{ ch.countLabel }}</span>
         <span class="arrow" aria-hidden="true">→</span>
       </RouterLink>
@@ -16,7 +20,9 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import { hasNewChildView } from '@/utils/viewMeta'
 
 // Discover all view files at build time — no hardcoding needed.
 // Keys are relative to this file (src/views/sommaire/index.vue),
@@ -24,6 +30,7 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 const allViews = import.meta.glob('../**/*.vue')
 
 const SKIP = new Set(['sommaire', 'annexe'])
+const newChapterFolders = ref(new Set())
 
 const chapterConfig = {
   grammaire:     { title: 'Grammaire',      label: 'leçon',    labelPlural: 'leçons'    },
@@ -73,6 +80,13 @@ const chapters = Object.entries(folderMap)
     if (ib === -1) return -1
     return ia - ib
   })
+
+onMounted(async () => {
+  const entries = await Promise.all(
+    chapters.map(async chapter => [chapter.folder, await hasNewChildView(chapter.folder)])
+  )
+  newChapterFolders.value = new Set(entries.filter(([, hasNew]) => hasNew).map(([folder]) => folder))
+})
 </script>
 
 <style scoped>
@@ -102,9 +116,28 @@ const chapters = Object.entries(folderMap)
 }
 
 .chapter-name {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 0.45rem;
   font-family: var(--font-serif);
   font-size: 1rem;
-  flex: 1;
+}
+
+.new-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.45rem;
+  border-radius: 99px;
+  background: var(--clr-red);
+  color: var(--clr-page);
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 .chapter-count {

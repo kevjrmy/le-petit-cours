@@ -6,13 +6,16 @@
 
     <h1 v-if="title" class="page-title">{{ title }}</h1>
 
-    <div class="spacer"></div>
+    <RouterLink to="/" class="home-btn" aria-label="Accueil">
+      <IconHome height="1.5rem" width="1.5rem" />
+    </RouterLink>
   </header>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
 import IconBack from '~icons/mdi/keyboard-backspace'
+import IconHome from '~icons/mdi/home'
 
 defineProps({
   title: {
@@ -43,7 +46,8 @@ const goBack = () => {
   border-bottom: 3px solid var(--clr-blue);
 }
 
-.back-btn {
+.back-btn,
+.home-btn {
   width: 2.75rem;
   height: 2.75rem;
   display: inline-flex;
@@ -53,6 +57,7 @@ const goBack = () => {
   background: transparent;
   border: 1.5px solid var(--clr-border);
   color: var(--clr-blue);
+  text-decoration: none;
   transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
 
@@ -62,7 +67,14 @@ const goBack = () => {
   transform: translateX(-2px);
 }
 
-.back-btn:focus-visible {
+.home-btn:hover {
+  background: var(--clr-blue-light);
+  border-color: var(--clr-blue);
+  transform: scale(1.05);
+}
+
+.back-btn:focus-visible,
+.home-btn:focus-visible {
   outline: 2px solid var(--clr-blue);
   outline-offset: 3px;
 }
@@ -74,9 +86,5 @@ const goBack = () => {
   margin: 0;
   text-align: center;
   flex: 1;
-}
-
-.spacer {
-  width: 2.75rem;
 }
 </style>

@@ -19,6 +19,7 @@ const router = createRouter({
     { path: '/grammaire/verbe-3eme-groupe', name: 'grammaire-verbe-3eme-groupe', component: () => import('../views/grammaire/verbe-3eme-groupe.vue') },
     { path: '/grammaire/la-negation', name: 'grammaire-la-negation', component: () => import('../views/grammaire/la-negation.vue') },
     { path: '/grammaire/le-futur-proche', name: 'grammaire-le-futur-proche', component: () => import('../views/grammaire/le-futur-proche.vue') },
+    { path: '/grammaire/le-passe-compose', name: 'grammaire-le-passe-compose', component: () => import('../views/grammaire/le-passe-compose.vue') },
     { path: '/grammaire/les-verbes-pronominaux', name: 'grammaire-les-verbes-pronominaux', component: () => import('../views/grammaire/les-verbes-pronominaux.vue') },
     { path: '/grammaire/les-adverbes', name: 'grammaire-les-adverbes', component: () => import('../views/grammaire/les-adverbes.vue') },
 
@@ -33,8 +34,10 @@ const router = createRouter({
     { path: '/exercices/les-articles', name: 'ex-les-articles', component: () => import('../views/exercices/les-articles.vue') },
     { path: '/exercices/la-negation', name: 'ex-la-negation', component: () => import('../views/exercices/la-negation.vue') },
     { path: '/exercices/le-futur-proche', name: 'ex-le-futur-proche', component: () => import('../views/exercices/le-futur-proche.vue') },
+    { path: '/exercices/le-passe-compose', name: 'ex-le-passe-compose', component: () => import('../views/exercices/le-passe-compose.vue') },
     { path: '/exercices/conjugaison-present', name: 'ex-conjugaison-present', component: () => import('../views/exercices/conjugaison-present.vue') },
     { path: '/exercices/les-adverbes', name: 'ex-les-adverbes', component: () => import('../views/exercices/les-adverbes.vue') },
+    { path: '/exercices/les-adjectifs-accord', name: 'ex-les-adjectifs-accord', component: () => import('../views/exercices/les-adjectifs-accord.vue') },
     { path: '/exercices/phrases-en-desordre', name: 'ex-phrases-en-desordre', component: () => import('../views/exercices/phrases-en-desordre.vue') },
 
     // Lecture
@@ -53,6 +56,7 @@ const router = createRouter({
 
     // Conversation
     { path: '/conversation', name: 'conversation', component: () => import('../views/conversation/index.vue') },
+    { path: '/conversation/en-vacances', name: 'conv-en-vacances', component: () => import('../views/conversation/en-vacances.vue') },
     { path: '/conversation/a-la-boulangerie', name: 'conv-a-la-boulangerie', component: () => import('../views/conversation/a-la-boulangerie.vue') },
     { path: '/conversation/a-disneyland-paris', name: 'conv-a-disneyland-paris', component: () => import('../views/conversation/a-disneyland-paris.vue') },
     { path: '/conversation/chez-le-medecin', name: 'conv-chez-le-medecin', component: () => import('../views/conversation/chez-le-medecin.vue') },

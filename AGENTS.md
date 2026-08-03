@@ -63,18 +63,25 @@ description: |
 
   ## PDF download on lesson pages
   - Lesson pages (non-exercise pages under `grammaire/`, `orthographe/`, `dictees/`,
-    `prononciation/`, `musique/`, `vocabulaire/`) must include a **Download PDF** button.
+    `prononciation/`, `musique/`, `vocabulaire/`, `theme/`) must include a **Download PDF** button.
   - Render it as a `<button>` with a download SVG icon and the label **"Télécharger"** beneath,
     stacked vertically. Call a `downloadPdf()` method (which runs `window.print()`) on `@click`.
     **Do not** write `@click="() => window.print()"` — `window` is not in template scope, so the
     button silently does nothing.
-  - Do **not** add it to `exercices/*`, **`lecture/*`**, or any `index.vue`.
+  - Do **not** add it to `exercices/*`, `conversation/*`, `litterature/*`, **`lecture/*`**, or any `index.vue`.
   - **Exception — `lecture/*`:** reading pages do not carry the PDF button (see *Lecture pages*).
   - Position: below the main lesson content, above the footer, centered.
 
+  ## View metadata
+  - Every `src/views/**/*.vue` file starts with a metadata comment:
+    `<!-- view-meta: created=YYYY-MM-DD; updated=YYYY-MM-DD -->`.
+  - Existing views were backfilled with `created=2026-08-02` because the true creation dates are unknown.
+  - New views must use their actual creation date. When editing an existing view, update only the `updated` date.
+  - Index and sommaire pages use `src/utils/viewMeta.js` to show a `Nouveau` badge when a linked view's `updated` date is today's date.
+
   ## File structure
   - Layouts: `src/layouts/DefaultLayout.vue` (header+footer), `src/layouts/AltLayout.vue` (back-nav+footer).
-  - Components: `src/components/` — `HeaderBar.vue`, `Footer.vue`, `Back.vue`.
+  - Components: `src/components/` — `HeaderBar.vue`, `Footer.vue`, `Back.vue`, `BookNavigator.vue`.
   - Views: `src/views/{chapter}/` — each chapter has an `index.vue` plus lesson files.
   - Router: `src/router/index.js` — all routes defined explicitly with static `import()` calls.
     No dynamic mapping, no separate book-structure file.
@@ -84,17 +91,18 @@ description: |
   - Global CSS: `src/style.css` — edit tokens here, never in components.
 
   ## Current chapters and lesson files
-  - grammaire: `verbe-1er-groupe.vue`, `verbe-2eme-groupe.vue`, `verbe-3eme-groupe.vue`, `les-articles.vue`, `la-negation.vue`, `le-futur-proche.vue`, `les-verbes-pronominaux.vue`, `les-adverbes.vue`
+  - grammaire: `verbe-1er-groupe.vue`, `verbe-2eme-groupe.vue`, `verbe-3eme-groupe.vue`, `les-articles.vue`, `la-negation.vue`, `le-futur-proche.vue`, `le-passe-compose.vue`, `les-verbes-pronominaux.vue`, `les-adverbes.vue`
   - orthographe: `les-determinants-possessifs.vue`, `les-pronoms-possessifs.vue`
   - lecture: `le-petit-prince.vue`, `entretien-d-embauche.vue`, `le-comte-de-monte-cristo.vue`, `le-tour-du-monde.vue`
   - litterature: `introduction.vue`
-  - exercices (interactive, no PDF): `emoji-francais.vue`, `quel-groupe-verbe-appartient.vue`, `conjugaison-present.vue`, `les-articles.vue`, `la-negation.vue`, `le-futur-proche.vue`, `les-adverbes.vue`, `phrases-en-desordre.vue`
+  - exercices (interactive, no PDF): `emoji-francais.vue`, `quel-groupe-verbe-appartient.vue`, `conjugaison-present.vue`, `les-articles.vue`, `la-negation.vue`, `le-futur-proche.vue`, `le-passe-compose.vue`, `les-adverbes.vue`, `les-adjectifs-accord.vue`, `phrases-en-desordre.vue`
   - vocabulaire: `100-mots-les-plus-utilises.vue`, `le-docteur.vue`
-  - conversation: `a-disneyland-paris.vue`, `a-la-boulangerie.vue`, `chez-le-medecin.vue`, `a-la-pharmacie.vue`
+  - conversation: `en-vacances.vue`, `a-disneyland-paris.vue`, `a-la-boulangerie.vue`, `chez-le-medecin.vue`, `a-la-pharmacie.vue`
   - prononciation: `les-syllabes-courantes.vue`
   - dictees: `une-journee-en-vacances.vue`
   - musique: index only (no lesson files yet)
   - theme: `la-famille.vue`, `les-loisirs.vue`, `la-nourriture.vue`, `ecrire-un-livre.vue`, `ah-si-jetais-riche.vue`
+  - annexe (utility routes, not sommaire chapters): `a-propos.vue`, `contact.vue`
 
 whenToUse: |
   Use this assistant for any work inside the `le-petit-cours` codebase: adding lessons,
@@ -190,8 +198,8 @@ click-target overlap bugs. Key CSS: `.hl-word { border-bottom: 1px dashed var(--
 
 ## Adding a new lesson — checklist
 
-1. Create `src/views/{chapter}/{slug}.vue` using `AltLayout` and `<style scoped>`.
-2. Add the PDF download button (unless it's an **exercise** or a **lecture** page).
+1. Create `src/views/{chapter}/{slug}.vue` using `AltLayout`, `<style scoped>`, and a `view-meta` comment with today's creation date.
+2. Add the PDF download button (unless it's an **exercise**, **conversation**, **litterature**, or **lecture** page).
 3. Add an explicit route entry in `src/router/index.js` under the correct chapter group.
 4. Add a `<RouterLink>` entry in the chapter's `index.vue` nav list.
 5. If it's a new chapter folder: add it to `chapterConfig` and `ORDER` in `src/views/sommaire/index.vue`.

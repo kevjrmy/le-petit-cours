@@ -1,3 +1,4 @@
+<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
 <template>
   <DefaultLayout title="Exercices">
     <main id="exercices-index">
@@ -7,7 +8,10 @@
         <RouterLink v-for="ex in exercises" :key="ex.path" :to="ex.path"
           :class="['ex-card', ex.category]">
           <div class="ex-info">
-            <h3>{{ ex.title }}</h3>
+            <div class="title-line">
+              <h3>{{ ex.title }}</h3>
+              <span v-if="newExercisePaths.has(ex.path)" class="new-badge">Nouveau</span>
+            </div>
             <p>Relève le défi pour progresser en {{ ex.tag.toLowerCase() }}.</p>
             <span class="skill-tag">{{ ex.tag }}</span>
           </div>
@@ -18,7 +22,11 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import { isNewView } from '@/utils/viewMeta'
+
+const newExercisePaths = ref(new Set())
 
 const exercises = [
   { path: '/exercices/emoji-francais', title: 'Emoji & Français', category: 'puzzle', tag: 'Vocabulaire' },
@@ -27,9 +35,18 @@ const exercises = [
   { path: '/exercices/les-articles', title: 'Quel article ?', category: 'puzzle', tag: 'Grammaire' },
   { path: '/exercices/la-negation', title: 'Mets à la négative', category: 'puzzle', tag: 'Grammaire' },
   { path: '/exercices/le-futur-proche', title: 'Le futur proche', category: 'puzzle', tag: 'Grammaire' },
+  { path: '/exercices/le-passe-compose', title: 'Le passé composé', category: 'puzzle', tag: 'Conjugaison' },
   { path: '/exercices/les-adverbes', title: 'Les adverbes', category: 'puzzle', tag: 'Grammaire' },
+  { path: '/exercices/les-adjectifs-accord', title: "Accorde l'adjectif", category: 'puzzle', tag: 'Orthographe' },
   { path: '/exercices/phrases-en-desordre', title: 'Phrases en désordre', category: 'puzzle', tag: 'Syntaxe' },
 ]
+
+onMounted(async () => {
+  const entries = await Promise.all(
+    exercises.map(async exercise => [exercise.path, await isNewView(exercise.path)])
+  )
+  newExercisePaths.value = new Set(entries.filter(([, isNew]) => isNew).map(([path]) => path))
+})
 </script>
 
 <style scoped>
@@ -72,11 +89,33 @@ const exercises = [
   transform: translateX(4px);
 }
 
+.title-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.2rem;
+}
+
 .ex-info h3 {
   font-family: var(--font-serif);
-  margin: 0 0 0.2rem;
+  margin: 0;
   font-size: 1rem;
   color: var(--clr-ink);
+}
+
+.new-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.45rem;
+  border-radius: 99px;
+  background: var(--clr-red);
+  color: var(--clr-page);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 .ex-info p {

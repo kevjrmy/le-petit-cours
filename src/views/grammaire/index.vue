@@ -1,3 +1,4 @@
+<!-- view-meta: created=2026-08-02; updated=2026-08-03 -->
 <template>
   <AltLayout title="Grammaire">
     <main>
@@ -7,36 +8,17 @@
       </p>
 
       <nav class="lesson-nav" aria-label="Leçons disponibles">
-        <RouterLink to="/grammaire/les-articles" class="lesson-row">
-          <span class="lesson-title">Les articles</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/grammaire/verbe-1er-groupe" class="lesson-row">
-          <span class="lesson-title">Les verbes du 1<sup>er</sup> groupe</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/grammaire/verbe-2eme-groupe" class="lesson-row">
-          <span class="lesson-title">Les verbes du 2<sup>ème</sup> groupe</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/grammaire/verbe-3eme-groupe" class="lesson-row">
-          <span class="lesson-title">Les verbes du 3<sup>ème</sup> groupe</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/grammaire/la-negation" class="lesson-row">
-          <span class="lesson-title">La négation</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/grammaire/le-futur-proche" class="lesson-row">
-          <span class="lesson-title">Le futur proche</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/grammaire/les-verbes-pronominaux" class="lesson-row">
-          <span class="lesson-title">Les verbes pronominaux</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/grammaire/les-adverbes" class="lesson-row">
-          <span class="lesson-title">Les adverbes</span>
+        <RouterLink
+          v-for="l in lessons"
+          :key="l.path"
+          :to="l.path"
+          class="lesson-row"
+        >
+          <span class="title-wrap">
+            <span class="lesson-title" v-if="l.titleHtml" v-html="l.titleHtml"></span>
+            <span class="lesson-title" v-else>{{ l.title }}</span>
+            <span v-if="newLessonPaths.has(l.path)" class="new-badge">Nouveau</span>
+          </span>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
       </nav>
@@ -45,7 +27,30 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue'
 import AltLayout from '@/layouts/AltLayout.vue'
+import { isNewView } from '@/utils/viewMeta'
+
+const newLessonPaths = ref(new Set())
+
+const lessons = [
+  { path: '/grammaire/les-articles', title: 'Les articles' },
+  { path: '/grammaire/verbe-1er-groupe', title: 'Les verbes du 1er groupe', titleHtml: 'Les verbes du 1<sup>er</sup> groupe' },
+  { path: '/grammaire/verbe-2eme-groupe', title: 'Les verbes du 2ème groupe', titleHtml: 'Les verbes du 2<sup>ème</sup> groupe' },
+  { path: '/grammaire/verbe-3eme-groupe', title: 'Les verbes du 3ème groupe', titleHtml: 'Les verbes du 3<sup>ème</sup> groupe' },
+  { path: '/grammaire/la-negation', title: 'La négation' },
+  { path: '/grammaire/le-futur-proche', title: 'Le futur proche' },
+  { path: '/grammaire/le-passe-compose', title: 'Le passé composé' },
+  { path: '/grammaire/les-verbes-pronominaux', title: 'Les verbes pronominaux' },
+  { path: '/grammaire/les-adverbes', title: 'Les adverbes' },
+]
+
+onMounted(async () => {
+  const entries = await Promise.all(
+    lessons.map(async lesson => [lesson.path, await isNewView(lesson.path)])
+  )
+  newLessonPaths.value = new Set(entries.filter(([, isNew]) => isNew).map(([path]) => path))
+})
 </script>
 
 <style scoped>
@@ -84,9 +89,30 @@ import AltLayout from '@/layouts/AltLayout.vue'
   background: var(--clr-blue-light);
 }
 
+.title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
 .lesson-title {
   font-family: var(--font-serif);
   font-size: 0.97rem;
+}
+
+.new-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.45rem;
+  border-radius: 99px;
+  background: var(--clr-red);
+  color: var(--clr-page);
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 .arrow {

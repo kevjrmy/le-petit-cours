@@ -1,3 +1,4 @@
+<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
 <template>
   <DefaultLayout title="Thèmes de conversation">
     <main id="theme-index">

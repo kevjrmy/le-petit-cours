@@ -1,3 +1,4 @@
+<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
 <template>
   <DefaultLayout title="Exercice : Phrases en désordre">
     <main id="desordre-game">

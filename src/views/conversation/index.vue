@@ -1,3 +1,4 @@
+<!-- view-meta: created=2026-08-02; updated=2026-08-03 -->
 <template>
   <AltLayout title="Conversation">
     <main>
@@ -7,20 +8,16 @@
       </p>
 
       <nav class="lesson-nav" aria-label="Dialogues disponibles">
-        <RouterLink to="/conversation/a-la-boulangerie" class="lesson-row">
-          <span class="lesson-title">🥖 À la boulangerie</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/conversation/a-disneyland-paris" class="lesson-row">
-          <span class="lesson-title">🏰 À Disneyland Paris</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/conversation/chez-le-medecin" class="lesson-row">
-          <span class="lesson-title">🩺 Chez le médecin</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/conversation/a-la-pharmacie" class="lesson-row">
-          <span class="lesson-title">À la pharmacie</span>
+        <RouterLink
+          v-for="item in dialogues"
+          :key="item.path"
+          :to="item.path"
+          class="lesson-row"
+        >
+          <span class="title-wrap">
+            <span class="lesson-title">{{ item.title }}</span>
+            <span v-if="newDialoguePaths.has(item.path)" class="new-badge">Nouveau</span>
+          </span>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
       </nav>
@@ -29,7 +26,26 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue'
 import AltLayout from '@/layouts/AltLayout.vue'
+import { isNewView } from '@/utils/viewMeta'
+
+const newDialoguePaths = ref(new Set())
+
+const dialogues = [
+  { path: '/conversation/en-vacances', title: '🏖️ En vacances' },
+  { path: '/conversation/a-la-boulangerie', title: '🥖 À la boulangerie' },
+  { path: '/conversation/a-disneyland-paris', title: '🏰 À Disneyland Paris' },
+  { path: '/conversation/chez-le-medecin', title: '🩺 Chez le médecin' },
+  { path: '/conversation/a-la-pharmacie', title: '💊 À la pharmacie' },
+]
+
+onMounted(async () => {
+  const entries = await Promise.all(
+    dialogues.map(async item => [item.path, await isNewView(item.path)])
+  )
+  newDialoguePaths.value = new Set(entries.filter(([, isNew]) => isNew).map(([path]) => path))
+})
 </script>
 
 <style scoped>
@@ -68,9 +84,30 @@ import AltLayout from '@/layouts/AltLayout.vue'
   background: var(--clr-blue-light);
 }
 
+.title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
 .lesson-title {
   font-family: var(--font-serif);
   font-size: 0.97rem;
+}
+
+.new-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.45rem;
+  border-radius: 99px;
+  background: var(--clr-red);
+  color: var(--clr-page);
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 .arrow {

@@ -1,3 +1,4 @@
+<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
 <template>
   <AltLayout title="Les verbes du 3ème groupe">
     <main class="lesson">

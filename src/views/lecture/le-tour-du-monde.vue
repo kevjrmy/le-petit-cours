@@ -1,3 +1,4 @@
+<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
 <template>
   <AltLayout title="Le Tour du monde en 80 jours">
     <main class="lesson">

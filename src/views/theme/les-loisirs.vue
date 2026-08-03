@@ -1,3 +1,4 @@
+<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
 <template>
   <AltLayout title="Les loisirs et le sport">
     <main class="lesson">
