@@ -8,6 +8,7 @@ const router = createRouter({
 
     // Orthographe
     { path: '/orthographe', name: 'orthographe', component: () => import('../views/orthographe/index.vue') },
+    { path: '/orthographe/les-homophones', name: 'ortho-les-homophones', component: () => import('../views/orthographe/les-homophones.vue') },
     { path: '/orthographe/les-determinants-possessifs', name: 'ortho-determinants-possessifs', component: () => import('../views/orthographe/les-determinants-possessifs.vue') },
     { path: '/orthographe/les-pronoms-possessifs', name: 'ortho-pronoms-possessifs', component: () => import('../views/orthographe/les-pronoms-possessifs.vue') },
 
@@ -29,6 +30,7 @@ const router = createRouter({
 
     // Exercices
     { path: '/exercices', name: 'exercices', component: () => import('../views/exercices/index.vue') },
+    { path: '/exercices/associe-les-pairs', name: 'ex-associe-les-pairs', component: () => import('../views/exercices/associe-les-pairs.vue') },
     { path: '/exercices/emoji-francais', name: 'ex-emoji-francais', component: () => import('../views/exercices/emoji-francais.vue') },
     { path: '/exercices/quel-groupe-verbe-appartient', name: 'ex-quel-groupe-verbe', component: () => import('../views/exercices/quel-groupe-verbe-appartient.vue') },
     { path: '/exercices/les-articles', name: 'ex-les-articles', component: () => import('../views/exercices/les-articles.vue') },
@@ -42,6 +44,7 @@ const router = createRouter({
 
     // Lecture
     { path: '/lecture', name: 'lecture', component: () => import('../views/lecture/index.vue') },
+    { path: '/lecture/le-lion-et-le-rat', name: 'lecture-le-lion-et-le-rat', component: () => import('../views/lecture/le-lion-et-le-rat.vue') },
     { path: '/lecture/le-petit-prince', name: 'lecture-le-petit-prince', component: () => import('../views/lecture/le-petit-prince.vue') },
     { path: '/lecture/entretien-d-embauche', name: 'lecture-entretien-d-embauche', component: () => import('../views/lecture/entretien-d-embauche.vue') },
     { path: '/lecture/le-comte-de-monte-cristo', name: 'lecture-le-comte-de-monte-cristo', component: () => import('../views/lecture/le-comte-de-monte-cristo.vue') },

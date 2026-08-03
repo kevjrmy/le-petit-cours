@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-03 -->
 <template>
   <AltLayout title="Lecture">
     <main>
@@ -8,31 +8,20 @@
       </p>
 
       <nav class="lesson-nav" aria-label="Textes disponibles">
-        <RouterLink to="/lecture/le-petit-prince" class="lesson-row">
-          <span class="lesson-title">
-            <em>Le Petit Prince</em> — Chapitre I
-            <span class="author">Antoine de Saint-Exupéry</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/lecture/entretien-d-embauche" class="lesson-row">
-          <span class="lesson-title">
-            Un entretien d'embauche
-            <span class="author">Dialogue · Suisse romande</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/lecture/le-comte-de-monte-cristo" class="lesson-row">
-          <span class="lesson-title">
-            <em>Le Comte de Monte-Cristo</em> — Chapitre I
-            <span class="author">Alexandre Dumas</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/lecture/le-tour-du-monde" class="lesson-row">
-          <span class="lesson-title">
-            <em>Le Tour du monde en 80 jours</em> — Chapitre I
-            <span class="author">Jules Verne</span>
+        <RouterLink
+          v-for="l in texts"
+          :key="l.path"
+          :to="l.path"
+          class="lesson-row"
+        >
+          <span class="title-wrap">
+            <span class="lesson-title">
+              <em v-if="l.isBook">{{ l.title }}</em>
+              <template v-else>{{ l.title }}</template>
+              <span v-if="l.subtitle" class="subtitle"> {{ l.subtitle }}</span>
+              <span class="author">{{ l.author }}</span>
+            </span>
+            <span v-if="newTextPaths.has(l.path)" class="new-badge">Nouveau</span>
           </span>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
@@ -42,7 +31,26 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue'
 import AltLayout from '@/layouts/AltLayout.vue'
+import { isNewView } from '@/utils/viewMeta'
+
+const newTextPaths = ref(new Set())
+
+const texts = [
+  { path: '/lecture/le-lion-et-le-rat', title: 'Le Lion et le Rat', author: 'Jean de La Fontaine · Fables', isBook: true },
+  { path: '/lecture/le-petit-prince', title: 'Le Petit Prince', subtitle: '— Chapitre I', author: 'Antoine de Saint-Exupéry', isBook: true },
+  { path: '/lecture/entretien-d-embauche', title: "Un entretien d'embauche", author: 'Dialogue · Suisse romande', isBook: false },
+  { path: '/lecture/le-comte-de-monte-cristo', title: 'Le Comte de Monte-Cristo', subtitle: '— Chapitre I', author: 'Alexandre Dumas', isBook: true },
+  { path: '/lecture/le-tour-du-monde', title: 'Le Tour du monde en 80 jours', subtitle: '— Chapitre I', author: 'Jules Verne', isBook: true },
+]
+
+onMounted(async () => {
+  const entries = await Promise.all(
+    texts.map(async text => [text.path, await isNewView(text.path)])
+  )
+  newTextPaths.value = new Set(entries.filter(([, isNew]) => isNew).map(([path]) => path))
+})
 </script>
 
 <style scoped>
@@ -81,6 +89,12 @@ import AltLayout from '@/layouts/AltLayout.vue'
   background: var(--clr-blue-light);
 }
 
+.title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
 .lesson-title {
   font-family: var(--font-serif);
   font-size: 0.97rem;
@@ -89,11 +103,30 @@ import AltLayout from '@/layouts/AltLayout.vue'
   gap: 0.15rem;
 }
 
+.subtitle {
+  font-style: normal;
+}
+
 .author {
   font-family: var(--font-sans);
   font-style: normal;
   font-size: 0.72rem;
   color: var(--clr-ink-soft);
+}
+
+.new-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.45rem;
+  border-radius: 99px;
+  background: var(--clr-red);
+  color: var(--clr-page);
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 .arrow {

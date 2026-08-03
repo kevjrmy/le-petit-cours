@@ -29,6 +29,7 @@ import { isNewView } from '@/utils/viewMeta'
 const newExercisePaths = ref(new Set())
 
 const exercises = [
+  { path: '/exercices/associe-les-pairs', title: 'Associe les pairs', category: 'puzzle', tag: 'Mémoire' },
   { path: '/exercices/emoji-francais', title: 'Emoji & Français', category: 'puzzle', tag: 'Vocabulaire' },
   { path: '/exercices/quel-groupe-verbe-appartient', title: 'Quel groupe ?', category: 'puzzle', tag: 'Conjugaison' },
   { path: '/exercices/conjugaison-present', title: 'Conjugaison au présent', category: 'puzzle', tag: 'Conjugaison' },

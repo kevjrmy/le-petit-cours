@@ -1,19 +1,23 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-03 -->
 <template>
   <AltLayout title="Orthographe">
     <main>
       <p class="intro">
         Apprenez à bien accorder les mots en genre, en nombre et à utiliser
-        les déterminants et pronoms correctement.
+        les déterminants, pronoms et homophones correctement.
       </p>
 
       <nav class="lesson-nav" aria-label="Leçons disponibles">
-        <RouterLink to="/orthographe/les-determinants-possessifs" class="lesson-row">
-          <span class="lesson-title">Les déterminants possessifs</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-        <RouterLink to="/orthographe/les-pronoms-possessifs" class="lesson-row">
-          <span class="lesson-title">Les pronoms possessifs</span>
+        <RouterLink
+          v-for="l in lessons"
+          :key="l.path"
+          :to="l.path"
+          class="lesson-row"
+        >
+          <span class="title-wrap">
+            <span class="lesson-title">{{ l.title }}</span>
+            <span v-if="newLessonPaths.has(l.path)" class="new-badge">Nouveau</span>
+          </span>
           <span class="arrow" aria-hidden="true">→</span>
         </RouterLink>
       </nav>
@@ -22,7 +26,24 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue'
 import AltLayout from '@/layouts/AltLayout.vue'
+import { isNewView } from '@/utils/viewMeta'
+
+const newLessonPaths = ref(new Set())
+
+const lessons = [
+  { path: '/orthographe/les-homophones', title: 'Les homophones grammaticaux (a/à, est/et...)' },
+  { path: '/orthographe/les-determinants-possessifs', title: 'Les déterminants possessifs' },
+  { path: '/orthographe/les-pronoms-possessifs', title: 'Les pronoms possessifs' },
+]
+
+onMounted(async () => {
+  const entries = await Promise.all(
+    lessons.map(async lesson => [lesson.path, await isNewView(lesson.path)])
+  )
+  newLessonPaths.value = new Set(entries.filter(([, isNew]) => isNew).map(([path]) => path))
+})
 </script>
 
 <style scoped>
@@ -61,9 +82,30 @@ import AltLayout from '@/layouts/AltLayout.vue'
   background: var(--clr-blue-light);
 }
 
+.title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
 .lesson-title {
   font-family: var(--font-serif);
   font-size: 0.97rem;
+}
+
+.new-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.45rem;
+  border-radius: 99px;
+  background: var(--clr-red);
+  color: var(--clr-page);
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 .arrow {

@@ -92,10 +92,10 @@ description: |
 
   ## Current chapters and lesson files
   - grammaire: `verbe-1er-groupe.vue`, `verbe-2eme-groupe.vue`, `verbe-3eme-groupe.vue`, `les-articles.vue`, `la-negation.vue`, `le-futur-proche.vue`, `le-passe-compose.vue`, `les-verbes-pronominaux.vue`, `les-adverbes.vue`
-  - orthographe: `les-determinants-possessifs.vue`, `les-pronoms-possessifs.vue`
-  - lecture: `le-petit-prince.vue`, `entretien-d-embauche.vue`, `le-comte-de-monte-cristo.vue`, `le-tour-du-monde.vue`
+  - orthographe: `les-homophones.vue`, `les-determinants-possessifs.vue`, `les-pronoms-possessifs.vue`
+  - lecture: `le-lion-et-le-rat.vue`, `le-petit-prince.vue`, `entretien-d-embauche.vue`, `le-comte-de-monte-cristo.vue`, `le-tour-du-monde.vue`
   - litterature: `introduction.vue`
-  - exercices (interactive, no PDF): `emoji-francais.vue`, `quel-groupe-verbe-appartient.vue`, `conjugaison-present.vue`, `les-articles.vue`, `la-negation.vue`, `le-futur-proche.vue`, `le-passe-compose.vue`, `les-adverbes.vue`, `les-adjectifs-accord.vue`, `phrases-en-desordre.vue`
+  - exercices (interactive, no PDF): `associe-les-pairs.vue`, `emoji-francais.vue`, `quel-groupe-verbe-appartient.vue`, `conjugaison-present.vue`, `les-articles.vue`, `la-negation.vue`, `le-futur-proche.vue`, `le-passe-compose.vue`, `les-adverbes.vue`, `les-adjectifs-accord.vue`, `phrases-en-desordre.vue`
   - vocabulaire: `100-mots-les-plus-utilises.vue`, `le-docteur.vue`
   - conversation: `en-vacances.vue`, `a-disneyland-paris.vue`, `a-la-boulangerie.vue`, `chez-le-medecin.vue`, `a-la-pharmacie.vue`
   - prononciation: `les-syllabes-courantes.vue`
