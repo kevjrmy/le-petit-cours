@@ -131,8 +131,16 @@ register the routes.
 `<div class="rule">` main rule → `<table>` paradigm if needed → `<div class="example">`
 2–4 examples → `<div class="attention">` one key exception → download button.
 
-**Length: 1–2 A4 pages max** (one A4 ≈ 1123 px at 96 dpi). Two or three `<article>` blocks.
-Split longer topics into two files.
+**Length** (one A4 ≈ 1123 px at 96 dpi):
+
+- **Lesson pages — 1–2 A4 max.** Two or three `<article>` blocks. Split longer topics in two.
+- **Vocabulary reference pages — 3 A4 max.** A glossary is consulted, not absorbed in one
+  sitting, and a word list has an irreducible length. Use `<table class="dense">` for lists
+  of roughly 8+ rows. Known 3-page pages: `vocabulaire/les-nombres` (the whole number system
+  belongs on one sheet). `vocabulaire/le-docteur` predates this rule at 4 pages.
+
+Splitting is the preferred remedy whenever a page really covers two topics — that is why
+`l-heure` and `les-jours-et-la-date` are separate files.
 
 **Tables**: visually-hidden `<caption class="sr-only">`, blue `<thead>`, zebra rows,
 4 columns maximum. Translation column in **Spanish**.
@@ -180,6 +188,62 @@ function downloadPdf() { window.print() }
 
 Style it with `--border` / `--text-2`, hover to `--accent`, and hide it in `@media print`.
 
+### Exercise pages
+
+Self-scoring, no PDF button. The shell is global: write `<main class="exo">` and rely on
+`style.css` for `.instructions`, `.meta` / `.progress-track` / `.progress-fill`, `.card`,
+`.feedback*`, `.actions`, `.btn-verify` / `.btn-next` / `.btn-restart` and the `.result`
+score screen. Only the exercise's own *body* (board, pool, columns…) is styled scoped.
+
+State shape shared by every exercise: `deck` (shuffled), `currentIndex`, `checked`,
+`score`, `finished`, plus `resultEmoji` / `resultMsg` thresholds at 1 / 0.75 / 0.5.
+
+**Vary the mechanic.** Nine of the first eleven exercises were the same 4-option MCQ.
+Current coverage: MCQ (×9), matching pairs (`associe-les-pairs`), tap-to-order
+(`phrases-en-desordre`), bucket sort (`etre-ou-avoir`), locate-and-retype
+(`trouve-la-faute`). Still unbuilt: **listening** (TTS exists in `dictees/` and
+`prononciation/` but no exercise uses it), full-paradigm conjugation typing, and timed
+rounds. Prefer a missing mechanic over a tenth MCQ.
+
+Feedback colors come from tokens (`--success*` / `--danger*`) — never a raw hex.
+
+**Substitution exercises must be validated.** In `trouve-la-faute` the learner replaces one
+token, so replacing `words[badIndex]` with `fix` *must* yield a grammatical sentence. Errors
+of insertion, deletion or word order cannot be expressed that way. Check every item by
+actually performing the substitution before shipping:
+
+```bash
+node -e "items.forEach(it=>{const o=[...it.words];o[it.badIndex]=it.fix;console.log(o.join(' '))})"
+```
+
+**Beware the global `section` rule.** `style.css` styles bare `section`/`article` as content
+cards (`padding: 1.5rem 1.75rem`) and adds `section + section { margin-top: 1rem }`. A
+`<section>` used as a layout box — a sort column, a panel — inherits both and will look
+inset and vertically offset from its sibling. Reset `padding: 0; margin-top: 0`, or use a
+`<div>`.
+
+### Conversation (gap-fill) pages
+
+Interactive drag-and-drop / type-in dialogues. No PDF button. The chrome is global:
+write `<main class="gapfill">` and declare **no `<style>` block** — `.word-bank`, `.chip`,
+`.chat`, `.bubble`, `.slot`, `.suggest`, `.actions`, `.result` and `.drag-ghost` all live in
+`style.css`. Speakers are `.left` / `.right`, never character names, so the block stays
+reusable. Copy the `<script setup>` (drag state, bank, accent-insensitive matching) verbatim
+from `conversation/demander-son-chemin.vue` and replace only the `dialogue` array.
+
+Dialogue data — each line is `{ who: 'left'|'right', parts: [...] }`, where a part is either
+`{ text: '…' }` or a blank `{ id, answer, accept: […] }`.
+
+**Never write `{ text: '' }`.** The older pages branch on `v-if="part.text"`, so an
+empty-string part is falsy, gets rendered as a blank, and throws
+`Cannot read properties of undefined (reading 'length')` on `part.answer.length` — the whole
+route renders blank with only a console warning. If a line must *start* with a blank, just
+make the blank the first element. New pages should branch on `v-if="part.id == null"`
+instead, which cannot fail this way.
+
+`accept` should carry the capitalised/uncapitalised variant whenever a blank starts a
+sentence — matching is accent-insensitive but not case-insensitive at the data level.
+
 ### Lecture (reading) pages
 
 Real public-domain French text or an original A2 dialogue — no machine-generated filler.
@@ -214,13 +278,15 @@ Authoritative list is `src/data/navigation.js` — this table is the human summa
   - *pronoms et comparaison*: les-pronoms-cod-coi, les-pronoms-y-en, le-comparatif-et-le-superlatif, les-prepositions-de-lieu
 - **orthographe** (3): les-homophones, les-determinants-possessifs, les-pronoms-possessifs
 - **dictees** (1 + 2 planned): une-journee-en-vacances
-- **exercices** (11, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre
+- **exercices** (13, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre, etre-ou-avoir, trouve-la-faute
 - **lecture** (5): le-lion-et-le-rat, le-petit-prince, entretien-d-embauche, le-comte-de-monte-cristo, le-tour-du-monde
 - **litterature** (1): introduction
 - **prononciation** (1): les-syllabes-courantes
 - **musique** (0 + 3 planned) — chapter shows "Bientôt"
-- **vocabulaire** (2): 100-mots-les-plus-utilises, le-docteur
-- **conversation** (5): en-vacances, a-la-boulangerie, a-disneyland-paris, chez-le-medecin, a-la-pharmacie
+- **vocabulaire** (11) — base first, then the everyday themes: 100-mots-les-plus-utilises,
+  les-nombres, l-heure, les-jours-et-la-date, la-maison, les-vetements, la-ville,
+  les-transports, le-travail, la-meteo, le-docteur
+- **conversation** (6): en-vacances, a-la-boulangerie, a-disneyland-paris, chez-le-medecin, a-la-pharmacie, demander-son-chemin
 - **theme** (5): la-famille, les-loisirs, la-nourriture, ecrire-un-livre, ah-si-jetais-riche
 - **annexe** (utility routes, not chapters): a-propos, contact
 

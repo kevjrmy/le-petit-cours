@@ -63,6 +63,8 @@ const router = createRouter({
     { path: '/exercices/les-adverbes', name: 'ex-les-adverbes', component: () => import('../views/exercices/les-adverbes.vue') },
     { path: '/exercices/les-adjectifs-accord', name: 'ex-les-adjectifs-accord', component: () => import('../views/exercices/les-adjectifs-accord.vue') },
     { path: '/exercices/phrases-en-desordre', name: 'ex-phrases-en-desordre', component: () => import('../views/exercices/phrases-en-desordre.vue') },
+    { path: '/exercices/etre-ou-avoir', name: 'ex-etre-ou-avoir', component: () => import('../views/exercices/etre-ou-avoir.vue') },
+    { path: '/exercices/trouve-la-faute', name: 'ex-trouve-la-faute', component: () => import('../views/exercices/trouve-la-faute.vue') },
 
     // Lecture
     { path: '/lecture', name: 'lecture', component: () => import('../views/lecture/index.vue') },
@@ -86,6 +88,7 @@ const router = createRouter({
     { path: '/conversation/a-disneyland-paris', name: 'conv-a-disneyland-paris', component: () => import('../views/conversation/a-disneyland-paris.vue') },
     { path: '/conversation/chez-le-medecin', name: 'conv-chez-le-medecin', component: () => import('../views/conversation/chez-le-medecin.vue') },
     { path: '/conversation/a-la-pharmacie', name: 'conv-a-la-pharmacie', component: () => import('../views/conversation/a-la-pharmacie.vue') },
+    { path: '/conversation/demander-son-chemin', name: 'conv-demander-son-chemin', component: () => import('../views/conversation/demander-son-chemin.vue') },
 
     // Littérature
     { path: '/litterature', name: 'litterature', component: () => import('../views/litterature/index.vue') },
@@ -95,6 +98,15 @@ const router = createRouter({
     { path: '/vocabulaire', name: 'vocabulaire', component: () => import('../views/vocabulaire/index.vue') },
     { path: '/vocabulaire/100-mots-les-plus-utilises', name: 'vocab-100-mots', component: () => import('../views/vocabulaire/100-mots-les-plus-utilises.vue') },
     { path: '/vocabulaire/le-docteur', name: 'vocab-le-docteur', component: () => import('../views/vocabulaire/le-docteur.vue') },
+    { path: '/vocabulaire/les-nombres', name: 'vocab-les-nombres', component: () => import('../views/vocabulaire/les-nombres.vue') },
+    { path: '/vocabulaire/l-heure', name: 'vocab-l-heure', component: () => import('../views/vocabulaire/l-heure.vue') },
+    { path: '/vocabulaire/les-jours-et-la-date', name: 'vocab-les-jours-et-la-date', component: () => import('../views/vocabulaire/les-jours-et-la-date.vue') },
+    { path: '/vocabulaire/la-maison', name: 'vocab-la-maison', component: () => import('../views/vocabulaire/la-maison.vue') },
+    { path: '/vocabulaire/les-vetements', name: 'vocab-les-vetements', component: () => import('../views/vocabulaire/les-vetements.vue') },
+    { path: '/vocabulaire/la-ville', name: 'vocab-la-ville', component: () => import('../views/vocabulaire/la-ville.vue') },
+    { path: '/vocabulaire/les-transports', name: 'vocab-les-transports', component: () => import('../views/vocabulaire/les-transports.vue') },
+    { path: '/vocabulaire/le-travail', name: 'vocab-le-travail', component: () => import('../views/vocabulaire/le-travail.vue') },
+    { path: '/vocabulaire/la-meteo', name: 'vocab-la-meteo', component: () => import('../views/vocabulaire/la-meteo.vue') },
 
     // Annexes
     { path: '/a-propos', name: 'about', component: () => import('../views/annexe/a-propos.vue') },

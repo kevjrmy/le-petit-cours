@@ -106,6 +106,8 @@ export const chapters = [
       { path: '/exercices/les-adverbes', title: 'Les adverbes', tag: 'Grammaire' },
       { path: '/exercices/les-adjectifs-accord', title: "Accorde l'adjectif", tag: 'Orthographe' },
       { path: '/exercices/phrases-en-desordre', title: 'Phrases en désordre', tag: 'Syntaxe' },
+      { path: '/exercices/etre-ou-avoir', title: 'Être ou avoir ?', tag: 'Conjugaison' },
+      { path: '/exercices/trouve-la-faute', title: 'Trouve la faute', tag: 'Correction' },
     ],
   },
   {
@@ -175,8 +177,18 @@ export const chapters = [
     blurb:
       'Enrichissez votre vocabulaire français avec des listes et des outils ' +
       'adaptés au niveau A2.',
+    /* Base first (words, numbers, time), then the everyday themes. */
     lessons: [
       { path: '/vocabulaire/100-mots-les-plus-utilises', title: 'Les 100 mots les plus utilisés' },
+      { path: '/vocabulaire/les-nombres', title: 'Les nombres' },
+      { path: '/vocabulaire/l-heure', title: "L'heure" },
+      { path: '/vocabulaire/les-jours-et-la-date', title: 'Les jours et la date' },
+      { path: '/vocabulaire/la-maison', title: 'La maison' },
+      { path: '/vocabulaire/les-vetements', title: 'Les vêtements' },
+      { path: '/vocabulaire/la-ville', title: 'La ville' },
+      { path: '/vocabulaire/les-transports', title: 'Les transports' },
+      { path: '/vocabulaire/le-travail', title: 'Le travail' },
+      { path: '/vocabulaire/la-meteo', title: 'La météo et les saisons' },
       { path: '/vocabulaire/le-docteur', title: 'Chez le docteur' },
     ],
   },
@@ -195,6 +207,7 @@ export const chapters = [
       { path: '/conversation/a-disneyland-paris', title: 'À Disneyland Paris', emoji: '🏰' },
       { path: '/conversation/chez-le-medecin', title: 'Chez le médecin', emoji: '🩺' },
       { path: '/conversation/a-la-pharmacie', title: 'À la pharmacie', emoji: '💊' },
+      { path: '/conversation/demander-son-chemin', title: 'Demander son chemin', emoji: '🧭' },
     ],
   },
   {

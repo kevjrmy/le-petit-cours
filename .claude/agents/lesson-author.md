@@ -71,7 +71,8 @@ Content classes (all defined globally in `style.css`, do not redefine them):
 `.sep`, `.method`, `.method-example`, `.exception-ex`, `.download-btn` — is global under
 `.lesson`. The `<script setup>` only imports `AltLayout` and declares `downloadPdf()`.
 
-**Measure the length, don't estimate it** (limit is 1–2 A4 pages):
+**Measure the length, don't estimate it.** Lesson pages: 1–2 A4. Vocabulary reference
+pages: 3 A4, using `<table class="dense">` for lists of roughly 8+ rows.
 
 ```bash
 google-chrome --headless --disable-gpu --no-sandbox --virtual-time-budget=4000 \
