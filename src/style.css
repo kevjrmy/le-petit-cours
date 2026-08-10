@@ -1,61 +1,333 @@
-/* ═══════════════════════════════════════════════════
-   TOKENS — Bled modern
-═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════════
+   LE PETIT COURS — DESIGN SYSTEM
+   Bled (French school grammar book) content patterns
+   + Claude.ai app shell (collapsible sidebar, full-bleed workspace)
+   + Tricolore palette (bleu · blanc · rouge)
+
+   Three token layers, in order:
+     1. PALETTE   raw color scales — never used directly in components
+     2. SEMANTIC  role tokens (surface / text / border / accent) — theme-aware
+     3. ALIASES   legacy `--clr-*` names kept so existing views keep working
+
+   Components must only ever reference layer 2 or 3. Adding a raw hex to a
+   component is a bug: it will not follow dark mode.
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────────────────────────────────────
+   1. PALETTE
+─────────────────────────────────────────────────────────────────────────── */
 :root {
-  /* Brand — Bled blue */
-  --clr-blue:        #1854A0;
-  --clr-blue-dark:   #0F3A73;
-  --clr-blue-mid:    #4A7FBF;
-  --clr-blue-light:  #EAF1FB;
+  /* Bleu — French flag blue, deepened to Bled blue for print legibility */
+  --blue-950: #061D3D;
+  --blue-900: #0A3268;
+  --blue-800: #0E4488;
+  --blue-700: #12539F;   /* primary */
+  --blue-600: #1E68BE;
+  --blue-500: #3A85D8;
+  --blue-400: #6BA5E4;
+  --blue-300: #9CC4EE;
+  --blue-200: #C9DFF6;
+  --blue-100: #E4EFFB;
+  --blue-50:  #F3F8FD;
 
-  /* Accent — rule red */
-  --clr-red:         #C8202E;
-  --clr-red-light:   #FDEAEC;
+  /* Rouge — flag red, darkened for text/border contrast */
+  --red-900: #7C1119;
+  --red-800: #9C1722;
+  --red-700: #BC1D2B;
+  --red-600: #D5262F;
+  --red-500: #EF4135;    /* flag red */
+  --red-400: #F4736A;
+  --red-200: #FACBC7;
+  --red-100: #FDE7E5;
+  --red-50:  #FEF4F3;
 
-  /* Callout — attention amber */
-  --clr-amber:       #D4860F;
-  --clr-amber-light: #FEF3E2;
+  /* Ambre — "à retenir" callouts */
+  --amber-700: #9A600A;
+  --amber-600: #B87A0C;
+  --amber-500: #D4860F;
+  --amber-400: #E5A63C;
+  --amber-100: #FDF0DC;
+  --amber-50:  #FEF8EE;
 
-  /* Text */
-  --clr-ink:         #1A1A2E;
-  --clr-ink-mid:     #4A4A5E;
-  --clr-ink-soft:    #8A8A9E;
+  /* Vert — correct answers in exercises */
+  --green-800: #1D5E28;
+  --green-700: #256E31;
+  --green-600: #2E7D32;
+  --green-500: #4CAF50;
+  --green-400: #7BC97F;
+  --green-100: #E4F5E6;
+  --green-50:  #F1FBF2;
+
+  /* Neutres — very slightly blue-tinted so they sit under the tricolore */
+  --grey-950: #0B0F17;
+  --grey-900: #10161F;
+  --grey-850: #161D28;
+  --grey-800: #1D2632;
+  --grey-700: #2A3441;
+  --grey-600: #48546A;
+  --grey-500: #6B778D;
+  --grey-400: #97A1B3;
+  --grey-300: #C2C9D6;
+  --grey-200: #DDE2EA;
+  --grey-100: #EDF0F5;
+  --grey-50:  #F6F8FB;
+  --white:    #FFFFFF;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   2. SEMANTIC — light theme (default)
+─────────────────────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: light;
 
   /* Surfaces */
-  --clr-bg:          #EEF1F6;
-  --clr-page:        #FFFFFF;
-  --clr-page-raised: #FFFFFF;
+  --surface-app:     var(--grey-50);    /* page background behind everything  */
+  --surface-1:       var(--white);      /* cards, articles, the reading sheet */
+  --surface-2:       var(--grey-50);    /* inset panels, table zebra stripes  */
+  --surface-3:       var(--grey-100);   /* hover fills, chips                 */
+  --surface-sidebar: var(--grey-100);   /* the app rail                       */
+  --surface-bar:     rgba(255, 255, 255, 0.82); /* sticky topbar (blurred)    */
+  --surface-overlay: rgba(11, 15, 23, 0.42);    /* mobile drawer scrim        */
+
+  /* Text */
+  --text-1:      var(--grey-900);   /* body copy                    */
+  --text-2:      var(--grey-600);   /* secondary, captions          */
+  --text-3:      var(--grey-500);   /* tertiary, metadata, hints    */
+  --text-heading: var(--blue-900);  /* h1–h6                        */
+  --text-on-accent: var(--white);   /* text sitting on a filled accent */
 
   /* Borders */
-  --clr-border:      rgba(26, 26, 46, 0.14);
-  --clr-border-soft: rgba(26, 26, 46, 0.07);
-  --clr-shadow:      rgba(26, 26, 46, 0.08);
+  --border:      var(--grey-200);
+  --border-soft: var(--grey-100);
+  --border-strong: var(--grey-300);
 
-  /* Aliases — keep existing views compiling */
-  --clr-warm:        var(--clr-bg);
-  --clr-paper:       var(--clr-page);
-  --clr-paper-soft:  var(--clr-page-raised);
-  --clr-parchment:   var(--clr-bg);
-  --clr-navy:        var(--clr-blue);
-  --clr-burgundy:    var(--clr-red);
-  --clr-gold:        var(--clr-amber);
-  --clr-primary:     var(--clr-blue);
-  --clr-alt-text:    var(--clr-ink-soft);
-  --clr-lightgrey:   rgba(26, 26, 46, 0.1);
-  --clr-flag-blue:   var(--clr-blue);
-  --clr-flag-red:    var(--clr-red);
-  --clr-flag-white:  var(--clr-page);
+  /* Accents */
+  --accent:        var(--blue-700);
+  --accent-hover:  var(--blue-800);
+  --accent-soft:   var(--blue-100);   /* tinted fill  */
+  --accent-subtle: var(--blue-50);    /* faintest fill */
+  --accent-line:   var(--blue-200);   /* border on tinted fill */
+  --accent-text:   var(--blue-800);   /* accent-colored text on light fill */
 
-  /* Layout — A4 at 96 dpi */
-  --max-width:  794px;
-  --radius-sm:  4px;
-  --radius:     8px;
-  --radius-lg:  12px;
+  --danger:        var(--red-700);
+  --danger-soft:   var(--red-100);
+  --danger-line:   var(--red-200);
+  --danger-text:   var(--red-800);
 
-  /* Typography */
+  --warn:          var(--amber-500);
+  --warn-soft:     var(--amber-100);
+  --warn-line:     #F0DAB4;
+  --warn-text:     var(--amber-700);
+
+  --success:       var(--green-600);
+  --success-strong: var(--green-500);
+  --success-soft:  var(--green-50);
+  --success-line:  var(--green-400);
+  --success-text:  var(--green-700);
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(11, 15, 23, 0.06);
+  --shadow:    0 2px 8px -2px rgba(11, 15, 23, 0.10), 0 1px 3px rgba(11, 15, 23, 0.05);
+  --shadow-lg: 0 12px 32px -8px rgba(11, 15, 23, 0.16), 0 2px 8px rgba(11, 15, 23, 0.06);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   2b. SEMANTIC — dark theme
+   Applied when the user picks dark (`data-theme="dark"`) or when they are on
+   "système" and the OS is dark. The `:not([data-theme="light"])` guard lets an
+   explicit light choice win over the media query.
+─────────────────────────────────────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --surface-app:     var(--grey-950);
+    --surface-1:       var(--grey-900);
+    --surface-2:       var(--grey-850);
+    --surface-3:       var(--grey-800);
+    --surface-sidebar: #0E141D;
+    --surface-bar:     rgba(16, 22, 31, 0.82);
+    --surface-overlay: rgba(0, 0, 0, 0.62);
+
+    --text-1:         #E7ECF4;
+    --text-2:         #A9B4C6;
+    --text-3:         #7C8798;
+    --text-heading:   #CFE0F7;
+    --text-on-accent: var(--white);
+
+    --border:        #26303E;
+    --border-soft:   #1B2430;
+    --border-strong: #38455A;
+
+    --accent:        var(--blue-500);
+    --accent-hover:  var(--blue-400);
+    --accent-soft:   #16283F;
+    --accent-subtle: #121D2C;
+    --accent-line:   #23405F;
+    --accent-text:   var(--blue-300);
+
+    --danger:        var(--red-500);
+    --danger-soft:   #2E1518;
+    --danger-line:   #5A2126;
+    --danger-text:   #F49A93;
+
+    --warn:          var(--amber-400);
+    --warn-soft:     #2C2213;
+    --warn-line:     #4E3C1B;
+    --warn-text:     #EFC077;
+
+    --success:       var(--green-500);
+    --success-strong: var(--green-400);
+    --success-soft:  #12251A;
+    --success-line:  #2C5A34;
+    --success-text:  #8ED694;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow:    0 2px 8px -2px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 12px 32px -8px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --surface-app:     var(--grey-950);
+  --surface-1:       var(--grey-900);
+  --surface-2:       var(--grey-850);
+  --surface-3:       var(--grey-800);
+  --surface-sidebar: #0E141D;
+  --surface-bar:     rgba(16, 22, 31, 0.82);
+  --surface-overlay: rgba(0, 0, 0, 0.62);
+
+  --text-1:         #E7ECF4;
+  --text-2:         #A9B4C6;
+  --text-3:         #7C8798;
+  --text-heading:   #CFE0F7;
+  --text-on-accent: var(--white);
+
+  --border:        #26303E;
+  --border-soft:   #1B2430;
+  --border-strong: #38455A;
+
+  --accent:        var(--blue-500);
+  --accent-hover:  var(--blue-400);
+  --accent-soft:   #16283F;
+  --accent-subtle: #121D2C;
+  --accent-line:   #23405F;
+  --accent-text:   var(--blue-300);
+
+  --danger:        var(--red-500);
+  --danger-soft:   #2E1518;
+  --danger-line:   #5A2126;
+  --danger-text:   #F49A93;
+
+  --warn:          var(--amber-400);
+  --warn-soft:     #2C2213;
+  --warn-line:     #4E3C1B;
+  --warn-text:     #EFC077;
+
+  --success:       var(--green-500);
+  --success-strong: var(--green-400);
+  --success-soft:  #12251A;
+  --success-line:  #2C5A34;
+  --success-text:  #8ED694;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow:    0 2px 8px -2px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 32px -8px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   3. ALIASES — legacy `--clr-*` names
+   Every one of these maps onto a semantic token, so the ~70 existing views
+   inherit dark mode for free. Do not use these in new code.
+─────────────────────────────────────────────────────────────────────────── */
+:root {
+  --clr-blue:        var(--accent);
+  --clr-blue-dark:   var(--text-heading);
+  --clr-blue-mid:    var(--blue-500);
+  --clr-blue-light:  var(--accent-soft);
+
+  --clr-red:         var(--danger);
+  --clr-red-light:   var(--danger-soft);
+
+  --clr-amber:       var(--warn);
+  --clr-amber-light: var(--warn-soft);
+
+  --clr-green:       var(--success);
+  --clr-green-light: var(--success-soft);
+
+  --clr-ink:         var(--text-1);
+  --clr-ink-mid:     var(--text-2);
+  --clr-ink-soft:    var(--text-3);
+
+  --clr-bg:          var(--surface-app);
+  --clr-page:        var(--surface-1);
+  --clr-page-raised: var(--surface-2);
+
+  --clr-border:      var(--border);
+  --clr-border-soft: var(--border-soft);
+  --clr-shadow:      rgba(11, 15, 23, 0.08);
+
+  --clr-warm:        var(--surface-app);
+  --clr-paper:       var(--surface-1);
+  --clr-paper-soft:  var(--surface-2);
+  --clr-parchment:   var(--surface-app);
+  --clr-navy:        var(--accent);
+  --clr-burgundy:    var(--danger);
+  --clr-gold:        var(--warn);
+  --clr-primary:     var(--accent);
+  --clr-alt-text:    var(--text-3);
+  --clr-lightgrey:   var(--border);
+  --clr-flag-blue:   var(--blue-700);
+  --clr-flag-red:    var(--red-500);
+  --clr-flag-white:  var(--white);
+
+  /* `color: var(--clr-page)` used to mean "white text on a blue fill".
+     New code must use --text-on-accent; this keeps the old usage readable. */
+  --clr-on-accent:   var(--text-on-accent);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   LAYOUT, TYPE & MOTION TOKENS (theme-independent)
+─────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* The reading column is locked to A4 at 96 dpi (210 mm) so every lesson
+     page prints to PDF without reflowing. Never widen it. */
+  --max-width: 794px;
+
+  /* App shell */
+  --sidebar-w:          264px;
+  --sidebar-w-collapsed: 60px;
+  --topbar-h:           56px;
+  --shell-gutter:       2rem;
+
+  --radius-sm: 6px;
+  --radius:    10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
   --font-serif: "Georgia", "Times New Roman", serif;
   --font-sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono:  "Courier New", Courier, monospace;
+  --font-mono:  ui-monospace, "SF Mono", "Courier New", Courier, monospace;
+
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-fast: 0.14s;
+  --dur:      0.22s;
+
+  --z-content: 1;
+  --z-bar:    20;
+  --z-scrim:  30;
+  --z-drawer: 40;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ═══════════════════════════════════════════════════
@@ -78,6 +350,7 @@ img, picture, video, canvas, svg {
 
 input, button, textarea, select {
   font: inherit;
+  color: inherit;
 }
 
 p, h1, h2, h3, h4, h5, h6 {
@@ -94,31 +367,75 @@ ol:where([role="list"]) {
 ═══════════════════════════════════════════════════ */
 body {
   min-height: 100vh;
+  min-height: 100dvh;
   font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.7;
-  color: var(--clr-ink);
-  background-color: var(--clr-bg);
+  color: var(--text-1);
+  background-color: var(--surface-app);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-synthesis: none;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 
+/* `#app` is now the shell root — no longer the paper sheet.
+   The A4 sheet lives in `.page-sheet` (see APP SHELL below). */
 #app {
-  position: relative;
-  width: min(100%, var(--max-width));
   min-height: 100vh;
   min-height: 100dvh;
-  margin: 0 auto;
-  padding: 2rem 2.5rem;
+}
+
+/* Prevent background scroll while the mobile drawer is open. */
+body.is-locked {
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════
+   APP SHELL — sidebar + workspace
+   Owned by App.vue / AppSidebar.vue / AppTopbar.vue.
+   Kept global so layouts and views can rely on `.page-sheet`.
+═══════════════════════════════════════════════════ */
+.shell {
+  display: flex;
+  min-height: 100dvh;
+}
+
+.shell-main {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
-  background: var(--clr-page);
-  box-shadow:
-    0 0 0 1px var(--clr-border-soft),
-    0 4px 32px -4px rgba(26, 26, 46, 0.12);
+  margin-left: var(--sidebar-w);
+  transition: margin-left var(--dur) var(--ease);
+}
+
+.shell.is-collapsed .shell-main {
+  margin-left: var(--sidebar-w-collapsed);
+}
+
+.shell-scroll {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--shell-gutter) var(--shell-gutter) 4rem;
+}
+
+/* The A4 reading sheet — white card, centered in the workspace. */
+.page-sheet {
+  width: min(100%, var(--max-width));
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+@media (max-width: 900px) {
+  .shell-main { margin-left: 0; }
+  .shell.is-collapsed .shell-main { margin-left: 0; }
+  .shell-scroll { padding: 1.25rem 1rem 3rem; }
 }
 
 /* ═══════════════════════════════════════════════════
@@ -126,7 +443,7 @@ body {
 ═══════════════════════════════════════════════════ */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
-  color: var(--clr-blue-dark);
+  color: var(--text-heading);
   line-height: 1.25;
 }
 
@@ -147,7 +464,7 @@ h3 {
 }
 
 p {
-  color: var(--clr-ink);
+  color: var(--text-1);
   line-height: 1.75;
 }
 
@@ -157,18 +474,18 @@ p {
 a {
   color: inherit;
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: color var(--dur-fast) ease;
 }
 
 a:hover {
-  color: var(--clr-blue);
+  color: var(--accent);
 }
 
 /* ═══════════════════════════════════════════════════
    FOCUS
 ═══════════════════════════════════════════════════ */
 :focus-visible {
-  outline: 2px solid var(--clr-blue);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
@@ -205,8 +522,8 @@ article,
 .video-section,
 .lyrics-section,
 .context-section {
-  background: var(--clr-page);
-  border: 1px solid var(--clr-border);
+  background: var(--surface-1);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.5rem 1.75rem;
 }
@@ -218,21 +535,21 @@ article + article {
 
 /* ═══════════════════════════════════════════════════
    BLED CONTENT PATTERNS
-   Rule, example, attention boxes — use these in views.
+   Rule, example, attention, exception — use these in views.
 ═══════════════════════════════════════════════════ */
 
 /* Grammar rule box — blue band on left */
 .rule {
-  border-left: 4px solid var(--clr-blue);
-  background: var(--clr-blue-light);
+  border-left: 4px solid var(--accent);
+  background: var(--accent-soft);
   border-radius: 0 var(--radius) var(--radius) 0;
   padding: 1rem 1.25rem;
 }
 
 /* Example box — light blue tint */
 .example {
-  background: var(--clr-blue-light);
-  border: 1px solid rgba(24, 84, 160, 0.18);
+  background: var(--accent-subtle);
+  border: 1px solid var(--accent-line);
   border-radius: var(--radius);
   padding: 0.85rem 1.1rem;
   font-family: var(--font-mono);
@@ -241,8 +558,8 @@ article + article {
 
 /* Attention / callout box — amber */
 .attention {
-  border-left: 4px solid var(--clr-amber);
-  background: var(--clr-amber-light);
+  border-left: 4px solid var(--warn);
+  background: var(--warn-soft);
   border-radius: 0 var(--radius) var(--radius) 0;
   padding: 0.85rem 1.1rem;
 }
@@ -250,23 +567,170 @@ article + article {
 .attention::before {
   content: "À retenir — ";
   font-weight: 700;
-  color: var(--clr-amber);
+  color: var(--warn-text);
 }
 
 /* Exception / error box — red tint */
 .exception {
-  border-left: 4px solid var(--clr-red);
-  background: var(--clr-red-light);
+  border-left: 4px solid var(--danger);
+  background: var(--danger-soft);
   border-radius: 0 var(--radius) var(--radius) 0;
   padding: 0.85rem 1.1rem;
+}
+
+/* ═══════════════════════════════════════════════════
+   LESSON CHROME
+   Everything a `<main class="lesson">` page needs: paradigm tables, inline
+   highlights, method lines, the download button. Scoped under `.lesson` so
+   other page types (lecture, vocabulaire, exercices) keep their own styling.
+
+   Lessons written before this block carry their own identical scoped copies —
+   scoped selectors have higher specificity, so they simply win. New lessons
+   should declare no CSS at all unless they need something genuinely unique.
+═══════════════════════════════════════════════════ */
+.lesson {
+  gap: 1rem;
+}
+
+/* Inline typography helpers */
+.lesson .hl-blue { color: var(--accent); font-weight: 700; }
+.lesson .hl-red  { color: var(--danger); font-weight: 700; }
+
+.lesson .note {
+  color: var(--text-3);
+  font-size: 0.82em;
+  font-style: italic;
+}
+
+.lesson .sep {
+  color: var(--border);
+  margin: 0 0.25rem;
+}
+
+.lesson .arrow-inline { color: var(--blue-500); }
+
+/* The "how it is built" line above a paradigm table */
+.lesson .method {
+  color: var(--text-2);
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+}
+
+.lesson .method-example {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.97rem;
+  margin-bottom: 1rem;
+}
+
+/* Paradigm tables */
+.lesson table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  font-size: 0.92rem;
+}
+
+.lesson th {
+  background: var(--accent);
+  color: var(--text-on-accent);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.lesson td {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--text-1);
+}
+
+.lesson tbody tr:nth-child(even) td { background: var(--accent-soft); }
+.lesson tbody tr:last-child td { border-bottom: none; }
+
+.lesson td.person {
+  color: var(--text-2);
+  font-size: 0.85rem;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.lesson td.aux { font-weight: 700; color: var(--accent); }
+
+.lesson td.translation,
+.lesson .translation {
+  color: var(--text-3);
+  font-style: italic;
+  font-size: 0.85rem;
+}
+
+.lesson .inf {
+  font-family: var(--font-serif);
+  font-weight: 600;
+}
+
+/* Examples */
+.lesson .example + .example { margin-top: 0.5rem; }
+
+.lesson .exception-ex {
+  margin-top: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+/* Download button — lesson pages only (see AGENTS.md §5) */
+.download-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.5rem auto 0;
+  padding: 0.85rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-3);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
+}
+
+.download-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@media print {
+  .download-btn { display: none !important; }
+}
+
+/* ═══════════════════════════════════════════════════
+   TABLES — Bled paradigm tables
+═══════════════════════════════════════════════════ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ═══════════════════════════════════════════════════
    DETAILS / ACCORDION
 ═══════════════════════════════════════════════════ */
 details {
-  background: var(--clr-blue-light);
-  border: 1px solid rgba(24, 84, 160, 0.18);
+  background: var(--accent-subtle);
+  border: 1px solid var(--accent-line);
   border-radius: var(--radius);
   padding: 1rem 1.25rem;
 }
@@ -276,7 +740,7 @@ summary {
   font-family: var(--font-sans);
   font-weight: 700;
   letter-spacing: 0.03em;
-  color: var(--clr-blue-dark);
+  color: var(--accent-text);
   list-style: none;
 }
 
@@ -291,6 +755,7 @@ summary::-webkit-details-marker {
      .study-btn  → alias for .btn-cta
      .btn-link   → outlined blue secondary
      .back-link  → same as .btn-link
+     .icon-btn   → square ghost button for icons (shell chrome)
 ═══════════════════════════════════════════════════ */
 button {
   display: inline-flex;
@@ -303,14 +768,16 @@ button {
   color: inherit;
   font-family: var(--font-sans);
   font-weight: 600;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease, opacity 0.15s ease;
+  transition: background var(--dur-fast) ease, color var(--dur-fast) ease,
+              border-color var(--dur-fast) ease, transform var(--dur-fast) ease,
+              opacity var(--dur-fast) ease;
 }
 
 .btn-cta,
 .study-btn {
   padding: 0.7rem 1.5rem;
-  background: var(--clr-blue);
-  color: var(--clr-page);
+  background: var(--accent);
+  color: var(--text-on-accent);
   border-radius: var(--radius-sm);
   font-size: 0.9rem;
   letter-spacing: 0.03em;
@@ -318,7 +785,7 @@ button {
 
 .btn-cta:hover,
 .study-btn:hover {
-  background: var(--clr-blue-dark);
+  background: var(--accent-hover);
   transform: translateY(-1px);
 }
 
@@ -329,22 +796,37 @@ button {
   gap: 0.5rem;
   padding: 0.6rem 1.25rem;
   background: transparent;
-  color: var(--clr-blue);
-  border: 1.5px solid var(--clr-blue);
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
   border-radius: var(--radius-sm);
   font-weight: 600;
   font-size: 0.88rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   text-decoration: none;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  transition: background var(--dur-fast) ease, color var(--dur-fast) ease,
+              transform var(--dur-fast) ease;
 }
 
 .btn-link:hover,
 .back-link:hover {
-  background: var(--clr-blue);
-  color: var(--clr-page);
+  background: var(--accent);
+  color: var(--text-on-accent);
   transform: translateY(-1px);
+}
+
+.icon-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  color: var(--text-2);
+  background: transparent;
+}
+
+.icon-btn:hover {
+  background: var(--surface-3);
+  color: var(--text-1);
 }
 
 /* ═══════════════════════════════════════════════════
@@ -353,7 +835,7 @@ button {
 .page-title {
   font-family: var(--font-serif);
   font-size: 1.35rem;
-  color: var(--clr-blue-dark);
+  color: var(--text-heading);
   letter-spacing: 0.01em;
   margin: 0;
 }
@@ -361,7 +843,7 @@ button {
 .tagline {
   font-family: var(--font-serif);
   font-style: italic;
-  color: var(--clr-ink-mid);
+  color: var(--text-2);
   text-align: center;
   font-size: 1rem;
 }
@@ -370,7 +852,7 @@ button {
   font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--clr-ink-soft);
+  color: var(--text-3);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   margin-bottom: 0.6rem;
@@ -378,14 +860,14 @@ button {
 
 .navigation-hint {
   font-style: italic;
-  color: var(--clr-ink-soft);
+  color: var(--text-3);
   font-size: 0.92rem;
 }
 
 .page-num,
 .page-number {
   font-family: var(--font-mono);
-  color: var(--clr-ink-soft);
+  color: var(--text-3);
   letter-spacing: 0.08em;
   font-size: 0.8rem;
 }
@@ -394,14 +876,30 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  background: var(--clr-blue-light);
-  color: var(--clr-blue);
-  border: 1px solid rgba(24, 84, 160, 0.2);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  border: 1px solid var(--accent-line);
   border-radius: var(--radius-sm);
   padding: 0.25rem 0.65rem;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* "Nouveau" badge — shared by the sommaire, chapter indexes and the sidebar. */
+.new-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.45rem;
+  border-radius: var(--radius-pill);
+  background: var(--red-500);
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
   text-transform: uppercase;
 }
 
@@ -420,11 +918,20 @@ footer.book-footer {
   justify-content: center;
   padding-top: 0.6rem;
   min-width: 80px;
-  border-top: 1px solid var(--clr-border);
+  border-top: 1px solid var(--border);
 }
 
 /* ═══════════════════════════════════════════════════
-   PRINT — A4 portrait, 20 mm margins
+   VIEW TRANSITION — soft fade between routes
+═══════════════════════════════════════════════════ */
+.route-enter-active { transition: opacity 0.18s ease, transform 0.18s var(--ease); }
+.route-leave-active { transition: opacity 0.1s ease; }
+.route-enter-from   { opacity: 0; transform: translateY(6px); }
+.route-leave-to     { opacity: 0; }
+
+/* ═══════════════════════════════════════════════════
+   PRINT — A4 portrait, 20 mm margins.
+   Force the light palette: a dark-mode PDF would be unusable.
 ═══════════════════════════════════════════════════ */
 @media print {
   @page {
@@ -432,15 +939,61 @@ footer.book-footer {
     margin: 20mm;
   }
 
-  body {
-    background: white;
+  :root,
+  :root[data-theme="dark"] {
+    color-scheme: light;
+    --surface-app: #FFFFFF;
+    --surface-1:   #FFFFFF;
+    --surface-2:   #F6F8FB;
+    --surface-3:   #EDF0F5;
+    --text-1:      #10161F;
+    --text-2:      #48546A;
+    --text-3:      #6B778D;
+    --text-heading: #0A3268;
+    --text-on-accent: #FFFFFF;
+    --border:      #DDE2EA;
+    --border-soft: #EDF0F5;
+    --accent:        #12539F;
+    --accent-hover:  #0E4488;
+    --accent-soft:   #E4EFFB;
+    --accent-subtle: #F3F8FD;
+    --accent-line:   #C9DFF6;
+    --accent-text:   #0E4488;
+    --danger:      #BC1D2B;
+    --danger-soft: #FDE7E5;
+    --warn:        #D4860F;
+    --warn-soft:   #FDF0DC;
+    --warn-text:   #9A600A;
+    --shadow: none;
+    --shadow-sm: none;
+    --shadow-lg: none;
   }
 
-  #app {
+  body {
+    background: #FFFFFF;
+  }
+
+  /* The shell chrome never prints. */
+  .app-sidebar,
+  .app-topbar,
+  .app-scrim,
+  .no-print {
+    display: none !important;
+  }
+
+  .shell-main,
+  .shell.is-collapsed .shell-main {
+    margin-left: 0;
+  }
+
+  .shell-scroll {
+    padding: 0;
+  }
+
+  .page-sheet {
     width: 100%;
     max-width: 100%;
-    box-shadow: none;
-    padding: 0;
+    gap: 1rem;
   }
 }
 
@@ -448,11 +1001,6 @@ footer.book-footer {
    RESPONSIVE — below A4 width
 ═══════════════════════════════════════════════════ */
 @media (max-width: 794px) {
-  #app {
-    padding: 1.25rem 1rem;
-    box-shadow: none;
-  }
-
   h1 {
     font-size: 1.55rem;
   }

@@ -191,7 +191,7 @@ table {
 
 th {
   background: var(--clr-blue);
-  color: white;
+  color: var(--text-on-accent);
   text-align: left;
   padding: 0.45rem 0.65rem;
   font-weight: 600;

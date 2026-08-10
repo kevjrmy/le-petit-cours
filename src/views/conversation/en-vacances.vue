@@ -511,7 +511,7 @@ onBeforeUnmount(() => {
 }
 
 .slot.is-correct {
-  border-color: #2E7D32;
+  border-color: var(--success-text);
   background: rgba(46, 125, 50, 0.1);
 }
 
@@ -525,9 +525,9 @@ onBeforeUnmount(() => {
 }
 
 .slot.is-correct .chip.placed {
-  border-color: #2E7D32;
-  color: #2E7D32;
-  background: #E8F5E9;
+  border-color: var(--success-text);
+  color: var(--success-text);
+  background: var(--success-soft);
   cursor: default;
 }
 
@@ -603,7 +603,7 @@ onBeforeUnmount(() => {
 .btn-check {
   background: var(--clr-blue);
   border: 1px solid var(--clr-blue);
-  color: var(--clr-page);
+  color: var(--text-on-accent);
 }
 
 .btn-check:hover {
@@ -635,9 +635,9 @@ onBeforeUnmount(() => {
 }
 
 .result.perfect {
-  background: #E8F5E9;
-  border-color: #A5D6A7;
-  color: #2E7D32;
+  background: var(--success-soft);
+  border-color: var(--success-line);
+  color: var(--success-text);
 }
 
 @media (max-width: 794px) {

@@ -303,15 +303,15 @@ function restart() {
 
 /* Correct answer */
 .option.is-correct {
-  border-color: #4CAF50;
-  background: #F1FBF2;
-  color: #2E7D32;
+  border-color: var(--success-strong);
+  background: var(--success-soft);
+  color: var(--success-text);
   font-weight: 600;
 }
 
 .option.is-correct .option-indicator {
-  border-color: #4CAF50;
-  background: #4CAF50;
+  border-color: var(--success-strong);
+  background: var(--success-strong);
 }
 
 /* Wrong selected answer */
@@ -340,7 +340,7 @@ function restart() {
 }
 
 .feedback-correct {
-  color: #2E7D32;
+  color: var(--success-text);
   font-weight: 600;
 }
 
@@ -362,7 +362,7 @@ function restart() {
   align-self: stretch;
   padding: 0.8rem 1.5rem;
   background: var(--clr-blue);
-  color: var(--clr-page);
+  color: var(--text-on-accent);
   border-radius: var(--radius);
   font-family: var(--font-sans);
   font-weight: 600;
@@ -428,7 +428,7 @@ function restart() {
 
 .btn-restart:hover {
   background: var(--clr-blue);
-  color: var(--clr-page);
+  color: var(--text-on-accent);
 }
 
 /* ── Accessibility ─────────────────────────────── */

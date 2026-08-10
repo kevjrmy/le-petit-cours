@@ -2,6 +2,15 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(),
+
+  // The shell no longer scrolls the window per-pane, so a plain reset is right:
+  // land at the top of every new page, restore position on back/forward.
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) return savedPosition
+    if (to.hash) return { el: to.hash, behavior: 'smooth' }
+    return { top: 0 }
+  },
+
   routes: [
     // Sommaire
     { path: '/', name: 'sommaire', component: () => import('../views/sommaire/index.vue') },
@@ -23,6 +32,19 @@ const router = createRouter({
     { path: '/grammaire/le-passe-compose', name: 'grammaire-le-passe-compose', component: () => import('../views/grammaire/le-passe-compose.vue') },
     { path: '/grammaire/les-verbes-pronominaux', name: 'grammaire-les-verbes-pronominaux', component: () => import('../views/grammaire/les-verbes-pronominaux.vue') },
     { path: '/grammaire/les-adverbes', name: 'grammaire-les-adverbes', component: () => import('../views/grammaire/les-adverbes.vue') },
+    { path: '/grammaire/les-adjectifs', name: 'grammaire-les-adjectifs', component: () => import('../views/grammaire/les-adjectifs.vue') },
+    { path: '/grammaire/les-demonstratifs', name: 'grammaire-les-demonstratifs', component: () => import('../views/grammaire/les-demonstratifs.vue') },
+    { path: '/grammaire/l-interrogation', name: 'grammaire-l-interrogation', component: () => import('../views/grammaire/l-interrogation.vue') },
+    { path: '/grammaire/les-verbes-modaux', name: 'grammaire-les-verbes-modaux', component: () => import('../views/grammaire/les-verbes-modaux.vue') },
+    { path: '/grammaire/l-imperatif', name: 'grammaire-l-imperatif', component: () => import('../views/grammaire/l-imperatif.vue') },
+    { path: '/grammaire/l-imparfait', name: 'grammaire-l-imparfait', component: () => import('../views/grammaire/l-imparfait.vue') },
+    { path: '/grammaire/passe-compose-ou-imparfait', name: 'grammaire-passe-compose-ou-imparfait', component: () => import('../views/grammaire/passe-compose-ou-imparfait.vue') },
+    { path: '/grammaire/le-futur-simple', name: 'grammaire-le-futur-simple', component: () => import('../views/grammaire/le-futur-simple.vue') },
+    { path: '/grammaire/le-conditionnel-present', name: 'grammaire-le-conditionnel-present', component: () => import('../views/grammaire/le-conditionnel-present.vue') },
+    { path: '/grammaire/les-pronoms-cod-coi', name: 'grammaire-les-pronoms-cod-coi', component: () => import('../views/grammaire/les-pronoms-cod-coi.vue') },
+    { path: '/grammaire/les-pronoms-y-en', name: 'grammaire-les-pronoms-y-en', component: () => import('../views/grammaire/les-pronoms-y-en.vue') },
+    { path: '/grammaire/le-comparatif-et-le-superlatif', name: 'grammaire-le-comparatif-et-le-superlatif', component: () => import('../views/grammaire/le-comparatif-et-le-superlatif.vue') },
+    { path: '/grammaire/les-prepositions-de-lieu', name: 'grammaire-les-prepositions-de-lieu', component: () => import('../views/grammaire/les-prepositions-de-lieu.vue') },
 
     // Dictées
     { path: '/dictees', name: 'dictees', component: () => import('../views/dictees/index.vue') },

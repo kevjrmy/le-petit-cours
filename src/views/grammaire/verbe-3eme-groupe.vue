@@ -250,7 +250,7 @@ caption.sr-only {
 
 th {
   background: var(--clr-blue);
-  color: var(--clr-page);
+  color: var(--text-on-accent);
   padding: 0.5rem 0.75rem;
   text-align: left;
   font-family: var(--font-sans);

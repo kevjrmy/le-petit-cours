@@ -218,7 +218,7 @@ caption.sr-only {
 
 th {
   background: var(--clr-blue);
-  color: var(--clr-page);
+  color: var(--text-on-accent);
   padding: 0.45rem 0.75rem;
   text-align: left;
   font-family: var(--font-sans);
@@ -320,7 +320,7 @@ tr:nth-child(even) td { background: var(--clr-blue-light); }
 
 @media print {
   .download-btn { display: none !important; }
-  .line.doctor  { background: #f0f4fb; }
+  .line.doctor  { background: var(--accent-subtle); }
   .line.patient { background: none; }
 }
 </style>

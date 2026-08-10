@@ -381,14 +381,14 @@ function restart() {
 }
 
 .option.is-correct {
-  border-color: #2E7D32;
-  background: #E8F5E9;
-  color: #2E7D32;
+  border-color: var(--success-text);
+  background: var(--success-soft);
+  color: var(--success-text);
 }
 
 .option.is-correct .option-indicator {
-  border-color: #2E7D32;
-  background: #2E7D32;
+  border-color: var(--success-text);
+  background: var(--success-text);
 }
 
 .option.is-wrong {
@@ -415,7 +415,7 @@ function restart() {
 }
 
 .feedback-correct {
-  color: #2E7D32;
+  color: var(--success-text);
   font-weight: 700;
 }
 

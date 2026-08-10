@@ -521,7 +521,7 @@ onBeforeUnmount(() => {
 }
 
 .slot.over {
-  background: #fff;
+  background: var(--surface-1);
   border-bottom-color: var(--clr-blue-dark);
   box-shadow: 0 0 0 2px var(--clr-blue);
 }
@@ -576,13 +576,13 @@ onBeforeUnmount(() => {
 }
 
 .slot.is-correct {
-  border-bottom-color: #4CAF50;
+  border-bottom-color: var(--success-strong);
 }
 
 .slot.is-correct .chip.placed {
-  background: #F1FBF2;
-  border-color: #4CAF50;
-  color: #2E7D32;
+  background: var(--success-soft);
+  border-color: var(--success-strong);
+  color: var(--success-text);
   font-weight: 600;
   cursor: default;
 }
@@ -617,7 +617,7 @@ onBeforeUnmount(() => {
   flex: 1;
   padding: 0.8rem 1.5rem;
   background: var(--clr-blue);
-  color: var(--clr-page);
+  color: var(--text-on-accent);
   border-radius: var(--radius);
   font-family: var(--font-sans);
   font-weight: 600;
@@ -661,8 +661,8 @@ onBeforeUnmount(() => {
 }
 
 .result.perfect {
-  background: #F1FBF2;
-  color: #2E7D32;
+  background: var(--success-soft);
+  color: var(--success-text);
 }
 
 @media print {

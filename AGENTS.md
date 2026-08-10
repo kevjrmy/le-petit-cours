@@ -1,221 +1,254 @@
 ---
 name: le-petit-cours App Assistant
-summary: Project assistant for the Vue 3 + Vite PWA French-learning app — Bled-style, A2-level French for Spanish speakers, A4-constrained lessons.
+summary: Vue 3 + Vite PWA teaching A2 French to native Spanish speakers. Bled content patterns inside a Claude.ai-style app shell, tricolore palette, light + dark.
 description: |
-  You are a workspace-aware assistant for the `le-petit-cours` PWA.
-  The app teaches French to **native Spanish speakers** at A2 level
-  (grammaire, orthographe, dictées, exercices, prononciation, lecture, musique, vocabulaire).
-  It is built with Vue 3, Vite, Vue Router, and vite-plugin-pwa.
-
-  ## Target audience
-  - **Native language: Spanish.** Learners are hispanophone — leverage cognates, point out
-    false friends, and write vocabulary glossaries with Spanish translations (not English).
-  - **Level: A2** (elementary French). Use short sentences, everyday vocabulary, and concrete
-    examples. Avoid complex subordinate clauses or C1/C2 grammar metalanguage.
-  - When comparing French to Spanish, you may note structural parallels (e.g. gendered articles,
-    verb conjugation patterns) but never assume the learner knows English.
-
-  ## Design system
-  - **Pure CSS only** — no Tailwind, no utility-class libraries, no CSS frameworks.
-  - All component styles go in `<style scoped>` blocks inside the `.vue` file.
-  - Global tokens (colors, fonts, spacing, radii) live in `src/style.css` as CSS custom properties.
-  - Never add inline styles or class attributes that do layout/color work that belongs in CSS.
-  - The aesthetic is **modern Bled** — the French school grammar book series is the design reference.
-    Clean white surfaces on a light grey background (`--clr-bg`), strong Bled blue
-    (`--clr-blue: #1854A0`) as the primary brand color, red accent (`--clr-red`) for rules and
-    exceptions, amber (`--clr-amber`) for callout/attention boxes. Georgia serif for headings and
-    the page title, Inter sans-serif for body and UI. No warm tones, no textures, no vintage effects.
-  - Content patterns (use in lesson views): `.rule` (blue left-border box for grammar rules),
-    `.example` (light blue code-style box), `.attention` (amber callout), `.exception` (red tint).
-  - Prioritize readability spacing (min `1.65` line-height, generous padding), responsiveness
-    (mobile-first, single breakpoint at **794 px** — A4 width at 96 dpi), and accessibility
-    (focus-visible rings, sufficient contrast, semantic HTML).
-  - `--max-width: 794px` is intentional and must not be changed. It matches A4 paper
-    (210 mm × 96/25.4 ≈ 794 px), so every lesson page is naturally print/PDF-ready.
-    On screens narrower than 794 px the app goes full-width and flat; on wider screens
-    it floats as a centred "page" on the light-grey background.
-
-  ## Lesson content rules
-  - **Page length: 1–2 A4 pages maximum** per lesson. One A4 page ≈ 1 123 px of content
-    at 96 dpi. Keep to 2–3 `<article>` blocks maximum. Split longer topics into two files.
-  - **Lesson structure** (in order): `<div class="rule">` for the main rule → `<table>` for
-    paradigm tables if needed → `<div class="example">` for 2–4 examples →
-    `<div class="attention">` for one key exception → download button.
-  - **Tables**: always include a visually-hidden `<caption class="sr-only">`, blue `<thead>`
-    (`background: var(--clr-blue)`), zebra rows using `--clr-blue-light` on even rows.
-    Keep to 4 columns maximum for A4 readability.
-  - **Vocabulary column**: when a table includes a translation column, use **Spanish**,
-    never English.
-
-  ## Lecture (reading) pages
-  - Reading pages display either a **real, public-domain French text** (e.g. Le Petit Prince) or an
-    **original A2 dialogue** for a practical scenario (e.g. a job interview). No machine-generated filler.
-  - Text must be appropriate for A2: short sentences, concrete vocabulary, ≤ 1 A4 page of prose.
-  - Include: source stamp (author · work · year · chapter, or a scenario descriptor for dialogues),
-    inline vocabulary hints (`<span class="hl-word" title="traducción ES">mot</span>` with dashed underline),
-    a vocabulary table (French word | définition en français | en espagnol),
-    a **comprehension quiz** ("Avez-vous compris ?" — `<button>`-based MCQ with green/red feedback and a score),
-    and a **hidden Spanish translation** using `<details>/<summary>` (amber styled).
-  - **Lecture pages do NOT include the PDF download button** (removed by design — they end with the
-    comprehension quiz + hidden translation).
-  - The translation panel is hidden by default — learners reveal it after reading.
-  - Print CSS hides the quiz and the translation panel; the reading text + vocabulary print cleanly.
-
-  ## PDF download on lesson pages
-  - Lesson pages (non-exercise pages under `grammaire/`, `orthographe/`, `dictees/`,
-    `prononciation/`, `musique/`, `vocabulaire/`, `theme/`) must include a **Download PDF** button.
-  - Render it as a `<button>` with a download SVG icon and the label **"Télécharger"** beneath,
-    stacked vertically. Call a `downloadPdf()` method (which runs `window.print()`) on `@click`.
-    **Do not** write `@click="() => window.print()"` — `window` is not in template scope, so the
-    button silently does nothing.
-  - Do **not** add it to `exercices/*`, `conversation/*`, `litterature/*`, **`lecture/*`**, or any `index.vue`.
-  - **Exception — `lecture/*`:** reading pages do not carry the PDF button (see *Lecture pages*).
-  - Position: below the main lesson content, above the footer, centered.
-
-  ## View metadata
-  - Every `src/views/**/*.vue` file starts with a metadata comment:
-    `<!-- view-meta: created=YYYY-MM-DD; updated=YYYY-MM-DD -->`.
-  - Existing views were backfilled with `created=2026-08-02` because the true creation dates are unknown.
-  - New views must use their actual creation date. When editing an existing view, update only the `updated` date.
-  - Index and sommaire pages use `src/utils/viewMeta.js` to show a `Nouveau` badge when a linked view's `updated` date is today's date.
-
-  ## File structure
-  - Layouts: `src/layouts/DefaultLayout.vue` (header+footer), `src/layouts/AltLayout.vue` (back-nav+footer).
-  - Components: `src/components/` — `HeaderBar.vue`, `Footer.vue`, `Back.vue`, `BookNavigator.vue`.
-  - Views: `src/views/{chapter}/` — each chapter has an `index.vue` plus lesson files.
-  - Router: `src/router/index.js` — all routes defined explicitly with static `import()` calls.
-    No dynamic mapping, no separate book-structure file.
-  - Sommaire: `src/views/sommaire/index.vue` — fully dynamic via `import.meta.glob`.
-    Chapters appear automatically when their folder contains at least one non-index `.vue` file.
-    Add new chapters to `chapterConfig` and `ORDER` in that file.
-  - Global CSS: `src/style.css` — edit tokens here, never in components.
-
-  ## Current chapters and lesson files
-  - grammaire: `verbe-1er-groupe.vue`, `verbe-2eme-groupe.vue`, `verbe-3eme-groupe.vue`, `les-articles.vue`, `la-negation.vue`, `le-futur-proche.vue`, `le-passe-compose.vue`, `les-verbes-pronominaux.vue`, `les-adverbes.vue`
-  - orthographe: `les-homophones.vue`, `les-determinants-possessifs.vue`, `les-pronoms-possessifs.vue`
-  - lecture: `le-lion-et-le-rat.vue`, `le-petit-prince.vue`, `entretien-d-embauche.vue`, `le-comte-de-monte-cristo.vue`, `le-tour-du-monde.vue`
-  - litterature: `introduction.vue`
-  - exercices (interactive, no PDF): `associe-les-pairs.vue`, `emoji-francais.vue`, `quel-groupe-verbe-appartient.vue`, `conjugaison-present.vue`, `les-articles.vue`, `la-negation.vue`, `le-futur-proche.vue`, `le-passe-compose.vue`, `les-adverbes.vue`, `les-adjectifs-accord.vue`, `phrases-en-desordre.vue`
-  - vocabulaire: `100-mots-les-plus-utilises.vue`, `le-docteur.vue`
-  - conversation: `en-vacances.vue`, `a-disneyland-paris.vue`, `a-la-boulangerie.vue`, `chez-le-medecin.vue`, `a-la-pharmacie.vue`
-  - prononciation: `les-syllabes-courantes.vue`
-  - dictees: `une-journee-en-vacances.vue`
-  - musique: index only (no lesson files yet)
-  - theme: `la-famille.vue`, `les-loisirs.vue`, `la-nourriture.vue`, `ecrire-un-livre.vue`, `ah-si-jetais-riche.vue`
-  - annexe (utility routes, not sommaire chapters): `a-propos.vue`, `contact.vue`
-
+  Workspace assistant for the `le-petit-cours` PWA — Vue 3, Vite, Vue Router, vite-plugin-pwa.
+  Read this file before touching anything. The specialised agents in `.claude/agents/`
+  cover the recurring jobs (design tokens, lesson authoring, navigation wiring, auditing).
 whenToUse: |
-  Use this assistant for any work inside the `le-petit-cours` codebase: adding lessons,
-  styling components, wiring routes, implementing PDF download, or adjusting the global design system.
-
-examplePrompts: |
-  - Add a new A2 lesson `les-adjectifs-qualificatifs.vue` under `orthographe/` (rule box, table with Spanish translations, examples).
-  - Add a lecture page with an excerpt from "Les Fables de La Fontaine" (public domain, A2 level, with hidden Spanish translation).
-  - Wire a new `prononciation/les-voyelles-nasales.vue` into the router.
-  - Add `grammaire/verbe-2eme-groupe.vue` following the same Bled structure as verbe-1er-groupe.
-  - Audit focus-visible styles across all components for accessibility.
+  Any work inside `le-petit-cours`: adding lessons, styling, routing, dark-mode fixes,
+  print/PDF output, or adjusting the design system.
 ---
 
-# le-petit-cours Agent
+# le-petit-cours
 
-## Core rules
+## 1. Audience — this drives every content decision
 
-1. **CSS only** — all styling via `<style scoped>` in the component. Never use utility classes or inline styles for design decisions.
-2. **Global tokens** — colors, fonts, radii, max-width are defined in `src/style.css`. Reference them with `var(--token-name)`. Do not hard-code values that duplicate a token.
-3. **Bled modern aesthetic** — clean white cards on light grey (`--clr-bg`), Bled blue (`--clr-blue`) for headers and primary actions, red for rule accents, amber for attention boxes. No warm tones, no textures. When in doubt, add more breathing room.
-4. **Audience** — native Spanish speakers at A2 French. All translations and glossaries use Spanish. Leverage cognates; flag false friends. Never assume knowledge of English.
-5. **Accessibility first** — semantic HTML elements (`<main>`, `<article>`, `<section>`, `<nav>`), `focus-visible` outlines, sufficient color contrast, `aria-label` on icon-only controls.
-6. **A4-first layout** — `--max-width` is locked at `794px` (A4 at 96 dpi). The single responsive breakpoint is `@media (max-width: 794px)`. Never widen `--max-width`.
+- **Native language: Spanish.** Learners are hispanophone. Lean on cognates, flag false
+  friends, and write every glossary/translation column in **Spanish, never English**.
+- **Level: A2.** Short sentences, everyday vocabulary, concrete examples. No complex
+  subordinate clauses, no C1/C2 grammar metalanguage.
+- Comparing French to Spanish is encouraged (gendered articles, conjugation families).
+  **Never assume the learner knows English.**
 
-## PDF download pattern
+## 2. Architecture
 
-`window` is **not** available in Vue template expressions, so call a method — never
-`@click="() => window.print()"` (it fails silently).
+```
+src/
+  App.vue                  ← the app shell: sidebar + topbar + <RouterView>
+  style.css                ← the whole design system (tokens, base, Bled patterns, print)
+  data/navigation.js       ← SINGLE SOURCE OF TRUTH for chapters & lessons
+  router/index.js          ← explicit routes with static import() (code-splitting)
+  composables/
+    useTheme.js            ← light | dark | system, persisted, sets <html data-theme>
+    useSidebar.js          ← collapse/rail (desktop), drawer (mobile), expanded chapters
+    usePageTitle.js        ← breadcrumbs + document.title, derived from navigation.js
+  components/
+    AppSidebar.vue         ← collapsible nav tree + lesson filter + theme toggle
+    AppTopbar.vue          ← sticky bar: menu, back, breadcrumb
+    ChapterIndex.vue       ← renders ANY chapter landing page from navigation.js
+    ChapterIcon.vue        ← chapter glyph map (static icon imports)
+    PageHeader.vue         ← in-sheet title block (eyebrow + h1 + tricolore rule)
+    ThemeToggle.vue, Footer.vue
+  layouts/
+    DefaultLayout.vue      ← the A4 reading sheet (.page-sheet)
+    AltLayout.vue          ← identical; both kept so existing views compile
+  views/{chapter}/         ← index.vue (one-line ChapterIndex wrapper) + lesson files
+```
+
+**The shell lives in `App.vue`, not in a layout.** That is deliberate: the sidebar keeps
+its scroll position and expanded state across navigation. Layouts only own the A4 sheet.
+
+## 3. Design system
+
+Read `src/style.css` top to bottom once — it documents its own three token layers.
+
+- **Pure CSS only.** No Tailwind, no utility libraries, no CSS-in-JS. Component styles go
+  in `<style scoped>` inside the `.vue` file.
+- **Never write a raw color in a component.** A hex in a view is a bug: it will not follow
+  dark mode. Use the semantic tokens (`--surface-*`, `--text-*`, `--border*`, `--accent*`,
+  `--danger*`, `--warn*`, `--success*`).
+- The legacy `--clr-*` names still work (they alias the semantic layer) so old views keep
+  compiling, but **new code uses the semantic names**.
+- Aesthetic: **Bled content inside a Claude.ai shell**. Clean cards on a quiet background,
+  generous spacing, Georgia serif for headings, Inter sans for UI and body.
+- Palette is the **tricolore**: blue (`--accent`, primary), white (surfaces),
+  red (`--danger`, rule accents and the "Nouveau" badge). Amber is callouts, green is
+  "correct answer" in exercises. The flag appears literally only in the `.tricolore` rule
+  under a page title.
+- **Dark mode is not optional.** Every change must work in both. `useTheme` supports
+  clair / sombre / système.
+- Content patterns for lesson views: `.rule` (blue left border), `.example` (tinted mono
+  box), `.attention` (amber "À retenir"), `.exception` (red tint).
+- Accessibility: semantic HTML, `focus-visible` rings, `aria-label` on icon-only controls,
+  `<caption class="sr-only">` on every table.
+
+### The A4 lock
+
+`--max-width: 794px` is **A4 at 96 dpi (210 mm)** and must never be widened. The shell is
+full-width; the *reading column* (`.page-sheet`) stays at A4 so every lesson prints to PDF
+without reflowing. The single content breakpoint is `@media (max-width: 794px)`; the shell
+breakpoint (sidebar → drawer) is `900px` and is mirrored in `useSidebar.js`.
+
+## 4. Adding a lesson — the checklist
+
+1. Create `src/views/{chapter}/{slug}.vue` with a `view-meta` comment carrying today's date,
+   wrapped in `<AltLayout title="…">`.
+2. Add the PDF **Télécharger** button — unless it is an `exercices/`, `conversation/`,
+   `litterature/`, or `lecture/` page (see §5).
+3. Add the lesson to its chapter's `lessons` array in **`src/data/navigation.js`**.
+4. Add an explicit route in `src/router/index.js`.
+5. Update **§7 Current content** below.
+
+Steps 3 and 4 are both required and must agree — `navigation.js` drives the sidebar, the
+sommaire and the chapter index; the router makes the URL resolve. There is no automatic
+sync, so a missing route means a dead sidebar link.
+
+**You never write a chapter `index.vue` by hand.** It is a one-line wrapper:
+
+```vue
+<!-- view-meta: created=YYYY-MM-DD; updated=YYYY-MM-DD -->
+<template>
+  <ChapterIndex slug="grammaire" />
+</template>
+
+<script setup>
+import ChapterIndex from '@/components/ChapterIndex.vue'
+</script>
+```
+
+Everything it shows (title, blurb, rows, tags, subtitles, "Bientôt" placeholders) comes
+from `navigation.js`.
+
+### New chapter
+
+Add an entry to `chapters` in `navigation.js` (with `icon`, `unit`, `blurb`), add the icon
+import + map entry in `ChapterIcon.vue`, create `views/{slug}/index.vue` as above, and
+register the routes.
+
+## 5. Page-type rules
+
+| Page type | PDF button | Notes |
+|---|---|---|
+| `grammaire/`, `orthographe/`, `dictees/`, `prononciation/`, `musique/`, `vocabulaire/`, `theme/` | **yes** | standard lesson |
+| `exercices/` | no | interactive, self-scoring |
+| `conversation/`, `litterature/` | no | |
+| `lecture/` | no | ends with the comprehension quiz + hidden translation |
+| any `index.vue` | no | |
+
+### Lesson structure (in order)
+
+`<div class="rule">` main rule → `<table>` paradigm if needed → `<div class="example">`
+2–4 examples → `<div class="attention">` one key exception → download button.
+
+**Length: 1–2 A4 pages max** (one A4 ≈ 1123 px at 96 dpi). Two or three `<article>` blocks.
+Split longer topics into two files.
+
+**Tables**: visually-hidden `<caption class="sr-only">`, blue `<thead>`, zebra rows,
+4 columns maximum. Translation column in **Spanish**.
+
+**Verify the length — don't estimate it.** With the dev server running:
+
+```bash
+google-chrome --headless --disable-gpu --no-sandbox --virtual-time-budget=4000 \
+  --no-pdf-header-footer --print-to-pdf=p.pdf http://localhost:5173/<route>
+python3 -c "import re;print(len(re.findall(rb'/Type\s*/Page[^s]',open('p.pdf','rb').read())))"
+```
+
+Three pages or more means trim: merge adjacent `<article>` blocks (each costs ~4 rem of
+padding and gap), collapse consecutive `.example` boxes into one with `·` separators, or
+split the lesson in two.
+
+### A new lesson needs no `<style>` block
+
+All the lesson chrome — paradigm tables, `.hl-blue` / `.hl-red`, `.note`, `.sep`,
+`.method`, `.method-example`, `.exception-ex`, `.download-btn` — is defined globally under
+`.lesson` in `style.css`. Write `<main class="lesson">`, use the classes, add no CSS.
+
+Lessons written before that block carry their own identical scoped copies. Scoped selectors
+win on specificity, so they are unaffected; don't bother stripping them except when you are
+already editing the file.
+
+### PDF download pattern
+
+`window` is **not** in Vue template scope — `@click="() => window.print()"` fails silently.
+Always call a method:
 
 ```vue
 <button class="download-btn" @click="downloadPdf" aria-label="Télécharger cette leçon en PDF">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <path d="M12 3v14m0 0-5-5m5 5 5-5"/>
-    <path d="M3 20h18"/>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 3v14m0 0-5-5m5 5 5-5"/><path d="M3 20h18"/>
   </svg>
   <span>Télécharger</span>
 </button>
 
 <script setup>
-function downloadPdf() {
-  window.print()
-}
+function downloadPdf() { window.print() }
 </script>
-
-<style scoped>
-.download-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-  margin: 0.5rem auto 0;
-  padding: 0.85rem 1.5rem;
-  border: 1px solid var(--clr-border);
-  border-radius: var(--radius);
-  color: var(--clr-ink-soft);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  transition: border-color 0.15s, color 0.15s;
-}
-.download-btn:hover { border-color: var(--clr-blue); color: var(--clr-blue); }
-@media print { .download-btn { display: none !important; } }
-</style>
 ```
 
-## Lecture page pattern
+Style it with `--border` / `--text-2`, hover to `--accent`, and hide it in `@media print`.
 
-```vue
-<!-- Source stamp -->
-<div class="source-tag">Auteur · Œuvre · Année · Chapitre</div>
+### Lecture (reading) pages
 
-<!-- Reading text with inline hints -->
-<article class="reading">
-  <p>... <span class="hl-word" title="définition">mot</span> ...</p>
-</article>
+Real public-domain French text or an original A2 dialogue — no machine-generated filler.
+Include: source stamp, inline hints (`<span class="hl-word" title="traducción ES">`),
+vocabulary table (français | définition FR | español), a `<button>`-based MCQ quiz
+("Avez-vous compris ?") with green/red feedback and a score, and a hidden Spanish
+translation in `<details>` (amber). Use `<button>` options, **not** hidden radios — the
+click targets overlap. Print CSS hides the quiz and the translation.
 
-<!-- Vocabulary table (French | définition FR | traduction ES) -->
-<table>...</table>
+## 6. View metadata
 
-<!-- Comprehension quiz: "Avez-vous compris ?" — <button>-based MCQ, green/red feedback, score -->
-<article class="quiz">...</article>
+Every `src/views/**/*.vue` starts with:
 
-<!-- Hidden Spanish translation -->
-<details class="translation">
-  <summary>🇪🇸 Ver la traducción al español</summary>
-  <div class="translation-body"><p>...</p></div>
-</details>
+```html
+<!-- view-meta: created=YYYY-MM-DD; updated=YYYY-MM-DD -->
 ```
 
-Lecture pages omit the PDF button. The quiz uses `<button>` options (not hidden radios) to avoid
-click-target overlap bugs. Key CSS: `.hl-word { border-bottom: 1px dashed var(--clr-blue-mid); cursor: help; }`
-— `.translation summary` amber-styled — `@media print { .quiz, .translation { display: none !important; } }`.
+New views use their real creation date; editing a view updates only `updated`.
+`src/utils/viewMeta.js` reads these to show the **Nouveau** badge (sommaire, chapter
+index) and the red dot (sidebar) when `updated` is today. Views created before tracking
+began carry `created=2026-08-02`.
 
-## Adding a new lesson — checklist
+## 7. Current content
 
-1. Create `src/views/{chapter}/{slug}.vue` using `AltLayout`, `<style scoped>`, and a `view-meta` comment with today's creation date.
-2. Add the PDF download button (unless it's an **exercise**, **conversation**, **litterature**, or **lecture** page).
-3. Add an explicit route entry in `src/router/index.js` under the correct chapter group.
-4. Add a `<RouterLink>` entry in the chapter's `index.vue` nav list.
-5. If it's a new chapter folder: add it to `chapterConfig` and `ORDER` in `src/views/sommaire/index.vue`.
-6. Update **Current chapters and lesson files** in this file (see *Keep context files in sync*).
+Authoritative list is `src/data/navigation.js` — this table is the human summary.
 
-## Keep context files in sync
+- **grammaire** (22) — ordered as a course in `navigation.js`, not alphabetically:
+  - *classes de mots*: les-articles, les-adjectifs, les-demonstratifs, les-adverbes
+  - *phrase*: la-negation, l-interrogation
+  - *verbes*: verbe-1er/2eme/3eme-groupe, les-verbes-pronominaux, les-verbes-modaux, l-imperatif
+  - *temps*: le-passe-compose, l-imparfait, passe-compose-ou-imparfait, le-futur-proche, le-futur-simple, le-conditionnel-present
+  - *pronoms et comparaison*: les-pronoms-cod-coi, les-pronoms-y-en, le-comparatif-et-le-superlatif, les-prepositions-de-lieu
+- **orthographe** (3): les-homophones, les-determinants-possessifs, les-pronoms-possessifs
+- **dictees** (1 + 2 planned): une-journee-en-vacances
+- **exercices** (11, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre
+- **lecture** (5): le-lion-et-le-rat, le-petit-prince, entretien-d-embauche, le-comte-de-monte-cristo, le-tour-du-monde
+- **litterature** (1): introduction
+- **prononciation** (1): les-syllabes-courantes
+- **musique** (0 + 3 planned) — chapter shows "Bientôt"
+- **vocabulaire** (2): 100-mots-les-plus-utilises, le-docteur
+- **conversation** (5): en-vacances, a-la-boulangerie, a-disneyland-paris, chez-le-medecin, a-la-pharmacie
+- **theme** (5): la-famille, les-loisirs, la-nourriture, ecrire-un-livre, ah-si-jetais-riche
+- **annexe** (utility routes, not chapters): a-propos, contact
 
-Treat `AGENTS.md` as part of the deliverable — if behavior and docs disagree, the change isn't done.
-Whenever a change makes this file (or any context/doc) inaccurate, fix it in the **same change**:
+Entries marked *planned* exist in `navigation.js` with `soon: true` — they render as
+disabled "Bientôt" rows and have no route. Removing `soon` requires creating the view
+and the route in the same change.
 
-- **Added / renamed / moved / deleted** a view, lesson, or chapter → update the
-  **Current chapters and lesson files** list (and the router / `index.vue` / sommaire wiring above).
-- **Changed a shared pattern or rule** (PDF button, lecture structure, design tokens, layout width) →
-  update the relevant prose **and** any code snippet that demonstrates it, and record exceptions explicitly
-  (e.g. "lecture pages omit the PDF button").
-- **Found a recurring bug + fix worth standardizing** (e.g. `window` not in template scope; hidden-radio
-  click overlap) → capture it as guidance so it is not reintroduced.
+## 8. Keep context files in sync
 
-Never leave the docs describing removed or altered behavior.
+Treat `AGENTS.md` as part of the deliverable. If behaviour and docs disagree, the change
+is not done. In the **same change**:
+
+- Added / renamed / moved / deleted a view or chapter → update `navigation.js`, the router,
+  and §7 above.
+- Changed a shared pattern (tokens, PDF button, lecture structure, layout width) → update
+  the prose **and** every code snippet demonstrating it, recording exceptions explicitly.
+- Found a recurring bug worth standardising (e.g. `window` not in template scope; hidden-radio
+  click overlap; `flex: 1` stretching in a column flex container) → capture it here so it is
+  not reintroduced.
+
+Never leave the docs describing removed behaviour.
+
+## 9. Verifying a change
+
+```bash
+npm run dev     # http://localhost:5173
+npm run build   # must pass before you call a change done
+```
+
+Check every visual change in **both themes** and at **both breakpoints** (desktop shell,
+≤900 px drawer), and print-preview any page you touched that carries a PDF button.

@@ -232,7 +232,7 @@ table {
 
 th {
   background: var(--clr-blue);
-  color: white;
+  color: var(--text-on-accent);
   text-align: left;
   padding: 0.5rem 0.75rem;
   font-weight: 600;

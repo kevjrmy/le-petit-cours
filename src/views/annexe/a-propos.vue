@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-10 -->
 <template>
     <DefaultLayout title="À propos">
         <main class="static-page">
@@ -26,16 +26,8 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
     gap: 2rem;
 }
 
-.card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: var(--box-shadow);
-    border: 1px solid var(--clr-border);
-}
-
 h2 {
-    color: var(--clr-primary);
+    color: var(--text-heading);
     margin-bottom: 1rem;
 }
 

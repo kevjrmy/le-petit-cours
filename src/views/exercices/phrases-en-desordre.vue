@@ -378,8 +378,8 @@ function restart() {
 }
 
 .target-zone.is-correct-border {
-  border-color: #4CAF50;
-  background: #F1FBF2;
+  border-color: var(--success-strong);
+  background: var(--success-soft);
 }
 
 .target-zone.is-wrong-border {
@@ -472,7 +472,7 @@ function restart() {
 
 .btn-verify {
   background: var(--clr-blue);
-  color: var(--clr-page);
+  color: var(--text-on-accent);
 }
 
 .btn-verify:hover:not(:disabled) {
@@ -487,7 +487,7 @@ function restart() {
 
 .btn-next {
   background: var(--clr-blue);
-  color: var(--clr-page);
+  color: var(--text-on-accent);
 }
 
 .btn-next:hover {
@@ -506,7 +506,7 @@ function restart() {
 }
 
 .feedback-correct {
-  color: #2E7D32;
+  color: var(--success-text);
   font-weight: 600;
   font-size: 0.95rem;
 }
@@ -598,7 +598,7 @@ function restart() {
 
 .btn-restart:hover {
   background: var(--clr-blue);
-  color: var(--clr-page);
+  color: var(--text-on-accent);
 }
 
 /* ── Accessibility ─────────────────────────────── */

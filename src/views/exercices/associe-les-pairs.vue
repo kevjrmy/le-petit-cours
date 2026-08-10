@@ -380,7 +380,7 @@ function restartGame() {
 }
 
 .check-icon {
-  color: #2E7D32;
+  color: var(--success-text);
   font-weight: 700;
   font-size: 1.1rem;
 }
@@ -394,9 +394,9 @@ function restartGame() {
 }
 
 .card-btn.is-matched {
-  border-color: #2E7D32;
-  background: #E8F5E9;
-  color: #2E7D32;
+  border-color: var(--success-text);
+  background: var(--success-soft);
+  color: var(--success-text);
   cursor: default;
 }
 
@@ -420,14 +420,14 @@ function restartGame() {
   align-items: center;
   gap: 0.8rem;
   padding: 1.25rem;
-  background: #E8F5E9;
-  border: 1px solid #A5D6A7;
+  background: var(--success-soft);
+  border: 1px solid var(--success-line);
   border-radius: var(--radius);
   text-align: center;
 }
 
 .summary-msg {
-  color: #2E7D32;
+  color: var(--success-text);
   font-family: var(--font-serif);
   font-size: 1.1rem;
   margin: 0;
@@ -439,7 +439,7 @@ function restartGame() {
   border: 1px solid var(--clr-blue);
   border-radius: var(--radius);
   background: var(--clr-blue);
-  color: var(--clr-page);
+  color: var(--text-on-accent);
   font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;

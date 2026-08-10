@@ -325,7 +325,7 @@ caption.sr-only {
 
 th {
   background: var(--clr-blue);
-  color: var(--clr-page);
+  color: var(--text-on-accent);
   padding: 0.45rem 0.75rem;
   text-align: left;
   font-family: var(--font-sans);
@@ -424,15 +424,15 @@ tr:nth-child(even) td { background: var(--clr-blue-light); }
 }
 
 .q-option.is-correct {
-  border-color: #4CAF50;
-  background: #F1FBF2;
-  color: #2E7D32;
+  border-color: var(--success-strong);
+  background: var(--success-soft);
+  color: var(--success-text);
   font-weight: 600;
 }
 
 .q-option.is-correct .q-mark {
-  border-color: #4CAF50;
-  background: #4CAF50;
+  border-color: var(--success-strong);
+  background: var(--success-strong);
 }
 
 .q-option.is-wrong {
@@ -467,8 +467,8 @@ tr:nth-child(even) td { background: var(--clr-blue-light); }
 }
 
 .quiz-score.perfect {
-  background: #F1FBF2;
-  color: #2E7D32;
+  background: var(--success-soft);
+  color: var(--success-text);
 }
 
 .btn-retry {

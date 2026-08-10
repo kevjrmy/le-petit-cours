@@ -1,20 +1,65 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-10 -->
 <template>
-  <DefaultLayout title="Sommaire">
+  <DefaultLayout>
     <main id="home">
-      <RouterLink
-        v-for="ch in chapters"
-        :key="ch.folder"
-        :to="ch.path"
-        class="chapter-row"
-      >
-        <span class="chapter-name">
-          {{ ch.title }}
-          <span v-if="newChapterFolders.has(ch.folder)" class="new-badge">Nouveau</span>
-        </span>
-        <span class="chapter-count">{{ ch.count }}&thinsp;{{ ch.countLabel }}</span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </RouterLink>
+      <!-- ── Hero ──────────────────────────────────── -->
+      <section class="hero">
+        <p class="hero-eyebrow">Français · Niveau A2</p>
+        <h1 class="hero-title">Le Petit Cours</h1>
+        <p class="hero-tagline">
+          Un cours de français pensé pour les hispanophones : grammaire, orthographe,
+          lecture et conversation, une page à la fois.
+        </p>
+        <div class="tricolore" aria-hidden="true">
+          <span class="band band-blue"></span>
+          <span class="band band-white"></span>
+          <span class="band band-red"></span>
+        </div>
+
+        <dl class="hero-stats">
+          <div class="stat">
+            <dt>Chapitres</dt>
+            <dd>{{ cards.length }}</dd>
+          </div>
+          <div class="stat">
+            <dt>Leçons</dt>
+            <dd>{{ totalLessons }}</dd>
+          </div>
+          <div class="stat">
+            <dt>Nouveautés</dt>
+            <dd>{{ newChapterFolders.size }}</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- ── Chapter grid ──────────────────────────── -->
+      <h2 class="grid-title">Sommaire</h2>
+
+      <nav class="chapter-grid" aria-label="Chapitres du cours">
+        <RouterLink
+          v-for="chapter in cards"
+          :key="chapter.slug"
+          :to="chapter.path"
+          class="chapter-card"
+        >
+          <span class="card-icon" aria-hidden="true">
+            <ChapterIcon :name="chapter.icon" size="1.35rem" />
+          </span>
+
+          <span class="card-body">
+            <span class="card-head">
+              <span class="card-name">{{ chapter.title }}</span>
+              <span v-if="newChapterFolders.has(chapter.slug)" class="new-badge">Nouveau</span>
+            </span>
+            <span class="card-blurb">{{ chapter.blurb }}</span>
+          </span>
+
+          <span v-if="chapter.count" class="card-count">
+            {{ chapter.count }}&thinsp;{{ chapter.label }}
+          </span>
+          <span v-else class="card-count soon">Bientôt</span>
+        </RouterLink>
+      </nav>
     </main>
   </DefaultLayout>
 </template>
@@ -22,147 +67,223 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import ChapterIcon from '@/components/ChapterIcon.vue'
+import { chapterCount, chapters, publishedLessons } from '@/data/navigation'
 import { hasNewChildView } from '@/utils/viewMeta'
 
-// Discover all view files at build time — no hardcoding needed.
-// Keys are relative to this file (src/views/sommaire/index.vue),
-// so `../` resolves to src/views/.
-const allViews = import.meta.glob('../**/*.vue')
+/* Chapters come from the manifest. A chapter whose lessons are all still
+   announced-but-unwritten stays listed, marked "Bientôt", so the plan for the
+   book is visible rather than silently hidden. */
+const cards = chapters
+  .filter(chapter => chapter.lessons.length > 0)
+  .map(chapter => ({ ...chapter, ...chapterCount(chapter) }))
 
-const SKIP = new Set(['sommaire', 'annexe'])
+const totalLessons = chapters.reduce(
+  (sum, chapter) => sum + publishedLessons(chapter).length,
+  0
+)
+
 const newChapterFolders = ref(new Set())
-
-const chapterConfig = {
-  grammaire:     { title: 'Grammaire',      label: 'leçon',    labelPlural: 'leçons'    },
-  orthographe:   { title: 'Orthographe',   label: 'leçon',    labelPlural: 'leçons'    },
-  dictees:       { title: 'Dictées',        label: 'dictée',   labelPlural: 'dictées'   },
-  exercices:     { title: 'Exercices',      label: 'exercice', labelPlural: 'exercices' },
-  lecture:       { title: 'Lecture',        label: 'texte',    labelPlural: 'textes'    },
-  prononciation: { title: 'Prononciation',  label: 'leçon',    labelPlural: 'leçons'    },
-  musique:       { title: 'Musique',        label: 'chanson',  labelPlural: 'chansons'  },
-  vocabulaire:   { title: 'Vocabulaire',    label: 'activité', labelPlural: 'activités' },
-  conversation:  { title: 'Conversation',   label: 'dialogue', labelPlural: 'dialogues' },
-  litterature:   { title: 'Littérature',    label: 'page',     labelPlural: 'pages'     },
-  theme:         { title: 'Thèmes de conversation', label: 'thème', labelPlural: 'thèmes' },
-}
-
-const ORDER = ['grammaire', 'orthographe', 'dictees', 'exercices', 'lecture', 'litterature', 'prononciation', 'musique', 'vocabulaire', 'conversation', 'theme']
-
-// Group files by folder
-const folderMap = {}
-for (const path of Object.keys(allViews)) {
-  const m = path.match(/^\.\.\/([^/]+)\/([^/]+)\.vue$/)
-  if (!m) continue
-  const [, folder, file] = m
-  if (SKIP.has(folder)) continue
-  ;(folderMap[folder] ??= []).push(file)
-}
-
-// Keep only folders with at least one non-index file
-const chapters = Object.entries(folderMap)
-  .filter(([, files]) => files.some(f => f !== 'index'))
-  .map(([folder, files]) => {
-    const cfg = chapterConfig[folder] ?? { title: folder, label: 'page', labelPlural: 'pages' }
-    const count = files.filter(f => f !== 'index').length
-    return {
-      folder,
-      path: `/${folder}`,
-      title: cfg.title,
-      count,
-      countLabel: count === 1 ? cfg.label : cfg.labelPlural,
-    }
-  })
-  .sort((a, b) => {
-    const ia = ORDER.indexOf(a.folder)
-    const ib = ORDER.indexOf(b.folder)
-    if (ia === -1 && ib === -1) return 0
-    if (ia === -1) return 1
-    if (ib === -1) return -1
-    return ia - ib
-  })
 
 onMounted(async () => {
   const entries = await Promise.all(
-    chapters.map(async chapter => [chapter.folder, await hasNewChildView(chapter.folder)])
+    cards.map(async chapter => [chapter.slug, await hasNewChildView(chapter.slug)])
   )
-  newChapterFolders.value = new Set(entries.filter(([, hasNew]) => hasNew).map(([folder]) => folder))
+  newChapterFolders.value = new Set(
+    entries.filter(([, hasNew]) => hasNew).map(([slug]) => slug)
+  )
 })
 </script>
 
 <style scoped>
 #home {
+  gap: 2rem;
+}
+
+/* ── Hero ───────────────────────────────────────── */
+.hero {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  text-align: center;
+  padding: 2.25rem 1.75rem 1.75rem;
+  background:
+    radial-gradient(120% 100% at 50% 0%, var(--accent-subtle) 0%, transparent 70%),
+    var(--surface-1);
+}
+
+.hero-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: 2.4rem;
+  line-height: 1.1;
+  color: var(--text-heading);
+}
+
+.hero-tagline {
+  max-width: 46ch;
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--text-2);
+}
+
+.tricolore {
+  display: flex;
+  width: 120px;
+  height: 3px;
+  margin-top: 0.6rem;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--border-soft);
+}
+
+.band { flex: 1; }
+.band-blue  { background: var(--blue-700); }
+.band-white { background: var(--white); box-shadow: inset 0 0 0 1px var(--border-soft); }
+.band-red   { background: var(--red-500); }
+
+.hero-stats {
+  display: flex;
+  gap: 2.25rem;
+  margin-top: 1.35rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.1rem;
+}
+
+.stat dt {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.stat dd {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--accent-text);
+  line-height: 1.1;
+}
+
+/* ── Grid ───────────────────────────────────────── */
+.grid-title {
+  margin: 0;
+  font-size: 0.72rem;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 0.7rem;
+}
+
+.chapter-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 1rem 1.05rem;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-1);
+  transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease,
+              transform var(--dur-fast) var(--ease);
+}
+
+.chapter-card:hover {
+  border-color: var(--accent-line);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+  color: var(--text-1);
+}
+
+.card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.3rem;
+  height: 2.3rem;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.card-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 0.4rem;
 }
 
-.chapter-row {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.9rem 1rem;
-  border: 1px solid var(--clr-border);
-  border-radius: var(--radius);
-  background: var(--clr-page);
-  color: var(--clr-ink);
-  text-decoration: none;
-  transition: border-color 0.15s, background 0.15s, color 0.15s;
-}
-
-.chapter-row:hover {
-  border-color: var(--clr-blue);
-  background: var(--clr-blue-light);
-  color: var(--clr-blue-dark);
-}
-
-.chapter-name {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  flex-wrap: wrap;
-  gap: 0.45rem;
+.card-name {
   font-family: var(--font-serif);
   font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-heading);
 }
 
-.new-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.12rem 0.45rem;
-  border-radius: 99px;
-  background: var(--clr-red);
-  color: var(--clr-page);
-  font-family: var(--font-sans);
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  line-height: 1.4;
-  text-transform: uppercase;
+.card-blurb {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-3);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.chapter-count {
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  color: var(--clr-ink-soft);
-  background: var(--clr-blue-light);
-  border-radius: 99px;
+.card-count {
+  flex-shrink: 0;
+  align-self: center;
   padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  border: 1px solid var(--border-soft);
+  font-size: 0.7rem;
+  color: var(--text-3);
   white-space: nowrap;
-  transition: color 0.15s;
 }
 
-.chapter-row:hover .chapter-count {
-  color: var(--clr-blue);
+.card-count.soon {
+  background: transparent;
+  border-style: dashed;
+  font-style: italic;
 }
 
-.arrow {
-  color: var(--clr-ink-soft);
-  font-size: 0.85rem;
-  transition: transform 0.15s, color 0.15s;
-}
-
-.chapter-row:hover .arrow {
-  transform: translateX(3px);
-  color: var(--clr-blue);
+@media (max-width: 794px) {
+  .hero { padding: 1.75rem 1.25rem 1.5rem; }
+  .hero-title { font-size: 1.9rem; }
+  .hero-stats { gap: 1.5rem; }
+  .chapter-grid { grid-template-columns: 1fr; }
 }
 </style>

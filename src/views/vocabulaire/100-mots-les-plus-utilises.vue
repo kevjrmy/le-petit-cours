@@ -204,7 +204,7 @@ function downloadPdf() {
 
 .cat-v    { background: var(--clr-red-light);          color: var(--clr-red);        }
 .cat-n    { background: var(--clr-blue-light);         color: var(--clr-blue-dark);  }
-.cat-adj  { background: #DDE8F8;                       color: var(--clr-blue);       }
+.cat-adj  { background: var(--accent-line);                       color: var(--clr-blue);       }
 .cat-prep { background: var(--clr-amber-light);        color: var(--clr-amber);      }
 .cat-art  { background: var(--clr-blue-light);         color: var(--clr-blue-mid);   }
 .cat-adv  { background: rgba(26, 26, 46, 0.06);        color: var(--clr-ink-mid);    }

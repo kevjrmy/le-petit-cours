@@ -271,7 +271,7 @@ function resetQuiz() {
 
 .moral-box {
   padding: 0.75rem 1rem;
-  background: #FFF8E1;
+  background: var(--warn-soft);
   border: 1px solid var(--clr-amber);
   border-radius: var(--radius-sm);
   color: var(--clr-ink);
@@ -295,7 +295,7 @@ table {
 
 th {
   background: var(--clr-blue);
-  color: white;
+  color: var(--text-on-accent);
   text-align: left;
   padding: 0.5rem 0.75rem;
   font-weight: 600;
@@ -376,9 +376,9 @@ tbody tr:nth-child(even) {
 }
 
 .q-option.correct {
-  border-color: #2E7D32;
-  background: #E8F5E9;
-  color: #2E7D32;
+  border-color: var(--success-text);
+  background: var(--success-soft);
+  color: var(--success-text);
   font-weight: 600;
 }
 
@@ -407,9 +407,9 @@ tbody tr:nth-child(even) {
 }
 
 .quiz-score.perfect {
-  background: #E8F5E9;
-  border-color: #A5D6A7;
-  color: #2E7D32;
+  background: var(--success-soft);
+  border-color: var(--success-line);
+  color: var(--success-text);
 }
 
 .btn-retry {
@@ -434,7 +434,7 @@ tbody tr:nth-child(even) {
   cursor: pointer;
   font-family: var(--font-sans);
   font-weight: 600;
-  color: #B78103;
+  color: var(--warn-text);
   list-style: none;
   display: flex;
   align-items: center;

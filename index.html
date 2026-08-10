@@ -4,12 +4,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="google" content="notranslate" />
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#F6F8FB">
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Le petit cours</title>
+  <title>Le Petit Cours</title>
+
+  <script>
+    // Apply the saved theme before first paint, so an explicit "sombre" choice
+    // doesn't flash light while Vue boots. "système" leaves the attribute off
+    // and lets the prefers-color-scheme media query in style.css decide.
+    (function () {
+      try {
+        var mode = localStorage.getItem('lpc:theme')
+        if (mode === 'dark' || mode === 'light') {
+          document.documentElement.setAttribute('data-theme', mode)
+        }
+        var dark = mode === 'dark' || (mode !== 'light' &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches)
+        document.querySelector('meta[name="theme-color"]')
+          .setAttribute('content', dark ? '#0B0F17' : '#F6F8FB')
+      } catch (e) { /* private browsing — fall back to the CSS default */ }
+    })()
+  </script>
 </head>
 
 <body>

@@ -152,8 +152,7 @@
 
       <!-- ── Version imprimable (Visible UNIQUEMENT à l'impression) ── -->
       <section class="print-content print-only">
-        <h1 class="print-title">Dictée : {{ dictation.title }}</h1>
-        
+        <!-- The page title is printed by PageHeader (AltLayout) — not repeated here. -->
         <div class="print-section">
           <h2>Texte de la dictée</h2>
           <ol class="print-sentences">
@@ -372,7 +371,7 @@ table {
 
 thead {
   background: var(--clr-blue);
-  color: var(--clr-page);
+  color: var(--text-on-accent);
 }
 
 th {
@@ -533,7 +532,7 @@ tbody tr:last-child td {
 }
 
 .result-status.correct {
-  color: #2E7D32;
+  color: var(--success-text);
 }
 
 .result-status.wrong {
@@ -617,7 +616,7 @@ tbody tr:last-child td {
 
 .btn-verify {
   background: var(--clr-blue);
-  color: var(--clr-page);
+  color: var(--text-on-accent);
 }
 
 .btn-verify:hover:not(:disabled) {
@@ -632,7 +631,7 @@ tbody tr:last-child td {
 
 .btn-next {
   background: var(--clr-blue);
-  color: var(--clr-page);
+  color: var(--text-on-accent);
 }
 
 .btn-next:hover {
@@ -724,7 +723,7 @@ tbody tr:last-child td {
 
 .btn-restart:hover {
   background: var(--clr-blue);
-  color: var(--clr-page);
+  color: var(--text-on-accent);
 }
 
 /* ── Download Button ── */
@@ -815,7 +814,7 @@ tbody tr:last-child td {
   }
 
   .print-table th {
-    background: #f0f4fb;
+    background: var(--accent-subtle);
     color: var(--clr-blue-dark);
     border-bottom: 2px solid var(--clr-blue);
   }

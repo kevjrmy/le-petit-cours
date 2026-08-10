@@ -1,74 +1,9 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-10 -->
 <template>
-  <AltLayout title="Prononciation">
-    <main>
-      <p class="intro">
-        Apprenez à lire et à prononcer le français en comprenant les principaux groupes de lettres et leurs sons.
-      </p>
-
-      <nav class="lesson-nav" aria-label="Leçons disponibles">
-        <RouterLink to="/prononciation/les-syllabes-courantes" class="lesson-row">
-          <span class="lesson-title">Les syllabes les plus courantes</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </RouterLink>
-      </nav>
-    </main>
-  </AltLayout>
+  <ChapterIndex slug="prononciation" />
 </template>
 
 <script setup>
-import AltLayout from '@/layouts/AltLayout.vue'
+// Content lives in src/data/navigation.js — see ChapterIndex.vue.
+import ChapterIndex from '@/components/ChapterIndex.vue'
 </script>
-
-<style scoped>
-.intro {
-  font-family: var(--font-serif);
-  font-style: italic;
-  color: var(--clr-ink-mid);
-  font-size: 1rem;
-  line-height: 1.75;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--clr-border-soft);
-}
-
-.lesson-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.lesson-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.9rem 1.1rem;
-  background: var(--clr-page);
-  border: 1px solid var(--clr-border);
-  border-radius: var(--radius);
-  color: var(--clr-ink);
-  text-decoration: none;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
-}
-
-.lesson-row:hover {
-  border-color: var(--clr-blue);
-  color: var(--clr-blue-dark);
-  background: var(--clr-blue-light);
-}
-
-.lesson-title {
-  font-family: var(--font-serif);
-  font-size: 0.97rem;
-}
-
-.arrow {
-  color: var(--clr-ink-soft);
-  font-size: 0.9rem;
-  transition: transform 0.15s, color 0.15s;
-}
-
-.lesson-row:hover .arrow {
-  transform: translateX(3px);
-  color: var(--clr-blue);
-}
-</style>
