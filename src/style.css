@@ -1219,6 +1219,467 @@ article + article {
 }
 
 /* ═══════════════════════════════════════════════════
+   DICTÉE SHELL — dictees/ pages
+   Listen, type, compare. Unlike the other interactive types a dictée KEEPS the
+   PDF button (see AGENTS.md §5), so this block owns both the on-screen furniture
+   and the print-only answer sheet.
+
+   Markup: <main class="dictee"> with
+     .prep-card              vocabulary table shown before starting
+     .card-dictation         .meta > .counter + .progress-track > .progress-fill,
+                             .spanish-prompt, .audio-controls > .btn-audio,
+                             .input-area > textarea, .feedback-card, .actions
+     .result                 score screen + .final-review
+     .print-content          .print-only answer sheet
+   Screen-only parts carry .no-print; the answer sheet carries .print-only.
+   Audio comes from useSpeech() — do not hand-roll SpeechSynthesisUtterance.
+═══════════════════════════════════════════════════ */
+.dictee {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Preparation card ──────────────────────────── */
+.dictee .prep-card { padding: 1.5rem; }
+
+.dictee .prep-card h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Provenance line for dictées taken from a published text. */
+.dictee .source {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.dictee .prep-intro {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.dictee .prep-intro:last-of-type { margin-bottom: 1.25rem; }
+
+/* Amber aside inside the preparation card — keyboard hints, warnings. */
+.dictee .prep-intro.tip {
+  padding: 0.7rem 1rem;
+  background: var(--warn-soft);
+  border-left: 4px solid var(--warn);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.dictee .prep-intro.tip strong { color: var(--warn); }
+
+/* ── Vocabulary table ─────────────────────────── */
+.dictee table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.dictee thead {
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+
+.dictee th {
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dictee td {
+  padding: 0.65rem 0.8rem;
+  border-bottom: 1px solid var(--border-soft);
+  line-height: 1.5;
+}
+
+.dictee tbody tr:nth-child(even) { background: var(--accent-soft); }
+.dictee tbody tr:last-child td { border-bottom: none; }
+
+/* ── Interactive card ─────────────────────────── */
+.dictee .card-dictation {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.dictee .meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dictee .counter {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+.dictee .progress-track {
+  flex: 1;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.dictee .progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* The Spanish clue — the learner knows the meaning, not the spelling. */
+.dictee .spanish-prompt {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--warn-soft);
+  border-left: 4px solid var(--warn);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.dictee .flag {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--warn);
+}
+
+.dictee .prompt-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--text-1);
+}
+
+/* ── Audio controls ───────────────────────────── */
+.dictee .audio-controls {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.dictee .btn-audio {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.25rem;
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+  color: var(--text-1);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.dictee .btn-audio:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--text-heading);
+}
+
+.dictee .btn-audio:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dictee .primary-audio {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── Typing area ──────────────────────────────── */
+.dictee .input-area textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  resize: vertical;
+  background: var(--surface-1);
+  color: var(--text-1);
+  transition: border-color 0.15s;
+}
+
+.dictee .input-area textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ── Correction ───────────────────────────────── */
+.dictee .feedback-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.dictee .result-status {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.dictee .result-status.correct { color: var(--success-text); }
+.dictee .result-status.wrong   { color: var(--danger); }
+
+.dictee .comparison {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.dictee .comparison-line {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.dictee .comparison-line .label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.dictee .user-text {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--text-1);
+}
+
+.dictee .user-text.has-errors {
+  text-decoration: line-through var(--danger);
+  color: var(--text-2);
+}
+
+.dictee .correct-text {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+/* The per-sentence spelling rule. Red here, unlike the blue `.rule` of a
+   lesson page — it is a correction, not an explanation. */
+.dictee .rule {
+  padding: 0.75rem 1rem;
+  background: var(--danger-soft);
+  border-left: 4px solid var(--danger);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 0.88rem;
+}
+
+.dictee .rule strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  color: var(--danger);
+}
+
+.dictee .rule p {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--text-1);
+}
+
+/* ── Actions ──────────────────────────────────── */
+.dictee .btn-verify,
+.dictee .btn-next {
+  width: 100%;
+  padding: 0.85rem 1.5rem;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  text-align: center;
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+
+.dictee .btn-verify:hover:not(:disabled),
+.dictee .btn-next:hover { background: var(--text-heading); }
+
+.dictee .btn-verify:disabled {
+  background: var(--text-3);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Score screen ─────────────────────────────── */
+.dictee .result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.dictee .result-emoji {
+  font-size: 3.5rem;
+  line-height: 1;
+}
+
+.dictee .result-score {
+  font-family: var(--font-sans);
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.dictee .result-total {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--text-3);
+}
+
+.dictee .result-msg {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--text-2);
+  font-size: 1rem;
+  margin: 0 0 1rem;
+}
+
+.dictee .final-review {
+  width: 100%;
+  max-width: 600px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.dictee .final-review h3 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.dictee .full-text-box {
+  background: var(--surface-app);
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.dictee .full-text-box p {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text-1);
+  margin: 0;
+}
+
+.dictee .btn-restart {
+  padding: 0.75rem 2rem;
+  background: transparent;
+  border: 1.5px solid var(--accent);
+  border-radius: var(--radius);
+  color: var(--accent);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.dictee .btn-restart:hover {
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+
+/* ── Print: the answer sheet ──────────────────── */
+.dictee .print-only { display: none; }
+
+@media print {
+  .dictee .no-print   { display: none !important; }
+  .dictee .print-only { display: block !important; }
+
+  .dictee { gap: 2rem; }
+
+  .dictee .print-section { margin-bottom: 1.5rem; }
+
+  .dictee .print-section h2 {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 0.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .dictee .print-source {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--text-2);
+    margin-bottom: 0.75rem;
+  }
+
+  .dictee .print-sentences { padding-left: 1.25rem; }
+
+  .dictee .print-sentences li {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
+  }
+
+  .dictee .print-note {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--text-2);
+    margin-top: 0.2rem;
+  }
+
+  .dictee .print-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .dictee .print-table th {
+    background: var(--accent-subtle);
+    color: var(--text-heading);
+    border-bottom: 2px solid var(--accent);
+  }
+
+  .dictee .print-table td { border-bottom: 1px solid var(--border-soft); }
+}
+
+/* ═══════════════════════════════════════════════════
    TABLES — Bled paradigm tables
 ═══════════════════════════════════════════════════ */
 .sr-only {

@@ -80,6 +80,9 @@
 
 <script setup>
 import AltLayout from '@/layouts/AltLayout.vue'
+import { useSpeech } from '@/composables/useSpeech'
+
+const { speak } = useSpeech()
 
 const sections = [
   {
@@ -235,22 +238,6 @@ const sections = [
     ]
   }
 ]
-
-function speak(text) {
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel()
-    const utterance = new SpeechSynthesisUtterance(text)
-    utterance.lang = 'fr-FR'
-    
-    const voices = window.speechSynthesis.getVoices()
-    const frVoice = voices.find(v => v.lang.startsWith('fr'))
-    if (frVoice) {
-      utterance.voice = frVoice
-    }
-    
-    window.speechSynthesis.speak(utterance)
-  }
-}
 
 function downloadPdf() {
   window.print()
