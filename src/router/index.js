@@ -21,6 +21,20 @@ const router = createRouter({
     { path: '/orthographe/les-determinants-possessifs', name: 'ortho-determinants-possessifs', component: () => import('../views/orthographe/les-determinants-possessifs.vue') },
     { path: '/orthographe/les-pronoms-possessifs', name: 'ortho-pronoms-possessifs', component: () => import('../views/orthographe/les-pronoms-possessifs.vue') },
 
+    // Conjugaison
+    { path: '/conjugaison', name: 'conjugaison', component: () => import('../views/conjugaison/index.vue') },
+    { path: '/conjugaison/etre', name: 'conj-etre', component: () => import('../views/conjugaison/etre.vue') },
+    { path: '/conjugaison/avoir', name: 'conj-avoir', component: () => import('../views/conjugaison/avoir.vue') },
+    { path: '/conjugaison/parler', name: 'conj-parler', component: () => import('../views/conjugaison/parler.vue') },
+    { path: '/conjugaison/finir', name: 'conj-finir', component: () => import('../views/conjugaison/finir.vue') },
+    { path: '/conjugaison/aller', name: 'conj-aller', component: () => import('../views/conjugaison/aller.vue') },
+    { path: '/conjugaison/faire', name: 'conj-faire', component: () => import('../views/conjugaison/faire.vue') },
+    { path: '/conjugaison/pouvoir', name: 'conj-pouvoir', component: () => import('../views/conjugaison/pouvoir.vue') },
+    { path: '/conjugaison/vouloir', name: 'conj-vouloir', component: () => import('../views/conjugaison/vouloir.vue') },
+    { path: '/conjugaison/venir', name: 'conj-venir', component: () => import('../views/conjugaison/venir.vue') },
+    { path: '/conjugaison/prendre', name: 'conj-prendre', component: () => import('../views/conjugaison/prendre.vue') },
+
+    // Astuces
     { path: '/astuces', name: 'astuces', component: () => import('../views/astuces/index.vue') },
     { path: '/astuces/a-en-au-aux', name: 'astuce-a-en-au-aux', component: () => import('../views/astuces/a-en-au-aux.vue') },
     { path: '/astuces/le-genre-des-noms', name: 'astuce-le-genre-des-noms', component: () => import('../views/astuces/le-genre-des-noms.vue') },

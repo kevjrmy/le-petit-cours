@@ -56,6 +56,30 @@ export const chapters = [
     ],
   },
   {
+    slug: 'conjugaison',
+    path: '/conjugaison',
+    title: 'Conjugaison',
+    icon: 'conjugaison',
+    unit: ['verbe', 'verbes'],
+    blurb:
+      'Les tableaux des dix verbes les plus utiles, au présent, au passé composé, ' +
+      "à l'impératif et au participe présent — avec la forme négative et le féminin.",
+    /* Auxiliaires first, then the two regular models, then the frequent
+       irregulars. The tables themselves live in `src/data/conjugaisons.js`. */
+    lessons: [
+      { path: '/conjugaison/etre', title: 'être', subtitle: 'ser / estar', tag: 'Auxiliaire' },
+      { path: '/conjugaison/avoir', title: 'avoir', subtitle: 'haber / tener', tag: 'Auxiliaire' },
+      { path: '/conjugaison/parler', title: 'parler', subtitle: 'hablar', tag: '1er groupe' },
+      { path: '/conjugaison/finir', title: 'finir', subtitle: 'terminar / acabar', tag: '2e groupe' },
+      { path: '/conjugaison/aller', title: 'aller', subtitle: 'ir', tag: '3e groupe' },
+      { path: '/conjugaison/faire', title: 'faire', subtitle: 'hacer', tag: '3e groupe' },
+      { path: '/conjugaison/pouvoir', title: 'pouvoir', subtitle: 'poder', tag: '3e groupe' },
+      { path: '/conjugaison/vouloir', title: 'vouloir', subtitle: 'querer', tag: '3e groupe' },
+      { path: '/conjugaison/venir', title: 'venir', subtitle: 'venir', tag: '3e groupe' },
+      { path: '/conjugaison/prendre', title: 'prendre', subtitle: 'tomar / coger', tag: '3e groupe' },
+    ],
+  },
+  {
     slug: 'orthographe',
     path: '/orthographe',
     title: 'Orthographe',
