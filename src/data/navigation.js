@@ -152,6 +152,7 @@ export const chapters = [
       { path: '/exercices/trouve-la-faute', title: 'Trouve la faute', tag: 'Correction' },
       { path: '/exercices/devine-les-temps', title: 'Devine les temps', tag: 'Conjugaison' },
       { path: '/exercices/ecoute-et-choisis', title: 'Écoute et choisis', tag: 'Écoute' },
+      { path: '/exercices/mets-au-bon-temps', title: 'Mets au bon temps', tag: 'Conjugaison' },
     ],
   },
   {

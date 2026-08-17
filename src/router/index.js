@@ -89,6 +89,7 @@ const router = createRouter({
     { path: '/exercices/trouve-la-faute', name: 'ex-trouve-la-faute', component: () => import('../views/exercices/trouve-la-faute.vue') },
     { path: '/exercices/devine-les-temps', name: 'ex-devine-les-temps', component: () => import('../views/exercices/devine-les-temps.vue') },
     { path: '/exercices/ecoute-et-choisis', name: 'ex-ecoute-et-choisis', component: () => import('../views/exercices/ecoute-et-choisis.vue') },
+    { path: '/exercices/mets-au-bon-temps', name: 'ex-mets-au-bon-temps', component: () => import('../views/exercices/mets-au-bon-temps.vue') },
 
     // Lecture
     { path: '/lecture', name: 'lecture', component: () => import('../views/lecture/index.vue') },
