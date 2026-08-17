@@ -42,10 +42,30 @@ export function useSpeech(options = {}) {
    */
   const hasVoice = ref(false)
 
+  /**
+   * Rank the candidates rather than taking the first match.
+   *
+   * Taking `[0]` is wrong wherever the platform exposes many variants: a Linux
+   * Firefox lists 306 French voices from espeak-ng, and the first is
+   * `fr-BE: French (Belgium)+Nguyen`. Some are literally `+whisper`. Prefer the
+   * exact region, then a plain name over a `+variant`, then the platform default.
+   */
+  function score(v) {
+    const vLang = v.lang.toLowerCase().replace('_', '-')
+    return (vLang === lang.toLowerCase() ? 4 : 0)   // fr-FR beats fr-BE / fr-CH
+         + (v.name.includes('+') ? 0 : 2)           // "French (France)" beats "…+whisper"
+         + (v.default ? 1 : 0)
+  }
+
   function resolveVoice() {
     if (!supported || !pickVoice) return null
     if (voice) return voice
-    voice = window.speechSynthesis.getVoices().find(v => v.lang.startsWith(langPrefix)) || null
+
+    const candidates = window.speechSynthesis
+      .getVoices()
+      .filter(v => v.lang.toLowerCase().startsWith(langPrefix))
+
+    voice = candidates.sort((a, b) => score(b) - score(a))[0] ?? null
     hasVoice.value = voice !== null
     return voice
   }
