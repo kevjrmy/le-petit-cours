@@ -40,23 +40,26 @@ Also flag:
 
 ## 3. Print / PDF
 
-Lesson pages under `grammaire/`, `orthographe/`, `dictees/`, `prononciation/`, `musique/`,
-`vocabulaire/`, `theme/` must carry the download button; `exercices/`, `conversation/`,
-`litterature/`, `lecture/` and every `index.vue` must not.
+Lesson pages under `grammaire/`, `orthographe/`, `astuces/`, `dictees/`, `prononciation/`,
+`musique/`, `vocabulaire/`, `theme/` must carry the download button; `exercices/`,
+`conversation/`, `litterature/`, `lecture/` and every `index.vue` must not.
 
 - `@click="() => window.print()"` in a template is **always** a bug — `window` is not in
   template scope and the button does nothing. It must call a `downloadPdf()` method.
 - Interactive chrome (quizzes, buttons, translation panels) must be hidden in
   `@media print`.
-- The content must fit **1–2 A4 pages** (one A4 ≈ 1123 px at 96 dpi, 794 px wide).
-  Measure it:
+- The content must fit **1–2 A4 pages** (3 for a vocabulary reference). Print it and count
+  the pages — do not estimate from a screenshot height:
 
 ```bash
-google-chrome --headless --disable-gpu --no-sandbox --window-size=794,1200 \
-  --virtual-time-budget=5000 --dump-dom http://localhost:5173/<route> > /tmp/page.html
+google-chrome --headless --disable-gpu --no-sandbox --virtual-time-budget=5000 \
+  --no-pdf-header-footer --print-to-pdf=/tmp/p.pdf http://localhost:5173/<route>
+python3 -c "import re;print(len(re.findall(rb'/Type\s*/Page[^s]',open('/tmp/p.pdf','rb').read())))"
 ```
 
-  Then screenshot at 794 px wide and report the rendered height in A4 pages.
+  This counts what the PDF actually contains, so it accounts for the print stylesheet —
+  which hides `.no-print` chrome and reveals `.print-only` blocks, and can change the page
+  count in either direction.
 
 ## 4. Visual regression
 
@@ -80,6 +83,23 @@ current page only, and the body must not scroll horizontally.
 ## 5. Manifest / router drift
 
 Run the audit script in `.claude/agents/nav-wiring.md` §The audit. Both lines must be `none`.
+
+Also check in-page cross-links. `astuces/` pages link to the lessons that own each rule, and
+a `<RouterLink>` pointing at a path with no route renders as a dead anchor — no console
+warning, no build failure, it simply does nothing when clicked:
+
+```bash
+python3 - <<'PY'
+import re, pathlib
+paths = set(re.findall(r"path:\s*'([^']+)'", pathlib.Path('src/router/index.js').read_text()))
+for p in pathlib.Path('src/views').rglob('*.vue'):
+    for t in re.findall(r'RouterLink[^>]*?(?<![:\w-])to="([^"]+)"', p.read_text(), re.S):
+        if t not in paths: print('DEAD', t, '←', p)
+PY
+```
+
+The lookbehind skips `:to="chapter.path"` — a bound prop holds an expression, not a literal
+path, and matching it reports a false dead link on `views/sommaire/index.vue`.
 
 ## Reporting
 

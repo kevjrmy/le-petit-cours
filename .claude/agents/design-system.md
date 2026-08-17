@@ -51,6 +51,27 @@ Add it in **all three** places or dark mode silently breaks:
 and `:root[data-theme="dark"]`. The last two are duplicated on purpose — the media query
 handles "système", the attribute handles an explicit choice, and neither can cover both.
 
+## Page-type shells live in `style.css`, not in views
+
+Each kind of page has its furniture defined once, globally, and views declare a class and
+write no `<style>` block:
+
+| Class | Pages | Owns |
+|---|---|---|
+| `.lesson` | grammaire, orthographe, astuces, vocabulaire, theme, prononciation, musique | tables, `.hl-*`, `.note`, `.method`, `.download-btn` |
+| `.exo` | exercices | instructions, progress meter, card, feedback, score screen |
+| `.gapfill` | conversation | word bank, chips, chat bubbles, slots |
+| `.dictee` | dictees | prep card, audio buttons, textarea, correction, print answer sheet |
+
+Content patterns usable inside any of them: `.rule`, `.example`, `.attention`,
+`.exception`, `.astuce` (+ `.astuce-hook`), `.lesson-link`.
+
+When a third page of a type grows its own copy of the same scoped CSS, that is the signal
+to promote it here — that is exactly how `.dictee` came to exist, replacing ~1,100 lines of
+triplicated scoped styles. Pages written before a shell existed keep identical scoped
+copies; scoped selectors win on specificity, so they are unaffected. Don't strip them
+except when already editing the file.
+
 ## Non-negotiable constraints
 
 - `--max-width: 794px` is A4 at 96 dpi. **Never widen it.** The shell is full-width; the

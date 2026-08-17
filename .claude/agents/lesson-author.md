@@ -65,7 +65,9 @@ Order inside a lesson: **rule → table → examples → one key exception → d
 
 Content classes (all defined globally in `style.css`, do not redefine them):
 `.rule` blue rule box · `.example` tinted mono box · `.attention` amber "À retenir"
-(the label is added by CSS — do not type it) · `.exception` red tint.
+(the label is added by CSS — do not type it) · `.exception` red tint · `.astuce` blue card
+with an "ASTUCE" eyebrow, holding a `.astuce-hook` line (both labels come from CSS) ·
+`.lesson-link` for a `<RouterLink>` pointing at another lesson.
 
 **Write no `<style>` block.** The lesson chrome — tables, `.hl-blue` / `.hl-red`, `.note`,
 `.sep`, `.method`, `.method-example`, `.exception-ex`, `.download-btn` — is global under
@@ -88,7 +90,7 @@ Spanish.
 
 ## Which pages get the PDF button
 
-Yes: `grammaire/`, `orthographe/`, `dictees/`, `prononciation/`, `musique/`,
+Yes: `grammaire/`, `orthographe/`, `astuces/`, `dictees/`, `prononciation/`, `musique/`,
 `vocabulaire/`, `theme/`.
 No: `exercices/`, `conversation/`, `litterature/`, `lecture/`, any `index.vue`.
 
@@ -108,6 +110,39 @@ hidden Spanish translation in `<details class="translation">`.
 
 The quiz uses `<button>` options, **not hidden radios** — the click targets overlap and it
 silently breaks. Print CSS hides the quiz and the translation panel.
+
+## Astuce pages (`astuces/`)
+
+Memory hooks for rules taught elsewhere — mnemonics, substitution tests, "look at the last
+letter" shortcuts. A normal `<main class="lesson">` page with the PDF button. Three rules:
+
+1. **One `.astuce` per section**, carrying the single line the learner should walk away
+   with in `.astuce-hook`. Two hooks in one section and neither lands.
+2. **State the exceptions.** A trick presented as absolute teaches a mistake: "pays en -e →
+   en" is wrong for *au Mexique*. Every shortcut is paired with an `.exception` block, or
+   it does not ship.
+3. **Never restate the paradigm table.** Link to the lesson that owns the rule with
+   `<RouterLink class="lesson-link" to="…">`, and to the matching `exercices/` page when one
+   exists. Verify the targets resolve — a `RouterLink` to a non-existent path renders as a
+   dead anchor with no warning.
+
+Prefer a mnemonic that works for a **hispanophone**: no English acronyms (never
+DR & MRS VANDERTRAMP), and use Spanish contrast where it helps (*haber* is always the
+auxiliary in Spanish, so `être` is the surprise, not `avoir`).
+
+## Dictée pages (`dictees/`)
+
+Write `<main class="dictee">` and **no `<style>` block** — the whole shell (preparation
+card, Spanish clue, audio buttons, textarea, correction, score screen, print answer sheet)
+is global in `style.css`. Copy `dictees/une-journee-en-vacances.vue` and replace only the
+`dictation` object: `sentences[{ text, spanish, note }]` plus `vocabulary[{ fr, es, note }]`.
+
+Audio comes from **`useSpeech()`** (`src/composables/`) — never hand-roll
+`SpeechSynthesisUtterance`. `speak(text, 0.85)` is normal, `0.55` is the "Lentement"
+button; the composable picks a French voice and cancels on unmount.
+
+The answer comparator is accent-sensitive on purpose but normalises ligatures (`œ`→`oe`),
+because a Spanish keyboard cannot type them — say so on the page when a sentence needs one.
 
 ## Exercise pages
 

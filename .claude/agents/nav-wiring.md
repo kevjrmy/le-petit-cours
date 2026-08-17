@@ -59,8 +59,14 @@ Route, in the matching chapter group:
 Keep `import()` **static and literal** — Vite needs it to code-split. No template strings,
 no dynamic mapping.
 
-Route `name`s follow the existing per-chapter prefixes (`grammaire-`, `ortho-`, `ex-`,
-`lecture-`, `conv-`, `theme-`, `vocab-`, `dictee-`) and must be unique.
+Route `name`s follow the existing per-chapter prefixes (`grammaire-`, `ortho-`, `astuce-`,
+`ex-`, `lecture-`, `conv-`, `theme-`, `vocab-`, `dictee-`) and must be unique. The same
+slug can appear in two chapters (`/exercices/etre-ou-avoir` and `/astuces/etre-ou-avoir`),
+so the prefix is what keeps the names apart — check for collisions:
+
+```bash
+grep -o "name: '[^']*'" src/router/index.js | sort | uniq -d
+```
 
 ## Adding a chapter
 

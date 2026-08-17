@@ -33,6 +33,7 @@ src/
     useTheme.js            ← light | dark | system, persisted, sets <html data-theme>
     useSidebar.js          ← collapse/rail (desktop), drawer (mobile), expanded chapters
     usePageTitle.js        ← breadcrumbs + document.title, derived from navigation.js
+    useSpeech.js           ← French TTS for dictees/ + prononciation/, with unmount cleanup
   components/
     AppSidebar.vue         ← collapsible nav tree + lesson filter + theme toggle
     AppTopbar.vue          ← sticky bar: menu, back, breadcrumb
@@ -69,7 +70,8 @@ Read `src/style.css` top to bottom once — it documents its own three token lay
 - **Dark mode is not optional.** Every change must work in both. `useTheme` supports
   clair / sombre / système.
 - Content patterns for lesson views: `.rule` (blue left border), `.example` (tinted mono
-  box), `.attention` (amber "À retenir"), `.exception` (red tint).
+  box), `.attention` (amber "À retenir"), `.exception` (red tint), `.astuce` (blue card,
+  "ASTUCE" eyebrow + `.astuce-hook` — the memory hook of an `astuces/` page).
 - Accessibility: semantic HTML, `focus-visible` rings, `aria-label` on icon-only controls,
   `<caption class="sr-only">` on every table.
 
@@ -120,7 +122,7 @@ register the routes.
 
 | Page type | PDF button | Notes |
 |---|---|---|
-| `grammaire/`, `orthographe/`, `dictees/`, `prononciation/`, `musique/`, `vocabulaire/`, `theme/` | **yes** | standard lesson |
+| `grammaire/`, `orthographe/`, `astuces/`, `dictees/`, `prononciation/`, `musique/`, `vocabulaire/`, `theme/` | **yes** | standard lesson |
 | `exercices/` | no | interactive, self-scoring |
 | `conversation/`, `litterature/` | no | |
 | `lecture/` | no | ends with the comprehension quiz + hidden translation |
@@ -187,6 +189,66 @@ function downloadPdf() { window.print() }
 ```
 
 Style it with `--border` / `--text-2`, hover to `--accent`, and hide it in `@media print`.
+
+### Astuce pages
+
+Memory hooks for rules taught elsewhere — mnemonics, substitution tests, "look at the last
+letter" shortcuts. A standard `<main class="lesson">` page with the PDF button.
+
+Three rules make this chapter work:
+
+1. **One `.astuce` block per section, and it carries the hook** — the single line the learner
+   should walk away with, in `.astuce-hook`. More than one per section and none of them lands.
+2. **An astuce that has exceptions must state them.** A trick presented as absolute teaches a
+   mistake: "pays en -e → en" is useless without *au Mexique*. Pair every shortcut with an
+   `.exception` block, or don't ship it.
+3. **Never restate the paradigm table.** Astuce pages link to the lesson that owns the rule
+   with `<RouterLink class="lesson-link">`, so the two can't drift apart when one is edited.
+   Link to the matching `exercices/` page too when one exists.
+
+Because these pages cross-reference heavily, check the links resolve — a `RouterLink` to a
+path with no route renders as a dead anchor with no warning:
+
+```bash
+python3 - <<'PY'
+import re, pathlib
+paths = set(re.findall(r"path:\s*'([^']+)'", pathlib.Path('src/router/index.js').read_text()))
+for p in pathlib.Path('src/views/astuces').glob('*.vue'):
+    for t in re.findall(r'RouterLink[^>]*?(?<![:\w-])to="([^"]+)"', p.read_text(), re.S):
+        print('OK ' if t in paths else 'DEAD', t, p.name)
+PY
+```
+
+The lookbehind skips bound props (`:to="chapter.path"`), which hold an expression rather
+than a literal path.
+
+### Dictée pages
+
+Listen, type, compare — plus a Spanish clue per sentence and a `.print-only` answer sheet.
+Dictées are the one interactive page type that *does* keep the PDF button.
+
+The chrome is global: write `<main class="dictee">` and declare **no `<style>` block** —
+`.prep-card`, `.spanish-prompt`, `.audio-controls` / `.btn-audio`, `.input-area`,
+`.feedback-card`, `.comparison`, the red `.rule`, the `.result` screen and the whole
+`@media print` answer sheet all live in `style.css`. Copy the structure from
+`dictees/une-journee-en-vacances.vue` and replace only the `dictation` object.
+
+Audio comes from **`useSpeech()`** — never hand-roll `SpeechSynthesisUtterance`. The
+composable picks an installed French voice (`getVoices()` is empty until `voiceschanged`
+fires, so it resolves lazily), exposes `speaking` to disable the buttons mid-utterance, and
+cancels on unmount — without that, audio keeps playing after the learner navigates away.
+
+```js
+const { speak, speaking } = useSpeech()
+speak(sentence.text, 0.85)   // 0.85 = normal, 0.55 = the "Lentement" button
+```
+
+The `clean()` answer comparator lowercases, folds curly to straight apostrophes, strips
+punctuation and collapses whitespace. Keep the apostrophe **out** of the punctuation class:
+elision (`d'aller`, `l'empêchent`) is orthography the learner must get right, not
+punctuation. It is accent-sensitive on purpose — accents are the point of a dictée — but
+ligatures are normalised (`œ`→`oe`), because a Spanish keyboard cannot type them; say so on
+the page when a sentence needs one (`.prep-intro.tip` is the amber aside for that).
 
 ### Exercise pages
 
@@ -277,7 +339,9 @@ Authoritative list is `src/data/navigation.js` — this table is the human summa
   - *temps*: le-passe-compose, l-imparfait, passe-compose-ou-imparfait, le-futur-proche, le-futur-simple, le-conditionnel-present
   - *pronoms et comparaison*: les-pronoms-cod-coi, les-pronoms-y-en, le-comparatif-et-le-superlatif, les-prepositions-de-lieu
 - **orthographe** (3): les-homophones, les-determinants-possessifs, les-pronoms-possessifs
-- **dictees** (1 + 2 planned): une-journee-en-vacances
+- **astuces** (4) — mnemonics for rules taught elsewhere; each page links back to its lesson:
+  a-en-au-aux, le-genre-des-noms, etre-ou-avoir, le-test-de-substitution
+- **dictees** (3): une-journee-en-vacances, la-pierre-de-rosette, les-fleurs-du-mal
 - **exercices** (13, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre, etre-ou-avoir, trouve-la-faute
 - **lecture** (5): le-lion-et-le-rat, le-petit-prince, entretien-d-embauche, le-comte-de-monte-cristo, le-tour-du-monde
 - **litterature** (1): introduction
