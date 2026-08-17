@@ -15,6 +15,7 @@ import { computed } from 'vue'
 import IconHome from '~icons/mdi/home-variant-outline'
 import IconGrammaire from '~icons/mdi/book-open-page-variant-outline'
 import IconOrthographe from '~icons/mdi/spellcheck'
+import IconAstuces from '~icons/mdi/head-lightbulb-outline'
 import IconDictees from '~icons/mdi/ear-hearing'
 import IconExercices from '~icons/mdi/dumbbell'
 import IconLecture from '~icons/mdi/book-open-variant'
@@ -32,6 +33,7 @@ const icons = {
   home:          IconHome,
   grammaire:     IconGrammaire,
   orthographe:   IconOrthographe,
+  astuces:       IconAstuces,
   dictees:       IconDictees,
   exercices:     IconExercices,
   lecture:       IconLecture,

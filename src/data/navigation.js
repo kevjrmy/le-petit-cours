@@ -71,6 +71,24 @@ export const chapters = [
     ],
   },
   {
+    slug: 'astuces',
+    path: '/astuces',
+    title: 'Astuces',
+    icon: 'astuces',
+    unit: ['astuce', 'astuces'],
+    blurb:
+      'Les moyens mnémotechniques qui font gagner du temps : un truc à retenir, ' +
+      'ses exceptions, et un lien vers la leçon complète.',
+    /* Sits after grammaire + orthographe on purpose: these pages are the memory
+       hooks for rules taught there, not a replacement for them. */
+    lessons: [
+      { path: '/astuces/a-en-au-aux', title: 'Où je vais : à, en, au ou aux ?', tag: 'Prépositions' },
+      { path: '/astuces/le-genre-des-noms', title: 'Deviner le genre d\'un nom', tag: 'Genre' },
+      { path: '/astuces/etre-ou-avoir', title: 'Passé composé : être ou avoir ?', tag: 'Verbes' },
+      { path: '/astuces/le-test-de-substitution', title: 'Le test de substitution', tag: 'Homophones' },
+    ],
+  },
+  {
     slug: 'dictees',
     path: '/dictees',
     title: 'Dictées',

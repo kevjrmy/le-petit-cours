@@ -21,6 +21,12 @@ const router = createRouter({
     { path: '/orthographe/les-determinants-possessifs', name: 'ortho-determinants-possessifs', component: () => import('../views/orthographe/les-determinants-possessifs.vue') },
     { path: '/orthographe/les-pronoms-possessifs', name: 'ortho-pronoms-possessifs', component: () => import('../views/orthographe/les-pronoms-possessifs.vue') },
 
+    { path: '/astuces', name: 'astuces', component: () => import('../views/astuces/index.vue') },
+    { path: '/astuces/a-en-au-aux', name: 'astuce-a-en-au-aux', component: () => import('../views/astuces/a-en-au-aux.vue') },
+    { path: '/astuces/le-genre-des-noms', name: 'astuce-le-genre-des-noms', component: () => import('../views/astuces/le-genre-des-noms.vue') },
+    { path: '/astuces/etre-ou-avoir', name: 'astuce-etre-ou-avoir', component: () => import('../views/astuces/etre-ou-avoir.vue') },
+    { path: '/astuces/le-test-de-substitution', name: 'astuce-le-test-de-substitution', component: () => import('../views/astuces/le-test-de-substitution.vue') },
+
     // Grammaire
     { path: '/grammaire', name: 'grammaire', component: () => import('../views/grammaire/index.vue') },
     { path: '/grammaire/les-articles', name: 'grammaire-les-articles', component: () => import('../views/grammaire/les-articles.vue') },

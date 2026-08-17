@@ -578,6 +578,73 @@ article + article {
   padding: 0.85rem 1.1rem;
 }
 
+/* Astuce — the memory hook of an astuces/ page (see AGENTS.md §5).
+   Louder than `.rule` on purpose: it is the one line the learner should
+   walk away with. Use ONE per section, then explain around it.
+
+   <div class="astuce">
+     <p class="astuce-hook">Pays en <strong>-e</strong> → <strong>en</strong></p>
+     <p>optional gloss…</p>
+   </div>
+
+   An astuce that has exceptions must state them — pair it with `.exception`
+   ("Sauf…"), never leave a trick looking absolute when it is not. */
+.astuce {
+  border: 1px solid var(--accent-line);
+  border-left: 4px solid var(--accent);
+  background: var(--accent-subtle);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.25rem;
+}
+
+.astuce::before {
+  content: "Astuce";
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  margin-bottom: 0.5rem;
+}
+
+.astuce-hook {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 1.45;
+  color: var(--text-heading);
+  margin: 0;
+}
+
+.astuce-hook + p {
+  margin: 0.6rem 0 0;
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+/* Cross-link from an astuce back to the lesson that owns the full rule.
+   The astuces chapter deliberately does NOT restate paradigm tables. */
+.lesson-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.lesson-link:hover { border-bottom-color: var(--accent); }
+
+.lesson-link::before {
+  content: "→";
+  font-weight: 400;
+}
+
 /* ═══════════════════════════════════════════════════
    LESSON CHROME
    Everything a `<main class="lesson">` page needs: paradigm tables, inline

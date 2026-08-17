@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-10; updated=2026-08-10 -->
+<!-- view-meta: created=2026-08-10; updated=2026-08-17 -->
 <template>
   <AltLayout title="Les prépositions de lieu">
     <main class="lesson">
@@ -70,6 +70,12 @@
           féminin → <strong>en</strong> (la France, l'Espagne, l'Italie, la Suisse, la Belgique).
           Les autres sont masculins → <strong>au</strong> (le Portugal, le Maroc, le Canada,
           le Japon, le Brésil).
+        </div>
+
+        <div class="exception">
+          Quelques pays finissent par <strong>-e</strong> mais restent masculins&nbsp;:
+          on dit <strong>au</strong> Mexique, <strong>au</strong> Cambodge,
+          <strong>au</strong> Mozambique, <strong>au</strong> Zimbabwe.
         </div>
       </article>
 
