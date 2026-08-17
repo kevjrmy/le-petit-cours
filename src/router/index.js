@@ -88,6 +88,7 @@ const router = createRouter({
     { path: '/exercices/etre-ou-avoir', name: 'ex-etre-ou-avoir', component: () => import('../views/exercices/etre-ou-avoir.vue') },
     { path: '/exercices/trouve-la-faute', name: 'ex-trouve-la-faute', component: () => import('../views/exercices/trouve-la-faute.vue') },
     { path: '/exercices/devine-les-temps', name: 'ex-devine-les-temps', component: () => import('../views/exercices/devine-les-temps.vue') },
+    { path: '/exercices/ecoute-et-choisis', name: 'ex-ecoute-et-choisis', component: () => import('../views/exercices/ecoute-et-choisis.vue') },
 
     // Lecture
     { path: '/lecture', name: 'lecture', component: () => import('../views/lecture/index.vue') },

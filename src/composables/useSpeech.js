@@ -34,10 +34,19 @@ export function useSpeech(options = {}) {
   const langPrefix = lang.slice(0, 2)
   let voice = null
 
+  /**
+   * Whether a voice in `lang` is actually installed. Falling back to the OS
+   * default is fine for a dictée — the learner still hears words — but it
+   * ruins any exercise that turns on hearing a French contrast, so pages that
+   * depend on it can check this and say so instead of failing silently.
+   */
+  const hasVoice = ref(false)
+
   function resolveVoice() {
     if (!supported || !pickVoice) return null
     if (voice) return voice
     voice = window.speechSynthesis.getVoices().find(v => v.lang.startsWith(langPrefix)) || null
+    hasVoice.value = voice !== null
     return voice
   }
 
@@ -89,5 +98,5 @@ export function useSpeech(options = {}) {
     }
   })
 
-  return { speak, cancel, speaking, supported }
+  return { speak, cancel, speaking, supported, hasVoice }
 }
