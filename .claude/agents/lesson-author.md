@@ -90,7 +90,7 @@ Spanish.
 
 ## Which pages get the PDF button
 
-Yes: `grammaire/`, `orthographe/`, `astuces/`, `dictees/`, `prononciation/`, `musique/`,
+Yes: `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `dictees/`, `prononciation/`, `musique/`,
 `vocabulaire/`, `theme/`.
 No: `exercices/`, `conversation/`, `litterature/`, `lecture/`, any `index.vue`.
 

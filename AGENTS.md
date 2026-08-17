@@ -122,7 +122,7 @@ register the routes.
 
 | Page type | PDF button | Notes |
 |---|---|---|
-| `grammaire/`, `orthographe/`, `astuces/`, `dictees/`, `prononciation/`, `musique/`, `vocabulaire/`, `theme/` | **yes** | standard lesson |
+| `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `dictees/`, `prononciation/`, `musique/`, `vocabulaire/`, `theme/` | **yes** | standard lesson |
 | `exercices/` | no | interactive, self-scoring |
 | `conversation/`, `litterature/` | no | |
 | `lecture/` | no | ends with the comprehension quiz + hidden translation |
@@ -189,6 +189,75 @@ function downloadPdf() { window.print() }
 ```
 
 Style it with `--border` / `--text-2`, hover to `--accent`, and hide it in `@media print`.
+
+### Conjugaison pages
+
+The only **data-driven** chapter. Every verb view is a one-line
+`<ConjugationSheet slug="etre" />`; the tables come from `src/data/conjugaisons.js` and the
+chrome from `ConjugationSheet.vue`. Adding a verb means an entry in that data file, a view
+wrapper, a `navigation.js` line and a route — never a hand-written table.
+
+**Scope is A2 and stays A2**: présent, passé composé, impératif, participe présent. No
+imparfait, futur or subjonctif — those belong to the grammaire lessons.
+
+Two toggles (affirmatif/négatif, masculin/féminin) drive the whole sheet, so the forms are
+generated, not stored. The generators live in the data file and are pure functions — test
+them there rather than through the UI:
+
+```bash
+node --input-type=module -e "
+import { verbs, conjugate } from './src/data/conjugaisons.js';
+const J = s => s.map(x => x.s).join('');
+for (const v of verbs) console.log(v.infinitif,
+  conjugate(v,'passeCompose',true,'feminin').map(l => J(l.segments)).join(' | '));"
+```
+
+**The colouring is the point of the sheet.** A conjugation table nobody can scan is just a
+list; the terminaison has to pop so the pattern is visible down a column
+(fin**is** · fin**is** · fin**it** · fin**issons** · fin**issez** · fin**issent**). Forms are
+stored with a `|` marking the stem/ending boundary — `'parl|ons'`, `'fin|issent'` — and the
+generators return typed segments the view paints:
+
+| Segment | Colour | Is |
+|---|---|---|
+| `stem` / `pron` | `--text-1` / `--text-3` | radical, subject pronoun |
+| `end` | `--accent-text`, bold | the terminaison — the pattern to notice |
+| `neg` | `--danger-text` | `ne` / `n'` / ` pas` |
+| `accord` | `--warn-text`, bold | the participle's agreement letters (être only) |
+
+Three roles, no more — a fourth colour and none of them mean anything. Use the `-text`
+token variants, not the plain `--accent` / `--danger` / `--warn` fills, which are too light
+on a surface in dark mode.
+
+The legend renders above the grid, in that order (radical → terminaison, the way the word
+is built), and prints with the sheet. **Each entry appears only when its colour is actually
+on screen** — no `négation` in affirmative mode, no `accord` on an `avoir` verb — so the key
+never explains something the learner cannot see.
+
+That makes the row length vary, which is why each entry carries its `sg-*` class on the
+`<li>` (the dash and the word then share one colour). **Never colour the legend by
+`:nth-child`**: with entries appearing and disappearing, positional rules mis-key every row.
+
+A form with **no `|` is left uncoloured** — `j'ai`, `il a`, `va` are irregular enough that
+no ending is worth marking. Don't invent a split to make the column look uniform.
+
+Concatenating every segment's `s` must reproduce the plain sentence exactly. That is the
+regression test: capture the joined output, change the data, diff.
+
+Three rules the generators encode, easy to get wrong by hand:
+
+- **Only `je` and `ne` elide.** `j'ai`, `je n'ai pas` — but `elle est`, never `ell'est`.
+- **`ne … pas` wraps the auxiliary, not the participle**: *je n'ai pas parlé*, not
+  *je n'ai parlé pas*.
+- **The participle agrees only when the auxiliary is `être`.** With `avoir` the feminine
+  toggle changes nothing but the pronouns, and the sheet says so in a `.conj-hint` rather
+  than leaving the learner hunting for a difference.
+
+`pouvoir` has no impératif — `imperatif: null` renders an explicit note. Don't invent forms
+to fill the grid.
+
+`ConjugationSheet.vue` keeps its CSS in a scoped block, which is correct here: one component
+owns the whole page type, so there is nothing to duplicate and nothing to promote.
 
 ### Astuce pages
 
@@ -263,9 +332,16 @@ State shape shared by every exercise: `deck` (shuffled), `currentIndex`, `checke
 **Vary the mechanic.** Nine of the first eleven exercises were the same 4-option MCQ.
 Current coverage: MCQ (×9), matching pairs (`associe-les-pairs`), tap-to-order
 (`phrases-en-desordre`), bucket sort (`etre-ou-avoir`), locate-and-retype
-(`trouve-la-faute`). Still unbuilt: **listening** (TTS exists in `dictees/` and
-`prononciation/` but no exercise uses it), full-paradigm conjugation typing, and timed
-rounds. Prefer a missing mechanic over a tenth MCQ.
+(`trouve-la-faute`), multi-select (`devine-les-temps`). Still unbuilt: **listening** (TTS
+exists in `dictees/` and `prononciation/` via `useSpeech()`, but no exercise uses it),
+full-paradigm conjugation typing, and timed rounds. Prefer a missing mechanic over a
+tenth MCQ.
+
+**Multi-answer questions need three result states, not two.** In `devine-les-temps` a chip
+can be right (green ✓), wrongly ticked (red ✗) or *missed* (amber dashed +). Amber, not
+red, for the omission: failing to spot the second tense is a different mistake from naming
+a tense that is not there, and the learner has to see which one they made. Scoring is
+all-or-nothing on the exact set — partial credit would hide exactly that distinction.
 
 Feedback colors come from tokens (`--success*` / `--danger*`) — never a raw hex.
 
@@ -338,11 +414,14 @@ Authoritative list is `src/data/navigation.js` — this table is the human summa
   - *verbes*: verbe-1er/2eme/3eme-groupe, les-verbes-pronominaux, les-verbes-modaux, l-imperatif
   - *temps*: le-passe-compose, l-imparfait, passe-compose-ou-imparfait, le-futur-proche, le-futur-simple, le-conditionnel-present
   - *pronoms et comparaison*: les-pronoms-cod-coi, les-pronoms-y-en, le-comparatif-et-le-superlatif, les-prepositions-de-lieu
+- **conjugaison** (10) — reference tables, A2 tenses only, all rendered by one component
+  from `src/data/conjugaisons.js`: etre, avoir, parler, finir, aller, faire, pouvoir,
+  vouloir, venir, prendre
 - **orthographe** (3): les-homophones, les-determinants-possessifs, les-pronoms-possessifs
 - **astuces** (4) — mnemonics for rules taught elsewhere; each page links back to its lesson:
   a-en-au-aux, le-genre-des-noms, etre-ou-avoir, le-test-de-substitution
 - **dictees** (3): une-journee-en-vacances, la-pierre-de-rosette, les-fleurs-du-mal
-- **exercices** (13, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre, etre-ou-avoir, trouve-la-faute
+- **exercices** (14, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre, etre-ou-avoir, trouve-la-faute, devine-les-temps
 - **lecture** (5): le-lion-et-le-rat, le-petit-prince, entretien-d-embauche, le-comte-de-monte-cristo, le-tour-du-monde
 - **litterature** (1): introduction
 - **prononciation** (1): les-syllabes-courantes

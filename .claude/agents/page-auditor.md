@@ -40,7 +40,7 @@ Also flag:
 
 ## 3. Print / PDF
 
-Lesson pages under `grammaire/`, `orthographe/`, `astuces/`, `dictees/`, `prononciation/`,
+Lesson pages under `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `dictees/`, `prononciation/`,
 `musique/`, `vocabulaire/`, `theme/` must carry the download button; `exercices/`,
 `conversation/`, `litterature/`, `lecture/` and every `index.vue` must not.
 
@@ -84,9 +84,9 @@ current page only, and the body must not scroll horizontally.
 
 Run the audit script in `.claude/agents/nav-wiring.md` §The audit. Both lines must be `none`.
 
-Also check in-page cross-links. `astuces/` pages link to the lessons that own each rule, and
-a `<RouterLink>` pointing at a path with no route renders as a dead anchor — no console
-warning, no build failure, it simply does nothing when clicked:
+Also check in-page cross-links. `astuces/` and `conjugaison/` pages both link out to the
+lessons that own each rule, and a `<RouterLink>` pointing at a path with no route renders as
+a dead anchor — no console warning, no build failure, it simply does nothing when clicked:
 
 ```bash
 python3 - <<'PY'
