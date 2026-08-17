@@ -81,8 +81,8 @@ export const chapters = [
       'et de ses points de vigilance.',
     lessons: [
       { path: '/dictees/une-journee-en-vacances', title: 'Une journée en vacances', tag: 'Facile' },
-      { path: '/dictees/la-pierre-de-rosette', title: 'La pierre de Rosette', tag: 'Intermédiaire', soon: true },
-      { path: '/dictees/les-fleurs-du-mal', title: 'Les fleurs du mal', tag: 'Difficile', soon: true },
+      { path: '/dictees/la-pierre-de-rosette', title: 'La pierre de Rosette', tag: 'Intermédiaire' },
+      { path: '/dictees/les-fleurs-du-mal', title: 'Les fleurs du mal', tag: 'Difficile' },
     ],
   },
   {

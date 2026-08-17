@@ -49,6 +49,8 @@ const router = createRouter({
     // Dictées
     { path: '/dictees', name: 'dictees', component: () => import('../views/dictees/index.vue') },
     { path: '/dictees/une-journee-en-vacances', name: 'dictee-une-journee-en-vacances', component: () => import('../views/dictees/une-journee-en-vacances.vue') },
+    { path: '/dictees/la-pierre-de-rosette', name: 'dictee-la-pierre-de-rosette', component: () => import('../views/dictees/la-pierre-de-rosette.vue') },
+    { path: '/dictees/les-fleurs-du-mal', name: 'dictee-les-fleurs-du-mal', component: () => import('../views/dictees/les-fleurs-du-mal.vue') },
 
     // Exercices
     { path: '/exercices', name: 'exercices', component: () => import('../views/exercices/index.vue') },
