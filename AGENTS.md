@@ -33,7 +33,7 @@ src/
     useTheme.js            ← light | dark | system, persisted, sets <html data-theme>
     useSidebar.js          ← collapse/rail (desktop), drawer (mobile), expanded chapters
     usePageTitle.js        ← breadcrumbs + document.title, derived from navigation.js
-    useSpeech.js           ← French TTS for dictees/ + prononciation/, with unmount cleanup
+    useSpeech.js           ← French TTS for dictees/, prononciation/, exercices/; unmount cleanup
   components/
     AppSidebar.vue         ← collapsible nav tree + lesson filter + theme toggle
     AppTopbar.vue          ← sticky bar: menu, back, breadcrumb
@@ -332,10 +332,30 @@ State shape shared by every exercise: `deck` (shuffled), `currentIndex`, `checke
 **Vary the mechanic.** Nine of the first eleven exercises were the same 4-option MCQ.
 Current coverage: MCQ (×9), matching pairs (`associe-les-pairs`), tap-to-order
 (`phrases-en-desordre`), bucket sort (`etre-ou-avoir`), locate-and-retype
-(`trouve-la-faute`), multi-select (`devine-les-temps`). Still unbuilt: **listening** (TTS
-exists in `dictees/` and `prononciation/` via `useSpeech()`, but no exercise uses it),
-full-paradigm conjugation typing, and timed rounds. Prefer a missing mechanic over a
-tenth MCQ.
+(`trouve-la-faute`), multi-select (`devine-les-temps`), listening (`ecoute-et-choisis`),
+type-in conjugation (`mets-au-bon-temps`). Still unbuilt: timed rounds. Prefer a missing
+mechanic over a tenth MCQ.
+
+**Type-in answers are accent-sensitive; multiple-choice ones need not be.** In
+`mets-au-bon-temps` the whole point is producing « achèterais » with its grave accent, so
+`clean()` folds case, spacing and curly apostrophes but leaves accents alone — the same
+policy as a dictée. Give every input the **same width**: sizing it to its answer leaks how
+long the expected form is.
+
+**Listening exercises must check `hasVoice`.** `useSpeech()` falls back to the OS default
+voice when no French one is installed — harmless for a dictée, fatal for `ecoute-et-choisis`,
+where a Spanish voice reading *tu* and *tout* makes the whole drill meaningless. Show the
+warning only **after the first play**: `getVoices()` is empty until `voiceschanged` fires,
+so checking on mount flashes a false alarm.
+
+Gate the answers on having listened (`disabled` **and** a visible `locked` class — a button
+that is dead but looks alive just makes the learner click nothing), and keep the replay
+buttons live after answering: hearing the contrast again, knowing the answer, is where the
+learning happens.
+
+Minimal-pair sets must contain **no homophones**, or the question has no answer. That rules
+out `cent/sang/sans`, `vert/verre`, `petit/petits` and every other same-sounding trio that
+looks tempting on paper.
 
 **Multi-answer questions need three result states, not two.** In `devine-les-temps` a chip
 can be right (green ✓), wrongly ticked (red ✗) or *missed* (amber dashed +). Amber, not
@@ -421,7 +441,7 @@ Authoritative list is `src/data/navigation.js` — this table is the human summa
 - **astuces** (4) — mnemonics for rules taught elsewhere; each page links back to its lesson:
   a-en-au-aux, le-genre-des-noms, etre-ou-avoir, le-test-de-substitution
 - **dictees** (3): une-journee-en-vacances, la-pierre-de-rosette, les-fleurs-du-mal
-- **exercices** (14, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre, etre-ou-avoir, trouve-la-faute, devine-les-temps
+- **exercices** (16, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre, etre-ou-avoir, trouve-la-faute, devine-les-temps, ecoute-et-choisis, mets-au-bon-temps
 - **lecture** (5): le-lion-et-le-rat, le-petit-prince, entretien-d-embauche, le-comte-de-monte-cristo, le-tour-du-monde
 - **litterature** (1): introduction
 - **prononciation** (1): les-syllabes-courantes

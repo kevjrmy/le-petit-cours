@@ -141,6 +141,10 @@ Audio comes from **`useSpeech()`** (`src/composables/`) — never hand-roll
 `SpeechSynthesisUtterance`. `speak(text, 0.85)` is normal, `0.55` is the "Lentement"
 button; the composable picks a French voice and cancels on unmount.
 
+It also returns `hasVoice`. A dictée works fine on a fallback voice, but any page whose
+point is hearing a French contrast (`exercices/ecoute-et-choisis`) must check it and warn —
+and only **after the first play**, since `getVoices()` is empty until `voiceschanged` fires.
+
 The answer comparator is accent-sensitive on purpose but normalises ligatures (`œ`→`oe`),
 because a Spanish keyboard cannot type them — say so on the page when a sentence needs one.
 

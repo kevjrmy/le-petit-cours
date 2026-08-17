@@ -77,6 +77,11 @@ done
 back and look at them — layout bugs like a flex child stretching to fill a column do not
 show up in the DOM.
 
+Always pass **`--force-prefers-reduced-motion`**. The route transition
+(`.route-enter-active`, a 0.18s opacity+translate fade) does not reliably finish under
+`--virtual-time-budget`, so screenshots come out half-faded and colours cannot be judged.
+`style.css` already honours the media query, which collapses the fade to nothing.
+
 Also check 430 px wide: the sidebar must be off-canvas, the breadcrumb must collapse to the
 current page only, and the body must not scroll horizontally.
 
