@@ -150,6 +150,7 @@ export const chapters = [
       { path: '/exercices/phrases-en-desordre', title: 'Phrases en désordre', tag: 'Syntaxe' },
       { path: '/exercices/etre-ou-avoir', title: 'Être ou avoir ?', tag: 'Conjugaison' },
       { path: '/exercices/trouve-la-faute', title: 'Trouve la faute', tag: 'Correction' },
+      { path: '/exercices/devine-les-temps', title: 'Devine les temps', tag: 'Conjugaison' },
     ],
   },
   {
