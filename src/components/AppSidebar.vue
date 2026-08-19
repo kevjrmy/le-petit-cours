@@ -18,7 +18,10 @@
     <div class="side-head">
       <RouterLink to="/" class="brand" @click="closeDrawer">
         <img src="/logo.svg" alt="" class="brand-mark" aria-hidden="true" />
-        <span v-if="!isRail" class="brand-text">Le Petit Cours</span>
+        <span v-if="!isRail" class="brand-lines">
+          <span class="brand-text">Le Petit Cours</span>
+          <span class="brand-by">par Kevin Jeremy</span>
+        </span>
       </RouterLink>
 
       <button
@@ -295,11 +298,31 @@ onMounted(async () => {
   box-shadow: var(--shadow-sm);
 }
 
+.brand-lines {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.2;
+}
+
 .brand-text {
   font-family: var(--font-serif);
   font-size: 0.98rem;
   font-weight: 600;
   letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Byline — who writes the book. Hidden with the rest of the brand text in
+   rail mode, where only the logo remains. */
+.brand-by {
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-3);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
