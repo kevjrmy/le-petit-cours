@@ -15,17 +15,6 @@
           <span class="band band-white"></span>
           <span class="band band-red"></span>
         </div>
-
-        <dl class="hero-stats">
-          <div class="stat">
-            <dt>Chapitres</dt>
-            <dd>{{ cards.length }}</dd>
-          </div>
-          <div class="stat">
-            <dt>Leçons</dt>
-            <dd>{{ totalLessons }}</dd>
-          </div>
-        </dl>
       </section>
 
       <!-- ── Recently added ────────────────────────── -->
@@ -92,11 +81,6 @@ import { recentViews } from '@/utils/viewMeta'
 const cards = chapters
   .filter(chapter => chapter.lessons.length > 0)
   .map(chapter => ({ ...chapter, ...chapterCount(chapter) }))
-
-const totalLessons = chapters.reduce(
-  (sum, chapter) => sum + publishedLessons(chapter).length,
-  0
-)
 
 /* Flattened in manifest order, so same-day ties in "Récemment ajouté" fall in
    the book's own order rather than alphabetically. */
@@ -173,7 +157,7 @@ onMounted(async () => {
   display: flex;
   width: 120px;
   height: 3px;
-  margin-top: 0.6rem;
+  margin-top: 0.9rem;
   border-radius: var(--radius-pill);
   overflow: hidden;
   box-shadow: 0 0 0 1px var(--border-soft);
@@ -183,36 +167,6 @@ onMounted(async () => {
 .band-blue  { background: var(--blue-700); }
 .band-white { background: var(--white); box-shadow: inset 0 0 0 1px var(--border-soft); }
 .band-red   { background: var(--red-500); }
-
-.hero-stats {
-  display: flex;
-  gap: 2.25rem;
-  margin-top: 1.35rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--border-soft);
-}
-
-.stat {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 0.1rem;
-}
-
-.stat dt {
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-3);
-}
-
-.stat dd {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--accent-text);
-  line-height: 1.1;
-}
 
 /* ── Grid ───────────────────────────────────────── */
 .grid-title {
@@ -390,7 +344,6 @@ onMounted(async () => {
 @media (max-width: 794px) {
   .hero { padding: 1.75rem 1.25rem 1.5rem; }
   .hero-title { font-size: 1.9rem; }
-  .hero-stats { gap: 1.5rem; }
   .chapter-grid { grid-template-columns: 1fr; }
 }
 </style>
