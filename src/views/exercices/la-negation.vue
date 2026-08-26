@@ -72,6 +72,8 @@
         </div>
       </template>
 
+      <RelatedLinks />
+
     </main>
   </DefaultLayout>
 </template>
@@ -79,6 +81,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import RelatedLinks from '@/components/RelatedLinks.vue'
 
 // sentence: phrase affirmative ; answer: bonne version négative ; options: choix (incluant answer) ; note: explication
 const items = [

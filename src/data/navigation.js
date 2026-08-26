@@ -153,6 +153,7 @@ export const chapters = [
       { path: '/exercices/devine-les-temps', title: 'Devine les temps', tag: 'Conjugaison' },
       { path: '/exercices/ecoute-et-choisis', title: 'Écoute et choisis', tag: 'Écoute' },
       { path: '/exercices/mets-au-bon-temps', title: 'Mets au bon temps', tag: 'Conjugaison' },
+      { path: '/exercices/le-bon-pronom', title: 'Le bon pronom', tag: 'Chrono' },
     ],
   },
   {
@@ -208,7 +209,7 @@ export const chapters = [
       'Apprenez le français en chantant. Paroles, vocabulaire et contexte ' +
       'pour chaque chanson.',
     lessons: [
-      { path: '/musique/la-vie-en-rose', title: 'La vie en rose', subtitle: 'Édith Piaf', tag: 'Facile', soon: true },
+      { path: '/musique/la-vie-en-rose', title: 'La vie en rose', subtitle: 'Édith Piaf', tag: 'Facile' },
       { path: '/musique/non-je-ne-regrette-rien', title: 'Non, je ne regrette rien', subtitle: 'Édith Piaf', tag: 'Intermédiaire', soon: true },
       { path: '/musique/le-pont-mirabeau', title: 'Le pont Mirabeau', subtitle: 'Guillaume Apollinaire', tag: 'Intermédiaire', soon: true },
     ],
@@ -305,4 +306,152 @@ export function findLesson(routePath) {
     if (lesson) return { chapter, lesson }
   }
   return null
+}
+
+/** A page shows at most four related links — past that it stops being a hint. */
+export const MAX_RELATED = 4
+
+/**
+ * "Pour aller plus loin" — the links at the foot of a lesson, keyed by route.
+ *
+ * The pairing is always one of three: the lesson a drill practises, the drill
+ * that practises a lesson, or the sibling page a learner reaches for next.
+ * Kept here rather than inside each view so a renamed route is fixed in one
+ * place; `RelatedLinks.vue` resolves the titles from `chapters` above, so a
+ * typo shows up as a missing row rather than a dead anchor.
+ */
+export const relatedPages = {
+  // ── Grammaire ────────────────────────────────
+  '/grammaire/les-articles': ['/exercices/les-articles', '/astuces/le-genre-des-noms', '/grammaire/les-adjectifs'],
+  '/grammaire/les-adjectifs': ['/exercices/les-adjectifs-accord', '/astuces/le-genre-des-noms', '/grammaire/le-comparatif-et-le-superlatif'],
+  '/grammaire/les-demonstratifs': ['/orthographe/les-determinants-possessifs', '/grammaire/les-articles'],
+  '/grammaire/les-adverbes': ['/exercices/les-adverbes', '/grammaire/les-adjectifs'],
+  '/grammaire/la-negation': ['/exercices/la-negation', '/grammaire/l-interrogation', '/exercices/phrases-en-desordre'],
+  '/grammaire/l-interrogation': ['/exercices/phrases-en-desordre', '/grammaire/la-negation', '/conversation/demander-son-chemin'],
+  '/grammaire/verbe-1er-groupe': ['/conjugaison/parler', '/exercices/quel-groupe-verbe-appartient', '/exercices/conjugaison-present'],
+  '/grammaire/verbe-2eme-groupe': ['/conjugaison/finir', '/exercices/quel-groupe-verbe-appartient', '/exercices/conjugaison-present'],
+  '/grammaire/verbe-3eme-groupe': ['/conjugaison/prendre', '/conjugaison/venir', '/exercices/quel-groupe-verbe-appartient'],
+  '/grammaire/les-verbes-pronominaux': ['/grammaire/les-pronoms-cod-coi', '/conjugaison/etre'],
+  '/grammaire/les-verbes-modaux': ['/conjugaison/pouvoir', '/conjugaison/vouloir'],
+  '/grammaire/l-imperatif': ['/conjugaison/parler', '/conversation/demander-son-chemin'],
+  '/grammaire/le-passe-compose': ['/exercices/le-passe-compose', '/astuces/etre-ou-avoir', '/exercices/etre-ou-avoir', '/conjugaison/avoir'],
+  '/grammaire/l-imparfait': ['/grammaire/passe-compose-ou-imparfait', '/exercices/devine-les-temps', '/exercices/mets-au-bon-temps'],
+  '/grammaire/passe-compose-ou-imparfait': ['/grammaire/le-passe-compose', '/grammaire/l-imparfait', '/exercices/devine-les-temps'],
+  '/grammaire/le-futur-proche': ['/exercices/le-futur-proche', '/conjugaison/aller', '/grammaire/le-futur-simple'],
+  '/grammaire/le-futur-simple': ['/grammaire/le-futur-proche', '/grammaire/le-conditionnel-present', '/exercices/mets-au-bon-temps'],
+  '/grammaire/le-conditionnel-present': ['/exercices/mets-au-bon-temps', '/grammaire/le-futur-simple', '/theme/ah-si-jetais-riche'],
+  '/grammaire/les-pronoms-cod-coi': ['/exercices/le-bon-pronom', '/grammaire/les-pronoms-y-en', '/musique/la-vie-en-rose'],
+  '/grammaire/les-pronoms-y-en': ['/exercices/le-bon-pronom', '/grammaire/les-pronoms-cod-coi'],
+  '/grammaire/le-comparatif-et-le-superlatif': ['/grammaire/les-adjectifs', '/theme/les-loisirs'],
+  '/grammaire/les-prepositions-de-lieu': ['/astuces/a-en-au-aux', '/vocabulaire/la-ville', '/conversation/demander-son-chemin'],
+
+  // ── Conjugaison ──────────────────────────────
+  '/conjugaison/etre': ['/astuces/etre-ou-avoir', '/exercices/etre-ou-avoir', '/grammaire/le-passe-compose'],
+  '/conjugaison/avoir': ['/astuces/etre-ou-avoir', '/exercices/etre-ou-avoir', '/grammaire/le-passe-compose'],
+  '/conjugaison/parler': ['/grammaire/verbe-1er-groupe', '/exercices/conjugaison-present'],
+  '/conjugaison/finir': ['/grammaire/verbe-2eme-groupe', '/exercices/conjugaison-present'],
+  '/conjugaison/aller': ['/grammaire/le-futur-proche', '/exercices/le-futur-proche'],
+  '/conjugaison/faire': ['/grammaire/verbe-3eme-groupe', '/exercices/conjugaison-present'],
+  '/conjugaison/pouvoir': ['/grammaire/les-verbes-modaux', '/conjugaison/vouloir'],
+  '/conjugaison/vouloir': ['/grammaire/les-verbes-modaux', '/conjugaison/pouvoir'],
+  '/conjugaison/venir': ['/grammaire/verbe-3eme-groupe', '/grammaire/le-passe-compose'],
+  '/conjugaison/prendre': ['/grammaire/verbe-3eme-groupe', '/vocabulaire/les-transports'],
+
+  // ── Orthographe ──────────────────────────────
+  '/orthographe/les-homophones': ['/astuces/le-test-de-substitution', '/exercices/trouve-la-faute', '/exercices/ecoute-et-choisis'],
+  '/orthographe/les-determinants-possessifs': ['/orthographe/les-pronoms-possessifs', '/grammaire/les-demonstratifs', '/theme/la-famille'],
+  '/orthographe/les-pronoms-possessifs': ['/orthographe/les-determinants-possessifs', '/theme/la-famille'],
+
+  // ── Astuces ──────────────────────────────────
+  '/astuces/a-en-au-aux': ['/grammaire/les-prepositions-de-lieu', '/vocabulaire/la-ville', '/conversation/demander-son-chemin'],
+  '/astuces/le-genre-des-noms': ['/grammaire/les-articles', '/exercices/les-articles', '/grammaire/les-adjectifs'],
+  '/astuces/etre-ou-avoir': ['/grammaire/le-passe-compose', '/exercices/etre-ou-avoir', '/conjugaison/etre'],
+  '/astuces/le-test-de-substitution': ['/orthographe/les-homophones', '/exercices/trouve-la-faute'],
+
+  // ── Dictées ──────────────────────────────────
+  '/dictees/une-journee-en-vacances': ['/conversation/en-vacances', '/vocabulaire/la-meteo', '/grammaire/le-passe-compose'],
+  '/dictees/la-pierre-de-rosette': ['/lecture/le-comte-de-monte-cristo', '/grammaire/l-imparfait'],
+  '/dictees/les-fleurs-du-mal': ['/litterature/introduction', '/lecture/le-petit-prince'],
+
+  // ── Exercices — every drill points back at the lesson it practises ──
+  '/exercices/associe-les-pairs': ['/vocabulaire/100-mots-les-plus-utilises', '/exercices/emoji-francais'],
+  '/exercices/emoji-francais': ['/vocabulaire/100-mots-les-plus-utilises', '/exercices/associe-les-pairs'],
+  '/exercices/quel-groupe-verbe-appartient': ['/grammaire/verbe-1er-groupe', '/grammaire/verbe-2eme-groupe', '/grammaire/verbe-3eme-groupe'],
+  '/exercices/conjugaison-present': ['/conjugaison/parler', '/conjugaison/finir', '/grammaire/verbe-1er-groupe'],
+  '/exercices/les-articles': ['/grammaire/les-articles', '/astuces/le-genre-des-noms'],
+  '/exercices/la-negation': ['/grammaire/la-negation', '/grammaire/l-interrogation'],
+  '/exercices/le-futur-proche': ['/grammaire/le-futur-proche', '/conjugaison/aller'],
+  '/exercices/le-passe-compose': ['/grammaire/le-passe-compose', '/astuces/etre-ou-avoir', '/exercices/etre-ou-avoir'],
+  '/exercices/les-adverbes': ['/grammaire/les-adverbes', '/grammaire/les-adjectifs'],
+  '/exercices/les-adjectifs-accord': ['/grammaire/les-adjectifs', '/astuces/le-genre-des-noms'],
+  '/exercices/phrases-en-desordre': ['/grammaire/l-interrogation', '/grammaire/la-negation'],
+  '/exercices/etre-ou-avoir': ['/astuces/etre-ou-avoir', '/grammaire/le-passe-compose', '/conjugaison/etre', '/conjugaison/avoir'],
+  '/exercices/trouve-la-faute': ['/orthographe/les-homophones', '/astuces/le-test-de-substitution'],
+  '/exercices/devine-les-temps': ['/grammaire/passe-compose-ou-imparfait', '/grammaire/l-imparfait', '/grammaire/le-futur-simple'],
+  '/exercices/ecoute-et-choisis': ['/prononciation/les-syllabes-courantes', '/orthographe/les-homophones'],
+  '/exercices/mets-au-bon-temps': ['/grammaire/le-conditionnel-present', '/grammaire/l-imparfait', '/conjugaison/parler'],
+  '/exercices/le-bon-pronom': ['/grammaire/les-pronoms-cod-coi', '/grammaire/les-pronoms-y-en', '/musique/la-vie-en-rose'],
+
+  // ── Lecture ──────────────────────────────────
+  '/lecture/le-lion-et-le-rat': ['/litterature/introduction', '/grammaire/l-imparfait'],
+  '/lecture/le-petit-prince': ['/litterature/introduction', '/lecture/le-comte-de-monte-cristo'],
+  '/lecture/entretien-d-embauche': ['/vocabulaire/le-travail', '/grammaire/le-conditionnel-present'],
+  '/lecture/le-comte-de-monte-cristo': ['/litterature/introduction', '/lecture/le-tour-du-monde'],
+  '/lecture/le-tour-du-monde': ['/litterature/introduction', '/vocabulaire/les-transports'],
+
+  // ── Littérature · Prononciation · Musique ────
+  '/litterature/introduction': ['/lecture/le-petit-prince', '/lecture/le-comte-de-monte-cristo', '/dictees/les-fleurs-du-mal'],
+  '/prononciation/les-syllabes-courantes': ['/exercices/ecoute-et-choisis', '/orthographe/les-homophones', '/dictees/une-journee-en-vacances'],
+  '/musique/la-vie-en-rose': ['/grammaire/les-pronoms-cod-coi', '/exercices/le-bon-pronom', '/prononciation/les-syllabes-courantes'],
+
+  // ── Vocabulaire ──────────────────────────────
+  '/vocabulaire/100-mots-les-plus-utilises': ['/exercices/associe-les-pairs', '/exercices/emoji-francais'],
+  '/vocabulaire/les-nombres': ['/vocabulaire/l-heure', '/vocabulaire/les-jours-et-la-date', '/conversation/a-la-boulangerie'],
+  '/vocabulaire/l-heure': ['/vocabulaire/les-nombres', '/vocabulaire/les-jours-et-la-date'],
+  '/vocabulaire/les-jours-et-la-date': ['/vocabulaire/l-heure', '/vocabulaire/les-nombres', '/vocabulaire/la-meteo'],
+  '/vocabulaire/la-maison': ['/vocabulaire/les-vetements', '/theme/la-famille'],
+  '/vocabulaire/les-vetements': ['/vocabulaire/la-maison', '/vocabulaire/la-meteo'],
+  '/vocabulaire/la-ville': ['/vocabulaire/les-transports', '/conversation/demander-son-chemin', '/grammaire/les-prepositions-de-lieu'],
+  '/vocabulaire/les-transports': ['/vocabulaire/la-ville', '/conversation/demander-son-chemin', '/lecture/le-tour-du-monde'],
+  '/vocabulaire/le-travail': ['/lecture/entretien-d-embauche', '/theme/les-loisirs'],
+  '/vocabulaire/la-meteo': ['/vocabulaire/les-jours-et-la-date', '/conversation/en-vacances', '/dictees/une-journee-en-vacances'],
+  '/vocabulaire/le-docteur': ['/conversation/chez-le-medecin', '/conversation/a-la-pharmacie'],
+
+  // ── Conversation ─────────────────────────────
+  '/conversation/en-vacances': ['/vocabulaire/la-meteo', '/dictees/une-journee-en-vacances', '/theme/les-loisirs'],
+  '/conversation/a-la-boulangerie': ['/vocabulaire/les-nombres', '/theme/la-nourriture'],
+  '/conversation/a-disneyland-paris': ['/vocabulaire/les-transports', '/theme/les-loisirs'],
+  '/conversation/chez-le-medecin': ['/vocabulaire/le-docteur', '/conversation/a-la-pharmacie'],
+  '/conversation/a-la-pharmacie': ['/vocabulaire/le-docteur', '/conversation/chez-le-medecin'],
+  '/conversation/demander-son-chemin': ['/grammaire/les-prepositions-de-lieu', '/astuces/a-en-au-aux', '/vocabulaire/la-ville'],
+
+  // ── Thèmes ───────────────────────────────────
+  '/theme/la-famille': ['/vocabulaire/la-maison', '/orthographe/les-determinants-possessifs'],
+  '/theme/les-loisirs': ['/vocabulaire/le-travail', '/conversation/a-disneyland-paris'],
+  '/theme/la-nourriture': ['/conversation/a-la-boulangerie', '/vocabulaire/100-mots-les-plus-utilises'],
+  '/theme/ecrire-un-livre': ['/litterature/introduction', '/grammaire/le-conditionnel-present'],
+  '/theme/ah-si-jetais-riche': ['/grammaire/le-conditionnel-present', '/exercices/mets-au-bon-temps'],
+}
+
+/**
+ * Resolve a page's related links into renderable rows.
+ * A path with no matching lesson — or one still marked `soon` — is dropped, so
+ * a stale entry degrades to one fewer link instead of a dead anchor.
+ */
+export function relatedFor(routePath) {
+  return (relatedPages[routePath] ?? [])
+    .slice(0, MAX_RELATED)
+    .map(path => {
+      const chapter = findChapter(path)
+      const lesson = chapter?.lessons.find(item => item.path === path)
+      if (!lesson || lesson.soon) return null
+      return {
+        path,
+        title: lesson.title,
+        emoji: lesson.emoji ?? null,
+        icon: chapter.icon,
+        chapter: chapter.shortTitle ?? chapter.title,
+      }
+    })
+    .filter(Boolean)
 }

@@ -80,6 +80,8 @@
         </div>
       </template>
 
+      <RelatedLinks />
+
     </main>
   </DefaultLayout>
 </template>
@@ -87,6 +89,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import RelatedLinks from '@/components/RelatedLinks.vue'
 
 // 4 Rounds of 8 pairs each
 const rounds = [

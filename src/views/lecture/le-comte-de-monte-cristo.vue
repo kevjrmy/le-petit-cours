@@ -199,6 +199,8 @@
         </details>
       </article>
 
+      <RelatedLinks />
+
     </main>
   </AltLayout>
 </template>
@@ -206,6 +208,7 @@
 <script setup>
 import { reactive, computed } from 'vue'
 import AltLayout from '@/layouts/AltLayout.vue'
+import RelatedLinks from '@/components/RelatedLinks.vue'
 
 const questions = [
   {

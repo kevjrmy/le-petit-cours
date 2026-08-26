@@ -161,12 +161,15 @@
         <span>Télécharger</span>
       </button>
 
+      <RelatedLinks />
+
     </main>
   </AltLayout>
 </template>
 
 <script setup>
 import AltLayout from '@/layouts/AltLayout.vue'
+import RelatedLinks from '@/components/RelatedLinks.vue'
 
 function downloadPdf() {
   window.print()

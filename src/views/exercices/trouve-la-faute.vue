@@ -102,6 +102,8 @@
         </div>
       </template>
 
+      <RelatedLinks />
+
     </main>
   </DefaultLayout>
 </template>
@@ -109,6 +111,7 @@
 <script setup>
 import { ref, computed, nextTick } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import RelatedLinks from '@/components/RelatedLinks.vue'
 
 /**
  * Error correction. Each item has exactly one wrong word: `badIndex` points at

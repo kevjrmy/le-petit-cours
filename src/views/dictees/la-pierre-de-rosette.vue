@@ -195,6 +195,8 @@
         <span>Télécharger</span>
       </button>
 
+      <RelatedLinks />
+
     </main>
   </AltLayout>
 </template>
@@ -202,6 +204,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import AltLayout from '@/layouts/AltLayout.vue'
+import RelatedLinks from '@/components/RelatedLinks.vue'
 import { useSpeech } from '@/composables/useSpeech'
 
 const dictation = {

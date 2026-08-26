@@ -90,6 +90,7 @@ const router = createRouter({
     { path: '/exercices/devine-les-temps', name: 'ex-devine-les-temps', component: () => import('../views/exercices/devine-les-temps.vue') },
     { path: '/exercices/ecoute-et-choisis', name: 'ex-ecoute-et-choisis', component: () => import('../views/exercices/ecoute-et-choisis.vue') },
     { path: '/exercices/mets-au-bon-temps', name: 'ex-mets-au-bon-temps', component: () => import('../views/exercices/mets-au-bon-temps.vue') },
+    { path: '/exercices/le-bon-pronom', name: 'ex-le-bon-pronom', component: () => import('../views/exercices/le-bon-pronom.vue') },
 
     // Lecture
     { path: '/lecture', name: 'lecture', component: () => import('../views/lecture/index.vue') },
@@ -105,6 +106,7 @@ const router = createRouter({
 
     // Musique
     { path: '/musique', name: 'musique', component: () => import('../views/musique/index.vue') },
+    { path: '/musique/la-vie-en-rose', name: 'musique-la-vie-en-rose', component: () => import('../views/musique/la-vie-en-rose.vue') },
 
     // Conversation
     { path: '/conversation', name: 'conversation', component: () => import('../views/conversation/index.vue') },

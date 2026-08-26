@@ -107,6 +107,8 @@
         :style="{ left: drag.x + 'px', top: drag.y + 'px' }"
       >{{ drag.word.text }}</div>
 
+      <RelatedLinks />
+
     </main>
   </DefaultLayout>
 </template>
@@ -114,6 +116,7 @@
 <script setup>
 import { ref, reactive, computed, onBeforeUnmount } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import RelatedLinks from '@/components/RelatedLinks.vue'
 
 /**
  * Drills the vocabulary of `vocabulaire/la-ville` and the imperative forms of

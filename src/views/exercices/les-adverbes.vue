@@ -76,6 +76,8 @@
         </div>
       </template>
 
+      <RelatedLinks />
+
     </main>
   </DefaultLayout>
 </template>
@@ -83,6 +85,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import RelatedLinks from '@/components/RelatedLinks.vue'
 
 // answer: correct adverb ; options: choices shown (includes answer) ; note: explanation
 const items = [

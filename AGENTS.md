@@ -40,6 +40,7 @@ src/
     ChapterIndex.vue       ← renders ANY chapter landing page from navigation.js
     ChapterIcon.vue        ← chapter glyph map (static icon imports)
     PageHeader.vue         ← in-sheet title block (eyebrow + h1 + tricolore rule)
+    RelatedLinks.vue       ← "Pour aller plus loin" — cross-links at the foot of a page
     ThemeToggle.vue, Footer.vue
   layouts/
     DefaultLayout.vue      ← the A4 reading sheet (.page-sheet)
@@ -90,7 +91,8 @@ breakpoint (sidebar → drawer) is `900px` and is mirrored in `useSidebar.js`.
    `litterature/`, or `lecture/` page (see §5).
 3. Add the lesson to its chapter's `lessons` array in **`src/data/navigation.js`**.
 4. Add an explicit route in `src/router/index.js`.
-5. Update **§7 Current content** below.
+5. Add `<RelatedLinks />` before `</main>` and an entry in `relatedPages` (see §5).
+6. Update **§7 Current content** below.
 
 Steps 3 and 4 are both required and must agree — `navigation.js` drives the sidebar, the
 sommaire and the chapter index; the router makes the URL resolve. There is no automatic
@@ -127,6 +129,38 @@ register the routes.
 | `conversation/`, `litterature/` | no | |
 | `lecture/` | no | ends with the comprehension quiz + hidden translation |
 | any `index.vue` | no | |
+
+### Related links — "Pour aller plus loin"
+
+Every page ends with `<RelatedLinks />`, placed just before `</main>` (after the download
+button when there is one). The component takes no props: it reads the current route and
+looks the targets up in **`relatedPages`** in `navigation.js`, so a page only ever declares
+the block once and the relations stay in one file. The ten conjugaison views inherit it
+from `ConjugationSheet.vue`; annexe pages and chapter `index.vue` files don't carry it.
+
+- **Four links maximum** (`MAX_RELATED`), and fewer is usually better. Past four it stops
+  being a hint and becomes a second navigation menu.
+- The pairing is always one of three: **the lesson a drill practises**, **the drill that
+  practises a lesson**, or **the sibling page a learner reaches for next**. A link that
+  fits none of those is decoration.
+- A target that no longer resolves — a renamed route, or one still marked `soon` — is
+  dropped by `relatedFor()` rather than rendered. A stale entry costs one link, never a
+  dead anchor, so the check is `relatedFor()` returning fewer rows than the array holds:
+
+```bash
+node --input-type=module -e "
+import { relatedPages, relatedFor } from './src/data/navigation.js';
+for (const [k, v] of Object.entries(relatedPages)) {
+  const rows = relatedFor(k);
+  if (rows.length !== v.length) console.log('UNRESOLVED', k, v.filter(p => !rows.find(r => r.path === p)));
+}"
+```
+
+- **The block never prints.** A list of links is dead weight on paper, so it is hidden in
+  `@media print` — which is also why adding it changed no page's A4 count.
+- Inline `RouterLink`s inside a lesson (the `.lesson-link` an `astuces/` page uses) are a
+  different thing and stay: they sit in context, next to the rule they belong to. The foot
+  block is where a learner goes *after* finishing.
 
 ### Lesson structure (in order)
 
@@ -333,8 +367,17 @@ State shape shared by every exercise: `deck` (shuffled), `currentIndex`, `checke
 Current coverage: MCQ (×9), matching pairs (`associe-les-pairs`), tap-to-order
 (`phrases-en-desordre`), bucket sort (`etre-ou-avoir`), locate-and-retype
 (`trouve-la-faute`), multi-select (`devine-les-temps`), listening (`ecoute-et-choisis`),
-type-in conjugation (`mets-au-bon-temps`). Still unbuilt: timed rounds. Prefer a missing
+type-in conjugation (`mets-au-bon-temps`), timed round (`le-bon-pronom`). Prefer a new
 mechanic over a tenth MCQ.
+
+**A timed round owns two timers, and both must be cleared on unmount.** The countdown
+`setInterval` and the `setTimeout` that holds the correction on screen before auto-advancing
+will otherwise keep firing after the learner navigates away — the same failure `useSpeech()`
+avoids for audio. The advance callback also re-checks the phase before mutating state, since
+time can run out while it is pending. Score a timed round on **accuracy** (`score / attempts`),
+never on volume: rushing twenty sentences with half wrong is not a better round than eight
+clean ones. Keep the answer pool fixed for the whole round rather than tailoring options to
+each sentence — that is what makes it recall instead of a faster MCQ.
 
 **Type-in answers are accent-sensitive; multiple-choice ones need not be.** In
 `mets-au-bon-temps` the whole point is producing « achèterais » with its grave accent, so
@@ -441,11 +484,13 @@ Authoritative list is `src/data/navigation.js` — this table is the human summa
 - **astuces** (4) — mnemonics for rules taught elsewhere; each page links back to its lesson:
   a-en-au-aux, le-genre-des-noms, etre-ou-avoir, le-test-de-substitution
 - **dictees** (3): une-journee-en-vacances, la-pierre-de-rosette, les-fleurs-du-mal
-- **exercices** (16, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre, etre-ou-avoir, trouve-la-faute, devine-les-temps, ecoute-et-choisis, mets-au-bon-temps
+- **exercices** (17, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre, etre-ou-avoir, trouve-la-faute, devine-les-temps, ecoute-et-choisis, mets-au-bon-temps, le-bon-pronom
 - **lecture** (5): le-lion-et-le-rat, le-petit-prince, entretien-d-embauche, le-comte-de-monte-cristo, le-tour-du-monde
 - **litterature** (1): introduction
 - **prononciation** (1): les-syllabes-courantes
-- **musique** (0 + 3 planned) — chapter shows "Bientôt"
+- **musique** (1 + 2 planned): la-vie-en-rose. Song pages quote **short excerpts only** —
+  the twentieth-century repertoire is still in copyright, so a page carries a few verses
+  with commentary, a vocabulary table and a grammar focus, never a full lyric sheet.
 - **vocabulaire** (11) — base first, then the everyday themes: 100-mots-les-plus-utilises,
   les-nombres, l-heure, les-jours-et-la-date, la-maison, les-vetements, la-ville,
   les-transports, le-travail, la-meteo, le-docteur

@@ -77,6 +77,8 @@
         </div>
       </template>
 
+      <RelatedLinks />
+
     </main>
   </DefaultLayout>
 </template>
@@ -84,6 +86,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import RelatedLinks from '@/components/RelatedLinks.vue'
 
 /* Each sentence is one template string. A blank is {infinitif|temps|réponses},
    and several accepted spellings are separated by `/` — the first one is what

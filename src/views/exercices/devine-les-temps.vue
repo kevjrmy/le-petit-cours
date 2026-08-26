@@ -80,6 +80,8 @@
         </div>
       </template>
 
+      <RelatedLinks />
+
     </main>
   </DefaultLayout>
 </template>
@@ -87,6 +89,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import RelatedLinks from '@/components/RelatedLinks.vue'
 
 /* The seven tenses the course covers at A2. The list is fixed and always shown
    in the same order, so the learner reads the same board every time. */

@@ -141,6 +141,8 @@
         </svg>
         <span>Télécharger</span>
       </button>
+      <RelatedLinks />
+
 
     </main>
   </AltLayout>
@@ -149,6 +151,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import AltLayout from '@/layouts/AltLayout.vue'
+import RelatedLinks from '@/components/RelatedLinks.vue'
 import { getVerb, conjugate, conjugateImperatif, conjugatePPresent } from '@/data/conjugaisons'
 
 const props = defineProps({

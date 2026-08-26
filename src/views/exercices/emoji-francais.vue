@@ -64,6 +64,8 @@
         </div>
       </template>
 
+      <RelatedLinks />
+
     </main>
   </DefaultLayout>
 </template>
@@ -71,6 +73,7 @@
 <script setup>
 import { ref, computed, onBeforeUnmount } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import RelatedLinks from '@/components/RelatedLinks.vue'
 
 // Larger pool — each round draws a random subset, so the game is different every time.
 const POOL = [

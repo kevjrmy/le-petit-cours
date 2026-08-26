@@ -117,6 +117,8 @@
         :style="{ left: drag.x + 'px', top: drag.y + 'px' }"
       >{{ drag.item.text }}</div>
 
+      <RelatedLinks />
+
     </main>
   </DefaultLayout>
 </template>
@@ -124,6 +126,7 @@
 <script setup>
 import { ref, reactive, computed, onBeforeUnmount } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import RelatedLinks from '@/components/RelatedLinks.vue'
 
 /**
  * Bucket-sorting exercise: drag (or click to cycle) each infinitive into the
