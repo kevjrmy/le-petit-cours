@@ -5,24 +5,18 @@
         subtitle="Un petit cours de français écrit à la main, une leçon après l'autre."
     >
         <main class="about">
-            <!-- ── Qui écrit ce cours ─────────────────────── -->
+            <!-- ── Ce que c'est ───────────────────────────── -->
             <section class="intro">
-                <div class="intro-top">
-                    <p class="intro-mark" aria-hidden="true">KJ</p>
-
-                    <div class="intro-body">
-                        <h2>Coucou</h2>
-                        <p>
-                            Je suis Kevin Jeremy et je suis en train de créer
-                            <strong>Le Petit Cours</strong> pour rendre l'apprentissage du
-                            français ludique et accessible.
-                        </p>
-                        <p>
-                            J'ai commencé à donner des cours de français sur Valencia (Espagne)
-                            récemment et comme ça me plaît je me suis mis à coder cette petite app.
-                        </p>
-                    </div>
-                </div>
+                <p>
+                    <strong>Le Petit Cours</strong> est un cours de français de niveau A2,
+                    écrit pour des hispanophones. Chaque leçon tient sur une page et se lit
+                    en quelques minutes&nbsp;; les exercices, eux, se font directement dans
+                    l'application.
+                </p>
+                <p>
+                    Je m'appelle Kevin Jeremy. Je donne des cours de français à Valence,
+                    en Espagne&nbsp;: ce que j'explique en classe finit ici.
+                </p>
             </section>
 
             <!-- ── Les partis pris ────────────────────────── -->
@@ -104,48 +98,13 @@ const principles = [
 .intro {
     display: flex;
     flex-direction: column;
-    gap: 1.35rem;
+    gap: 0.7rem;
     background:
         radial-gradient(110% 100% at 0% 0%, var(--accent-subtle) 0%, transparent 65%),
         var(--surface-1);
 }
 
-.intro-top {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.15rem;
-}
-
-/* Monogram instead of a photo — no asset to ship, and it follows the theme. */
-.intro-mark {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 3.25rem;
-    height: 3.25rem;
-    border-radius: var(--radius-pill);
-    background: var(--accent-soft);
-    border: 1px solid var(--accent-line);
-    color: var(--accent-text);
-    font-family: var(--font-serif);
-    font-size: 1.15rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-}
-
-.intro-body {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-}
-
-.intro-body h2 {
-    margin: 0;
-}
-
-.intro-body p {
+.intro p {
     margin: 0;
     font-size: 0.95rem;
 }
@@ -231,11 +190,6 @@ const principles = [
 }
 
 @media (max-width: 794px) {
-    .intro-top {
-        flex-direction: column;
-        gap: 0.9rem;
-    }
-
     .principle-list {
         grid-template-columns: 1fr;
     }
