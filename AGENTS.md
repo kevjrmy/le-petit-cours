@@ -30,7 +30,9 @@ whenToUse: |
 src/
   App.vue                  ← the app shell: sidebar + topbar + <RouterView>
   style.css                ← the whole design system (tokens, base, Bled patterns, print)
-  data/navigation.js       ← SINGLE SOURCE OF TRUTH for chapters & lessons
+  data/navigation.js       ← SINGLE SOURCE OF TRUTH for chapters, lessons, relatedPages
+  data/conjugaisons.js     ← the verb tables + the pure generators that build every form
+  data/prononciation.js    ← the sound sheets, grouped by family
   router/index.js          ← explicit routes with static import() (code-splitting)
   composables/
     useTheme.js            ← light | dark | system, persisted, sets <html data-theme>
@@ -44,12 +46,19 @@ src/
     ChapterIcon.vue        ← chapter glyph map (static icon imports)
     PageHeader.vue         ← in-sheet title block (eyebrow + h1 + tricolore rule)
     RelatedLinks.vue       ← "Pour aller plus loin" — cross-links at the foot of a page
+    ConjugationSheet.vue   ← renders ANY verb from data/conjugaisons.js
+    PronunciationSheet.vue ← renders ANY sound sheet from data/prononciation.js
     ThemeToggle.vue, Footer.vue
   layouts/
     DefaultLayout.vue      ← the A4 reading sheet (.page-sheet)
     AltLayout.vue          ← identical; both kept so existing views compile
+  utils/viewMeta.js        ← reads the view-meta dates → "Nouveau" badge, sidebar dot
   views/{chapter}/         ← index.vue (one-line ChapterIndex wrapper) + lesson files
 ```
+
+Open bugs live in **`AUDIT.md`**; the six agent briefs in `.claude/agents/` carry the
+how-to for each recurring job. This file carries the rules and the traps — what any
+change must not break.
 
 **The shell lives in `App.vue`, not in a layout.** That is deliberate: the sidebar keeps
 its scroll position and expanded state across navigation. Layouts only own the A4 sheet.
@@ -135,35 +144,22 @@ register the routes.
 
 ### Related links — "Pour aller plus loin"
 
-Every page ends with `<RelatedLinks />`, placed just before `</main>` (after the download
-button when there is one). The component takes no props: it reads the current route and
-looks the targets up in **`relatedPages`** in `navigation.js`, so a page only ever declares
-the block once and the relations stay in one file. The ten conjugaison views inherit it
-from `ConjugationSheet.vue`; annexe pages and chapter `index.vue` files don't carry it.
+Every page ends with `<RelatedLinks />`, just before `</main>` (after the download button
+when there is one). It takes no props: it reads the current route and looks the targets up
+in **`relatedPages`** in `navigation.js`, so the relations stay in one file. The conjugaison
+and prononciation views inherit it from their sheet component; annexe pages and chapter
+`index.vue` files don't carry it. **`nav-wiring` owns the map** and its check.
 
-- **Four links maximum** (`MAX_RELATED`), and fewer is usually better. Past four it stops
-  being a hint and becomes a second navigation menu.
-- The pairing is always one of three: **the lesson a drill practises**, **the drill that
-  practises a lesson**, or **the sibling page a learner reaches for next**. A link that
-  fits none of those is decoration.
-- A target that no longer resolves — a renamed route, or one still marked `soon` — is
-  dropped by `relatedFor()` rather than rendered. A stale entry costs one link, never a
-  dead anchor, so the check is `relatedFor()` returning fewer rows than the array holds:
-
-```bash
-node --input-type=module -e "
-import { relatedPages, relatedFor } from './src/data/navigation.js';
-for (const [k, v] of Object.entries(relatedPages)) {
-  const rows = relatedFor(k);
-  if (rows.length !== v.length) console.log('UNRESOLVED', k, v.filter(p => !rows.find(r => r.path === p)));
-}"
-```
-
-- **The block never prints.** A list of links is dead weight on paper, so it is hidden in
-  `@media print` — which is also why adding it changed no page's A4 count.
-- Inline `RouterLink`s inside a lesson (the `.lesson-link` an `astuces/` page uses) are a
-  different thing and stay: they sit in context, next to the rule they belong to. The foot
-  block is where a learner goes *after* finishing.
+- **Four links maximum** (`MAX_RELATED`). Past four it stops being a hint and becomes a
+  second navigation menu.
+- The pairing is always one of three: the lesson a drill practises, the drill that practises
+  a lesson, or the sibling page a learner reaches for next. Anything else is decoration.
+- A target that no longer resolves — renamed, or still `soon` — is dropped by `relatedFor()`
+  rather than rendered, so a stale entry costs a link and raises no error. That is why it
+  needs its own check (see `.claude/agents/nav-wiring.md`).
+- **The block never prints**, which is why adding it changed no page's A4 count.
+- Inline `.lesson-link` `RouterLink`s inside a lesson are a different thing and stay: they
+  sit next to the rule they belong to. The foot block is where a learner goes *after*.
 
 ### Lesson structure (in order)
 
@@ -356,16 +352,13 @@ than a literal path.
 Listen, type, compare — plus a Spanish clue per sentence and a `.print-only` answer sheet.
 Dictées are the one interactive page type that *does* keep the PDF button.
 
-The chrome is global: write `<main class="dictee">` and declare **no `<style>` block** —
-`.prep-card`, `.spanish-prompt`, `.audio-controls` / `.btn-audio`, `.input-area`,
-`.feedback-card`, `.comparison`, the red `.rule`, the `.result` screen and the whole
-`@media print` answer sheet all live in `style.css`. Copy the structure from
+The chrome is global: write `<main class="dictee">` and **no `<style>` block**. Copy
 `dictees/une-journee-en-vacances.vue` and replace only the `dictation` object.
 
-Audio comes from **`useSpeech()`** — never hand-roll `SpeechSynthesisUtterance`. The
-composable picks an installed French voice (`getVoices()` is empty until `voiceschanged`
-fires, so it resolves lazily), exposes `speaking` to disable the buttons mid-utterance, and
-cancels on unmount — without that, audio keeps playing after the learner navigates away.
+Audio comes from **`useSpeech()`** — never hand-roll `SpeechSynthesisUtterance`. It resolves
+a French voice lazily (`getVoices()` is empty until `voiceschanged` fires), exposes
+`speaking` to disable the buttons mid-utterance, and cancels on unmount — without that,
+audio keeps playing after the learner navigates away.
 
 ```js
 const { speak, speaking } = useSpeech()
@@ -381,95 +374,59 @@ the page when a sentence needs one (`.prep-intro.tip` is the amber aside for tha
 
 ### Exercise pages
 
-Self-scoring, no PDF button. The shell is global: write `<main class="exo">` and rely on
-`style.css` for `.instructions`, `.meta` / `.progress-track` / `.progress-fill`, `.card`,
-`.feedback*`, `.actions`, `.btn-verify` / `.btn-next` / `.btn-restart` and the `.result`
-score screen. Only the exercise's own *body* (board, pool, columns…) is styled scoped.
+Self-scoring, no PDF button. Written by the **exercise-author** agent, which carries the
+validators and the per-mechanic guidance; this is the contract every drill obeys.
 
-State shape shared by every exercise: `deck` (shuffled), `currentIndex`, `checked`,
-`score`, `finished`, plus `resultEmoji` / `resultMsg` thresholds at 1 / 0.75 / 0.5.
+Shell: `<main class="exo">` and no CSS for it — `style.css` owns `.instructions`, `.meta` /
+`.progress-track` / `.progress-fill`, `.card`, `.feedback*`, `.actions`, `.btn-verify` /
+`.btn-next` / `.btn-restart` and the `.result` score screen. Only the board is scoped.
 
-**Vary the mechanic.** Nine of the first eleven exercises were the same 4-option MCQ.
-Current coverage: MCQ (×9), matching pairs (`associe-les-pairs`), tap-to-order
-(`phrases-en-desordre`), bucket sort (`etre-ou-avoir`), locate-and-retype
-(`trouve-la-faute`), multi-select (`devine-les-temps`), listening (`ecoute-et-choisis`),
-type-in conjugation (`mets-au-bon-temps`), timed round (`le-bon-pronom`). Prefer a new
-mechanic over a tenth MCQ.
+State shape: `deck` (shuffled), `currentIndex`, `checked`, `score`, `finished`, plus
+`resultEmoji` / `resultMsg` thresholds at 1 / 0.75 / 0.5.
 
-**A timed round owns two timers, and both must be cleared on unmount.** The countdown
-`setInterval` and the `setTimeout` that holds the correction on screen before auto-advancing
-will otherwise keep firing after the learner navigates away — the same failure `useSpeech()`
-avoids for audio. The advance callback also re-checks the phase before mutating state, since
-time can run out while it is pending. Score a timed round on **accuracy** (`score / attempts`),
-never on volume: rushing twenty sentences with half wrong is not a better round than eight
-clean ones. Keep the answer pool fixed for the whole round rather than tailoring options to
-each sentence — that is what makes it recall instead of a faster MCQ.
+**Vary the mechanic.** Coverage: MCQ (×9), matching pairs, tap-to-order, bucket sort,
+locate-and-retype, multi-select, listening, type-in conjugation, timed round. Prefer a
+missing mechanic over a tenth MCQ.
 
-**Type-in answers are accent-sensitive; multiple-choice ones need not be.** In
-`mets-au-bon-temps` the whole point is producing « achèterais » with its grave accent, so
-`clean()` folds case, spacing and curly apostrophes but leaves accents alone — the same
-policy as a dictée. Give every input the **same width**: sizing it to its answer leaks how
-long the expected form is.
+Each of the following has already cost a bug:
 
-**Listening exercises must check `hasVoice`.** `useSpeech()` falls back to the OS default
-voice when no French one is installed — harmless for a dictée, fatal for `ecoute-et-choisis`,
-where a Spanish voice reading *tu* and *tout* makes the whole drill meaningless. Show the
-warning only **after the first play**: `getVoices()` is empty until `voiceschanged` fires,
-so checking on mount flashes a false alarm.
-
-Gate the answers on having listened (`disabled` **and** a visible `locked` class — a button
-that is dead but looks alive just makes the learner click nothing), and keep the replay
-buttons live after answering: hearing the contrast again, knowing the answer, is where the
-learning happens.
-
-Minimal-pair sets must contain **no homophones**, or the question has no answer. That rules
-out `cent/sang/sans`, `vert/verre`, `petit/petits` and every other same-sounding trio that
-looks tempting on paper.
-
-**Multi-answer questions need three result states, not two.** In `devine-les-temps` a chip
-can be right (green ✓), wrongly ticked (red ✗) or *missed* (amber dashed +). Amber, not
-red, for the omission: failing to spot the second tense is a different mistake from naming
-a tense that is not there, and the learner has to see which one they made. Scoring is
-all-or-nothing on the exact set — partial credit would hide exactly that distinction.
-
-Feedback colors come from tokens (`--success*` / `--danger*`) — never a raw hex.
-
-**Substitution exercises must be validated.** In `trouve-la-faute` the learner replaces one
-token, so replacing `words[badIndex]` with `fix` *must* yield a grammatical sentence. Errors
-of insertion, deletion or word order cannot be expressed that way. Check every item by
-actually performing the substitution before shipping:
-
-```bash
-node -e "items.forEach(it=>{const o=[...it.words];o[it.badIndex]=it.fix;console.log(o.join(' '))})"
-```
-
-**Beware the global `section` rule.** `style.css` styles bare `section`/`article` as content
-cards (`padding: 1.5rem 1.75rem`) and adds `section + section { margin-top: 1rem }`. A
-`<section>` used as a layout box — a sort column, a panel — inherits both and will look
-inset and vertically offset from its sibling. Reset `padding: 0; margin-top: 0`, or use a
-`<div>`.
+- **Shuffle with Fisher–Yates**, never `sort(() => Math.random() - 0.5)`: it is biased, and
+  in `phrases-en-desordre` it served the sentence already in the correct order 9.5 % of the
+  time. Where the original order *is* the answer, re-draw while the shuffle equals the input.
+- **An `accept` list may hold case and accent variants, never a different number or
+  gender.** `answer: 'croissants', accept: ['croissant']` marks *deux croissant* correct.
+- **A timed round owns two timers** — the countdown `setInterval` and the `setTimeout` that
+  holds the correction before auto-advancing — and both must be cleared on unmount, with the
+  advance callback re-checking the phase. Score on accuracy (`score / attempts`), not volume.
+- **Listening drills must check `hasVoice`**, and only after the first play; minimal-pair
+  sets must contain no homophones (`cent/sang/sans`, `vert/verre` are out).
+- **Type-in answers are accent-sensitive; multiple-choice ones need not be.** Give every
+  input the same width — sizing it to its answer leaks the length of the expected form.
+- **Multi-answer questions need three result states**: right, wrongly ticked, and *missed*
+  (amber, not red — a different mistake). All-or-nothing on the exact set.
+- **Substitution items are verified by performing the substitution**, not by reading them.
+- Feedback colours come from tokens (`--success*` / `--danger*`), never a raw hex.
+- **Beware the global `section` rule.** Bare `section`/`article` are content cards
+  (`padding: 1.5rem 1.75rem`, plus `section + section { margin-top: 1rem }`), so a
+  `<section>` used as a layout box sits inset and offset. Use a `<div>`, or reset both.
 
 ### Conversation (gap-fill) pages
 
-Interactive drag-and-drop / type-in dialogues. No PDF button. The chrome is global:
-write `<main class="gapfill">` and declare **no `<style>` block** — `.word-bank`, `.chip`,
-`.chat`, `.bubble`, `.slot`, `.suggest`, `.actions`, `.result` and `.drag-ghost` all live in
-`style.css`. Speakers are `.left` / `.right`, never character names, so the block stays
-reusable. Copy the `<script setup>` (drag state, bank, accent-insensitive matching) verbatim
-from `conversation/demander-son-chemin.vue` and replace only the `dialogue` array.
-
-Dialogue data — each line is `{ who: 'left'|'right', parts: [...] }`, where a part is either
+Interactive dialogues, no PDF button, also owned by **exercise-author**. `<main class="gapfill">`
+and **no `<style>` block** — `.word-bank`, `.chip`, `.chat`, `.bubble`, `.slot`, `.suggest`,
+`.actions`, `.result` and `.drag-ghost` are global. Copy the `<script setup>` from
+`conversation/demander-son-chemin.vue`, the only page that follows the contract, and replace
+the `dialogue` array: each line is `{ who: 'left'|'right', parts: [...] }`, each part either
 `{ text: '…' }` or a blank `{ id, answer, accept: […] }`.
 
-**Never write `{ text: '' }`.** The older pages branch on `v-if="part.text"`, so an
-empty-string part is falsy, gets rendered as a blank, and throws
-`Cannot read properties of undefined (reading 'length')` on `part.answer.length` — the whole
-route renders blank with only a console warning. If a line must *start* with a blank, just
-make the blank the first element. New pages should branch on `v-if="part.id == null"`
-instead, which cannot fail this way.
+Speakers are `.left` / `.right`, **never character names** — the five older pages use
+`boulangere`, `cliente`… and carry ~300 lines of scoped CSS keyed on them.
 
-`accept` should carry the capitalised/uncapitalised variant whenever a blank starts a
-sentence — matching is accent-insensitive but not case-insensitive at the data level.
+**Never write `{ text: '' }`.** The older pages branch on `v-if="part.text"`, so an
+empty-string part is falsy, renders as a blank, and throws on `part.answer.length` — the
+route goes blank with only a console warning. If a line must start with a blank, make the
+blank the first element; new pages branch on `v-if="part.id == null"`, which cannot fail
+this way.
 
 ### Lecture (reading) pages
 
@@ -531,11 +488,22 @@ and the route in the same change.
 
 ## 8. Keep context files in sync
 
-Treat `AGENTS.md` as part of the deliverable. If behaviour and docs disagree, the change
-is not done. In the **same change**:
+Treat the context files as part of the deliverable. If behaviour and docs disagree, the
+change is not done. There are four:
 
-- Added / renamed / moved / deleted a view or chapter → update `navigation.js`, the router,
-  and §7 above.
+| File | Carries |
+|---|---|
+| `AGENTS.md` | the rules and the traps — what any change must not break |
+| `.claude/agents/*.md` | the how-to for each recurring job, one agent per job |
+| `AUDIT.md` | known-open bugs, and what has been verified clean |
+| `README.md` | the stack and the shape, for a human arriving cold |
+
+In the **same change**:
+
+- Added / renamed / moved / split / deleted a view or chapter → update `navigation.js`
+  (lessons **and** `relatedPages`), the router, and §7 above.
+- Fixed something listed in `AUDIT.md` → tick it there, with the fix recorded in one line.
+- Changed how a page type is written → update the owning agent brief too, not just here.
 - Changed a shared pattern (tokens, PDF button, lecture structure, layout width) → update
   the prose **and** every code snippet demonstrating it, recording exceptions explicitly.
 - Found a recurring bug worth standardising (e.g. `window` not in template scope; hidden-radio

@@ -3,73 +3,38 @@
 Full pass over all 89 published pages: mechanical checks on every view, an A4
 page-count sweep of every route, and a content read of the French and Spanish.
 
-**§1 and §2 are fixed** (branch `content/song-drill-related-links`). §3 and §4
-are still open.
+§1 and §2 are fixed and collapsed to a summary. **§3 and §4 are the open list.**
 
 Tick items as they are fixed. Delete an item only once it is fixed *and* the
 check that found it passes again — the re-run commands are in §5.
 
 ---
 
-## 1. Real errors — wrong content shown to learners
+## 1–2. Fixed on 2026-08-26 (commits 84b518d, a3881c1)
 
-- [x] **`src/views/grammaire/la-negation.vue:63` — the table renders « venuns ».** *Fixed: `ven` + `ons`.*
-  The cell is split `<span class="stem">venu</span><span class="end">ns</span>`;
-  it should be `ven` + `ons` → *venons*. A non-word sits in the *nous* row of a
-  core grammar paradigm.
+Kept as a short record; the full diagnosis is in the commit messages, and the rules each one
+produced are now in the agent briefs.
 
-- [x] **`src/views/orthographe/les-pronoms-possessifs.vue:98` — self-contradictory rule.** *Fixed: rewritten as pronoun (keeps the accent) vs determiner (no accent).*
-  Reads « *sans accent au pluriel* : les nôtres, les vôtres **conservent le ô** ».
-  It says the accent disappears, then that it stays. The intended contrast is with
-  the *determiners* notre/votre, which have no accent.
+**Wrong French shown to learners** — `grammaire/la-negation` rendered « venuns » in the
+*nous* row (`venu`+`ns` instead of `ven`+`ons`) · `orthographe/les-pronoms-possessifs` had an
+accent rule that contradicted itself mid-sentence · `theme/ecrire-un-livre` had
+« un(e) personnage principal(e) », which is masculine only · `grammaire/les-adjectifs` said
+"Cinq adjectifs irréguliers" over a list of three · `theme/la-famille` wrote « soeur »
+without the ligature, twice · `theme/ah-si-jetais-riche` had a table header half in French,
+half in Spanish.
 
-- [x] **`src/views/theme/ecrire-un-livre.vue:55` — « un(e) personnage principal(e) ».** *Fixed: « un personnage principal », with a note that it stays masculine.*
-  *Personnage* is masculine only, whatever the character's gender: *un personnage
-  principal*. The same page is correct at lines 139 and 176.
+**Drills that confirmed a wrong answer** — all six `conversation/` pages accepted a
+grammatically wrong number (21 variants removed; « deux croissants » took *croissant*, « des
+maux de tête » took *mal*) · `exercices/phrases-en-desordre` served the sentence already in
+the correct order 9.5 % of the time, now 0.000 % with Fisher–Yates plus a re-draw guard.
 
-- [x] **`src/views/grammaire/les-adjectifs.vue:125` — "Cinq adjectifs irréguliers", three listed.** *Fixed: "Trois" — fol/mol are not A2.*
-  Only beau, nouveau, vieux appear. Either say *Trois*, or add *fou → fol* and
-  *mou → mol* (rare at A2 — dropping the number is probably better).
-
-- [x] **`src/views/theme/la-famille.vue:34,81` — « soeur » / « soeurs » without the ligature.** *Fixed.*
-  Every other page writes *sœur*. (The « soeur » in `dictees/les-fleurs-du-mal.vue:20`
-  is deliberate — it tells the learner they may type it that way.)
-
-- [x] **`src/views/theme/ah-si-jetais-riche.vue:31` — header « Définition en francés ».** *Fixed: « Definición en francés ».*
-  Half French, half Spanish. The other four theme pages say *Definición en francés*.
-
-## 2. Broken exercise behaviour
-
-- [x] **All six `conversation/` pages accept a grammatically wrong number — 21 blanks.**
-  *Fixed: 21 wrong-number variants removed (the first count of 20 was one short —
-  two unaccented singulars, `medicament` and `comprime`, and the irregular
-  `maux`/`mal` only surfaced on an accent-folded re-check). Case and
-  accent variants kept.*
-  `a-la-boulangerie.vue:138` marks *croissant* correct for « deux **croissants** »;
-  `en-vacances.vue:122` accepts *vacance* for **vacances** (not a word in that sense);
-  same shape at `a-disneyland-paris.vue:128,133` (*billet*, *adulte*) and in
-  `a-la-pharmacie` (7 blanks), `chez-le-medecin` (2), `demander-son-chemin` (1).
-  The drill confirms the wrong form. Accent- and case-variants in `accept` are fine;
-  singular-for-plural is not.
-
-- [x] **`src/views/exercices/phrases-en-desordre.vue:177` — the puzzle is pre-solved ~1 time in 10.**
-  *Fixed: Fisher–Yates plus a re-draw while the order is unchanged. Re-measured
-  over 20 000 runs: identical-to-original 9.5% → 0.000%, first word unmoved
-  32% → 19.5% (uniform is 20%).*
-  Words are shuffled with `sort(() => Math.random() - 0.5)` and nothing guards
-  against `shuffled === original`. Measured over 20 000 runs: a 5-word sentence
-  comes out in the correct order **9.5 %** of the time (6-word: 4.8 %), and the
-  first word stays put 32 % of the time versus 20 % for a real shuffle.
-  Fix = Fisher–Yates + re-shuffle while the result equals the original.
+**`prononciation/les-syllabes-courantes`** printed to five A4; split into three sheets of two
+(§3 below), with all ten sections and all 51 examples kept.
 
 ## 3. Drift from the rules in AGENTS.md
 
 - [ ] **Eleven pages over the A4 budget** (§5 "Length"; excludes the two documented
   exceptions `vocabulaire/les-nombres` and `le-docteur`):
-
-  *`/prononciation/les-syllabes-courantes` (5 pages) is fixed: split into
-  `/prononciation/les-voyelles`, `/les-voyelles-nasales` and `/les-consonnes`,
-  2 pages each, all 10 sections and 51 examples kept.*
 
   | Pages | Route |
   |---|---|
