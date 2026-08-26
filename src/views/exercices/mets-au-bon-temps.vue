@@ -88,6 +88,7 @@ import { ref, computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
 import { useExerciseScore } from '@/composables/useProgress'
+import { shuffle } from '@/utils/shuffle'
 
 /* Each sentence is one template string. A blank is {infinitif|temps|réponses},
    and several accepted spellings are separated by `/` — the first one is what
@@ -158,14 +159,6 @@ function parse(s) {
     })
 }
 
-function shuffle(arr) {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
 
 function buildDeck() {
   return shuffle(ITEMS).map(item => {

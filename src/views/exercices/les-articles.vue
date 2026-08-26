@@ -86,6 +86,7 @@ import { ref, computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
 import { useExerciseScore } from '@/composables/useProgress'
+import { shuffle } from '@/utils/shuffle'
 
 // answer: correct article ; options: choices shown (includes answer) ; note: explanation
 const items = [
@@ -107,9 +108,6 @@ const items = [
   { sentence: 'Ils parlent __BLANK__ élèves absents.', answer: 'des', options: ['du', 'de la', "de l'", 'des'], note: "de + les → des (contraction obligatoire)." },
 ]
 
-function shuffle(arr) {
-  return [...arr].sort(() => Math.random() - 0.5)
-}
 
 function withShuffledOptions(item) {
   return { ...item, options: shuffle(item.options) }

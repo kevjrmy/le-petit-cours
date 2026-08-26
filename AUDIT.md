@@ -1,16 +1,18 @@
-# Content audit — 2026-08-26
+# Content audit — 2026-08-26, closed 2026-08-27
 
 Full pass over all 89 published pages: mechanical checks on every view, a page-length
-sweep of every route, and a content read of the French and Spanish.
+sweep of every route, and a content read of the French and Spanish. Every item it opened
+was fixed on 2026-08-27, the same day the vocabulaire chapter gained three pages. The
+course now carries **89 published lessons across 12 chapters**, plus two annexes.
 
 **Retired 2026-08-26:** the A4 page-budget item and the dictée print-caption item went with
 the PDF feature — there is no print output to measure or caption any more. The theme chapter
 and the contact page were removed the same day, taking their entries with them.
 
-§1 and §2 are fixed and collapsed to a summary. **§3 and §4 are the open list.**
+**Nothing is open.** §1–§4 are kept as a record of what was found and fixed.
 
-Tick items as they are fixed. Delete an item only once it is fixed *and* the
-check that found it passes again — the re-run commands are in §5.
+New findings go back into a §3, as a tick-off list. An item is only ticked once it is
+fixed *and* the check that found it passes again — the re-run commands are in §5.
 
 ---
 
@@ -35,43 +37,35 @@ the correct order 9.5 % of the time, now 0.000 % with Fisher–Yates plus a re-d
 **`prononciation/les-syllabes-courantes`** printed to five A4; split into three sheets of two
 (§3 below), with all ten sections and all 51 examples kept.
 
-## 3. Drift from the rules in AGENTS.md
+## 3–4. Closed on 2026-08-27
 
-- [ ] **Five of six `conversation/` pages break the gapfill contract** (§5 "Conversation
-  (gap-fill) pages"). `a-la-boulangerie`, `a-disneyland-paris`, `a-la-pharmacie`,
-  `chez-le-medecin`, `en-vacances` each:
-  1. use character names as `who` (`boulangere`, `cliente`, `medecin`…) instead of
-     `left` / `right`;
-  2. carry ~300 lines of scoped CSS re-implementing the global `.gapfill` chrome,
-     keyed on those names;
-  3. branch on `v-if="part.text"` — the shape documented as the blank-page crash —
-     instead of `v-if="part.id == null"`.
+The open list is empty. Kept as a record; the diagnosis for each is in the commit.
 
-  `demander-son-chemin` is the one that follows the pattern; use it as the model.
-
-- [ ] **Nineteen files use the biased `sort(() => Math.random() - 0.5)` shuffle**,
-  against Fisher–Yates in the four newest exercises (`le-bon-pronom`,
-  `mets-au-bon-temps`, `ecoute-et-choisis`, `devine-les-temps`). Same root cause as
-  the `phrases-en-desordre` bug, lower stakes elsewhere. Promote one correct
-  `shuffle()` rather than fixing each copy.
-
-- [ ] **`src/views/grammaire/le-conditionnel-present.vue:92`** — `sr-only` caption says
-  "Les **trois** emplois" over a **four**-row table (Politesse, Souhait, Conseil,
-  Hypothèse).
-
-- [ ] **Two linked pages disagree on how many verbs take *être*.**
-  `grammaire/le-passe-compose` says **14** (and lists 14); `astuces/etre-ou-avoir`
-  says **"une vingtaine"** and its pairs table lists **12**. Pick one number and
-  reconcile both pages.
-
-## 4. Minor
-
-- [ ] `astuces/etre-ou-avoir` pairs **rester / tomber** as opposites — they are not;
-  the pairing device breaks down on that row.
-- [ ] `astuces/le-genre-des-noms` uses **« un lait »** as a vocabulary-noting example;
-  odd for an uncountable noun.
-- [ ] `vocabulaire/les-jours-et-la-date` months table has **two columns both headed
-  "Mois"** and no Spanish for the months.
+- [x] **Five `conversation/` pages broke the gapfill contract.** All five were rebuilt from
+  `demander-son-chemin`: `who` is `left`/`right`, the branch is `v-if="part.id == null"`, and
+  the ~300 lines of scoped CSS per page are gone — roughly 1 500 lines removed, with every
+  blank and every dialogue line preserved (counts diffed against the previous commit).
+- [x] **The biased `sort(() => Math.random() - 0.5)` shuffle** is gone from all 18 files that
+  carried it, and the five correct local Fisher–Yates copies were promoted too. There is now
+  one `shuffle()` in `src/utils/shuffle.js`, plus `shuffleChanged()` for the drills where the
+  input order is the answer. Measured after the change: all 120 permutations of a five-item
+  array appear (min 893, max 1073 in 120 000 draws), identity rate 0.87 % against the 0.83 %
+  a uniform shuffle predicts, and `shuffleChanged` returns the input order 0.000 % of the time.
+- [x] **`grammaire/le-conditionnel-present`** — the `sr-only` caption said "les trois emplois"
+  over a four-row table. Now "quatre".
+- [x] **The two pages disagreed on how many verbs take *être*.** `astuces/etre-ou-avoir` said
+  "une vingtaine" and listed 12; `grammaire/le-passe-compose` said 14 and listed 14. The astuce
+  now says **quatorze** and lists all fourteen.
+- [x] **`astuces/etre-ou-avoir` paired rester / tomber as opposites.** They are not. The
+  pairing device now covers the five real pairs (ten verbs) and the remaining four —
+  *rester, tomber, passer, retourner* — are given their own table as verbs with no contrary,
+  which also supplied the two the page was missing.
+- [x] **`astuces/le-genre-des-noms`** used *un lait* as a note-the-article example; an
+  uncountable noun is the wrong shape for that advice. Now *un nez*, which keeps the point
+  that the French gender differs from the Spanish (*la nariz*).
+- [x] **`vocabulaire/les-jours-et-la-date`** had two columns both headed "Mois" and no Spanish
+  for them. Days and months are now separate tables, both four columns, with all twelve months
+  glossed.
 
 ## 5. Re-running the checks
 
@@ -93,12 +87,14 @@ for (const [k, v] of Object.entries(relatedPages)) {
   if (rows.length !== v.length) console.log('UNRESOLVED', k);
 }"
 
-# shuffle bias, if you want the numbers again
-node -e "
-const sh = a => [...a].sort(() => Math.random() - 0.5);
-const b = [0,1,2,3,4]; let same = 0;
-for (let i=0;i<20000;i++) if (sh(b).every((v,j)=>v===b[j])) same++;
-console.log('identical to original:', (100*same/20000).toFixed(2)+'%');"
+# the promoted shuffle stays uniform (expect ~0.83 % identity, 120/120 permutations)
+node --input-type=module -e "
+import { shuffle } from './src/utils/shuffle.js';
+const b = [0,1,2,3,4]; const seen = new Map(); let same = 0;
+for (let i=0;i<120000;i++) { const o = shuffle(b);
+  if (o.every((v,j)=>v===b[j])) same++;
+  const k = o.join(''); seen.set(k, (seen.get(k) ?? 0) + 1); }
+console.log('identity', (100*same/120000).toFixed(2)+'%', '| permutations', seen.size+'/120');"
 ```
 
 ## 6. Verified clean — do not re-audit without a reason
@@ -115,10 +111,15 @@ console.log('identical to original:', (100*same/20000).toFixed(2)+'%');"
 - **`litterature/introduction`** — all 25 authors and dates correct.
 - **`vocabulaire/les-nombres`** — *quatre-vingts*, *deux cents*, *mille* invariable,
   *soixante-et-onze*, ordinals.
-- **Mechanical, all 89 pages**: no dead RouterLinks, no raw hex colours, no
+- **Mechanical, every page as of 2026-08-26**: no dead RouterLinks, no raw hex colours, no
   `window.*` called from a template, no `{ text: '' }`, valid `view-meta` headers,
   navigation.js ↔ router ↔ disk in agreement.
+- **The three pages added on 2026-08-27** (`vocabulaire/la-famille`, `le-corps`,
+  `les-couleurs`) were put through the same mechanical checks as they were written: no raw
+  hex, valid `view-meta`, every `RouterLink` resolves, and manifest ↔ router ↔ disk agree.
+  Their French and Spanish have **not** been through a second reader yet.
 
-Known accepted debt, deliberately not listed above: ~5 000 lines of scoped CSS
-across 51 older pages duplicating the global chrome. AGENTS.md §5 already records
-that as fix-when-you-are-already-in-the-file.
+Known accepted debt, deliberately not listed above: roughly 3 500 lines of scoped CSS
+across the older lesson pages duplicating the global chrome — down from ~5 000, since the
+five conversation rewrites took about 1 500 of it. AGENTS.md §5 records the rest as
+fix-when-you-are-already-in-the-file.

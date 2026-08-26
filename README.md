@@ -24,7 +24,8 @@ Claude.ai-style app shell, tricolore palette, light and dark.
   through `ConjugationSheet.vue`, and `prononciation/` from `src/data/prononciation.js`
   through `PronunciationSheet.vue`. Their views are one-line wrappers too.
 - `src/composables/` holds the shared behaviour: `useTheme`, `useSidebar`, `usePageTitle`,
-  `useSpeech` for the audio pages, and `useProgress` for the done-ticks.
+  `useSpeech` for the audio pages, and `useProgress` for the done-ticks. `src/utils/shuffle.js`
+  is the one shuffle every drill imports — never re-implement it in a view.
 - Every view starts with `<!-- view-meta: created=YYYY-MM-DD; updated=YYYY-MM-DD -->`;
   `src/utils/viewMeta.js` turns `created` into the sommaire's "Récemment ajouté" list. The
   "Nouveau" badge and the sidebar dots were removed on 2026-08-26.

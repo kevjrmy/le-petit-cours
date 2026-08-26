@@ -128,6 +128,7 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
 import { useSpeech } from '@/composables/useSpeech'
 import { useExerciseScore } from '@/composables/useProgress'
+import { shuffle } from '@/utils/shuffle'
 
 const { speak, speaking, supported, hasVoice } = useSpeech()
 
@@ -199,14 +200,6 @@ const ITEMS = [
   },
 ]
 
-function shuffle(arr) {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
 
 /* Pick a random target per item and shuffle the buttons, so replaying the deck
    is a genuinely different drill rather than a memory test. */

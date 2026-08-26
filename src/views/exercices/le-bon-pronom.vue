@@ -75,6 +75,7 @@ import { ref, computed, onUnmounted } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
 import { useExerciseScore } from '@/composables/useProgress'
+import { shuffle } from '@/utils/shuffle'
 
 /* The nine pronouns stay on screen the whole round: the learner recalls the form
    instead of picking from four options tailored to the sentence. */
@@ -140,14 +141,6 @@ const ITEMS = [
     note: "Sans + eux, jamais « sans ils »." },
 ]
 
-function shuffle(arr) {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
 
 function buildDeck() {
   return shuffle(ITEMS).map(item => {

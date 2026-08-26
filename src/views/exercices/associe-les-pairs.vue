@@ -90,6 +90,7 @@
 import { computed, ref, watch } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
+import { shuffle } from '@/utils/shuffle'
 
 // 4 Rounds of 8 pairs each
 const rounds = [
@@ -187,8 +188,8 @@ function setupRound() {
   })
 
   // Independently shuffle both columns
-  leftCards.value = left.sort(() => Math.random() - 0.5)
-  rightCards.value = right.sort(() => Math.random() - 0.5)
+  leftCards.value = shuffle(left)
+  rightCards.value = shuffle(right)
 
   selectedLeft.value = null
   selectedRight.value = null

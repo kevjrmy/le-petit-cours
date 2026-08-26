@@ -238,6 +238,9 @@ export const chapters = [
       { path: '/vocabulaire/le-travail', title: 'Le travail' },
       { path: '/vocabulaire/la-meteo', title: 'La météo et les saisons' },
       { path: '/vocabulaire/le-docteur', title: 'Chez le docteur' },
+      { path: '/vocabulaire/la-famille', title: 'La famille' },
+      { path: '/vocabulaire/le-corps', title: 'Le corps humain' },
+      { path: '/vocabulaire/les-couleurs', title: 'Les couleurs' },
     ],
   },
   {
@@ -414,6 +417,9 @@ export const relatedPages = {
   '/vocabulaire/le-travail': ['/lecture/entretien-d-embauche', '/grammaire/le-conditionnel-present'],
   '/vocabulaire/la-meteo': ['/vocabulaire/les-jours-et-la-date', '/conversation/en-vacances', '/dictees/une-journee-en-vacances'],
   '/vocabulaire/le-docteur': ['/conversation/chez-le-medecin', '/conversation/a-la-pharmacie'],
+  '/vocabulaire/la-famille': ['/orthographe/les-determinants-possessifs', '/vocabulaire/le-corps', '/conversation/chez-le-medecin'],
+  '/vocabulaire/le-corps': ['/vocabulaire/le-docteur', '/conversation/chez-le-medecin', '/astuces/a-en-au-aux'],
+  '/vocabulaire/les-couleurs': ['/grammaire/les-adjectifs', '/exercices/les-adjectifs-accord', '/musique/la-vie-en-rose'],
 
   // ── Conversation ─────────────────────────────
   '/conversation/en-vacances': ['/vocabulaire/la-meteo', '/dictees/une-journee-en-vacances'],

@@ -102,22 +102,25 @@ bras »* accepts both *me* and *te* until the gloss says *me toma (a mí)*.
 
 ## Shuffling
 
-Use Fisher–Yates. **Never `sort(() => Math.random() - 0.5)`** — it is biased, and in the
-word-order exercise it served the sentence already in the correct order 9.5 % of the time.
+**Import it. Never write one.**
 
 ```js
-function shuffle(arr) {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
+import { shuffle, shuffleChanged } from '@/utils/shuffle'
 ```
 
-Where the original order **is** the answer (tap-to-order), re-draw while the shuffle equals
-the input — Fisher–Yates still lands on the identity permutation 1 time in n!.
+`sort(() => Math.random() - 0.5)` is biased — in the word-order exercise it served the
+sentence already in the correct order 9.5 % of the time. Every copy was removed on
+2026-08-27 and `src/utils/shuffle.js` is now the only implementation; a new local `shuffle()`
+in a view is a regression, even a correct Fisher–Yates one.
+
+Where the original order **is** the answer (tap-to-order, sorting cards back into a column),
+use `shuffleChanged(items, same)`. Plain Fisher–Yates is unbiased but still lands on the
+identity permutation 1 time in n!; `shuffleChanged` re-draws until the order actually differs.
+`same` compares whatever identity the items carry:
+
+```js
+shuffleChanged(wordObjects, (a, b) => a.id === b.id)
+```
 
 ## Timed rounds
 
@@ -157,11 +160,13 @@ exactly that distinction.
 Same discipline, different shell: `<main class="gapfill">` and **no `<style>` block** —
 `.word-bank`, `.chip`, `.chat`, `.bubble`, `.slot`, `.suggest`, `.actions`, `.result` and
 `.drag-ghost` are global. Copy the `<script setup>` from
-`conversation/demander-son-chemin.vue`, which is the only page that follows the contract.
+`conversation/demander-son-chemin.vue`. All six pages now share it: the five that used
+character names and ~300 lines of scoped CSS each were rebuilt onto this contract on
+2026-08-27, so any page in the chapter is a valid model.
 
-- Speakers are `.left` / `.right`, **never character names**. The five older pages use
-  `boulangere`, `cliente`, `medecin`… and carry ~300 lines of scoped CSS keyed on them.
-- Branch on `v-if="part.id == null"`, not `v-if="part.text"`. The older shape treats
+- Speakers are `.left` / `.right`, **never character names**. The character's name belongs
+  in the speaker ternary in the template, not in the data.
+- Branch on `v-if="part.id == null"`, not `v-if="part.text"`. The latter treats
   `{ text: '' }` as a blank and throws on `part.answer.length` — the whole route renders
   blank with only a console warning. Never write `{ text: '' }`; if a line starts with a
   blank, make the blank the first element.

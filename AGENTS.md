@@ -55,6 +55,7 @@ src/
     DefaultLayout.vue      ← the reading sheet (.page-sheet) + the done-tick
     AltLayout.vue          ← identical; both kept so existing views compile
   utils/viewMeta.js        ← view-meta dates → "Récemment ajouté" on the sommaire
+  utils/shuffle.js         ← the one Fisher–Yates; drills import it, never re-implement it
   views/{chapter}/         ← index.vue (one-line ChapterIndex wrapper) + lesson files
 ```
 
@@ -359,9 +360,10 @@ missing mechanic over a tenth MCQ.
 
 Each of the following has already cost a bug:
 
-- **Shuffle with Fisher–Yates**, never `sort(() => Math.random() - 0.5)`: it is biased, and
-  in `phrases-en-desordre` it served the sentence already in the correct order 9.5 % of the
-  time. Where the original order *is* the answer, re-draw while the shuffle equals the input.
+- **Import `shuffle` from `@/utils/shuffle`** — never write one in a view, and never
+  `sort(() => Math.random() - 0.5)`, which is biased: in `phrases-en-desordre` it served the
+  sentence already in the correct order 9.5 % of the time. Where the original order *is* the
+  answer, use `shuffleChanged(items, same)`, which re-draws until the order actually differs.
 - **An `accept` list may hold case and accent variants, never a different number or
   gender.** `answer: 'croissants', accept: ['croissant']` marks *deux croissant* correct.
 - **A timed round owns two timers** — the countdown `setInterval` and the `setTimeout` that
@@ -388,14 +390,15 @@ and **no `<style>` block** — `.word-bank`, `.chip`, `.chat`, `.bubble`, `.slot
 the `dialogue` array: each line is `{ who: 'left'|'right', parts: [...] }`, each part either
 `{ text: '…' }` or a blank `{ id, answer, accept: […] }`.
 
-Speakers are `.left` / `.right`, **never character names** — the five older pages use
-`boulangere`, `cliente`… and carry ~300 lines of scoped CSS keyed on them.
+Speakers are `.left` / `.right`, **never character names**. The five pages that used
+`boulangere`, `cliente`… with ~300 lines of scoped CSS each were rebuilt onto this contract
+on 2026-08-27; all six conversation pages now share one script and carry no CSS at all.
 
-**Never write `{ text: '' }`.** The older pages branch on `v-if="part.text"`, so an
-empty-string part is falsy, renders as a blank, and throws on `part.answer.length` — the
-route goes blank with only a console warning. If a line must start with a blank, make the
-blank the first element; new pages branch on `v-if="part.id == null"`, which cannot fail
-this way.
+**Never write `{ text: '' }`.** An empty-string part is falsy, so a `v-if="part.text"`
+branch renders it as a blank with no `answer` and throws on `part.answer.length` — the route
+goes blank with only a console warning. Every page now branches on `v-if="part.id == null"`,
+which cannot fail this way; if a line must start with a blank, make the blank the first
+element and leave the branch alone.
 
 ### Lecture (reading) pages
 
@@ -506,9 +509,9 @@ Authoritative list is `src/data/navigation.js` — this table is the human summa
 - **musique** (1 + 2 planned): la-vie-en-rose. Song pages quote **short excerpts only** —
   the twentieth-century repertoire is still in copyright, so a page carries a few verses
   with commentary, a vocabulary table and a grammar focus, never a full lyric sheet.
-- **vocabulaire** (11) — base first, then the everyday themes: 100-mots-les-plus-utilises,
+- **vocabulaire** (14) — base first, then the everyday themes: 100-mots-les-plus-utilises,
   les-nombres, l-heure, les-jours-et-la-date, la-maison, les-vetements, la-ville,
-  les-transports, le-travail, la-meteo, le-docteur
+  les-transports, le-travail, la-meteo, le-docteur, la-famille, le-corps, les-couleurs
 - **conversation** (6): en-vacances, a-la-boulangerie, a-disneyland-paris, chez-le-medecin, a-la-pharmacie, demander-son-chemin
 - **annexe** (utility route, not a chapter): a-propos
 

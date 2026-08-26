@@ -13,8 +13,8 @@
             Apprenez la petite liste de <strong class="hl-blue">être</strong>.
           </p>
           <p>
-            La quasi-totalité des verbes français se conjuguent avec <em>avoir</em>&nbsp;; seule une
-            vingtaine prend <em>être</em>. Si le verbe n'est pas dans cette courte liste, la réponse
+            La quasi-totalité des verbes français se conjuguent avec <em>avoir</em>&nbsp;; seuls
+            <strong>quatorze</strong> prennent <em>être</em>. Si le verbe n'est pas dans cette courte liste, la réponse
             est <strong>avoir</strong>, sans hésiter. En espagnol le passé se forme toujours avec
             <em>haber</em> (<em>he comido</em>, <em>he ido</em>)&nbsp;: c'est donc <em>être</em> qui
             demande un effort, jamais <em>avoir</em>.
@@ -33,12 +33,13 @@
           </p>
           <p>
             Retenir un couple coûte à peine plus qu'un verbe seul, et vous en récupérez deux.
-            Ce sont tous des verbes de mouvement ou de changement d'état.
+            Ce sont tous des verbes de mouvement ou de changement d'état. Cinq paires en
+            couvrent dix&nbsp;; les quatre derniers n'ont pas de contraire et s'apprennent seuls.
           </p>
         </div>
 
         <table>
-          <caption class="sr-only">Les verbes qui se conjuguent avec être, par paires de contraires</caption>
+          <caption class="sr-only">Les dix verbes d'être qui vont par paires de contraires</caption>
           <thead>
             <tr>
               <th>Verbe</th>
@@ -72,10 +73,45 @@
               <td class="aux">mourir</td>
               <td class="translation">nacer / morir</td>
             </tr>
+          </tbody>
+        </table>
+
+        <h3>Les quatre qui restent</h3>
+
+        <p class="method">
+          Ceux-là n'ont pas de contraire dans la liste&nbsp;: les apprendre par paires
+          reviendrait à inventer un couple qui n'existe pas.
+        </p>
+
+        <table>
+          <caption class="sr-only">Les verbes d'être qui n'ont pas de contraire dans la liste</caption>
+          <thead>
+            <tr>
+              <th>Verbe</th>
+              <th>Traducción (ES)</th>
+              <th>Exemple</th>
+            </tr>
+          </thead>
+          <tbody>
             <tr>
               <td class="person">rester</td>
-              <td class="aux">tomber</td>
-              <td class="translation">quedarse / caer</td>
+              <td class="translation">quedarse</td>
+              <td>Je suis resté à la maison.</td>
+            </tr>
+            <tr>
+              <td class="person">tomber</td>
+              <td class="translation">caer(se)</td>
+              <td>Elle est tombée dans l'escalier.</td>
+            </tr>
+            <tr>
+              <td class="person">passer</td>
+              <td class="translation">pasar</td>
+              <td>Nous sommes passés par Lyon.</td>
+            </tr>
+            <tr>
+              <td class="person">retourner</td>
+              <td class="translation">volver</td>
+              <td>Ils sont retournés en France.</td>
             </tr>
           </tbody>
         </table>

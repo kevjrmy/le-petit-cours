@@ -128,6 +128,7 @@ import { ref, reactive, computed, onBeforeUnmount } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
 import { useExerciseScore } from '@/composables/useProgress'
+import { shuffle } from '@/utils/shuffle'
 
 /**
  * Bucket-sorting exercise: drag (or click to cycle) each infinitive into the
@@ -161,9 +162,6 @@ const items = [
   { text: 'travailler',   aux: 'avoir' },
 ]
 
-function shuffle(arr) {
-  return [...arr].sort(() => Math.random() - 0.5)
-}
 
 let idCounter = 0
 function makeDeck() {

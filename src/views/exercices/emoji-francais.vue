@@ -74,6 +74,7 @@ import { ref, computed, onBeforeUnmount } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
 import { useExerciseScore } from '@/composables/useProgress'
+import { shuffle } from '@/utils/shuffle'
 
 // Larger pool — each round draws a random subset, so the game is different every time.
 const POOL = [
@@ -188,9 +189,6 @@ const POOL = [
 
 const ROUND_SIZE = 12
 
-function shuffle(arr) {
-  return [...arr].sort(() => Math.random() - 0.5)
-}
 
 function buildDeck() {
   return shuffle(POOL).slice(0, ROUND_SIZE)

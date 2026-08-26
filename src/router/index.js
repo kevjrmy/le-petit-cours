@@ -138,6 +138,9 @@ const router = createRouter({
     { path: '/vocabulaire/les-transports', name: 'vocab-les-transports', component: () => import('../views/vocabulaire/les-transports.vue') },
     { path: '/vocabulaire/le-travail', name: 'vocab-le-travail', component: () => import('../views/vocabulaire/le-travail.vue') },
     { path: '/vocabulaire/la-meteo', name: 'vocab-la-meteo', component: () => import('../views/vocabulaire/la-meteo.vue') },
+    { path: '/vocabulaire/la-famille', name: 'vocab-la-famille', component: () => import('../views/vocabulaire/la-famille.vue') },
+    { path: '/vocabulaire/le-corps', name: 'vocab-le-corps', component: () => import('../views/vocabulaire/le-corps.vue') },
+    { path: '/vocabulaire/les-couleurs', name: 'vocab-les-couleurs', component: () => import('../views/vocabulaire/les-couleurs.vue') },
 
     // Annexes
     { path: '/ma-progression', name: 'ma-progression', component: () => import('../views/annexe/ma-progression.vue') },

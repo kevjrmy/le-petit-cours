@@ -89,6 +89,7 @@ import { computed, ref } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
 import { useExerciseScore } from '@/composables/useProgress'
+import { shuffle } from '@/utils/shuffle'
 
 const items = [
   {
@@ -191,9 +192,6 @@ const items = [
   }
 ]
 
-function shuffle(array) {
-  return [...array].sort(() => Math.random() - 0.5)
-}
 
 function prepareItem(item) {
   return { ...item, options: shuffle(item.options) }

@@ -91,6 +91,7 @@ import { ref, computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
 import { useExerciseScore } from '@/composables/useProgress'
+import { shuffle } from '@/utils/shuffle'
 
 /* The seven tenses the course covers at A2. The list is fixed and always shown
    in the same order, so the learner reads the same board every time. */
@@ -172,14 +173,6 @@ const ITEMS = [
   },
 ]
 
-function shuffle(arr) {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
 
 const deck         = ref(shuffle(ITEMS))
 const currentIndex = ref(0)

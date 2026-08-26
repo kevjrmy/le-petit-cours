@@ -83,6 +83,7 @@ import { ref, computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
 import { useExerciseScore } from '@/composables/useProgress'
+import { shuffle } from '@/utils/shuffle'
 
 const groups = [
   { id: 1, label: '1ᵉʳ groupe' },
@@ -116,9 +117,6 @@ const verbs = [
   { verb: 'voir',       group: 3 },
 ]
 
-function shuffle(arr) {
-  return [...arr].sort(() => Math.random() - 0.5)
-}
 
 const deck         = ref(shuffle(verbs))
 const currentIndex = ref(0)

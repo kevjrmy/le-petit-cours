@@ -1,7 +1,7 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-26 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-27 -->
 <template>
   <DefaultLayout title="À Disneyland Paris">
-    <main id="dialogue">
+    <main class="gapfill">
 
       <div class="scene">
         <p class="scene-intro">
@@ -32,10 +32,12 @@
       <div class="chat">
         <template v-for="(line, i) in dialogue" :key="i">
           <div class="bubble-row" :class="line.who">
-            <span class="speaker">{{ line.who === 'visiteur' ? 'Léo' : "L'employé" }}</span>
+            <span class="speaker">{{ line.who === 'right' ? 'Léo' : "L'employé" }}</span>
             <p class="bubble">
               <template v-for="(part, j) in line.parts" :key="j">
-                <span v-if="part.text">{{ part.text }}</span>
+                <!-- Test the id, not the text: an empty-string text part would
+                     be falsy and get rendered as a blank with no `answer`. -->
+                <span v-if="part.id == null">{{ part.text }}</span>
                 <span
                   v-else
                   class="slot"
@@ -106,6 +108,7 @@
       >{{ drag.word.text }}</div>
 
       <RelatedLinks />
+
     </main>
   </DefaultLayout>
 </template>
@@ -114,65 +117,71 @@
 import { ref, reactive, computed, onBeforeUnmount } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
+import { shuffle } from '@/utils/shuffle'
 
-// Each blank: id, answer (canonical), accept (extra accepted spellings)
+/**
+ * Drills asking for practical information — prices, times, directions —
+ * with the question forms of `grammaire/l-interrogation`.
+ *
+ * Each blank: id, answer (canonical), accept (extra accepted spellings).
+ */
 const dialogue = [
-  { who: 'employe', parts: [
+  { who: 'left', parts: [
     { text: 'Bonjour et bienvenue à Disneyland Paris ! Je peux vous ' },
     { id: 1, answer: 'aider' },
     { text: ' ?' },
   ]},
-  { who: 'visiteur', parts: [
+  { who: 'right', parts: [
     { text: 'Bonjour ! Je voudrais deux ' },
     { id: 2, answer: 'billets' },
     { text: ' pour aujourd\'hui, s\'il vous plaît.' },
   ]},
-  { who: 'employe', parts: [
+  { who: 'left', parts: [
     { text: 'Très bien. C\'est pour deux ' },
     { id: 3, answer: 'adultes' },
     { text: ' ?' },
   ]},
-  { who: 'visiteur', parts: [
+  { who: 'right', parts: [
     { text: 'Non, un adulte et un ' },
     { id: 4, answer: 'enfant' },
     { text: '.' },
   ]},
-  { who: 'employe', parts: [
+  { who: 'left', parts: [
     { text: 'Parfait. Vous préférez le château ou les ' },
     { id: 5, answer: 'attractions' },
     { text: ' ?' },
   ]},
-  { who: 'visiteur', parts: [
+  { who: 'right', parts: [
     { text: 'Les attractions ! Et à quelle heure est le ' },
     { id: 6, answer: 'spectacle' },
     { text: ' de nuit ?' },
   ]},
-  { who: 'employe', parts: [
+  { who: 'left', parts: [
     { text: 'Il commence à 22 heures, devant le château.' },
   ]},
-  { who: 'visiteur', parts: [
+  { who: 'right', parts: [
     { text: 'Super ! ' },
     { id: 7, answer: 'Combien', accept: ['combien'] },
     { text: ' ça coûte ?' },
   ]},
-  { who: 'employe', parts: [
+  { who: 'left', parts: [
     { text: 'Ça fait 180 ' },
     { id: 8, answer: 'euros' },
     { text: ' en tout.' },
   ]},
-  { who: 'visiteur', parts: [
+  { who: 'right', parts: [
     { text: 'Voilà ma ' },
     { id: 9, answer: 'carte' },
     { text: ' bancaire.' },
   ]},
-  { who: 'employe', parts: [
+  { who: 'left', parts: [
     { text: 'Merci. Voici vos billets et un ' },
     { id: 10, answer: 'plan' },
     { text: ' du parc. Bonne ' },
     { id: 11, answer: 'visite' },
     { text: ' !' },
   ]},
-  { who: 'visiteur', parts: [
+  { who: 'right', parts: [
     { id: 12, answer: 'Merci', accept: ['merci'] },
     { text: ' beaucoup ! Au revoir !' },
   ]},
@@ -183,9 +192,7 @@ const blanks = dialogue.flatMap(l => l.parts.filter(p => p.id != null))
 // Build a shuffled bank of word tokens, each with a stable unique key
 let keyCounter = 0
 function makeBank() {
-  return blanks
-    .map(b => ({ key: ++keyCounter, text: b.answer }))
-    .sort(() => Math.random() - 0.5)
+  return shuffle(blanks.map(b => ({ key: ++keyCounter, text: b.answer })))
 }
 
 const bank = reactive(makeBank())
@@ -364,303 +371,3 @@ onBeforeUnmount(() => {
   window.removeEventListener('pointercancel', onUp)
 })
 </script>
-
-<style scoped>
-#dialogue {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-/* ── Scene ─────────────────────────────────────── */
-.scene-intro {
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--clr-ink);
-  margin: 0;
-}
-
-.scene-hint {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 0.85rem;
-  color: var(--clr-ink-soft);
-  margin: 0.35rem 0 0;
-}
-
-/* ── Word bank ─────────────────────────────────── */
-.word-bank {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.85rem 1rem;
-  background: var(--clr-blue-light);
-  border: 1px solid var(--clr-border);
-  border-radius: var(--radius);
-  min-height: 2.5rem;
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  box-shadow: 0 4px 12px rgba(26, 26, 46, 0.08);
-}
-
-.word-bank-label {
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--clr-ink-soft);
-  margin-right: 0.25rem;
-}
-
-.word-bank-empty {
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
-  font-style: italic;
-  color: var(--clr-ink-soft);
-}
-
-/* ── Chips (draggable tokens) ──────────────────── */
-.chip {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  padding: 0.25rem 0.6rem;
-  background: var(--clr-page);
-  border: 1px solid var(--clr-border);
-  border-radius: 99px;
-  color: var(--clr-ink);
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: none; /* let us own the gesture on touch */
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-  transition: opacity 0.12s, box-shadow 0.12s, transform 0.12s;
-}
-
-.chip:active {
-  cursor: grabbing;
-}
-
-.chip.dragging {
-  opacity: 0.3;
-}
-
-/* ── Chat ──────────────────────────────────────── */
-.chat {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-}
-
-.bubble-row {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  max-width: 85%;
-}
-
-.bubble-row.visiteur {
-  align-self: flex-end;
-  align-items: flex-end;
-}
-
-.bubble-row.employe {
-  align-self: flex-start;
-  align-items: flex-start;
-}
-
-.speaker {
-  font-family: var(--font-sans);
-  font-size: 0.68rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--clr-ink-soft);
-}
-
-.bubble {
-  margin: 0;
-  padding: 0.7rem 0.95rem;
-  border-radius: var(--radius);
-  font-family: var(--font-serif);
-  font-size: 0.97rem;
-  line-height: 2.2;
-  border: 1px solid var(--clr-border);
-}
-
-.bubble-row.employe .bubble {
-  background: var(--clr-page);
-  border-bottom-left-radius: 4px;
-}
-
-.bubble-row.visiteur .bubble {
-  background: var(--clr-blue-light);
-  border-bottom-right-radius: 4px;
-}
-
-/* ── Slots (drop targets) ──────────────────────── */
-.slot {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
-  margin: 0 0.15rem;
-  padding: 0.1rem;
-  border-bottom: 2px dashed var(--clr-blue);
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.5);
-  transition: background 0.12s, border-color 0.12s, box-shadow 0.12s;
-}
-
-.slot.filled {
-  border-bottom-style: solid;
-  background: transparent;
-}
-
-.slot.over {
-  background: var(--surface-1);
-  border-bottom-color: var(--clr-blue-dark);
-  box-shadow: 0 0 0 2px var(--clr-blue);
-}
-
-/* ── Typed input + autocomplete ────────────────── */
-.slot-input-wrap {
-  position: relative;
-  display: inline-flex;
-}
-
-.slot-input {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  width: 100%;
-  min-width: 4ch;
-  padding: 0.15rem 0.3rem;
-  border: none;
-  background: transparent;
-  color: var(--clr-ink);
-  text-align: center;
-  outline: none;
-}
-
-.suggest {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 900;
-  margin: 0;
-  padding: 0.25rem;
-  list-style: none;
-  min-width: max-content;
-  background: var(--clr-page);
-  border: 1px solid var(--clr-border);
-  border-radius: var(--radius);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
-}
-
-.suggest li {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  padding: 0.3rem 0.7rem;
-  border-radius: 6px;
-  color: var(--clr-ink);
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.suggest li:hover {
-  background: var(--clr-blue-light);
-}
-
-.slot.is-correct {
-  border-bottom-color: var(--success-strong);
-}
-
-.slot.is-correct .chip.placed {
-  background: var(--success-soft);
-  border-color: var(--success-strong);
-  color: var(--success-text);
-  font-weight: 600;
-  cursor: default;
-}
-
-.slot.is-wrong {
-  border-bottom-color: var(--clr-red);
-}
-
-.slot.is-wrong .chip.placed {
-  background: var(--clr-red-light);
-  border-color: var(--clr-red);
-  color: var(--clr-red);
-}
-
-/* ── Drag ghost ────────────────────────────────── */
-.drag-ghost {
-  position: fixed;
-  z-index: 1000;
-  transform: translate(-50%, -50%) scale(1.05);
-  pointer-events: none;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  opacity: 0.95;
-}
-
-/* ── Actions ───────────────────────────────────── */
-.actions {
-  display: flex;
-  gap: 0.6rem;
-}
-
-.btn-check {
-  flex: 1;
-  padding: 0.8rem 1.5rem;
-  background: var(--clr-blue);
-  color: var(--text-on-accent);
-  border-radius: var(--radius);
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.btn-check:hover {
-  background: var(--clr-blue-dark);
-}
-
-.btn-reset {
-  padding: 0.8rem 1.25rem;
-  background: transparent;
-  border: 1.5px solid var(--clr-border);
-  border-radius: var(--radius);
-  color: var(--clr-ink-mid);
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
-}
-
-.btn-reset:hover {
-  border-color: var(--clr-blue);
-  color: var(--clr-blue);
-}
-
-/* ── Result ────────────────────────────────────── */
-.result {
-  text-align: center;
-  padding: 0.85rem 1rem;
-  border-radius: var(--radius);
-  font-family: var(--font-sans);
-  font-size: 0.9rem;
-  font-weight: 600;
-  background: var(--clr-red-light);
-  color: var(--clr-red);
-}
-
-.result.perfect {
-  background: var(--success-soft);
-  color: var(--success-text);
-}
-
-</style>

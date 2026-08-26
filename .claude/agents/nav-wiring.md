@@ -140,8 +140,10 @@ stale entry costs one link and shows no error. That is why the check above matte
   the counts live on the cards and in the sidebar.
 - Every chapter landing page (`ChapterIndex.vue`).
 - Breadcrumbs and `document.title` (`usePageTitle.js`).
-- "Nouveau" badges and sidebar dots — driven by the `view-meta` comment dates via
-  `utils/viewMeta.js`, not by the manifest.
+- Progress ticks and the per-chapter tally on every chapter landing page — driven by
+  `useProgress` off the route path. Registering a lesson is all the wiring it needs.
+  (The "Nouveau" badge and the red sidebar dots were removed on 2026-08-27; `updated` in
+  `view-meta` no longer drives anything in the UI.)
 - The sommaire's "Récemment ajouté" list — the six newest views by `created`, joined onto
   the manifest for their title, chapter and icon. Adding a lesson puts it there for free;
   giving it a wrong `created` date is the only way to get this wrong.

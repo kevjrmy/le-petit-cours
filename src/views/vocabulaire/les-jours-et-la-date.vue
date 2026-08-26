@@ -11,22 +11,73 @@
 
       <!-- ── Jours et mois ───────────────────────── -->
       <article>
-        <h2>Les jours et les mois</h2>
+        <h2>Les jours de la semaine</h2>
         <table class="dense">
-          <caption class="sr-only">Les jours de la semaine et les mois de l'année</caption>
+          <caption class="sr-only">Les jours de la semaine et leur traduction en espagnol</caption>
           <thead>
-            <tr><th>Jours</th><th>En espagnol</th><th>Mois</th><th>Mois</th></tr>
+            <tr><th>Français</th><th>En espagnol</th><th>Français</th><th>En espagnol</th></tr>
           </thead>
           <tbody>
-            <tr><td><strong>lundi</strong></td><td><em>lunes</em></td><td><strong>janvier</strong></td><td><strong>juillet</strong></td></tr>
-            <tr><td><strong>mardi</strong></td><td><em>martes</em></td><td><strong>février</strong></td><td><strong>août</strong></td></tr>
-            <tr><td><strong>mercredi</strong></td><td><em>miércoles</em></td><td><strong>mars</strong></td><td><strong>septembre</strong></td></tr>
-            <tr><td><strong>jeudi</strong></td><td><em>jueves</em></td><td><strong>avril</strong></td><td><strong>octobre</strong></td></tr>
-            <tr><td><strong>vendredi</strong></td><td><em>viernes</em></td><td><strong>mai</strong></td><td><strong>novembre</strong></td></tr>
-            <tr><td><strong>samedi</strong></td><td><em>sábado</em></td><td><strong>juin</strong></td><td><strong>décembre</strong></td></tr>
-            <tr><td><strong>dimanche</strong></td><td><em>domingo</em></td><td></td><td></td></tr>
+            <tr>
+              <td><strong>lundi</strong></td><td><em>lunes</em></td>
+              <td><strong>vendredi</strong></td><td><em>viernes</em></td>
+            </tr>
+            <tr>
+              <td><strong>mardi</strong></td><td><em>martes</em></td>
+              <td><strong>samedi</strong></td><td><em>sábado</em></td>
+            </tr>
+            <tr>
+              <td><strong>mercredi</strong></td><td><em>miércoles</em></td>
+              <td><strong>dimanche</strong></td><td><em>domingo</em></td>
+            </tr>
+            <tr>
+              <td><strong>jeudi</strong></td><td><em>jueves</em></td>
+              <td></td><td></td>
+            </tr>
           </tbody>
         </table>
+      </article>
+
+      <!-- ── Les mois ────────────────────────────── -->
+      <article>
+        <h2>Les mois de l'année</h2>
+        <table class="dense">
+          <caption class="sr-only">Les mois de l'année et leur traduction en espagnol</caption>
+          <thead>
+            <tr><th>Français</th><th>En espagnol</th><th>Français</th><th>En espagnol</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>janvier</strong></td><td><em>enero</em></td>
+              <td><strong>juillet</strong></td><td><em>julio</em></td>
+            </tr>
+            <tr>
+              <td><strong>février</strong></td><td><em>febrero</em></td>
+              <td><strong>août</strong></td><td><em>agosto</em></td>
+            </tr>
+            <tr>
+              <td><strong>mars</strong></td><td><em>marzo</em></td>
+              <td><strong>septembre</strong></td><td><em>septiembre</em></td>
+            </tr>
+            <tr>
+              <td><strong>avril</strong></td><td><em>abril</em></td>
+              <td><strong>octobre</strong></td><td><em>octubre</em></td>
+            </tr>
+            <tr>
+              <td><strong>mai</strong></td><td><em>mayo</em></td>
+              <td><strong>novembre</strong></td><td><em>noviembre</em></td>
+            </tr>
+            <tr>
+              <td><strong>juin</strong></td><td><em>junio</em></td>
+              <td><strong>décembre</strong></td><td><em>diciembre</em></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="note">
+          <strong>août</strong> se prononce <em>[ut]</em> ou <em>[u]</em>&nbsp;: le
+          <em>a</em> ne s'entend pas. C'est le seul mois piégeux de la liste.
+        </div>
 
         <div class="attention">
           Les jours et les mois s'écrivent avec une <strong class="hl-blue">minuscule</strong>,

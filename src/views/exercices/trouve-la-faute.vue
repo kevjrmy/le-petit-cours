@@ -113,6 +113,7 @@ import { ref, computed, nextTick } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
 import { useExerciseScore } from '@/composables/useProgress'
+import { shuffle } from '@/utils/shuffle'
 
 /**
  * Error correction. Each item has exactly one wrong word: `badIndex` points at
@@ -186,9 +187,6 @@ const items = [
   },
 ]
 
-function shuffle(arr) {
-  return [...arr].sort(() => Math.random() - 0.5)
-}
 
 const deck         = ref(shuffle(items))
 const currentIndex = ref(0)

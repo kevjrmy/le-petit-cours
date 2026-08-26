@@ -120,8 +120,8 @@
 
         <div class="example">
           À noter ainsi : <strong>une</strong> table · <strong>un</strong> livre ·
-          <strong>une</strong> voiture · <strong>un</strong> lait<br>
-          Et non : <s>table</s> · <s>livre</s> · <s>voiture</s> · <s>lait</s>
+          <strong>une</strong> voiture · <strong>un</strong> nez<br>
+          Et non : <s>table</s> · <s>livre</s> · <s>voiture</s> · <s>nez</s>
         </div>
 
         <div class="attention">

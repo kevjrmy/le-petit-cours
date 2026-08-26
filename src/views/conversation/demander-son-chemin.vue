@@ -117,6 +117,7 @@
 import { ref, reactive, computed, onBeforeUnmount } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
+import { shuffle } from '@/utils/shuffle'
 
 /**
  * Drills the vocabulary of `vocabulaire/la-ville` and the imperative forms of
@@ -187,9 +188,7 @@ const blanks = dialogue.flatMap(l => l.parts.filter(p => p.id != null))
 // Build a shuffled bank of word tokens, each with a stable unique key
 let keyCounter = 0
 function makeBank() {
-  return blanks
-    .map(b => ({ key: ++keyCounter, text: b.answer }))
-    .sort(() => Math.random() - 0.5)
+  return shuffle(blanks.map(b => ({ key: ++keyCounter, text: b.answer })))
 }
 
 const bank = reactive(makeBank())
