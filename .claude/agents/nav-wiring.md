@@ -1,13 +1,13 @@
 ---
 name: nav-wiring
-description: Use to register, rename, move or remove pages and chapters in le-petit-cours — updating src/data/navigation.js, src/router/index.js and the docs together — or to audit that the manifest, the routes and the files on disk still agree.
+description: Use to register, rename, move, split or remove pages and chapters in le-petit-cours — updating src/data/navigation.js (lessons and the relatedPages map), src/router/index.js and the docs together — or to audit that the manifest, the routes, the related links and the files on disk still agree.
 tools: Read, Edit, Write, Grep, Glob, Bash
 model: sonnet
 ---
 
 # Navigation wiring
 
-You keep three things in agreement. Drift between them is the most likely way this app
+You keep four things in agreement. Drift between them is the most likely way this app
 breaks, because nothing detects it at build time.
 
 | Source | Owns | Symptom when it drifts |
@@ -15,6 +15,7 @@ breaks, because nothing detects it at build time.
 | `src/data/navigation.js` | titles, order, blurbs, counts, tags | page exists but is unreachable from the UI |
 | `src/router/index.js` | URL → component | sidebar link 404s |
 | `src/views/{chapter}/*.vue` | the page itself | route points at a missing import → build fails |
+| `relatedPages` in `navigation.js` | the "Pour aller plus loin" links | a page silently loses a link, or keeps one to a page that no longer exists |
 
 ## The audit
 
@@ -35,7 +36,19 @@ console.log('route with no nav entry:', orphan.length ? orphan : 'none');
 "
 ```
 
-Both lines must read `none`. Then `npm run build`.
+Both lines must read `none`. Then check the related-links map, which fails soft — a stale
+entry drops a link rather than erroring, so nothing surfaces it but this:
+
+```bash
+node --input-type=module -e "
+import { relatedPages, relatedFor } from './src/data/navigation.js';
+for (const [k, v] of Object.entries(relatedPages)) {
+  const rows = relatedFor(k);
+  if (rows.length !== v.length) console.log('UNRESOLVED', k, v.filter(p => !rows.find(r => r.path === p)));
+}"
+```
+
+Then `npm run build`.
 
 ## Adding a lesson
 
@@ -84,13 +97,34 @@ grep -o "name: '[^']*'" src/router/index.js | sort | uniq -d
 
 ## Renaming, moving, removing
 
-- **Rename a route path** → update `navigation.js`, `router/index.js`, and grep for
-  hard-coded `RouterLink to="…"` in views: `grep -rn "old-path" src/`.
+- **Rename a route path** → update `navigation.js`, `router/index.js`, `relatedPages`
+  (both its own key **and** every array that names it), and grep for hard-coded
+  `RouterLink to="…"` in views: `grep -rn "old-path" src/`. `grep -rn "old-slug" src/`
+  must come back empty before you are done.
+- **Split a page in two or three** → the same, plus a redirect so the old URL still lands
+  somewhere, rather than 404ing for anyone who bookmarked it:
+
+  ```js
+  // The single five-page sheet was split in three on 2026-08-26; keep its URL alive.
+  { path: '/prononciation/les-syllabes-courantes', redirect: '/prononciation/les-voyelles' },
+  ```
 - **Remove a page** → delete the view, the `navigation.js` entry, the route, and the
   `AGENTS.md` line. A stale route with a deleted view breaks the build; a stale manifest
   entry gives a 404 link.
 - **Promote a `soon: true` entry** → create the view *and* the route in the same change,
   then drop the `soon` flag. Never drop it first.
+
+## Related links
+
+Every lesson page ends with `<RelatedLinks />`, which takes no props: it reads the current
+route and looks the targets up in `relatedPages` in `navigation.js`. Adding a page means
+adding its key there too — at most **four** links, each one of: the lesson a drill
+practises, the drill that practises a lesson, or the sibling page a learner reaches for
+next. The ten conjugaison and three prononciation views inherit the block from their sheet
+component; annexe pages and chapter `index.vue` files do not carry it.
+
+An unresolvable or `soon` target is dropped by `relatedFor()` rather than rendered, so a
+stale entry costs one link and shows no error. That is why the check above matters.
 
 ## What derives automatically — do not hand-maintain
 

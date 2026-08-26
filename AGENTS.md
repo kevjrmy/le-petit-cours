@@ -4,7 +4,10 @@ summary: Vue 3 + Vite PWA teaching A2 French to native Spanish speakers. Bled co
 description: |
   Workspace assistant for the `le-petit-cours` PWA — Vue 3, Vite, Vue Router, vite-plugin-pwa.
   Read this file before touching anything. The specialised agents in `.claude/agents/`
-  cover the recurring jobs (design tokens, lesson authoring, navigation wiring, auditing).
+  cover the recurring jobs: design-system (tokens and component look), lesson-author
+  (prose lessons), exercise-author (interactive drills and their answer data), nav-wiring
+  (navigation.js, routes, relatedPages), page-auditor (technical regressions) and
+  content-proofreader (the French and Spanish themselves). Open bugs live in `AUDIT.md`.
 whenToUse: |
   Any work inside `le-petit-cours`: adding lessons, styling, routing, dark-mode fixes,
   print/PDF output, or adjusting the design system.

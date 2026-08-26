@@ -82,8 +82,14 @@ google-chrome --headless --disable-gpu --no-sandbox --virtual-time-budget=4000 \
 python3 -c "import re;print(len(re.findall(rb'/Type\s*/Page[^s]',open('p.pdf','rb').read())))"
 ```
 
-To trim: merge adjacent `<article>` blocks (~4 rem each), collapse consecutive `.example`
-boxes into one using `<span class="sep">·</span>`, or split the lesson in two.
+To trim, in this order: merge adjacent `<article>` blocks (~4 rem of card padding each —
+this is usually the whole overage), collapse consecutive `.example` boxes into one using
+`<span class="sep">·</span>`, then split the lesson in two. **Cutting content is the last
+resort, not the first** — a page is nearly always over budget because of its chrome.
+
+Splitting is the right answer whenever a page really covers two topics; that is why
+`l-heure` and `les-jours-et-la-date` are separate files, and why the pronunciation sheet
+became three. When you split, `nav-wiring` must add a redirect from the old path.
 
 Tables: always a `<caption class="sr-only">`, **4 columns maximum**, translation column in
 Spanish.
@@ -148,11 +154,29 @@ and only **after the first play**, since `getVoices()` is empty until `voicescha
 The answer comparator is accent-sensitive on purpose but normalises ligatures (`œ`→`oe`),
 because a Spanish keyboard cannot type them — say so on the page when a sentence needs one.
 
-## Exercise pages
+## Data-driven chapters — never hand-write the page
 
-Self-scoring, no PDF. Feedback colors come from tokens: `--success` / `--success-soft` /
-`--success-text` for correct, `--danger` / `--danger-soft` / `--danger-text` for wrong.
-Never a raw hex — it will not survive dark mode.
+Two chapters keep their content in `src/data/` and render it through one component. A view
+there is a one-line wrapper and nothing else:
+
+| Chapter | Data | Component |
+|---|---|---|
+| `conjugaison/` | `src/data/conjugaisons.js` | `ConjugationSheet.vue` |
+| `prononciation/` | `src/data/prononciation.js` | `PronunciationSheet.vue` |
+
+Adding a verb or a sound sheet means a data entry, a wrapper view, a `navigation.js` line
+and a route — never a hand-written table. If you find yourself writing `<td>` for either
+chapter, you are in the wrong file.
+
+Prononciation sheets are grouped by **sound family**, three or four sections each, rendered
+as `.sound-section` divs inside **one** `<article>`. One `<article>` per section costs ~4 rem
+of card padding apiece and is what made the old single sheet print to five A4.
+
+## Exercise pages — not yours
+
+`exercices/` belongs to the **exercise-author** agent, and so do the gap-fill dialogues in
+`conversation/`. They are data-and-mechanic work with their own validation discipline, not
+prose. Link *to* them from an astuce or a lesson; do not write them here.
 
 ## Wiring (all four, same change)
 

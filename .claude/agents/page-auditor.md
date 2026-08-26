@@ -10,6 +10,13 @@ model: sonnet
 You verify, you do not rewrite. Produce a ranked list of concrete defects with
 `file:line` and what breaks. If a page is clean, say so plainly.
 
+Check `AUDIT.md` before you start: §3 already lists the pages known to be over the A4
+budget, and §6 lists what has been verified clean. Report what is new, not what is already
+tracked — and if you fix nothing but confirm an open item is still open, say so in one line.
+
+You check whether a page **works**. Whether what it says is correct French is
+`content-proofreader`'s job, and answer-key correctness is `exercise-author`'s.
+
 ## 1. Raw colors (breaks dark mode)
 
 ```bash
@@ -47,7 +54,9 @@ Lesson pages under `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `di
 - `@click="() => window.print()"` in a template is **always** a bug — `window` is not in
   template scope and the button does nothing. It must call a `downloadPdf()` method.
 - Interactive chrome (quizzes, buttons, translation panels) must be hidden in
-  `@media print`.
+  `@media print`. That includes `RelatedLinks` — the "Pour aller plus loin" block is
+  deliberately `display: none` in print, so its absence from a PDF is correct, not a
+  finding.
 - The content must fit **1–2 A4 pages** (3 for a vocabulary reference). Print it and count
   the pages — do not estimate from a screenshot height:
 
@@ -60,6 +69,13 @@ python3 -c "import re;print(len(re.findall(rb'/Type\s*/Page[^s]',open('/tmp/p.pd
   This counts what the PDF actually contains, so it accounts for the print stylesheet —
   which hides `.no-print` chrome and reveals `.print-only` blocks, and can change the page
   count in either direction.
+
+  **When a page is over budget, the first thing to check is the number of `<article>`
+  blocks, not the amount of content.** `style.css` styles bare `article` as a card with
+  1.5rem/1.75rem padding, so a page that renders each of its sections as its own `<article>`
+  pays ~4 rem of chrome per section. Collapsing ten sections into one card took
+  `prononciation` from 5 pages to 2 with every word kept, after trimming three examples had
+  changed nothing. Only recommend cutting content once the layout is already tight.
 
 ## 4. Visual regression
 

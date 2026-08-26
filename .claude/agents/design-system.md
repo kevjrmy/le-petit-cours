@@ -66,6 +66,14 @@ write no `<style>` block:
 Content patterns usable inside any of them: `.rule`, `.example`, `.attention`,
 `.exception`, `.astuce` (+ `.astuce-hook`), `.lesson-link`.
 
+**A component that owns a whole page type keeps its CSS scoped instead** — there is nothing
+to duplicate and nothing to promote. That is correct for `ConjugationSheet.vue`,
+`PronunciationSheet.vue` and `RelatedLinks.vue`. The test is whether a second file would
+ever need the same rules.
+
+`RelatedLinks.vue` renders at the foot of every lesson page, so treat it as page furniture:
+it must work in both themes, collapse to one column under 560px, and stay hidden in print.
+
 When a third page of a type grows its own copy of the same scoped CSS, that is the signal
 to promote it here — that is exactly how `.dictee` came to exist, replacing ~1,100 lines of
 triplicated scoped styles. Pages written before a shell existed keep identical scoped
@@ -82,6 +90,12 @@ except when already editing the file.
   `.app-sidebar`, `.app-topbar`, `.app-scrim`, `.no-print`. A dark-mode PDF is unusable.
   Any new chrome you add must be hidden there too.
 - Pure CSS. No Tailwind, no utility classes, no inline styles doing design work.
+- **Bare `article` and `section` are cards** (`padding: 1.5rem 1.75rem`, plus
+  `section + section { margin-top: 1rem }`). That makes them expensive: a page rendering
+  each of its sections as its own `<article>` pays ~4 rem of chrome per section, which is
+  what pushed the pronunciation sheet to five A4. Use one card with internal dividers when
+  sections belong together — and remember a `<section>` used as a layout box inherits the
+  padding too, so reset it or use a `<div>`.
 
 ## Traps already hit in this codebase
 
