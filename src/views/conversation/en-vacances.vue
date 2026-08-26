@@ -643,7 +643,7 @@ onBeforeUnmount(() => {
   color: var(--success-text);
 }
 
-@media (max-width: 794px) {
+@media (max-width: 52rem) {
   .bubble-row {
     max-width: 92%;
   }

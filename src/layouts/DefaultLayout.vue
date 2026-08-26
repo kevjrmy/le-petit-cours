@@ -11,7 +11,7 @@
  * Chapter-index and landing pages.
  *
  * Since the shell (sidebar + topbar + breadcrumb) moved to `App.vue`, this
- * layout only owns the A4 reading sheet. It is kept as a distinct component
+ * layout only owns the reading sheet. It is kept as a distinct component
  * from `AltLayout` for backwards compatibility — the two now render the same
  * thing, and either is fine for new views.
  */

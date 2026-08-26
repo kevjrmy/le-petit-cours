@@ -10,7 +10,7 @@ description: |
   content-proofreader (the French and Spanish themselves). Open bugs live in `AUDIT.md`.
 whenToUse: |
   Any work inside `le-petit-cours`: adding lessons, styling, routing, dark-mode fixes,
-  print/PDF output, or adjusting the design system.
+  or adjusting the design system.
 ---
 
 # le-petit-cours
@@ -29,7 +29,7 @@ whenToUse: |
 ```
 src/
   App.vue                  ← the app shell: sidebar + topbar + <RouterView>
-  style.css                ← the whole design system (tokens, base, Bled patterns, print)
+  style.css                ← the whole design system (tokens, base, Bled content patterns)
   data/navigation.js       ← SINGLE SOURCE OF TRUTH for chapters, lessons, relatedPages
   data/conjugaisons.js     ← the verb tables + the pure generators that build every form
   data/prononciation.js    ← the sound sheets, grouped by family
@@ -50,7 +50,7 @@ src/
     PronunciationSheet.vue ← renders ANY sound sheet from data/prononciation.js
     ThemeToggle.vue, Footer.vue
   layouts/
-    DefaultLayout.vue      ← the A4 reading sheet (.page-sheet)
+    DefaultLayout.vue      ← the reading sheet (.page-sheet)
     AltLayout.vue          ← identical; both kept so existing views compile
   utils/viewMeta.js        ← view-meta dates → "Nouveau" badge, sidebar dot, "Récemment ajouté"
   views/{chapter}/         ← index.vue (one-line ChapterIndex wrapper) + lesson files
@@ -61,7 +61,7 @@ how-to for each recurring job. This file carries the rules and the traps — wha
 change must not break.
 
 **The shell lives in `App.vue`, not in a layout.** That is deliberate: the sidebar keeps
-its scroll position and expanded state across navigation. Layouts only own the A4 sheet.
+its scroll position and expanded state across navigation. Layouts only own the sheet.
 
 ## 3. Design system
 
@@ -88,25 +88,25 @@ Read `src/style.css` top to bottom once — it documents its own three token lay
 - Accessibility: semantic HTML, `focus-visible` rings, `aria-label` on icon-only controls,
   `<caption class="sr-only">` on every table.
 
-### The A4 lock
+### The reading column
 
-`--max-width: 794px` is **A4 at 96 dpi (210 mm)** and must never be widened. The shell is
-full-width; the *reading column* (`.page-sheet`) stays at A4 so every lesson prints to PDF
-without reflowing. The single content breakpoint is `@media (max-width: 794px)`; the shell
-breakpoint (sidebar → drawer) is `900px` and is mirrored in `useSidebar.js`.
+`--max-width: 52rem` is the width of `.page-sheet`, sized for reading on screen. It was
+pinned to 794px — A4 at 96 dpi — while pages were meant to print; **PDF export was removed
+on 2026-08-26**, so it is a measure in rem now and scales with the root font size. Widen it
+much and prose runs past a comfortable line length; narrow it and the four-column tables
+crowd. The single content breakpoint is `@media (max-width: 52rem)` and must move with the
+column; the shell breakpoint (sidebar → drawer) is `900px`, mirrored in `useSidebar.js`.
 
 ## 4. Adding a lesson — the checklist
 
 1. Create `src/views/{chapter}/{slug}.vue` with a `view-meta` comment carrying today's date,
    wrapped in `<AltLayout title="…">`.
-2. Add the PDF **Télécharger** button — unless it is an `exercices/`, `conversation/`,
-   `litterature/`, or `lecture/` page (see §5).
-3. Add the lesson to its chapter's `lessons` array in **`src/data/navigation.js`**.
-4. Add an explicit route in `src/router/index.js`.
-5. Add `<RelatedLinks />` before `</main>` and an entry in `relatedPages` (see §5).
-6. Update **§7 Current content** below.
+2. Add the lesson to its chapter's `lessons` array in **`src/data/navigation.js`**.
+3. Add an explicit route in `src/router/index.js`.
+4. Add `<RelatedLinks />` before `</main>` and an entry in `relatedPages` (see §5).
+5. Update **§7 Current content** below.
 
-Steps 3 and 4 are both required and must agree — `navigation.js` drives the sidebar, the
+Steps 2 and 3 are both required and must agree — `navigation.js` drives the sidebar, the
 sommaire and the chapter index; the router makes the URL resolve. There is no automatic
 sync, so a missing route means a dead sidebar link.
 
@@ -134,18 +134,21 @@ register the routes.
 
 ## 5. Page-type rules
 
-| Page type | PDF button | Notes |
-|---|---|---|
-| `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `dictees/`, `prononciation/`, `musique/`, `vocabulaire/` | **yes** | standard lesson |
-| `exercices/` | no | interactive, self-scoring |
-| `conversation/`, `litterature/` | no | |
-| `lecture/` | no | ends with the comprehension quiz + hidden translation |
-| any `index.vue` | no | |
+| Page type | Notes |
+|---|---|
+| `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `dictees/`, `prononciation/`, `musique/`, `vocabulaire/` | standard lesson |
+| `exercices/` | interactive, self-scoring |
+| `conversation/`, `litterature/` | |
+| `lecture/` | ends with the comprehension quiz + hidden translation |
+| any `index.vue` | |
+
+**There is no PDF button.** Download-to-PDF was removed on 2026-08-26 along with every
+`@media print` block, the dictée print answer sheets and the `.no-print` / `.print-only`
+flags. Do not reintroduce a `downloadPdf()` method or a `window.print()` call.
 
 ### Related links — "Pour aller plus loin"
 
-Every page ends with `<RelatedLinks />`, just before `</main>` (after the download button
-when there is one). It takes no props: it reads the current route and looks the targets up
+Every page ends with `<RelatedLinks />`, just before `</main>`. It takes no props: it reads the current route and looks the targets up
 in **`relatedPages`** in `navigation.js`, so the relations stay in one file. The conjugaison
 and prononciation views inherit it from their sheet component; annexe pages and chapter
 `index.vue` files don't carry it. **`nav-wiring` owns the map** and its check.
@@ -157,22 +160,18 @@ and prononciation views inherit it from their sheet component; annexe pages and 
 - A target that no longer resolves — renamed, or still `soon` — is dropped by `relatedFor()`
   rather than rendered, so a stale entry costs a link and raises no error. That is why it
   needs its own check (see `.claude/agents/nav-wiring.md`).
-- **The block never prints**, which is why adding it changed no page's A4 count.
 - Inline `.lesson-link` `RouterLink`s inside a lesson are a different thing and stay: they
   sit next to the rule they belong to. The foot block is where a learner goes *after*.
 
 ### Lesson structure (in order)
 
 `<div class="rule">` main rule → `<table>` paradigm if needed → `<div class="example">`
-2–4 examples → `<div class="attention">` one key exception → download button.
+2–4 examples → `<div class="attention">` one key exception.
 
-**Length** (one A4 ≈ 1123 px at 96 dpi):
-
-- **Lesson pages — 1–2 A4 max.** Two or three `<article>` blocks. Split longer topics in two.
-- **Vocabulary reference pages — 3 A4 max.** A glossary is consulted, not absorbed in one
-  sitting, and a word list has an irreducible length. Use `<table class="dense">` for lists
-  of roughly 8+ rows. Known 3-page pages: `vocabulaire/les-nombres` (the whole number system
-  belongs on one sheet). `vocabulaire/le-docteur` predates this rule at 4 pages.
+**Length.** There is no page budget any more — it existed because every lesson printed to
+A4, and PDF export is gone. What remains is editorial: **two or three `<article>` blocks**
+for a lesson, and a topic needing more than that is two lessons. Vocabulary references run
+longer by nature; use `<table class="dense">` for lists of roughly 8+ rows.
 
 Splitting is the preferred remedy whenever a page really covers two topics — that is why
 `l-heure` and `les-jours-et-la-date` are separate files.
@@ -180,48 +179,15 @@ Splitting is the preferred remedy whenever a page really covers two topics — t
 **Tables**: visually-hidden `<caption class="sr-only">`, blue `<thead>`, zebra rows,
 4 columns maximum. Translation column in **Spanish**.
 
-**Verify the length — don't estimate it.** With the dev server running:
-
-```bash
-google-chrome --headless --disable-gpu --no-sandbox --virtual-time-budget=4000 \
-  --no-pdf-header-footer --print-to-pdf=p.pdf http://localhost:5173/<route>
-python3 -c "import re;print(len(re.findall(rb'/Type\s*/Page[^s]',open('p.pdf','rb').read())))"
-```
-
-Three pages or more means trim: merge adjacent `<article>` blocks (each costs ~4 rem of
-padding and gap), collapse consecutive `.example` boxes into one with `·` separators, or
-split the lesson in two.
-
 ### A new lesson needs no `<style>` block
 
 All the lesson chrome — paradigm tables, `.hl-blue` / `.hl-red`, `.note`, `.sep`,
-`.method`, `.method-example`, `.exception-ex`, `.download-btn` — is defined globally under
+`.method`, `.method-example`, `.exception-ex` — is defined globally under
 `.lesson` in `style.css`. Write `<main class="lesson">`, use the classes, add no CSS.
 
 Lessons written before that block carry their own identical scoped copies. Scoped selectors
 win on specificity, so they are unaffected; don't bother stripping them except when you are
 already editing the file.
-
-### PDF download pattern
-
-`window` is **not** in Vue template scope — `@click="() => window.print()"` fails silently.
-Always call a method:
-
-```vue
-<button class="download-btn" @click="downloadPdf" aria-label="Télécharger cette leçon en PDF">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <path d="M12 3v14m0 0-5-5m5 5 5-5"/><path d="M3 20h18"/>
-  </svg>
-  <span>Télécharger</span>
-</button>
-
-<script setup>
-function downloadPdf() { window.print() }
-</script>
-```
-
-Style it with `--border` / `--text-2`, hover to `--accent`, and hide it in `@media print`.
 
 ### Conjugaison pages
 
@@ -263,7 +229,7 @@ token variants, not the plain `--accent` / `--danger` / `--warn` fills, which ar
 on a surface in dark mode.
 
 The legend renders above the grid, in that order (radical → terminaison, the way the word
-is built), and prints with the sheet. **Each entry appears only when its colour is actually
+is built). **Each entry appears only when its colour is actually
 on screen** — no `négation` in affirmative mode, no `accord` on an `avoir` verb — so the key
 never explains something the learner cannot see.
 
@@ -302,7 +268,7 @@ a route — never a hand-written table.
 
 One sheet per **sound family** (voyelles / voyelles nasales / consonnes), and
 **three or four sections per sheet, no more**. The single page that covered all ten
-sections printed to five A4; the sections are what cost the space, not the examples.
+sections ran five screens deep; the sections are what cost the space, not the examples.
 Render them as `.sound-section` divs inside **one** `<article>`, never one `<article>`
 each — the global card padding costs ~4 rem per section, and the stylesheet already
 draws a separator rule between them.
@@ -318,7 +284,7 @@ so each row carries a `soundVal` (a real word) that is what gets spoken.
 ### Astuce pages
 
 Memory hooks for rules taught elsewhere — mnemonics, substitution tests, "look at the last
-letter" shortcuts. A standard `<main class="lesson">` page with the PDF button.
+letter" shortcuts. A standard `<main class="lesson">` page.
 
 Three rules make this chapter work:
 
@@ -349,8 +315,7 @@ than a literal path.
 
 ### Dictée pages
 
-Listen, type, compare — plus a Spanish clue per sentence and a `.print-only` answer sheet.
-Dictées are the one interactive page type that *does* keep the PDF button.
+Listen, type, compare, plus a Spanish clue per sentence.
 
 The chrome is global: write `<main class="dictee">` and **no `<style>` block**. Copy
 `dictees/une-journee-en-vacances.vue` and replace only the `dictation` object.
@@ -374,7 +339,7 @@ the page when a sentence needs one (`.prep-intro.tip` is the amber aside for tha
 
 ### Exercise pages
 
-Self-scoring, no PDF button. Written by the **exercise-author** agent, which carries the
+Self-scoring. Written by the **exercise-author** agent, which carries the
 validators and the per-mechanic guidance; this is the contract every drill obeys.
 
 Shell: `<main class="exo">` and no CSS for it — `style.css` owns `.instructions`, `.meta` /
@@ -412,7 +377,7 @@ Each of the following has already cost a bug:
 
 ### Conversation (gap-fill) pages
 
-Interactive dialogues, no PDF button, also owned by **exercise-author**. `<main class="gapfill">`
+Interactive dialogues, also owned by **exercise-author**. `<main class="gapfill">`
 and **no `<style>` block** — `.word-bank`, `.chip`, `.chat`, `.bubble`, `.slot`, `.suggest`,
 `.actions`, `.result` and `.drag-ghost` are global. Copy the `<script setup>` from
 `conversation/demander-son-chemin.vue`, the only page that follows the contract, and replace
@@ -515,7 +480,7 @@ In the **same change**:
   (lessons **and** `relatedPages`), the router, and §7 above.
 - Fixed something listed in `AUDIT.md` → tick it there, with the fix recorded in one line.
 - Changed how a page type is written → update the owning agent brief too, not just here.
-- Changed a shared pattern (tokens, PDF button, lecture structure, layout width) → update
+- Changed a shared pattern (tokens, lecture structure, the reading width) → update
   the prose **and** every code snippet demonstrating it, recording exceptions explicitly.
 - Found a recurring bug worth standardising (e.g. `window` not in template scope; hidden-radio
   click overlap; `flex: 1` stretching in a column flex container) → capture it here so it is
@@ -531,4 +496,4 @@ npm run build   # must pass before you call a change done
 ```
 
 Check every visual change in **both themes** and at **both breakpoints** (desktop shell,
-≤900 px drawer), and print-preview any page you touched that carries a PDF button.
+≤900 px drawer).

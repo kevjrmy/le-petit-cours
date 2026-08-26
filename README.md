@@ -17,7 +17,7 @@ Claude.ai-style app shell, tricolore palette, light and dark.
 - `src/router/index.js` declares every route explicitly, with static `import()` so Vite can
   code-split. It must agree with `navigation.js`; nothing syncs them.
 - `src/App.vue` owns the shell (sidebar + topbar + `<RouterView>`), so the sidebar keeps its
-  scroll position across navigation. The two layouts only own the A4 reading sheet and are
+  scroll position across navigation. The two layouts only own the reading sheet and are
   identical — `AltLayout` for lessons, `DefaultLayout` for exercises and the sommaire.
 - `src/views/{chapter}/index.vue` is always a one-line `<ChapterIndex slug="…" />` wrapper.
 - Two chapters are **data-driven**: `conjugaison/` renders from `src/data/conjugaisons.js`
@@ -30,14 +30,10 @@ Claude.ai-style app shell, tricolore palette, light and dark.
 
 ## Content rules
 
-- Lessons are constrained to A4 width (`--max-width: 794px` = 210 mm at 96 dpi) so every
-  page prints to PDF without reflowing. Never widen it.
-- Lesson pages fit **1–2 A4** (vocabulary references, 3). Measure by printing to PDF and
-  counting pages, not by eye.
+- The reading column is `--max-width: 52rem`, sized for reading on screen. It was pinned to
+  A4 while pages printed; PDF export was removed on 2026-08-26.
+- A lesson is two or three `<article>` blocks. A topic needing more than that is two lessons.
 - Glossaries and translation columns are in **Spanish**, never English.
-- `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `dictees/`, `prononciation/`,
-  `musique/` and `vocabulaire/` carry a `downloadPdf()` button; `exercices/`,
-  `conversation/`, `litterature/`, `lecture/` and every `index.vue` do not.
 - Lecture pages end with a button-based comprehension quiz and a hidden Spanish translation.
 - Every lesson page ends with `<RelatedLinks />` — up to four cross-links, declared in
   `relatedPages`.

@@ -14,7 +14,7 @@
       </section>
 
       <!-- ── Toggles (screen only) ──────────────────── -->
-      <div class="conj-controls no-print">
+      <div class="conj-controls">
         <div class="toggle" role="group" aria-label="Forme affirmative ou négative">
           <button
             v-for="opt in [{ v: false, l: 'Affirmatif' }, { v: true, l: 'Négatif' }]"
@@ -39,10 +39,6 @@
       </div>
 
       <!-- Print carries the state the toggles are in, since it is not obvious on paper. -->
-      <p class="conj-state print-only">
-        Forme {{ negative ? 'négative' : 'affirmative' }} · sujet
-        {{ gender === 'feminin' ? 'féminin' : 'masculin' }}
-      </p>
 
       <p v-if="genderIsInert" class="conj-hint">
         Avec l'auxiliaire <strong>avoir</strong>, le participe passé ne s'accorde pas&nbsp;:
@@ -133,17 +129,7 @@
           Astuce : être ou avoir au passé composé ?
         </RouterLink>
       </section>
-
-      <button class="download-btn no-print" @click="downloadPdf" aria-label="Télécharger cette conjugaison en PDF">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3v14m0 0-5-5m5 5 5-5"/>
-          <path d="M3 20h18"/>
-        </svg>
-        <span>Télécharger</span>
-      </button>
       <RelatedLinks />
-
-
     </main>
   </AltLayout>
 </template>
@@ -185,8 +171,6 @@ const GROUP_LESSONS = {
 
 const groupLesson      = computed(() => GROUP_LESSONS[verb.value.groupe][0])
 const groupLessonLabel = computed(() => GROUP_LESSONS[verb.value.groupe][1])
-
-function downloadPdf() { window.print() }
 </script>
 
 <style scoped>
@@ -380,7 +364,7 @@ function downloadPdf() { window.print() }
 }
 
 /* A dash as well as the coloured word, so the key still reads in greyscale
-   print and for a colour-blind learner. */
+   a colour-blind learner. */
 .conj-legend li::before {
   content: "—";
   font-weight: 700;
@@ -395,15 +379,9 @@ function downloadPdf() { window.print() }
 
 .conj-links { font-size: 0.9rem; line-height: 2; }
 
-.print-only { display: none; }
-
 @media (max-width: 560px) {
   .conj-grid { grid-template-columns: 1fr; }
   .conj-meta { grid-template-columns: 1fr; }
 }
 
-@media print {
-  .print-only { display: block !important; }
-  .conj-links { display: none; }
-}
 </style>

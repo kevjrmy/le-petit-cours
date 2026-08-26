@@ -341,7 +341,7 @@ onMounted(async () => {
   .recent-date { display: none; }
 }
 
-@media (max-width: 794px) {
+@media (max-width: 52rem) {
   .hero { padding: 1.75rem 1.25rem 1.5rem; }
   .hero-title { font-size: 1.9rem; }
   .chapter-grid { grid-template-columns: 1fr; }

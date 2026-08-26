@@ -485,7 +485,7 @@ function restart() {
   font-size: 1.05rem;
 }
 
-@media (max-width: 794px) {
+@media (max-width: 52rem) {
   .options {
     grid-template-columns: 1fr;
   }

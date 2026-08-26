@@ -106,7 +106,6 @@
       >{{ drag.word.text }}</div>
 
       <RelatedLinks />
-
     </main>
   </DefaultLayout>
 </template>
@@ -660,8 +659,4 @@ onBeforeUnmount(() => {
   color: var(--success-text);
 }
 
-@media print {
-  .word-bank,
-  .actions { display: none; }
-}
 </style>

@@ -251,7 +251,6 @@
       </article>
 
       <RelatedLinks />
-
     </main>
   </AltLayout>
 </template>
@@ -609,9 +608,4 @@ tr:nth-child(even) td { background: var(--clr-blue-light); }
   margin: 0;
 }
 
-@media print {
-  .quiz,
-  .translation { display: none !important; }
-  .hl-word { border-bottom: none; }
-}
 </style>

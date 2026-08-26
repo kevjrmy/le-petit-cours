@@ -4,7 +4,7 @@
     <main class="dictee">
 
       <!-- ── Section préparation (Invisible à l'impression) ── -->
-      <section class="prep-card no-print">
+      <section class="prep-card">
         <h2>Préparation : Vocabulaire utile</h2>
         <p class="source">
           Vers extraits de <em>Les Fleurs du mal</em>, de Charles Baudelaire (1857) —
@@ -40,7 +40,7 @@
       </section>
 
       <!-- ── Résultat final ── -->
-      <section v-if="finished" class="result no-print">
+      <section v-if="finished" class="result">
         <div class="result-emoji">{{ resultEmoji }}</div>
         <div class="result-score">{{ score }}<span class="result-total"> / {{ dictation.sentences.length }}</span></div>
         <p class="result-msg">{{ resultMsg }}</p>
@@ -58,7 +58,7 @@
       </section>
 
       <!-- ── Zone interactive de la Dictée (Invisible à l'impression) ── -->
-      <section v-else class="card-dictation no-print">
+      <section v-else class="card-dictation">
         <div class="meta">
           <span class="counter">Phrase {{ currentIndex + 1 }}&thinsp;/&thinsp;{{ dictation.sentences.length }}</span>
           <div class="progress-track"
@@ -161,54 +161,7 @@
         </div>
       </section>
 
-      <!-- ── Version imprimable (Visible UNIQUEMENT à l'impression) ── -->
-      <section class="print-content print-only">
-        <!-- The page title is printed by PageHeader (AltLayout) — not repeated here. -->
-        <div class="print-section">
-          <h2>Texte de la dictée</h2>
-          <p class="print-source">
-            Charles Baudelaire, Les Fleurs du mal (1857) — « L'Invitation au voyage » et « L'Albatros ».
-          </p>
-          <ol class="print-sentences">
-            <li v-for="(sentence, index) in dictation.sentences" :key="index">
-              {{ sentence.text }}
-              <span class="print-note">({{ sentence.note }})</span>
-            </li>
-          </ol>
-        </div>
-
-        <div class="print-section">
-          <h2>Vocabulaire de préparation</h2>
-          <table class="print-table">
-            <thead>
-              <tr>
-                <th>Français</th>
-                <th>Espagnol</th>
-                <th>Remarques</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="vocab in dictation.vocabulary" :key="'print-' + vocab.fr">
-                <td><strong>{{ vocab.fr }}</strong></td>
-                <td>{{ vocab.es }}</td>
-                <td>{{ vocab.note }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- ── Download PDF Button ── -->
-      <button class="download-btn no-print" @click="downloadPdf" aria-label="Télécharger cette leçon en PDF">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3v14m0 0-5-5m5 5 5-5"/>
-          <path d="M3 20h18"/>
-        </svg>
-        <span>Télécharger</span>
-      </button>
-
       <RelatedLinks />
-
     </main>
   </AltLayout>
 </template>
@@ -289,7 +242,6 @@ const resultMsg = computed(() => {
   return 'Cette dictée est difficile. Relis le vocabulaire, réécoute lentement, puis réessaie.'
 })
 
-
 function verify() {
   if (checked.value) return
 
@@ -330,10 +282,6 @@ function restart() {
   isCorrect.value    = false
   score.value        = 0
   finished.value     = false
-}
-
-function downloadPdf() {
-  window.print()
 }
 
 </script>

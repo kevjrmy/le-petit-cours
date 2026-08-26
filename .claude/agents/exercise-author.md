@@ -179,5 +179,5 @@ Same discipline, different shell: `<main class="gapfill">` and **no `<style>` bl
 4. The route in `router/index.js`, name prefixed `ex-`.
 5. `AGENTS.md` §5 mechanic list and §7 count.
 
-No PDF button on an exercise. Finish with `npm run build`, then play the drill through once
+Finish with `npm run build`, then play the drill through once
 in the browser in both themes — including the score screen, which is the part nobody tests.

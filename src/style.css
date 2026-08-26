@@ -17,7 +17,7 @@
    1. PALETTE
 ─────────────────────────────────────────────────────────────────────────── */
 :root {
-  /* Bleu — French flag blue, deepened to Bled blue for print legibility */
+  /* Bleu — French flag blue, deepened to the Bled blue the lessons use */
   --blue-950: #061D3D;
   --blue-900: #0A3268;
   --blue-800: #0E4488;
@@ -292,9 +292,12 @@
    LAYOUT, TYPE & MOTION TOKENS (theme-independent)
 ─────────────────────────────────────────────────────────────────────────── */
 :root {
-  /* The reading column is locked to A4 at 96 dpi (210 mm) so every lesson
-     page prints to PDF without reflowing. Never widen it. */
-  --max-width: 794px;
+  /* The reading column, sized for reading on screen rather than for paper.
+     It was pinned to 794px — A4 at 96 dpi — while pages were meant to print;
+     PDF export was removed on 2026-08-26, so it is now a measure in rem and
+     scales with the root font size. Much wider and prose runs past a
+     comfortable line length; much narrower and the four-column tables crowd. */
+  --max-width: 52rem;
 
   /* App shell */
   --sidebar-w:          264px;
@@ -381,7 +384,7 @@ body {
 }
 
 /* `#app` is now the shell root — no longer the paper sheet.
-   The A4 sheet lives in `.page-sheet` (see APP SHELL below). */
+   The reading sheet lives in `.page-sheet` (see APP SHELL below). */
 #app {
   min-height: 100vh;
   min-height: 100dvh;
@@ -422,7 +425,7 @@ body.is-locked {
   padding: var(--shell-gutter) var(--shell-gutter) 4rem;
 }
 
-/* The A4 reading sheet — white card, centered in the workspace. */
+/* The reading sheet — white card, centered in the workspace. */
 .page-sheet {
   width: min(100%, var(--max-width));
   margin: 0 auto;
@@ -648,7 +651,7 @@ article + article {
 /* ═══════════════════════════════════════════════════
    LESSON CHROME
    Everything a `<main class="lesson">` page needs: paradigm tables, inline
-   highlights, method lines, the download button. Scoped under `.lesson` so
+   highlights and method lines. Scoped under `.lesson` so
    other page types (lecture, vocabulaire, exercices) keep their own styling.
 
    Lessons written before this block carry their own identical scoped copies —
@@ -722,7 +725,7 @@ article + article {
 .lesson tbody tr:last-child td { border-bottom: none; }
 
 /* Long glossary tables (vocabulary pages) — tighter rows so a word list still
-   fits the A4 budget. Use on tables of roughly 8+ rows, not on paradigm tables. */
+   stays scannable. Use on tables of roughly 8+ rows, not on paradigm tables. */
 .lesson table.dense {
   font-size: 0.86rem;
   margin-bottom: 0.75rem;
@@ -816,40 +819,11 @@ article + article {
   margin-top: 0.1rem;
 }
 
-@media print {
-  .lesson .line.alt { background: var(--accent-subtle); }
-}
-
 /* Vocabulary tables run two-column pairs (FR | ES | FR | ES) — the Spanish
    glossing is always in <em>. */
 .lesson td em { color: var(--text-2); font-style: italic; }
 
 /* Download button — lesson pages only (see AGENTS.md §5) */
-.download-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-  margin: 0.5rem auto 0;
-  padding: 0.85rem 1.5rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  color: var(--text-3);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
-}
-
-.download-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-@media print {
-  .download-btn { display: none !important; }
-}
-
 /* ═══════════════════════════════════════════════════
    EXERCISE SHELL — exercices/ pages
    The furniture every self-scoring exercise shares: instructions, progress
@@ -1280,16 +1254,9 @@ article + article {
   color: var(--success-text);
 }
 
-@media print {
-  .gapfill .word-bank,
-  .gapfill .actions { display: none; }
-}
-
 /* ═══════════════════════════════════════════════════
    DICTÉE SHELL — dictees/ pages
-   Listen, type, compare. Unlike the other interactive types a dictée KEEPS the
-   PDF button (see AGENTS.md §5), so this block owns both the on-screen furniture
-   and the print-only answer sheet.
+   Listen, type, compare.
 
    Markup: <main class="dictee"> with
      .prep-card              vocabulary table shown before starting
@@ -1297,8 +1264,6 @@ article + article {
                              .spanish-prompt, .audio-controls > .btn-audio,
                              .input-area > textarea, .feedback-card, .actions
      .result                 score screen + .final-review
-     .print-content          .print-only answer sheet
-   Screen-only parts carry .no-print; the answer sheet carries .print-only.
    Audio comes from useSpeech() — do not hand-roll SpeechSynthesisUtterance.
 ═══════════════════════════════════════════════════ */
 .dictee {
@@ -1689,63 +1654,6 @@ article + article {
 }
 
 /* ── Print: the answer sheet ──────────────────── */
-.dictee .print-only { display: none; }
-
-@media print {
-  .dictee .no-print   { display: none !important; }
-  .dictee .print-only { display: block !important; }
-
-  .dictee { gap: 2rem; }
-
-  .dictee .print-section { margin-bottom: 1.5rem; }
-
-  .dictee .print-section h2 {
-    font-family: var(--font-serif);
-    font-size: 1.2rem;
-    border-bottom: 1px solid var(--accent);
-    padding-bottom: 0.25rem;
-    margin-bottom: 1rem;
-  }
-
-  .dictee .print-source {
-    font-size: 0.8rem;
-    font-style: italic;
-    color: var(--text-2);
-    margin-bottom: 0.75rem;
-  }
-
-  .dictee .print-sentences { padding-left: 1.25rem; }
-
-  .dictee .print-sentences li {
-    font-family: var(--font-serif);
-    font-size: 1rem;
-    margin-bottom: 0.8rem;
-    line-height: 1.6;
-  }
-
-  .dictee .print-note {
-    display: block;
-    font-family: var(--font-sans);
-    font-size: 0.8rem;
-    font-style: italic;
-    color: var(--text-2);
-    margin-top: 0.2rem;
-  }
-
-  .dictee .print-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .dictee .print-table th {
-    background: var(--accent-subtle);
-    color: var(--text-heading);
-    border-bottom: 2px solid var(--accent);
-  }
-
-  .dictee .print-table td { border-bottom: 1px solid var(--border-soft); }
-}
-
 /* ═══════════════════════════════════════════════════
    TABLES — Bled paradigm tables
 ═══════════════════════════════════════════════════ */
@@ -1966,77 +1874,9 @@ footer.book-footer {
 .route-leave-to     { opacity: 0; }
 
 /* ═══════════════════════════════════════════════════
-   PRINT — A4 portrait, 20 mm margins.
-   Force the light palette: a dark-mode PDF would be unusable.
+   RESPONSIVE — below the reading width
 ═══════════════════════════════════════════════════ */
-@media print {
-  @page {
-    size: A4 portrait;
-    margin: 20mm;
-  }
-
-  :root,
-  :root[data-theme="dark"] {
-    color-scheme: light;
-    --surface-app: #FFFFFF;
-    --surface-1:   #FFFFFF;
-    --surface-2:   #F6F8FB;
-    --surface-3:   #EDF0F5;
-    --text-1:      #10161F;
-    --text-2:      #48546A;
-    --text-3:      #6B778D;
-    --text-heading: #0A3268;
-    --text-on-accent: #FFFFFF;
-    --border:      #DDE2EA;
-    --border-soft: #EDF0F5;
-    --accent:        #12539F;
-    --accent-hover:  #0E4488;
-    --accent-soft:   #E4EFFB;
-    --accent-subtle: #F3F8FD;
-    --accent-line:   #C9DFF6;
-    --accent-text:   #0E4488;
-    --danger:      #BC1D2B;
-    --danger-soft: #FDE7E5;
-    --warn:        #D4860F;
-    --warn-soft:   #FDF0DC;
-    --warn-text:   #9A600A;
-    --shadow: none;
-    --shadow-sm: none;
-    --shadow-lg: none;
-  }
-
-  body {
-    background: #FFFFFF;
-  }
-
-  /* The shell chrome never prints. */
-  .app-sidebar,
-  .app-topbar,
-  .app-scrim,
-  .no-print {
-    display: none !important;
-  }
-
-  .shell-main,
-  .shell.is-collapsed .shell-main {
-    margin-left: 0;
-  }
-
-  .shell-scroll {
-    padding: 0;
-  }
-
-  .page-sheet {
-    width: 100%;
-    max-width: 100%;
-    gap: 1rem;
-  }
-}
-
-/* ═══════════════════════════════════════════════════
-   RESPONSIVE — below A4 width
-═══════════════════════════════════════════════════ */
-@media (max-width: 794px) {
+@media (max-width: 52rem) {
   h1 {
     font-size: 1.55rem;
   }

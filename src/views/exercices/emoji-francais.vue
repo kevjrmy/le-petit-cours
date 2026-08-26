@@ -65,7 +65,6 @@
       </template>
 
       <RelatedLinks />
-
     </main>
   </DefaultLayout>
 </template>
@@ -505,7 +504,4 @@ onBeforeUnmount(() => clearTimeout(advanceTimer))
   clip: rect(0 0 0 0);
 }
 
-@media print {
-  #emoji-game { display: none; }
-}
 </style>

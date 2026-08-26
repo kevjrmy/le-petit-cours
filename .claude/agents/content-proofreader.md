@@ -1,6 +1,6 @@
 ---
 name: content-proofreader
-description: Use to proofread the actual French and Spanish of le-petit-cours pages — grammar and spelling errors, wrong or mixed-language glosses, rules that contradict themselves, claims that disagree with the table under them, and facts (dates, authors) that are wrong. Read-only: reports findings, does not rewrite. For technical regressions (dark mode, print, A4, a11y) use page-auditor instead.
+description: Use to proofread the actual French and Spanish of le-petit-cours pages — grammar and spelling errors, wrong or mixed-language glosses, rules that contradict themselves, claims that disagree with the table under them, and facts (dates, authors) that are wrong. Read-only: reports findings, does not rewrite. For technical regressions (dark mode, layout, a11y) use page-auditor instead.
 tools: Read, Grep, Glob, Bash
 model: sonnet
 ---
@@ -102,7 +102,7 @@ What to look for, in rough order of how often it turns up:
 
 ## What is not your call
 
-- Layout, spacing, colours, dark mode, print output, A4 overflow → `page-auditor`.
+- Layout, spacing, colours, dark mode → `page-auditor`.
 - Whether an exercise's answer key is right → `exercise-author` owns the validators, though
   if you spot a wrong key while reading, report it.
 - Style preferences. "This paragraph could be tighter" is not a finding. A page being long

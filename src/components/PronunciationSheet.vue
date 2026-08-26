@@ -75,16 +75,7 @@
       </div>
       </article>
 
-      <button class="download-btn" @click="downloadPdf" aria-label="Télécharger cette leçon en PDF">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3v14m0 0-5-5m5 5 5-5"/>
-          <path d="M3 20h18"/>
-        </svg>
-        <span>Télécharger</span>
-      </button>
-
       <RelatedLinks />
-
     </main>
   </AltLayout>
 </template>
@@ -114,8 +105,6 @@ function say(text) {
   played.value = true
   speak(text, 0.85)
 }
-
-function downloadPdf() { window.print() }
 </script>
 <style scoped>
 .lesson {
@@ -304,42 +293,9 @@ tr:nth-child(even) td { background: var(--clr-blue-light); }
 }
 
 /* Download button */
-.download-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-  margin: 1.5rem auto 0;
-  padding: 0.85rem 1.5rem;
-  border: 1px solid var(--clr-border);
-  border-radius: var(--radius);
-  color: var(--clr-ink-soft);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  transition: border-color 0.15s, color 0.15s;
-}
-
-.download-btn:hover {
-  border-color: var(--clr-blue);
-  color: var(--clr-blue);
-}
-
 .voice-warning {
   margin-top: 0.75rem;
   font-size: 0.9rem;
 }
 
-@media print {
-  .voice-warning,
-  .download-btn,
-  .play-cell,
-  .word-icon { display: none !important; }
-  .word-btn {
-    border: none;
-    padding: 0;
-    cursor: default;
-    background: transparent;
-  }
-}
 </style>

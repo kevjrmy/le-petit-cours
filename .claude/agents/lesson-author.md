@@ -29,9 +29,9 @@ every sentence you write:
 
 ## Length is a hard constraint
 
-**1–2 A4 pages per lesson.** One A4 ≈ 1123 px of content at 96 dpi, and the reading column
-is locked to 794 px wide. Two or three `<article>` blocks maximum. A topic that does not
-fit becomes two files — that is normal, not a failure.
+**Two or three `<article>` blocks per lesson.** A topic that does not fit becomes two files
+— that is normal, not a failure. There is no page budget any more: it existed because every
+lesson printed to A4, and PDF export was removed on 2026-08-26.
 
 ## Lesson skeleton
 
@@ -54,14 +54,12 @@ fit becomes two files — that is normal, not a failure.
         </table>
         <div class="example">Un exemple concret.</div>
       </article>
-
-      <button class="download-btn" @click="downloadPdf" aria-label="Télécharger cette leçon en PDF">…</button>
     </main>
   </AltLayout>
 </template>
 ```
 
-Order inside a lesson: **rule → table → examples → one key exception → download button.**
+Order inside a lesson: **rule → table → examples → one key exception.**
 
 Content classes (all defined globally in `style.css`, do not redefine them):
 `.rule` blue rule box · `.example` tinted mono box · `.attention` amber "À retenir"
@@ -70,44 +68,17 @@ with an "ASTUCE" eyebrow, holding a `.astuce-hook` line (both labels come from C
 `.lesson-link` for a `<RouterLink>` pointing at another lesson.
 
 **Write no `<style>` block.** The lesson chrome — tables, `.hl-blue` / `.hl-red`, `.note`,
-`.sep`, `.method`, `.method-example`, `.exception-ex`, `.download-btn` — is global under
-`.lesson`. The `<script setup>` only imports `AltLayout` and declares `downloadPdf()`.
-
-**Measure the length, don't estimate it.** Lesson pages: 1–2 A4. Vocabulary reference
-pages: 3 A4, using `<table class="dense">` for lists of roughly 8+ rows.
-
-```bash
-google-chrome --headless --disable-gpu --no-sandbox --virtual-time-budget=4000 \
-  --no-pdf-header-footer --print-to-pdf=p.pdf http://localhost:5173/<route>
-python3 -c "import re;print(len(re.findall(rb'/Type\s*/Page[^s]',open('p.pdf','rb').read())))"
-```
-
-To trim, in this order: merge adjacent `<article>` blocks (~4 rem of card padding each —
-this is usually the whole overage), collapse consecutive `.example` boxes into one using
-`<span class="sep">·</span>`, then split the lesson in two. **Cutting content is the last
-resort, not the first** — a page is nearly always over budget because of its chrome.
-
-Splitting is the right answer whenever a page really covers two topics; that is why
-`l-heure` and `les-jours-et-la-date` are separate files, and why the pronunciation sheet
-became three. When you split, `nav-wiring` must add a redirect from the old path.
+`.sep`, `.method`, `.method-example`, `.exception-ex` — is global under `.lesson`. The
+`<script setup>` usually imports nothing but `AltLayout` and `RelatedLinks`.
 
 Tables: always a `<caption class="sr-only">`, **4 columns maximum**, translation column in
 Spanish.
-
-## Which pages get the PDF button
-
-Yes: `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `dictees/`, `prononciation/`,
-`musique/`, `vocabulaire/`.
-No: `exercices/`, `conversation/`, `litterature/`, `lecture/`, any `index.vue`.
-
-`window` is not in Vue template scope. Bind `@click="downloadPdf"` to a method that calls
-`window.print()` — an inline arrow fails silently.
 
 ## Lecture pages
 
 Real **public-domain** French text (La Fontaine, Saint-Exupéry, Dumas, Verne…) or an
 original A2 dialogue for a practical scenario. Never machine-generated filler, never
-in-copyright text. ≤ 1 A4 page of prose.
+in-copyright text. Keep the prose short — a screen or so.
 
 Structure: source stamp (`Auteur · Œuvre · Année · Chapitre`) → the text with inline hints
 `<span class="hl-word" title="traducción ES">mot</span>` → vocabulary table
@@ -120,7 +91,7 @@ silently breaks. Print CSS hides the quiz and the translation panel.
 ## Astuce pages (`astuces/`)
 
 Memory hooks for rules taught elsewhere — mnemonics, substitution tests, "look at the last
-letter" shortcuts. A normal `<main class="lesson">` page with the PDF button. Three rules:
+letter" shortcuts. A normal `<main class="lesson">` page. Three rules:
 
 1. **One `.astuce` per section**, carrying the single line the learner should walk away
    with in `.astuce-hook`. Two hooks in one section and neither lands.
@@ -139,7 +110,7 @@ auxiliary in Spanish, so `être` is the surprise, not `avoir`).
 ## Dictée pages (`dictees/`)
 
 Write `<main class="dictee">` and **no `<style>` block** — the whole shell (preparation
-card, Spanish clue, audio buttons, textarea, correction, score screen, print answer sheet)
+card, Spanish clue, audio buttons, textarea, correction, score screen)
 is global in `style.css`. Copy `dictees/une-journee-en-vacances.vue` and replace only the
 `dictation` object: `sentences[{ text, spanish, note }]` plus `vocabulary[{ fr, es, note }]`.
 
@@ -170,7 +141,7 @@ chapter, you are in the wrong file.
 
 Prononciation sheets are grouped by **sound family**, three or four sections each, rendered
 as `.sound-section` divs inside **one** `<article>`. One `<article>` per section costs ~4 rem
-of card padding apiece and is what made the old single sheet print to five A4.
+of card padding apiece and is what made the old single sheet five screens deep.
 
 ## Exercise pages — not yours
 

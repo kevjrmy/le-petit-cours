@@ -87,7 +87,7 @@ const eyebrow = computed(() => {
 .band-white { background: var(--white); box-shadow: inset 0 0 0 1px var(--border-soft); }
 .band-red   { background: var(--red-500); }
 
-@media (max-width: 794px) {
+@media (max-width: 52rem) {
   .page-heading { font-size: 1.6rem; }
 }
 </style>

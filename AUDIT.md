@@ -1,7 +1,11 @@
 # Content audit — 2026-08-26
 
-Full pass over all 89 published pages: mechanical checks on every view, an A4
-page-count sweep of every route, and a content read of the French and Spanish.
+Full pass over all 89 published pages: mechanical checks on every view, a page-length
+sweep of every route, and a content read of the French and Spanish.
+
+**Retired 2026-08-26:** the A4 page-budget item and the dictée print-caption item went with
+the PDF feature — there is no print output to measure or caption any more. The theme chapter
+and the contact page were removed the same day, taking their entries with them.
 
 §1 and §2 are fixed and collapsed to a summary. **§3 and §4 are the open list.**
 
@@ -33,19 +37,6 @@ the correct order 9.5 % of the time, now 0.000 % with Fisher–Yates plus a re-d
 
 ## 3. Drift from the rules in AGENTS.md
 
-- [ ] **Six pages over the A4 budget** (§5 "Length"; excludes the two documented
-  exceptions `vocabulaire/les-nombres` and `le-docteur`):
-
-  | Pages | Route |
-  |---|---|
-  | 4 | `/litterature/introduction` |
-  | 3 | `/grammaire/les-articles`, `/grammaire/les-adverbes`, `/grammaire/le-passe-compose`, `/orthographe/les-homophones`, `/lecture/entretien-d-embauche` |
-
-  The five `theme/` pages that were on this list are gone — the chapter was removed on
-  2026-08-26. Worth knowing before attacking the rest: collapsing five `<article>` cards
-  into one took `theme/ecrire-un-livre` from 4 pages to 3 but no further, so the remaining
-  entries here may need content decisions rather than a layout fix.
-
 - [ ] **Five of six `conversation/` pages break the gapfill contract** (§5 "Conversation
   (gap-fill) pages"). `a-la-boulangerie`, `a-disneyland-paris`, `a-la-pharmacie`,
   `chez-le-medecin`, `en-vacances` each:
@@ -68,10 +59,6 @@ the correct order 9.5 % of the time, now 0.000 % with Fisher–Yates plus a re-d
   "Les **trois** emplois" over a **four**-row table (Politesse, Souhait, Conseil,
   Hypothèse).
 
-- [ ] **The three `dictees/` print-only answer tables have no `<caption class="sr-only">`.**
-  Low impact — they are `display:none` on screen — but it is the only a11y gap the
-  sweep found.
-
 - [ ] **Two linked pages disagree on how many verbs take *être*.**
   `grammaire/le-passe-compose` says **14** (and lists 14); `astuces/etre-ou-avoir`
   says **"une vingtaine"** and its pairs table lists **12**. Pick one number and
@@ -91,16 +78,6 @@ the correct order 9.5 % of the time, now 0.000 % with Fisher–Yates plus a re-d
 Reuse the dev server already running on 5173 — do not start or kill one.
 
 ```bash
-# A4 page-count sweep (all published routes)
-node --input-type=module -e "
-import { chapters, publishedLessons } from './src/data/navigation.js';
-for (const c of chapters) for (const l of publishedLessons(c)) console.log(l.path);
-" | while read -r r; do
-  google-chrome --headless --disable-gpu --no-sandbox --virtual-time-budget=4000 \
-    --no-pdf-header-footer --print-to-pdf=/tmp/s.pdf "http://localhost:5173$r" 2>/dev/null
-  echo "$(python3 -c "import re;print(len(re.findall(rb'/Type\s*/Page[^s]',open('/tmp/s.pdf','rb').read())))") $r"
-done | sort -rn
-
 # conjugaison generators (all verbs × tenses × négation × genre)
 node --input-type=module -e "
 import { verbs, conjugate } from './src/data/conjugaisons.js';
@@ -140,7 +117,7 @@ console.log('identical to original:', (100*same/20000).toFixed(2)+'%');"
   *soixante-et-onze*, ordinals.
 - **Mechanical, all 89 pages**: no dead RouterLinks, no raw hex colours, no
   `window.*` called from a template, no `{ text: '' }`, valid `view-meta` headers,
-  PDF-button rules respected, navigation.js ↔ router ↔ disk in agreement.
+  navigation.js ↔ router ↔ disk in agreement.
 
 Known accepted debt, deliberately not listed above: ~5 000 lines of scoped CSS
 across 51 older pages duplicating the global chrome. AGENTS.md §5 already records

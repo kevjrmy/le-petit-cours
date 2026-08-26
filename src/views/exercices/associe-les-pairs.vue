@@ -493,7 +493,7 @@ function restartGame() {
   color: var(--clr-ink);
 }
 
-@media (max-width: 794px) {
+@media (max-width: 52rem) {
   .columns-container {
     grid-template-columns: 1fr;
     gap: 0.75rem;

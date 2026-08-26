@@ -30,8 +30,7 @@ import { relatedFor } from '@/data/navigation'
  *
  * Reads the current route, so a page only has to drop `<RelatedLinks />` in
  * before `</main>`; the targets live in `relatedPages` in navigation.js.
- * Renders nothing when a page has no entry, and never prints — a list of
- * links is dead weight on paper.
+ * Renders nothing when a page has no entry.
  */
 const route = useRoute()
 const items = computed(() => relatedFor(route.path))
@@ -55,7 +54,7 @@ const items = computed(() => relatedFor(route.path))
 }
 
 /* Two columns on the sheet: four links land as a tidy 2×2 instead of the
-   3 + 1 an auto-fit grid produces at A4 width. */
+   3 + 1 an auto-fit grid produces at the reading width. */
 .related-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -126,7 +125,4 @@ const items = computed(() => relatedFor(route.path))
   .related-list { grid-template-columns: 1fr; }
 }
 
-@media print {
-  .related { display: none !important; }
-}
 </style>

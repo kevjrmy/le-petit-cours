@@ -162,7 +162,7 @@ onMounted(async () => {
   color: var(--accent);
 }
 
-@media (max-width: 794px) {
+@media (max-width: 52rem) {
   .row-tag { display: none; }
 }
 </style>

@@ -63,7 +63,7 @@ const principles = [
     },
     {
         title: 'Une leçon, une page',
-        text: "chaque fiche tient sur une page A4, et les leçons se téléchargent en PDF.",
+        text: "un seul point de grammaire par fiche, avec ses exemples et ses exceptions.",
     },
     {
         title: 'Dans la poche',
@@ -133,7 +133,7 @@ const principles = [
     color: var(--text-on-accent);
 }
 
-@media (max-width: 794px) {
+@media (max-width: 52rem) {
     .cta-row .btn-cta,
     .cta-row .btn-link {
         flex: 1 1 100%;

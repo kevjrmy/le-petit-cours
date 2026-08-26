@@ -30,20 +30,7 @@
         </ol>
       </article>
 
-      <button
-        class="download-btn"
-        @click="downloadPdf"
-        aria-label="Télécharger cette liste en PDF"
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3v14m0 0-5-5m5 5 5-5"/>
-          <path d="M3 20h18"/>
-        </svg>
-        <span>Télécharger</span>
-      </button>
-
       <RelatedLinks />
-
     </main>
   </AltLayout>
 </template>
@@ -168,10 +155,6 @@ function catClass(c) {
   if (c === 'art.' || c === 'pron.' || c === 'dét.') return 'cat-art'
   return 'cat-adv'
 }
-
-function downloadPdf() {
-  window.print()
-}
 </script>
 
 <style scoped>
@@ -272,33 +255,4 @@ function downloadPdf() {
 }
 
 /* ── Download button ─────────────────────────── */
-.download-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-  margin: 0.5rem auto 0;
-  padding: 0.85rem 1.5rem;
-  border: 1px solid var(--clr-border);
-  border-radius: var(--radius);
-  color: var(--clr-ink-soft);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  transition: border-color 0.15s, color 0.15s;
-}
-
-.download-btn:hover {
-  border-color: var(--clr-blue);
-  color: var(--clr-blue);
-}
-
-@media print {
-  .download-btn { display: none !important; }
-  .word-grid { grid-template-columns: 1fr 1fr; column-gap: 2rem; }
-  .entry { padding: 0.12rem 0; }
-  .entry:nth-child(-n+23),
-  .entry:nth-child(n+57):nth-child(-n+84),
-  .entry:nth-child(n+85) { background: none; }
-}
 </style>

@@ -113,7 +113,6 @@
       </template>
 
       <RelatedLinks />
-
     </main>
   </DefaultLayout>
 </template>
@@ -630,7 +629,4 @@ function restart() {
   clip: rect(0 0 0 0);
 }
 
-@media print {
-  #desordre-game { display: none; }
-}
 </style>

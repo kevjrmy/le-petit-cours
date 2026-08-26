@@ -158,7 +158,6 @@
       </article>
 
       <RelatedLinks />
-
     </main>
   </AltLayout>
 </template>
@@ -458,10 +457,4 @@ tbody tr:nth-child(even) {
   color: var(--clr-ink-mid);
 }
 
-@media print {
-  .quiz,
-  .translation {
-    display: none !important;
-  }
-}
 </style>

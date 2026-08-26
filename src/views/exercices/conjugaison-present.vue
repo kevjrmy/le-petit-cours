@@ -77,7 +77,6 @@
       </template>
 
       <RelatedLinks />
-
     </main>
   </DefaultLayout>
 </template>
@@ -489,7 +488,4 @@ function restart() {
   clip: rect(0 0 0 0);
 }
 
-@media print {
-  #conjugaison-game { display: none; }
-}
 </style>

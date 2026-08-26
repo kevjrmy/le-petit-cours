@@ -61,7 +61,7 @@ write no `<style>` block:
 | `.lesson` | grammaire, orthographe, astuces, vocabulaire, theme, prononciation, musique | tables, `.hl-*`, `.note`, `.method`, `.download-btn` |
 | `.exo` | exercices | instructions, progress meter, card, feedback, score screen |
 | `.gapfill` | conversation | word bank, chips, chat bubbles, slots |
-| `.dictee` | dictees | prep card, audio buttons, textarea, correction, print answer sheet |
+| `.dictee` | dictees | prep card, audio buttons, textarea, correction, score screen |
 
 Content patterns usable inside any of them: `.rule`, `.example`, `.attention`,
 `.exception`, `.astuce` (+ `.astuce-hook`), `.lesson-link`.
@@ -72,7 +72,7 @@ to duplicate and nothing to promote. That is correct for `ConjugationSheet.vue`,
 ever need the same rules.
 
 `RelatedLinks.vue` renders at the foot of every lesson page, so treat it as page furniture:
-it must work in both themes, collapse to one column under 560px, and stay hidden in print.
+it must work in both themes and collapse to one column under 560px.
 
 When a third page of a type grows its own copy of the same scoped CSS, that is the signal
 to promote it here — that is exactly how `.dictee` came to exist, replacing ~1,100 lines of
@@ -82,18 +82,19 @@ except when already editing the file.
 
 ## Non-negotiable constraints
 
-- `--max-width: 794px` is A4 at 96 dpi. **Never widen it.** The shell is full-width; the
-  reading column is not.
-- Two breakpoints only: **794px** (content) and **900px** (shell: sidebar → drawer).
-  The 900px value is duplicated in `src/composables/useSidebar.js` — change both together.
-- Print CSS (bottom of `style.css`) force-overrides the palette to light and hides
-  `.app-sidebar`, `.app-topbar`, `.app-scrim`, `.no-print`. A dark-mode PDF is unusable.
-  Any new chrome you add must be hidden there too.
+- `--max-width: 52rem` is the reading column, sized for reading on screen. It was pinned to
+  794px (A4 at 96 dpi) until PDF export was removed on 2026-08-26. The shell is full-width;
+  the reading column is not.
+- Two breakpoints only: **52rem** (content, must move with `--max-width`) and **900px**
+  (shell: sidebar → drawer). The 900px value is duplicated in
+  `src/composables/useSidebar.js` — change both together.
+- **There is no print stylesheet.** Every `@media print` block was removed with the PDF
+  feature; don't add chrome that assumes one, and don't reintroduce `.no-print`.
 - Pure CSS. No Tailwind, no utility classes, no inline styles doing design work.
 - **Bare `article` and `section` are cards** (`padding: 1.5rem 1.75rem`, plus
   `section + section { margin-top: 1rem }`). That makes them expensive: a page rendering
   each of its sections as its own `<article>` pays ~4 rem of chrome per section, which is
-  what pushed the pronunciation sheet to five A4. Use one card with internal dividers when
+  what made the pronunciation sheet five screens deep. Use one card with internal dividers when
   sections belong together — and remember a `<section>` used as a layout box inherits the
   padding too, so reset it or use a `<div>`.
 

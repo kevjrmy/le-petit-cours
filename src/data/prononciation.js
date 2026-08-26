@@ -3,8 +3,8 @@
  *
  * One page per family: `PronunciationSheet.vue` renders any of these from its
  * `slug`, the way `ConjugationSheet.vue` renders a verb. They live here because
- * the old single page carried all ten sections and printed to five A4 — three
- * short sheets are consultable, one long one is not.
+ * the old single page carried all ten sections and ran five screens deep —
+ * three short sheets are consultable, one long one is not.
  *
  * Section shape:
  *   title       — the graphies this section covers
