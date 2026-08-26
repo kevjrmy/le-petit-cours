@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-26 -->
 <template>
   <DefaultLayout title="Exercice : Phrases en désordre">
     <main id="desordre-game">
@@ -175,7 +175,24 @@ const items = [
 ]
 
 function shuffle(arr) {
-  return [...arr].sort(() => Math.random() - 0.5)
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
+/* A sentence handed over in its original order is not a puzzle — the learner
+   just taps left to right. Fisher–Yates alone still lands on the identity
+   permutation (1 time in n!), so re-draw until the order actually changed. */
+function shuffleWords(words) {
+  if (words.length < 2) return [...words]
+  let out = shuffle(words)
+  for (let tries = 0; tries < 10 && out.every((w, i) => w.id === words[i].id); tries++) {
+    out = shuffle(words)
+  }
+  return out
 }
 
 function prepareItem(item) {
@@ -185,7 +202,7 @@ function prepareItem(item) {
   }))
   return {
     ...item,
-    shuffled: shuffle(wordObjects)
+    shuffled: shuffleWords(wordObjects)
   }
 }
 

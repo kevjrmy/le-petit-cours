@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-26 -->
 <template>
   <DefaultLayout title="À Disneyland Paris">
     <main id="dialogue">
@@ -125,12 +125,12 @@ const dialogue = [
   ]},
   { who: 'visiteur', parts: [
     { text: 'Bonjour ! Je voudrais deux ' },
-    { id: 2, answer: 'billets', accept: ['billet'] },
+    { id: 2, answer: 'billets' },
     { text: ' pour aujourd\'hui, s\'il vous plaît.' },
   ]},
   { who: 'employe', parts: [
     { text: 'Très bien. C\'est pour deux ' },
-    { id: 3, answer: 'adultes', accept: ['adulte'] },
+    { id: 3, answer: 'adultes' },
     { text: ' ?' },
   ]},
   { who: 'visiteur', parts: [
@@ -140,7 +140,7 @@ const dialogue = [
   ]},
   { who: 'employe', parts: [
     { text: 'Parfait. Vous préférez le château ou les ' },
-    { id: 5, answer: 'attractions', accept: ['attraction'] },
+    { id: 5, answer: 'attractions' },
     { text: ' ?' },
   ]},
   { who: 'visiteur', parts: [
@@ -158,7 +158,7 @@ const dialogue = [
   ]},
   { who: 'employe', parts: [
     { text: 'Ça fait 180 ' },
-    { id: 8, answer: 'euros', accept: ['euro'] },
+    { id: 8, answer: 'euros' },
     { text: ' en tout.' },
   ]},
   { who: 'visiteur', parts: [

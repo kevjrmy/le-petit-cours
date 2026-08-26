@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-10; updated=2026-08-10 -->
+<!-- view-meta: created=2026-08-10; updated=2026-08-26 -->
 <template>
   <DefaultLayout title="Demander son chemin">
     <main class="gapfill">
@@ -170,7 +170,7 @@ const dialogue = [
   ]},
   { who: 'right', parts: [
     { text: 'C\'est à combien de ' },
-    { id: 11, answer: 'minutes', accept: ['minute'] },
+    { id: 11, answer: 'minutes' },
     { text: ' ?' },
   ]},
   { who: 'left', parts: [

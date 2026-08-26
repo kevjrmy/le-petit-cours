@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-26 -->
 <template>
   <AltLayout title="La famille et les amis">
     <main class="lesson">
@@ -31,7 +31,7 @@
               <td class="transl">los padres</td>
             </tr>
             <tr>
-              <td class="vocab">le frère / la soeur</td>
+              <td class="vocab">le frère / la sœur</td>
               <td>enfant du même père et de la même mère</td>
               <td class="transl">el hermano / la hermana</td>
             </tr>
@@ -78,7 +78,7 @@
 
         <ol class="question-list">
           <li class="question-item">
-            Vous avez des frères et soeurs ? Parlez d'eux.
+            Vous avez des frères et sœurs ? Parlez d'eux.
             <span class="hint">(¿Tiene hermanos o hermanas? Háblenos de ellos.)</span>
           </li>
           <li class="question-item">

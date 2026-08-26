@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-10; updated=2026-08-10 -->
+<!-- view-meta: created=2026-08-10; updated=2026-08-26 -->
 <template>
   <AltLayout title="Les adjectifs qualificatifs">
     <main class="lesson">
@@ -122,7 +122,7 @@
       <!-- ── Exceptions ─────────────────────────────── -->
       <article>
         <div class="exception">
-          <strong>Cinq adjectifs irréguliers</strong> à connaître par cœur. Ils ont une forme
+          <strong>Trois adjectifs irréguliers</strong> à connaître par cœur. Ils ont une forme
           spéciale au masculin devant une voyelle&nbsp;:
         </div>
         <div class="example exception-ex">

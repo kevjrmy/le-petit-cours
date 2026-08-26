@@ -3,6 +3,9 @@
 Full pass over all 89 published pages: mechanical checks on every view, an A4
 page-count sweep of every route, and a content read of the French and Spanish.
 
+**§1 and §2 are fixed** (branch `content/song-drill-related-links`). §3 and §4
+are still open.
+
 Tick items as they are fixed. Delete an item only once it is fixed *and* the
 check that found it passes again — the re-run commands are in §5.
 
@@ -10,34 +13,38 @@ check that found it passes again — the re-run commands are in §5.
 
 ## 1. Real errors — wrong content shown to learners
 
-- [ ] **`src/views/grammaire/la-negation.vue:63` — the table renders « venuns ».**
+- [x] **`src/views/grammaire/la-negation.vue:63` — the table renders « venuns ».** *Fixed: `ven` + `ons`.*
   The cell is split `<span class="stem">venu</span><span class="end">ns</span>`;
   it should be `ven` + `ons` → *venons*. A non-word sits in the *nous* row of a
   core grammar paradigm.
 
-- [ ] **`src/views/orthographe/les-pronoms-possessifs.vue:98` — self-contradictory rule.**
+- [x] **`src/views/orthographe/les-pronoms-possessifs.vue:98` — self-contradictory rule.** *Fixed: rewritten as pronoun (keeps the accent) vs determiner (no accent).*
   Reads « *sans accent au pluriel* : les nôtres, les vôtres **conservent le ô** ».
   It says the accent disappears, then that it stays. The intended contrast is with
   the *determiners* notre/votre, which have no accent.
 
-- [ ] **`src/views/theme/ecrire-un-livre.vue:55` — « un(e) personnage principal(e) ».**
+- [x] **`src/views/theme/ecrire-un-livre.vue:55` — « un(e) personnage principal(e) ».** *Fixed: « un personnage principal », with a note that it stays masculine.*
   *Personnage* is masculine only, whatever the character's gender: *un personnage
   principal*. The same page is correct at lines 139 and 176.
 
-- [ ] **`src/views/grammaire/les-adjectifs.vue:125` — "Cinq adjectifs irréguliers", three listed.**
+- [x] **`src/views/grammaire/les-adjectifs.vue:125` — "Cinq adjectifs irréguliers", three listed.** *Fixed: "Trois" — fol/mol are not A2.*
   Only beau, nouveau, vieux appear. Either say *Trois*, or add *fou → fol* and
   *mou → mol* (rare at A2 — dropping the number is probably better).
 
-- [ ] **`src/views/theme/la-famille.vue:34,81` — « soeur » / « soeurs » without the ligature.**
+- [x] **`src/views/theme/la-famille.vue:34,81` — « soeur » / « soeurs » without the ligature.** *Fixed.*
   Every other page writes *sœur*. (The « soeur » in `dictees/les-fleurs-du-mal.vue:20`
   is deliberate — it tells the learner they may type it that way.)
 
-- [ ] **`src/views/theme/ah-si-jetais-riche.vue:31` — header « Définition en francés ».**
+- [x] **`src/views/theme/ah-si-jetais-riche.vue:31` — header « Définition en francés ».** *Fixed: « Definición en francés ».*
   Half French, half Spanish. The other four theme pages say *Definición en francés*.
 
 ## 2. Broken exercise behaviour
 
-- [ ] **All six `conversation/` pages accept a grammatically wrong number — 20 blanks.**
+- [x] **All six `conversation/` pages accept a grammatically wrong number — 21 blanks.**
+  *Fixed: 21 wrong-number variants removed (the first count of 20 was one short —
+  two unaccented singulars, `medicament` and `comprime`, and the irregular
+  `maux`/`mal` only surfaced on an accent-folded re-check). Case and
+  accent variants kept.*
   `a-la-boulangerie.vue:138` marks *croissant* correct for « deux **croissants** »;
   `en-vacances.vue:122` accepts *vacance* for **vacances** (not a word in that sense);
   same shape at `a-disneyland-paris.vue:128,133` (*billet*, *adulte*) and in
@@ -45,7 +52,10 @@ check that found it passes again — the re-run commands are in §5.
   The drill confirms the wrong form. Accent- and case-variants in `accept` are fine;
   singular-for-plural is not.
 
-- [ ] **`src/views/exercices/phrases-en-desordre.vue:177` — the puzzle is pre-solved ~1 time in 10.**
+- [x] **`src/views/exercices/phrases-en-desordre.vue:177` — the puzzle is pre-solved ~1 time in 10.**
+  *Fixed: Fisher–Yates plus a re-draw while the order is unchanged. Re-measured
+  over 20 000 runs: identical-to-original 9.5% → 0.000%, first word unmoved
+  32% → 19.5% (uniform is 20%).*
   Words are shuffled with `sort(() => Math.random() - 0.5)` and nothing guards
   against `shuffled === original`. Measured over 20 000 runs: a 5-word sentence
   comes out in the correct order **9.5 %** of the time (6-word: 4.8 %), and the

@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-26 -->
 <template>
   <DefaultLayout title="À la boulangerie">
     <main id="dialogue">
@@ -135,7 +135,7 @@ const dialogue = [
   ]},
   { who: 'cliente', parts: [
     { text: 'Je voudrais aussi deux ' },
-    { id: 4, answer: 'croissants', accept: ['croissant'] },
+    { id: 4, answer: 'croissants' },
     { text: ', s\'il vous plaît.' },
   ]},
   { who: 'boulangere', parts: [
@@ -150,7 +150,7 @@ const dialogue = [
   ]},
   { who: 'boulangere', parts: [
     { text: 'Ça fait 3 ' },
-    { id: 7, answer: 'euros', accept: ['euro'] },
+    { id: 7, answer: 'euros' },
     { text: ' 50, s\'il vous plaît.' },
   ]},
   { who: 'cliente', parts: [

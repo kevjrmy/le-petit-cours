@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-26 -->
 <template>
   <AltLayout title="Ah, si j'étais riche !">
     <main class="lesson">
@@ -28,7 +28,7 @@
           <thead>
             <tr>
               <th>Mot (FR)</th>
-              <th>Définition en francés</th>
+              <th>Definición en francés</th>
               <th>Traducción (ES)</th>
             </tr>
           </thead>

@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-26 -->
 <template>
   <AltLayout title="La négation">
     <main class="lesson">
@@ -60,7 +60,7 @@
             <tr>
               <td class="person">nous</td>
               <td class="neg">ne</td>
-              <td><span class="stem">venu</span><span class="end">ns</span></td>
+              <td><span class="stem">ven</span><span class="end">ons</span></td>
               <td class="neg">pas</td>
             </tr>
           </tbody>

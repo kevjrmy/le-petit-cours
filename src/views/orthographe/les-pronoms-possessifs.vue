@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-26 -->
 <template>
   <AltLayout title="Les pronoms possessifs">
     <main class="lesson">
@@ -93,9 +93,11 @@
           le singulier distingue le genre (<em>le n<span class="circ">ô</span>tre</em> /
           <em>la n<span class="circ">ô</span>tre</em>), mais le pluriel est
           invariable (<em>les n<span class="circ">ô</span>tres</em>).
-          Pensez à l'accent : <strong class="circ-demo">n<span class="circ">ô</span>tre</strong>,
-          <strong class="circ-demo">v<span class="circ">ô</span>tre</strong>
-          — sans accent au pluriel : <em>les nôtres, les vôtres</em> conservent le&nbsp;<span class="circ">ô</span>.
+          Pensez à l'accent : le <strong>pronom</strong> le garde toujours, au singulier
+          comme au pluriel — <strong class="circ-demo">le n<span class="circ">ô</span>tre</strong>,
+          <strong class="circ-demo">les v<span class="circ">ô</span>tres</strong>.
+          Ce sont les <strong>déterminants</strong> qui s'écrivent sans accent :
+          <em>notre maison</em>, <em>votre livre</em>.
         </div>
       </article>
 

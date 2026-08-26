@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-26 -->
 <template>
   <DefaultLayout title="À la pharmacie">
     <main id="dialogue">
@@ -122,18 +122,18 @@ const dialogue = [
   ]},
   { who: 'client', parts: [
     { text: 'Bonjour. Je viens chercher des ' },
-    { id: 1, answer: 'médicaments', accept: ['medicaments', 'médicament', 'medicament'] },
+    { id: 1, answer: 'médicaments', accept: ['medicaments'] },
     { text: '. Voici mon ' },
-    { id: 2, answer: 'ordonnance', accept: ['ordonnances'] },
+    { id: 2, answer: 'ordonnance' },
     { text: '.' }
   ]},
   { who: 'pharmacien', parts: [
     { text: 'D\'accord, voyons voir. C\'est pour un ' },
-    { id: 3, answer: 'sirop', accept: ['sirops'] },
+    { id: 3, answer: 'sirop' },
     { text: ' contre la ' },
     { id: 4, answer: 'toux' },
     { text: ' et des ' },
-    { id: 5, answer: 'comprimés', accept: ['comprimes', 'comprimé', 'comprime'] },
+    { id: 5, answer: 'comprimés', accept: ['comprimes'] },
     { text: '.' }
   ]},
   { who: 'client', parts: [
@@ -141,14 +141,14 @@ const dialogue = [
   ]},
   { who: 'pharmacien', parts: [
     { text: 'Prenez-vous d\'autres ' },
-    { id: 6, answer: 'traitements', accept: ['traitement'] },
+    { id: 6, answer: 'traitements' },
     { text: ' en ce moment ?' }
   ]},
   { who: 'client', parts: [
     { text: 'Non, aucun. Mais j\'ai aussi un peu de ' },
     { id: 7, answer: 'fièvre', accept: ['fievre'] },
     { text: ' et des ' },
-    { id: 8, answer: 'maux', accept: ['mal'] },
+    { id: 8, answer: 'maux' },
     { text: ' de tête.' }
   ]},
   { who: 'pharmacien', parts: [
@@ -158,7 +158,7 @@ const dialogue = [
   ]},
   { who: 'client', parts: [
     { text: 'D\'accord. Quelle est la ' },
-    { id: 10, answer: 'posologie', accept: ['posologies'] },
+    { id: 10, answer: 'posologie' },
     { text: ' pour le sirop ?' }
   ]},
   { who: 'pharmacien', parts: [
@@ -173,7 +173,7 @@ const dialogue = [
   ]},
   { who: 'pharmacien', parts: [
     { text: 'Oui, un peu. Il vaut mieux éviter de conduire. Avez-vous besoin d\'autres ' },
-    { id: 13, answer: 'conseils', accept: ['conseil'] },
+    { id: 13, answer: 'conseils' },
     { text: ' ?' }
   ]},
   { who: 'client', parts: [

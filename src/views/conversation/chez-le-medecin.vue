@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-26 -->
 <template>
   <DefaultLayout title="Chez le médecin">
     <main id="dialogue">
@@ -133,7 +133,7 @@ const dialogue = [
   ]},
   { who: 'patiente', parts: [
     { text: 'Plutôt bien, mais je suis un peu ' },
-    { id: 3, answer: 'fatiguée', accept: ['fatigue'] },
+    { id: 3, answer: 'fatiguée' },
     { text: ' ces derniers temps.' },
   ]},
   { who: 'medecin', parts: [
@@ -151,7 +151,7 @@ const dialogue = [
   ]},
   { who: 'medecin', parts: [
     { text: 'Oui, votre cœur et vos ' },
-    { id: 6, answer: 'poumons', accept: ['poumon'] },
+    { id: 6, answer: 'poumons' },
     { text: ' sont en bonne santé.' },
   ]},
   { who: 'medecin', parts: [
@@ -161,7 +161,7 @@ const dialogue = [
   ]},
   { who: 'medecin', parts: [
     { text: 'Parfait. Maintenant, avez-vous des ' },
-    { id: 8, answer: 'allergies', accept: ['allergie'] },
+    { id: 8, answer: 'allergies' },
     { text: ' ?' },
   ]},
   { who: 'patiente', parts: [

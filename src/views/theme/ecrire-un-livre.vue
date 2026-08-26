@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-02 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-26 -->
 <template>
   <AltLayout title="Si je devais écrire un livre...">
     <main class="lesson">
@@ -52,9 +52,9 @@
               <td class="transl">la trama</td>
             </tr>
             <tr>
-              <td class="vocab">un(e) personnage principal(e)</td>
-              <td>le héros ou l'héroïne de l'histoire</td>
-              <td class="transl">un(a) personaje principal</td>
+              <td class="vocab">un personnage principal</td>
+              <td>le héros ou l'héroïne de l'histoire — <em>personnage</em> reste masculin</td>
+              <td class="transl">un personaje principal</td>
             </tr>
             <tr>
               <td class="vocab">le manuscrit</td>

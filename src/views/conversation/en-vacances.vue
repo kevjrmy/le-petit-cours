@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-03; updated=2026-08-03 -->
+<!-- view-meta: created=2026-08-03; updated=2026-08-26 -->
 <template>
   <DefaultLayout title="En vacances">
     <main id="dialogue">
@@ -119,7 +119,7 @@ import RelatedLinks from '@/components/RelatedLinks.vue'
 const dialogue = [
   { who: 'lucas', parts: [
     { text: 'Salut Marc ! Tu es prêt pour les ' },
-    { id: 1, answer: 'vacances', accept: ['vacance'] },
+    { id: 1, answer: 'vacances' },
     { text: ' ?' },
   ]},
   { who: 'marc', parts: [
