@@ -491,7 +491,7 @@ Authoritative list is `src/data/navigation.js` — this table is the human summa
   les-nombres, l-heure, les-jours-et-la-date, la-maison, les-vetements, la-ville,
   les-transports, le-travail, la-meteo, le-docteur
 - **conversation** (6): en-vacances, a-la-boulangerie, a-disneyland-paris, chez-le-medecin, a-la-pharmacie, demander-son-chemin
-- **annexe** (utility routes, not chapters): a-propos, contact
+- **annexe** (utility route, not a chapter): a-propos
 
 Entries marked *planned* exist in `navigation.js` with `soon: true` — they render as
 disabled "Bientôt" rows and have no route. Removing `soon` requires creating the view

@@ -30,7 +30,7 @@ const navPaths = [...nav.matchAll(/path: '([^']+)'/g)].map(m=>m[1]);
 const soon = [...nav.matchAll(/\{ path: '([^']+)'[^}]*soon: true/g)].map(m=>m[1]);
 const routes = new Set([...router.matchAll(/path: '([^']+)'/g)].map(m=>m[1]));
 const missing = navPaths.filter(p=>!routes.has(p) && !soon.includes(p));
-const orphan = [...routes].filter(p=>!navPaths.includes(p) && !['/','/a-propos','/contact'].includes(p));
+const orphan = [...routes].filter(p=>!navPaths.includes(p) && !['/','/a-propos'].includes(p));
 console.log('missing route:', missing.length ? missing : 'none');
 console.log('route with no nav entry:', orphan.length ? orphan : 'none');
 "

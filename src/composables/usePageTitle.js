@@ -11,7 +11,6 @@ const SITE_NAME = 'Le Petit Cours'
 const STANDALONE = {
   '/':         'Sommaire',
   '/a-propos': 'À propos',
-  '/contact':  'Contact',
 }
 
 /**

@@ -42,7 +42,6 @@
 
                 <div class="cta-row">
                     <RouterLink class="btn-cta" to="/">Voir le sommaire</RouterLink>
-                    <RouterLink class="btn-link" to="/contact">Écrire un message</RouterLink>
                 </div>
             </section>
         </main>

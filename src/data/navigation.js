@@ -263,7 +263,6 @@ export const chapters = [
 /** Utility routes — reachable from the sidebar footer, not book chapters. */
 export const annexes = [
   { path: '/a-propos', title: 'À propos', icon: 'about' },
-  { path: '/contact', title: 'Contact', icon: 'contact' },
 ]
 
 /** Lessons that actually have a route (excludes `soon` placeholders). */

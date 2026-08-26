@@ -141,7 +141,6 @@ const router = createRouter({
 
     // Annexes
     { path: '/a-propos', name: 'about', component: () => import('../views/annexe/a-propos.vue') },
-    { path: '/contact', name: 'contact', component: () => import('../views/annexe/contact.vue') },
 
     /* Anything unknown lands on the sommaire rather than an empty sheet. Without
        this, a removed route — the theme/ chapter, deleted 2026-08-26 — renders a
