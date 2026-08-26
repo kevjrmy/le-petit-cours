@@ -293,6 +293,29 @@ to fill the grid.
 `ConjugationSheet.vue` keeps its CSS in a scoped block, which is correct here: one component
 owns the whole page type, so there is nothing to duplicate and nothing to promote.
 
+### Prononciation pages
+
+The second **data-driven** chapter. Every sheet is a one-line
+`<PronunciationSheet slug="les-voyelles" />`; the sections come from
+`src/data/prononciation.js` and the chrome from `PronunciationSheet.vue`. Adding a
+sheet means an entry in that data file, a view wrapper, a `navigation.js` line and
+a route — never a hand-written table.
+
+One sheet per **sound family** (voyelles / voyelles nasales / consonnes), and
+**three or four sections per sheet, no more**. The single page that covered all ten
+sections printed to five A4; the sections are what cost the space, not the examples.
+Render them as `.sound-section` divs inside **one** `<article>`, never one `<article>`
+each — the global card padding costs ~4 rem per section, and the stylesheet already
+draws a separator rule between them.
+
+Audio is `useSpeech()`, and the sheet **checks `hasVoice` after the first play** for
+the same reason `ecoute-et-choisis` does: a Spanish default voice reading *tu* and
+*tout* makes the contrast the page exists to teach inaudible. Checking on mount would
+flash a false alarm, since `getVoices()` is empty until `voiceschanged` fires.
+
+A graphie is not always pronounceable alone — « an » or « ill » read aloud is noise —
+so each row carries a `soundVal` (a real word) that is what gets spoken.
+
 ### Astuce pages
 
 Memory hooks for rules taught elsewhere — mnemonics, substitution tests, "look at the last
@@ -487,7 +510,8 @@ Authoritative list is `src/data/navigation.js` — this table is the human summa
 - **exercices** (17, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre, etre-ou-avoir, trouve-la-faute, devine-les-temps, ecoute-et-choisis, mets-au-bon-temps, le-bon-pronom
 - **lecture** (5): le-lion-et-le-rat, le-petit-prince, entretien-d-embauche, le-comte-de-monte-cristo, le-tour-du-monde
 - **litterature** (1): introduction
-- **prononciation** (1): les-syllabes-courantes
+- **prononciation** (3) — data-driven like conjugaison: les-voyelles, les-voyelles-nasales,
+  les-consonnes, all rendered by `PronunciationSheet.vue` from `src/data/prononciation.js`
 - **musique** (1 + 2 planned): la-vie-en-rose. Song pages quote **short excerpts only** —
   the twentieth-century repertoire is still in copyright, so a page carries a few verses
   with commentary, a vocabulary table and a grammar focus, never a full lyric sheet.

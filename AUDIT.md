@@ -64,12 +64,15 @@ check that found it passes again — the re-run commands are in §5.
 
 ## 3. Drift from the rules in AGENTS.md
 
-- [ ] **Twelve pages over the A4 budget** (§5 "Length"; excludes the two documented
+- [ ] **Eleven pages over the A4 budget** (§5 "Length"; excludes the two documented
   exceptions `vocabulaire/les-nombres` and `le-docteur`):
+
+  *`/prononciation/les-syllabes-courantes` (5 pages) is fixed: split into
+  `/prononciation/les-voyelles`, `/les-voyelles-nasales` and `/les-consonnes`,
+  2 pages each, all 10 sections and 51 examples kept.*
 
   | Pages | Route |
   |---|---|
-  | 5 | `/prononciation/les-syllabes-courantes` — 10 sections, 15 graphies, 51 examples; the clear split candidate |
   | 4 | `/theme/ecrire-un-livre`, `/theme/ah-si-jetais-riche`, `/litterature/introduction` |
   | 3 | `/grammaire/les-articles`, `/grammaire/les-adverbes`, `/grammaire/le-passe-compose`, `/orthographe/les-homophones`, `/theme/la-famille`, `/theme/les-loisirs`, `/theme/la-nourriture`, `/lecture/entretien-d-embauche` |
 

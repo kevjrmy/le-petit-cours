@@ -196,7 +196,9 @@ export const chapters = [
       'Apprenez à lire et à prononcer le français en comprenant les principaux ' +
       'groupes de lettres et leurs sons.',
     lessons: [
-      { path: '/prononciation/les-syllabes-courantes', title: 'Les syllabes les plus courantes' },
+      { path: '/prononciation/les-voyelles', title: 'Les voyelles', subtitle: 'ou · u · eu · oi · au' },
+      { path: '/prononciation/les-voyelles-nasales', title: 'Les voyelles nasales', subtitle: 'an · in · on' },
+      { path: '/prononciation/les-consonnes', title: 'Les consonnes', subtitle: 'ch · ill · gn' },
     ],
   },
   {
@@ -388,7 +390,7 @@ export const relatedPages = {
   '/exercices/etre-ou-avoir': ['/astuces/etre-ou-avoir', '/grammaire/le-passe-compose', '/conjugaison/etre', '/conjugaison/avoir'],
   '/exercices/trouve-la-faute': ['/orthographe/les-homophones', '/astuces/le-test-de-substitution'],
   '/exercices/devine-les-temps': ['/grammaire/passe-compose-ou-imparfait', '/grammaire/l-imparfait', '/grammaire/le-futur-simple'],
-  '/exercices/ecoute-et-choisis': ['/prononciation/les-syllabes-courantes', '/orthographe/les-homophones'],
+  '/exercices/ecoute-et-choisis': ['/prononciation/les-voyelles-nasales', '/prononciation/les-voyelles', '/orthographe/les-homophones'],
   '/exercices/mets-au-bon-temps': ['/grammaire/le-conditionnel-present', '/grammaire/l-imparfait', '/conjugaison/parler'],
   '/exercices/le-bon-pronom': ['/grammaire/les-pronoms-cod-coi', '/grammaire/les-pronoms-y-en', '/musique/la-vie-en-rose'],
 
@@ -401,8 +403,10 @@ export const relatedPages = {
 
   // ── Littérature · Prononciation · Musique ────
   '/litterature/introduction': ['/lecture/le-petit-prince', '/lecture/le-comte-de-monte-cristo', '/dictees/les-fleurs-du-mal'],
-  '/prononciation/les-syllabes-courantes': ['/exercices/ecoute-et-choisis', '/orthographe/les-homophones', '/dictees/une-journee-en-vacances'],
-  '/musique/la-vie-en-rose': ['/grammaire/les-pronoms-cod-coi', '/exercices/le-bon-pronom', '/prononciation/les-syllabes-courantes'],
+  '/prononciation/les-voyelles': ['/prononciation/les-voyelles-nasales', '/prononciation/les-consonnes', '/exercices/ecoute-et-choisis'],
+  '/prononciation/les-voyelles-nasales': ['/prononciation/les-voyelles', '/exercices/ecoute-et-choisis', '/dictees/une-journee-en-vacances'],
+  '/prononciation/les-consonnes': ['/prononciation/les-voyelles', '/orthographe/les-homophones', '/exercices/ecoute-et-choisis'],
+  '/musique/la-vie-en-rose': ['/grammaire/les-pronoms-cod-coi', '/exercices/le-bon-pronom', '/prononciation/les-voyelles'],
 
   // ── Vocabulaire ──────────────────────────────
   '/vocabulaire/100-mots-les-plus-utilises': ['/exercices/associe-les-pairs', '/exercices/emoji-francais'],

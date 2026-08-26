@@ -102,7 +102,11 @@ const router = createRouter({
 
     // Prononciation
     { path: '/prononciation', name: 'prononciation', component: () => import('../views/prononciation/index.vue') },
-    { path: '/prononciation/les-syllabes-courantes', name: 'prononciation-les-syllabes-courantes', component: () => import('../views/prononciation/les-syllabes-courantes.vue') },
+    { path: '/prononciation/les-voyelles', name: 'prononciation-les-voyelles', component: () => import('../views/prononciation/les-voyelles.vue') },
+    { path: '/prononciation/les-voyelles-nasales', name: 'prononciation-les-voyelles-nasales', component: () => import('../views/prononciation/les-voyelles-nasales.vue') },
+    { path: '/prononciation/les-consonnes', name: 'prononciation-les-consonnes', component: () => import('../views/prononciation/les-consonnes.vue') },
+    // The single five-page sheet was split in three on 2026-08-26; keep its URL alive.
+    { path: '/prononciation/les-syllabes-courantes', redirect: '/prononciation/les-voyelles' },
 
     // Musique
     { path: '/musique', name: 'musique', component: () => import('../views/musique/index.vue') },
