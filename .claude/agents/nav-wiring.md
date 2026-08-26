@@ -108,9 +108,15 @@ grep -o "name: '[^']*'" src/router/index.js | sort | uniq -d
   // The single five-page sheet was split in three on 2026-08-26; keep its URL alive.
   { path: '/prononciation/les-syllabes-courantes', redirect: '/prononciation/les-voyelles' },
   ```
-- **Remove a page** → delete the view, the `navigation.js` entry, the route, and the
-  `AGENTS.md` line. A stale route with a deleted view breaks the build; a stale manifest
-  entry gives a 404 link.
+- **Remove a page** → delete the view, the `navigation.js` entry, the route, the
+  `AGENTS.md` line, and **every `relatedPages` array that named it** — its own key and the
+  ones elsewhere that pointed at it. A stale route with a deleted view breaks the build; a
+  stale manifest entry gives a dead link. Removing a chapter also means its `ChapterIcon`
+  import and map entry, and any `STANDALONE` title in `usePageTitle.js`.
+
+  The router ends with a catch-all (`{ path: '/:pathMatch(.*)*', redirect: '/' }`), so a
+  removed URL lands on the sommaire instead of rendering an empty sheet. **Keep it last** —
+  route order decides, and a catch-all above a real route swallows it.
 - **Promote a `soon: true` entry** → create the view *and* the route in the same change,
   then drop the `soon` flag. Never drop it first.
 
@@ -129,7 +135,8 @@ stale entry costs one link and shows no error. That is why the check above matte
 ## What derives automatically — do not hand-maintain
 
 - Sidebar tree, lesson filter, and the active-chapter auto-expand (`AppSidebar.vue`).
-- Sommaire hero stats and chapter grid (`views/sommaire/index.vue`).
+- The sommaire's chapter grid (`views/sommaire/index.vue`). The hero carries no counters —
+  the counts live on the cards and in the sidebar.
 - Every chapter landing page (`ChapterIndex.vue`).
 - Breadcrumbs and `document.title` (`usePageTitle.js`).
 - "Nouveau" badges and sidebar dots — driven by the `view-meta` comment dates via

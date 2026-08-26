@@ -52,7 +52,7 @@ src/
   layouts/
     DefaultLayout.vue      ← the A4 reading sheet (.page-sheet)
     AltLayout.vue          ← identical; both kept so existing views compile
-  utils/viewMeta.js        ← reads the view-meta dates → "Nouveau" badge, sidebar dot
+  utils/viewMeta.js        ← view-meta dates → "Nouveau" badge, sidebar dot, "Récemment ajouté"
   views/{chapter}/         ← index.vue (one-line ChapterIndex wrapper) + lesson files
 ```
 
