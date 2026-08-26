@@ -24,14 +24,8 @@
                 <h2>Comment c'est pensé</h2>
 
                 <ul class="principle-list">
-                    <li v-for="item in principles" :key="item.title" class="principle">
-                        <span class="principle-icon" aria-hidden="true">
-                            <component :is="item.icon" />
-                        </span>
-                        <span class="principle-body">
-                            <span class="principle-title">{{ item.title }}</span>
-                            <span class="principle-text">{{ item.text }}</span>
-                        </span>
+                    <li v-for="item in principles" :key="item.title">
+                        <strong>{{ item.title }}</strong> — {{ item.text }}
                     </li>
                 </ul>
             </section>
@@ -60,31 +54,22 @@
 import { RouterLink } from 'vue-router'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
-import IconSpanish from '~icons/mdi/translate'
-import IconLevel from '~icons/mdi/stairs'
-import IconSheet from '~icons/mdi/file-document-outline'
-import IconOffline from '~icons/mdi/cellphone-arrow-down'
-
 const principles = [
     {
-        icon: IconSpanish,
         title: 'Pour les hispanophones',
-        text: "Les traductions et les glossaires sont en espagnol. On compare le français à l'espagnol, jamais à l'anglais.",
+        text: "les traductions et les glossaires sont en espagnol, jamais en anglais.",
     },
     {
-        icon: IconLevel,
         title: 'Niveau A2, vraiment',
-        text: 'Des phrases courtes, du vocabulaire de tous les jours, un seul point de grammaire à la fois.',
+        text: 'des phrases courtes et un seul point de grammaire à la fois.',
     },
     {
-        icon: IconSheet,
         title: 'Une leçon, une page',
-        text: 'Chaque fiche tient sur une page A4 et se télécharge en PDF pour être révisée sur papier.',
+        text: "chaque fiche tient sur une page A4, et les leçons se téléchargent en PDF.",
     },
     {
-        icon: IconOffline,
         title: 'Dans la poche',
-        text: "L'app s'installe sur le téléphone et continue de fonctionner sans connexion.",
+        text: "l'app s'installe sur le téléphone et fonctionne sans connexion.",
     },
 ]
 </script>
@@ -111,56 +96,21 @@ const principles = [
 
 /* ── Principes ──────────────────────────────────── */
 .principle-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.7rem;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-.principle {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding: 0.9rem 1rem;
-    background: var(--surface-2);
-    border: 1px solid var(--border-soft);
-    border-radius: var(--radius);
-}
-
-.principle-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 2rem;
-    height: 2rem;
-    border-radius: var(--radius-sm);
-    background: var(--surface-1);
-    border: 1px solid var(--border);
-    color: var(--accent);
-    font-size: 1.05rem;
-}
-
-.principle-body {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
-    min-width: 0;
+    gap: 0.5rem;
+    margin: 0;
+    padding-left: 1.1rem;
 }
 
-.principle-title {
-    font-family: var(--font-serif);
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text-heading);
-}
-
-.principle-text {
-    font-size: 0.82rem;
-    line-height: 1.55;
+.principle-list li {
+    font-size: 0.92rem;
+    line-height: 1.6;
     color: var(--text-2);
+}
+
+.principle-list strong {
+    color: var(--text-heading);
 }
 
 /* ── Le cours grandit ───────────────────────────── */
@@ -190,10 +140,6 @@ const principles = [
 }
 
 @media (max-width: 794px) {
-    .principle-list {
-        grid-template-columns: 1fr;
-    }
-
     .cta-row .btn-cta,
     .cta-row .btn-link {
         flex: 1 1 100%;
