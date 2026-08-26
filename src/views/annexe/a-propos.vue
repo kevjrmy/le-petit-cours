@@ -23,21 +23,6 @@
                         </p>
                     </div>
                 </div>
-
-                <dl class="stats">
-                    <div class="stat">
-                        <dt>Chapitres</dt>
-                        <dd>{{ chapterTotal }}</dd>
-                    </div>
-                    <div class="stat">
-                        <dt>Leçons</dt>
-                        <dd>{{ lessonTotal }}</dd>
-                    </div>
-                    <div class="stat">
-                        <dt>Niveau</dt>
-                        <dd>A2</dd>
-                    </div>
-                </dl>
             </section>
 
             <!-- ── Les partis pris ────────────────────────── -->
@@ -80,21 +65,11 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
-import { chapters, publishedLessons } from '@/data/navigation'
 
 import IconSpanish from '~icons/mdi/translate'
 import IconLevel from '~icons/mdi/stairs'
 import IconSheet from '~icons/mdi/file-document-outline'
 import IconOffline from '~icons/mdi/cellphone-arrow-down'
-
-/* Counted from the manifest rather than written down, so the page can never
-   claim a lesson total the book no longer has. */
-const written = chapters.filter(chapter => publishedLessons(chapter).length > 0)
-const chapterTotal = written.length
-const lessonTotal = written.reduce(
-    (sum, chapter) => sum + publishedLessons(chapter).length,
-    0
-)
 
 const principles = [
     {
@@ -173,38 +148,6 @@ const principles = [
 .intro-body p {
     margin: 0;
     font-size: 0.95rem;
-}
-
-.stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2.25rem;
-    margin: 0;
-    padding-top: 1.1rem;
-    border-top: 1px solid var(--border-soft);
-}
-
-.stat {
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 0.1rem;
-}
-
-.stat dt {
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-3);
-}
-
-.stat dd {
-    margin: 0;
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    font-weight: 600;
-    line-height: 1.1;
-    color: var(--accent-text);
 }
 
 /* ── Principes ──────────────────────────────────── */
@@ -291,10 +234,6 @@ const principles = [
     .intro-top {
         flex-direction: column;
         gap: 0.9rem;
-    }
-
-    .stats {
-        gap: 1.5rem;
     }
 
     .principle-list {
