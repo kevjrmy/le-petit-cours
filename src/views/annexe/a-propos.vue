@@ -36,9 +36,8 @@
                 <p>
                     De nouvelles leçons arrivent régulièrement. Le sommaire ouvre sur
                     <strong>Récemment ajouté</strong>&nbsp;; celles écrites aujourd'hui portent
-                    en plus le badge <span class="new-badge">Nouveau</span> dans leur chapitre
-                    et un point rouge dans le menu&nbsp;: vous voyez d'un coup d'œil ce qui
-                    vient d'être ajouté.
+                    en plus la mention <strong>Nouveau</strong> dans leur chapitre et un point
+                    rouge dans le menu.
                 </p>
 
                 <div class="cta-row">
@@ -116,10 +115,6 @@ const principles = [
 /* ── Le cours grandit ───────────────────────────── */
 .growing p {
     font-size: 0.95rem;
-}
-
-.growing .new-badge {
-    vertical-align: 0.05em;
 }
 
 .cta-row {
