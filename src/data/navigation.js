@@ -262,6 +262,7 @@ export const chapters = [
 
 /** Utility routes — reachable from the sidebar footer, not book chapters. */
 export const annexes = [
+  { path: '/ma-progression', title: 'Ma progression', icon: 'progress' },
   { path: '/a-propos', title: 'À propos', icon: 'about' },
 ]
 
@@ -289,6 +290,18 @@ export function findLesson(routePath) {
     if (lesson) return { chapter, lesson }
   }
   return null
+}
+
+/**
+ * Renamed lesson paths — old path → current path.
+ *
+ * Progress in `useProgress` is keyed by route path, so moving or renaming a
+ * lesson would otherwise silently orphan every tick a learner has on it. Add
+ * the old path here in the same commit as the rename and their history follows
+ * the page. Entries are cheap and never expire: keep them.
+ */
+export const pathAliases = {
+  // '/grammaire/ancien-slug': '/grammaire/nouveau-slug',
 }
 
 /** A page shows at most four related links — past that it stops being a hint. */

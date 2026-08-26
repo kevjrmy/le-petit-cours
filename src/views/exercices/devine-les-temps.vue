@@ -90,6 +90,7 @@
 import { ref, computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
+import { useExerciseScore } from '@/composables/useProgress'
 
 /* The seven tenses the course covers at A2. The list is fixed and always shown
    in the same order, so the learner reads the same board every time. */
@@ -276,6 +277,8 @@ const resultMsg = computed(() => {
   if (pct >= 0.5)  return "Pas mal. Revois le couple imparfait + passé composé, c'est le plus fréquent."
   return 'Relis les leçons de grammaire sur les temps, puis réessaie.'
 })
+
+useExerciseScore(finished, () => ({ correct: score.value, total: deck.value.length }))
 </script>
 
 <style scoped>

@@ -127,6 +127,7 @@ import { ref, computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
 import { useSpeech } from '@/composables/useSpeech'
+import { useExerciseScore } from '@/composables/useProgress'
 
 const { speak, speaking, supported, hasVoice } = useSpeech()
 
@@ -289,6 +290,8 @@ const resultMsg = computed(() => {
   if (pct >= 0.5)  return "Bon travail. Reprenez la leçon de prononciation, puis réessayez."
   return "L'oreille se forme lentement — réécoutez chaque mot lentement avant de choisir."
 })
+
+useExerciseScore(finished, () => ({ correct: score.value, total: deck.value.length }))
 </script>
 
 <style scoped>

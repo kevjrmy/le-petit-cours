@@ -127,6 +127,7 @@
 import { ref, reactive, computed, onBeforeUnmount } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
+import { useExerciseScore } from '@/composables/useProgress'
 
 /**
  * Bucket-sorting exercise: drag (or click to cycle) each infinitive into the
@@ -286,6 +287,8 @@ onBeforeUnmount(() => {
   window.removeEventListener('pointerup', onUp)
   window.removeEventListener('pointercancel', onUp)
 })
+
+useExerciseScore(finished, () => ({ correct: score.value, total: deck.value.length }))
 </script>
 
 <style scoped>

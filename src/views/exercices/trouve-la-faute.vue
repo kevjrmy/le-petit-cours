@@ -112,6 +112,7 @@
 import { ref, computed, nextTick } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
+import { useExerciseScore } from '@/composables/useProgress'
 
 /**
  * Error correction. Each item has exactly one wrong word: `badIndex` points at
@@ -277,6 +278,8 @@ function restart() {
   score.value = 0
   finished.value = false
 }
+
+useExerciseScore(finished, () => ({ correct: score.value, total: deck.value.length }))
 </script>
 
 <style scoped>

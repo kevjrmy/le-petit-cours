@@ -2,6 +2,7 @@
   <div class="page-sheet">
     <PageHeader v-if="title" :title="title" :subtitle="subtitle" />
     <slot />
+    <LessonProgressToggle />
     <Footer />
   </div>
 </template>
@@ -14,6 +15,7 @@
 import { watchEffect } from 'vue'
 import PageHeader from '@/components/PageHeader.vue'
 import Footer from '@/components/Footer.vue'
+import LessonProgressToggle from '@/components/LessonProgressToggle.vue'
 import { setPageTitle } from '@/composables/usePageTitle'
 
 const props = defineProps({

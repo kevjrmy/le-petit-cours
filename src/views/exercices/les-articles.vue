@@ -85,6 +85,7 @@
 import { ref, computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
+import { useExerciseScore } from '@/composables/useProgress'
 
 // answer: correct article ; options: choices shown (includes answer) ; note: explanation
 const items = [
@@ -177,6 +178,8 @@ function restart() {
   score.value        = 0
   finished.value     = false
 }
+
+useExerciseScore(finished, () => ({ correct: score.value, total: deck.value.length }))
 </script>
 
 <style scoped>

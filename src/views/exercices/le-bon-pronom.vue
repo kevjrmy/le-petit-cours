@@ -74,6 +74,7 @@
 import { ref, computed, onUnmounted } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
+import { useExerciseScore } from '@/composables/useProgress'
 
 /* The nine pronouns stay on screen the whole round: the learner recalls the form
    instead of picking from four options tailored to the sentence. */
@@ -256,6 +257,11 @@ const resultMsg = computed(() => {
   if (accuracy.value >= 0.5)  return "Bon rythme. Revoyez la leçon sur les pronoms COD et COI, puis rejouez."
   return "Ouvrez la leçon des pronoms à côté et rejouez sans regarder l'heure."
 })
+
+useExerciseScore(
+  computed(() => phase.value === 'finished'),
+  () => ({ correct: score.value, total: deck.value.length }),
+)
 </script>
 
 <style scoped>

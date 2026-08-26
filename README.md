@@ -24,9 +24,10 @@ Claude.ai-style app shell, tricolore palette, light and dark.
   through `ConjugationSheet.vue`, and `prononciation/` from `src/data/prononciation.js`
   through `PronunciationSheet.vue`. Their views are one-line wrappers too.
 - `src/composables/` holds the shared behaviour: `useTheme`, `useSidebar`, `usePageTitle`,
-  and `useSpeech` for the audio pages.
+  `useSpeech` for the audio pages, and `useProgress` for the done-ticks.
 - Every view starts with `<!-- view-meta: created=YYYY-MM-DD; updated=YYYY-MM-DD -->`;
-  `src/utils/viewMeta.js` turns those dates into the "Nouveau" badge and the sidebar dot.
+  `src/utils/viewMeta.js` turns `created` into the sommaire's "Récemment ajouté" list. The
+  "Nouveau" badge and the sidebar dots were removed on 2026-08-26.
 
 ## Content rules
 
@@ -37,6 +38,18 @@ Claude.ai-style app shell, tricolore palette, light and dark.
 - Lecture pages end with a button-based comprehension quiz and a hidden Spanish translation.
 - Every lesson page ends with `<RelatedLinks />` — up to four cross-links, declared in
   `relatedPages`.
+
+## Progress
+
+Learners tick pages off by hand — including exercises, which record their last score but
+never mark themselves done. The « J'ai terminé » control is rendered by the two layouts and
+appears on any route `navigation.js` knows as a lesson, so **adding a lesson needs no
+progress work**; `src/views/annexe/ma-progression.vue` is the summary page.
+
+Progress is keyed by route path and stored in `localStorage` behind a swappable adapter in
+`useProgress.js` — the seam for real accounts later. Renaming a lesson path would orphan
+every tick on it, so a rename must add the old path to `pathAliases` in `navigation.js` in
+the same commit. See AGENTS.md §6b.
 
 ## Docs
 

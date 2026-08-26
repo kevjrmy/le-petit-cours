@@ -35,9 +35,8 @@
                 <h2>Le cours grandit</h2>
                 <p>
                     De nouvelles leçons arrivent régulièrement. Le sommaire ouvre sur
-                    <strong>Récemment ajouté</strong>&nbsp;; celles écrites aujourd'hui portent
-                    en plus la mention <strong>Nouveau</strong> dans leur chapitre et un point
-                    rouge dans le menu.
+                    <strong>Récemment ajouté</strong>&nbsp;: les dernières pages écrites y
+                    figurent toujours en premier.
                 </p>
 
                 <div class="cta-row">

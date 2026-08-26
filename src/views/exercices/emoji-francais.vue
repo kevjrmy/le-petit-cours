@@ -73,6 +73,7 @@
 import { ref, computed, onBeforeUnmount } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
+import { useExerciseScore } from '@/composables/useProgress'
 
 // Larger pool — each round draws a random subset, so the game is different every time.
 const POOL = [
@@ -273,6 +274,8 @@ function restart() {
 }
 
 onBeforeUnmount(() => clearTimeout(advanceTimer))
+
+useExerciseScore(finished, () => ({ correct: score.value, total: deck.value.length }))
 </script>
 
 <style scoped>

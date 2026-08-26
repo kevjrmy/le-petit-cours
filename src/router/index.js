@@ -140,6 +140,7 @@ const router = createRouter({
     { path: '/vocabulaire/la-meteo', name: 'vocab-la-meteo', component: () => import('../views/vocabulaire/la-meteo.vue') },
 
     // Annexes
+    { path: '/ma-progression', name: 'ma-progression', component: () => import('../views/annexe/ma-progression.vue') },
     { path: '/a-propos', name: 'about', component: () => import('../views/annexe/a-propos.vue') },
 
     /* Anything unknown lands on the sommaire rather than an empty sheet. Without

@@ -39,6 +39,7 @@ src/
     useSidebar.js          ← collapse/rail (desktop), drawer (mobile), expanded chapters
     usePageTitle.js        ← breadcrumbs + document.title, derived from navigation.js
     useSpeech.js           ← French TTS for dictees/, prononciation/, exercices/; unmount cleanup
+    useProgress.js         ← which pages the learner ticked as done; storage behind an adapter
   components/
     AppSidebar.vue         ← collapsible nav tree + lesson filter + theme toggle
     AppTopbar.vue          ← sticky bar: menu, back, breadcrumb
@@ -48,11 +49,12 @@ src/
     RelatedLinks.vue       ← "Pour aller plus loin" — cross-links at the foot of a page
     ConjugationSheet.vue   ← renders ANY verb from data/conjugaisons.js
     PronunciationSheet.vue ← renders ANY sound sheet from data/prononciation.js
+    LessonProgressToggle.vue ← « J'ai terminé » — rendered by the layouts, not by pages
     ThemeToggle.vue, Footer.vue
   layouts/
-    DefaultLayout.vue      ← the reading sheet (.page-sheet)
+    DefaultLayout.vue      ← the reading sheet (.page-sheet) + the done-tick
     AltLayout.vue          ← identical; both kept so existing views compile
-  utils/viewMeta.js        ← view-meta dates → "Nouveau" badge, sidebar dot, "Récemment ajouté"
+  utils/viewMeta.js        ← view-meta dates → "Récemment ajouté" on the sommaire
   views/{chapter}/         ← index.vue (one-line ChapterIndex wrapper) + lesson files
 ```
 
@@ -77,7 +79,7 @@ Read `src/style.css` top to bottom once — it documents its own three token lay
 - Aesthetic: **Bled content inside a Claude.ai shell**. Clean cards on a quiet background,
   generous spacing, Georgia serif for headings, Inter sans for UI and body.
 - Palette is the **tricolore**: blue (`--accent`, primary), white (surfaces),
-  red (`--danger`, rule accents and the "Nouveau" badge). Amber is callouts, green is
+  red (`--danger`, rule accents). Amber is callouts, green is
   "correct answer" in exercises. The flag appears literally only in the `.tricolore` rule
   under a page title.
 - **Dark mode is not optional.** Every change must work in both. `useTheme` supports
@@ -347,7 +349,9 @@ Shell: `<main class="exo">` and no CSS for it — `style.css` owns `.instruction
 `.btn-next` / `.btn-restart` and the `.result` score screen. Only the board is scoped.
 
 State shape: `deck` (shuffled), `currentIndex`, `checked`, `score`, `finished`, plus
-`resultEmoji` / `resultMsg` thresholds at 1 / 0.75 / 0.5.
+`resultEmoji` / `resultMsg` thresholds at 1 / 0.75 / 0.5. Keep those names: the score-capture
+line at the foot of the script (`useExerciseScore`, see §6b) reads `finished`, `score` and
+`deck` by name, and a drill that renames them records nothing.
 
 **Vary the mechanic.** Coverage: MCQ (×9), matching pairs, tap-to-order, bucket sort,
 locate-and-retype, multi-select, listening, type-in conjugation, timed round. Prefer a
@@ -400,7 +404,7 @@ Include: source stamp, inline hints (`<span class="hl-word" title="traducción E
 vocabulary table (français | définition FR | español), a `<button>`-based MCQ quiz
 ("Avez-vous compris ?") with green/red feedback and a score, and a hidden Spanish
 translation in `<details>` (amber). Use `<button>` options, **not** hidden radios — the
-click targets overlap. Print CSS hides the quiz and the translation.
+click targets overlap.
 
 ## 6. View metadata
 
@@ -413,19 +417,69 @@ Every `src/views/**/*.vue` starts with:
 New views use their real creation date; editing a view updates only `updated`.
 Views created before tracking began carry `created=2026-08-02`.
 
-`src/utils/viewMeta.js` reads these dates and is the only source for three things:
+`src/utils/viewMeta.js` reads these dates and now feeds exactly one thing:
 
 | Signal | Reads | Where |
 |---|---|---|
-| **Nouveau** badge, sidebar dot | `updated` = today | chapter index, sidebar |
 | **Récemment ajouté** | `created`, newest first | sommaire |
-| — | — | nothing else derives from dates |
+
+**The "Nouveau" badge and the red sidebar dots were removed on 2026-08-26**, along with
+`isNewView()` and the `.new-badge` / `.rail-dot` / `.child-dot` rules. Do not reintroduce a
+badge, a dot or any other "updated today" marker.
+
+That leaves **`updated` driving nothing in the UI** — it is now plain provenance, useful when
+reading the history of a page and nothing more. Keep bumping it when you edit a view; just
+know a stale one no longer shows up anywhere, so it is not worth a commit of its own.
 
 "Récemment ajouté" sorts on **`created`, never `updated`**: it answers "what is new here",
 and a typo fix on an old page must not push it back to the top. Ties fall in manifest order,
-so a batch added on the same day reads in the book's own order. That means an accurate
-`created` date matters as much as bumping `updated` — a new page dated to the day it was
-copied from will surface in the wrong place, or not at all.
+so a batch added on the same day reads in the book's own order. An accurate `created` date is
+therefore the one that matters — a new page dated to the day it was copied from will surface
+in the wrong place, or not at all.
+
+## 6b. Progress tracking
+
+Learners tick pages off by hand. `src/composables/useProgress.js` owns the store;
+`src/views/annexe/ma-progression.vue` is the one page that reads all of it.
+
+**Marking is manual on every page type, drills included.** An exercise records the score of
+its last run, but finishing a drill never ticks it — that is the learner's call, and a
+half-remembered pass at 50 % is not a finished lesson. Do not "helpfully" auto-complete
+anything.
+
+**The done-tick lives in the two layouts, not in the pages.** `LessonProgressToggle`
+reads the current route and renders only when `findLesson(route.path)` resolves — which is
+what keeps it off chapter indexes and annexes with no allowlist to maintain. So:
+
+- **Adding a lesson needs no progress work at all.** Steps 2 and 3 of the §4 checklist
+  (navigation.js + a route) are what make the tick appear. There is nothing to wire.
+- **Never add `<LessonProgressToggle />` to a page.** It would render twice.
+- It sits *below* "Pour aller plus loin", above the footer, deliberately separated — it is a
+  page action, not lesson content.
+
+**Renaming a lesson path orphans every tick on it.** Progress is keyed by route path, so a
+rename silently wipes that page from a learner's history. Add the old path to `pathAliases`
+in `navigation.js` **in the same commit as the rename** — `useProgress` folds aliases in on
+read. Entries there are three characters wide and never expire; keep them.
+
+Storage is `localStorage` under `lpc:progress`, but **nothing reads or writes it directly** —
+every access goes through the adapter in `useProgress.js`. That is the seam real accounts
+will use: write a second adapter with the same `load()` / `save(state)` pair and call
+`setProgressAdapter()` once at boot. No view changes. The local copy stays the source of
+truth regardless — this is an offline PWA, so a server can only ever be a sync target.
+
+Counts always use `publishedLessons()` as the denominator, so `soon` placeholders never make
+a finished chapter look unfinished.
+
+Exercises opt into score capture with one line at the end of their `<script setup>`:
+
+```js
+useExerciseScore(finished, () => ({ correct: score.value, total: deck.value.length }))
+```
+
+`associe-les-pairs` has no correct/total to report (it is a matching game scored in moves),
+so it records nothing and simply shows no "dernier résultat" line. That is correct, not a gap
+to fill with an invented score.
 
 ## 7. Current content
 

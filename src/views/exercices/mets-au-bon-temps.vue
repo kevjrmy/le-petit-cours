@@ -87,6 +87,7 @@
 import { ref, computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
+import { useExerciseScore } from '@/composables/useProgress'
 
 /* Each sentence is one template string. A blank is {infinitif|temps|réponses},
    and several accepted spellings are separated by `/` — the first one is what
@@ -251,6 +252,8 @@ const resultMsg = computed(() => {
   if (pct >= 0.5)  return "Bon travail. Revoyez les tableaux de conjugaison, puis réessayez."
   return 'Ouvrez le chapitre Conjugaison à côté et refaites l\'exercice tranquillement.'
 })
+
+useExerciseScore(finished, () => ({ correct: score.value, total: deck.value.length }))
 </script>
 
 <style scoped>

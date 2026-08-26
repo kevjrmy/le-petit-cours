@@ -6,13 +6,6 @@ const viewLoaders = import.meta.glob('../views/**/*.vue', {
 const META_RE = /<!--\s*view-meta:\s*created=([0-9]{4}-[0-9]{2}-[0-9]{2});\s*updated=([0-9]{4}-[0-9]{2}-[0-9]{2})\s*-->/
 const metaCache = new Map()
 
-function todayIso() {
-  const now = new Date()
-  const month = String(now.getMonth() + 1).padStart(2, '0')
-  const day = String(now.getDate()).padStart(2, '0')
-  return `${now.getFullYear()}-${month}-${day}`
-}
-
 function routeToViewKey(routePath) {
   const cleanPath = routePath.replace(/^\//, "").replace(/\/$/, "")
   if (!cleanPath) return "../views/sommaire/index.vue"
@@ -41,10 +34,6 @@ async function loadMeta(path) {
 
 export async function getViewMeta(routePath) {
   return loadMeta(routeToViewKey(routePath))
-}
-
-export async function isNewView(routePath, date = todayIso()) {
-  return (await getViewMeta(routePath))?.updated === date
 }
 
 /**

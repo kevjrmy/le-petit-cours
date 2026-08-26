@@ -81,6 +81,7 @@
 import { ref, computed } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import RelatedLinks from '@/components/RelatedLinks.vue'
+import { useExerciseScore } from '@/composables/useProgress'
 
 // sentence: phrase affirmative ; answer: bonne version négative ; options: choix (incluant answer) ; note: explication
 const items = [
@@ -243,6 +244,8 @@ function restart() {
   score.value        = 0
   finished.value     = false
 }
+
+useExerciseScore(finished, () => ({ correct: score.value, total: deck.value.length }))
 </script>
 
 <style scoped>

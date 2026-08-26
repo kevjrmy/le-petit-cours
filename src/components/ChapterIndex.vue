@@ -1,6 +1,13 @@
 <template>
   <AltLayout :title="chapter.title" :subtitle="chapter.blurb">
     <main class="chapter-index">
+      <p class="chapter-tally">
+        <span class="tally-track" aria-hidden="true">
+          <span class="tally-fill" :style="{ width: tally.pct + '%' }"></span>
+        </span>
+        <span class="tally-text">{{ tally.done }} / {{ tally.total }} {{ unitLabel }} — terminé</span>
+      </p>
+
       <nav class="lesson-list" :aria-label="`Contenu — ${chapter.title}`">
         <component
           v-for="lesson in chapter.lessons"
@@ -16,12 +23,15 @@
               <span v-if="lesson.emoji" class="row-emoji" aria-hidden="true">{{ lesson.emoji }}</span>
               <span v-if="lesson.titleHtml" class="row-title" v-html="lesson.titleHtml"></span>
               <span v-else class="row-title">{{ lesson.title }}</span>
-              <span v-if="freshPaths.has(lesson.path)" class="new-badge">Nouveau</span>
               <span v-if="lesson.soon" class="soon-badge">Bientôt</span>
             </span>
             <span v-if="lesson.subtitle" class="row-subtitle">{{ lesson.subtitle }}</span>
           </span>
 
+          <span v-if="isDone(lesson.path)" class="row-check" title="Terminé">
+            <IconCheck aria-hidden="true" />
+            <span class="sr-only">Terminé</span>
+          </span>
           <span v-if="lesson.tag" class="row-tag">{{ lesson.tag }}</span>
           <span v-if="!lesson.soon" class="row-arrow" aria-hidden="true">→</span>
         </component>
@@ -31,11 +41,12 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import AltLayout from '@/layouts/AltLayout.vue'
-import { chapters, publishedLessons } from '@/data/navigation'
-import { isNewView } from '@/utils/viewMeta'
+import IconCheck from '~icons/mdi/check-bold'
+import { chapters, chapterCount } from '@/data/navigation'
+import { useProgress } from '@/composables/useProgress'
 
 /**
  * Renders any chapter's landing page straight from `src/data/navigation.js`.
@@ -51,19 +62,64 @@ const chapter = computed(() => {
   return found
 })
 
-const freshPaths = ref(new Set())
+const { isDone, chapterProgress } = useProgress()
 
-onMounted(async () => {
-  const entries = await Promise.all(
-    publishedLessons(chapter.value).map(
-      async lesson => [lesson.path, await isNewView(lesson.path)]
-    )
-  )
-  freshPaths.value = new Set(entries.filter(([, fresh]) => fresh).map(([path]) => path))
-})
+const tally = computed(() => chapterProgress(chapter.value))
+
+/* "leçons" / "dictées" / "exercices" — the chapter's own noun, so the line
+   reads naturally in every chapter. Always plural: the count in front of it
+   is the total, and a one-lesson chapter is not worth a special case. */
+const unitLabel = computed(() => chapterCount(chapter.value).label)
 </script>
 
 <style scoped>
+.chapter-tally {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 1.1rem;
+}
+
+.tally-track {
+  flex: 1;
+  height: 5px;
+  background: var(--surface-3);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.tally-fill {
+  display: block;
+  height: 100%;
+  background: var(--success);
+  border-radius: var(--radius-pill);
+  transition: width var(--dur-fast) var(--ease);
+}
+
+.tally-text {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+.row-check {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  background: var(--success);
+  color: var(--text-on-accent);
+}
+
+.row-check svg {
+  width: 0.7rem;
+  height: 0.7rem;
+}
+
 .lesson-list {
   display: flex;
   flex-direction: column;

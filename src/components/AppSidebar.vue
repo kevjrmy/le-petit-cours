@@ -89,11 +89,6 @@
             <span v-if="!isRail" class="nav-label">
               {{ chapter.shortTitle ?? chapter.title }}
             </span>
-            <span
-              v-if="isRail && freshChapters.has(chapter.slug)"
-              class="rail-dot"
-              aria-hidden="true"
-            ></span>
             <span v-if="!isRail && chapter.published.length" class="nav-count">
               {{ chapter.published.length }}
             </span>
@@ -124,7 +119,6 @@
               @click="closeDrawer"
             >
               <span class="child-label">{{ lesson.title }}</span>
-              <span v-if="freshLessons.has(lesson.path)" class="child-dot" aria-hidden="true"></span>
             </RouterLink>
           </li>
         </ul>
@@ -155,13 +149,12 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import ChapterIcon from '@/components/ChapterIcon.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import { useSidebar } from '@/composables/useSidebar'
 import { annexes, chapters, publishedLessons } from '@/data/navigation'
-import { isNewView } from '@/utils/viewMeta'
 import IconChevron from '~icons/mdi/chevron-right'
 import IconCollapse from '~icons/mdi/dock-left'
 import IconExpand from '~icons/mdi/dock-right'
@@ -174,18 +167,6 @@ const {
 } = useSidebar()
 
 const query = ref('')
-
-/* Lessons updated today, so the sidebar can mark them with a red dot. */
-const freshLessons = ref(new Set())
-const freshChapters = computed(() => {
-  const slugs = new Set()
-  for (const chapter of chapters) {
-    if (chapter.lessons.some(lesson => freshLessons.value.has(lesson.path))) {
-      slugs.add(chapter.slug)
-    }
-  }
-  return slugs
-})
 
 /* Chapter owning the current route — used for highlighting and auto-expand. */
 const activeSlug = computed(() => route.path.split('/').filter(Boolean)[0] ?? null)
@@ -230,14 +211,6 @@ watch(query, value => {
 
 /* Always reveal the chapter you are currently reading. */
 watch(activeSlug, slug => expandChapter(slug), { immediate: true })
-
-onMounted(async () => {
-  const all = chapters.flatMap(publishedLessons)
-  const entries = await Promise.all(
-    all.map(async lesson => [lesson.path, await isNewView(lesson.path)])
-  )
-  freshLessons.value = new Set(entries.filter(([, fresh]) => fresh).map(([path]) => path))
-})
 </script>
 
 <style scoped>
@@ -470,16 +443,6 @@ onMounted(async () => {
   color: var(--text-3);
 }
 
-.rail-dot {
-  position: absolute;
-  top: 0.35rem;
-  right: 0.35rem;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--red-500);
-}
-
 .nav-chevron {
   width: 1.6rem;
   height: 1.6rem;
@@ -533,14 +496,6 @@ onMounted(async () => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.child-dot {
-  flex-shrink: 0;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--red-500);
 }
 
 .nav-empty {
