@@ -6,7 +6,7 @@ const viewLoaders = import.meta.glob('../views/**/*.vue', {
 const META_RE = /<!--\s*view-meta:\s*created=([0-9]{4}-[0-9]{2}-[0-9]{2});\s*updated=([0-9]{4}-[0-9]{2}-[0-9]{2})\s*-->/
 const metaCache = new Map()
 
-function todayIso() {
+export function todayIso() {
   const now = new Date()
   const month = String(now.getMonth() + 1).padStart(2, '0')
   const day = String(now.getDate()).padStart(2, '0')
@@ -45,6 +45,28 @@ export async function getViewMeta(routePath) {
 
 export async function isNewView(routePath, date = todayIso()) {
   return (await getViewMeta(routePath))?.updated === date
+}
+
+/**
+ * The most recently created views among `routePaths`, newest first.
+ *
+ * Sorted on `created`, not `updated`: this answers "what is new here", and a
+ * typo fix on an old page should not push it to the top. ISO dates compare
+ * correctly as plain strings. Ties keep the order they were passed in — that is
+ * the book's own order, so a batch added on the same day reads as a chapter would.
+ */
+export async function recentViews(routePaths, limit = 6) {
+  const entries = await Promise.all(
+    routePaths.map(async (path, index) => {
+      const meta = await getViewMeta(path)
+      return meta ? { path, index, ...meta } : null
+    })
+  )
+
+  return entries
+    .filter(Boolean)
+    .sort((a, b) => b.created.localeCompare(a.created) || a.index - b.index)
+    .slice(0, limit)
 }
 
 export async function hasNewChildView(folder, date = todayIso()) {

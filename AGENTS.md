@@ -446,9 +446,21 @@ Every `src/views/**/*.vue` starts with:
 ```
 
 New views use their real creation date; editing a view updates only `updated`.
-`src/utils/viewMeta.js` reads these to show the **Nouveau** badge (sommaire, chapter
-index) and the red dot (sidebar) when `updated` is today. Views created before tracking
-began carry `created=2026-08-02`.
+Views created before tracking began carry `created=2026-08-02`.
+
+`src/utils/viewMeta.js` reads these dates and is the only source for three things:
+
+| Signal | Reads | Where |
+|---|---|---|
+| **Nouveau** badge, sidebar dot | `updated` = today | sommaire, chapter index, sidebar |
+| **Récemment ajouté** | `created`, newest first | sommaire |
+| — | — | nothing else derives from dates |
+
+"Récemment ajouté" sorts on **`created`, never `updated`**: it answers "what is new here",
+and a typo fix on an old page must not push it back to the top. Ties fall in manifest order,
+so a batch added on the same day reads in the book's own order. That means an accurate
+`created` date matters as much as bumping `updated` — a new page dated to the day it was
+copied from will surface in the wrong place, or not at all.
 
 ## 7. Current content
 

@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-10 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-26 -->
 <template>
   <DefaultLayout>
     <main id="home">
@@ -30,6 +30,31 @@
             <dd>{{ newChapterFolders.size }}</dd>
           </div>
         </dl>
+      </section>
+
+      <!-- ── Recently added ────────────────────────── -->
+      <section v-if="recent.length" class="recent" aria-labelledby="recent-title">
+        <h2 id="recent-title" class="grid-title">Récemment ajouté</h2>
+
+        <ul class="recent-list">
+          <li v-for="item in recent" :key="item.path">
+            <RouterLink class="recent-row" :to="item.path">
+              <span class="recent-icon" aria-hidden="true">
+                <ChapterIcon :name="item.icon" size="1rem" />
+              </span>
+
+              <span class="recent-body">
+                <span class="recent-chapter">{{ item.chapter }}</span>
+                <span class="recent-name">
+                  {{ item.title }}
+                  <span v-if="item.updated === today" class="new-badge">Nouveau</span>
+                </span>
+              </span>
+
+              <time class="recent-date" :datetime="item.created">{{ formatDate(item.created) }}</time>
+            </RouterLink>
+          </li>
+        </ul>
       </section>
 
       <!-- ── Chapter grid ──────────────────────────── -->
@@ -69,7 +94,7 @@ import { onMounted, ref } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import ChapterIcon from '@/components/ChapterIcon.vue'
 import { chapterCount, chapters, publishedLessons } from '@/data/navigation'
-import { hasNewChildView } from '@/utils/viewMeta'
+import { hasNewChildView, recentViews, todayIso } from '@/utils/viewMeta'
 
 /* Chapters come from the manifest. A chapter whose lessons are all still
    announced-but-unwritten stays listed, marked "Bientôt", so the plan for the
@@ -85,6 +110,31 @@ const totalLessons = chapters.reduce(
 
 const newChapterFolders = ref(new Set())
 
+/* Flattened in manifest order, so same-day ties in "Récemment ajouté" fall in
+   the book's own order rather than alphabetically. */
+const allLessons = chapters.flatMap(chapter =>
+  publishedLessons(chapter).map(lesson => ({
+    path: lesson.path,
+    title: lesson.title,
+    chapter: chapter.shortTitle ?? chapter.title,
+    icon: chapter.icon,
+  }))
+)
+
+const recent = ref([])
+const today = todayIso()
+
+/* Dates are stored as plain ISO days. Parsing them as UTC and formatting in UTC
+   keeps « 2026-08-26 » from rendering as the 25th for anyone west of Greenwich. */
+const dateFormat = new Intl.DateTimeFormat('fr-FR', {
+  day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
+})
+
+function formatDate(iso) {
+  const [year, month, day] = iso.split('-').map(Number)
+  return dateFormat.format(new Date(Date.UTC(year, month - 1, day)))
+}
+
 onMounted(async () => {
   const entries = await Promise.all(
     cards.map(async chapter => [chapter.slug, await hasNewChildView(chapter.slug)])
@@ -92,6 +142,10 @@ onMounted(async () => {
   newChapterFolders.value = new Set(
     entries.filter(([, hasNew]) => hasNew).map(([slug]) => slug)
   )
+
+  const byPath = new Map(allLessons.map(lesson => [lesson.path, lesson]))
+  const rows = await recentViews(allLessons.map(lesson => lesson.path), 6)
+  recent.value = rows.map(row => ({ ...byPath.get(row.path), ...row }))
 })
 </script>
 
@@ -278,6 +332,86 @@ onMounted(async () => {
   background: transparent;
   border-style: dashed;
   font-style: italic;
+}
+
+/* ── Recently added ─────────────────────────────── */
+.recent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.recent-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recent-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  height: 100%;
+  padding: 0.6rem 0.8rem;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-1);
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.recent-row:hover {
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
+  color: var(--text-1);
+}
+
+.recent-icon {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.recent-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.recent-chapter {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.recent-name {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
+  line-height: 1.3;
+  color: var(--text-heading);
+}
+
+.recent-date {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .recent-list { grid-template-columns: 1fr; }
+  .recent-date { display: none; }
 }
 
 @media (max-width: 794px) {

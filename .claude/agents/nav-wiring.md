@@ -134,6 +134,9 @@ stale entry costs one link and shows no error. That is why the check above matte
 - Breadcrumbs and `document.title` (`usePageTitle.js`).
 - "Nouveau" badges and sidebar dots — driven by the `view-meta` comment dates via
   `utils/viewMeta.js`, not by the manifest.
+- The sommaire's "Récemment ajouté" list — the six newest views by `created`, joined onto
+  the manifest for their title, chapter and icon. Adding a lesson puts it there for free;
+  giving it a wrong `created` date is the only way to get this wrong.
 
 If you find yourself copying a title into a second place, stop: it belongs in
 `navigation.js` and should be read from there.
