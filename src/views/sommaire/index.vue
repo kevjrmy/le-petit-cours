@@ -45,10 +45,7 @@
 
               <span class="recent-body">
                 <span class="recent-chapter">{{ item.chapter }}</span>
-                <span class="recent-name">
-                  {{ item.title }}
-                  <span v-if="item.updated === today" class="new-badge">Nouveau</span>
-                </span>
+                <span class="recent-name">{{ item.title }}</span>
               </span>
 
               <time class="recent-date" :datetime="item.created">{{ formatDate(item.created) }}</time>
@@ -72,10 +69,7 @@
           </span>
 
           <span class="card-body">
-            <span class="card-head">
-              <span class="card-name">{{ chapter.title }}</span>
-              <span v-if="newChapterFolders.has(chapter.slug)" class="new-badge">Nouveau</span>
-            </span>
+            <span class="card-name">{{ chapter.title }}</span>
             <span class="card-blurb">{{ chapter.blurb }}</span>
           </span>
 
@@ -94,7 +88,7 @@ import { onMounted, ref } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import ChapterIcon from '@/components/ChapterIcon.vue'
 import { chapterCount, chapters, publishedLessons } from '@/data/navigation'
-import { hasNewChildView, recentViews, todayIso } from '@/utils/viewMeta'
+import { hasNewChildView, recentViews } from '@/utils/viewMeta'
 
 /* Chapters come from the manifest. A chapter whose lessons are all still
    announced-but-unwritten stays listed, marked "Bientôt", so the plan for the
@@ -122,7 +116,6 @@ const allLessons = chapters.flatMap(chapter =>
 )
 
 const recent = ref([])
-const today = todayIso()
 
 /* Dates are stored as plain ISO days. Parsing them as UTC and formatting in UTC
    keeps « 2026-08-26 » from rendering as the 25th for anyone west of Greenwich. */
@@ -289,13 +282,6 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-}
-
-.card-head {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.4rem;
 }
 
 .card-name {

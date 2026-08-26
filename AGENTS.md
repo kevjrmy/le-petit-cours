@@ -452,7 +452,7 @@ Views created before tracking began carry `created=2026-08-02`.
 
 | Signal | Reads | Where |
 |---|---|---|
-| **Nouveau** badge, sidebar dot | `updated` = today | sommaire, chapter index, sidebar |
+| **Nouveau** badge, sidebar dot | `updated` = today | chapter index, sidebar |
 | **Récemment ajouté** | `created`, newest first | sommaire |
 | — | — | nothing else derives from dates |
 

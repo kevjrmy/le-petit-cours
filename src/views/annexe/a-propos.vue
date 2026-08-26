@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-19 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-26 -->
 <template>
     <DefaultLayout
         title="À propos"
@@ -61,10 +61,11 @@
             <section class="growing">
                 <h2>Le cours grandit</h2>
                 <p>
-                    De nouvelles leçons arrivent régulièrement. Celles écrites aujourd'hui
-                    portent le badge <span class="new-badge">Nouveau</span> dans le sommaire,
-                    et un point rouge dans le menu&nbsp;: vous voyez d'un coup d'œil
-                    ce qui vient d'être ajouté.
+                    De nouvelles leçons arrivent régulièrement. Le sommaire ouvre sur
+                    <strong>Récemment ajouté</strong>&nbsp;; celles écrites aujourd'hui portent
+                    en plus le badge <span class="new-badge">Nouveau</span> dans leur chapitre
+                    et un point rouge dans le menu&nbsp;: vous voyez d'un coup d'œil ce qui
+                    vient d'être ajouté.
                 </p>
 
                 <div class="cta-row">
