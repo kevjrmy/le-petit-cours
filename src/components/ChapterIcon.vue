@@ -25,7 +25,6 @@ import IconPrononciation from '~icons/mdi/account-voice'
 import IconMusique from '~icons/mdi/music-note-outline'
 import IconVocabulaire from '~icons/mdi/alphabetical-variant'
 import IconConversation from '~icons/mdi/chat-outline'
-import IconTheme from '~icons/mdi/lightbulb-outline'
 import IconAbout from '~icons/mdi/information-outline'
 import IconContact from '~icons/mdi/email-outline'
 import IconDefault from '~icons/mdi/file-document-outline'
@@ -44,7 +43,6 @@ const icons = {
   musique:       IconMusique,
   vocabulaire:   IconVocabulaire,
   conversation:  IconConversation,
-  theme:         IconTheme,
   about:         IconAbout,
   contact:       IconContact,
   default:       IconDefault,

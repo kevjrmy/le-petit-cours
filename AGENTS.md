@@ -136,7 +136,7 @@ register the routes.
 
 | Page type | PDF button | Notes |
 |---|---|---|
-| `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `dictees/`, `prononciation/`, `musique/`, `vocabulaire/`, `theme/` | **yes** | standard lesson |
+| `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `dictees/`, `prononciation/`, `musique/`, `vocabulaire/` | **yes** | standard lesson |
 | `exercices/` | no | interactive, self-scoring |
 | `conversation/`, `litterature/` | no | |
 | `lecture/` | no | ends with the comprehension quiz + hidden translation |
@@ -491,7 +491,6 @@ Authoritative list is `src/data/navigation.js` — this table is the human summa
   les-nombres, l-heure, les-jours-et-la-date, la-maison, les-vetements, la-ville,
   les-transports, le-travail, la-meteo, le-docteur
 - **conversation** (6): en-vacances, a-la-boulangerie, a-disneyland-paris, chez-le-medecin, a-la-pharmacie, demander-son-chemin
-- **theme** (5): la-famille, les-loisirs, la-nourriture, ecrire-un-livre, ah-si-jetais-riche
 - **annexe** (utility routes, not chapters): a-propos, contact
 
 Entries marked *planned* exist in `navigation.js` with `soon: true` — they render as

@@ -1,6 +1,6 @@
 ---
 name: lesson-author
-description: Use to write or revise course content for le-petit-cours — a grammaire/orthographe/vocabulaire lesson, a lecture (reading) page, a conversation dialogue, a dictée, or a thème. Handles the French pedagogy, the Spanish glossaries, and the full .vue page. Do NOT use for pure styling or routing work.
+description: Use to write or revise course content for le-petit-cours — a grammaire/orthographe/vocabulaire lesson, a lecture (reading) page, a conversation dialogue, a dictée, or an astuce. Handles the French pedagogy, the Spanish glossaries, and the full .vue page. Do NOT use for pure styling or routing work.
 tools: Read, Edit, Write, Grep, Glob, Bash
 model: sonnet
 ---
@@ -96,8 +96,8 @@ Spanish.
 
 ## Which pages get the PDF button
 
-Yes: `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `dictees/`, `prononciation/`, `musique/`,
-`vocabulaire/`, `theme/`.
+Yes: `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `dictees/`, `prononciation/`,
+`musique/`, `vocabulaire/`.
 No: `exercices/`, `conversation/`, `litterature/`, `lecture/`, any `index.vue`.
 
 `window` is not in Vue template scope. Bind `@click="downloadPdf"` to a method that calls

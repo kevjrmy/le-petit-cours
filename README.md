@@ -36,7 +36,7 @@ Claude.ai-style app shell, tricolore palette, light and dark.
   counting pages, not by eye.
 - Glossaries and translation columns are in **Spanish**, never English.
 - `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `dictees/`, `prononciation/`,
-  `musique/`, `vocabulaire/` and `theme/` carry a `downloadPdf()` button; `exercices/`,
+  `musique/` and `vocabulaire/` carry a `downloadPdf()` button; `exercices/`,
   `conversation/`, `litterature/`, `lecture/` and every `index.vue` do not.
 - Lecture pages end with a button-based comprehension quiz and a hidden Spanish translation.
 - Every lesson page ends with `<RelatedLinks />` — up to four cross-links, declared in

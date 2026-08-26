@@ -33,13 +33,18 @@ the correct order 9.5 % of the time, now 0.000 % with Fisher–Yates plus a re-d
 
 ## 3. Drift from the rules in AGENTS.md
 
-- [ ] **Eleven pages over the A4 budget** (§5 "Length"; excludes the two documented
+- [ ] **Six pages over the A4 budget** (§5 "Length"; excludes the two documented
   exceptions `vocabulaire/les-nombres` and `le-docteur`):
 
   | Pages | Route |
   |---|---|
-  | 4 | `/theme/ecrire-un-livre`, `/theme/ah-si-jetais-riche`, `/litterature/introduction` |
-  | 3 | `/grammaire/les-articles`, `/grammaire/les-adverbes`, `/grammaire/le-passe-compose`, `/orthographe/les-homophones`, `/theme/la-famille`, `/theme/les-loisirs`, `/theme/la-nourriture`, `/lecture/entretien-d-embauche` |
+  | 4 | `/litterature/introduction` |
+  | 3 | `/grammaire/les-articles`, `/grammaire/les-adverbes`, `/grammaire/le-passe-compose`, `/orthographe/les-homophones`, `/lecture/entretien-d-embauche` |
+
+  The five `theme/` pages that were on this list are gone — the chapter was removed on
+  2026-08-26. Worth knowing before attacking the rest: collapsing five `<article>` cards
+  into one took `theme/ecrire-un-livre` from 4 pages to 3 but no further, so the remaining
+  entries here may need content decisions rather than a layout fix.
 
 - [ ] **Five of six `conversation/` pages break the gapfill contract** (§5 "Conversation
   (gap-fill) pages"). `a-la-boulangerie`, `a-disneyland-paris`, `a-la-pharmacie`,
@@ -76,8 +81,6 @@ the correct order 9.5 % of the time, now 0.000 % with Fisher–Yates plus a re-d
 
 - [ ] `astuces/etre-ou-avoir` pairs **rester / tomber** as opposites — they are not;
   the pairing device breaks down on that row.
-- [ ] `theme/ecrire-un-livre` files **Amélie Nothomb** under *roman populaire* beside
-  Levy and Musso. Literary-prize author on a literary imprint — debatable at best.
 - [ ] `astuces/le-genre-des-noms` uses **« un lait »** as a vocabulary-noting example;
   odd for an uncountable noun.
 - [ ] `vocabulaire/les-jours-et-la-date` months table has **two columns both headed

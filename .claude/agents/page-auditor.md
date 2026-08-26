@@ -48,7 +48,7 @@ Also flag:
 ## 3. Print / PDF
 
 Lesson pages under `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `dictees/`, `prononciation/`,
-`musique/`, `vocabulaire/`, `theme/` must carry the download button; `exercices/`,
+`musique/`, `vocabulaire/` must carry the download button; `exercices/`,
 `conversation/`, `litterature/`, `lecture/` and every `index.vue` must not.
 
 - `@click="() => window.print()"` in a template is **always** a bug — `window` is not in

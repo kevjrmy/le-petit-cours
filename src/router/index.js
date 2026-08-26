@@ -143,13 +143,11 @@ const router = createRouter({
     { path: '/a-propos', name: 'about', component: () => import('../views/annexe/a-propos.vue') },
     { path: '/contact', name: 'contact', component: () => import('../views/annexe/contact.vue') },
 
-    // Thèmes de conversation
-    { path: '/theme', name: 'theme', component: () => import('../views/theme/index.vue') },
-    { path: '/theme/la-famille', name: 'theme-la-famille', component: () => import('../views/theme/la-famille.vue') },
-    { path: '/theme/les-loisirs', name: 'theme-les-loisirs', component: () => import('../views/theme/les-loisirs.vue') },
-    { path: '/theme/la-nourriture', name: 'theme-la-nourriture', component: () => import('../views/theme/la-nourriture.vue') },
-    { path: '/theme/ecrire-un-livre', name: 'theme-ecrire-un-livre', component: () => import('../views/theme/ecrire-un-livre.vue') },
-    { path: '/theme/ah-si-jetais-riche', name: 'theme-ah-si-jetais-riche', component: () => import('../views/theme/ah-si-jetais-riche.vue') },
+    /* Anything unknown lands on the sommaire rather than an empty sheet. Without
+       this, a removed route — the theme/ chapter, deleted 2026-08-26 — renders a
+       blank page with no error, which is worse than a redirect. Keep it last:
+       route order decides, so a catch-all above a real route would swallow it. */
+    { path: '/:pathMatch(.*)*', redirect: '/' },
   ]
 })
 

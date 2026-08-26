@@ -258,24 +258,6 @@ export const chapters = [
       { path: '/conversation/demander-son-chemin', title: 'Demander son chemin', emoji: '🧭' },
     ],
   },
-  {
-    slug: 'theme',
-    path: '/theme',
-    title: 'Thèmes de conversation',
-    shortTitle: 'Thèmes',
-    icon: 'theme',
-    unit: ['thème', 'thèmes'],
-    blurb:
-      "Choisissez un thème et pratiquez votre français à l'oral : vocabulaire utile, " +
-      'questions pour lancer la conversation et expressions pour donner votre avis.',
-    lessons: [
-      { path: '/theme/la-famille', title: 'La famille et les amis', subtitle: 'Parler de votre famille, de vos relations et des gens qui vous entourent.' },
-      { path: '/theme/les-loisirs', title: 'Les loisirs et le sport', subtitle: 'Parler de vos activités préférées, de vos hobbies et du sport.' },
-      { path: '/theme/la-nourriture', title: 'La nourriture et les repas', subtitle: 'Parler de ce que vous aimez manger, de la cuisine et des repas en famille.' },
-      { path: '/theme/ecrire-un-livre', title: "Si je devais écrire un livre…", subtitle: 'Roman littéraire ou populaire ? Imaginez votre livre idéal et défendez votre choix.' },
-      { path: '/theme/ah-si-jetais-riche', title: "Ah, si j'étais riche !", subtitle: 'Que feriez-vous avec une grande fortune ? Voyages, dons, retraite anticipée… rêvez en français.' },
-    ],
-  },
 ]
 
 /** Utility routes — reachable from the sidebar footer, not book chapters. */
@@ -341,10 +323,10 @@ export const relatedPages = {
   '/grammaire/passe-compose-ou-imparfait': ['/grammaire/le-passe-compose', '/grammaire/l-imparfait', '/exercices/devine-les-temps'],
   '/grammaire/le-futur-proche': ['/exercices/le-futur-proche', '/conjugaison/aller', '/grammaire/le-futur-simple'],
   '/grammaire/le-futur-simple': ['/grammaire/le-futur-proche', '/grammaire/le-conditionnel-present', '/exercices/mets-au-bon-temps'],
-  '/grammaire/le-conditionnel-present': ['/exercices/mets-au-bon-temps', '/grammaire/le-futur-simple', '/theme/ah-si-jetais-riche'],
+  '/grammaire/le-conditionnel-present': ['/exercices/mets-au-bon-temps', '/grammaire/le-futur-simple'],
   '/grammaire/les-pronoms-cod-coi': ['/exercices/le-bon-pronom', '/grammaire/les-pronoms-y-en', '/musique/la-vie-en-rose'],
   '/grammaire/les-pronoms-y-en': ['/exercices/le-bon-pronom', '/grammaire/les-pronoms-cod-coi'],
-  '/grammaire/le-comparatif-et-le-superlatif': ['/grammaire/les-adjectifs', '/theme/les-loisirs'],
+  '/grammaire/le-comparatif-et-le-superlatif': ['/grammaire/les-adjectifs', '/grammaire/les-adverbes'],
   '/grammaire/les-prepositions-de-lieu': ['/astuces/a-en-au-aux', '/vocabulaire/la-ville', '/conversation/demander-son-chemin'],
 
   // ── Conjugaison ──────────────────────────────
@@ -361,8 +343,8 @@ export const relatedPages = {
 
   // ── Orthographe ──────────────────────────────
   '/orthographe/les-homophones': ['/astuces/le-test-de-substitution', '/exercices/trouve-la-faute', '/exercices/ecoute-et-choisis'],
-  '/orthographe/les-determinants-possessifs': ['/orthographe/les-pronoms-possessifs', '/grammaire/les-demonstratifs', '/theme/la-famille'],
-  '/orthographe/les-pronoms-possessifs': ['/orthographe/les-determinants-possessifs', '/theme/la-famille'],
+  '/orthographe/les-determinants-possessifs': ['/orthographe/les-pronoms-possessifs', '/grammaire/les-demonstratifs'],
+  '/orthographe/les-pronoms-possessifs': ['/orthographe/les-determinants-possessifs', '/grammaire/les-demonstratifs'],
 
   // ── Astuces ──────────────────────────────────
   '/astuces/a-en-au-aux': ['/grammaire/les-prepositions-de-lieu', '/vocabulaire/la-ville', '/conversation/demander-son-chemin'],
@@ -413,28 +395,23 @@ export const relatedPages = {
   '/vocabulaire/les-nombres': ['/vocabulaire/l-heure', '/vocabulaire/les-jours-et-la-date', '/conversation/a-la-boulangerie'],
   '/vocabulaire/l-heure': ['/vocabulaire/les-nombres', '/vocabulaire/les-jours-et-la-date'],
   '/vocabulaire/les-jours-et-la-date': ['/vocabulaire/l-heure', '/vocabulaire/les-nombres', '/vocabulaire/la-meteo'],
-  '/vocabulaire/la-maison': ['/vocabulaire/les-vetements', '/theme/la-famille'],
+  '/vocabulaire/la-maison': ['/vocabulaire/les-vetements', '/vocabulaire/la-ville'],
   '/vocabulaire/les-vetements': ['/vocabulaire/la-maison', '/vocabulaire/la-meteo'],
   '/vocabulaire/la-ville': ['/vocabulaire/les-transports', '/conversation/demander-son-chemin', '/grammaire/les-prepositions-de-lieu'],
   '/vocabulaire/les-transports': ['/vocabulaire/la-ville', '/conversation/demander-son-chemin', '/lecture/le-tour-du-monde'],
-  '/vocabulaire/le-travail': ['/lecture/entretien-d-embauche', '/theme/les-loisirs'],
+  '/vocabulaire/le-travail': ['/lecture/entretien-d-embauche', '/grammaire/le-conditionnel-present'],
   '/vocabulaire/la-meteo': ['/vocabulaire/les-jours-et-la-date', '/conversation/en-vacances', '/dictees/une-journee-en-vacances'],
   '/vocabulaire/le-docteur': ['/conversation/chez-le-medecin', '/conversation/a-la-pharmacie'],
 
   // ── Conversation ─────────────────────────────
-  '/conversation/en-vacances': ['/vocabulaire/la-meteo', '/dictees/une-journee-en-vacances', '/theme/les-loisirs'],
-  '/conversation/a-la-boulangerie': ['/vocabulaire/les-nombres', '/theme/la-nourriture'],
-  '/conversation/a-disneyland-paris': ['/vocabulaire/les-transports', '/theme/les-loisirs'],
+  '/conversation/en-vacances': ['/vocabulaire/la-meteo', '/dictees/une-journee-en-vacances'],
+  '/conversation/a-la-boulangerie': ['/vocabulaire/les-nombres', '/vocabulaire/la-ville'],
+  '/conversation/a-disneyland-paris': ['/vocabulaire/les-transports', '/conversation/demander-son-chemin'],
   '/conversation/chez-le-medecin': ['/vocabulaire/le-docteur', '/conversation/a-la-pharmacie'],
   '/conversation/a-la-pharmacie': ['/vocabulaire/le-docteur', '/conversation/chez-le-medecin'],
   '/conversation/demander-son-chemin': ['/grammaire/les-prepositions-de-lieu', '/astuces/a-en-au-aux', '/vocabulaire/la-ville'],
 
   // ── Thèmes ───────────────────────────────────
-  '/theme/la-famille': ['/vocabulaire/la-maison', '/orthographe/les-determinants-possessifs'],
-  '/theme/les-loisirs': ['/vocabulaire/le-travail', '/conversation/a-disneyland-paris'],
-  '/theme/la-nourriture': ['/conversation/a-la-boulangerie', '/vocabulaire/100-mots-les-plus-utilises'],
-  '/theme/ecrire-un-livre': ['/litterature/introduction', '/grammaire/le-conditionnel-present'],
-  '/theme/ah-si-jetais-riche': ['/grammaire/le-conditionnel-present', '/exercices/mets-au-bon-temps'],
 }
 
 /**
