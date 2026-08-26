@@ -58,7 +58,7 @@ write no `<style>` block:
 
 | Class | Pages | Owns |
 |---|---|---|
-| `.lesson` | grammaire, orthographe, astuces, vocabulaire, theme, prononciation, musique | tables, `.hl-*`, `.note`, `.method`, `.download-btn` |
+| `.lesson` | grammaire, orthographe, astuces, vocabulaire, prononciation, musique | tables, `.hl-*`, `.note`, `.method`, `.sep` |
 | `.exo` | exercices | instructions, progress meter, card, feedback, score screen |
 | `.gapfill` | conversation | word bank, chips, chat bubbles, slots |
 | `.dictee` | dictees | prep card, audio buttons, textarea, correction, score screen |
