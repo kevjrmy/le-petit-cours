@@ -68,17 +68,3 @@ export async function recentViews(routePaths, limit = 6) {
     .sort((a, b) => b.created.localeCompare(a.created) || a.index - b.index)
     .slice(0, limit)
 }
-
-export async function hasNewChildView(folder, date = todayIso()) {
-  const prefix = `../views/${folder}/`
-  const paths = Object.keys(viewLoaders).filter(path =>
-    path.startsWith(prefix) && !path.endsWith('/index.vue')
-  )
-
-  for (const path of paths) {
-    const meta = await loadMeta(path)
-    if (meta?.updated === date) return true
-  }
-
-  return false
-}

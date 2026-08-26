@@ -25,10 +25,6 @@
             <dt>Leçons</dt>
             <dd>{{ totalLessons }}</dd>
           </div>
-          <div class="stat">
-            <dt>Nouveautés</dt>
-            <dd>{{ newChapterFolders.size }}</dd>
-          </div>
         </dl>
       </section>
 
@@ -88,7 +84,7 @@ import { onMounted, ref } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import ChapterIcon from '@/components/ChapterIcon.vue'
 import { chapterCount, chapters, publishedLessons } from '@/data/navigation'
-import { hasNewChildView, recentViews } from '@/utils/viewMeta'
+import { recentViews } from '@/utils/viewMeta'
 
 /* Chapters come from the manifest. A chapter whose lessons are all still
    announced-but-unwritten stays listed, marked "Bientôt", so the plan for the
@@ -101,8 +97,6 @@ const totalLessons = chapters.reduce(
   (sum, chapter) => sum + publishedLessons(chapter).length,
   0
 )
-
-const newChapterFolders = ref(new Set())
 
 /* Flattened in manifest order, so same-day ties in "Récemment ajouté" fall in
    the book's own order rather than alphabetically. */
@@ -129,13 +123,6 @@ function formatDate(iso) {
 }
 
 onMounted(async () => {
-  const entries = await Promise.all(
-    cards.map(async chapter => [chapter.slug, await hasNewChildView(chapter.slug)])
-  )
-  newChapterFolders.value = new Set(
-    entries.filter(([, hasNew]) => hasNew).map(([slug]) => slug)
-  )
-
   const byPath = new Map(allLessons.map(lesson => [lesson.path, lesson]))
   const rows = await recentViews(allLessons.map(lesson => lesson.path), 6)
   recent.value = rows.map(row => ({ ...byPath.get(row.path), ...row }))
