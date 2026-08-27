@@ -27,8 +27,9 @@ Claude.ai-style app shell, tricolore palette, light and dark.
   `useSpeech` for the audio pages, and `useProgress` for the done-ticks. `src/utils/shuffle.js`
   is the one shuffle every drill imports — never re-implement it in a view.
 - Every view starts with `<!-- view-meta: created=YYYY-MM-DD; updated=YYYY-MM-DD -->`;
-  `src/utils/viewMeta.js` turns `created` into the sommaire's "Récemment ajouté" list. The
-  "Nouveau" badge and the sidebar dots were removed on 2026-08-26.
+  `src/utils/viewMeta.js` turns `created` into the sommaire's "Récemment ajouté" list and
+  into the warm tint on chapter-index rows added in the last week. The "Nouveau" badge and
+  the sidebar dots were removed on 2026-08-26.
 
 ## Content rules
 

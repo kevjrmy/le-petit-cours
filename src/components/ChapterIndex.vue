@@ -15,7 +15,7 @@
           :key="lesson.path"
           :to="lesson.soon ? undefined : lesson.path"
           class="lesson-row"
-          :class="{ soon: lesson.soon }"
+          :class="{ soon: lesson.soon, fresh: fresh.has(lesson.path) }"
           :aria-disabled="lesson.soon ? 'true' : undefined"
         >
           <span class="row-body">
@@ -24,6 +24,7 @@
               <span v-if="lesson.titleHtml" class="row-title" v-html="lesson.titleHtml"></span>
               <span v-else class="row-title">{{ lesson.title }}</span>
               <span v-if="lesson.soon" class="soon-badge">Bientôt</span>
+              <span v-if="fresh.has(lesson.path)" class="sr-only">Ajouté récemment</span>
             </span>
             <span v-if="lesson.subtitle" class="row-subtitle">{{ lesson.subtitle }}</span>
           </span>
@@ -41,12 +42,13 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import AltLayout from '@/layouts/AltLayout.vue'
 import IconCheck from '~icons/mdi/check-bold'
 import { chapters, chapterCount } from '@/data/navigation'
 import { useProgress } from '@/composables/useProgress'
+import { freshViews } from '@/utils/viewMeta'
 
 /**
  * Renders any chapter's landing page straight from `src/data/navigation.js`.
@@ -70,6 +72,18 @@ const tally = computed(() => chapterProgress(chapter.value))
    reads naturally in every chapter. Always plural: the count in front of it
    is the total, and a one-lesson chapter is not worth a special case. */
 const unitLabel = computed(() => chapterCount(chapter.value).label)
+
+/* Rows for pages added in the last few days get a warm fill. The dates live in
+   each view's `view-meta` comment, so they are read after mount: the list paints
+   immediately and the tint arrives with the metadata. `soon` lessons have no
+   file to read, and drop out on their own. */
+const fresh = ref(new Set())
+
+onMounted(async () => {
+  fresh.value = await freshViews(
+    chapter.value.lessons.filter(lesson => !lesson.soon).map(lesson => lesson.path)
+  )
+})
 </script>
 
 <style scoped>
@@ -144,6 +158,15 @@ const unitLabel = computed(() => chapterCount(chapter.value).label)
   background: var(--accent-subtle);
   box-shadow: var(--shadow-sm);
   color: var(--text-1);
+}
+
+/* Freshly added — a warm fill, the one card colour that is neither the blue of
+   hover nor the green of "terminé". Hover still wins on specificity, so a fresh
+   row answers the pointer exactly like every other row. Never the only signal:
+   `.sr-only` "Ajouté récemment" carries it where colour cannot. */
+.lesson-row.fresh {
+  background: var(--fresh-fill);
+  border-color: var(--fresh-line);
 }
 
 .lesson-row.soon {

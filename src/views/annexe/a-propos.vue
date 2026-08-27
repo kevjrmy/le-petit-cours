@@ -1,4 +1,4 @@
-<!-- view-meta: created=2026-08-02; updated=2026-08-26 -->
+<!-- view-meta: created=2026-08-02; updated=2026-08-27 -->
 <template>
     <DefaultLayout
         title="À propos"
@@ -36,7 +36,8 @@
                 <p>
                     De nouvelles leçons arrivent régulièrement. Le sommaire ouvre sur
                     <strong>Récemment ajouté</strong>&nbsp;: les dernières pages écrites y
-                    figurent toujours en premier.
+                    figurent toujours en premier. Dans chaque chapitre, les pages ajoutées
+                    au cours de la semaine se reconnaissent à leur fond légèrement doré.
                 </p>
 
                 <div class="cta-row">

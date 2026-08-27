@@ -125,6 +125,12 @@
   --success-line:  var(--green-400);
   --success-text:  var(--green-700);
 
+  /* Fraîcheur — the warm card fill on lessons added in the last few days.
+     Deliberately not amber `--warn-*`: those mean "attention", this means
+     "new here", and the two must stay separable if one ever sits by the other. */
+  --fresh-fill:  var(--amber-50);
+  --fresh-line:  #F2E2C4;
+
   /* Elevation */
   --shadow-sm: 0 1px 2px rgba(11, 15, 23, 0.06);
   --shadow:    0 2px 8px -2px rgba(11, 15, 23, 0.10), 0 1px 3px rgba(11, 15, 23, 0.05);
@@ -182,6 +188,9 @@
     --success-line:  #2C5A34;
     --success-text:  #8ED694;
 
+    --fresh-fill:  #201A11;
+    --fresh-line:  #3D3119;
+
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
     --shadow:    0 2px 8px -2px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 12px 32px -8px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
@@ -231,6 +240,9 @@
   --success-soft:  #12251A;
   --success-line:  #2C5A34;
   --success-text:  #8ED694;
+
+  --fresh-fill:  #201A11;
+  --fresh-line:  #3D3119;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow:    0 2px 8px -2px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);

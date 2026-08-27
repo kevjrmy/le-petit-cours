@@ -54,7 +54,7 @@ src/
   layouts/
     DefaultLayout.vue      ← the reading sheet (.page-sheet) + the done-tick
     AltLayout.vue          ← identical; both kept so existing views compile
-  utils/viewMeta.js        ← view-meta dates → "Récemment ajouté" on the sommaire
+  utils/viewMeta.js        ← view-meta dates → "Récemment ajouté" + the fresh card tint
   utils/shuffle.js         ← the one Fisher–Yates; drills import it, never re-implement it
   views/{chapter}/         ← index.vue (one-line ChapterIndex wrapper) + lesson files
 ```
@@ -355,8 +355,24 @@ line at the foot of the script (`useExerciseScore`, see §6b) reads `finished`, 
 `deck` by name, and a drill that renames them records nothing.
 
 **Vary the mechanic.** Coverage: MCQ (×9), matching pairs, tap-to-order, bucket sort,
-locate-and-retype, multi-select, listening, type-in conjugation, timed round. Prefer a
-missing mechanic over a tenth MCQ.
+locate-and-retype, multi-select, listening, type-in conjugation, fixed chip pool (timed and
+untimed), timed round. Prefer a missing mechanic over a tenth MCQ.
+
+**Prefer clicking to typing when the answer carries French accents.** The learners type on a
+Spanish keyboard, where é, è and ê cost a dead-key detour; a drill that makes them spell
+« mangé » in a text field is testing their keyboard, not their French. `la-bonne-terminaison`
+was written as a type-in and changed to chips for exactly this. Type-in still earns its place
+where the *spelling* is the skill (`mets-au-bon-temps`, `trouve-la-faute`) — just never as the
+only way to answer something a click could express.
+
+`la-bonne-terminaison` fills a *fragment*: the radical is printed and only the ending is
+chosen, which is what isolates -e / -es / -ent and -ai / -ais. Two rules follow. A fragment is
+ambiguous on its own — « tu regard___ » takes -es as readily as -ais — so every item ships the
+infinitive **and** the tense, and that pair is what makes the answer unique; an item without
+them is a bug, not a hard question. And the eighteen endings are one fixed pool, shown in full
+on every sentence and never shuffled (same reasoning as `le-bon-pronom`): tailoring three
+distractors per item would turn recall into elimination. Every answer must be in the pool —
+`-ée` is the one entry that is only ever a trap.
 
 Each of the following has already cost a bug:
 
@@ -420,15 +436,25 @@ Every `src/views/**/*.vue` starts with:
 New views use their real creation date; editing a view updates only `updated`.
 Views created before tracking began carry `created=2026-08-02`.
 
-`src/utils/viewMeta.js` reads these dates and now feeds exactly one thing:
+`src/utils/viewMeta.js` reads these dates and feeds two things:
 
 | Signal | Reads | Where |
 |---|---|---|
 | **Récemment ajouté** | `created`, newest first | sommaire |
+| **Fresh card tint** | `created`, within `FRESH_DAYS` (7) | chapter index rows |
 
 **The "Nouveau" badge and the red sidebar dots were removed on 2026-08-26**, along with
 `isNewView()` and the `.new-badge` / `.rail-dot` / `.child-dot` rules. Do not reintroduce a
 badge, a dot or any other "updated today" marker.
+
+**The fresh tint, added 2026-08-27, is the one recency marker that stays** — and it is not
+what was removed. It reads `created`, not `updated`, so an edit never re-marks an old page;
+it is a card fill (`--fresh-fill` / `--fresh-line`, the only warm card colour, distinct from
+the blue of hover and the green of terminé) rather than a badge or a dot competing with the
+title; and its window rolls, so a page un-marks itself a week after it lands with nothing to
+clean up by hand. `freshViews()` returns the fresh paths as a Set; `ChapterIndex.vue` awaits
+it on mount, so the list paints first and the tint follows. Colour is never the only carrier:
+each fresh row also holds an `.sr-only` "Ajouté récemment".
 
 That leaves **`updated` driving nothing in the UI** — it is now plain provenance, useful when
 reading the history of a page and nothing more. Keep bumping it when you edit a view; just
@@ -501,7 +527,7 @@ Authoritative list is `src/data/navigation.js` — this table is the human summa
 - **astuces** (4) — mnemonics for rules taught elsewhere; each page links back to its lesson:
   a-en-au-aux, le-genre-des-noms, etre-ou-avoir, le-test-de-substitution
 - **dictees** (3): une-journee-en-vacances, la-pierre-de-rosette, les-fleurs-du-mal
-- **exercices** (17, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre, etre-ou-avoir, trouve-la-faute, devine-les-temps, ecoute-et-choisis, mets-au-bon-temps, le-bon-pronom
+- **exercices** (18, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre, etre-ou-avoir, trouve-la-faute, devine-les-temps, ecoute-et-choisis, mets-au-bon-temps, le-bon-pronom, la-bonne-terminaison
 - **lecture** (5): le-lion-et-le-rat, le-petit-prince, entretien-d-embauche, le-comte-de-monte-cristo, le-tour-du-monde
 - **litterature** (1): introduction
 - **prononciation** (3) — data-driven like conjugaison: les-voyelles, les-voyelles-nasales,
