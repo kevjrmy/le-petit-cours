@@ -63,7 +63,9 @@ export default defineConfig({
 
       workbox: {
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
-        globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+        /* webp is in the list because the culture pages ship photographs: an
+           offline lesson whose illustrations 404 is a broken lesson. */
+        globPatterns: ['**/*.{js,css,html,svg,png,webp,ico}'],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
         skipWaiting: true,

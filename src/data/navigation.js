@@ -218,6 +218,19 @@ export const chapters = [
     ],
   },
   {
+    slug: 'culture',
+    path: '/culture',
+    title: 'Culture',
+    icon: 'culture',
+    unit: ['page', 'pages'],
+    blurb:
+      'Découvrez le pays derrière la langue : ses territoires, ses villes ' +
+      'et ses habitudes.',
+    lessons: [
+      { path: '/culture/les-regions-de-france', title: 'Les régions de France', emoji: '🗺️' },
+    ],
+  },
+  {
     slug: 'vocabulaire',
     path: '/vocabulaire',
     title: 'Vocabulaire',
@@ -343,7 +356,7 @@ export const relatedPages = {
   '/grammaire/les-pronoms-cod-coi': ['/exercices/le-bon-pronom', '/grammaire/les-pronoms-y-en', '/musique/la-vie-en-rose'],
   '/grammaire/les-pronoms-y-en': ['/exercices/le-bon-pronom', '/grammaire/les-pronoms-cod-coi'],
   '/grammaire/le-comparatif-et-le-superlatif': ['/grammaire/les-adjectifs', '/grammaire/les-adverbes'],
-  '/grammaire/les-prepositions-de-lieu': ['/astuces/a-en-au-aux', '/vocabulaire/la-ville', '/conversation/demander-son-chemin'],
+  '/grammaire/les-prepositions-de-lieu': ['/astuces/a-en-au-aux', '/culture/les-regions-de-france', '/conversation/demander-son-chemin'],
 
   // ── Conjugaison ──────────────────────────────
   '/conjugaison/etre': ['/astuces/etre-ou-avoir', '/exercices/etre-ou-avoir', '/grammaire/le-passe-compose'],
@@ -363,7 +376,7 @@ export const relatedPages = {
   '/orthographe/les-pronoms-possessifs': ['/orthographe/les-determinants-possessifs', '/grammaire/les-demonstratifs'],
 
   // ── Astuces ──────────────────────────────────
-  '/astuces/a-en-au-aux': ['/grammaire/les-prepositions-de-lieu', '/vocabulaire/la-ville', '/conversation/demander-son-chemin'],
+  '/astuces/a-en-au-aux': ['/grammaire/les-prepositions-de-lieu', '/vocabulaire/la-ville', '/culture/les-regions-de-france'],
   '/astuces/le-genre-des-noms': ['/grammaire/les-articles', '/exercices/les-articles', '/grammaire/les-adjectifs'],
   '/astuces/etre-ou-avoir': ['/grammaire/le-passe-compose', '/exercices/etre-ou-avoir', '/conjugaison/etre'],
   '/astuces/le-test-de-substitution': ['/orthographe/les-homophones', '/exercices/trouve-la-faute'],
@@ -406,6 +419,9 @@ export const relatedPages = {
   '/prononciation/les-voyelles-nasales': ['/prononciation/les-voyelles', '/exercices/ecoute-et-choisis', '/dictees/une-journee-en-vacances'],
   '/prononciation/les-consonnes': ['/prononciation/les-voyelles', '/orthographe/les-homophones', '/exercices/ecoute-et-choisis'],
   '/musique/la-vie-en-rose': ['/grammaire/les-pronoms-cod-coi', '/exercices/le-bon-pronom', '/prononciation/les-voyelles'],
+
+  // ── Culture ──────────────────────────────────
+  '/culture/les-regions-de-france': ['/astuces/a-en-au-aux', '/grammaire/les-prepositions-de-lieu', '/vocabulaire/la-ville', '/vocabulaire/la-meteo'],
 
   // ── Vocabulaire ──────────────────────────────
   '/vocabulaire/100-mots-les-plus-utilises': ['/exercices/associe-les-pairs', '/exercices/emoji-francais'],

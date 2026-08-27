@@ -23,6 +23,7 @@ import IconLecture from '~icons/mdi/book-open-variant'
 import IconLitterature from '~icons/mdi/feather'
 import IconPrononciation from '~icons/mdi/account-voice'
 import IconMusique from '~icons/mdi/music-note-outline'
+import IconCulture from '~icons/mdi/eiffel-tower'
 import IconVocabulaire from '~icons/mdi/alphabetical-variant'
 import IconConversation from '~icons/mdi/chat-outline'
 import IconProgress from '~icons/mdi/chart-arc'
@@ -41,6 +42,7 @@ const icons = {
   litterature:   IconLitterature,
   prononciation: IconPrononciation,
   musique:       IconMusique,
+  culture:       IconCulture,
   vocabulaire:   IconVocabulaire,
   conversation:  IconConversation,
   progress:      IconProgress,

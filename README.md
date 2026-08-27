@@ -20,6 +20,8 @@ Claude.ai-style app shell, tricolore palette, light and dark.
   scroll position across navigation. The two layouts only own the reading sheet and are
   identical — `AltLayout` for lessons, `DefaultLayout` for exercises and the sommaire.
 - `src/views/{chapter}/index.vue` is always a one-line `<ChapterIndex slug="…" />` wrapper.
+- `culture/` is the one chapter that ships **photographs**. They live in `public/img/culture/`
+  as 560×373 WebP files, never hotlinked, and every page credits its sources — see AGENTS.md §5.
 - Two chapters are **data-driven**: `conjugaison/` renders from `src/data/conjugaisons.js`
   through `ConjugationSheet.vue`, and `prononciation/` from `src/data/prononciation.js`
   through `PronunciationSheet.vue`. Their views are one-line wrappers too.

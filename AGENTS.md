@@ -57,6 +57,8 @@ src/
   utils/viewMeta.js        ← view-meta dates → "Récemment ajouté" + the fresh card tint
   utils/shuffle.js         ← the one Fisher–Yates; drills import it, never re-implement it
   views/{chapter}/         ← index.vue (one-line ChapterIndex wrapper) + lesson files
+public/
+  img/{chapter}/           ← the photographs a page ships with (see §5, Culture pages)
 ```
 
 Open bugs live in **`AUDIT.md`**; the six agent briefs in `.claude/agents/` carry the
@@ -141,6 +143,7 @@ register the routes.
 |---|---|
 | `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `dictees/`, `prononciation/`, `musique/`, `vocabulaire/` | standard lesson |
 | `exercices/` | interactive, self-scoring |
+| `culture/` | standard lesson **plus photographs** — see below |
 | `conversation/`, `litterature/` | |
 | `lecture/` | ends with the comprehension quiz + hidden translation |
 | any `index.vue` | |
@@ -148,6 +151,31 @@ register the routes.
 **There is no PDF button.** Download-to-PDF was removed on 2026-08-26 along with every
 `@media print` block, the dictée print answer sheets and the `.no-print` / `.print-only`
 flags. Do not reintroduce a `downloadPdf()` method or a `window.print()` call.
+
+### Culture pages — the only pages with photographs
+
+`culture/` covers the country behind the language. Structurally it is a standard lesson
+(`<main class="lesson">`, global classes, no `<style>` block); what is new is that it
+carries images, and images come with rules the rest of the book never needed.
+
+- **The files ship with the app.** `public/img/{chapter}/{page}/{slug}.webp`, referenced by a
+  plain absolute path. Never hotlink Commons, Unsplash or anything else: this is an offline
+  PWA, and a remote photograph is a lesson that goes blank in the métro. `webp` is in
+  `vite.config.js`'s `globPatterns` for exactly that reason — drop it and the images stop
+  being precached.
+- **One shape per grid.** 560×373 (3:2), centre-cropped from the source, quality ~78. Thirteen
+  of them cost about 600 KB. Cards use `.photo-grid` / `.photo-card` (defined globally under
+  `.lesson`), and the `<img>` carries `width`, `height`, `loading="lazy"` and a real French
+  `alt` that describes the photograph rather than repeating the caption.
+- **Free licences only, and credit them.** CC0, public domain, CC BY or CC BY-SA. Every page
+  with photographs ends with a *Crédits photographiques* block listing, per image, the author,
+  a link to the file page and the licence — that is what CC BY and CC BY-SA require, and a
+  page that crops its sources says so. The credit data lives next to the item in the page's
+  own array, so an image can never drift away from its attribution.
+- **Look at what you downloaded.** Two of the first thirteen were rejected on sight: one had
+  the words "Mont Blanc" scrawled across it in blue, another turned out to be sheep in a field
+  when the file name said volcano. The API tells you the licence, not whether the picture is
+  any good.
 
 ### Related links — "Pour aller plus loin"
 
@@ -535,6 +563,8 @@ Authoritative list is `src/data/navigation.js` — this table is the human summa
 - **musique** (1 + 2 planned): la-vie-en-rose. Song pages quote **short excerpts only** —
   the twentieth-century repertoire is still in copyright, so a page carries a few verses
   with commentary, a vocabulary table and a grammar focus, never a full lyric sheet.
+- **culture** (1): les-regions-de-france — the country behind the language. The only chapter
+  whose pages carry photographs; see §5 for where the files live and what their licences owe.
 - **vocabulaire** (14) — base first, then the everyday themes: 100-mots-les-plus-utilises,
   les-nombres, l-heure, les-jours-et-la-date, la-maison, les-vetements, la-ville,
   les-transports, le-travail, la-meteo, le-docteur, la-famille, le-corps, les-couleurs

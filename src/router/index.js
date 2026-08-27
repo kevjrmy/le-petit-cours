@@ -127,6 +127,8 @@ const router = createRouter({
     { path: '/litterature/introduction', name: 'litterature-introduction', component: () => import('../views/litterature/introduction.vue') },
 
     // Vocabulaire
+    { path: '/culture', name: 'culture', component: () => import('../views/culture/index.vue') },
+    { path: '/culture/les-regions-de-france', name: 'culture-les-regions-de-france', component: () => import('../views/culture/les-regions-de-france.vue') },
     { path: '/vocabulaire', name: 'vocabulaire', component: () => import('../views/vocabulaire/index.vue') },
     { path: '/vocabulaire/100-mots-les-plus-utilises', name: 'vocab-100-mots', component: () => import('../views/vocabulaire/100-mots-les-plus-utilises.vue') },
     { path: '/vocabulaire/le-docteur', name: 'vocab-le-docteur', component: () => import('../views/vocabulaire/le-docteur.vue') },
