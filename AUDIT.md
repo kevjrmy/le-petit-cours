@@ -2,8 +2,12 @@
 
 Full pass over all 89 published pages: mechanical checks on every view, a page-length
 sweep of every route, and a content read of the French and Spanish. Every item it opened
-was fixed on 2026-08-27, the same day the vocabulaire chapter gained three pages. The
-course now carries **89 published lessons across 12 chapters**, plus two annexes.
+was fixed on 2026-08-27, the same day the vocabulaire chapter gained three pages.
+
+The course has grown since the pass closed and now carries **91 published lessons across 13
+chapters**, plus two annexes: `exercices/la-bonne-terminaison` and the new **culture**
+chapter, opening on `les-regions-de-france`. Both were written after the sweep, so they are
+outside its 89 — what was checked on them is in §6.
 
 **Retired 2026-08-26:** the A4 page-budget item and the dictée print-caption item went with
 the PDF feature — there is no print output to measure or caption any more. The theme chapter
@@ -102,8 +106,9 @@ console.log('identity', (100*same/120000).toFixed(2)+'%', '| permutations', seen
 - **Conjugaison generators** — 10 verbs × présent/passé composé × négation ×
   masculin/féminin: elision (`j'ai`, `je n'ai`, never `ell'est`), *ne … pas* around
   the auxiliary, participle agreement only with *être*. All correct.
-- **Every MCQ answer key** across the 17 exercises: answer present in its options,
-  no duplicate options, no out-of-range index.
+- **Every MCQ answer key** across the 17 exercises that existed at the time: answer present
+  in its options, no duplicate options, no out-of-range index. (The 18th,
+  `la-bonne-terminaison`, is not an MCQ — see its entry below.)
 - **`trouve-la-faute`** — all 10 substitutions produce a grammatical sentence.
 - **`ecoute-et-choisis`** — no homophones inside any minimal-pair set.
 - **All lecture quiz keys**, checked against the source texts (Petit Prince,
@@ -118,6 +123,18 @@ console.log('identity', (100*same/120000).toFixed(2)+'%', '| permutations', seen
   `les-couleurs`) were put through the same mechanical checks as they were written: no raw
   hex, valid `view-meta`, every `RouterLink` resolves, and manifest ↔ router ↔ disk agree.
   Their French and Spanish have **not** been through a second reader yet.
+- **`exercices/la-bonne-terminaison`** (2026-08-27) — the drill was driven through its whole
+  deck twice in a real browser: answering every item correctly scores 19/19 with the blank
+  and the chosen chip green, answering every item wrong scores 0/19 with the true answer
+  highlighted in the pool and the full form named in the correction. Every one of the 19
+  answers exists in the 18-chip pool, `-ée` is the only chip that is never an answer, and
+  every item carries the infinitive and the tense that make its ending unique.
+- **`culture/les-regions-de-france`** (2026-08-27) — the 13 photographs are local WebP files
+  under `public/img/culture/regions/`, all 13 appear in the generated `dist/sw.js` precache
+  manifest, and a browser pass with lazy-loading forced off found no broken image and no
+  console error in either theme. The 13 chefs-lieux and the licence line of each credit were
+  checked against the Commons file pages. Its French and Spanish have **not** been through a
+  second reader yet.
 
 Known accepted debt, deliberately not listed above: roughly 3 500 lines of scoped CSS
 across the older lesson pages duplicating the global chrome — down from ~5 000, since the

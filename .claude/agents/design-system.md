@@ -38,6 +38,10 @@ semantic name.
    - lines: `--border`, `--border-soft`, `--border-strong`
    - roles: `--accent` / `-hover` / `-soft` / `-subtle` / `-line` / `-text`, and the same
      shape for `--danger`, `--warn`, `--success`
+   - `--fresh-fill` / `--fresh-line`: the warm card on a lesson added in the last week
+     (`ChapterIndex.vue`). Warm on purpose — the one card colour that is neither the blue of
+     hover nor the green of « terminé » — and deliberately not the amber `--warn-*`, which
+     means "attention" and must stay separable from "new here"
    - elevation: `--shadow-sm`, `--shadow`, `--shadow-lg`
    - layout: `--max-width`, `--sidebar-w`, `--topbar-h`, `--radius*`, `--dur*`, `--ease`
 3. **Aliases** — the legacy `--clr-*` names. They map onto layer 2 so the older views
@@ -58,7 +62,7 @@ write no `<style>` block:
 
 | Class | Pages | Owns |
 |---|---|---|
-| `.lesson` | grammaire, orthographe, astuces, vocabulaire, prononciation, musique | tables, `.hl-*`, `.note`, `.method`, `.sep` |
+| `.lesson` | grammaire, orthographe, astuces, vocabulaire, prononciation, musique, culture | tables, `.hl-*`, `.note`, `.method`, `.sep`, `.photo-grid` / `.photo-card`, `.credits` |
 | `.exo` | exercices | instructions, progress meter, card, feedback, score screen |
 | `.gapfill` | conversation | word bank, chips, chat bubbles, slots |
 | `.dictee` | dictees | prep card, audio buttons, textarea, correction, score screen |

@@ -41,8 +41,29 @@ same way, and the score screen markup depends on them.
 
 Nine of the first eleven exercises were the same 4-option MCQ. Current coverage: MCQ (×9),
 matching pairs, tap-to-order, bucket sort, locate-and-retype, multi-select, listening,
-type-in conjugation, timed round. **Prefer a mechanic that does not exist yet over a tenth
-MCQ.** If the grammar point genuinely only fits an MCQ, say so rather than forcing it.
+type-in conjugation, fixed chip pool (timed in `le-bon-pronom`, untimed in
+`la-bonne-terminaison`), timed round. **Prefer a mechanic that does not exist yet over a
+tenth MCQ.** If the grammar point genuinely only fits an MCQ, say so rather than forcing it.
+
+**Prefer clicking to typing when the answer carries French accents.** The learners type on a
+Spanish keyboard, where é, è and ê cost a dead-key detour: a drill that makes them spell
+« mangé » in a text field is testing their keyboard, not their French.
+`la-bonne-terminaison` was written as a type-in and rebuilt on chips for that reason. Type-in
+still earns its place where the *spelling* is the skill (`mets-au-bon-temps`,
+`trouve-la-faute`) — just never as the only way to express something a click could.
+
+**A fixed pool beats per-item distractors.** `le-bon-pronom` keeps its nine pronouns on
+screen all round, `la-bonne-terminaison` its eighteen terminaisons, in a stable order and
+never shuffled: the learner recalls the paradigm and finds the form in it. Three distractors
+chosen per sentence turn recall into elimination, which is just an MCQ wearing chips. Two
+rules come with the shape — every answer in the data must exist in the pool (check it, a
+typo'd answer is unanswerable), and a pool entry that is never an answer is a deliberate
+trap (`-ée` next to `-ie` and `-ées`), so say so in a comment.
+
+**A drill that fills a fragment must ship the context that disambiguates it.**
+« tu regard___ » takes -es (présent) as readily as -ais (imparfait), so every
+`la-bonne-terminaison` item carries the infinitive *and* the tense. An item missing either is
+a bug, not a hard question.
 
 ## Validate the data — this is the job
 

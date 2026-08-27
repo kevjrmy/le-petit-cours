@@ -100,6 +100,14 @@ What to look for, in rough order of how often it turns up:
 6. **Facts.** Dates, authors, works, historical claims. They are cheap to check and
    embarrassing to get wrong in teaching material.
 
+## Culture pages carry text you might not think to read
+
+On a `culture/` page the prose is not only in the paragraphs. Check the photo captions, the
+`alt` attributes (French, describing the image) and the *Crédits photographiques* block —
+an author's name spelled wrong or a licence stated wrong is a factual error like any other.
+These pages also make checkable claims: chefs-lieux, dates, statuses, superlatives ("la plus
+vaste des régions"). Verify them; a page that teaches culture is trusted on its facts.
+
 ## What is not your call
 
 - Layout, spacing, colours, dark mode → `page-auditor`.

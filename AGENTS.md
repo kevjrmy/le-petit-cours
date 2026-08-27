@@ -172,6 +172,10 @@ carries images, and images come with rules the rest of the book never needed.
   a link to the file page and the licence — that is what CC BY and CC BY-SA require, and a
   page that crops its sources says so. The credit data lives next to the item in the page's
   own array, so an image can never drift away from its attribution.
+- **The credits block does not count against the two-or-three `<article>` rule.** Three of
+  the four articles on `les-regions-de-france` teach (les régions, les prépositions, le
+  vocabulaire); the fourth is *Crédits photographiques*, which is furniture the licences
+  require, like `<RelatedLinks />`. Count teaching sections, not cards.
 - **Look at what you downloaded.** Two of the first thirteen were rejected on sight: one had
   the words "Mont Blanc" scrawled across it in blue, another turned out to be sheep in a field
   when the file name said volcano. The API tells you the licence, not whether the picture is

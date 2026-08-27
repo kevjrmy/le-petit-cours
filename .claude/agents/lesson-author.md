@@ -1,6 +1,6 @@
 ---
 name: lesson-author
-description: Use to write or revise course content for le-petit-cours — a grammaire/orthographe/vocabulaire lesson, a lecture (reading) page, a conversation dialogue, a dictée, or an astuce. Handles the French pedagogy, the Spanish glossaries, and the full .vue page. Do NOT use for pure styling or routing work.
+description: Use to write or revise course content for le-petit-cours — a grammaire/orthographe/vocabulaire lesson, a lecture (reading) page, a culture page, a conversation dialogue, a dictée, or an astuce. Handles the French pedagogy, the Spanish glossaries, and the full .vue page. Do NOT use for pure styling or routing work.
 tools: Read, Edit, Write, Grep, Glob, Bash
 model: sonnet
 ---
@@ -124,6 +124,37 @@ and only **after the first play**, since `getVoices()` is empty until `voicescha
 
 The answer comparator is accent-sensitive on purpose but normalises ligatures (`œ`→`oe`),
 because a Spanish keyboard cannot type them — say so on the page when a sentence needs one.
+
+## Culture pages (`culture/`) — the only pages with photographs
+
+`culture/` is about the country rather than the language. Structurally it is an ordinary
+lesson — `<main class="lesson">`, the global classes, no `<style>` block — and the difference
+is that it carries images, which bring rules the rest of the book never needed.
+
+- **The files ship with the app**: `public/img/{chapter}/{page}/{slug}.webp`, referenced by a
+  plain absolute path. Never hotlink Commons or Unsplash. This is an offline PWA, and a
+  remote photograph is a lesson that goes blank in the métro. `webp` is in `globPatterns` in
+  `vite.config.js` so the files are precached; if you add another image format, add it there
+  too or it silently stops working offline.
+- **One shape per grid**: 560×373 (3:2), centre-cropped from the source, quality ~78 — about
+  45 KB each. Use `.photo-grid` / `.photo-card`, and give every `<img>` `width`, `height`,
+  `loading="lazy"` and a French `alt` that *describes the photograph* instead of repeating
+  the caption under it.
+- **Free licences only, and credit them**: CC0, public domain, CC BY, CC BY-SA. The page ends
+  with a *Crédits photographiques* block giving, per image, the author, a link to the file
+  page and the licence — that is what CC BY and CC BY-SA require of a page that crops and
+  resizes them. Keep each credit in the same array entry as the item it illustrates so an
+  image can never drift away from its attribution.
+- **The credits block does not count against the two-or-three `<article>` rule.** Three of
+  the four articles on `les-regions-de-france` teach (les régions, les prépositions, le
+  vocabulaire); the fourth is *Crédits photographiques*, which is furniture the licences
+  require, like `<RelatedLinks />`. Count teaching sections, not cards.
+- **Look at what you downloaded.** The Commons API reports a licence, not whether a picture
+  is any good: of the first thirteen, one had "Mont Blanc" scrawled across it in blue biro and
+  one was sheep in a field where the file name promised a volcano.
+- The prose rules do not relax here. Facts are checkable (chefs-lieux, dates, statuses), and
+  where French administrative vocabulary has a Spanish near-twin, flag it — *la métropole* is
+  not *metrópoli*.
 
 ## Data-driven chapters — never hand-write the page
 

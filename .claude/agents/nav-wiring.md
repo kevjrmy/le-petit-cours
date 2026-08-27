@@ -96,6 +96,10 @@ grep -o "name: '[^']*'" src/router/index.js | sort | uniq -d
 4. Routes for the index and every lesson.
 5. The §7 list in `AGENTS.md`.
 
+A chapter that ships assets needs one more thing: its files under `public/img/{slug}/`, and
+the extension present in `globPatterns` in `vite.config.js`. Miss the second and the pages
+render online and lose their images offline — the failure never appears in `npm run build`.
+
 ## Renaming, moving, removing
 
 - **Rename a route path** → update `navigation.js`, `router/index.js`, `relatedPages`

@@ -44,6 +44,24 @@ Also flag:
 - Text on tinted fills that is unlikely to reach 4.5:1 — check the token pair, not a guess.
 - `<details>`/`<summary>` used for the hidden translation must stay keyboard-reachable.
 
+## 2b. Images (`culture/` pages)
+
+- An `<img>` with no `alt`, or an `alt` that repeats the caption underneath instead of
+  describing the picture.
+- A missing `width`/`height` pair — the page reflows as each photo lands.
+- A remote `src`. Photographs must be local files under `public/img/`: hotlinking breaks the
+  offline PWA, and nothing in the build will tell you.
+- Extension not covered by `globPatterns` in `vite.config.js` → shipped but not precached.
+  Confirm the opposite after a build:
+
+```bash
+npm run build && node -e "const s=require('fs').readFileSync('dist/sw.js','utf8'); \
+  console.log([...new Set(s.match(/img\/[^"']+/g)||[])].length, 'images precached')"
+```
+
+- Broken or slow-loading images are worth a real browser check rather than a guess: load the
+  page, force `loading='eager'` on every `<img>`, and report any with `naturalWidth === 0`.
+
 ## 3. Layout and length
 
 There is no print stylesheet and no PDF button — both were removed on 2026-08-26. Treat a
