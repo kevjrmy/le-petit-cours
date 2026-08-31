@@ -75,9 +75,7 @@ export const FRESH_DAYS = 7
  * midnight only ever costs a card its tint for that hour.
  */
 export async function freshViews(routePaths, days = FRESH_DAYS) {
-  const cutoff = new Date()
-  cutoff.setDate(cutoff.getDate() - days)
-  const cutoffIso = toIsoDay(cutoff)
+  const cutoffIso = isoDaysAgo(days)
 
   const entries = await Promise.all(
     routePaths.map(async path => {
@@ -87,6 +85,31 @@ export async function freshViews(routePaths, days = FRESH_DAYS) {
   )
 
   return new Set(entries.filter(Boolean))
+}
+
+/**
+ * Every view among `routePaths` created within the last `days`, newest first.
+ *
+ * This is `recentViews` uncapped, then cut at the date — deliberately the same
+ * function, so the two lists can never disagree about what "newest" means or
+ * how same-day ties break.
+ *
+ * The difference is which end is capped. `recentViews` caps by COUNT: the
+ * sommaire shows six, whenever they landed. This caps by TIME: the page shows a
+ * week, however many that is — twelve pages, or none at all. A quiet week is a
+ * real answer here and the page has to render it.
+ */
+export async function viewsSince(routePaths, days = FRESH_DAYS) {
+  const cutoffIso = isoDaysAgo(days)
+  const rows = await recentViews(routePaths, Infinity)
+  return rows.filter(row => row.created >= cutoffIso)
+}
+
+/** The ISO day `days` days before today, in local time — same basis as `created`. */
+function isoDaysAgo(days) {
+  const cutoff = new Date()
+  cutoff.setDate(cutoff.getDate() - days)
+  return toIsoDay(cutoff)
 }
 
 function toIsoDay(date) {

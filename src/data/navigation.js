@@ -325,6 +325,7 @@ export const chapters = [
 
 /** Utility routes — reachable from the sidebar footer, not book chapters. */
 export const annexes = [
+  { path: '/nouveautes', title: 'Nouveautés', icon: 'nouveautes' },
   { path: '/ma-progression', title: 'Ma progression', icon: 'progress' },
   { path: '/a-propos', title: 'À propos', icon: 'about' },
 ]

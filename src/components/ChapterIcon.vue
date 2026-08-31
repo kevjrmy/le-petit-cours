@@ -27,6 +27,7 @@ import IconMusique from '~icons/mdi/music-note-outline'
 import IconCulture from '~icons/mdi/eiffel-tower'
 import IconVocabulaire from '~icons/mdi/alphabetical-variant'
 import IconConversation from '~icons/mdi/chat-outline'
+import IconNouveautes from '~icons/mdi/calendar-star'
 import IconProgress from '~icons/mdi/chart-arc'
 import IconAbout from '~icons/mdi/information-outline'
 import IconDefault from '~icons/mdi/file-document-outline'
@@ -47,6 +48,7 @@ const icons = {
   culture:       IconCulture,
   vocabulaire:   IconVocabulaire,
   conversation:  IconConversation,
+  nouveautes:    IconNouveautes,
   progress:      IconProgress,
   about:         IconAbout,
   default:       IconDefault,

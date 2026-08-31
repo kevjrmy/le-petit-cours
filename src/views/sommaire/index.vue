@@ -19,7 +19,12 @@
 
       <!-- ── Recently added ────────────────────────── -->
       <section v-if="recent.length" class="recent" aria-labelledby="recent-title">
-        <h2 id="recent-title" class="grid-title">Récemment ajouté</h2>
+        <div class="recent-head">
+          <h2 id="recent-title" class="grid-title">Récemment ajouté</h2>
+          <RouterLink class="recent-more" to="/nouveautes">
+            Voir tout <span aria-hidden="true">→</span>
+          </RouterLink>
+        </div>
 
         <ul class="recent-list">
           <li v-for="item in recent" :key="item.path">
@@ -262,6 +267,28 @@ onMounted(async () => {
 }
 
 /* ── Recently added ─────────────────────────────── */
+/* Le titre garde sa place ; le lien va au bout de la même ligne. La section
+   affiche les six dernières quoi qu'il arrive, « Voir tout » ouvre la semaine
+   entière — deux découpes différentes de la même liste, pas deux listes. */
+.recent-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.recent-more {
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.recent-more:hover { color: var(--accent-hover); text-decoration: underline; }
+
 .recent {
   display: flex;
   flex-direction: column;

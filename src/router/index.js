@@ -177,6 +177,7 @@ const router = createRouter({
     { path: '/vocabulaire/les-couleurs', name: 'vocab-les-couleurs', component: () => import('../views/vocabulaire/les-couleurs.vue') },
 
     // Annexes
+    { path: '/nouveautes', name: 'nouveautes', component: () => import('../views/annexe/nouveautes.vue') },
     { path: '/ma-progression', name: 'ma-progression', component: () => import('../views/annexe/ma-progression.vue') },
     { path: '/a-propos', name: 'about', component: () => import('../views/annexe/a-propos.vue') },
 
