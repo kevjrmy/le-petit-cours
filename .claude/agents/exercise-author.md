@@ -42,7 +42,8 @@ same way, and the score screen markup depends on them.
 Nine of the first eleven exercises were the same 4-option MCQ. Current coverage: MCQ (×9),
 matching pairs, tap-to-order, bucket sort, locate-and-retype, multi-select, listening,
 type-in conjugation, fixed chip pool (timed in `le-bon-pronom`, untimed in
-`la-bonne-terminaison`), timed round. **Prefer a mechanic that does not exist yet over a
+`la-bonne-terminaison`), timed round, two-step build (`construis-l-imparfait`).
+**Prefer a mechanic that does not exist yet over a
 tenth MCQ.** If the grammar point genuinely only fits an MCQ, say so rather than forcing it.
 
 **Prefer clicking to typing when the answer carries French accents.** The learners type on a

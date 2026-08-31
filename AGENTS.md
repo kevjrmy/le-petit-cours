@@ -231,8 +231,23 @@ The only **data-driven** chapter. Every verb view is a one-line
 chrome from `ConjugationSheet.vue`. Adding a verb means an entry in that data file, a view
 wrapper, a `navigation.js` line and a route — never a hand-written table.
 
-**Scope is A2 and stays A2**: présent, passé composé, impératif, participe présent. No
-imparfait, futur or subjonctif — those belong to the grammaire lessons.
+**Five tenses**: présent, passé composé, futur simple, impératif, participe présent. Still
+no imparfait and no subjonctif — the imparfait is taught in `grammaire/l-imparfait` and
+drilled in `exercices/construis-l-imparfait`, and the subjonctif is past A2 entirely. The
+futur was added on 2026-08-31, when the chapter went from ten verbs to thirty; the sheet had
+been présent + passé composé only until then.
+
+**The futur is generated, not stored.** Every verb in the language takes the same six
+terminaisons (-ai, -as, -a, -ons, -ez, -ont) — all the irregularity is in the stem — so a
+verb carries a single `futur` string (`parler` → `'parler'`, `être` → `'ser'`, `prendre` →
+`'prendr'`) and `conjugate()` assembles the forms with the `|` boundary falling where the
+endings begin. Never write six futur forms by hand: a verb that needs them is a verb whose
+stem you got wrong.
+
+The five panels sit in a two-column grid, so the participe présent — one line — closes it as
+a full-width row (`.tense-wide`). `imperatif: null` prints "Ce verbe n'a pas d'impératif",
+which is true of `pouvoir`; `devoir` overrides it with `imperatifNote`, because its forms
+exist on paper and simply are not used. Distinguish the two rather than flattening them.
 
 Two toggles (affirmatif/négatif, masculin/féminin) drive the whole sheet, so the forms are
 generated, not stored. The generators live in the data file and are pure functions — test
@@ -388,7 +403,7 @@ line at the foot of the script (`useExerciseScore`, see §6b) reads `finished`, 
 
 **Vary the mechanic.** Coverage: MCQ (×9), matching pairs, tap-to-order, bucket sort,
 locate-and-retype, multi-select, listening, type-in conjugation, fixed chip pool (timed and
-untimed), timed round. Prefer a missing mechanic over a tenth MCQ.
+untimed), timed round, two-step build. Prefer a missing mechanic over a tenth MCQ.
 
 **Prefer clicking to typing when the answer carries French accents.** The learners type on a
 Spanish keyboard, where é, è and ê cost a dead-key detour; a drill that makes them spell
@@ -552,14 +567,22 @@ Authoritative list is `src/data/navigation.js` — this table is the human summa
   - *verbes*: verbe-1er/2eme/3eme-groupe, les-verbes-pronominaux, les-verbes-modaux, l-imperatif
   - *temps*: le-passe-compose, l-imparfait, passe-compose-ou-imparfait, le-futur-proche, le-futur-simple, le-conditionnel-present
   - *pronoms et comparaison*: les-pronoms-cod-coi, les-pronoms-y-en, le-comparatif-et-le-superlatif, les-prepositions-de-lieu
-- **conjugaison** (10) — reference tables, A2 tenses only, all rendered by one component
-  from `src/data/conjugaisons.js`: etre, avoir, parler, finir, aller, faire, pouvoir,
-  vouloir, venir, prendre
+- **conjugaison** (30) — reference tables, five tenses, all rendered by one component from
+  `src/data/conjugaisons.js`. Ordered auxiliaires → modèles réguliers → 1er groupe →
+  2e groupe → 3e groupe, and `navigation.js` keeps that same order:
+  - *auxiliaires*: etre, avoir
+  - *modèles*: parler (1er), finir (2e)
+  - *1er groupe*: aimer, donner, plus the four spelling patterns — manger (-ger),
+    commencer (-cer), acheter (e→è), appeler (l→ll)
+  - *2e groupe*: choisir
+  - *3e groupe*: aller, faire, dire, pouvoir, vouloir, devoir, savoir, voir, venir, partir,
+    sortir, prendre, mettre, attendre, ecrire, lire, boire, ouvrir, connaitre
 - **orthographe** (3): les-homophones, les-determinants-possessifs, les-pronoms-possessifs
 - **astuces** (4) — mnemonics for rules taught elsewhere; each page links back to its lesson:
   a-en-au-aux, le-genre-des-noms, etre-ou-avoir, le-test-de-substitution
 - **dictees** (3): une-journee-en-vacances, la-pierre-de-rosette, les-fleurs-du-mal
-- **exercices** (18, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre, etre-ou-avoir, trouve-la-faute, devine-les-temps, ecoute-et-choisis, mets-au-bon-temps, le-bon-pronom, la-bonne-terminaison
+- **exercices** (19, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre, etre-ou-avoir, trouve-la-faute, devine-les-temps, ecoute-et-choisis, mets-au-bon-temps, le-bon-pronom, la-bonne-terminaison,
+  construis-l-imparfait
 - **lecture** (5): le-lion-et-le-rat, le-petit-prince, entretien-d-embauche, le-comte-de-monte-cristo, le-tour-du-monde
 - **litterature** (1): introduction
 - **prononciation** (3) — data-driven like conjugaison: les-voyelles, les-voyelles-nasales,
@@ -569,9 +592,10 @@ Authoritative list is `src/data/navigation.js` — this table is the human summa
   with commentary, a vocabulary table and a grammar focus, never a full lyric sheet.
 - **culture** (1): les-regions-de-france — the country behind the language. The only chapter
   whose pages carry photographs; see §5 for where the files live and what their licences owe.
-- **vocabulaire** (14) — base first, then the everyday themes: 100-mots-les-plus-utilises,
-  les-nombres, l-heure, les-jours-et-la-date, la-maison, les-vetements, la-ville,
-  les-transports, le-travail, la-meteo, le-docteur, la-famille, le-corps, les-couleurs
+- **vocabulaire** (15) — base first, then the everyday themes: 100-mots-les-plus-utilises,
+  les-nombres, l-heure, les-jours-et-la-date, la-maison, la-nourriture, les-vetements,
+  la-ville, les-transports, le-travail, la-meteo, le-docteur, la-famille, le-corps,
+  les-couleurs
 - **conversation** (6): en-vacances, a-la-boulangerie, a-disneyland-paris, chez-le-medecin, a-la-pharmacie, demander-son-chemin
 - **annexe** (utility route, not a chapter): a-propos
 

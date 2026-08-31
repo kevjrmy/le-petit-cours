@@ -62,21 +62,44 @@ export const chapters = [
     icon: 'conjugaison',
     unit: ['verbe', 'verbes'],
     blurb:
-      'Les tableaux des dix verbes les plus utiles, au présent, au passé composé, ' +
-      "à l'impératif et au participe présent — avec la forme négative et le féminin.",
-    /* Auxiliaires first, then the two regular models, then the frequent
-       irregulars. The tables themselves live in `src/data/conjugaisons.js`. */
+      'Les tableaux des trente verbes les plus utiles, au présent, au passé composé, ' +
+      "au futur simple, à l'impératif et au participe présent — avec la forme négative et le féminin.",
+    /* Auxiliaires first, then the two regular models, then the 1er groupe
+       spelling patterns (-ger, -cer, e→è, l→ll), then the frequent irregulars.
+       The tables themselves live in `src/data/conjugaisons.js` and must stay
+       in this order — a reader scanning the two files compares them line by
+       line. */
     lessons: [
       { path: '/conjugaison/etre', title: 'être', subtitle: 'ser / estar', tag: 'Auxiliaire' },
       { path: '/conjugaison/avoir', title: 'avoir', subtitle: 'haber / tener', tag: 'Auxiliaire' },
       { path: '/conjugaison/parler', title: 'parler', subtitle: 'hablar', tag: '1er groupe' },
       { path: '/conjugaison/finir', title: 'finir', subtitle: 'terminar / acabar', tag: '2e groupe' },
+      { path: '/conjugaison/aimer', title: 'aimer', subtitle: 'amar / gustar', tag: '1er groupe' },
+      { path: '/conjugaison/donner', title: 'donner', subtitle: 'dar', tag: '1er groupe' },
+      { path: '/conjugaison/manger', title: 'manger', subtitle: 'comer', tag: '1er groupe' },
+      { path: '/conjugaison/commencer', title: 'commencer', subtitle: 'empezar / comenzar', tag: '1er groupe' },
+      { path: '/conjugaison/acheter', title: 'acheter', subtitle: 'comprar', tag: '1er groupe' },
+      { path: '/conjugaison/appeler', title: 'appeler', subtitle: 'llamar', tag: '1er groupe' },
+      { path: '/conjugaison/choisir', title: 'choisir', subtitle: 'elegir / escoger', tag: '2e groupe' },
       { path: '/conjugaison/aller', title: 'aller', subtitle: 'ir', tag: '3e groupe' },
       { path: '/conjugaison/faire', title: 'faire', subtitle: 'hacer', tag: '3e groupe' },
+      { path: '/conjugaison/dire', title: 'dire', subtitle: 'decir', tag: '3e groupe' },
       { path: '/conjugaison/pouvoir', title: 'pouvoir', subtitle: 'poder', tag: '3e groupe' },
       { path: '/conjugaison/vouloir', title: 'vouloir', subtitle: 'querer', tag: '3e groupe' },
+      { path: '/conjugaison/devoir', title: 'devoir', subtitle: 'deber / tener que', tag: '3e groupe' },
+      { path: '/conjugaison/savoir', title: 'savoir', subtitle: 'saber', tag: '3e groupe' },
+      { path: '/conjugaison/voir', title: 'voir', subtitle: 'ver', tag: '3e groupe' },
       { path: '/conjugaison/venir', title: 'venir', subtitle: 'venir', tag: '3e groupe' },
+      { path: '/conjugaison/partir', title: 'partir', subtitle: 'irse / marcharse', tag: '3e groupe' },
+      { path: '/conjugaison/sortir', title: 'sortir', subtitle: 'salir', tag: '3e groupe' },
       { path: '/conjugaison/prendre', title: 'prendre', subtitle: 'tomar / coger', tag: '3e groupe' },
+      { path: '/conjugaison/mettre', title: 'mettre', subtitle: 'poner / meter', tag: '3e groupe' },
+      { path: '/conjugaison/attendre', title: 'attendre', subtitle: 'esperar', tag: '3e groupe' },
+      { path: '/conjugaison/ecrire', title: 'écrire', subtitle: 'escribir', tag: '3e groupe' },
+      { path: '/conjugaison/lire', title: 'lire', subtitle: 'leer', tag: '3e groupe' },
+      { path: '/conjugaison/boire', title: 'boire', subtitle: 'beber', tag: '3e groupe' },
+      { path: '/conjugaison/ouvrir', title: 'ouvrir', subtitle: 'abrir', tag: '3e groupe' },
+      { path: '/conjugaison/connaitre', title: 'connaître', subtitle: 'conocer', tag: '3e groupe' },
     ],
   },
   {
@@ -155,6 +178,7 @@ export const chapters = [
       { path: '/exercices/mets-au-bon-temps', title: 'Mets au bon temps', tag: 'Conjugaison' },
       { path: '/exercices/le-bon-pronom', title: 'Le bon pronom', tag: 'Chrono' },
       { path: '/exercices/la-bonne-terminaison', title: 'La bonne terminaison', tag: 'Conjugaison' },
+      { path: '/exercices/construis-l-imparfait', title: "Construis l'imparfait", tag: 'Conjugaison' },
     ],
   },
   {
@@ -246,6 +270,7 @@ export const chapters = [
       { path: '/vocabulaire/l-heure', title: "L'heure" },
       { path: '/vocabulaire/les-jours-et-la-date', title: 'Les jours et la date' },
       { path: '/vocabulaire/la-maison', title: 'La maison' },
+      { path: '/vocabulaire/la-nourriture', title: 'La nourriture et les repas' },
       { path: '/vocabulaire/les-vetements', title: 'Les vêtements' },
       { path: '/vocabulaire/la-ville', title: 'La ville' },
       { path: '/vocabulaire/les-transports', title: 'Les transports' },
@@ -335,7 +360,7 @@ export const MAX_RELATED = 4
  */
 export const relatedPages = {
   // ── Grammaire ────────────────────────────────
-  '/grammaire/les-articles': ['/exercices/les-articles', '/astuces/le-genre-des-noms', '/grammaire/les-adjectifs'],
+  '/grammaire/les-articles': ['/exercices/les-articles', '/astuces/le-genre-des-noms', '/grammaire/les-adjectifs', '/vocabulaire/la-nourriture'],
   '/grammaire/les-adjectifs': ['/exercices/les-adjectifs-accord', '/astuces/le-genre-des-noms', '/grammaire/le-comparatif-et-le-superlatif'],
   '/grammaire/les-demonstratifs': ['/orthographe/les-determinants-possessifs', '/grammaire/les-articles'],
   '/grammaire/les-adverbes': ['/exercices/les-adverbes', '/grammaire/les-adjectifs'],
@@ -348,10 +373,10 @@ export const relatedPages = {
   '/grammaire/les-verbes-modaux': ['/conjugaison/pouvoir', '/conjugaison/vouloir'],
   '/grammaire/l-imperatif': ['/conjugaison/parler', '/conversation/demander-son-chemin'],
   '/grammaire/le-passe-compose': ['/exercices/le-passe-compose', '/astuces/etre-ou-avoir', '/exercices/etre-ou-avoir', '/conjugaison/avoir'],
-  '/grammaire/l-imparfait': ['/grammaire/passe-compose-ou-imparfait', '/exercices/devine-les-temps', '/exercices/mets-au-bon-temps', '/exercices/la-bonne-terminaison'],
-  '/grammaire/passe-compose-ou-imparfait': ['/grammaire/le-passe-compose', '/grammaire/l-imparfait', '/exercices/devine-les-temps'],
+  '/grammaire/l-imparfait': ['/exercices/construis-l-imparfait', '/grammaire/passe-compose-ou-imparfait', '/exercices/devine-les-temps', '/exercices/mets-au-bon-temps'],
+  '/grammaire/passe-compose-ou-imparfait': ['/grammaire/le-passe-compose', '/grammaire/l-imparfait', '/exercices/devine-les-temps', '/exercices/construis-l-imparfait'],
   '/grammaire/le-futur-proche': ['/exercices/le-futur-proche', '/conjugaison/aller', '/grammaire/le-futur-simple'],
-  '/grammaire/le-futur-simple': ['/grammaire/le-futur-proche', '/grammaire/le-conditionnel-present', '/exercices/mets-au-bon-temps'],
+  '/grammaire/le-futur-simple': ['/grammaire/le-futur-proche', '/grammaire/le-conditionnel-present', '/exercices/mets-au-bon-temps', '/conjugaison/voir'],
   '/grammaire/le-conditionnel-present': ['/exercices/mets-au-bon-temps', '/grammaire/le-futur-simple', '/exercices/la-bonne-terminaison'],
   '/grammaire/les-pronoms-cod-coi': ['/exercices/le-bon-pronom', '/grammaire/les-pronoms-y-en', '/musique/la-vie-en-rose'],
   '/grammaire/les-pronoms-y-en': ['/exercices/le-bon-pronom', '/grammaire/les-pronoms-cod-coi'],
@@ -363,12 +388,32 @@ export const relatedPages = {
   '/conjugaison/avoir': ['/astuces/etre-ou-avoir', '/exercices/etre-ou-avoir', '/grammaire/le-passe-compose'],
   '/conjugaison/parler': ['/grammaire/verbe-1er-groupe', '/exercices/conjugaison-present'],
   '/conjugaison/finir': ['/grammaire/verbe-2eme-groupe', '/exercices/conjugaison-present'],
+  '/conjugaison/aimer': ['/conjugaison/parler', '/grammaire/verbe-1er-groupe', '/exercices/conjugaison-present'],
+  '/conjugaison/donner': ['/conjugaison/parler', '/grammaire/les-pronoms-cod-coi', '/exercices/conjugaison-present'],
+  '/conjugaison/manger': ['/conjugaison/commencer', '/grammaire/verbe-1er-groupe', '/vocabulaire/la-nourriture', '/exercices/la-bonne-terminaison'],
+  '/conjugaison/commencer': ['/conjugaison/manger', '/grammaire/verbe-1er-groupe'],
+  '/conjugaison/acheter': ['/conjugaison/appeler', '/grammaire/verbe-1er-groupe', '/vocabulaire/les-vetements'],
+  '/conjugaison/appeler': ['/conjugaison/acheter', '/grammaire/verbe-1er-groupe', '/conversation/chez-le-medecin'],
+  '/conjugaison/choisir': ['/conjugaison/finir', '/grammaire/verbe-2eme-groupe', '/exercices/quel-groupe-verbe-appartient'],
   '/conjugaison/aller': ['/grammaire/le-futur-proche', '/exercices/le-futur-proche'],
   '/conjugaison/faire': ['/grammaire/verbe-3eme-groupe', '/exercices/conjugaison-present'],
   '/conjugaison/pouvoir': ['/grammaire/les-verbes-modaux', '/conjugaison/vouloir'],
   '/conjugaison/vouloir': ['/grammaire/les-verbes-modaux', '/conjugaison/pouvoir'],
   '/conjugaison/venir': ['/grammaire/verbe-3eme-groupe', '/grammaire/le-passe-compose'],
   '/conjugaison/prendre': ['/grammaire/verbe-3eme-groupe', '/vocabulaire/les-transports'],
+  '/conjugaison/dire': ['/conjugaison/faire', '/conjugaison/lire', '/grammaire/verbe-3eme-groupe'],
+  '/conjugaison/devoir': ['/grammaire/les-verbes-modaux', '/conjugaison/pouvoir', '/conjugaison/vouloir'],
+  '/conjugaison/savoir': ['/conjugaison/connaitre', '/grammaire/verbe-3eme-groupe'],
+  '/conjugaison/voir': ['/conjugaison/savoir', '/grammaire/verbe-3eme-groupe', '/exercices/mets-au-bon-temps'],
+  '/conjugaison/partir': ['/conjugaison/sortir', '/grammaire/le-passe-compose', '/astuces/etre-ou-avoir'],
+  '/conjugaison/sortir': ['/conjugaison/partir', '/grammaire/le-passe-compose', '/astuces/etre-ou-avoir'],
+  '/conjugaison/mettre': ['/conjugaison/prendre', '/grammaire/verbe-3eme-groupe', '/vocabulaire/les-vetements'],
+  '/conjugaison/attendre': ['/conjugaison/prendre', '/grammaire/verbe-3eme-groupe', '/vocabulaire/les-transports'],
+  '/conjugaison/ecrire': ['/conjugaison/lire', '/grammaire/verbe-3eme-groupe', '/dictees/une-journee-en-vacances'],
+  '/conjugaison/lire': ['/conjugaison/ecrire', '/conjugaison/dire', '/lecture/le-petit-prince'],
+  '/conjugaison/boire': ['/conjugaison/manger', '/vocabulaire/la-nourriture', '/grammaire/verbe-3eme-groupe', '/conversation/a-la-boulangerie'],
+  '/conjugaison/ouvrir': ['/conjugaison/parler', '/grammaire/verbe-3eme-groupe'],
+  '/conjugaison/connaitre': ['/conjugaison/savoir', '/grammaire/verbe-3eme-groupe', '/conversation/demander-son-chemin'],
 
   // ── Orthographe ──────────────────────────────
   '/orthographe/les-homophones': ['/astuces/le-test-de-substitution', '/exercices/trouve-la-faute', '/exercices/ecoute-et-choisis'],
@@ -405,6 +450,7 @@ export const relatedPages = {
   '/exercices/mets-au-bon-temps': ['/grammaire/le-conditionnel-present', '/grammaire/l-imparfait', '/conjugaison/parler', '/exercices/la-bonne-terminaison'],
   '/exercices/le-bon-pronom': ['/grammaire/les-pronoms-cod-coi', '/grammaire/les-pronoms-y-en', '/musique/la-vie-en-rose'],
   '/exercices/la-bonne-terminaison': ['/grammaire/verbe-1er-groupe', '/grammaire/l-imparfait', '/grammaire/le-conditionnel-present', '/exercices/mets-au-bon-temps'],
+  '/exercices/construis-l-imparfait': ['/grammaire/l-imparfait', '/grammaire/passe-compose-ou-imparfait', '/exercices/la-bonne-terminaison', '/conjugaison/parler'],
 
   // ── Lecture ──────────────────────────────────
   '/lecture/le-lion-et-le-rat': ['/litterature/introduction', '/grammaire/l-imparfait'],
@@ -429,6 +475,7 @@ export const relatedPages = {
   '/vocabulaire/l-heure': ['/vocabulaire/les-nombres', '/vocabulaire/les-jours-et-la-date'],
   '/vocabulaire/les-jours-et-la-date': ['/vocabulaire/l-heure', '/vocabulaire/les-nombres', '/vocabulaire/la-meteo'],
   '/vocabulaire/la-maison': ['/vocabulaire/les-vetements', '/vocabulaire/la-ville'],
+  '/vocabulaire/la-nourriture': ['/grammaire/les-articles', '/conversation/a-la-boulangerie', '/conjugaison/manger', '/conjugaison/boire'],
   '/vocabulaire/les-vetements': ['/vocabulaire/la-maison', '/vocabulaire/la-meteo'],
   '/vocabulaire/la-ville': ['/vocabulaire/les-transports', '/conversation/demander-son-chemin', '/grammaire/les-prepositions-de-lieu'],
   '/vocabulaire/les-transports': ['/vocabulaire/la-ville', '/conversation/demander-son-chemin', '/lecture/le-tour-du-monde'],
@@ -441,7 +488,7 @@ export const relatedPages = {
 
   // ── Conversation ─────────────────────────────
   '/conversation/en-vacances': ['/vocabulaire/la-meteo', '/dictees/une-journee-en-vacances'],
-  '/conversation/a-la-boulangerie': ['/vocabulaire/les-nombres', '/vocabulaire/la-ville'],
+  '/conversation/a-la-boulangerie': ['/vocabulaire/la-nourriture', '/vocabulaire/les-nombres', '/vocabulaire/la-ville'],
   '/conversation/a-disneyland-paris': ['/vocabulaire/les-transports', '/conversation/demander-son-chemin'],
   '/conversation/chez-le-medecin': ['/vocabulaire/le-docteur', '/conversation/a-la-pharmacie'],
   '/conversation/a-la-pharmacie': ['/vocabulaire/le-docteur', '/conversation/chez-le-medecin'],

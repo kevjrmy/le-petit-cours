@@ -84,6 +84,21 @@
         </section>
 
         <section class="tense">
+          <h2>Futur simple</h2>
+          <table>
+            <caption class="sr-only">{{ verb.infinitif }} au futur simple</caption>
+            <tbody>
+              <tr v-for="(line, i) in futur" :key="i">
+                <td><span v-for="(sg, j) in line.segments" :key="j" :class="'sg-' + sg.k">{{ sg.s }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="conj-none">
+            Radical <strong>{{ verb.futur }}-</strong> + les mêmes six terminaisons pour tous les verbes.
+          </p>
+        </section>
+
+        <section class="tense">
           <h2>Impératif</h2>
           <table v-if="imperatif.length">
             <caption class="sr-only">{{ verb.infinitif }} à l'impératif</caption>
@@ -96,11 +111,11 @@
             </tbody>
           </table>
           <p v-else class="conj-none">
-            Ce verbe n'a pas d'impératif.
+            {{ verb.imperatifNote ?? "Ce verbe n'a pas d'impératif." }}
           </p>
         </section>
 
-        <section class="tense">
+        <section class="tense tense-wide">
           <h2>Participe présent</h2>
           <table>
             <caption class="sr-only">{{ verb.infinitif }} au participe présent</caption>
@@ -124,6 +139,9 @@
         </RouterLink><br>
         <RouterLink class="lesson-link" to="/grammaire/le-passe-compose">
           Voir la leçon : Le passé composé
+        </RouterLink><br>
+        <RouterLink class="lesson-link" to="/grammaire/le-futur-simple">
+          Voir la leçon : Le futur simple
         </RouterLink><br>
         <RouterLink class="lesson-link" to="/astuces/etre-ou-avoir">
           Astuce : être ou avoir au passé composé ?
@@ -156,6 +174,7 @@ const cap  = (s) => s.charAt(0).toUpperCase() + s.slice(1)
 
 const present      = computed(() => conjugate(verb.value, 'present', negative.value, gender.value))
 const passeCompose = computed(() => conjugate(verb.value, 'passeCompose', negative.value, gender.value))
+const futur        = computed(() => conjugate(verb.value, 'futur', negative.value, gender.value))
 const imperatif    = computed(() => conjugateImperatif(verb.value, negative.value))
 const pPresent     = computed(() => conjugatePPresent(verb.value, negative.value))
 
@@ -290,6 +309,10 @@ const groupLessonLabel = computed(() => GROUP_LESSONS[verb.value.groupe][1])
   padding: 1.1rem 1.25rem;
   margin-top: 0;
 }
+
+/* Odd panel out: the participe présent is one line, so it closes the grid as
+   a full-width row instead of sitting alone in the left column. */
+.tense-wide { grid-column: 1 / -1; }
 
 .tense h2 {
   font-size: 0.95rem;
