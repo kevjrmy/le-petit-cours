@@ -4,16 +4,17 @@ Full pass over all 89 published pages: mechanical checks on every view, a page-l
 sweep of every route, and a content read of the French and Spanish. Every item it opened
 was fixed on 2026-08-27, the same day the vocabulaire chapter gained three pages.
 
-The course has grown since the pass closed and now carries **91 published lessons across 13
-chapters**, plus two annexes: `exercices/la-bonne-terminaison` and the new **culture**
-chapter, opening on `les-regions-de-france`. Both were written after the sweep, so they are
-outside its 89 — what was checked on them is in §6.
+The course has grown a great deal since the pass closed and now carries **119 published
+lessons across 14 chapters**, plus three annexes. Everything past the original 89 is outside
+the sweep; what was checked on each addition is in §6.
 
 **Retired 2026-08-26:** the A4 page-budget item and the dictée print-caption item went with
 the PDF feature — there is no print output to measure or caption any more. The theme chapter
 and the contact page were removed the same day, taking their entries with them.
 
-**Nothing is open.** §1–§4 are kept as a record of what was found and fixed.
+**Nothing is open.** §1–§4 are kept as a record of what was found and fixed; §6 records what
+was checked on everything written since, including the bugs that the checks caught before the
+pages shipped.
 
 New findings go back into a §3, as a tick-off list. An item is only ticked once it is
 fixed *and* the check that found it passes again — the re-run commands are in §5.
@@ -103,9 +104,13 @@ console.log('identity', (100*same/120000).toFixed(2)+'%', '| permutations', seen
 
 ## 6. Verified clean — do not re-audit without a reason
 
-- **Conjugaison generators** — 10 verbs × présent/passé composé × négation ×
-  masculin/féminin: elision (`j'ai`, `je n'ai`, never `ell'est`), *ne … pas* around
-  the auxiliary, participle agreement only with *être*. All correct.
+- **Conjugaison generators** — re-run on 2026-08-31 for all **30 verbs**, now across
+  présent / passé composé / **futur simple** × négation × masculin-féminin, plus impératif
+  and participe présent: elision (`j'ai`, `je n'ai`, `j'irai`, never `ell'est`), *ne … pas*
+  around the auxiliary, participle agreement only with *être*, and no malformed segment in
+  any of the generated forms. Every form was printed and read. The futur is assembled from a
+  stored stem, so its 30 stems were read separately (`ser`, `aur`, `ir`, `fer`, `verr`,
+  `achèter`, `appeller`…) — all correct.
 - **Every MCQ answer key** across the 17 exercises that existed at the time: answer present
   in its options, no duplicate options, no out-of-range index. (The 18th,
   `la-bonne-terminaison`, is not an MCQ — see its entry below.)
@@ -135,6 +140,46 @@ console.log('identity', (100*same/120000).toFixed(2)+'%', '| permutations', seen
   console error in either theme. The 13 chefs-lieux and the licence line of each credit were
   checked against the Commons file pages. Its French and Spanish have **not** been through a
   second reader yet.
+
+### Written 2026-08-31 — checked as written, **not yet opened in a browser**
+
+Everything below was verified by running its own data check and, where it has logic, by
+testing that logic in isolation. **None of it has been through a browser pass in either
+theme**, unlike the 2026-08-27 entries above. That is the outstanding debt on this batch.
+
+- **`exercices/construis-l-imparfait`** — 18 items: subject + radical + ending reproduces the
+  stored form exactly, the answer is among the three options with no duplicates, every ending
+  is in the five-chip pool and every pool entry is some item's answer (no undocumented trap).
+- **`jeux/motus`** — the evaluator was cross-checked against an independently written
+  implementation over all **1 600 word pairs** plus 40 self-matches: zero divergences. Two
+  hand-written expectations I wrote first were themselves wrong, which is why the file
+  documents the cross-check rather than a fixture. 40 words, all five letters, folding 1:1,
+  no `œ` or `ç`.
+- **`jeux/un-ou-une`** — 102 nouns, 31 traps. Spanish gender is stored, never derived from the
+  written article (`el agua` is feminine). Twenty **mass nouns** shipped first and were
+  removed: *un poivre* is not French, so the un/une question had no answer. The file now
+  carries an explicit `MASS` list and asserts none has returned.
+- **`jeux/mots-meles`** — 500 grids generated from the real word lists: every word placed and
+  every word recovered through the same tap-first/tap-last path the player uses, zero
+  failures. Validation reads the line rather than stored coordinates, because 2 % of placed
+  words also appear elsewhere in the filler by accident.
+- **`jeux/jacques-a-dit`** — the eight-case truth table (Jacques spoke or not × tap-right /
+  tap-wrong / stay-still / timeout) tested in isolation: a timeout after a non-Jacques order
+  scores, it does not cost a life. 15 body parts, all present on `vocabulaire/le-corps`.
+- **`vocabulaire/la-nourriture`, `orthographe/les-accents`, `conversation/au-restaurant`** —
+  mechanical checks only: no `<style>` block, no raw hex, every `RouterLink` resolves, every
+  table has an `sr-only` caption and at most four columns, and for the dialogue the shared
+  `<script setup>` is byte-identical to `conversation/demander-son-chemin.vue`. Their French
+  and Spanish have **not** been through a second reader.
+- **`annexe/nouveautes`** — `viewsSince()` run against the real view files: the window and the
+  grouping are correct, and the sommaire's six are exactly the first six rows of the page.
+
+**A lesson worth keeping.** Three separate data checks silently under-matched their own data:
+a regex requiring single spaces skipped a column-aligned row (`un-ou-une`, 101 of 102), and
+two more missed values quoted with `"` because they contain an apostrophe — `det: "l'"` in
+`jacques-a-dit` (13 of 15) and `n: "l'épicerie"` in a simulation. Every check now counts what
+it matched against the number of declared rows and fails loudly when the two disagree. A check
+that skips a row is worse than no check, because it reports clean.
 
 Known accepted debt, deliberately not listed above: roughly 3 500 lines of scoped CSS
 across the older lesson pages duplicating the global chrome — down from ~5 000, since the

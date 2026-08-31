@@ -22,6 +22,11 @@ Claude.ai-style app shell, tricolore palette, light and dark.
 - `src/views/{chapter}/index.vue` is always a one-line `<ChapterIndex slug="…" />` wrapper.
 - `culture/` is the one chapter that ships **photographs**. They live in `public/img/culture/`
   as 560×373 WebP files, never hotlinked, and every page credits its sources — see AGENTS.md §5.
+- `jeux/` holds replayable games, and is **not** a second `exercices/`. An exercise walks a
+  fixed deck once, scores out of N and practises one named lesson; a game redraws its content
+  every round, records no score against a lesson, and pulls from the whole book. Each game
+  ships its own verified word list and the check that verified it — AGENTS.md §5 carries the
+  rules and the traps.
 - Two chapters are **data-driven**: `conjugaison/` renders from `src/data/conjugaisons.js`
   through `ConjugationSheet.vue`, and `prononciation/` from `src/data/prononciation.js`
   through `PronunciationSheet.vue`. Their views are one-line wrappers too.
@@ -29,9 +34,10 @@ Claude.ai-style app shell, tricolore palette, light and dark.
   `useSpeech` for the audio pages, and `useProgress` for the done-ticks. `src/utils/shuffle.js`
   is the one shuffle every drill imports — never re-implement it in a view.
 - Every view starts with `<!-- view-meta: created=YYYY-MM-DD; updated=YYYY-MM-DD -->`;
-  `src/utils/viewMeta.js` turns `created` into the sommaire's "Récemment ajouté" list and
-  into the warm tint on chapter-index rows added in the last week. The "Nouveau" badge and
-  the sidebar dots were removed on 2026-08-26.
+  `src/utils/viewMeta.js` turns `created` into the sommaire's "Récemment ajouté" list, into
+  the warm tint on chapter-index rows added in the last week, and into the **Nouveautés**
+  annexe (`/nouveautes`) the sommaire links to — the same list cut by time rather than by
+  count. The "Nouveau" badge and the sidebar dots were removed on 2026-08-26.
 
 ## Content rules
 

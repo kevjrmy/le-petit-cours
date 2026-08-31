@@ -585,6 +585,7 @@ Views created before tracking began carry `created=2026-08-02`.
 |---|---|---|
 | **Récemment ajouté** | `created`, newest first | sommaire |
 | **Fresh card tint** | `created`, within `FRESH_DAYS` (7) | chapter index rows |
+| **Nouveautés** | `created`, within `FRESH_DAYS` (7), grouped by day | `/nouveautes` |
 
 **The "Nouveau" badge and the red sidebar dots were removed on 2026-08-26**, along with
 `isNewView()` and the `.new-badge` / `.rail-dot` / `.child-dot` rules. Do not reintroduce a
@@ -598,6 +599,15 @@ title; and its window rolls, so a page un-marks itself a week after it lands wit
 clean up by hand. `freshViews()` returns the fresh paths as a Set; `ChapterIndex.vue` awaits
 it on mount, so the list paints first and the tint follows. Colour is never the only carrier:
 each fresh row also holds an `.sr-only` "Ajouté récemment".
+
+`viewsSince()` is the third reader, added 2026-08-31 for the **Nouveautés** annexe
+(`/nouveautes`), which the sommaire links to from the "Récemment ajouté" header. It is
+`recentViews()` uncapped and then cut at the date, deliberately the same function so the two
+lists cannot disagree about what "newest" means or how same-day ties break. The difference is
+which end is capped: the sommaire caps by **count** (six, whenever they landed), the page
+caps by **time** (a week, however many that is). A quiet week is a real answer, so the page
+has three render states — loading, empty, list — and not two; a plain `v-else` flashes
+"0 page ajoutée" while the view sources are being read.
 
 That leaves **`updated` driving nothing in the UI** — it is now plain provenance, useful when
 reading the history of a page and nothing more. Keep bumping it when you edit a view; just

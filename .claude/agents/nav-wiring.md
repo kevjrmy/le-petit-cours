@@ -29,14 +29,21 @@ const router = fs.readFileSync('src/router/index.js','utf8');
 const navPaths = [...nav.matchAll(/path: '([^']+)'/g)].map(m=>m[1]);
 const soon = [...nav.matchAll(/\{ path: '([^']+)'[^}]*soon: true/g)].map(m=>m[1]);
 const routes = new Set([...router.matchAll(/path: '([^']+)'/g)].map(m=>m[1]));
+// A redirect is a route on purpose and has no manifest entry by design: it keeps
+// an old URL (and the progress ticks keyed on it) alive after a split or rename.
+// So is the 404 catch-all. Counting either as an orphan makes the check cry wolf
+// twice on every run, which is how a check stops being read.
+const redirects = new Set([...router.matchAll(/path: '([^']+)',\s*redirect:/g)].map(m=>m[1]));
 const missing = navPaths.filter(p=>!routes.has(p) && !soon.includes(p));
-const orphan = [...routes].filter(p=>!navPaths.includes(p) && !['/','/a-propos'].includes(p));
+const orphan = [...routes].filter(p=>
+  !navPaths.includes(p) && !redirects.has(p) && !['/'].includes(p) && !p.includes(':'));
 console.log('missing route:', missing.length ? missing : 'none');
 console.log('route with no nav entry:', orphan.length ? orphan : 'none');
+console.log('redirects kept on purpose:', [...redirects].join(' ') || 'none');
 "
 ```
 
-Both lines must read `none`. Then check the related-links map, which fails soft — a stale
+Both of the first two lines must read `none`. Then check the related-links map, which fails soft — a stale
 entry drops a link rather than erroring, so nothing surfaces it but this:
 
 ```bash
@@ -49,6 +56,45 @@ for (const [k, v] of Object.entries(relatedPages)) {
 ```
 
 Then `npm run build`.
+
+## What lives outside the chapters
+
+Two kinds of route are in `navigation.js` but not in a chapter's `lessons`, and both are
+easy to forget when auditing:
+
+- **Annexes** (`annexes` array): `/nouveautes`, `/ma-progression`, `/a-propos`. They take an
+  `icon` that must also exist in `ChapterIcon.vue`'s map, they get a route like anything
+  else, and `findLesson()` deliberately does not resolve them — which is what keeps the
+  done-tick off them.
+- **Redirects**: a path kept alive after a rename or a split, pointing at its replacement.
+  `/prononciation/les-syllabes-courantes` is the live example, left when that sheet became
+  three. Never delete one to tidy the router: it is what stops a learner's saved link, and
+  their progress on it, from dying. This is the same reasoning as `pathAliases`.
+
+## Adding a chapter
+
+Five things, and the icon is the one that gets forgotten because nothing fails without it —
+`ChapterIcon` falls back to a generic glyph, so a missing map entry looks like a design
+choice rather than a bug:
+
+1. an entry in `chapters` (`slug`, `path`, `title`, `icon`, `unit`, `blurb`, `lessons`)
+2. the icon import **and** map entry in `src/components/ChapterIcon.vue`
+3. `src/views/{slug}/index.vue` — the one-line `<ChapterIndex slug="…" />` wrapper
+4. the chapter route plus a route per page
+5. AGENTS.md §5 (if the page type is new) and §7
+
+`jeux/` was added this way on 2026-08-31. Check it with:
+
+```bash
+node --input-type=module -e "
+import { chapters } from './src/data/navigation.js';
+import { readFileSync } from 'node:fs';
+const icon = readFileSync('src/components/ChapterIcon.vue','utf8');
+for (const c of chapters)
+  if (!new RegExp('^  ' + c.icon + ': +Icon', 'm').test(icon))
+    console.log('CHAPTER WITH NO ICON MAPPING:', c.slug, '→', c.icon);
+console.log(chapters.length, 'chapters checked');"
+```
 
 ## Adding a lesson
 
