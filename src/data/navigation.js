@@ -112,6 +112,7 @@ export const chapters = [
       'Apprenez à bien accorder les mots en genre, en nombre et à utiliser ' +
       'les déterminants, pronoms et homophones correctement.',
     lessons: [
+      { path: '/orthographe/les-accents', title: 'Les accents et la cédille' },
       { path: '/orthographe/les-homophones', title: 'Les homophones grammaticaux (a/à, est/et…)' },
       { path: '/orthographe/les-determinants-possessifs', title: 'Les déterminants possessifs' },
       { path: '/orthographe/les-pronoms-possessifs', title: 'Les pronoms possessifs' },
@@ -179,6 +180,25 @@ export const chapters = [
       { path: '/exercices/le-bon-pronom', title: 'Le bon pronom', tag: 'Chrono' },
       { path: '/exercices/la-bonne-terminaison', title: 'La bonne terminaison', tag: 'Conjugaison' },
       { path: '/exercices/construis-l-imparfait', title: "Construis l'imparfait", tag: 'Conjugaison' },
+    ],
+  },
+  {
+    slug: 'jeux',
+    path: '/jeux',
+    title: 'Jeux',
+    icon: 'jeux',
+    unit: ['jeu', 'jeux'],
+    blurb:
+      'Des jeux courts qui rebrassent le vocabulaire du livre. Contrairement aux ' +
+      "exercices, ils ne suivent aucune leçon et ne se terminent jamais : le contenu " +
+      'est retiré au sort à chaque partie.',
+    /* Un jeu, ici, n'est pas un exercice déguisé : il ne pratique pas une règle
+       nommée, il ne se note pas sur N et il se rejoue. Voir AGENTS.md §5. */
+    lessons: [
+      { path: '/jeux/motus', title: 'Motus', subtitle: 'le mot de cinq lettres', tag: 'Orthographe' },
+      { path: '/jeux/un-ou-une', title: 'Un ou une ?', subtitle: 'le genre des noms', tag: 'Réflexe' },
+      { path: '/jeux/mots-meles', title: 'Mots mêlés', subtitle: 'la grille à explorer', tag: 'Vocabulaire' },
+      { path: '/jeux/jacques-a-dit', title: 'Jacques a dit', subtitle: "écouter avant d'agir", tag: 'Écoute' },
     ],
   },
   {
@@ -294,6 +314,7 @@ export const chapters = [
     lessons: [
       { path: '/conversation/en-vacances', title: 'En vacances', emoji: '🏖️' },
       { path: '/conversation/a-la-boulangerie', title: 'À la boulangerie', emoji: '🥖' },
+      { path: '/conversation/au-restaurant', title: 'Au restaurant' },
       { path: '/conversation/a-disneyland-paris', title: 'À Disneyland Paris', emoji: '🏰' },
       { path: '/conversation/chez-le-medecin', title: 'Chez le médecin', emoji: '🩺' },
       { path: '/conversation/a-la-pharmacie', title: 'À la pharmacie', emoji: '💊' },
@@ -416,13 +437,14 @@ export const relatedPages = {
   '/conjugaison/connaitre': ['/conjugaison/savoir', '/grammaire/verbe-3eme-groupe', '/conversation/demander-son-chemin'],
 
   // ── Orthographe ──────────────────────────────
-  '/orthographe/les-homophones': ['/astuces/le-test-de-substitution', '/exercices/trouve-la-faute', '/exercices/ecoute-et-choisis'],
+  '/orthographe/les-accents': ['/orthographe/les-homophones', '/prononciation/les-voyelles', '/conjugaison/commencer', '/dictees/une-journee-en-vacances'],
+  '/orthographe/les-homophones': ['/orthographe/les-accents', '/astuces/le-test-de-substitution', '/exercices/trouve-la-faute', '/exercices/ecoute-et-choisis'],
   '/orthographe/les-determinants-possessifs': ['/orthographe/les-pronoms-possessifs', '/grammaire/les-demonstratifs'],
   '/orthographe/les-pronoms-possessifs': ['/orthographe/les-determinants-possessifs', '/grammaire/les-demonstratifs'],
 
   // ── Astuces ──────────────────────────────────
   '/astuces/a-en-au-aux': ['/grammaire/les-prepositions-de-lieu', '/vocabulaire/la-ville', '/culture/les-regions-de-france'],
-  '/astuces/le-genre-des-noms': ['/grammaire/les-articles', '/exercices/les-articles', '/grammaire/les-adjectifs'],
+  '/astuces/le-genre-des-noms': ['/jeux/un-ou-une', '/grammaire/les-articles', '/exercices/les-articles', '/grammaire/les-adjectifs'],
   '/astuces/etre-ou-avoir': ['/grammaire/le-passe-compose', '/exercices/etre-ou-avoir', '/conjugaison/etre'],
   '/astuces/le-test-de-substitution': ['/orthographe/les-homophones', '/exercices/trouve-la-faute'],
 
@@ -451,6 +473,12 @@ export const relatedPages = {
   '/exercices/le-bon-pronom': ['/grammaire/les-pronoms-cod-coi', '/grammaire/les-pronoms-y-en', '/musique/la-vie-en-rose'],
   '/exercices/la-bonne-terminaison': ['/grammaire/verbe-1er-groupe', '/grammaire/l-imparfait', '/grammaire/le-conditionnel-present', '/exercices/mets-au-bon-temps'],
   '/exercices/construis-l-imparfait': ['/grammaire/l-imparfait', '/grammaire/passe-compose-ou-imparfait', '/exercices/la-bonne-terminaison', '/conjugaison/parler'],
+
+  // ── Jeux ────────────────────────────────────
+  '/jeux/motus': ['/vocabulaire/la-nourriture', '/prononciation/les-voyelles', '/exercices/emoji-francais'],
+  '/jeux/un-ou-une': ['/astuces/le-genre-des-noms', '/grammaire/les-articles', '/exercices/les-articles', '/jeux/motus'],
+  '/jeux/mots-meles': ['/vocabulaire/la-nourriture', '/vocabulaire/le-corps', '/jeux/motus', '/exercices/emoji-francais'],
+  '/jeux/jacques-a-dit': ['/vocabulaire/le-corps', '/grammaire/l-imperatif', '/exercices/ecoute-et-choisis', '/prononciation/les-voyelles'],
 
   // ── Lecture ──────────────────────────────────
   '/lecture/le-lion-et-le-rat': ['/litterature/introduction', '/grammaire/l-imparfait'],
@@ -489,6 +517,7 @@ export const relatedPages = {
   // ── Conversation ─────────────────────────────
   '/conversation/en-vacances': ['/vocabulaire/la-meteo', '/dictees/une-journee-en-vacances'],
   '/conversation/a-la-boulangerie': ['/vocabulaire/la-nourriture', '/vocabulaire/les-nombres', '/vocabulaire/la-ville'],
+  '/conversation/au-restaurant': ['/vocabulaire/la-nourriture', '/vocabulaire/les-nombres', '/grammaire/les-articles', '/conversation/a-la-boulangerie'],
   '/conversation/a-disneyland-paris': ['/vocabulaire/les-transports', '/conversation/demander-son-chemin'],
   '/conversation/chez-le-medecin': ['/vocabulaire/le-docteur', '/conversation/a-la-pharmacie'],
   '/conversation/a-la-pharmacie': ['/vocabulaire/le-docteur', '/conversation/chez-le-medecin'],

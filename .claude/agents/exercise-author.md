@@ -177,6 +177,28 @@ for the omission: failing to spot the second tense is a different mistake from n
 tense that is not there. Score all-or-nothing on the exact set — partial credit hides
 exactly that distinction.
 
+## Games (`jeux/`)
+
+Same ownership, different contract — and the contract is the point of the chapter. **An
+exercise is graded; a game is replayable.** Read AGENTS.md §5 "Game pages" before touching
+one; the short version:
+
+- No `useExerciseScore` — a game has no lesson to record against, so it records nothing.
+- The deck is redrawn every round; there is no `deck.length` to score out of. Track a streak.
+- Every item carries the page it came from, and the end of a round links there.
+- CSS stays scoped in the page while there is only one game. Promote to `.jeu` in
+  `style.css` at the second, not in anticipation of it.
+
+**Check that each item's word is on the page it links to**, not just that the page exists —
+nine entries across the two games failed that and no route check catches it.
+
+`motus`, `un-ou-une`, `mots-meles` and `jacques-a-dit` are the four pages so far. Its evaluator is two-pass on purpose — repeated letters are
+where every Wordle clone is wrong — and its word list must stay free of `œ` and `ç`, which
+either cannot be typed on a Spanish keyboard or fold onto another letter and make a green
+tile lie. Both are asserted by the check pasted in the file; run it, and cross-check the
+evaluator against an independent implementation rather than against expectations you wrote
+by hand.
+
 ## Gap-fill dialogues (`conversation/`)
 
 Same discipline, different shell: `<main class="gapfill">` and **no `<style>` block** —

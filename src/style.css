@@ -1080,6 +1080,76 @@ article + article {
 }
 
 /* ═══════════════════════════════════════════════════
+   JEUX — jeux/ pages
+   Markup: <main class="jeu"> plus the game's own board, which stays
+   scoped in its own page — a Motus grid and a gender card have nothing
+   in common and must not be forced to.
+   What lives here is only what the second game actually needed too:
+   the column, the brief, the two buttons and the score line. Promoted
+   out of motus.vue the day `un-ou-une` landed, not in anticipation of it.
+   A game is replayable and ungraded; a graded drill belongs in .exo.
+═══════════════════════════════════════════════════ */
+.jeu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.jeu .instructions {
+  margin: 0;
+  max-width: 34rem;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-2);
+}
+
+.jeu .actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.jeu .btn-main,
+.jeu .btn-ghost {
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.jeu .btn-main {
+  border: none;
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+
+.jeu .btn-main:hover { background: var(--accent-hover); }
+
+.jeu .btn-ghost {
+  border: 1.5px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+}
+
+.jeu .btn-ghost:hover:not(:disabled) {
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+
+.jeu .btn-ghost:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.jeu .stats {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text-3);
+}
+
+/* ═══════════════════════════════════════════════════
    GAP-FILL DIALOGUE — conversation/ pages
    Markup: <main class="gapfill"> with .word-bank > .chip,
            .chat > .bubble-row(.left|.right) > .bubble > .slot,

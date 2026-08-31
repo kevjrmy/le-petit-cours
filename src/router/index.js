@@ -17,6 +17,7 @@ const router = createRouter({
 
     // Orthographe
     { path: '/orthographe', name: 'orthographe', component: () => import('../views/orthographe/index.vue') },
+    { path: '/orthographe/les-accents', name: 'ortho-les-accents', component: () => import('../views/orthographe/les-accents.vue') },
     { path: '/orthographe/les-homophones', name: 'ortho-les-homophones', component: () => import('../views/orthographe/les-homophones.vue') },
     { path: '/orthographe/les-determinants-possessifs', name: 'ortho-determinants-possessifs', component: () => import('../views/orthographe/les-determinants-possessifs.vue') },
     { path: '/orthographe/les-pronoms-possessifs', name: 'ortho-pronoms-possessifs', component: () => import('../views/orthographe/les-pronoms-possessifs.vue') },
@@ -114,6 +115,13 @@ const router = createRouter({
     { path: '/exercices/la-bonne-terminaison', name: 'ex-la-bonne-terminaison', component: () => import('../views/exercices/la-bonne-terminaison.vue') },
     { path: '/exercices/construis-l-imparfait', name: 'ex-construis-l-imparfait', component: () => import('../views/exercices/construis-l-imparfait.vue') },
 
+    // Jeux
+    { path: '/jeux', name: 'jeux', component: () => import('../views/jeux/index.vue') },
+    { path: '/jeux/motus', name: 'jeu-motus', component: () => import('../views/jeux/motus.vue') },
+    { path: '/jeux/un-ou-une', name: 'jeu-un-ou-une', component: () => import('../views/jeux/un-ou-une.vue') },
+    { path: '/jeux/mots-meles', name: 'jeu-mots-meles', component: () => import('../views/jeux/mots-meles.vue') },
+    { path: '/jeux/jacques-a-dit', name: 'jeu-jacques-a-dit', component: () => import('../views/jeux/jacques-a-dit.vue') },
+
     // Lecture
     { path: '/lecture', name: 'lecture', component: () => import('../views/lecture/index.vue') },
     { path: '/lecture/le-lion-et-le-rat', name: 'lecture-le-lion-et-le-rat', component: () => import('../views/lecture/le-lion-et-le-rat.vue') },
@@ -138,6 +146,7 @@ const router = createRouter({
     { path: '/conversation', name: 'conversation', component: () => import('../views/conversation/index.vue') },
     { path: '/conversation/en-vacances', name: 'conv-en-vacances', component: () => import('../views/conversation/en-vacances.vue') },
     { path: '/conversation/a-la-boulangerie', name: 'conv-a-la-boulangerie', component: () => import('../views/conversation/a-la-boulangerie.vue') },
+    { path: '/conversation/au-restaurant', name: 'conv-au-restaurant', component: () => import('../views/conversation/au-restaurant.vue') },
     { path: '/conversation/a-disneyland-paris', name: 'conv-a-disneyland-paris', component: () => import('../views/conversation/a-disneyland-paris.vue') },
     { path: '/conversation/chez-le-medecin', name: 'conv-chez-le-medecin', component: () => import('../views/conversation/chez-le-medecin.vue') },
     { path: '/conversation/a-la-pharmacie', name: 'conv-a-la-pharmacie', component: () => import('../views/conversation/a-la-pharmacie.vue') },

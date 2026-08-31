@@ -143,6 +143,7 @@ register the routes.
 |---|---|
 | `grammaire/`, `orthographe/`, `conjugaison/`, `astuces/`, `dictees/`, `prononciation/`, `musique/`, `vocabulaire/` | standard lesson |
 | `exercices/` | interactive, self-scoring |
+| `jeux/` | interactive, replayable, not tied to a lesson — see below |
 | `culture/` | standard lesson **plus photographs** — see below |
 | `conversation/`, `litterature/` | |
 | `lecture/` | ends with the comprehension quiz + hidden translation |
@@ -444,6 +445,101 @@ Each of the following has already cost a bug:
   (`padding: 1.5rem 1.75rem`, plus `section + section { margin-top: 1rem }`), so a
   `<section>` used as a layout box sits inset and offset. Use a `<div>`, or reset both.
 
+### Game pages (`jeux/`)
+
+**An exercise is graded; a game is replayable.** That one line is the whole chapter, and it
+is what stops `jeux/` becoming a second `exercices/`:
+
+| | `exercices/` | `jeux/` |
+|---|---|---|
+| Deck | fixed, walked once | redrawn every round, no end |
+| Score | `score / deck.length`, recorded | a streak, recorded nowhere |
+| Scope | practises one named lesson | pulls from the whole book |
+| `relatedPages` | points back at the lesson it drills | points at where the words came from |
+
+Three rules follow, and each has a reason:
+
+- **No `useExerciseScore`.** A game has no lesson to record a result against, so it records
+  nothing — the same call `associe-les-pairs` correctly does not make. Do not invent a
+  `total` to have something to store.
+- **Every item names the page it came from**, and the end of a round links there. A game
+  that does not send the learner back to the book is an arcade cabinet in a classroom.
+  **Assert the word is actually ON that page**, not merely that the page resolves: nine
+  entries across the two games cited a page that did not contain their word, and a route
+  check passes all nine. Both files carry the assertion; it is a `\bword s?\b` match against
+  the accent-folded page source.
+- **The shell is scoped, for now.** `motus.vue` owns all its CSS, like `ConjugationSheet`:
+  one page, nothing to duplicate. When a **second** game lands, promote what the two share
+  into `style.css` under `.jeu` — not before, and not by guessing in advance what that
+  will be.
+
+`jacques-a-dit` is the only game that uses the ear, and the only one with a clock. Three
+things in it are load-bearing.
+
+**Doing nothing is a winning move.** The eight-case truth table — Jacques spoke or not,
+crossed with tap-right / tap-wrong / "je ne bouge pas" / timeout — is the whole game, and a
+timeout after a *non*-Jacques order must score a point, not a life. Test the table on its
+own; it reads as if a timeout is always a failure and it is not.
+
+**The figure is made of its own targets.** No decorative outline, no separate silhouette:
+every shape on screen is a clickable part. A drawn line that looks like a target but is not
+would be a lie the player pays a life for.
+
+**It must survive having no French voice.** `useSpeech` falls back to the OS default, so the
+page checks `hasVoice` *after the first utterance* — `getVoices()` is empty until
+`voiceschanged` fires — and on failure pins the order text on screen and says so. The game
+stays playable read rather than heard; only the "hide the text" option disappears.
+
+`mots-meles` hides eight themed words in an 11×11 grid, read in all eight directions. Two
+things in it are load-bearing.
+
+**Validate by reading the line, not by remembering where you put the word.** Measured over
+300 grids, 2 % of placed words also appear somewhere else by accident in the filler letters.
+A player who spots that second copy is right, and a coordinate comparison would reject them.
+Tap-first-letter / tap-last-letter, read the cells between, compare the string.
+
+**A grid that cannot be solved must never be served.** The generator returns null when a word
+finds no placement, and the caller retries rather than shipping a list containing a word that
+is not in the grid. Prove it the way the other games are proven — generate 500 grids from the
+real data and assert every word is both placed and recoverable by the same tap-to-read path
+the player uses. Do not test the generator alone; the bug lives between it and the reader.
+
+`motus` is the Wordle mechanic: a five-letter word in six tries. Two things in it are
+load-bearing and easy to break.
+
+**The evaluator must run in two passes.** A single pass mis-marks every repeated letter:
+with the answer `POMME`, the guess `PILON` must show its only `O` amber and nothing else,
+and `MEMES` must show `M`(0) amber, `M`(2) green, `E`(3) grey. Pass one freezes the exact
+matches and counts what is genuinely left over; pass two can then only hand out amber that
+actually exists. Verify a change by running the 1600-pair cross-check against an
+independent implementation rather than by reading it — hand-written expectations for
+repeated letters are wrong more often than the code is.
+
+**A un/une game takes countable nouns only.** A mass noun has no singular indefinite
+article — it is *du poivre*, *de la farine*, *de l'eau*, never *un poivre* — so the question
+has no answer. Twenty of them shipped in `un-ou-une` before this was caught. Nothing in the
+data marks countability, so the file carries an explicit `MASS` list and the check asserts
+none of them has come back. The partitif is a separate skill (taught in
+`grammaire/les-articles`, applied in `vocabulaire/la-nourriture`) and deserves its own game
+rather than a wrong answer in this one.
+
+**A validation regex must count what it matched.** The `un-ou-une` check silently skipped a
+row once the data was column-aligned, and reported clean on 101 of 102 nouns. Both game
+checks now match on `\s*` and compare their hit count against the number of data lines, so
+an under-matching pattern fails loudly instead of granting false confidence.
+
+**An item with two defensible answers is broken**, exactly as in `exercices/`. `un-ou-une`
+shipped `médecin` and then dropped it: *le médecin* and *une médecin* are both current
+French, so the tap that scores it is a coin toss. Gender items must be nouns whose gender
+is settled.
+
+**Accents are revealed, never typed.** The learner types unaccented letters on an on-screen
+AZERTY keyboard; a green tile then displays the accented character from the answer — type
+`E`, read `É`. That is the whole reason the game suits this audience, and it only works
+because folding is 1:1 per character: `É`→`E`, `Â`→`A`. **No word may contain `œ` or `ç`** —
+the ligature cannot be typed on a Spanish keyboard, and `ç` would fold onto `C` and make a
+green tile lie. The word-list check in the file asserts both.
+
 ### Conversation (gap-fill) pages
 
 Interactive dialogues, also owned by **exercise-author**. `<main class="gapfill">`
@@ -577,12 +673,14 @@ Authoritative list is `src/data/navigation.js` — this table is the human summa
   - *2e groupe*: choisir
   - *3e groupe*: aller, faire, dire, pouvoir, vouloir, devoir, savoir, voir, venir, partir,
     sortir, prendre, mettre, attendre, ecrire, lire, boire, ouvrir, connaitre
-- **orthographe** (3): les-homophones, les-determinants-possessifs, les-pronoms-possessifs
+- **orthographe** (4): les-accents, les-homophones, les-determinants-possessifs, les-pronoms-possessifs
 - **astuces** (4) — mnemonics for rules taught elsewhere; each page links back to its lesson:
   a-en-au-aux, le-genre-des-noms, etre-ou-avoir, le-test-de-substitution
 - **dictees** (3): une-journee-en-vacances, la-pierre-de-rosette, les-fleurs-du-mal
 - **exercices** (19, interactive): associe-les-pairs, emoji-francais, quel-groupe-verbe-appartient, conjugaison-present, les-articles, la-negation, le-futur-proche, le-passe-compose, les-adverbes, les-adjectifs-accord, phrases-en-desordre, etre-ou-avoir, trouve-la-faute, devine-les-temps, ecoute-et-choisis, mets-au-bon-temps, le-bon-pronom, la-bonne-terminaison,
   construis-l-imparfait
+- **jeux** (4, interactive): motus, un-ou-une, mots-meles, jacques-a-dit — a chapter for replayable games rather than graded
+  drills; see §5 for the line between the two
 - **lecture** (5): le-lion-et-le-rat, le-petit-prince, entretien-d-embauche, le-comte-de-monte-cristo, le-tour-du-monde
 - **litterature** (1): introduction
 - **prononciation** (3) — data-driven like conjugaison: les-voyelles, les-voyelles-nasales,
@@ -596,7 +694,7 @@ Authoritative list is `src/data/navigation.js` — this table is the human summa
   les-nombres, l-heure, les-jours-et-la-date, la-maison, la-nourriture, les-vetements,
   la-ville, les-transports, le-travail, la-meteo, le-docteur, la-famille, le-corps,
   les-couleurs
-- **conversation** (6): en-vacances, a-la-boulangerie, a-disneyland-paris, chez-le-medecin, a-la-pharmacie, demander-son-chemin
+- **conversation** (7): en-vacances, a-la-boulangerie, au-restaurant, a-disneyland-paris, chez-le-medecin, a-la-pharmacie, demander-son-chemin
 - **annexe** (utility route, not a chapter): a-propos
 
 Entries marked *planned* exist in `navigation.js` with `soon: true` — they render as

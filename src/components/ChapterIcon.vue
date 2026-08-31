@@ -19,6 +19,7 @@ import IconConjugaison from '~icons/mdi/table-large'
 import IconAstuces from '~icons/mdi/head-lightbulb-outline'
 import IconDictees from '~icons/mdi/ear-hearing'
 import IconExercices from '~icons/mdi/dumbbell'
+import IconJeux from '~icons/mdi/puzzle-outline'
 import IconLecture from '~icons/mdi/book-open-variant'
 import IconLitterature from '~icons/mdi/feather'
 import IconPrononciation from '~icons/mdi/account-voice'
@@ -38,6 +39,7 @@ const icons = {
   astuces:       IconAstuces,
   dictees:       IconDictees,
   exercices:     IconExercices,
+  jeux:          IconJeux,
   lecture:       IconLecture,
   litterature:   IconLitterature,
   prononciation: IconPrononciation,
