@@ -33,6 +33,9 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 21 | 2026-09-05 | No key that bypasses RLS lives in the deployment environment | Binding |
 | 22 | 2026-09-05 | An account stores the tick and the chosen level — no scores; level never keys progress | Binding |
 | 23 | 2026-09-05 | A lesson carries a set of levels; the learner's level is required and filters the book | Binding |
+| 24 | 2026-09-05 | IndexedDB is the local store; `localStorage` keeps only the theme | Binding |
+| 25 | 2026-09-05 | A1 first, written from scratch, sized to the DELF A1 syllabus | Binding |
+| 26 | 2026-09-05 | Sign-in lives at `/compte`, with a route handler at `/auth/callback` | Binding |
 
 ---
 
@@ -520,3 +523,59 @@ its levels are empty or contain the learner's level; signed out, it lists everyt
 reached directly always renders — gating it would mean reading the session above a lesson, which #8
 and AGENTS.md §8 forbid because it would make every page dynamic and break offline. This is the
 same principle as #18 one layer down: the level shapes what is offered, never what is permitted.
+
+## 24 · IndexedDB is the local store
+**2026-09-05 · Binding**
+
+Progress ticks and the chosen level are cached in **IndexedDB**. `localStorage` keeps exactly one
+job: the theme.
+
+**Chosen over `localStorage` on durability.** Both are local, both are per-device, and
+`localStorage` is far pleasanter to write against — synchronous, four methods, no schema. But it is
+also the first storage a browser clears under pressure, it is blocked outright in some privacy
+modes, and its 5 MB ceiling is shared with everything else on the origin. Progress a learner has
+accumulated over months is exactly the thing that must not evaporate because a phone was low on
+space, and IndexedDB can additionally be marked persistent.
+
+**The cost is that the adapter is async**, which is what the `load()` / `save(state)` seam (#8,
+AGENTS.md §8) was already for — no component learns about this. A synchronous local read was never
+part of the contract.
+
+**The theme is the one exception, and it is not negotiable.** It must be applied by an inline script
+before first paint or a dark-mode learner gets a white flash on every cold load (AGENTS.md §4), and
+IndexedDB is async, so it cannot be read there at all. One key in `localStorage`, deliberately, is
+not the beginning of a habit.
+
+## 25 · A1 first, written from scratch
+**2026-09-05 · Binding**
+
+The rewrite starts with **A1 only**. A2 follows once A1 covers the DELF A1 syllabus (#15).
+
+**Chosen over reaching parity with the 119 Vue lessons.** Parity is a number, not a syllabus, and
+the old book grew by accretion rather than to a spec. Sizing A1 to DELF gives a definition of done
+that is checkable from outside the project, and it makes the first release small enough to actually
+finish — which matters more than breadth for a book nobody has read yet.
+
+**It does not narrow the audience.** The heritage speaker is not a level (#13), and the orthography
+and conjugation pages she needs are tagged for whatever levels they serve, or for none (#23). "A1
+first" is a statement about the learner track's syllabus coverage, not a decision to postpone her.
+
+## 26 · Sign-in lives at `/compte`
+**2026-09-05 · Binding**
+
+A route, not a dialog. `/compte` is where a learner signs in, sees they are signed in, chooses their
+level (#23) and signs out.
+
+**Chosen over a modal from the topbar** because it is linkable, it is a page the magic link can
+return to, and it keeps auth UI out of the shell that every lesson renders inside. The topbar gets a
+link, not a form.
+
+**It needs a companion route handler at `/auth/callback`.** `@supabase/ssr` uses the PKCE flow: the
+emailed link goes to Supabase, which redirects back with a `?code=`, and that code must be exchanged
+for a session server-side before anything is signed in. The Supabase redirect allowlist therefore
+covers `http://localhost:3000/**`, `https://lepetitcours.vercel.app/**` and the preview wildcard
+`https://lepetitcours-*-kevjrmy-projects.vercel.app/**` — without the third, a magic link opened
+from a preview deploy bounces to production.
+
+**There is no custom domain**, and that is deliberate for this scope: a domain would mean setting
+those URLs twice.

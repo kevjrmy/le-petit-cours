@@ -164,12 +164,15 @@ button into its own client component and leave the page on the server.
 
 Consequences to plan for, none of which existed in the Vue app:
 
-- **`localStorage` does not exist on the server.** Anything reading it — the theme, progress
+- **Browser storage does not exist on the server.** Anything reading it — the theme, progress
   ticks, a drill's saved state — renders one thing on the server and another on the client, and
   React throws a hydration error. The fixes, in order of preference: read it in a lazy
   `useState` initialiser inside a client leaf; or, when it must be correct *before first paint*
   (the theme is the case that matters), set it from an inline script in `<head>` and put
-  `suppressHydrationWarning` on `<html>`. See
+  `suppressHydrationWarning` on `<html>`. Note that progress and the chosen level live in
+  **IndexedDB**, which is async and therefore unavailable to a pre-paint script at all — only the
+  theme can use that escape hatch, and only because it is in `localStorage` (`docs/decisions.md`
+  #24). See
   `node_modules/next/dist/docs/01-app/02-guides/preventing-flash-before-hydration.md`.
 - **The theme must not flash.** A dark-mode learner seeing a white page for 200 ms on every cold
   load is a real regression against the Vue app, which never had one. Inline script, before
@@ -331,6 +334,10 @@ pass at 50 % is not a finished lesson. Do not "helpfully" auto-complete anything
   `load()` / `save(state)` pair, so the local cache and the Supabase sync are two implementations
   of one interface and no component knows which is in play. This seam was the best idea in the old
   app; keep it.
+- **The local store is IndexedDB**, not `localStorage` — chosen for durability, since a browser
+  evicting a learner's progress is a real loss and `localStorage` is the first thing to go
+  (`docs/decisions.md` #24). The adapter is therefore async on both sides, which is what the seam
+  was for. `localStorage` keeps exactly one job: the theme, which must be read before first paint.
 - **The local copy stays the read path.** This is an offline PWA: a signed-in learner ticking a
   lesson underground writes locally and syncs on reconnect. The server is a sync target, never
   the thing a render waits on.
@@ -486,8 +493,9 @@ are in `docs/decisions.md` — read it before reopening any of them:
    lesson declares its language, and a topic that genuinely needs both becomes two lessons — but
    only once a real page shows the need. Do not build a translation layer speculatively.
 3. **The palette and typography** of the fresh design system (§5).
-4. **Which chapters ship first**, and whether A1+A2 aims at parity with the 119 Vue lessons or at
-   a smaller book that actually covers the DELF syllabus.
+4. **Which chapters ship first.** The level half is settled — **A1 only** to begin with, written
+   from scratch, aiming at the DELF A1 syllabus rather than at parity with the 119 Vue lessons
+   (`docs/decisions.md` #25). Which chapters carry it, and in what order, is still open.
 5. **Whether the heritage parcours gets its own front door** or stays one path among several.
 6. **Whether `.vue/` gets deleted** once the rewrite has outgrown it.
 
