@@ -8,17 +8,20 @@ export const metadata: Metadata = { title: "Compte" };
    Nothing here reads the session — that stays at the leaves (AGENTS.md §8). */
 export default function ComptePage() {
   return (
-    <div className="prose">
+    <article className="prose">
       <h1>Compte</h1>
-      <p style={{ marginTop: "0.75rem" }}>
-        Tout le contenu du site est en accès libre, sans compte. Un compte servira
-        uniquement à garder votre progression et le niveau que vous avez choisi
-        d&rsquo;un appareil à l&rsquo;autre.
-      </p>
-      <div className="attention" style={{ marginTop: "1.25rem" }}>
-        la connexion n&rsquo;est pas encore en service. Elle se fera par lien
-        envoyé par courriel, sans mot de passe.
-      </div>
-    </div>
+
+      <section>
+        <p>
+          Tout le contenu du site est en accès libre, sans compte. Un compte
+          servira uniquement à garder vos leçons cochées et le niveau que vous
+          avez choisi d&rsquo;un appareil à l&rsquo;autre.
+        </p>
+        <div className="attention">
+          la connexion n&rsquo;est pas encore en service. Elle se fera par un
+          lien envoyé par courriel, sans mot de passe.
+        </div>
+      </section>
+    </article>
   );
 }

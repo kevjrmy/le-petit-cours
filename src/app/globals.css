@@ -110,7 +110,10 @@
   --text-2:         light-dark(var(--grey-600), #A7B2C4);
   --text-3:         light-dark(var(--grey-500), #7A8697);
   --text-heading:   light-dark(var(--blue-900), #CBDFF9);
-  --text-on-accent: var(--white);
+  /* Text on a filled accent. It is **not** always white: --accent is a deep
+     blue in light mode (white on it is 8.7:1) and a light blue in dark mode
+     (white on it is ~3:1, which fails AA). The ink flips with the accent. */
+  --text-on-accent: light-dark(var(--white), var(--grey-950));
 
   /* Lines */
   --border:        light-dark(var(--grey-200), #242E3C);
@@ -334,6 +337,46 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 /* A caption is already spaced from its table; without this it collides with
    whatever precedes the table. */
 .prose .table-wrap { margin-top: 1.3rem; }
+
+/* The reset zeroes padding, which puts a list's markers outside its box and
+   clips them. Lists opt back in here, like the rest of prose flow. */
+.prose ul, .prose ol { padding-left: 1.35rem; }
+.prose li + li { margin-top: 0.35rem; }
+
+/* The shared button. One look, so a drill's controls and a page's actions
+   cannot drift apart. */
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  color: var(--text-1);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.button:hover {
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
+  color: var(--accent-text);
+}
+
+.button-primary {
+  border-color: transparent;
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+
+.button-primary:hover {
+  border-color: transparent;
+  background: var(--accent-hover);
+  color: var(--text-on-accent);
+}
 
 .card {
   background: var(--surface-1);

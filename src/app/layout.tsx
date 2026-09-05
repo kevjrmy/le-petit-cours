@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Spectral } from "next/font/google";
 import { AppShell } from "@/components/shell/AppShell";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 /* Spectral (Production Type, Paris) carries the French being taught; Inter
@@ -29,7 +30,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://lepetitcours.vercel.app"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Le Petit Cours",
     template: "%s · Le Petit Cours",

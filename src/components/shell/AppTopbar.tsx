@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { findChapter, findLesson } from "@/data/navigation";
+import { annexes, findChapter, findLesson } from "@/data/navigation";
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./AppTopbar.module.css";
 
@@ -14,6 +14,9 @@ export function AppTopbar({ open, onToggle }: { open: boolean; onToggle: () => v
   const pathname = usePathname();
   const chapter = findChapter(pathname);
   const lesson = findLesson(pathname)?.lesson ?? null;
+  /* Annexes belong to no chapter, so they would otherwise fall through to the
+     "Sommaire" label and claim to be the home page. */
+  const annexe = annexes.find((page) => page.path === pathname) ?? null;
 
   return (
     <header className={styles.topbar}>
@@ -52,7 +55,7 @@ export function AppTopbar({ open, onToggle }: { open: boolean; onToggle: () => v
             )}
           </>
         ) : (
-          <span className={styles.current}>Sommaire</span>
+          <span className={styles.current}>{annexe?.title ?? "Sommaire"}</span>
         )}
       </nav>
 

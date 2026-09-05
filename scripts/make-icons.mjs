@@ -29,6 +29,11 @@ const BRAND = "#0044AA";
 const INK = "#FFFFFF";
 
 const markSvg = readFileSync(join(ROOT, "public/logo-mark.svg"), "utf8");
+/* The full wordmark, recoloured white. It is outlined paths with the brand blue
+   baked into a style attribute, so a string replace is the whole job — and it
+   keeps the share image and the logo the same artwork rather than a copy. */
+const wordmarkSvg = readFileSync(join(ROOT, "public/logo.svg"), "utf8")
+  .replace(/fill:#0044aa/gi, "fill:#ffffff");
 const viewBox = markSvg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
 const [, GW, GH] = viewBox.map(Number);
 const glyphPath = markSvg.match(/ d="([^"]+)"/)[1];
@@ -48,6 +53,17 @@ function compose(size, pct) {
     `<rect width="${size}" height="${size}" fill="${BRAND}"/>` +
     `<g transform="translate(${x.toFixed(3)} ${y.toFixed(3)}) scale(${(gh / GH).toFixed(6)})">` +
     `<path fill="${INK}" d="${glyphPath}"/></g></svg>`;
+}
+
+/** The link-share card: the wordmark on the brand ground, nothing else. No
+ *  text beyond the logo, so the image needs no font and cannot render in
+ *  whatever face the rasteriser happens to have. */
+function ogCard(width, height) {
+  return `<div style="width:${width}px;height:${height}px;background:${BRAND};` +
+    `display:flex;align-items:center;justify-content:center">` +
+    `<div style="width:${Math.round(width * 0.62)}px">${wordmarkSvg
+      .replace(/\swidth="[^"]*"/, ' width="100%"')
+      .replace(/\sheight="[^"]*"/, ' height="auto"')}</div></div>`;
 }
 
 const page = (svg) =>
@@ -280,6 +296,14 @@ try {
 
   writeFileSync(join(ROOT, "src/app/icon.svg"), compose(512, 68) + "\n");
   console.log("  src/app/icon.svg  vector, for browsers that take it");
+
+  await send("Emulation.setDeviceMetricsOverride",
+    { width: 1200, height: 630, deviceScaleFactor: 1, mobile: false }, sessionId);
+  await send("Page.navigate", { url: page(ogCard(1200, 630)) }, sessionId);
+  await sleep(300);
+  const og = await send("Page.captureScreenshot", { format: "png" }, sessionId);
+  writeFileSync(join(ROOT, "src/app/opengraph-image.png"), Buffer.from(og.data, "base64"));
+  console.log("  src/app/opengraph-image.png  1200x630 link-share card");
 } finally {
   ws.close();
   chrome.kill();

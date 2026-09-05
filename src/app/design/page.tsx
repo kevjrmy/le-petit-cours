@@ -151,6 +151,25 @@ export default function DesignPage() {
       </section>
 
       <section className={styles.section}>
+        <h2>Boutons et listes</h2>
+        <div className={styles.states}>
+          <button type="button" className="button button-primary">
+            J&rsquo;ai terminé
+          </button>
+          <button type="button" className="button">
+            Recommencer
+          </button>
+        </div>
+        <ul>
+          <li>Une liste dans la colonne de lecture.</li>
+          <li>
+            Le reset met les marges à zéro, donc <code>.prose</code> les
+            redéclare — puces comprises.
+          </li>
+        </ul>
+      </section>
+
+      <section className={styles.section}>
         <h2>Liens et focus</h2>
         <p>
           <Link href="/">Retour à l’accueil</Link> — tabulez jusqu’ici pour voir

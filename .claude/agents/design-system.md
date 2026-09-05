@@ -87,8 +87,14 @@ Do not render a default `data-theme="light"`; it would pin every new visitor to 
 ## Where CSS lives
 
 - **`src/app/globals.css`, imported exactly once, in `src/app/layout.tsx`** — tokens, the reset,
-  base typography, and the content patterns every lesson uses (the rule box, the example box, the
-  "à retenir" callout, table chrome). One file, one import.
+  base typography, and the content patterns every page uses: `.prose` and its vertical rhythm, the
+  rule / example / attention / exception / astuce boxes, table chrome, `.button`, `.fr`, and the
+  drill feedback states. One file, one import.
+
+  **The reset zeroes every margin and padding on purpose**, so a bare tag costs nothing and nobody
+  pays for using `section` as a layout box. Prose flow, list markers and the rest are opted back
+  into under `.prose`. If something looks unspaced, that is why — add it there, scoped, rather
+  than styling the bare tag globally.
 - **Co-located CSS Modules** (`AppSidebar.module.css` next to `AppSidebar.tsx`) for everything
   else.
 
@@ -234,7 +240,10 @@ Carried from the Vue app because they are CSS, not framework:
   Use `flex: 0 0 auto`, and scope `flex: 1 1 auto` to children of the row-direction element.
 - `flex: 0` means `flex: 0 1 0%` — a zero basis. It collapses images. Write `flex: 0 0 auto`.
 - A **surface** token used as a text colour inverts in dark mode. White-on-accent text needs its
-  own `--text-on-accent` token.
+  own `--text-on-accent` token — and that token is **not** a constant. `--accent` is a deep blue in
+  light mode and a light blue in dark mode, so white on it goes from 8.7:1 to about 3:1 and fails
+  AA. Having the token is not the same as having it right; check the filled states in both themes,
+  which is what `/design` is for.
 
 And one that is new here: **CSS Module class names are hashed**, so a selector in one module can
 never reach a class defined in another. Shared chrome belongs in `globals.css` or in a shared
