@@ -31,6 +31,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 19 | 2026-09-05 | Supabase Auth, email magic link — not Clerk | Binding |
 | 20 | 2026-09-05 | Supabase provisioned directly, not through the Vercel Marketplace integration | Binding |
 | 21 | 2026-09-05 | No key that bypasses RLS lives in the deployment environment | Binding |
+| 22 | 2026-09-05 | The progress table: one row per learner per path, RLS-owned, schema in git | Binding |
 
 ---
 
@@ -432,3 +433,37 @@ from `.env` rather than re-pasted: no application code reads it, and the tools t
 (`psql`, `supabase link`, migrations) prompt. So the project currently holds no credential whose
 leak would matter — which is worth stating because it is a property to keep, not a coincidence. A
 future feature that needs a real secret should add it deliberately, to `.env` and nowhere else.
+
+## 22 · The progress table
+**2026-09-05 · Binding**
+
+`supabase/migrations/20260905154500_progress.sql`. One row per learner per lesson path, primary key
+`(user_id, path)`, and four RLS policies that each say `auth.uid() = user_id`.
+
+**The schema lives in git**, for the same reason the lessons do: it is reviewable in a diff. A table
+created by clicking around the dashboard is a schema nobody can read without logging in.
+
+**The database knows nothing about the book.** No lessons table, no foreign key to one, no titles —
+`path` is an opaque string and `src/data/navigation.ts` remains the single source of truth (#8, and
+AGENTS.md §6). The cost is that a renamed path orphans its rows, which is exactly what the
+`pathAliases` discipline exists to handle; the alternative — mirroring the manifest into Postgres —
+buys referential integrity for content that is already checked at build time and creates a second
+place for the book to disagree with itself.
+
+**`done` is never set by the app.** Manual marking is #2, and the column carries no default beyond
+`false`; finishing a drill writes a score and leaves the tick alone.
+
+**Only the last run of an exercise is kept** — `score`, `score_total`, `scored_at`, all null
+together or all set together. No attempt history: an account holds an email, progress and settings
+and nothing else (#8), and a per-attempt log is behavioural data about a learner, which
+`docs/scope.md` rules out on principle rather than by oversight.
+
+**`updated_at` has no trigger forcing `now()`**, which is the one place this schema departs from the
+obvious. The client sends it, and last write per row wins. In an offline PWA the moment that matters
+is when the learner ticked the lesson, not when the row reached the server — a tick made in the
+métro at 09:00 and synced at 12:00 must not outrank a correction made on the laptop at 10:00. A
+client can only ever lie about its own rows, so the blast radius is one person's own progress.
+
+**Policies are per verb, and granted to `authenticated` only.** Four narrow policies rather than one
+`for all`, so that widening one verb later cannot silently widen the rest; `anon` is revoked
+outright, which is the line between "all content is public" (#18) and "progress needs an account".

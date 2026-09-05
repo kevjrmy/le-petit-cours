@@ -299,6 +299,10 @@ Postgres, so `auth.uid()` in a row-level-security policy ties a row to its owner
 **RLS is the authorization model.** `auth.uid() = user_id` on the progress table. Do not scatter
 permission checks through components; if a rule needs to change, it changes in the policy.
 
+**The schema lives in `supabase/migrations/`**, in git, reviewed in a diff like everything else
+(`docs/decisions.md` #22). Change it by adding a migration, never by editing a table in the
+dashboard — a dashboard edit is a change nobody can review and nobody can replay.
+
 An account holds an email, progress rows and settings. **Nothing else.** No analytics on learners,
 no behavioural tracking — that is a principle in `docs/scope.md`, not an oversight to correct.
 
