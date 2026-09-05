@@ -170,7 +170,7 @@ map, so the relations stay in a single file.
 
 ## What derives automatically — do not hand-maintain
 
-- The sidebar tree, its filter, and the active-chapter auto-expand.
+- The sidebar tree and its active-chapter auto-expand.
 - The sommaire's chapter grid, and every chapter landing page.
 - Breadcrumbs and the document title.
 - Progress ticks and the per-chapter tally — driven off the route path. **Registering a lesson is

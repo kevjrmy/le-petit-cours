@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useId, useState } from "react";
+import { useState } from "react";
 import { annexes, chapters } from "@/data/navigation";
 import styles from "./AppSidebar.module.css";
 
@@ -14,12 +14,7 @@ import styles from "./AppSidebar.module.css";
  */
 export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: () => void }) {
   const pathname = usePathname();
-  const [query, setQuery] = useState("");
   const [toggled, setToggled] = useState<Record<string, boolean>>({});
-  const filterId = useId();
-
-  const needle = query.trim().toLowerCase();
-  const matches = (text: string) => text.toLowerCase().includes(needle);
 
   return (
     <div
@@ -36,38 +31,17 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
         </Link>
       </div>
 
-      <div className={styles.filter}>
-        <label className="visually-hidden" htmlFor={filterId}>
-          Filtrer les leçons
-        </label>
-        <input
-          id={filterId}
-          type="search"
-          value={query}
-          placeholder="Filtrer…"
-          autoComplete="off"
-          onChange={(event) => setQuery(event.target.value)}
-        />
-      </div>
-
       <nav className={styles.tree} aria-label="Sommaire du livre">
         <ul className={styles.chapters}>
           {chapters.map((chapter) => {
-            const lessons = needle
-              ? chapter.lessons.filter((lesson) => matches(lesson.title))
-              : chapter.lessons;
-            const chapterMatches = needle ? matches(chapter.title) : false;
-            if (needle && lessons.length === 0 && !chapterMatches) return null;
-
-            const active = pathname.startsWith(`${chapter.path}/`) || pathname === chapter.path;
-            /* Filtering expands everything it kept, the current chapter opens
-               itself, and an explicit click wins over both. */
-            const expanded = toggled[chapter.slug] ?? (needle !== "" || active);
+            const active =
+              pathname === chapter.path || pathname.startsWith(`${chapter.path}/`);
+            /* The current chapter opens itself; an explicit click wins. */
+            const expanded = toggled[chapter.slug] ?? active;
             /* The number of rows this chapter opens to, not the published
                tally: most of the book is unwritten, and a column of zeroes
                reads as a bug. Each row says « Bientôt » for itself. */
             const total = chapter.lessons.length;
-            const shown = chapterMatches && lessons.length === 0 ? chapter.lessons : lessons;
 
             return (
               <li key={chapter.slug}>
@@ -108,7 +82,7 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
                         Tout le chapitre
                       </Link>
                     </li>
-                    {shown.map((lesson) =>
+                    {chapter.lessons.map((lesson) =>
                       lesson.soon ? (
                         <li key={lesson.path}>
                           <span className={`${styles.lesson} ${styles.soon}`}>
@@ -138,24 +112,22 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
           })}
         </ul>
 
-        {!needle && (
-          <ul className={styles.annexes}>
-            {annexes.map((page) => (
-              <li key={page.path}>
-                {page.soon ? (
-                  <span className={`${styles.lesson} ${styles.soon}`}>
-                    {page.title}
-                    <em>Bientôt</em>
-                  </span>
-                ) : (
-                  <Link href={page.path} className={styles.lesson} onClick={onNavigate}>
-                    {page.title}
-                  </Link>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
+        <ul className={styles.annexes}>
+          {annexes.map((page) => (
+            <li key={page.path}>
+              {page.soon ? (
+                <span className={`${styles.lesson} ${styles.soon}`}>
+                  {page.title}
+                  <em>Bientôt</em>
+                </span>
+              ) : (
+                <Link href={page.path} className={styles.lesson} onClick={onNavigate}>
+                  {page.title}
+                </Link>
+              )}
+            </li>
+          ))}
+        </ul>
       </nav>
     </div>
   );
