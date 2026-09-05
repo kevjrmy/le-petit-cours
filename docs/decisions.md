@@ -386,6 +386,12 @@ the names application code reads. The injected `SUPABASE_URL` / `SUPABASE_PUBLIS
 identical values and are incidental; the legacy `*_ANON_KEY` pair is a second name for the same
 public credential, and code reads neither.
 
+**Amended again, same day: the connection was deleted.** It re-pushed its whole bundle — the
+database password among it — on every change made at the Supabase end, three times in half an
+hour, and it was injecting nothing the project needed. Removing it cleaned up its own variables
+and left the two hand-set ones untouched. So the wiring is manual, by choice, and the original
+paragraph above is once again the accurate one.
+
 **The database password is not one of them.** It never reaches Vercel and no application code
 reads it; it exists for `psql`, `supabase link` and migrations — which also require SSL, enforced
 on the project since 2026-09-05. The app is unaffected (it reaches PostgREST and Auth over HTTPS
@@ -409,8 +415,14 @@ around, one `process.env` away, in a codebase whose entire server-side job is sa
 connection, because the client talks to PostgREST under the learner's own JWT.
 
 **The rule, not just the cleanup:** if a feature ever genuinely needs to bypass a policy, that is a
-decision to take here first — superseding this entry — and not something to enable by re-syncing
-the integration. Re-syncing from the Supabase dashboard will push these back; delete them again.
+decision to take here first — superseding this entry — and not something to acquire by accident.
+
+**Closed at the source.** Deleting them from Vercel was not enough: every subsequent change in the
+Supabase dashboard re-pushed the bundle, so the same variables were deleted three times. The fix
+was to disable the legacy `anon` / `service_role` keys in Supabase — nothing here uses them, the
+publishable key is unaffected and magic-link auth was verified working afterwards — and then to
+delete the Vercel connection entirely. A `SUPABASE_*` or `POSTGRES_*` variable appearing in the
+project env from now on means someone reconnected an integration, and is a signal, not noise.
 
 **What remains** is the project URL and the publishable key, in both their prefixed and unprefixed
 spellings. Both are public by design and safe in a client bundle.
