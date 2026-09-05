@@ -387,7 +387,10 @@ identical values and are incidental; the legacy `*_ANON_KEY` pair is a second na
 public credential, and code reads neither.
 
 **The database password is not one of them.** It never reaches Vercel and no application code
-reads it; it exists for `psql`, `supabase link` and migrations. The publishable key is public by
+reads it; it exists for `psql`, `supabase link` and migrations — which also require SSL, enforced
+on the project since 2026-09-05. The app is unaffected (it reaches PostgREST and Auth over HTTPS
+either way), but a direct connection needs `sslmode=require`, or the CA certificate from the
+Database settings page for `verify-full`. A refused `psql` is this setting, not a bad password. The publishable key is public by
 design — RLS is what protects a learner's rows (#19), which is the whole reason the automatic-RLS
 trigger is worth having on.
 
