@@ -1,5 +1,16 @@
 # Course content licence
 
+Le Petit Cours is licensed in two parts:
+
+  * The **software** — everything under `src/`, plus configuration and build
+    tooling — is under the MIT licence. See `LICENSE`.
+  * The **course content** is under CC BY-SA 4.0, set out below.
+  * Some **third-party material** included for teaching purposes is under
+    neither and is not ours to relicense. See "Third-party material" below
+    before reusing anything.
+
+The archived Vue implementation in `.vue/` is covered by the same terms.
+
 Copyright (c) 2026 kevjrmy and the Le Petit Cours contributors.
 
 The course content of Le Petit Cours — the lessons, exercises, games, dictées,
