@@ -29,6 +29,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 17 | 2026-09-05 | Collaboration means curated teachers contributing content — later, and not student management | Directional |
 | 18 | 2026-09-05 | All content is public; an account is required to track progress | Binding |
 | 19 | 2026-09-05 | Supabase Auth, email magic link — not Clerk | Binding |
+| 20 | 2026-09-05 | Supabase provisioned directly, not through the Vercel Marketplace integration | Binding |
 
 ---
 
@@ -112,7 +113,9 @@ and record here as #N superseding this one, not to drift into one utility class 
 **2026-09-05 · Binding**
 
 Deployed on Vercel as a normal Next.js app — not `output: 'export'` — while keeping the service
-worker, the precached lessons and installability.
+worker, the precached lessons and installability. The project is `kevjrmy-projects/lepetitcours`,
+building from `main`, live at <https://lepetitcours.vercel.app>. The Netlify site that served the
+Vue app was deleted the same day; nothing in the tree refers to it.
 
 **Why not a static export:** #8 needs a server for auth and sync. A static export would have been
 closer to the old deployment and is the thing to fall back to if the server side is ever dropped.
@@ -124,7 +127,9 @@ Not installed yet.
 **2026-09-05 · Binding**
 
 Provisioned through the Vercel Marketplace (`vercel integration add supabase`), which injects the
-env vars into the linked project and bills through Vercel.
+env vars into the linked project and bills through Vercel. **The provisioning mechanism is revised
+by #20** — the project was created in the Supabase dashboard instead. The scope below is unaffected
+and stands.
 
 **Chosen over Firebase** because it is a native Marketplace integration where Firebase is manual
 key wiring and separate billing, because progress is row-shaped data keyed by route path rather
@@ -135,8 +140,7 @@ precacheable. The database holds accounts and progress and nothing else. The loc
 source of truth: this is an offline app, so a server can only ever be a sync target, never the
 read path.
 
-**Not provisioned as of 2026-09-05.** It creates a billable resource and needs a browser step on
-the maintainer's account, so it waits until that work actually starts.
+~~**Not provisioned as of 2026-09-05.**~~ Provisioned later the same day — see #20.
 
 ## 9 · One repo, history preserved, `.vue/` without its images
 **2026-09-05 · Binding · commit `6723b81`**
@@ -355,3 +359,23 @@ different rule, it goes in the policy.
 after a period of inactivity and needs a manual restore. For an app with two students that is a
 real papercut — check the current policy, and expect to need either a keepalive or the cheapest
 paid tier.
+
+## 20 · Supabase provisioned directly, not through the Vercel Marketplace
+**2026-09-05 · Binding**
+
+The Supabase project (`ephdtigxjccfauzgexpd`, EU) was created in the Supabase dashboard, not with
+`vercel integration add supabase` as #8 anticipated. Automatic RLS was enabled at creation: an
+event trigger turns row-level security on for every new table in `public`, which makes the
+authorization model of #19 the default rather than something to remember.
+
+**What this costs, relative to the Marketplace route:** nothing injects the env vars, and billing
+is with Supabase directly rather than through Vercel. So the keys are wired by hand and that
+wiring is now a thing that can rot — `NEXT_PUBLIC_SUPABASE_URL` and
+`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` live in a gitignored `.env` for local work and were pushed
+to production, preview and development with `vercel env add`. Adding an environment or rotating a
+key means doing both places.
+
+**The database password is not one of them.** It never reaches Vercel and no application code
+reads it; it exists for `psql`, `supabase link` and migrations. The publishable key is public by
+design — RLS is what protects a learner's rows (#19), which is the whole reason the automatic-RLS
+trigger is worth having on.

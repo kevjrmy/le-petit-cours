@@ -6,12 +6,14 @@ works offline, and teaches French at A2 level with everything explained in Spani
 [![Licence: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 [![Content: CC BY-SA 4.0](https://img.shields.io/badge/content-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE-CONTENT)
 
+**Live at [lepetitcours.vercel.app](https://lepetitcours.vercel.app)**, deployed from `main`.
+
 > ### 🚧 Being rewritten
 >
 > From August 2026 this was a Vue 3 + Vite app with 119 lessons across 14 chapters. On
 > **2026-09-05** it was restarted on Next.js. The repository currently holds the framework
 > scaffold and the project's documentation — the shell, the design system and the lessons are
-> still to be written.
+> still to be written, so that is what the deployed site currently serves.
 >
 > The Vue implementation is kept in [`.vue/`](.vue/) as a reference. It is not built, not
 > imported, and not being ported file-for-file; it is there to be read. See
@@ -55,7 +57,8 @@ Full detail in [`docs/scope.md`](docs/scope.md), including what this project del
 - **Next.js 16** (App Router) · React 19 · TypeScript · React Compiler
 - **Plain CSS** — design tokens and shared content patterns in `src/app/globals.css`, component
   styles in co-located CSS Modules. No Tailwind, no CSS-in-JS.
-- **Vercel** for hosting · **Supabase** for auth (magic link) and progress sync (not yet provisioned)
+- **Vercel** for hosting · **Supabase** for auth (magic link) and progress sync (project created;
+  nothing wired up to it yet)
 - **Serwist** for the service worker and offline precaching (not yet installed)
 
 ## Running it
@@ -72,7 +75,10 @@ npm run build    # must pass before a change is done
 npm run lint
 ```
 
-No environment variables are needed yet — nothing talks to a server.
+Two environment variables exist — `NEXT_PUBLIC_SUPABASE_URL` and
+`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` — but nothing reads them yet, so the app runs without
+them. They are not secrets: the publishable key is public by design and row-level security is
+what protects a learner's data.
 
 ## How it is put together
 

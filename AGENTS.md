@@ -122,9 +122,9 @@ Settled decisions:
   the service worker and precaching — `vite-plugin-pwa` has no Next equivalent and is not coming
   back. Not installed yet.
 - **Supabase for accounts and progress sync only.** Content lives in the repo, in git, reviewed
-  in diffs. Provision it with `vercel integration add supabase` when that work starts — it needs
-  a browser step on the maintainer's account and creates a billable resource, so do not run it
-  early.
+  in diffs. The project exists — `ephdtigxjccfauzgexpd`, created directly in the Supabase
+  dashboard rather than through the Vercel Marketplace integration, so nothing injects its env
+  vars for you and there is no Vercel-side billing link (`docs/decisions.md` #20).
 
 ## 3. Next.js 16 — what differs from your training data
 
@@ -379,8 +379,9 @@ consequences bind every change:
 
 - **Everything you write here is published**, including this file, the briefs and the commit
   messages. Never commit a key, a token or a connection string — `.env*` is gitignored and that
-  is the only place secrets go. Supabase keys arrive through `vercel env pull`, never through a
-  file in the tree.
+  is the only place secrets go. The Supabase URL and publishable key live in a gitignored `.env`
+  and in the Vercel project env (`vercel env add`, all three environments); the database password
+  stays local and is never pushed. Nothing Supabase-shaped belongs in a tracked file.
 - **You can only license what the project owns.** Content contributed here is CC BY-SA 4.0, so
   anything copied from another course, textbook, app or website cannot go in — not as a lesson,
   not as an exercise item, not as a vocabulary list. Write it, or cite it as a quotation under
