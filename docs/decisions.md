@@ -42,6 +42,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 30 | 2026-09-05 | The shell follows the claude.ai pattern: account at the foot of the sidebar, theme three-way | Binding |
 | 31 | 2026-09-05 | An account may hold an optional display name — the one thing added to #22 | Binding |
 | 32 | 2026-09-05 | The session is read once, by a provider inside the shell; the name is updated, never upserted | Binding |
+| 33 | 2026-09-05 | Sign-in is a magic link through `/auth/callback`; no session-refresh proxy is needed | Binding |
 
 ---
 
@@ -853,3 +854,37 @@ not happened yet, not an error. This is the coupling #31 predicted, now visible 
 **The client returns `null` when the environment variables are absent**, rather than throwing.
 Someone who clones the repo without an `.env` still gets the whole book: it is public and static,
 and only the account chrome degrades. `useAccount` reads that as signed out, which is true.
+
+## 33 · Sign-in, and the proxy this app does not need
+**2026-09-05 · Binding**
+
+The magic-link form on `/compte`, `/auth/callback` to exchange the code, sign-out, and the request
+client in `src/lib/supabase/server.ts`. This closes the flow #26 described.
+
+**The callback exists because the code is single-use and must be exchanged server-side.** That is
+the only reason the link does not point straight at `/compte`. Every outcome from it ends back at
+`/compte` — signed in, or with `?erreur=` and a sentence saying what happened. A dead end on an
+error page is the worst place to leave someone who has just clicked a link in their email.
+
+**The redirect target is built from `x-forwarded-host`, not from the request origin.** On Vercel the
+origin is internal; the forwarded host is the domain the learner actually clicked through to,
+preview deploys included. Redirecting to the origin would send them somewhere they hold no session
+for, and the cookie was just written for the forwarded host. Verified by hand: with a forwarded host
+header the callback redirects to that host, without one it redirects to the origin.
+
+**This app needs no session-refresh proxy**, and that falls out of §8 rather than being a shortcut.
+A Supabase + Next app normally carries a `proxy.ts` (`middleware.ts` before Next 16) whose whole job
+is refreshing the auth token so *server renders* see a fresh session. No server render here reads a
+session — that is forbidden precisely because it would make lessons dynamic — so there is nothing to
+keep fresh. The browser client refreshes its own token. **If a proxy ever appears in this repo for
+auth reasons, something has started reading the session on the server.**
+
+**`/compte` stays static**, which is the part worth checking rather than assuming. Reading `?erreur=`
+with `useSearchParams` inside a `<Suspense>` boundary keeps the route prerendered; reading it from
+the page's `searchParams` would have forced the whole route dynamic. `next build` shows `/auth/callback`
+as the only dynamic route in the app.
+
+**An interface message is not a lesson callout.** The first version of the expired-link notice used
+`.exception`, which injects « Sauf — » — a label about French grammar — in front of an
+authentication error. `.message` and its variants exist for the interface and inject nothing. The
+lesson callouts are content, and their labels are part of the content.

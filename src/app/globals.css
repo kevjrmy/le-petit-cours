@@ -483,6 +483,31 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   color: var(--text-heading);
 }
 
+/* A message from the interface — a save that failed, a link that expired.
+ *
+ * Deliberately **not** one of the callouts above: `.attention` and `.exception`
+ * print « À retenir — » and « Sauf — », which are labels about French grammar.
+ * They belong to lesson content and read as nonsense on an error from the app.
+ * Nothing is injected here; the message says what happened by itself. */
+.message {
+  border-left: 4px solid var(--border-strong);
+  background: var(--surface-2);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 0.9rem 1.15rem;
+}
+
+.message-danger {
+  border-left-color: var(--danger);
+  background: var(--danger-soft);
+  color: var(--danger-text);
+}
+
+.message-success {
+  border-left-color: var(--success);
+  background: var(--success-soft);
+  color: var(--success-text);
+}
+
 /* Table chrome. Four columns maximum, a <caption> on every one, and the
    translation column in Spanish — AGENTS.md §9. */
 .table-wrap { overflow-x: auto; }

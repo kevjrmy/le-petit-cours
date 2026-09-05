@@ -94,6 +94,14 @@ export default function DesignPage() {
             un <span className="fr" lang="fr">œuf</span> se prononce « euf », mais
             des <span className="fr" lang="fr">œufs</span> se prononce « eu ».
           </div>
+          <div className="message">
+            Un message de l&rsquo;interface — neutre. Rien n&rsquo;est ajouté
+            devant, contrairement aux blocs de leçon ci-dessus.
+          </div>
+          <div className="message message-danger">
+            Ce lien n&rsquo;est plus valable. Demandez-en un nouveau.
+          </div>
+          <div className="message message-success">Nom enregistré.</div>
           <div className={styles.elevated}>
             Une carte posée sur la page — <code>--shadow</code> et{" "}
             <code>--surface-1</code>.

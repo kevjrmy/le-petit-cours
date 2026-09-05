@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { AccountSettings } from "@/components/account/AccountSettings";
 
 export const metadata: Metadata = { title: "Compte" };
@@ -8,13 +9,18 @@ export const metadata: Metadata = { title: "Compte" };
    needs to know who is signed in lives in the client leaf below, which is what
    keeps this route — and the habit — from reading the session (AGENTS.md §8).
 
-   Still to come: the magic-link form itself, /auth/callback, and the level
-   chooser this page owns (#23). */
+   The Suspense boundary is what lets that leaf read `?erreur=` from the URL
+   with `useSearchParams` while this page still prerenders as static HTML.
+   Without it the whole route would be forced dynamic.
+
+   Still to come: the level chooser this page owns (#23). */
 export default function ComptePage() {
   return (
     <article className="prose">
       <h1>Compte</h1>
-      <AccountSettings />
+      <Suspense fallback={null}>
+        <AccountSettings />
+      </Suspense>
     </article>
   );
 }

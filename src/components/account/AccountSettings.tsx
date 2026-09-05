@@ -9,6 +9,8 @@ import {
   type SaveProblem,
 } from "@/lib/account";
 import { displayName, useAccount, useReloadAccount } from "@/hooks/useAccount";
+import { getSupabaseClient } from "@/lib/supabase/client";
+import { SignInForm } from "./SignInForm";
 import styles from "./AccountSettings.module.css";
 
 /**
@@ -22,22 +24,7 @@ import styles from "./AccountSettings.module.css";
 export function AccountSettings() {
   const account = useAccount();
 
-  if (!account) {
-    return (
-      <section>
-        <p>
-          Tout le contenu du site est en accès libre, sans compte. Un compte
-          servira uniquement à garder vos leçons cochées et le niveau que vous
-          avez choisi d&rsquo;un appareil à l&rsquo;autre — plus, si vous
-          voulez, le nom sous lequel le site vous appelle.
-        </p>
-        <div className="attention">
-          la connexion n&rsquo;est pas encore en service. Elle se fera par un
-          lien envoyé par courriel, sans mot de passe.
-        </div>
-      </section>
-    );
-  }
+  if (!account) return <SignInForm />;
 
   return (
     <>
@@ -49,6 +36,27 @@ export function AccountSettings() {
         </p>
       </section>
       <DisplayNameField initial={account.displayName} />
+
+      <section>
+        <h2>Se déconnecter</h2>
+        <p>
+          Vos leçons cochées restent gardées ; le contenu du site reste lisible
+          sans compte.
+        </p>
+        <p className={styles.signOut}>
+          <button
+            type="button"
+            className="button"
+            onClick={() => {
+              /* No local state to clear: the provider is subscribed to
+                 onAuthStateChange, so SIGNED_OUT reaches every consumer. */
+              void getSupabaseClient()?.auth.signOut();
+            }}
+          >
+            Se déconnecter
+          </button>
+        </p>
+      </section>
     </>
   );
 }

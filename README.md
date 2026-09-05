@@ -64,8 +64,8 @@ Full detail in [`docs/scope.md`](docs/scope.md), including what this project del
 - **Spectral and Inter**, on a palette anchored to the blue the logo is drawn in. The serif sets
   the French being taught, the sans sets the instruction around it — a split by role, so it works
   on both tracks at once.
-- **Vercel** for hosting · **Supabase** for auth (magic link) and progress sync — the browser
-  client and the session hook are wired; sign-in itself and the schema are not applied yet
+- **Vercel** for hosting · **Supabase** for auth (magic link) and progress sync — the sign-in flow
+  is written; the schema is not applied yet, so accounts do not work in the deployed site
 - **Serwist** for the service worker and offline precaching (not yet installed)
 
 ## Running it

@@ -44,3 +44,25 @@
    like when both were --text-3. */
 .helpBad { color: var(--danger-text); }
 .helpGood { color: var(--success-text); }
+
+.aside {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-2);
+}
+
+/* A button that reads as a link, for an action inside a sentence. It is a
+   button because it acts on this page rather than going anywhere. */
+.linkish {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.linkish:hover { color: var(--accent-hover); }
+
+.signOut { margin-top: 1.25rem; }
