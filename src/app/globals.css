@@ -1,49 +1,469 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   LE PETIT COURS — DESIGN SYSTEM
+
+   Two token layers, in order:
+     1. PALETTE   raw scales — never referenced from a component
+     2. SEMANTIC  role tokens (surface / text / border / accent) — theme-aware
+
+   There is no third alias layer. See AGENTS.md §5 and docs/decisions.md #27.
+
+   A raw colour in a component is a bug: it freezes that component in light
+   mode. Every colour comes from a token.
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────────────────────────────────────
+   1. PALETTE
+─────────────────────────────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Bleu — anchored on #0044AA, the blue the wordmark in public/logo.svg is
+     drawn in. The brand colour and the accent are the same colour by
+     construction, so the topbar never shows two near-identical blues. */
+  --blue-950: #06182F;
+  --blue-900: #062B5C;
+  --blue-800: #00378B;
+  --blue-700: #0044AA;   /* brand · accent in light mode · 8.7:1 on white */
+  --blue-600: #0B58C7;
+  --blue-500: #2472E0;
+  --blue-400: #5795EC;   /* accent in dark mode · 6.1:1 on --surface-app */
+  --blue-300: #8DB8F4;
+  --blue-200: #BFD8FA;
+  --blue-100: #E1EDFD;
+  --blue-50:  #F2F7FE;
+
+  /* Rouge — "wrong answer" and nothing else. Never decoration: in a book of
+     graded drills, red means you got it wrong, and a red used ornamentally
+     somewhere else teaches the learner to distrust it. (AGENTS.md §5.) */
+  --red-900: #6E1017;
+  --red-800: #8C1620;
+  --red-700: #AC1B29;
+  --red-600: #C92433;
+  --red-500: #E03A43;
+  --red-400: #F0776F;
+  --red-200: #F9C9C5;
+  --red-100: #FDE8E6;
+  --red-50:  #FEF5F4;
+
+  /* Ambre — « à retenir » callouts, and "careful, there are exceptions". */
+  --amber-800: #7C4D08;
+  --amber-700: #96600A;
+  --amber-600: #B3760C;
+  --amber-500: #CE8A10;
+  --amber-400: #E3A93F;
+  --amber-300: #EFC57C;
+  --amber-100: #FBEFD9;
+  --amber-50:  #FEF9EF;
+
+  /* Vert — correct answers. */
+  --green-800: #17542A;
+  --green-700: #1F6833;
+  --green-600: #287A3C;
+  --green-500: #3D9A52;
+  --green-400: #6FBE80;
+  --green-300: #9DD5A8;
+  --green-100: #E2F4E6;
+  --green-50:  #F1FAF3;
+
+  /* Neutres — tinted toward the brand blue so they sit under it rather than
+     beside it. A pure grey next to #0044AA reads as slightly warm. */
+  --grey-950: #080C13;
+  --grey-900: #0E141E;
+  --grey-850: #141C28;
+  --grey-800: #1B2432;
+  --grey-700: #283242;
+  --grey-600: #465366;
+  --grey-500: #68758A;
+  --grey-400: #94A0B2;
+  --grey-300: #C0C8D5;
+  --grey-200: #DCE1E9;
+  --grey-100: #ECEFF4;
+  --grey-50:  #F5F7FA;
+  --white:    #FFFFFF;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ───────────────────────────────────────────────────────────────────────────
+   2. SEMANTIC
+
+   One definition per token, not three. `light-dark()` resolves against the
+   element's `color-scheme`, so the two themes live in one place and the
+   "defined in two of the three blocks" bug cannot happen. The theme choice is
+   made by flipping `color-scheme` at the root, below.
+
+   Note for components: `light-dark()` reads the `color-scheme` of the element
+   that *uses* the token. If you ever set `color-scheme` on a subtree, every
+   token inside it flips with it. Don't, unless that is what you mean.
+─────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* "système" — follow the OS. Overridden by the two blocks that follow. */
+  color-scheme: light dark;
+
+  /* Surfaces */
+  --surface-app:     light-dark(var(--grey-50),  var(--grey-950));
+  --surface-1:       light-dark(var(--white),    var(--grey-900));
+  --surface-2:       light-dark(var(--grey-50),  var(--grey-850));
+  --surface-3:       light-dark(var(--grey-100), var(--grey-800));
+  --surface-sidebar: light-dark(var(--grey-100), #0B1119);
+  --surface-bar:     light-dark(rgb(255 255 255 / 0.82), rgb(14 20 30 / 0.82));
+  --surface-overlay: light-dark(rgb(8 12 19 / 0.42),     rgb(0 0 0 / 0.62));
+
+  /* Text */
+  --text-1:         light-dark(var(--grey-900), #E6EBF3);
+  --text-2:         light-dark(var(--grey-600), #A7B2C4);
+  --text-3:         light-dark(var(--grey-500), #7A8697);
+  --text-heading:   light-dark(var(--blue-900), #CBDFF9);
+  --text-on-accent: var(--white);
+
+  /* Lines */
+  --border:        light-dark(var(--grey-200), #242E3C);
+  --border-soft:   light-dark(var(--grey-100), #19222E);
+  --border-strong: light-dark(var(--grey-300), #364357);
+
+  /* Accent — the brand blue. Links, the current page, primary buttons. */
+  --accent:        light-dark(var(--blue-700), var(--blue-400));
+  --accent-hover:  light-dark(var(--blue-800), var(--blue-300));
+  --accent-soft:   light-dark(var(--blue-100), #132840);
+  --accent-subtle: light-dark(var(--blue-50),  #101C2C);
+  --accent-line:   light-dark(var(--blue-200), #1F3C5C);
+  --accent-text:   light-dark(var(--blue-800), var(--blue-300));
+
+  /* Danger — a wrong answer. */
+  --danger:        light-dark(var(--red-700), var(--red-500));
+  --danger-soft:   light-dark(var(--red-100), #2C1417);
+  --danger-line:   light-dark(var(--red-200), #571F25);
+  --danger-text:   light-dark(var(--red-800), #F2998F);
+
+  /* Warn — « à retenir », and an astuce that has exceptions. */
+  --warn:          light-dark(var(--amber-500), var(--amber-400));
+  --warn-soft:     light-dark(var(--amber-100), #2A2112);
+  --warn-line:     light-dark(#F0DAB4,          #4B3A1A);
+  --warn-text:     light-dark(var(--amber-700), var(--amber-300));
+
+  /* Success — a correct answer. */
+  --success:       light-dark(var(--green-600), var(--green-500));
+  --success-soft:  light-dark(var(--green-100), #11241A);
+  --success-line:  light-dark(var(--green-300), #2A5733);
+  --success-text:  light-dark(var(--green-700), var(--green-300));
+
+  /* Elevation. The colour is the token; the geometry is theme-independent. */
+  --shadow-color:  light-dark(rgb(8 12 19 / 0.10), rgb(0 0 0 / 0.5));
+  --shadow-color-2:light-dark(rgb(8 12 19 / 0.05), rgb(0 0 0 / 0.4));
+  --shadow-sm: 0 1px 2px var(--shadow-color-2);
+  --shadow:    0 2px 8px -2px var(--shadow-color), 0 1px 3px var(--shadow-color-2);
+  --shadow-lg: 0 12px 32px -8px var(--shadow-color), 0 2px 8px var(--shadow-color-2);
 }
+
+/* The explicit toggle wins over the OS, in both directions. These two blocks
+   only flip `color-scheme` — every token above follows automatically. */
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   3. LAYOUT, TYPE & MOTION — theme-independent
+─────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* The reading column. A measure in rem, sized for line length: much wider
+     and prose runs long, much narrower and a four-column table crowds. */
+  --measure: 52rem;
+
+  /* App shell */
+  --sidebar-w:           16.5rem;
+  --sidebar-w-collapsed:  3.75rem;
+  --topbar-h:             3.5rem;
+  --shell-gutter:         2rem;
+
+  /* Which shell the viewport gets. A media query cannot read a custom
+     property, so the breakpoint would otherwise live in both the CSS and the
+     hook that decides the drawer — and the Vue app's two copies drifted.
+     `useSidebar` reads this token instead of carrying its own number:
+       getComputedStyle(document.documentElement)
+         .getPropertyValue("--shell-mode").trim() === '"sidebar"'
+     CSS stays the single source of truth for the breakpoint. */
+  --shell-mode: "drawer";
+
+  --radius-sm:   6px;
+  --radius:     10px;
+  --radius-lg:  14px;
+  --radius-pill: 999px;
+
+  /* Spectral (Production Type, Paris) carries the French being taught;
+     Inter carries the instruction around it. See AGENTS.md §5. */
+  --font-serif: var(--font-spectral), Georgia, "Times New Roman", serif;
+  --font-sans:  var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono:  ui-monospace, "SF Mono", "Courier New", Courier, monospace;
+
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-fast: 0.14s;
+  --dur:      0.22s;
+
+  --z-content: 1;
+  --z-bar:    20;
+  --z-scrim:  30;
+  --z-drawer: 40;
+}
+
+/* Keep this in step with --shell-mode above; it is the one duplicated number,
+   and it is duplicated because @media cannot read a custom property. */
+@media (min-width: 56.25rem) {
+  :root { --shell-mode: "sidebar"; }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   4. RESET & BASE
+─────────────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+* { margin: 0; padding: 0; }
 
 html {
   height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  /* Next 16 no longer overrides this during navigation — <html> carries
+     data-scroll-behavior="smooth" so a route change does not animate a long
+     scroll to the top. See AGENTS.md §3. */
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   min-height: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-1);
+  background-color: var(--surface-app);
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+img, picture, svg, video { display: block; max-width: 100%; height: auto; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* Headings are the serif, because a heading is a piece of French. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  color: var(--text-heading);
+  line-height: 1.25;
+  text-wrap: balance;
 }
+
+h1 { font-size: 1.9rem;  letter-spacing: 0.01em; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.1rem; }
+
+p { text-wrap: pretty; }
 
 a {
-  color: inherit;
+  color: var(--accent);
   text-decoration: none;
+  transition: color var(--dur-fast) ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   5. THE LANGUAGE RULE
+
+   Serif is the French being taught; sans is the instruction around it. The
+   split is by role, not by track: an orthographe page written in French for
+   the heritage speaker still sets its explanation in sans and its example
+   words in serif.
+
+   `.fr` always travels with lang="fr" — the attribute is not decoration. It
+   picks the right voice for useSpeech, and it tells a screen reader to stop
+   reading French with a Spanish accent.
+
+     <span class="fr" lang="fr">le livre</span> · el libro
+─────────────────────────────────────────────────────────────────────────── */
+.fr {
+  font-family: var(--font-serif);
+  /* Spectral's x-height is smaller than Inter's, so an unadjusted serif set
+     inline in sans prose reads as a size too small. */
+  font-size: 1.06em;
+}
+
+/* Bare tags are deliberately left unstyled. In the old sheet `article` and
+   `section` were padded cards, so a page that used them as layout boxes paid
+   ~4rem of chrome per section. Cards are a class you ask for. */
+
+/* ───────────────────────────────────────────────────────────────────────────
+   6. CONTENT PATTERNS
+   The shapes every lesson uses. Component-specific styling goes in a
+   co-located CSS Module, never here and never in a second global sheet.
+─────────────────────────────────────────────────────────────────────────── */
+
+/* The reading column. */
+.prose {
+  width: 100%;
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.75rem;
+}
+
+/* Grammar rule — the thing the section is teaching. */
+.rule {
+  border-left: 4px solid var(--accent);
+  background: var(--accent-soft);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.25rem;
+}
+
+/* A block of French examples. Serif throughout — no .fr needed inside. */
+.example {
+  background: var(--accent-subtle);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.15rem;
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+}
+
+/* « À retenir ». The label is text, not colour, so the meaning survives for a
+   learner who cannot tell the amber from the blue. */
+.attention {
+  border-left: 4px solid var(--warn);
+  background: var(--warn-soft);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 0.9rem 1.15rem;
+}
+
+.attention::before {
+  content: "À retenir — ";
+  font-weight: 700;
+  color: var(--warn-text);
+}
+
+/* An exception to the rule above it. Pair it with .astuce whenever the trick
+   is not absolute — a shortcut presented as absolute teaches a mistake. */
+.exception {
+  border-left: 4px solid var(--danger);
+  background: var(--danger-soft);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 0.9rem 1.15rem;
+}
+
+.exception::before {
+  content: "Sauf — ";
+  font-weight: 700;
+  color: var(--danger-text);
+}
+
+/* The one line the learner should walk away with. One per section, then
+   explain around it. */
+.astuce {
+  border: 1px solid var(--accent-line);
+  border-left: 4px solid var(--accent);
+  background: var(--accent-subtle);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.25rem;
+}
+
+.astuce::before {
+  content: "Astuce";
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  margin-bottom: 0.4rem;
+}
+
+.astuce-hook {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 1.45;
+  color: var(--text-heading);
+}
+
+/* Table chrome. Four columns maximum, a <caption> on every one, and the
+   translation column in Spanish — AGENTS.md §9. */
+.table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+caption {
+  caption-side: top;
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding-bottom: 0.5rem;
+}
+
+th, td {
+  text-align: left;
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+thead th {
+  background: var(--surface-2);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+
+/* Feedback states for drills. Each carries a mark as well as a colour, so the
+   state is never signalled by colour alone. */
+.is-correct {
+  border-color: var(--success-line);
+  background: var(--success-soft);
+  color: var(--success-text);
+}
+
+.is-wrong {
+  border-color: var(--danger-line);
+  background: var(--danger-soft);
+  color: var(--danger-text);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }

@@ -36,6 +36,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 24 | 2026-09-05 | IndexedDB is the local store; `localStorage` keeps only the theme | Binding |
 | 25 | 2026-09-05 | A1 first, written from scratch, sized to the DELF A1 syllabus | Binding |
 | 26 | 2026-09-05 | Sign-in lives at `/compte`, with a route handler at `/auth/callback` | Binding |
+| 27 | 2026-09-05 | The palette anchors on the wordmark blue; serif carries the French, sans the instruction | Binding |
 
 ---
 
@@ -103,7 +104,7 @@ would carry the compatibility layer's shape with them.
 **What is kept:** the discipline, not the values — two layers, no raw colours in components, every
 token defined in all three theme blocks, colour never the only carrier.
 
-**Still open:** the palette and typography themselves (`AGENTS.md` §12).
+**Still open:** the palette and typography themselves (`AGENTS.md` §12). *(Closed by #27.)*
 
 ## 6 · Plain CSS, not Tailwind
 **2026-09-05 · Inferred, not explicitly confirmed**
@@ -579,3 +580,51 @@ from a preview deploy bounces to production.
 
 **There is no custom domain**, and that is deliberate for this scope: a domain would mean setting
 those URLs twice.
+
+## 27 · The palette anchors on the wordmark blue; the serif carries the French
+**2026-09-05 · Binding · closes the palette-and-typography item in `AGENTS.md` §12**
+
+The design system's palette and typography, left open by #5.
+
+**The blue is `#0044AA`** — the colour `public/logo.svg` is already drawn in — and the scale is
+built around it, so `--accent` and the brand are the same colour by construction. It clears 8.7:1
+on white, which is AAA for body text.
+
+**Chosen over keeping the old `#12539F`.** Both are defensible blues; what is not defensible is
+having both, which is what shipping the old primary next to the existing wordmark would have meant.
+A topbar showing two blues a shade apart looks like a mistake, because it is one.
+
+**The tricolore is not the palette, and never really was.** The old system described itself as
+tricolore, but its semantic layer had `--accent` blue, `--danger` red, `--warn` amber and
+`--success` green — the conventional four-role scheme with a French blue on top. Red was confined
+to *wrong answer* throughout. That confinement is now a rule rather than an accident: **in a book of
+graded drills, red means you got it wrong, so red is never decoration.** A red used ornamentally
+teaches the learner to distrust the one signal that has to be trusted.
+
+**Typography: Spectral for the French being taught, Inter for the instruction around it.**
+
+The pairing is semantic, not decorative. Every page in this book mixes the language being taught
+with the language explaining it — French examples inside Spanish prose on the learner track,
+French examples inside French prose on the heritage track — and that distinction had no visual
+carrier at all. Colour cannot be it: the state colours are spoken for, and §5 forbids colour as the
+sole carrier anyway. So the serif marks the French and the sans marks the instruction, keyed on
+*example vs. explanation* rather than on which language the page is written in, which is what makes
+it work for both tracks at once (#13, #16).
+
+**Chosen over Georgia headings on Inter body**, the old pairing, where the serif was heading
+decoration and carried no meaning. Georgia is also wrong for the job the serif now has: its figures
+are oldstyle and hang below the baseline, which reads as a typo in a conjugation table's person
+column. Spectral has lining figures, was drawn by Production Type in Paris for screen reading, and
+draws `œ`, `ç` and the `é`/`è`/`ê` trio as first-class glyphs rather than composites — which matters
+because the serif's main job is French orthography at table sizes, not display.
+
+**Consequence for `next/font`:** `subsets: ['latin']` is enough for both languages. The subset
+covers `U+0000-00FF` and `U+0152-0153`, so every accented character, `ç`, `ñ`, `¿`, `¡` and the `œ`
+ligature are in it. Pulling `latin-ext` would ship glyphs no lesson can contain. Real italics are
+loaded for the serif, because a synthesised italic slants French accents wrongly.
+
+**Two things this decision does not settle.** The app icons are still the wordmark on a white
+square, which is illegible at 192 px and gets circle-cropped to *e Petit Cou* on Android; they need
+a mark that survives a circle, and that is artwork, not a token. And the wordmark itself is painted
+as a CSS mask rather than served as an `<img>`, so it takes `currentColor` and follows the theme —
+an `<img>` would stay `#0044AA` and go muddy on the dark surface.

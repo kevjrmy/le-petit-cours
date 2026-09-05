@@ -116,17 +116,18 @@ Check for a running dev server before starting one, and never pattern-kill node.
 ```bash
 curl -sf -o /dev/null -w '%{http_code}\n' http://localhost:3000/
 
-BASE=http://localhost:3000
-for flags in "" "--blink-settings=preferredColorScheme=0"; do
-  google-chrome --headless --disable-gpu --no-sandbox --window-size=1280,1000 \
-    $flags --force-prefers-reduced-motion --virtual-time-budget=5000 \
-    --screenshot=shot.png "$BASE/<route>"
-done
+BASE=http://localhost:3000/<route>
+node scripts/shot.mjs "$BASE" light.png  --full
+node scripts/shot.mjs "$BASE" dark.png   --full --dark
+node scripts/shot.mjs "$BASE" mobile.png --full --mobile
 ```
 
-`--blink-settings=preferredColorScheme=0` emulates dark. `--force-dark-mode` does **not** — it
-applies Chrome's own auto-darkening and produces a byte-identical page. Always pass
-`--force-prefers-reduced-motion`, or a page transition leaves the shot half-faded.
+**Use the script, not raw Chrome flags.** `--blink-settings=preferredColorScheme=0` used to emulate
+dark and stopped working silently somewhere before Chrome 152 — the flag is ignored and you get a
+light screenshot in a file named `dark.png`, which is worse than not checking. `scripts/shot.mjs`
+uses the DevTools Protocol instead, and always emulates `prefers-reduced-motion: reduce` so a page
+transition cannot leave the shot half-faded. Never use `--force-dark-mode`: it applies Chrome's own
+auto-darkening and produces a page that is not yours.
 
 **Read the PNGs back and look at them.** A flex child stretching to fill a column does not show
 up in the DOM.

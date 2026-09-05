@@ -28,8 +28,8 @@ written.
 
 What exists off the repo, as of 2026-09-05:
 
-- **Deployed on Vercel** at <https://lepetitcours.vercel.app>, building from `main`. It serves the
-  Next.js starter page, because that is still what `src/app/page.tsx` is.
+- **Deployed on Vercel** at <https://lepetitcours.vercel.app>, building from `main`. It serves a
+  holding page: the sommaire does not exist yet.
 - **Supabase provisioned** (`ephdtigxjccfauzgexpd`) with automatic RLS on and the legacy JWT keys
   disabled. Two public env vars, no integration, no secret at rest (#20, #21).
 - **`supabase/migrations/` holds the schema and it has not been applied.** Two tables — `progress`
@@ -37,7 +37,8 @@ What exists off the repo, as of 2026-09-05:
   database step, and whoever does it should expect to fix something.
 - **Auth is configured but unwritten**: no `/compte`, no callback route, no client.
 
-The first code to write is the design system, and it is blocked on the palette (§12).
+The design system is written — `src/app/globals.css`, the fonts and the theme script (§5).
+The shell, the manifest of chapters and every lesson are still to come.
 
 **So most of this document describes intent, not code that exists.** Where a rule below names a
 file, check whether that file is there yet. When you build the thing, make it match — and when
@@ -204,28 +205,53 @@ Consequences to plan for, none of which existed in the Vue app:
 
 ## 5. Design system
 
-**Written from scratch.** `.vue/src/style.css` is not being ported — not its components, not its
-tokens. Read it for what problems a system like this has to solve (theme-aware surfaces, table
-chrome, exercise feedback states, a readable column width), then solve them again.
+**Written from scratch, and now written.** `src/app/globals.css` holds the two token layers, the
+reset, the base typography and the content patterns every lesson uses; component styles go in
+co-located CSS Modules. `.vue/src/style.css` was not ported — not its components, not its tokens.
+Read it only for the list of problems a system like this has to solve (theme-aware surfaces, table
+chrome, exercise feedback states, a readable column width); the answers here are new ones.
 
-The rules that survive the rewrite because they were right:
+The palette and typography are settled — `docs/decisions.md` #27. The accent is `#0044AA`, the blue
+the wordmark in `public/logo.svg` is already drawn in, so the brand colour and `--accent` are the
+same colour by construction. The two faces are **Spectral** (Production Type, Paris) and **Inter**.
+
+The rules:
 
 - **A raw colour in a component is a bug.** `#4CAF50`, `white`, `rgba(0,0,0,.5)` — each one
-  freezes that component in light mode. Every colour comes from a token.
+  freezes that component in light mode. Every colour comes from a token. The one exception is
+  `viewport.themeColor` in `layout.tsx`, which is a browser API that takes literal colours; keep
+  those two values in step with `--surface-app`.
 - **Two layers, not three.** Palette (raw scales, never referenced from a component) and semantic
   (`--surface-*`, `--text-*`, `--border*`, `--accent*`, `--danger*`, `--warn*`, `--success*`).
   The old system had a third layer of `--clr-*` aliases kept for compatibility with views written
   before the tokens existed. **Do not recreate it.** There is no legacy to be compatible with.
-- **Dark mode is not optional**, and a token defined in only one of the three places
-  (`:root`, the `prefers-color-scheme` block, the `[data-theme="dark"]` block) breaks for either
-  "système" or the explicit toggle — and only one of them, so it looks fine while you test.
-- **Colour is never the only carrier** of meaning. A state that is red also says something.
+- **One definition per token, not three.** Both themes live in a single `light-dark(light, dark)`
+  value on `:root`, and the explicit toggle only flips `color-scheme`. This is deliberate: the old
+  arrangement — `:root`, a `prefers-color-scheme` block and a `[data-theme="dark"]` block — meant a
+  token could be defined in two of the three places, work in whichever mode you happened to be
+  testing, and break in the other. That bug class no longer has anywhere to live. **Never
+  reintroduce a per-theme block to add a token.**
+- **The serif carries the French, the sans carries the instruction.** `.fr` (always with
+  `lang="fr"`) and `.example` set French example material in Spectral; everything explaining it is
+  Inter. The split is by role, not by track — an orthographe page written in French for the
+  heritage speaker still sets its explanation in sans and its example words in serif. The `lang`
+  attribute is not decoration: it picks the voice for `useSpeech` and stops a screen reader reading
+  French with a Spanish accent.
+- **Red means "you got it wrong", so red is never decoration.** In a book of graded drills, an
+  ornamental red teaches the learner to distrust the one signal that has to be trusted. `--danger`
+  is for a wrong answer and for `.exception`, and nothing else.
+- **Dark mode is not optional.** Check it, every time — see §11.
+- **Colour is never the only carrier** of meaning. A state that is red also says something:
+  `.attention` prints « À retenir — », `.exception` prints « Sauf — », a drill's feedback carries a
+  mark as well as a fill.
 - Accessibility is part of the design system, not a later pass: semantic HTML, `focus-visible`
   rings, `aria-label` on icon-only controls, a `<caption>` on every table.
 
-Open: the palette itself. The Vue app used the tricolore (blue primary, red accents, amber
-callouts, green for correct) with Georgia headings on Inter body. Whether the rewrite keeps that
-look has not been decided — do not assume it either way.
+**The app icons are not done.** `public/pwa-*.png` and the maskable icon are the wordmark on a
+white square: illegible at 192 px, and circle-cropped on Android to *e Petit Cou*. They need a mark
+that survives a circle. The wordmark itself is painted as a CSS mask (`mask: url(/logo.svg)` over
+`background-color: currentColor`) rather than served as an `<img>`, so it takes the theme's colour;
+an `<img>` would stay `#0044AA` and go muddy on the dark surface.
 
 ## 6. Navigation
 
@@ -515,12 +541,11 @@ are in `docs/decisions.md` — read it before reopening any of them:
    track collide on the orthography and conjugation pages both read. Working resolution: each
    lesson declares its language, and a topic that genuinely needs both becomes two lessons — but
    only once a real page shows the need. Do not build a translation layer speculatively.
-3. **The palette and typography** of the fresh design system (§5).
-4. **Which chapters ship first.** The level half is settled — **A1 only** to begin with, written
+3. **Which chapters ship first.** The level half is settled — **A1 only** to begin with, written
    from scratch, aiming at the DELF A1 syllabus rather than at parity with the 119 Vue lessons
    (`docs/decisions.md` #25). Which chapters carry it, and in what order, is still open.
-5. **Whether the heritage parcours gets its own front door** or stays one path among several.
-6. **Whether `.vue/` gets deleted** once the rewrite has outgrown it.
+4. **Whether the heritage parcours gets its own front door** or stays one path among several.
+5. **Whether `.vue/` gets deleted** once the rewrite has outgrown it.
 
 One decision is recorded as *inferred* rather than settled — plain CSS over Tailwind
 (`docs/decisions.md` #6). It is the working assumption, not a choice that was ever made

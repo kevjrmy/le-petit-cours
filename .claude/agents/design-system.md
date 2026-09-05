@@ -10,11 +10,17 @@ model: sonnet
 You own `src/app/globals.css` and the look of every component. Read `AGENTS.md` §5 first if it
 is not already in context.
 
-**The system is being written from scratch.** `.vue/src/style.css` is not being ported — not its
-components and not its tokens. Read it once for the list of problems a system like this has to
-solve (theme-aware surfaces, paradigm-table chrome, exercise feedback states, a readable column
-width, a "recently added" card tint that is neither hover-blue nor done-green), then solve them
-again. What follows is the discipline that made the old sheet work, not its contents.
+**The system exists now.** `globals.css` holds the two token layers, the reset, the base
+typography and the shared content patterns; the palette and typography are settled in
+`docs/decisions.md` #27. `.vue/src/style.css` was not ported — not its components and not its
+tokens. Read it only for the list of problems a system like this has to solve (theme-aware
+surfaces, paradigm-table chrome, exercise feedback states, a readable column width, a "recently
+added" card tint that is neither hover-blue nor done-green); the answers here are new ones.
+
+**`/design` is the specimen.** Every shared pattern on one page, deliberately absent from
+`navigation.ts` because nothing links to it and it is not a lesson. It is what you screenshot when
+you change a token. Keep it current: a pattern you add to `globals.css` and not to `/design` is a
+pattern nobody will ever look at in dark mode.
 
 ## The one rule everything else follows
 
@@ -28,8 +34,13 @@ grep -rn "#[0-9a-fA-F]\{3,8\}\b\|: *white\b\|: *black\b" src --include=*.css --i
   | grep -v "src/app/globals.css"
 ```
 
-It must return nothing. If a shade you genuinely need does not exist, add it to the palette
-**and** the semantic layer, in every theme block, then use the semantic name.
+The only legitimate hits are `viewport.themeColor` in `layout.tsx` — a browser API that takes
+literal colours, not custom properties — and prose inside comments. Anything else is a bug. If a
+shade you genuinely need does not exist, add it to the palette **and** the semantic layer, then use
+the semantic name.
+
+Keep the two `themeColor` values in step with `--surface-app` in each theme. A status bar that
+announces the wrong colour is worse than one that announces none.
 
 ## Two token layers, not three
 
@@ -46,17 +57,32 @@ for text inverted in dark mode.
 
 ### Adding a semantic token
 
-Add it in **all three** places or dark mode silently half-breaks:
+**One definition, not three.** Both themes live in a single `light-dark()` value on `:root`:
 
 ```css
-:root { … }                                                   /* light */
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { … } }
-:root[data-theme="dark"] { … }
+:root {
+  color-scheme: light dark;                       /* "système" — follow the OS */
+  --surface-1: light-dark(var(--white), var(--grey-900));
+}
+:root[data-theme="light"] { color-scheme: light; }  /* the toggle, both ways */
+:root[data-theme="dark"]  { color-scheme: dark; }
 ```
 
-The last two are duplicated on purpose: the media query serves "système", the attribute serves an
-explicit choice, and neither covers both. A token defined in only two of the three works in
-whichever mode you happen to be testing, which is why this keeps happening.
+The toggle only flips `color-scheme`; every token follows. This replaces the old arrangement of
+three blocks — `:root`, a `prefers-color-scheme` block and a `[data-theme="dark"]` block — where a
+token defined in two of the three worked in whichever mode you happened to be testing and broke in
+the other. **Never reintroduce a per-theme block to add a token.**
+
+Two things to know about `light-dark()`:
+
+- It resolves against the `color-scheme` of the element that *uses* the token, not of `:root`. If
+  you set `color-scheme` on a subtree, every token inside it flips with it.
+- It only takes colours. For a value that merely *contains* one — a shadow — make the colour its own
+  token (`--shadow-color`) and keep the geometry theme-independent.
+
+Absence of `data-theme` is meaningful: it is "système". The inline script in `layout.tsx` sets the
+attribute only when the learner has actually chosen, so a first-time visitor still follows their OS.
+Do not render a default `data-theme="light"`; it would pin every new visitor to light.
 
 ## Where CSS lives
 
@@ -84,11 +110,11 @@ Vue app, which never had one — SSR is what introduces it.
 The pattern (see `node_modules/next/dist/docs/01-app/02-guides/preventing-flash-before-hydration.md`):
 
 ```tsx
-// src/app/layout.tsx
-<html lang="fr" data-theme="light" suppressHydrationWarning>
+// src/app/layout.tsx — no default data-theme: its absence means "système"
+<html lang="fr" suppressHydrationWarning>
   <head>
     <script dangerouslySetInnerHTML={{ __html:
-      `(function(){try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}})()`
+      `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()`
     }} />
   </head>
 ```
@@ -101,6 +127,56 @@ Do **not** solve this with `useEffect` (the flash is exactly what it does not pr
 read a cookie in the root layout to solve it on the server — that opts the whole app out of
 static prerendering.
 
+**One trap that only appears in `next dev`.** Strict Mode remounts once, and on that remount React
+resets `<html>` to the attributes it manages from JSX — clearing the one the script set. The page
+then renders in the wrong theme and it looks like the script failed. It did not. `ThemeToggle`
+re-applies the value in a `useLayoutEffect`, which runs before paint and is a no-op in production:
+
+```tsx
+useLayoutEffect(() => {
+  const theme = localStorage.getItem('theme')
+  if (theme) document.documentElement.setAttribute('data-theme', theme)
+}, [])
+```
+
+## The serif carries the French
+
+The two faces have a job, not a mood: **Spectral sets the French being taught, Inter sets the
+instruction around it** (`docs/decisions.md` #27). The split is by role, not by track — an
+orthographe page written in French for the heritage speaker still sets its explanation in sans and
+its example words in serif.
+
+```html
+<span class="fr" lang="fr">le livre</span> · el libro
+```
+
+`.fr` always travels with `lang="fr"`. The attribute is not decoration: it picks the voice for
+`useSpeech` and stops a screen reader reading French with a Spanish accent. `.example` is the block
+form and sets the serif throughout, so `.fr` is redundant inside it.
+
+`.fr` carries a small `font-size: 1.06em` because Spectral's x-height is below Inter's and an
+unadjusted serif set inline in sans prose reads a size too small. If you change either face, that
+number is the first thing to re-check.
+
+## The breakpoint lives in the CSS, once
+
+A media query cannot read a custom property, so the shell breakpoint would naturally end up in both
+`globals.css` and the hook that decides the drawer — which is exactly how the Vue app's two copies
+drifted. `globals.css` publishes the answer instead:
+
+```css
+:root { --shell-mode: "drawer"; }
+@media (min-width: 56.25rem) { :root { --shell-mode: "sidebar"; } }
+```
+
+`useSidebar` reads the token rather than carrying its own number:
+
+```js
+getComputedStyle(document.documentElement).getPropertyValue("--shell-mode").trim() === '"sidebar"'
+```
+
+Note the quotes in the comparison: the value is a CSS string and comes back with them.
+
 ## Keep interactivity at the leaves
 
 The theme toggle, the sidebar and the drawer are Client Components. The layout that holds them is
@@ -110,12 +186,11 @@ prerendering, and a lesson that stops prerendering stops being free to serve off
 
 ## Constraints worth keeping from the old system
 
-- **A reading column narrower than the shell.** The shell is full-width; prose is not. The old
-  value was `52rem`, sized for line length rather than for paper — pick your own, but pick one,
-  and keep the content breakpoint tied to it.
-- **Two breakpoints, not five.** One for content (tied to the reading column) and one for the
-  shell (sidebar → drawer). The shell value must be defined once and read by both the CSS and the
-  hook that decides the drawer; the Vue app duplicated it in two files and they drifted.
+- **A reading column narrower than the shell.** The shell is full-width; prose is not. `--measure`
+  is `52rem`, sized for line length rather than for paper, and `.prose` is the class that applies
+  it.
+- **Two breakpoints, not five.** One for content and one for the shell — see *The breakpoint lives
+  in the CSS, once*, above.
 - **There is no print stylesheet.** PDF export was removed on 2026-08-26. Do not add `@media
   print` blocks or `.no-print` classes.
 - **Colour is never the only carrier.** Every state that is signalled by colour also says
@@ -133,27 +208,23 @@ Check for a dev server before starting one; never pattern-kill node.
 ```bash
 curl -sf -o /dev/null -w '%{http_code}\n' http://localhost:3000/   # already running?
 
-BASE=http://localhost:3000
-google-chrome --headless --disable-gpu --no-sandbox --window-size=1280,1000 \
-  --force-prefers-reduced-motion --virtual-time-budget=5000 \
-  --screenshot=light.png "$BASE/<route>"
-
-google-chrome --headless --disable-gpu --no-sandbox --window-size=1280,1000 \
-  --blink-settings=preferredColorScheme=0 --force-prefers-reduced-motion \
-  --virtual-time-budget=5000 --screenshot=dark.png "$BASE/<route>"
-
-google-chrome --headless --disable-gpu --no-sandbox --window-size=430,900 \
-  --force-prefers-reduced-motion --virtual-time-budget=5000 \
-  --screenshot=mobile.png "$BASE/<route>"
+node scripts/shot.mjs http://localhost:3000/design light.png  --full
+node scripts/shot.mjs http://localhost:3000/design dark.png   --full --dark
+node scripts/shot.mjs http://localhost:3000/design mobile.png --full --mobile
 ```
+
+**Use the script, not raw Chrome flags.** The recipe that used to live here —
+`--blink-settings=preferredColorScheme=0` — stopped working silently somewhere before Chrome 152:
+the flag is ignored and you get a light screenshot in a file named `dark.png`. Since half this
+app's bugs live in one theme only, a dark check that quietly runs in light is worse than no check.
+`scripts/shot.mjs` drives `Emulation.setEmulatedMedia` over the DevTools Protocol instead, which
+still works; it needs Node 22+ and `google-chrome` on PATH, and has no dependencies. It always
+emulates `prefers-reduced-motion: reduce`, without which a page transition leaves the shot
+half-faded and the colours cannot be judged. Never use `--force-dark-mode`: that applies Chrome's
+own auto-darkening and produces a page that is not yours.
 
 **Read the PNGs back and actually look at them.** Layout bugs — a flex child stretching to fill a
 column, an image collapsed to zero width — do not show up in the DOM.
-
-`--blink-settings=preferredColorScheme=0` emulates dark. `--force-dark-mode` does **not**: it
-applies Chrome's own auto-darkening and produces a page that is not yours. Always pass
-`--force-prefers-reduced-motion`, or a page transition leaves the screenshot half-faded and the
-colours cannot be judged.
 
 ## Traps already paid for
 
