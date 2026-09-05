@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { annexes, chapters } from "@/data/navigation";
+import { AccountMenu } from "./AccountMenu";
 import styles from "./AppSidebar.module.css";
 
 /**
@@ -113,22 +114,26 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
         </ul>
 
         <ul className={styles.annexes}>
-          {annexes.map((page) => (
-            <li key={page.path}>
-              {page.soon ? (
-                <span className={`${styles.lesson} ${styles.soon}`}>
-                  {page.title}
-                  <em>Bientôt</em>
-                </span>
-              ) : (
-                <Link href={page.path} className={styles.lesson} onClick={onNavigate}>
-                  {page.title}
-                </Link>
-              )}
-            </li>
-          ))}
+          {annexes
+            .filter((page) => page.where === "tree")
+            .map((page) => (
+              <li key={page.path}>
+                {page.soon ? (
+                  <span className={`${styles.lesson} ${styles.soon}`}>
+                    {page.title}
+                    <em>Bientôt</em>
+                  </span>
+                ) : (
+                  <Link href={page.path} className={styles.lesson} onClick={onNavigate}>
+                    {page.title}
+                  </Link>
+                )}
+              </li>
+            ))}
         </ul>
       </nav>
+
+      <AccountMenu onNavigate={onNavigate} />
     </div>
   );
 }

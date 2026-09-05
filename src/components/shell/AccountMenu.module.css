@@ -1,0 +1,185 @@
+.account {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 0.5rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+/* ── the trigger ─────────────────────────────────────────────────────────── */
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.5rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-1);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--dur-fast) ease;
+}
+
+.trigger:hover,
+.trigger[aria-expanded="true"] { background: var(--surface-3); }
+
+.avatar {
+  flex: 0 0 auto;
+  width: 1.85rem;
+  height: 1.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+.avatar svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+}
+
+.triggerText {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.triggerTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.triggerSub { font-size: 0.72rem; color: var(--text-3); }
+
+.chevron {
+  flex: 0 0 auto;
+  width: 0.9rem;
+  height: 0.9rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--text-3);
+  transition: transform var(--dur-fast) ease;
+}
+
+.trigger[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+
+/* ── the popover ─────────────────────────────────────────────────────────── */
+
+/* Opens upward, because the trigger is at the foot of the sidebar and a menu
+   that opens downward there has nowhere to go. */
+.menu {
+  position: absolute;
+  bottom: calc(100% - 0.25rem);
+  left: 0.5rem;
+  right: 0.5rem;
+  z-index: var(--z-drawer);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.status {
+  padding: 0.7rem 0.85rem;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.statusLabel { font-size: 0.85rem; font-weight: 600; color: var(--text-1); }
+.statusHint { font-size: 0.74rem; line-height: 1.4; color: var(--text-3); }
+
+.links { list-style: none; padding: 0.3rem; }
+
+.item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.4rem 0.55rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-1);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+a.item:hover {
+  background: var(--surface-3);
+  color: var(--text-1);
+  text-decoration: none;
+}
+
+/* Announced but unwritten. Dimmed *and* labelled, so the state survives a
+   reader who cannot tell the two greys apart. */
+.soon { color: var(--text-3); cursor: default; }
+
+.soon em {
+  margin-left: auto;
+  font-size: 0.64rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── the theme control ───────────────────────────────────────────────────── */
+.themeRow {
+  padding: 0.55rem 0.85rem 0.7rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.themeLabel {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+
+.segment {
+  padding: 0.28rem 0.2rem;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--text-2);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.segment:hover { color: var(--text-1); }
+
+/* The chosen one is filled *and* carries aria-pressed, so the state is not
+   colour alone. */
+.segment[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--text-on-accent);
+}

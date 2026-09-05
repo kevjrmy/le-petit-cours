@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { annexes, findChapter, findLesson } from "@/data/navigation";
-import { ThemeToggle } from "./ThemeToggle";
 import styles from "./AppTopbar.module.css";
 
 /**
@@ -58,13 +57,6 @@ export function AppTopbar({ open, onToggle }: { open: boolean; onToggle: () => v
           <span className={styles.current}>{annexe?.title ?? "Sommaire"}</span>
         )}
       </nav>
-
-      <div className={styles.actions}>
-        <ThemeToggle />
-        <Link href="/compte" className={styles.compte}>
-          Compte
-        </Link>
-      </div>
     </header>
   );
 }

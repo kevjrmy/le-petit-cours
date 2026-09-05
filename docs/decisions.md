@@ -39,6 +39,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 27 | 2026-09-05 | The palette anchors on the wordmark blue; serif carries the French, sans the instruction | Binding |
 | 28 | 2026-09-05 | The app icon is one letter of the wordmark, generated from it, never hand-drawn | Binding |
 | 29 | 2026-09-05 | The shell derives from the manifest: one generated chapter route, no icon field | Binding |
+| 30 | 2026-09-05 | The shell follows the claude.ai pattern: account at the foot of the sidebar, theme three-way | Binding |
 
 ---
 
@@ -712,3 +713,35 @@ CSS. Mirroring it into state would mean either a lazy initialiser reading `local
 render — which the server cannot do, so the first client render disagrees and hydration fails — or
 a `setState` in an effect, which is a cascading render the React Compiler's lint rejects outright.
 Reading the DOM at click time has neither problem. **Do not add state to it.**
+
+## 30 · The account lives at the foot of the sidebar, behind a popover
+**2026-09-05 · Binding**
+
+The shell takes its general shape from **claude.ai**: a persistent left rail holding the whole
+navigable tree, a near-empty top bar, and the account as a control pinned to the bottom of the rail
+that opens a menu.
+
+**What moved.** « Compte » and the theme control were in the top bar. They are now in a popover
+opened from the account control at the foot of the sidebar, alongside « Ma progression », « À
+propos » and a link to the source. The top bar keeps only the breadcrumb and, below the shell
+breakpoint, the drawer button.
+
+**A popover, not a modal.** The content is a short list of links; a modal would block the page to
+show it, and on a phone the sidebar is *already* a drawer, so a modal inside it is two layers of
+focus trap for one menu. It light-dismisses on Escape, on a pointer outside it, and on navigation.
+
+**Which annexes go where is a property of the page**, not a list hand-copied into two components:
+`annexes` in the manifest carries `where: "tree" | "menu"`. `Nouveautés` is about the book and stays
+in the tree; the rest are about the reader and belong to the menu.
+
+**The theme control became three-way, and that is the part that fixes a bug.** The theme has three
+states — light, dark, and "système", which is the *absence* of `data-theme` so that
+`color-scheme: light dark` can resolve against the OS. The old top-bar toggle exposed two. Once a
+learner clicked it they had written an explicit choice and there was no way back to following their
+system: a one-way door with nothing in the interface to show it. « Système » now removes the
+attribute and the stored key rather than writing a third value into them — storing `"system"` would
+pin the page to whichever theme happened to be current when it was written.
+
+**Superseded here:** #26's "the topbar gets a link, not a form". The *route* half of #26 stands
+unchanged — sign-in is `/compte`, a linkable page a magic link can return to — and so does "never a
+form in the chrome". Only the location of the link changed.

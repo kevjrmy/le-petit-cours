@@ -105,7 +105,7 @@ what protects a learner's data.
 - **The shell lives in `src/app/layout.tsx`**, so the sidebar keeps its scroll position and
   expanded chapters across navigation.
 - **Lessons are Server Components** — no `'use client'`, no hooks, no state. They prerender to
-  HTML and ship no JavaScript. Interactivity (drills, games, audio, the theme toggle) lives in
+  HTML and ship no JavaScript. Interactivity (drills, games, audio, the account menu) lives in
   small client leaves, never in the page wrapping them.
 - Progress is keyed by route path, ticked **manually** by the learner, and stored behind a
   swappable adapter. It requires an account; the content around it does not. The local copy stays

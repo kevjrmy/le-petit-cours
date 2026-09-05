@@ -80,9 +80,16 @@ Two things to know about `light-dark()`:
 - It only takes colours. For a value that merely *contains* one — a shadow — make the colour its own
   token (`--shadow-color`) and keep the geometry theme-independent.
 
-Absence of `data-theme` is meaningful: it is "système". The inline script in `layout.tsx` sets the
-attribute only when the learner has actually chosen, so a first-time visitor still follows their OS.
-Do not render a default `data-theme="light"`; it would pin every new visitor to light.
+**Absence of `data-theme` is meaningful: it is "système"**, and it is a state the interface has to
+be able to return to. The inline script in `layout.tsx` sets the attribute only when the learner has
+actually chosen, so a first-time visitor follows their OS; the control in `AccountMenu` is
+three-way, and picking « Système » *removes* the attribute and the stored key rather than writing
+some third value into them. Storing the string `"system"` would pin the page to whichever theme
+happened to be active when it was written.
+
+Do not render a default `data-theme="light"`; it would pin every new visitor to light. And do not
+replace the three-way control with a two-way toggle: a binary toggle can leave "système" but never
+re-enter it, which is a one-way door the learner cannot see.
 
 ## Where CSS lives
 
@@ -135,7 +142,7 @@ static prerendering.
 
 **One trap that only appears in `next dev`.** Strict Mode remounts once, and on that remount React
 resets `<html>` to the attributes it manages from JSX — clearing the one the script set. The page
-then renders in the wrong theme and it looks like the script failed. It did not. `ThemeToggle`
+then renders in the wrong theme and it looks like the script failed. It did not. `AccountMenu`
 re-applies the value in a `useLayoutEffect`, which runs before paint and is a no-op in production:
 
 ```tsx
@@ -185,7 +192,7 @@ Note the quotes in the comparison: the value is a CSS string and comes back with
 
 ## Keep interactivity at the leaves
 
-The theme toggle, the sidebar and the drawer are Client Components. The layout that holds them is
+The account menu, the sidebar and the drawer are Client Components. The layout that holds them is
 not. Never add `'use client'` to a layout or a lesson page to make a control work — lift the
 control into its own client component instead. A page that becomes a Client Component stops
 prerendering, and a lesson that stops prerendering stops being free to serve offline.

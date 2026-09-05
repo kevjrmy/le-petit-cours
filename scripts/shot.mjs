@@ -14,7 +14,11 @@
  *
  * --eval runs an expression in the page before the shutter, which is how you
  * photograph a state a URL cannot reach on its own — an open mobile drawer, an
- * expanded section, a drill mid-answer.
+ * expanded section, a drill mid-answer. It is awaited, so a sequence that has
+ * to let React render in between should be an async IIFE:
+ *
+ *   --eval="(async()=>{ btn.click(); await new Promise(r=>setTimeout(r,200));
+ *                       next.click() })()" 
  *
  * Needs Node 22+ (global WebSocket) and google-chrome on PATH. No deps.
  */
@@ -121,7 +125,14 @@ try {
   if (script) {
     const { exceptionDetails } = await send(
       "Runtime.evaluate", { expression: script, awaitPromise: true }, s);
-    if (exceptionDetails) throw new Error(`--eval failed: ${exceptionDetails.text}`);
+    if (exceptionDetails) {
+      /* exceptionDetails.text is just "Uncaught"; the useful half is in the
+         exception object's description. */
+      const why = exceptionDetails.exception?.description
+        ?? exceptionDetails.exception?.value
+        ?? exceptionDetails.text;
+      throw new Error(`--eval failed: ${why}`);
+    }
     await sleep(500); // let whatever it triggered settle
   }
 

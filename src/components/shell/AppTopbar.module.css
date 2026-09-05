@@ -66,27 +66,3 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-.actions {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.compte {
-  padding: 0.35rem 0.7rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface-1);
-  color: var(--text-1);
-  font-size: 0.82rem;
-  font-weight: 600;
-}
-
-.compte:hover {
-  border-color: var(--accent-line);
-  background: var(--accent-subtle);
-  color: var(--accent-text);
-  text-decoration: none;
-}

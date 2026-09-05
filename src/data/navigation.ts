@@ -269,11 +269,21 @@ export const chapters: Chapter[] = [
 ];
 
 /** Pages that are not lessons and belong to no chapter. */
-export const annexes: Lesson[] = [
-  { path: "/nouveautes", title: "Nouveautés", levels: ANY, soon: true },
-  { path: "/ma-progression", title: "Ma progression", levels: ANY, soon: true },
-  { path: "/compte", title: "Compte", levels: ANY },
-  { path: "/a-propos", title: "À propos", levels: ANY },
+export interface Annexe extends Lesson {
+  /**
+   * Where the shell offers it. `tree` is the foot of the sidebar, with the
+   * book; `menu` is the account popover. The split is a property of the page
+   * rather than a list hand-copied into two components, which is how the two
+   * would drift.
+   */
+  where: "tree" | "menu";
+}
+
+export const annexes: Annexe[] = [
+  { path: "/nouveautes", title: "Nouveautés", levels: ANY, where: "tree", soon: true },
+  { path: "/ma-progression", title: "Ma progression", levels: ANY, where: "menu", soon: true },
+  { path: "/compte", title: "Compte", levels: ANY, where: "menu" },
+  { path: "/a-propos", title: "À propos", levels: ANY, where: "menu" },
 ];
 
 /**
