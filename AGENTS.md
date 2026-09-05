@@ -22,8 +22,22 @@ manifest, the route folders, the cross-links), **page-auditor** (technical regre
 ## 0. Status — the app is being rewritten
 
 Between 2026-08 and 2026-09 this was a Vue 3 + Vite PWA of 119 lessons across 14 chapters. On
-**2026-09-05** it was restarted on Next.js. Right now the repo holds the framework scaffold and
-these context files; the shell, the design system and the lessons are all still to be written.
+**2026-09-05** it was restarted on Next.js. Right now the repo holds the framework scaffold, these
+context files and one migration; the shell, the design system and the lessons are all still to be
+written.
+
+What exists off the repo, as of 2026-09-05:
+
+- **Deployed on Vercel** at <https://lepetitcours.vercel.app>, building from `main`. It serves the
+  Next.js starter page, because that is still what `src/app/page.tsx` is.
+- **Supabase provisioned** (`ephdtigxjccfauzgexpd`) with automatic RLS on and the legacy JWT keys
+  disabled. Two public env vars, no integration, no secret at rest (#20, #21).
+- **`supabase/migrations/` holds the schema and it has not been applied.** Two tables — `progress`
+  and `settings` — reviewed but never executed against a Postgres. Applying it is the next
+  database step, and whoever does it should expect to fix something.
+- **Auth is configured but unwritten**: no `/compte`, no callback route, no client.
+
+The first code to write is the design system, and it is blocked on the palette (§12).
 
 **So most of this document describes intent, not code that exists.** Where a rule below names a
 file, check whether that file is there yet. When you build the thing, make it match — and when
@@ -72,12 +86,16 @@ The rules that follow from this:
   Explaining French spelling in Spanish to someone who already speaks French is a detour. Which a
   given page uses is a property of the page — see §12, it is not fully settled for pages both
   profiles read.
+- **The interface itself is in French** — « J'ai terminé », « Bientôt », « Parcours », « Compte ».
+  The *instruction* language varies by track; the chrome does not.
 - **English is never used, for either profile.** No English glosses, no English mnemonics (never
   DR & MRS VANDERTRAMP). Never assume the reader knows English.
 - **Lean on Spanish, and flag false friends** — `une robe` ≠ *la ropa*, `le sol` ≠ *el sol*. Where
   a structure already exists in Spanish (gendered articles, reflexives, verb families), say so:
   `se lever` ↔ *levantarse* teaches more than an abstract rule.
-- **Current levels: A1 and A2 only.** B1–C2 are `soon` in the interface and have no content. Short
+- **A1 first; A2 next.** The rewrite starts with A1 alone, sized to the DELF A1 syllabus rather
+  than to parity with the old book (`docs/decisions.md` #25). A2 is in scope and unwritten; B1–C2
+  are `soon` in the interface and have no content. Short
   sentences, everyday vocabulary, no literary tenses, no metalanguage beyond *verbe, sujet,
   adjectif, accord*. The heritage track may use school grammar vocabulary the learner track cannot
   — that is the one place this relaxes.
@@ -307,6 +325,11 @@ Check it in the `next build` output: a lesson that has become dynamic is a regre
 detail.
 
 ### Auth
+
+**Sign-in is a route: `/compte`** — not a modal, so it is linkable and a magic link can return to
+it (`docs/decisions.md` #26). It needs a companion route handler at `/auth/callback` to exchange the
+PKCE code for a session; the topbar gets a link, never a form. `/compte` is also where a learner
+chooses their level (#23), which is asked once, immediately after the first sign-in.
 
 **Supabase Auth, email magic link.** Chosen over Clerk because progress rows live in Supabase
 Postgres, so `auth.uid()` in a row-level-security policy ties a row to its owner with no glue code

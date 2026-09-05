@@ -8,9 +8,10 @@ being built and for whom.
 
 **Help Spanish speakers reach French, from A1 to C2, for free.**
 
-The long-term ambition is the full CEFR ladder. The **current scope is A1 and A2**; B1 through C2
-appear in the interface as *bientôt* and have no content. That is a deliberate limit, not a gap
-to be quietly filled — an unbounded A1→C2 project never finishes A1.
+The long-term ambition is the full CEFR ladder. The scope is **A1 and A2**, and the rewrite starts
+with **A1 alone** — sized to the DELF A1 syllabus rather than to the 119 lessons the Vue app had.
+B1 through C2 appear in the interface as *bientôt* and have no content. That is a deliberate limit,
+not a gap to be quietly filled — an unbounded A1→C2 project never finishes A1.
 
 ## Who it is for
 

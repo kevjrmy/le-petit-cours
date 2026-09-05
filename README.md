@@ -39,7 +39,8 @@ It serves **two kinds of reader**:
 They are not two levels of one thing. A heritage speaker can be orally C1 and written A2 at the
 same time. One library of lessons serves both, ordered differently for each.
 
-**Levels.** The goal is A1 → C2. The current scope is **A1 and A2**; B1–C2 appear as *bientôt*.
+**Levels.** The goal is A1 → C2. The scope is **A1 and A2**, and the rewrite is starting with
+**A1 alone**; B1–C2 appear as *bientôt*.
 A level counts as complete when it covers the published **DELF** syllabus for that level.
 
 Chapters cover grammar, spelling, conjugation, pronunciation, vocabulary, reading, culture,
