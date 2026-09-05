@@ -1,0 +1,27 @@
+.main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Keep in step with --shell-mode in globals.css. */
+@media (min-width: 56.25rem) {
+  .main { margin-left: var(--sidebar-w); }
+}
+
+.content {
+  flex: 1 1 auto;
+  padding: 1.75rem 1.15rem 3rem;
+}
+
+@media (min-width: 56.25rem) {
+  .content { padding: 2.25rem var(--shell-gutter) 3.5rem; }
+}
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-scrim);
+  background: var(--surface-overlay);
+}

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Spectral } from "next/font/google";
+import { AppShell } from "@/components/shell/AppShell";
 import "./globals.css";
 
 /* Spectral (Production Type, Paris) carries the French being taught; Inter
@@ -83,7 +84,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <AppShell>{children}</AppShell>
+      </body>
     </html>
   );
 }

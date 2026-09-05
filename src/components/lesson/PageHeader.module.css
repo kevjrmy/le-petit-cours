@@ -1,0 +1,33 @@
+.header {
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--border-soft);
+  margin-bottom: 1.5rem;
+}
+
+.chapter {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 0.35rem;
+}
+
+.delf {
+  margin-top: 0.45rem;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--text-2);
+}
+
+.levels { margin-top: 0.7rem; display: flex; gap: 0.35rem; }
+
+.levels span {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.12rem 0.45rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}

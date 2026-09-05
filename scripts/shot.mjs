@@ -10,6 +10,11 @@
  *
  *   node scripts/shot.mjs <url> <out.png> [--dark] [--mobile] [--full]
  *                                         [--width=1280] [--height=900]
+ *                                         [--eval="<js>"]
+ *
+ * --eval runs an expression in the page before the shutter, which is how you
+ * photograph a state a URL cannot reach on its own — an open mobile drawer, an
+ * expanded section, a drill mid-answer.
  *
  * Needs Node 22+ (global WebSocket) and google-chrome on PATH. No deps.
  */
@@ -24,6 +29,10 @@ const flag = (n) => args.includes(`--${n}`);
 const opt = (n, d) => {
   const hit = args.find((a) => a.startsWith(`--${n}=`));
   return hit ? Number(hit.split("=")[1]) : d;
+};
+const str = (n) => {
+  const hit = args.find((a) => a.startsWith(`--${n}=`));
+  return hit ? hit.slice(`--${n}=`.length) : null;
 };
 const [url, out] = args.filter((a) => !a.startsWith("--"));
 
@@ -107,6 +116,14 @@ try {
   await send("Page.enable", {}, s);
   await send("Page.navigate", { url }, s);
   await sleep(1800); // let webfonts land before the shutter
+
+  const script = str("eval");
+  if (script) {
+    const { exceptionDetails } = await send(
+      "Runtime.evaluate", { expression: script, awaitPromise: true }, s);
+    if (exceptionDetails) throw new Error(`--eval failed: ${exceptionDetails.text}`);
+    await sleep(500); // let whatever it triggered settle
+  }
 
   const params = { format: "png" };
   if (flag("full")) {

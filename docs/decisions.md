@@ -38,6 +38,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 26 | 2026-09-05 | Sign-in lives at `/compte`, with a route handler at `/auth/callback` | Binding |
 | 27 | 2026-09-05 | The palette anchors on the wordmark blue; serif carries the French, sans the instruction | Binding |
 | 28 | 2026-09-05 | The app icon is one letter of the wordmark, generated from it, never hand-drawn | Binding |
+| 29 | 2026-09-05 | The shell derives from the manifest: one generated chapter route, no icon field | Binding |
 
 ---
 
@@ -668,3 +669,46 @@ as a rasteriser over the DevTools Protocol; there are no dependencies.
 - **`metadata.icons` in `layout.tsx` replaces the `src/app/` file conventions** rather than adding
   to them. Declaring the Apple icon there silently removed `icon.svg` from the head; the Apple icon
   became `src/app/apple-icon.png` instead, and `metadata.icons` is now unused on purpose.
+
+## 29 · The shell derives from the manifest
+**2026-09-05 · Binding**
+
+The sidebar, the sommaire and every chapter landing page read `src/data/navigation.ts` and hold no
+list of their own. Three choices inside that are worth recording, because each replaces something
+the Vue app did differently.
+
+**Chapter landing pages are one route, not fourteen.** `app/[chapitre]/page.tsx` renders them all
+through `generateStaticParams`, with `dynamicParams = false` so an unknown slug 404s instead of
+being rendered on demand — which is also what keeps the dynamic segment from swallowing every
+unmatched top-level path. Adding a chapter to the manifest gives it a landing page with nothing
+written.
+
+**Chosen over fourteen near-identical files**, which is what "never hand-write a chapter page"
+really costs when the router makes you create the folder anyway. It does mean the nav audit has to
+resolve the dynamic segment from the manifest rather than from the filesystem; that is one line in
+the audit against fourteen files that could each drift.
+
+**Chapters carry no icon.** The mark on a sommaire card is the chapter's initial set in Spectral.
+The identity of this project is lettering (#28), so a letter is on-brand rather than a substitute
+for artwork — and it cannot fall out of step with the manifest. The Vue app's `icon` field was a
+mapping you could forget with **nothing failing**: the chapter rendered a fallback glyph and looked
+like a design choice rather than a bug. Removing the field removes the bug class.
+
+**The sidebar's badge counts rows, not published lessons.** It says how many entries the chapter
+opens to, each of which labels itself « Bientôt » if unwritten. A published tally would render a
+column of zeroes today and read as broken. This is not the progress denominator, which stays
+published-only (`AGENTS.md` §8) so an announced-but-unwritten lesson never makes a finished chapter
+look unfinished.
+
+**The shell is one client boundary, in the root layout.** `AppShell` takes `children` from the
+server layout, so every page underneath stays a Server Component and keeps prerendering — verified
+in `next build`, where all seventeen routes are still static. It also gives the sidebar its scroll
+position and expanded chapters across navigation for free, which is the Next equivalent of the old
+"the shell lives in `App.vue`" rule.
+
+**The theme toggle holds no React state.** `data-theme` on the root element is already the single
+source of truth: the inline script sets it before first paint and the icon is chosen from it in
+CSS. Mirroring it into state would mean either a lazy initialiser reading `localStorage` during
+render — which the server cannot do, so the first client render disagrees and hydration fails — or
+a `setState` in an effect, which is a cascading render the React Compiler's lint rejects outright.
+Reading the DOM at click time has neither problem. **Do not add state to it.**

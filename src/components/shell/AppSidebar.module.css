@@ -1,0 +1,176 @@
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: var(--z-drawer);
+  width: var(--sidebar-w);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-sidebar);
+  border-right: 1px solid var(--border);
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition: transform var(--dur) var(--ease), visibility var(--dur);
+}
+
+.open {
+  transform: none;
+  visibility: visible;
+}
+
+/* Above the shell breakpoint the panel is simply there. Keep this value in
+   step with --shell-mode in globals.css; it is the one number CSS cannot
+   share with a media query. */
+@media (min-width: 56.25rem) {
+  .sidebar {
+    transform: none;
+    visibility: visible;
+    transition: none;
+  }
+}
+
+.head {
+  flex: 0 0 auto;
+  height: var(--topbar-h);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.brand {
+  display: block;
+  padding: 0.35rem 0.15rem;
+  border-radius: var(--radius-sm);
+}
+
+/* The wordmark as a mask, so it takes currentColor and follows the theme. */
+.wordmark {
+  display: block;
+  width: 9.5rem;
+  aspect-ratio: 113.85 / 20.38;
+  background-color: currentColor;
+  color: var(--accent);
+  -webkit-mask: url(/logo.svg) center / contain no-repeat;
+  mask: url(/logo.svg) center / contain no-repeat;
+}
+
+.filter {
+  flex: 0 0 auto;
+  padding: 0.75rem 0.85rem 0.5rem;
+}
+
+.filter input {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  color: var(--text-1);
+  font-size: 0.86rem;
+}
+
+.filter input::placeholder { color: var(--text-3); }
+
+.tree {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 0.5rem 2rem;
+}
+
+.chapters, .lessons, .annexes { list-style: none; }
+
+.chapter {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.5rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-1);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.chapter:hover { background: var(--surface-3); }
+
+.activeChapter { color: var(--accent-text); }
+
+.chevron {
+  flex: 0 0 auto;
+  width: 0.85rem;
+  height: 0.85rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--text-3);
+  transition: transform var(--dur-fast) ease;
+}
+
+.chapter[aria-expanded="true"] .chevron { transform: rotate(90deg); }
+
+.chapterTitle { flex: 1 1 auto; }
+
+.count {
+  flex: 0 0 auto;
+  font-size: 0.72rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-3);
+}
+
+.lessons { margin: 0.1rem 0 0.4rem 1.35rem; }
+
+.lesson {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-2);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+a.lesson:hover {
+  background: var(--surface-3);
+  color: var(--text-1);
+  text-decoration: none;
+}
+
+.overview { color: var(--text-3); font-style: italic; }
+
+.activeLesson,
+a.activeLesson:hover {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+/* An announced-but-unwritten page. Dimmed *and* labelled: the state has to
+   survive a reader who cannot tell the two greys apart. */
+.soon { color: var(--text-3); cursor: default; }
+
+.soon em {
+  flex: 0 0 auto;
+  margin-left: auto;
+  font-size: 0.66rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.annexes {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-soft);
+}

@@ -28,8 +28,7 @@ written.
 
 What exists off the repo, as of 2026-09-05:
 
-- **Deployed on Vercel** at <https://lepetitcours.vercel.app>, building from `main`. It serves a
-  holding page: the sommaire does not exist yet.
+- **Deployed on Vercel** at <https://lepetitcours.vercel.app>, building from `main`.
 - **Supabase provisioned** (`ephdtigxjccfauzgexpd`) with automatic RLS on and the legacy JWT keys
   disabled. Two public env vars, no integration, no secret at rest (#20, #21).
 - **`supabase/migrations/` holds the schema and it has not been applied.** Two tables — `progress`
@@ -37,8 +36,9 @@ What exists off the repo, as of 2026-09-05:
   database step, and whoever does it should expect to fix something.
 - **Auth is configured but unwritten**: no `/compte`, no callback route, no client.
 
-The design system is written — `src/app/globals.css`, the fonts and the theme script (§5).
-The shell, the manifest of chapters and every lesson are still to come.
+The design system, the icons and the shell are written — `globals.css`, `src/data/navigation.ts`,
+the sidebar, the topbar and the sommaire (§5, §6). The manifest declares fourteen chapters and
+three lessons are real; everything else is `soon`. The lessons themselves are what is left.
 
 **So most of this document describes intent, not code that exists.** Where a rule below names a
 file, check whether that file is there yet. When you build the thing, make it match — and when
@@ -114,17 +114,19 @@ src/
     page.tsx              the sommaire
     globals.css           tokens, base, and the shared content patterns
     manifest.ts           the PWA manifest (Next file convention, not a static JSON)
-    {chapitre}/page.tsx           chapter landing page
+    [chapitre]/page.tsx           every chapter landing page, one generated route
     {chapitre}/{lecon}/page.tsx   a lesson
+    design/page.tsx               the design system specimen, in no manifest
   components/
-    shell/                AppSidebar, AppTopbar, ThemeToggle, Footer
-    lesson/               Rule, Example, Attention, Exception, Astuce, Table, PageHeader…
+    shell/                AppShell, AppSidebar, AppTopbar, ThemeToggle, Footer
+    lesson/               PageHeader, RelatedLinks — Rule, Example, Attention… are CSS classes
     exercice/             the drill primitives
   data/
     navigation.ts         SINGLE SOURCE OF TRUTH for chapters, lessons, cross-links
-  hooks/                  useTheme, useSidebar, useSpeech, useProgress  ('use client')
+  hooks/                  useShellMode — useSpeech, useProgress to come  ('use client')
   lib/                    shuffle, progress adapter, view metadata
-public/                   brand assets (logo, favicons, PWA icons) and lesson images
+scripts/                  shot.mjs (themed screenshots), make-icons.mjs
+public/                   brand assets (logo, logo-mark, PWA icons) and lesson images
 ```
 
 Settled decisions:
@@ -314,6 +316,17 @@ lesson out of static prerendering. The level decides what the book **offers**, n
 
 B1–C2 are declared and empty. They render as *bientôt* and are filtered out, the same mechanism as
 a `soon` lesson — **not** a separate code path, and not an excuse to write B1 content early.
+
+**Chapter landing pages are one route, not fourteen.** `app/[chapitre]/page.tsx` renders every
+chapter from the manifest via `generateStaticParams`, with `dynamicParams = false` so an unknown
+slug 404s rather than being rendered on demand — which is also what stops the segment swallowing
+every unmatched top-level path. Adding a chapter to the manifest gives it a landing page; there is
+nothing to write.
+
+**Chapters carry no icon.** The card mark on the sommaire is the chapter's initial set in the
+serif, because the identity is lettering and a letter cannot fall out of step with the manifest.
+The Vue app's icon mapping was a field you could forget with no failure — the chapter rendered a
+fallback glyph and looked like a design choice. There is nothing to forget now.
 
 Two things still need deliberate care:
 

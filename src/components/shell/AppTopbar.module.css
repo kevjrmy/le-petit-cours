@@ -1,0 +1,92 @@
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-bar);
+  height: var(--topbar-h);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0 0.85rem;
+  background: var(--surface-bar);
+  backdrop-filter: saturate(140%) blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.menu {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-2);
+  cursor: pointer;
+}
+
+.menu:hover { background: var(--surface-3); color: var(--text-1); }
+
+.menu svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+/* The panel is permanent above the breakpoint, so the control that opens it
+   has nothing to do. Keep in step with --shell-mode in globals.css. */
+@media (min-width: 56.25rem) {
+  .menu { display: none; }
+}
+
+.crumbs {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.crumbs a { color: var(--text-2); }
+.crumbs a:hover { color: var(--accent); }
+
+.sep { color: var(--text-3); }
+
+.current {
+  color: var(--text-1);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.compte {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  color: var(--text-1);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.compte:hover {
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
+  color: var(--accent-text);
+  text-decoration: none;
+}

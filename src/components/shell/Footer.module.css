@@ -1,0 +1,17 @@
+.footer {
+  margin-top: auto;
+  padding: 2rem var(--shell-gutter) 2.5rem;
+  border-top: 1px solid var(--border-soft);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--text-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.5rem;
+  justify-content: space-between;
+}
+
+.links { display: flex; gap: 1rem; }
+.links a { color: var(--text-3); }
+.links a:hover { color: var(--accent); }
+.nowrap { white-space: nowrap; }

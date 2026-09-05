@@ -317,6 +317,24 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   margin-inline: auto;
 }
 
+/* Vertical rhythm, opted into rather than inherited.
+ *
+ * The reset zeroes every margin on purpose — a bare tag must cost nothing, or
+ * someone uses `section` as a layout box and pays for it (see the note above).
+ * So prose flow is declared here, scoped to `.prose`, and a page gets it by
+ * asking. Sections are the unit: siblings inside one are close, sections are
+ * far apart, and a heading owns the gap above itself rather than below. */
+.prose section > * + * { margin-top: 0.95rem; }
+.prose section + section { margin-top: 2.4rem; }
+.prose > * + * { margin-top: 1.6rem; }
+
+.prose h2 { margin-bottom: 0.15rem; }
+.prose h3 { margin-top: 1.4rem; }
+
+/* A caption is already spaced from its table; without this it collides with
+   whatever precedes the table. */
+.prose .table-wrap { margin-top: 1.3rem; }
+
 .card {
   background: var(--surface-1);
   border: 1px solid var(--border);

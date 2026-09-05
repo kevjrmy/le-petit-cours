@@ -40,13 +40,14 @@ Run this whenever you touch navigation, and before reporting done:
 ```bash
 node --experimental-strip-types --input-type=module -e "
 import { readdirSync, existsSync } from 'node:fs'
-import { chapters, annexes } from './src/data/navigation.ts'
+import { chapters, annexes, relatedPages } from './src/data/navigation.ts'
 
-// routes on disk: every directory under src/app holding a page.tsx
+// Routes on disk: every directory under src/app holding a page.tsx. Dynamic
+// segments are skipped here and resolved from the manifest just below.
 const routes = new Set()
 ;(function walk(dir, url) {
   for (const e of readdirSync(dir, { withFileTypes: true })) {
-    if (!e.isDirectory() || e.name.startsWith('_') || e.name.startsWith('(')) continue
+    if (!e.isDirectory() || e.name.startsWith('_') || e.name.startsWith('(') || e.name.startsWith('[')) continue
     const next = url + '/' + e.name
     if (existsSync(dir + '/' + e.name + '/page.tsx')) routes.add(next)
     walk(dir + '/' + e.name, next)
@@ -54,23 +55,37 @@ const routes = new Set()
 })('src/app', '')
 if (existsSync('src/app/page.tsx')) routes.add('/')
 
+// Every chapter landing page comes from one generated route.
+if (existsSync('src/app/[chapitre]/page.tsx')) for (const c of chapters) routes.add(c.path)
+
+// Real routes with no manifest entry, by design: the sommaire and the specimen.
+// Counting them makes the check cry wolf on every run, which is how a check
+// stops being read.
+const allowed = new Set(['/', '/design'])
+
 const declared = [...chapters.flatMap(c => [c, ...c.lessons]), ...annexes]
 const missing = declared.filter(l => !l.soon && !routes.has(l.path)).map(l => l.path)
-// '/' is the sommaire: a real route with no manifest entry by design. Counting it
-// makes the check cry wolf on every run, which is how a check stops being read.
-const orphan  = [...routes].filter(p => p !== '/' && !declared.some(l => l.path === p))
+const orphan  = [...routes].filter(p => !allowed.has(p) && !declared.some(l => l.path === p))
+
+// Cross-links fail soft — an unresolvable target is dropped rather than
+// rendered — so nothing but this surfaces a stale one.
+const paths = new Set(declared.map(l => l.path))
+const stale = Object.entries(relatedPages).flatMap(([from, tos]) => [
+  ...(paths.has(from) ? [] : [from + ' (source)']),
+  ...tos.filter(t => !paths.has(t)).map(t => from + ' -> ' + t),
+])
 
 console.log('in the manifest, no page.tsx:', missing.length ? missing : 'none')
 console.log('page.tsx, not in the manifest:', orphan.length ? orphan : 'none')
+console.log('cross-links that resolve to nothing:', stale.length ? stale : 'none')
 "
 ```
 
-Both lines must read `none`. (`npx tsx` works too if the manifest ever grows syntax that type
+All three lines must read `none`. (`npx tsx` works too if the manifest ever grows syntax that type
 stripping cannot handle.)
 
-Then check the cross-links, which **fail soft** — an unresolvable target is dropped rather than
-rendered, so a stale entry costs a link and raises no error. Nothing surfaces it but a check:
-resolve every target in the map and report any that vanished.
+The third line matters most, because cross-links **fail soft**: an unresolvable target is dropped
+rather than rendered, so a stale entry costs a link and raises no error anywhere else.
 
 Then `npm run build`.
 
@@ -83,6 +98,9 @@ Then `npm run build`.
    manifest, so a wrong date puts the page in the wrong place or nowhere.
 3. Its cross-links, and a link back from whatever relates to it.
 
+`levels` is **required** on every entry, and `[]` is how you say "no level, always visible" — an
+omitted field and a deliberate `[]` must not look the same in a diff (`docs/decisions.md` #23).
+
 Optional manifest keys worth knowing, all from the Vue app and all still useful: a rich label for
 superscripts, a leading emoji shown in list rows but never in the sidebar, a subtitle (author,
 scenario), a short tag badge, and a `soon` flag for an announced-but-unwritten lesson — which
@@ -91,15 +109,17 @@ the page in the same change as dropping the flag**, never the other way round.
 
 ## Adding a chapter
 
-1. The `chapters` entry: slug, path, title, optional short title for the sidebar, icon, the
-   singular/plural unit for its count, blurb, lessons.
-2. The icon mapping. This is the one that gets forgotten, because **nothing fails without it** —
-   the chapter renders a fallback glyph and looks like a design choice rather than a bug. Assert
-   every chapter's icon actually resolves.
-3. `src/app/{chapitre}/page.tsx` — the chapter landing page, generated from the manifest. **Never
-   hand-write one.** Everything it shows (title, blurb, rows, tags, subtitles, "Bientôt"
-   placeholders) comes from the manifest, and a bespoke one drifts the moment a lesson is added.
-4. `AGENTS.md` §7 if the page type is new.
+1. The `chapters` entry: slug, path, title, optional short title for the sidebar, the
+   singular/plural unit for its count, blurb, lessons. **There is no icon field** — the mark on a
+   sommaire card is the chapter's initial in the serif, so there is no mapping to forget. The Vue
+   app's was exactly the kind you could forget with nothing failing: the chapter rendered a
+   fallback glyph and looked like a design choice.
+2. **Nothing else.** `src/app/[chapitre]/page.tsx` renders every chapter landing page from the
+   manifest, so the new chapter has one the moment its entry exists. Never hand-write one, and
+   never add a `src/app/{chapitre}/page.tsx` beside it — everything the page shows (title, blurb,
+   rows, tags, levels, "Bientôt" placeholders) comes from the manifest, and a bespoke one drifts
+   the moment a lesson is added.
+3. `AGENTS.md` §7 if the page type is new.
 
 A chapter that ships images needs one more thing: its files under `public/`, and the format
 covered by whatever the service worker precaches. Miss the second and the pages render online and
