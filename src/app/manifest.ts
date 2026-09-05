@@ -4,9 +4,11 @@ import type { MetadataRoute } from "next";
    Values carried over from the Vue app's vite.config.js, with theme_color
    restated against the new palette.
 
-   The icons are still the wordmark on a white square, which does not work at
-   192px and gets circle-cropped to "e Petit Cou" on Android. They need
-   redrawing as a mark that survives a circle; see todo. */
+   The icons are still the wordmark, which is the wrong format for an icon:
+   hairline cursive is a smudge at 192px, the maskable's safe-zone padding
+   shrinks it to nothing inside Android's circle, and pwa-192x192.png is
+   transparent so it vanishes on a dark home screen. They need redrawing as one
+   letterform on a solid ground; see todo. */
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",

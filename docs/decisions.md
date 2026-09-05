@@ -623,8 +623,10 @@ covers `U+0000-00FF` and `U+0152-0153`, so every accented character, `ç`, `ñ`,
 ligature are in it. Pulling `latin-ext` would ship glyphs no lesson can contain. Real italics are
 loaded for the serif, because a synthesised italic slants French accents wrongly.
 
-**Two things this decision does not settle.** The app icons are still the wordmark on a white
-square, which is illegible at 192 px and gets circle-cropped to *e Petit Cou* on Android; they need
-a mark that survives a circle, and that is artwork, not a token. And the wordmark itself is painted
+**Two things this decision does not settle.** The app icons are still the wordmark, which is the
+wrong format for an icon rather than a flaw in the wordmark: hairline cursive is a smudge at 192 px
+and a smear at 48 px, the maskable's safe-zone padding shrinks the type to nothing to survive
+Android's circle, and `pwa-192x192.png` is transparent so it disappears into a dark home screen.
+They need a mark that reads at 48 px inside a circle, and that is artwork, not a token. And the wordmark itself is painted
 as a CSS mask rather than served as an `<img>`, so it takes `currentColor` and follows the theme —
 an `<img>` would stay `#0044AA` and go muddy on the dark surface.

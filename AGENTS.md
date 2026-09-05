@@ -247,9 +247,14 @@ The rules:
 - Accessibility is part of the design system, not a later pass: semantic HTML, `focus-visible`
   rings, `aria-label` on icon-only controls, a `<caption>` on every table.
 
-**The app icons are not done.** `public/pwa-*.png` and the maskable icon are the wordmark on a
-white square: illegible at 192 px, and circle-cropped on Android to *e Petit Cou*. They need a mark
-that survives a circle. The wordmark itself is painted as a CSS mask (`mask: url(/logo.svg)` over
+**The app icons are not done.** They are the wordmark, which is the wrong *format* for an icon —
+nothing is wrong with the wordmark itself. Three separate problems: at 192 px the hairline cursive
+is a smudge, and at 48 px in a browser tab it is a blue smear; `maskable-icon-512x512.png` carries
+enough safe-zone padding to survive Android's circle, but that padding is exactly what shrinks the
+type to nothing, so it lands as a white disc; and `pwa-192x192.png` is **transparent**, so the blue
+wordmark floats unbacked and vanishes into a dark home screen. They need a mark that reads at 48 px
+inside a circle on any background — one letterform, not eleven. The wordmark itself is painted as a
+CSS mask (`mask: url(/logo.svg)` over
 `background-color: currentColor`) rather than served as an `<img>`, so it takes the theme's colour;
 an `<img>` would stay `#0044AA` and go muddy on the dark surface.
 
