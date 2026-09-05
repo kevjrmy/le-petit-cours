@@ -411,3 +411,9 @@ the integration. Re-syncing from the Supabase dashboard will push these back; de
 
 **What remains** is the project URL and the publishable key, in both their prefixed and unprefixed
 spellings. Both are public by design and safe in a client bundle.
+
+**And nothing secret remains locally either.** The database password was rotated and then dropped
+from `.env` rather than re-pasted: no application code reads it, and the tools that do need it
+(`psql`, `supabase link`, migrations) prompt. So the project currently holds no credential whose
+leak would matter — which is worth stating because it is a property to keep, not a coincidence. A
+future feature that needs a real secret should add it deliberately, to `.env` and nowhere else.

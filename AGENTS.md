@@ -382,12 +382,12 @@ consequences bind every change:
 
 - **Everything you write here is published**, including this file, the briefs and the commit
   messages. Never commit a key, a token or a connection string — `.env*` is gitignored and that
-  is the only place secrets go. The Supabase URL and publishable key live in a gitignored `.env`
-  and in the Vercel project env (`vercel env add`, all three environments); the database password
-  stays local and is never pushed. Nothing Supabase-shaped belongs in a tracked file, and **no key
-  that bypasses RLS belongs in the deployment env either** — the service role key, the secret key
-  and the `POSTGRES_*` set were deleted on purpose and re-syncing the integration pushes them back
-  (`docs/decisions.md` #21).
+  is the only place secrets go. As it stands **no secret exists to go there**: the Supabase URL and
+  publishable key are public by design, and they are all `.env` and the Vercel project env hold.
+  The database password is stored nowhere — `psql`, `supabase link` and migrations prompt for it.
+  Nothing Supabase-shaped belongs in a tracked file, and **no key that bypasses RLS belongs in the
+  deployment env either** — the service role key, the secret key and the `POSTGRES_*` set were
+  deleted on purpose and re-syncing the integration pushes them back (`docs/decisions.md` #21).
 - **You can only license what the project owns.** Content contributed here is CC BY-SA 4.0, so
   anything copied from another course, textbook, app or website cannot go in — not as a lesson,
   not as an exercise item, not as a vocabulary list. Write it, or cite it as a quotation under
