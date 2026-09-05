@@ -103,8 +103,8 @@ no auth wall, no sign-up interstitial, nothing gated behind an email address. Th
 and it is also what keeps the lessons statically prerendered and precacheable — which is what makes
 the app work offline at all.
 
-**An account is required to keep a learning path** — the « J'ai terminé » tick, exercise scores,
-position in a parcours, across devices. There is no anonymous progress: one storage path, one
+**An account is required to keep a learning path** — the « J'ai terminé » tick, the level you are
+working at, and the position in a parcours those imply, across devices. There is no anonymous progress: one storage path, one
 owner.
 
 An account holds an **email, progress rows and settings, and nothing else**. No analytics on

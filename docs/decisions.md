@@ -31,7 +31,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 19 | 2026-09-05 | Supabase Auth, email magic link — not Clerk | Binding |
 | 20 | 2026-09-05 | Supabase provisioned directly, not through the Vercel Marketplace integration | Binding |
 | 21 | 2026-09-05 | No key that bypasses RLS lives in the deployment environment | Binding |
-| 22 | 2026-09-05 | The progress table: one row per learner per path, RLS-owned, schema in git | Binding |
+| 22 | 2026-09-05 | An account stores the tick and the chosen level — no scores; level never keys progress | Binding |
 
 ---
 
@@ -50,7 +50,9 @@ feature nobody used.
 **2026-08-26 · Binding**
 
 A lesson or a drill counts as done only when the learner presses « J'ai terminé ». Exercises
-record the score of their last run; finishing one never ticks it.
+record the score of their last run; finishing one never ticks it. *(The score half was dropped by
+#22 before any of it was built: a drill shows its score and stores nothing. The manual tick, which
+is what this entry is actually about, stands.)*
 
 **Why:** a half-remembered pass at 50 % is not a finished lesson, and the learner is the only one
 who knows the difference. Auto-completion would make the progress page a record of pages visited,
@@ -312,7 +314,8 @@ target and the question of child accounts can wait. Revisit before accounts ship
 
 Every lesson, drill and game is readable and playable with **no account** — no auth wall, no
 sign-up interstitial, nothing gated behind an email address. What requires an account is keeping a
-learning path: the « J'ai terminé » tick, exercise scores, position in a parcours.
+learning path: the « J'ai terminé » tick, exercise scores, position in a parcours. *(Scores were
+dropped by #22; the level chosen took their place.)*
 
 **Chosen over anonymous local progress that an account later claims.** That alternative is
 friendlier — ticking would work on first visit and sign-up would adopt the existing state — but it
@@ -434,36 +437,47 @@ from `.env` rather than re-pasted: no application code reads it, and the tools t
 leak would matter — which is worth stating because it is a property to keep, not a coincidence. A
 future feature that needs a real secret should add it deliberately, to `.env` and nowhere else.
 
-## 22 · The progress table
+## 22 · What an account stores: the tick, and the level
 **2026-09-05 · Binding**
 
-`supabase/migrations/20260905154500_progress.sql`. One row per learner per lesson path, primary key
-`(user_id, path)`, and four RLS policies that each say `auth.uid() = user_id`.
+`supabase/migrations/20260905154500_progress.sql`. Two tables, and the second one is the reason the
+first is shaped the way it is.
 
-**The schema lives in git**, for the same reason the lessons do: it is reviewable in a diff. A table
-created by clicking around the dashboard is a schema nobody can read without logging in.
+**`progress` — the row is the tick.** `(user_id, path)` and a `marked_at`, nothing else. Marking a
+lesson inserts a row; unmarking deletes it. There is no `done` column because a row's existence
+already says it, and no score column because nothing is stored about a drill run at all.
+
+**`settings` — one row per learner, holding the chosen level.** Null means unchosen: the app asks on
+first sign-in rather than guessing, and a missing row means the same thing as a null, so no code
+should distinguish them. The check constraint accepts only levels that have content, so nobody can
+select an empty book; adding B1 is then a one-line migration, which is the right amount of friction.
+
+**The level is a setting, never part of a progress key.** This is the whole design. A learner must be
+able to drop from A2 to A1 and climb back without losing anything, so progress is keyed by path
+alone and knows nothing about the level in force when it was ticked. Putting the level in the key,
+or even on the row, would fragment one learner's history into per-level piles — the exact failure
+this shape exists to prevent.
+
+**Scores are not stored, anywhere.** A drill still grades itself and still shows a score screen; the
+number simply never leaves the session. `docs/scope.md` limits an account to an email, progress and
+settings, and a per-run score is a record of how a learner performed rather than what they have
+decided is done — closer to the behavioural tracking that document rules out than to progress. This
+supersedes the score half of #2 and of #18.
 
 **The database knows nothing about the book.** No lessons table, no foreign key to one, no titles —
-`path` is an opaque string and `src/data/navigation.ts` remains the single source of truth (#8, and
-AGENTS.md §6). The cost is that a renamed path orphans its rows, which is exactly what the
-`pathAliases` discipline exists to handle; the alternative — mirroring the manifest into Postgres —
-buys referential integrity for content that is already checked at build time and creates a second
-place for the book to disagree with itself.
+`path` is opaque and `src/data/navigation.ts` stays the single source of truth (#8, AGENTS.md §6).
+A renamed path orphans its rows, which is what the `pathAliases` discipline already exists for;
+mirroring the manifest into Postgres would buy referential integrity for content already checked at
+build time, and create a second place for the book to disagree with itself.
 
-**`done` is never set by the app.** Manual marking is #2, and the column carries no default beyond
-`false`; finishing a drill writes a score and leaves the tick alone.
+**`marked_at` is client-supplied and has no trigger forcing `now()`.** In an offline PWA the moment
+that matters is when the learner ticked the lesson, not when the row reached the server. A client can
+only lie about its own rows.
 
-**Only the last run of an exercise is kept** — `score`, `score_total`, `scored_at`, all null
-together or all set together. No attempt history: an account holds an email, progress and settings
-and nothing else (#8), and a per-attempt log is behavioural data about a learner, which
-`docs/scope.md` rules out on principle rather than by oversight.
+**Policies are per verb, `authenticated` only.** Four narrow policies per table rather than one
+`for all`, so widening one verb later cannot silently widen the rest; `anon` is revoked outright,
+which is the line between "all content is public" (#18) and "progress needs an account".
 
-**`updated_at` has no trigger forcing `now()`**, which is the one place this schema departs from the
-obvious. The client sends it, and last write per row wins. In an offline PWA the moment that matters
-is when the learner ticked the lesson, not when the row reached the server — a tick made in the
-métro at 09:00 and synced at 12:00 must not outrank a correction made on the laptop at 10:00. A
-client can only ever lie about its own rows, so the blast radius is one person's own progress.
-
-**Policies are per verb, and granted to `authenticated` only.** Four narrow policies rather than one
-`for all`, so that widening one verb later cannot silently widen the rest; `anon` is revoked
-outright, which is the line between "all content is public" (#18) and "progress needs an account".
+**What this replaced:** a first draft, written the same day and never applied, carrying a `done`
+boolean and a `score` / `score_total` / `scored_at` triple. It was cut in review — the tick is the
+whole of what a learner asked to keep.

@@ -178,12 +178,13 @@ is graded; a game is replayable.**
 | | `exercices/` | `jeux/` |
 |---|---|---|
 | Deck | fixed, walked once | redrawn every round, no end |
-| Score | `score / deck.length`, recorded | a streak, recorded nowhere |
+| Score | `score / deck.length`, shown at the end | a streak, shown while it lasts |
 | Scope | practises one named lesson | pulls from the whole book |
 | Cross-links | point back at the lesson it drills | point at where the words came from |
 
-- **A game records no score.** It has no lesson to record against. Do not invent a total to have
-  something to store.
+- **Nothing stores a score, in either.** A drill shows one and forgets it (`docs/decisions.md` #22);
+  a game has no lesson to record against in the first place. Do not invent a total to have
+  something to store. What separates the two is the deck and the scope, not the bookkeeping.
 - **Every item names the page it came from**, and the end of a round links there. A game that does
   not send the learner back to the book is an arcade cabinet in a classroom. **Assert the word is
   actually on that page**, not merely that the page resolves — nine entries across two Vue games
@@ -233,7 +234,8 @@ first element.
 2. Cross-links pointing back at the lesson the drill practises, and forward from that lesson.
 3. The manifest entry in `src/data/navigation.ts`, with a tag naming the mechanic or the skill
    (`Chrono`, `Écoute`, `Mémoire`, `Correction`, `Grammaire`…).
-4. Score capture, one call at the end of the drill — except in `jeux/`, which records nothing.
+4. The score screen at the end. It is shown and then forgotten — a drill writes no progress at all,
+   and the « J'ai terminé » tick stays the learner's (`docs/decisions.md` #2, #22).
 
 Finish with `npm run build`, then **play the drill through once in the browser in both themes,
 including the score screen** — which is the part nobody tests.

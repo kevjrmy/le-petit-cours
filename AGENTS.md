@@ -254,7 +254,7 @@ Carried over from the Vue app, because the taxonomy was sound and the content wi
 |---|---|
 | `grammaire`, `orthographe`, `vocabulaire`, `astuces`, `musique`, `culture` | prose lesson |
 | `conjugaison`, `prononciation` | **data-driven** — one component renders every page from a data file; never hand-write a table |
-| `exercices` | graded drill, walked once, records a score |
+| `exercices` | graded drill, walked once, scored on screen and stored nowhere |
 | `jeux` | replayable game, redraws every round, records nothing |
 | `dictees` | listen, type, compare |
 | `conversation` | gap-fill dialogue |
@@ -273,8 +273,8 @@ here so that when a chapter does land it lands in the right shape.
 
 **All content is public; an account is required only to keep a learning path.** Every lesson,
 drill and game is readable and playable with no account — no auth wall, no sign-up interstitial,
-nothing gated. Signing in buys you the tick, your scores and your position in a parcours, kept
-across devices.
+nothing gated. Signing in buys you the tick, the level you chose, and your position in a parcours,
+kept across devices.
 
 ### The rule that protects the architecture
 
@@ -303,13 +303,14 @@ permission checks through components; if a rule needs to change, it changes in t
 (`docs/decisions.md` #22). Change it by adding a migration, never by editing a table in the
 dashboard — a dashboard edit is a change nobody can review and nobody can replay.
 
-An account holds an email, progress rows and settings. **Nothing else.** No analytics on learners,
+An account holds an email, progress rows and settings — today the settings are one chosen CEFR
+level. **Nothing else.** No analytics on learners,
 no behavioural tracking — that is a principle in `docs/scope.md`, not an oversight to correct.
 
 ### Progress
 
-**Marking is manual on every page type, drills included.** An exercise records the score of its
-last run; finishing it never ticks it done. That is the learner's call, and a half-remembered
+**Marking is manual on every page type, drills included.** A drill shows its score at the end and
+stores nothing; finishing it never ticks it done. That is the learner's call, and a half-remembered
 pass at 50 % is not a finished lesson. Do not "helpfully" auto-complete anything.
 
 - **Keyed by route path**, which the manifest guarantees unique.

@@ -99,8 +99,8 @@ what protects a learner's data.
   static prerendering and break offline. Only the leaf controls that write progress know who is
   signed in.
 - **An exercise is graded; a game is replayable.** An exercise walks a fixed deck once, scores
-  out of N and practises one named lesson; a game redraws every round, records no score, and
-  pulls from the whole book.
+  out of N on screen and practises one named lesson; a game redraws every round, keeps no tally,
+  and pulls from the whole book. Neither stores a score.
 
 ## Contributing
 
