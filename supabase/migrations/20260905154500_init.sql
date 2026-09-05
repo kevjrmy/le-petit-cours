@@ -1,4 +1,4 @@
--- Progress. One table, and it is the only one this project owns.
+-- The initial schema. One table, and it is the only one this project owns.
 --
 -- Scope, from docs/decisions.md #8: this database holds accounts and progress and
 -- nothing else. It has no knowledge of the book — no lessons table, no foreign key

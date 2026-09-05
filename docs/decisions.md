@@ -455,7 +455,7 @@ future feature that needs a real secret should add it deliberately, to `.env` an
 ## 22 · What an account stores: the tick, and the level
 **2026-09-05 · Binding** *(one column added by #31; the `settings` table itself removed by #36 before it was ever applied — the scope below stands, only its storage moved)*
 
-`supabase/migrations/20260905154500_progress.sql`. Two tables, and the second one is the reason the
+`supabase/migrations/20260905154500_init.sql`, then named `_progress`. Two tables, and the second is the reason the
 first is shaped the way it is.
 
 **`progress` — the row is the tick.** `(user_id, path)` and a `marked_at`, nothing else. Marking a
@@ -792,7 +792,7 @@ on an account is a promise to keep it, secure it and delete it**, and #22's "and
 load-bearing rather than decorative. This is the one column that clears that bar; the next proposal
 should be held to the same one. "It might be useful later" is not a reason.
 
-**A second migration, not an edit to the first.** `20260905154500_progress.sql` has not been applied
+**A second migration, not an edit to the first.** `20260905154500_init.sql` (then `_progress`) has not been applied
 anywhere yet, so editing it would also have worked — but only *if* that is really true, and a second
 file is correct either way. Never edit a migration that might have run somewhere.
 

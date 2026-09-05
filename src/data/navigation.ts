@@ -66,11 +66,16 @@ export const LEVELS: Level[] = ["A1", "A2", "B1", "B2", "C1", "C2"];
 /**
  * The levels a learner can actually choose.
  *
- * Mirrors `settings_level_known` in
- * `supabase/migrations/20260905154500_progress.sql`. Offering a level the
- * constraint rejects would fail the save with an error nobody can act on, and
- * offering an empty level would hand someone an empty book. Opening B1 is a
- * one-line migration and this one line, in the same commit (#22).
+ * **This list is the only gate there is.** It used to mirror a
+ * `settings_level_known` check constraint; that table is gone and the level now
+ * lives in the account's user metadata, which carries no constraints (#36). So
+ * nothing downstream will catch a level that is not here — `saveLevel` checks
+ * against this list before writing and `readLevel` checks against it on the way
+ * back, and there is no third line of defence.
+ *
+ * Offering an empty level would hand someone an empty book, so a level belongs
+ * here only once it has content. Opening B1 is now this one line, which is less
+ * friction than #22 intended — worth remembering when B1 is written.
  */
 export const CHOOSABLE_LEVELS: Level[] = ["A1", "A2"];
 
