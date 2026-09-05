@@ -388,7 +388,11 @@ detail.
 it (`docs/decisions.md` #26). It needs a companion route handler at `/auth/callback` to exchange the
 PKCE code for a session. **The entry point is the account control at the foot of the sidebar**,
 which opens a popover holding the link, « Ma progression », « À propos » and the theme; it links to
-`/compte` and never holds a form. `/compte` is also where a learner chooses their level (#23),
+`/compte` and never holds a form. Signed in it shows the email — there is no name, because an
+account holds nothing else (#22). Signed out it offers « Se connecter » and never reports
+« Non connecté »: reading without an account is the intended way to use the site, not a fault to
+name. It learns who is signed in from `useAccount`, a **client** hook, so the layout above it never
+reads the session. `/compte` is also where a learner chooses their level (#23),
 which is asked once, immediately after the first sign-in.
 
 **Supabase Auth, email magic link.** Chosen over Clerk because progress rows live in Supabase

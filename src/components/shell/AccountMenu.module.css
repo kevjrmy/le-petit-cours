@@ -36,6 +36,12 @@
   color: var(--accent-text);
 }
 
+.initial {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
 .avatar svg {
   width: 1.05rem;
   height: 1.05rem;
@@ -61,7 +67,13 @@
   white-space: nowrap;
 }
 
-.triggerSub { font-size: 0.72rem; color: var(--text-3); }
+.triggerSub {
+  font-size: 0.72rem;
+  color: var(--text-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .chevron {
   flex: 0 0 auto;
@@ -104,7 +116,12 @@
 }
 
 .statusLabel { font-size: 0.85rem; font-weight: 600; color: var(--text-1); }
-.statusHint { font-size: 0.74rem; line-height: 1.4; color: var(--text-3); }
+.statusHint {
+  font-size: 0.74rem;
+  line-height: 1.4;
+  color: var(--text-3);
+  overflow-wrap: anywhere;
+}
 
 .links { list-style: none; padding: 0.3rem; }
 

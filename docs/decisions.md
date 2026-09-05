@@ -742,6 +742,24 @@ system: a one-way door with nothing in the interface to show it. « Système » 
 attribute and the stored key rather than writing a third value into them — storing `"system"` would
 pin the page to whichever theme happened to be current when it was written.
 
+**What the control says, in each state.** Signed in: the part of the email before the `@` as the
+primary line, the full address beneath, and that initial in the serif as the avatar — the same
+lettering the sommaire's chapter cards use. **There is no name to show**: an account holds an email,
+progress rows and settings and nothing else (#22), and magic-link sign-in collects only an address.
+Adding a display name would be a migration and a change to #22, not a UI tweak.
+
+Signed out it reads « Compte » over « **Se connecter** », and deliberately **not** « Non connecté ».
+Naming the absence frames the default state as a fault, when reading this site without an account is
+the normal and intended way to use it — everything is public (#18) and `docs/scope.md` rules out
+guilt mechanics. An offer belongs there, not a status report. (claude.ai puts a name and plan in
+this slot because it has no signed-out state at all; the pattern transfers, that particular label
+does not.)
+
+**The session is read by a client hook, never by the layout.** `useAccount` is a client leaf inside
+the root layout, so it can know who is signed in while the layout — and therefore every lesson
+under it — stays statically prerendered (`AGENTS.md` §8). It returns `null` until Supabase Auth
+exists; when it lands, that hook is the only file that changes.
+
 **Superseded here:** #26's "the topbar gets a link, not a form". The *route* half of #26 stands
 unchanged — sign-in is `/compte`, a linkable page a magic link can return to — and so does "never a
 form in the chrome". Only the location of the link changed.

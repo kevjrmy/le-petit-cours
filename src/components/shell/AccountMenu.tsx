@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { annexes } from "@/data/navigation";
+import { useAccount } from "@/hooks/useAccount";
 import styles from "./AccountMenu.module.css";
 
 type ThemeChoice = "light" | "dark" | "system";
@@ -53,6 +54,12 @@ function applyTheme(choice: ThemeChoice) {
  * to it (`docs/decisions.md` #26). This menu links there; it never holds a form.
  */
 export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
+  const account = useAccount();
+  /* The account holds an email and nothing else (#22), so the "name" is the
+     part before the @. It is what a person recognises at a glance; the full
+     address stays on the line below rather than being truncated into
+     uselessness in a 16.5rem rail. */
+  const name = account ? account.email.split("@")[0] : null;
   const [open, setOpen] = useState(false);
   /* Read when the menu opens — an event, not an effect. Reading during render
      would need localStorage on the server, and reading in an effect would be
@@ -93,10 +100,20 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
       {open && (
         <div className={styles.menu} role="menu" aria-label="Compte">
           <p className={styles.status}>
-            <span className={styles.statusLabel}>Non connecté</span>
-            <span className={styles.statusHint}>
-              Tout le cours est lisible sans compte.
-            </span>
+            {account ? (
+              <>
+                <span className={styles.statusLabel}>{name}</span>
+                <span className={styles.statusHint}>{account.email}</span>
+              </>
+            ) : (
+              /* No « Non connecté ». Signed out is the normal way to read this
+                 site, not a fault to report back — everything is public, and
+                 naming the absence would make the default state look broken. */
+              <span className={styles.statusHint}>
+                Tout le cours est lisible sans compte. Un compte garde vos leçons
+                cochées d’un appareil à l’autre.
+              </span>
+            )}
           </p>
 
           <ul className={styles.links}>
@@ -169,14 +186,24 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
         }}
       >
         <span className={styles.avatar} aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="8.5" r="3.6" />
-            <path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0" />
-          </svg>
+          {name ? (
+            /* The initial in the serif, like a chapter card on the sommaire —
+               the identity of this project is lettering. */
+            <span className={styles.initial}>{name.charAt(0).toUpperCase()}</span>
+          ) : (
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8.5" r="3.6" />
+              <path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0" />
+            </svg>
+          )}
         </span>
         <span className={styles.triggerText}>
-          <span className={styles.triggerTitle}>Compte</span>
-          <span className={styles.triggerSub}>Non connecté</span>
+          <span className={styles.triggerTitle}>{name ?? "Compte"}</span>
+          {/* An offer, not a state. « Non connecté » would report the absence
+              of something the site does not require. */}
+          <span className={styles.triggerSub}>
+            {account ? account.email : "Se connecter"}
+          </span>
         </span>
         <svg className={styles.chevron} viewBox="0 0 24 24" aria-hidden="true">
           <path d="M7 14l5-5 5 5" />
