@@ -508,3 +508,15 @@ lives in the repo (#8), so a retagging is a diff, not a data migration.
 moving between levels changes what is on screen and nothing else. A lesson tagged for both levels
 keeps one tick, not one per level — which is the reason a set beats duplication rather than merely
 being tidier.
+
+**An empty set means always visible**, and `levels` is required on every manifest entry so that `[]`
+is a statement rather than an oversight. `culture` and `musique` are the cases that prompted it:
+they are not A1 or A2 material and belong to whoever wants to read them. Making the field optional
+would make "forgot to tag it" and "decided it needs no tag" identical in a diff, and only one of
+those is a bug.
+
+**The filter applies to the sommaire, not to access.** Signed in, the sommaire lists a lesson when
+its levels are empty or contain the learner's level; signed out, it lists everything. A lesson
+reached directly always renders — gating it would mean reading the session above a lesson, which #8
+and AGENTS.md §8 forbid because it would make every page dynamic and break offline. This is the
+same principle as #18 one layer down: the level shapes what is offered, never what is permitted.

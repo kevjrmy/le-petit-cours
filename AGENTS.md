@@ -225,8 +225,8 @@ because it removes the single most common bug in the old app and introduces a ne
 
 ### Levels and parcours
 
-The manifest carries a second axis. Every lesson carries **one or more CEFR level tags** — a page
-that serves both A1 and A2 is tagged with both rather than duplicated — and a **parcours** is
+The manifest carries a second axis. Every lesson carries **a set of CEFR level tags** — a page that
+serves both A1 and A2 is tagged with both rather than duplicated — and a **parcours** is
 an ordered path through lessons that already exist:
 
 - `Parcours A1` and `Parcours A2` follow the DELF syllabus.
@@ -236,6 +236,18 @@ an ordered path through lessons that already exist:
 **A parcours orders lessons; it never owns them.** A lesson belongs to its chapter, appears in the
 book, and is referenced by however many parcours want it — including none. Duplicating a lesson so
 two paths can each "have" it is the mistake this design exists to prevent.
+
+**An empty set means always visible.** `culture` and `musique` are not A1 or A2 material; they are
+for whoever wants to read them. So `levels` is a **required field** on every entry and `[]` is the
+way to say "no level" — never an omitted field. Forgetting to tag a page and deciding it needs no
+tag must not look identical in a diff, and a required field makes the first one a type error.
+
+**The filter is on the sommaire, never on access.** Signed in, the sommaire lists a lesson when its
+`levels` is empty or contains the learner's level. Signed out, it lists everything. Either way a
+lesson reached by direct link — a cross-link, a bookmark, a search result — renders in full: an A1
+learner following "pour aller plus loin" into an A2 page gets the page. Gating it would mean reading
+the session to decide whether a page renders, which §8 forbids precisely because it would drag every
+lesson out of static prerendering. The level decides what the book **offers**, not what it permits.
 
 B1–C2 are declared and empty. They render as *bientôt* and are filtered out, the same mechanism as
 a `soon` lesson — **not** a separate code path, and not an excuse to write B1 content early.
