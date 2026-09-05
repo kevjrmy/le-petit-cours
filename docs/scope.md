@@ -109,7 +109,9 @@ the app work offline at all.
 working at, and the position in a parcours those imply, across devices. There is no anonymous progress: one storage path, one
 owner.
 
-An account holds an **email, progress rows and settings, and nothing else**. No analytics on
+An account holds an **email, progress rows and settings, and nothing else** — the settings being a
+chosen CEFR level and an optional display name, which is shown to its owner and to nobody else,
+because there is nobody else to show it to. No analytics on
 learners, no behavioural tracking. Sign-in is a magic link, so there is no password to forget and
 none for this project to be responsible for.
 

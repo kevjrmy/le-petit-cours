@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { annexes } from "@/data/navigation";
-import { useAccount } from "@/hooks/useAccount";
+import { displayName, useAccount } from "@/hooks/useAccount";
 import styles from "./AccountMenu.module.css";
 
 type ThemeChoice = "light" | "dark" | "system";
@@ -55,11 +55,10 @@ function applyTheme(choice: ThemeChoice) {
  */
 export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
   const account = useAccount();
-  /* The account holds an email and nothing else (#22), so the "name" is the
-     part before the @. It is what a person recognises at a glance; the full
-     address stays on the line below rather than being truncated into
-     uselessness in a 16.5rem rail. */
-  const name = account ? account.email.split("@")[0] : null;
+  /* Their chosen name if they set one, else the part of the email before the @
+     (#31). The full address stays on the line below either way, rather than
+     being truncated into uselessness in a 16.5rem rail. */
+  const name = account ? displayName(account) : null;
   const [open, setOpen] = useState(false);
   /* Read when the menu opens — an event, not an effect. Reading during render
      would need localStorage on the server, and reading in an effect would be

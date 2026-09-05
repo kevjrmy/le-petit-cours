@@ -15,7 +15,8 @@ export default function ComptePage() {
         <p>
           Tout le contenu du site est en accès libre, sans compte. Un compte
           servira uniquement à garder vos leçons cochées et le niveau que vous
-          avez choisi d&rsquo;un appareil à l&rsquo;autre.
+          avez choisi d&rsquo;un appareil à l&rsquo;autre — plus, si vous voulez,
+          le nom sous lequel le site vous appelle.
         </p>
         <div className="attention">
           la connexion n&rsquo;est pas encore en service. Elle se fera par un

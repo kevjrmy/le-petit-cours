@@ -40,6 +40,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 28 | 2026-09-05 | The app icon is one letter of the wordmark, generated from it, never hand-drawn | Binding |
 | 29 | 2026-09-05 | The shell derives from the manifest: one generated chapter route, no icon field | Binding |
 | 30 | 2026-09-05 | The shell follows the claude.ai pattern: account at the foot of the sidebar, theme three-way | Binding |
+| 31 | 2026-09-05 | An account may hold an optional display name — the one thing added to #22 | Binding |
 
 ---
 
@@ -447,7 +448,7 @@ leak would matter — which is worth stating because it is a property to keep, n
 future feature that needs a real secret should add it deliberately, to `.env` and nowhere else.
 
 ## 22 · What an account stores: the tick, and the level
-**2026-09-05 · Binding**
+**2026-09-05 · Binding** *(one column added by #31)*
 
 `supabase/migrations/20260905154500_progress.sql`. Two tables, and the second one is the reason the
 first is shaped the way it is.
@@ -763,3 +764,43 @@ exists; when it lands, that hook is the only file that changes.
 **Superseded here:** #26's "the topbar gets a link, not a form". The *route* half of #26 stands
 unchanged — sign-in is `/compte`, a linkable page a magic link can return to — and so does "never a
 form in the chrome". Only the location of the link changed.
+
+## 31 · An account may hold a display name
+**2026-09-05 · Binding · extends #22**
+
+`settings.display_name`, nullable, added by `supabase/migrations/20260905190000_display_name.sql`.
+Before this, the only identity an account carried was its email, so the interface called a learner
+by the part of it before the `@`.
+
+**Chosen over leaving it at the email**, which worked and cost nothing. The argument for adding it
+is small but real: `prenom.nom1987@…` is not what anyone wants to be called, and the fallback shows
+it in the sidebar on every page. The argument against is the one that matters more — **every column
+on an account is a promise to keep it, secure it and delete it**, and #22's "and nothing else" is
+load-bearing rather than decorative. This is the one column that clears that bar; the next proposal
+should be held to the same one. "It might be useful later" is not a reason.
+
+**A second migration, not an edit to the first.** `20260905154500_progress.sql` has not been applied
+anywhere yet, so editing it would also have worked — but only *if* that is really true, and a second
+file is correct either way. Never edit a migration that might have run somewhere.
+
+**On `settings`, not a `profiles` table of its own.** `settings` is already one row per learner, and
+one nullable column does not earn four more RLS policies. The consequence to know: `level` is
+`not null`, so a settings row cannot exist before a level is chosen, and therefore **a name cannot
+be stored before a level either**. That fits the current flow — the level is asked once, right after
+the first sign-in (#23), and the name is set later from `/compte`. If a name ever needs to be asked
+first, it is that constraint that moves, not the column.
+
+**NULL is the only way to say "unset."** The check constraint forbids the empty string, so there is
+no second representation of the same state — the same discipline as #22's "no row means no level".
+It also requires the value to be stored trimmed, caps it at 40 *characters* so accented names fit,
+and rejects control characters, which nothing legitimate needs and which break the layout the name
+is rendered into.
+
+**No uniqueness constraint, deliberately.** The name is never an identifier and is **shown to nobody
+but its owner**: there are no profiles, no authorship lines and no social surface anywhere in the
+product, and `docs/scope.md` lists all three as non-goals. Requiring it to be unique would create a
+namespace to squat and a moderation surface to staff, in exchange for nothing.
+
+**RLS needed no change.** Policies are per table, not per column, and the four on `settings` already
+scope every verb to `auth.uid() = user_id`. Recorded because "nothing to do" and "forgotten" look
+identical in a diff.

@@ -1,8 +1,19 @@
 "use client";
 
 export interface Account {
-  /** The only identity an account carries — `docs/decisions.md` #22. */
   email: string;
+  /**
+   * What the learner chose to be called, or `null` if they never set one.
+   * Optional by design (`docs/decisions.md` #31) — `displayName(account)` falls
+   * back to the local part of the email, so the interface always has something
+   * to show.
+   */
+  displayName: string | null;
+}
+
+/** What to call this learner: their chosen name, else the email before the @. */
+export function displayName(account: Account): string {
+  return account.displayName ?? account.email.split("@")[0];
 }
 
 /**

@@ -388,8 +388,9 @@ detail.
 it (`docs/decisions.md` #26). It needs a companion route handler at `/auth/callback` to exchange the
 PKCE code for a session. **The entry point is the account control at the foot of the sidebar**,
 which opens a popover holding the link, « Ma progression », « À propos » and the theme; it links to
-`/compte` and never holds a form. Signed in it shows the email — there is no name, because an
-account holds nothing else (#22). Signed out it offers « Se connecter » and never reports
+`/compte` and never holds a form. Signed in it shows the learner's display name if they set one and
+the local part of their email otherwise — never a bare "no name", because an
+account holds no other identity (#22, #31). Signed out it offers « Se connecter » and never reports
 « Non connecté »: reading without an account is the intended way to use the site, not a fault to
 name. It learns who is signed in from `useAccount`, a **client** hook, so the layout above it never
 reads the session. `/compte` is also where a learner chooses their level (#23),
@@ -406,9 +407,10 @@ permission checks through components; if a rule needs to change, it changes in t
 (`docs/decisions.md` #22). Change it by adding a migration, never by editing a table in the
 dashboard — a dashboard edit is a change nobody can review and nobody can replay.
 
-An account holds an email, progress rows and settings — today the settings are one chosen CEFR
-level. **Nothing else.** No analytics on learners,
-no behavioural tracking — that is a principle in `docs/scope.md`, not an oversight to correct.
+An account holds an email, progress rows and settings — the settings are a chosen CEFR level and
+an optional display name. **Nothing else.** No analytics on learners, no behavioural tracking —
+that is a principle in `docs/scope.md`, not an oversight to correct. The bar for a new column is
+that a learner would notice its absence; "it might be useful later" is not a reason (#31).
 
 ### Progress
 

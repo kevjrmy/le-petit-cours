@@ -44,8 +44,10 @@ export default function AProposPage() {
           </li>
           <li>
             Tout le contenu est en accès libre. Un compte, quand il existera, ne
-            gardera qu&rsquo;une adresse électronique, vos leçons cochées et le
-            niveau que vous avez choisi. Rien d&rsquo;autre.
+            gardera qu&rsquo;une adresse électronique, vos leçons cochées, le
+            niveau que vous avez choisi et — si vous en voulez un — le nom sous
+            lequel le site vous appelle. Rien d&rsquo;autre, et ce nom n&rsquo;est
+            montré à personne : il n&rsquo;y a personne à qui le montrer.
           </li>
           <li>
             Le site fonctionne hors ligne : une fois les pages visitées, elles
