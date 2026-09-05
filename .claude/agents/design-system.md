@@ -208,6 +208,9 @@ prerendering, and a lesson that stops prerendering stops being free to serve off
   print` blocks or `.no-print` classes.
 - **Colour is never the only carrier.** Every state that is signalled by colour also says
   something — a visually-hidden label at minimum.
+- **A disabled control must look disabled.** `.button:disabled` is muted and takes
+  `cursor: not-allowed`; whatever disabled it says so in words beside it. A control that refuses a
+  click while looking clickable is a bug the learner blames on themselves.
 - **Watch what a bare element costs.** In the old sheet `article` and `section` were styled as
   padded cards, so a page that rendered each of its sections as an `<article>` paid ~4 rem of
   chrome per section and ran five screens deep. If you style a bare tag, remember that someone

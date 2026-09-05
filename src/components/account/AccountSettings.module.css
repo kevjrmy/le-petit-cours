@@ -1,0 +1,44 @@
+.form { margin-top: 1rem; }
+
+.label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.input {
+  flex: 1 1 14rem;
+  min-width: 0;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  color: var(--text-1);
+  font-size: 0.95rem;
+}
+
+.input:focus-visible { border-color: var(--accent); }
+
+.input[aria-invalid="true"] { border-color: var(--danger); }
+
+.help {
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  color: var(--text-3);
+  min-height: 1.2em;
+}
+
+/* The message is never colour alone — it always says what happened. */
+.input[aria-invalid="true"] ~ .help,
+.form:has(.input[aria-invalid="true"]) .help { color: var(--danger-text); }

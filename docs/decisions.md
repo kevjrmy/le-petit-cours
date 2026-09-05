@@ -804,3 +804,11 @@ namespace to squat and a moderation surface to staff, in exchange for nothing.
 **RLS needed no change.** Policies are per table, not per column, and the four on `settings` already
 scope every verb to `auth.uid() = user_id`. Recorded because "nothing to do" and "forgotten" look
 identical in a diff.
+
+**The field is on `/compte`, and its rules are `src/lib/account.ts`.** `checkDisplayName` mirrors the
+check constraint deliberately: the client may be *stricter* than the database but never looser, or a
+save fails in Postgres with an error nobody can act on. Two details that would be wrong if copied
+carelessly — it counts **code points**, because `length()` in Postgres counts characters while
+`"🙂".length` is 2 in JavaScript, so counting the JavaScript way would let a name through here and
+have the database reject it; and an empty field stores `null` rather than `''`, so the single
+representation of "unset" survives the round trip.

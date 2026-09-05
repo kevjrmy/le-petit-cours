@@ -98,22 +98,16 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
     <div className={styles.account} ref={root}>
       {open && (
         <div className={styles.menu} role="menu" aria-label="Compte">
-          <p className={styles.status}>
-            {account ? (
-              <>
-                <span className={styles.statusLabel}>{name}</span>
-                <span className={styles.statusHint}>{account.email}</span>
-              </>
-            ) : (
-              /* No « Non connecté ». Signed out is the normal way to read this
-                 site, not a fault to report back — everything is public, and
-                 naming the absence would make the default state look broken. */
-              <span className={styles.statusHint}>
-                Tout le cours est lisible sans compte. Un compte garde vos leçons
-                cochées d’un appareil à l’autre.
-              </span>
-            )}
-          </p>
+          {/* Signed out there is no header at all — no « Non connecté », and no
+              sales pitch either. Signed out is the normal way to read this
+              site, and a menu that explains itself every time you open it is a
+              menu you stop reading. */}
+          {account && (
+            <p className={styles.status}>
+              <span className={styles.statusLabel}>{name}</span>
+              <span className={styles.statusHint}>{account.email}</span>
+            </p>
+          )}
 
           <ul className={styles.links}>
             {links.map((page) => (

@@ -393,8 +393,9 @@ the local part of their email otherwise — never a bare "no name", because an
 account holds no other identity (#22, #31). Signed out it offers « Se connecter » and never reports
 « Non connecté »: reading without an account is the intended way to use the site, not a fault to
 name. It learns who is signed in from `useAccount`, a **client** hook, so the layout above it never
-reads the session. `/compte` is also where a learner chooses their level (#23),
-which is asked once, immediately after the first sign-in.
+reads the session. `/compte` is also where a learner chooses their level (#23) — asked once,
+immediately after the first sign-in — and where they set their display name (#31). Everything on
+that page that needs the session lives in a client leaf, so the route itself never reads it.
 
 **Supabase Auth, email magic link.** Chosen over Clerk because progress rows live in Supabase
 Postgres, so `auth.uid()` in a row-level-security policy ties a row to its owner with no glue code

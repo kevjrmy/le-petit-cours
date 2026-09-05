@@ -159,7 +159,16 @@ export default function DesignPage() {
           <button type="button" className="button">
             Recommencer
           </button>
+          <button type="button" className="button button-primary" disabled>
+            Enregistrer
+          </button>
+          <button type="button" className="button" disabled>
+            Désactivé
+          </button>
         </div>
+        <p style={{ fontSize: "0.8rem", color: "var(--text-3)" }}>
+          Un bouton désactivé le montre — et quelque chose à côté dit pourquoi.
+        </p>
         <ul>
           <li>Une liste dans la colonne de lecture.</li>
           <li>

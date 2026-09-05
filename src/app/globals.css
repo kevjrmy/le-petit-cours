@@ -378,6 +378,27 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   color: var(--text-on-accent);
 }
 
+/* A disabled button must look disabled. It is never the only signal — whatever
+   disabled it says so in words next to it — but a control that refuses a click
+   while looking clickable is a bug the learner blames on themselves. */
+.button:disabled,
+.button:disabled:hover {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button:disabled:hover {
+  border-color: var(--border);
+  background: var(--surface-1);
+  color: var(--text-1);
+}
+
+.button-primary:disabled:hover {
+  border-color: transparent;
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+
 .card {
   background: var(--surface-1);
   border: 1px solid var(--border);
