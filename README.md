@@ -1,7 +1,8 @@
 # Le Petit Cours
 
 **A free, open French course for Spanish speakers** — a PWA that installs to your home screen,
-works offline, and teaches French at A2 level with everything explained in Spanish.
+works offline, and explains French in Spanish. Also, for readers who already speak French at home,
+a track that teaches them to write it.
 
 [![Licence: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 [![Content: CC BY-SA 4.0](https://img.shields.io/badge/content-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE-CONTENT)
@@ -11,9 +12,9 @@ works offline, and teaches French at A2 level with everything explained in Spani
 > ### 🚧 Being rewritten
 >
 > From August 2026 this was a Vue 3 + Vite app with 119 lessons across 14 chapters. On
-> **2026-09-05** it was restarted on Next.js. The repository currently holds the framework
-> scaffold and the project's documentation — the shell, the design system and the lessons are
-> still to be written, so that is what the deployed site currently serves.
+> **2026-09-05** it was restarted on Next.js. The design system, the app shell and the navigation
+> manifest are written; the fourteen chapters are declared and **three lessons exist**, so most of
+> the book still shows as *Bientôt*. Accounts and offline caching are not wired up yet.
 >
 > The Vue implementation is kept in [`.vue/`](.vue/) as a reference. It is not built, not
 > imported, and not being ported file-for-file; it is there to be read. See
@@ -39,8 +40,8 @@ It serves **two kinds of reader**:
 They are not two levels of one thing. A heritage speaker can be orally C1 and written A2 at the
 same time. One library of lessons serves both, ordered differently for each.
 
-**Levels.** The goal is A1 → C2. The scope is **A1 and A2**, and the rewrite is starting with
-**A1 alone**; B1–C2 appear as *bientôt*.
+**Levels.** The goal is A1 → C2. The scope is **A1 and A2**, and the rewrite is writing
+**A1 alone** first; B1–C2 appear as *bientôt*.
 A level counts as complete when it covers the published **DELF** syllabus for that level.
 
 Chapters cover grammar, spelling, conjugation, pronunciation, vocabulary, reading, culture,
@@ -57,7 +58,12 @@ Full detail in [`docs/scope.md`](docs/scope.md), including what this project del
 
 - **Next.js 16** (App Router) · React 19 · TypeScript · React Compiler
 - **Plain CSS** — design tokens and shared content patterns in `src/app/globals.css`, component
-  styles in co-located CSS Modules. No Tailwind, no CSS-in-JS.
+  styles in co-located CSS Modules. No Tailwind, no CSS-in-JS. Both themes live in one
+  `light-dark()` value per token, so a colour cannot be defined for one theme and forgotten in the
+  other.
+- **Spectral and Inter**, on a palette anchored to the blue the logo is drawn in. The serif sets
+  the French being taught, the sans sets the instruction around it — a split by role, so it works
+  on both tracks at once.
 - **Vercel** for hosting · **Supabase** for auth (magic link) and progress sync (project created;
   nothing wired up to it yet)
 - **Serwist** for the service worker and offline precaching (not yet installed)
@@ -76,6 +82,13 @@ npm run build    # must pass before a change is done
 npm run lint
 ```
 
+Two scripts, both dependency-free and both needing Node 22+ and `google-chrome` on PATH:
+
+```sh
+node scripts/shot.mjs http://localhost:3000/ shot.png --full --dark   # themed screenshots
+node scripts/make-icons.mjs                                           # every icon, from one SVG
+```
+
 Two environment variables exist — `NEXT_PUBLIC_SUPABASE_URL` and
 `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` — but nothing reads them yet, so the app runs without
 them. They are not secrets: the publishable key is public by design and row-level security is
@@ -86,7 +99,9 @@ what protects a learner's data.
 - **`src/data/navigation.ts` is the single source of truth** for chapters, lessons, order and
   cross-links. The sidebar, the home page and every chapter page read from it. Nothing
   auto-discovers pages, so a lesson missing from the manifest is reachable from nothing.
-- Routes come from the filesystem: `src/app/{chapitre}/{lecon}/page.tsx`.
+- Routes come from the filesystem: `src/app/{chapitre}/{lecon}/page.tsx`. **Chapter landing pages
+  are one generated route** — `src/app/[chapitre]/page.tsx` renders all fourteen from the
+  manifest, so adding a chapter means adding an entry and nothing else.
 - **The shell lives in `src/app/layout.tsx`**, so the sidebar keeps its scroll position and
   expanded chapters across navigation.
 - **Lessons are Server Components** — no `'use client'`, no hooks, no state. They prerender to
@@ -123,6 +138,10 @@ for.
 | [`docs/decisions.md`](docs/decisions.md) | why the project is shaped this way, and what is still open |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | how to propose a change |
 | [`.vue/AUDIT.md`](.vue/AUDIT.md) | the closed 2026-08 content audit — a record of the bug classes worth checking for |
+
+The deployed site also carries `/design`, a specimen of every shared visual pattern on one page.
+It is in no menu and indexed by nothing; it exists so a change to a token can be checked in both
+themes before there are enough lessons to check it on.
 
 ## Licence
 

@@ -152,8 +152,9 @@ commit**:
 
 **Removing a page** means the folder, the manifest entry, the `AGENTS.md` line, and **every
 cross-link array that named it** — its own key and the ones elsewhere pointing at it. A stale
-manifest entry gives a dead link; a stale cross-link quietly costs one. Removing a chapter also
-means its icon mapping.
+manifest entry gives a dead link; a stale cross-link quietly costs one. Removing a chapter is just
+its manifest entry: the landing page is generated, so there is no file to delete and no icon
+mapping to remember.
 
 ## Cross-links — "Pour aller plus loin"
 

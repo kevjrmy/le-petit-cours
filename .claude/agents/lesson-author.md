@@ -20,8 +20,8 @@ close it, then write.
 opposite things, and the answer decides the language the page is written in. `docs/scope.md` has
 the full picture.
 
-**The learner** — a native Spanish speaker acquiring French from zero, currently at A1–A2.
-Explanations **in Spanish**.
+**The learner** — a native Spanish speaker acquiring French from zero. The rewrite is writing
+**A1 first** (`docs/decisions.md` #25); A2 is in scope and unwritten. Explanations **in Spanish**.
 
 - Lean on cognates (`la famille` / *la familia*), and **explicitly flag false friends**
   (`la carte` ≠ *la carta*, `une robe` ≠ *la ropa*, `le sol` ≠ *el sol*, `rester` ≠ *restar*). A
@@ -69,39 +69,80 @@ reason. Vocabulary references run longer by nature; use a dense table for lists 
 A lesson is a **Server Component**. No `'use client'`, no hooks, no state, no event handlers. It
 prerenders to HTML, ships no JavaScript, and is free to serve offline.
 
-```tsx
-// src/app/grammaire/les-adverbes/page.tsx
-import { Lesson, Rule, Example, Attention, Table } from '@/components/lesson'
+Three real lessons exist — read one before writing your first:
+`src/app/grammaire/les-articles/page.tsx` (learner track, Spanish),
+`src/app/orthographe/le-pluriel-des-noms/page.tsx` (heritage track, French) and
+`src/app/vocabulaire/les-nombres/page.tsx`.
 
-export const metadata = { title: 'Les adverbes' }
+```tsx
+// src/app/grammaire/les-articles/page.tsx
+import { lessonMetadata } from '@/components/lesson/metadata'
+import { PageHeader } from '@/components/lesson/PageHeader'
+import { RelatedLinks } from '@/components/lesson/RelatedLinks'
+
+const PATH = '/grammaire/les-articles'
+
+export const metadata = lessonMetadata(PATH)
 
 export default function Page() {
   return (
-    <Lesson title="Les adverbes">
-      <section>
-        <Rule>The main rule, one or two sentences.</Rule>
-        <Attention>💡 <strong>Tip para hispanohablantes :</strong> …</Attention>
-      </section>
+    <article className="prose">
+      <PageHeader path={PATH} />
 
-      <section>
-        <h2>1. …</h2>
-        <Table caption="Description of the table">…</Table>
-        <Example>Un exemple concret.</Example>
-      </section>
-    </Lesson>
+      {/* Learner track: the prose is Spanish, so say so. */}
+      <div lang="es">
+        <section>
+          <h2>Los artículos definidos</h2>
+          <p>…</p>
+          <div className="rule">La règle, en une ou deux phrases.</div>
+          <div className="example" lang="fr">le livre · la table · l’école</div>
+          <div className="attention">…</div>
+        </section>
+      </div>
+
+      <RelatedLinks path={PATH} />
+    </article>
   )
 }
 ```
 
-Order inside a lesson: **rule → table → examples → one key exception.**
+**The title is never typed on the page.** `lessonMetadata` and `PageHeader` both read it from the
+manifest, so the tab, the breadcrumb, the sidebar and the heading cannot disagree. Retyping it
+means the renamed one is always the other one.
 
-**Write no CSS.** The lesson chrome is owned by `globals.css` and the primitives in
-`src/components/lesson/`. If a lesson needs a visual pattern that does not exist, that is a
-request to `design-system`, not a CSS Module next to the page. A one-off style on one lesson is
-how a design system dies.
+**There are no `<Rule>` / `<Table>` / `<Attention>` components.** The lesson patterns are CSS
+classes in `globals.css` — `.rule`, `.example`, `.attention` (prints « À retenir — »),
+`.exception` (prints « Sauf — »), `.astuce` with `.astuce-hook`, `.table-wrap`, and plain
+`<table>` / `<section>` / `<p>`. Only `PageHeader` and `RelatedLinks` are components, because only
+they read the manifest. This is deliberate while `docs/decisions.md` #10 is open: classes commit
+to nothing, and wrapping them in components before the authoring format is chosen would be
+building the pipeline the decision says not to build yet.
+
+### Marking the French
+
+**The serif carries the French being taught; the sans carries the instruction around it**
+(`docs/decisions.md` #27). This is a content job, not a styling one — it is done as you write.
+
+- `<span className="fr" lang="fr">le livre</span>` for a French word inside instruction prose.
+- `<div className="example" lang="fr">…</div>` for a block of French; it is serif throughout, so
+  `.fr` inside it is redundant.
+- A table's French column takes `className="fr" lang="fr"` per cell.
+- On the learner track, wrap the Spanish prose in `lang="es"`. The page is inside
+  `<html lang="fr">`, so without it a screen reader reads Spanish with a French accent.
+
+**`lang` always travels with `.fr`.** It is not decoration: it picks the voice for `useSpeech` and
+it is what makes a mixed-language page readable aloud at all. A `.fr` without a `lang` is a bug.
+
+Order inside a section: **rule → table → examples → one key exception.**
+
+**Write no CSS.** The lesson chrome is owned by `globals.css`. If a lesson needs a visual pattern
+that does not exist, that is a request to `design-system`, not a CSS Module next to the page — and
+the new pattern goes on `/design` in the same change, or nobody will ever see it in dark mode. A
+one-off style on one lesson is how a design system dies.
 
 Tables: always a caption for screen readers, **four columns maximum**, translation column in
-**Spanish**.
+**Spanish**. Make the caption say something the heading does not — a caption that repeats the `<h2>`
+above it is read twice and adds nothing.
 
 > **The authoring format is deliberately undecided** (`AGENTS.md` §12). Hand-written TSX like the
 > above is the interim, chosen so the primitives can be discovered by using them. Do not set up
@@ -202,9 +243,10 @@ from a lesson or an astuce; do not write them here.
 1. `src/app/{chapitre}/{lecon}/page.tsx`.
 2. The lesson entry in `src/data/navigation.ts`, in reading order. Nothing auto-discovers pages:
    a lesson missing from the manifest is reachable from nothing. It carries, at minimum: its
-   **level tag** (A1/A2 — B1–C2 take no content yet), the **DELF descriptor** it covers, its
-   **metalanguage**, and its `created` date. The manifest is the single source of truth, so all
-   of that lives there rather than in the page.
+   **`levels`** — a *required* array, where `[]` means "no level, always visible", so forgetting
+   to tag a page is a type error rather than a silent default — the **DELF descriptor** it covers,
+   its **metalanguage** (`es` or `fr`), and its `created` date. The manifest is the single source
+   of truth, so all of that lives there rather than in the page, including the title.
 3. Its place in whichever **parcours** should walk it — or none. A parcours orders lessons; it
    never owns them, so never copy a lesson to put it on a second path.
 4. Its entry in the cross-link map, and a link back from whatever it relates to.
@@ -212,7 +254,13 @@ from a lesson or an astuce; do not write them here.
 
 Never hand-write a chapter landing page; it is generated from the manifest.
 
-Finish with `npm run build`, then look at the page in **both themes**.
+Finish with `npm run build`, then run the audit in `nav-wiring.md` — all three lines must read
+`none` — and look at the page in **both themes** and at **both breakpoints**:
+
+```bash
+node scripts/shot.mjs http://localhost:3000/{chapitre}/{lecon} out.png --full        # light
+node scripts/shot.mjs http://localhost:3000/{chapitre}/{lecon} out.png --full --dark
+```
 
 ## French correctness
 

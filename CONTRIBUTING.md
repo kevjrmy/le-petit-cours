@@ -50,9 +50,10 @@ These come from the audience, and a change that breaks one will be asked to chan
 - **Instruction is in Spanish for the learner track and in French for the heritage track.**
   **English is never used for either** — no English glosses, no English mnemonics (no DR & MRS
   VANDERTRAMP). Never assume the reader knows English.
-- **Current scope is A1 and A2.** B1–C2 are shown as *bientôt* and take no content yet. Short
-  sentences, everyday vocabulary, no literary tenses, no metalanguage beyond *verbe, sujet,
-  adjectif, accord* — the heritage track is the one place school grammar vocabulary is allowed.
+- **Current scope is A1 and A2, and A1 is being written first.** B1–C2 are shown as *bientôt* and
+  take no content yet. Short sentences, everyday vocabulary, no literary tenses, no metalanguage
+  beyond *verbe, sujet, adjectif, accord* — the heritage track is the one place school grammar
+  vocabulary is allowed.
 - **They type on a Spanish keyboard.** Prefer clicking to typing wherever an answer carries French
   accents. Type-in earns its place only where the *spelling* is the skill.
 - **A lesson is two or three sections.** A topic that needs more is two lessons.
@@ -60,6 +61,13 @@ These come from the audience, and a change that breaks one will be asked to chan
   in both themes at both breakpoints.
 - **No raw colour values in components** — everything comes from a design token, or it freezes in
   light mode.
+- **The serif marks the French being taught; the sans marks the instruction around it.** In
+  practice: `<span className="fr" lang="fr">le livre</span>` inside prose, and `lang="es"` on the
+  Spanish. The `lang` attribute is not decoration — it picks the voice for speech and stops a
+  screen reader reading French with a Spanish accent, so it always travels with the class.
+- **Every lesson declares its `levels`** in `src/data/navigation.ts`, and `[]` is how you say "no
+  level, always visible". An omitted field is a type error on purpose: forgetting to tag a page
+  and deciding it needs no tag must not look the same in a diff.
 - **No copyrighted text.** Reading pages use public-domain works or original writing. Song pages
   quote short excerpts for commentary and never a full lyric sheet. Images must be CC0, public
   domain, CC BY or CC BY-SA, credited individually with author, link and licence, and stored
@@ -86,8 +94,11 @@ Before you open the pull request:
 
 1. `npm run build` passes.
 2. Any page you touched renders correctly in **light and dark**, at desktop width and at 430 px.
-3. If you touched navigation, the manifest/filesystem audit in
-   [`.claude/agents/nav-wiring.md`](.claude/agents/nav-wiring.md) reports `none` on both lines.
+   `node scripts/shot.mjs <url> out.png --full --dark` will photograph it for you; browser flags
+   for emulating dark mode stopped working silently a while ago, so use the script.
+3. If you touched navigation, the audit in
+   [`.claude/agents/nav-wiring.md`](.claude/agents/nav-wiring.md) reports `none` on all three
+   lines — manifest, filesystem and cross-links.
 4. If you touched a drill, you **played it through once**, including the score screen — which is
    the part nobody tests.
 5. If you touched a rule rather than just content, the documentation moved with it. Docs and

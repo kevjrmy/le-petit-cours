@@ -1,7 +1,10 @@
+import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
 import { RelatedLinks } from "@/components/lesson/RelatedLinks";
 
 const PATH = "/orthographe/le-pluriel-des-noms";
+
+export const metadata = lessonMetadata(PATH);
 
 /* Heritage track: written in French, for a reader who already speaks it and
    needs the spelling rather than the language (docs/decisions.md #16). */

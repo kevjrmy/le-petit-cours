@@ -1,7 +1,10 @@
+import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
 import { RelatedLinks } from "@/components/lesson/RelatedLinks";
 
 const PATH = "/grammaire/les-articles";
+
+export const metadata = lessonMetadata(PATH);
 
 /* Learner track: explained in Spanish (docs/decisions.md #16), so the prose
    carries lang="es" and every French word its own lang="fr". A Server

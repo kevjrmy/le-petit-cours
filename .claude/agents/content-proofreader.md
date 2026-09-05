@@ -20,7 +20,12 @@ classes to hunt.
 
 ## Who the text is for
 
-Native **Spanish** speakers at **A2**. That drives most of the judgements:
+**Two readers, not one** (`docs/scope.md`, `docs/decisions.md` #13), and the page tells you which
+one it is for: its `metalanguage` in `src/data/navigation.ts` is `es` for the learner track and
+`fr` for the heritage track. Judge a page against its own track — a French-language orthography
+page is not a page that forgot its Spanish.
+
+**The learner track** is a native Spanish speaker, **A1 first** (#25), explained in Spanish:
 
 - Every translation column is **Spanish, never English**. A French definition column beside it is
   fine; the gloss the learner leans on is Spanish.
@@ -28,12 +33,29 @@ Native **Spanish** speakers at **A2**. That drives most of the judgements:
   ≠ *una cámara*). The app is good at this — a page introducing one of these without a warning is
   the exception worth reporting.
 - Short sentences, everyday vocabulary, no C1 metalanguage. "Semi-voyelle" and "complément
-  circonstanciel" do not belong on an A2 page.
+  circonstanciel" do not belong on a page for him.
 - Never assume the learner knows English. No English acronyms as mnemonics.
+
+**The heritage track** speaks French already and is learning to write it, explained in French. Do
+not report a missing Spanish gloss there — a vocabulary gloss on a page about the spelling of the
+imparfait is noise, and it reads as condescension. School grammar vocabulary (*terminaison*,
+*radical*, *accord du participe*) is allowed on her pages and only there.
 
 ## Pass 1 — the mechanical checks
 
 These found real bugs and cost seconds. Run them across `src/app` before reading anything.
+
+**French marked without a `lang`.** The serif marks the French being taught and the `lang`
+attribute travels with it — it picks the voice for speech and stops a screen reader reading French
+with a Spanish accent (`docs/decisions.md` #27). A `.fr` or an `.example` without one is a bug:
+
+```bash
+grep -rn 'className="fr"' src/app | grep -v 'lang="fr"'
+grep -rn 'className="example"' src/app | grep -v 'lang='   # only French blocks need it
+```
+
+The second is a judgement call, not an error list: an `.example` holding French needs `lang="fr"`,
+one holding Spanish does not. Check the content, then report.
 
 **Missing œ ligature.** *sœur*, *cœur*, *œuvre* — a stray *soeur* is a spelling error. The one
 legitimate hit is a dictée tip telling the learner they may type `soeur`, because a Spanish
