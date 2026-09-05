@@ -15,8 +15,7 @@ a track that teaches them to write it.
 > **2026-09-05** it was restarted on Next.js. The design system, the app shell, the navigation
 > manifest and the whole account flow — magic-link sign-in, the chosen level, the display name —
 > are written. The fourteen chapters are declared and **three lessons exist**, so most of the book
-> still shows as *Bientôt*. The database schema — one table — has not been applied yet, so accounts
-> do not work in the deployed site; offline caching is not installed.
+> still shows as *Bientôt*. Accounts work; offline caching is not installed.
 >
 > The Vue implementation is kept in [`.vue/`](.vue/) as a reference. It is not built, not
 > imported, and not being ported file-for-file; it is there to be read. See
@@ -67,7 +66,7 @@ Full detail in [`docs/scope.md`](docs/scope.md), including what this project del
   the French being taught, the sans sets the instruction around it — a split by role, so it works
   on both tracks at once.
 - **Vercel** for hosting · **Supabase** for auth (magic link) and progress sync — the sign-in flow
-  is written and the auth redirect URLs are configured; the one-table schema is not applied yet
+  is written, the redirect URLs are configured and the one-table schema is applied
 - **Serwist** for the service worker and offline precaching (not yet installed)
 
 ## Running it

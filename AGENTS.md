@@ -34,14 +34,13 @@ What exists off the repo, as of 2026-09-05:
 - **Supabase Auth is configured.** Email sign-in is on, and the redirect allowlist covers
   localhost, production and the preview wildcard — verified against the `verify` endpoint, which
   honours all three and rejects anything else. Nothing else needs doing in the dashboard.
-- **`supabase/migrations/` holds the schema and it has NOT been applied.** One migration, one
-  table: `progress`. It 404s today. **This is the only thing standing between the app and a working
-  account**, and whoever applies it should expect to fix something.
-- **Auth is written end to end**: the magic-link form, `/auth/callback`, the session provider,
-  sign-out, the level chooser, the display-name field and the level filter. Sign-in itself will
-  work now; anything that touches `settings` fails until the migrations run. A name read failing
-  while the table is missing is handled — it falls back to the email rather than costing the
-  session — but saving a level is not, and reports a generic failure.
+- **The schema is applied.** One migration, one table: `public.progress` (2026-09-06). Verified
+  from outside — an anonymous caller is refused `select` *and* `insert` with `42501`, at the grant
+  level, before RLS is even consulted. If a probe ever comes back with rows instead, someone has
+  taken Supabase's helpful hint to `GRANT SELECT ON public.progress TO anon`; do not.
+- **Auth works end to end**: the magic-link form, `/auth/callback`, the session provider, sign-out,
+  the level chooser, the display-name field and the level filter. Nothing in the dashboard or the
+  database is outstanding.
 
 The design system, the icons and the shell are written — `globals.css`, `src/data/navigation.ts`,
 the sidebar, the topbar and the sommaire (§5, §6). The manifest declares fourteen chapters and
