@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // The previous Vue app, kept as a read-only reference (AGENTS.md §0).
+    // It is not built, not imported and not in the TypeScript project, so
+    // linting it only buries real findings under its 1046 warnings.
+    ".vue/**",
   ]),
 ]);
 
