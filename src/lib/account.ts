@@ -6,6 +6,7 @@
  * database with an error nobody can act on. It is allowed to be stricter.
  */
 import { getSupabaseClient } from "@/lib/supabase/client";
+import type { Level } from "@/data/navigation";
 
 export const DISPLAY_NAME_MAX = 40;
 
@@ -85,4 +86,39 @@ export async function saveDisplayName(value: string | null): Promise<void> {
      apart. Worth its own message rather than a generic failure. */
   if (error) throw new SaveDisplayNameError(error.code === "23514" ? "rejected" : "unavailable");
   if (data.length === 0) throw new SaveDisplayNameError("no-settings-row");
+}
+
+/**
+ * Record the level this learner is working at.
+ *
+ * An **upsert**, where `saveDisplayName` is an update — and the difference is
+ * the point. This call supplies the `level` the not-null constraint wants, so
+ * it can create the row; a name save cannot, because there is no level it could
+ * invent that would not be a guess made on the learner's behalf (#31, #32).
+ * Choosing a level is therefore what brings a settings row into existence, and
+ * everything else about a learner hangs off it.
+ *
+ * Only the columns in the payload are written, so re-choosing a level leaves a
+ * display name alone.
+ */
+export async function saveLevel(level: Level): Promise<void> {
+  const supabase = getSupabaseClient();
+  if (!supabase) throw new SaveDisplayNameError("unavailable");
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new SaveDisplayNameError("no-session");
+
+  const { error } = await supabase.from("settings").upsert(
+    { user_id: user.id, level, updated_at: new Date().toISOString() },
+    { onConflict: "user_id" },
+  );
+
+  /* 23514 here means the level got past CHOOSABLE_LEVELS but not past
+     settings_level_known — the two have drifted, which happens when a level is
+     opened in one place and not the other. */
+  if (error) {
+    throw new SaveDisplayNameError(error.code === "23514" ? "rejected" : "unavailable");
+  }
 }

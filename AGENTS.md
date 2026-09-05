@@ -35,7 +35,7 @@ What exists off the repo, as of 2026-09-05:
   and `settings` — reviewed but never executed against a Postgres. Applying it is the next
   database step, and whoever does it should expect to fix something.
 - **Auth is written end to end**: the magic-link form, `/auth/callback`, the session provider,
-  sign-out and the display-name field. **It cannot work yet**, for two reasons that are both
+  sign-out, the level chooser and the display-name field. **It cannot work yet**, for two reasons that are both
   outside the code — the migrations are unapplied, so `settings` 404s; and the Supabase redirect
   URLs are not configured, so a magic link will bounce to the site URL instead of coming back. Do
   those two and the flow is live. A name read failing while the table is missing is handled: it
@@ -316,6 +316,10 @@ two paths can each "have" it is the mistake this design exists to prevent.
 for whoever wants to read them. So `levels` is a **required field** on every entry and `[]` is the
 way to say "no level" — never an omitted field. Forgetting to tag a page and deciding it needs no
 tag must not look identical in a diff, and a required field makes the first one a type error.
+
+**Not wired yet:** the sommaire does not read the chosen level. `visibleLessons` and the level
+itself both exist — `useAccount().level` — but the sommaire still lists every chapter. Wiring it is
+the one thing left before levels do anything a learner can see.
 
 **The filter is on the sommaire, never on access.** Signed in, the sommaire lists a lesson when its
 `levels` is empty or contains the learner's level. Signed out, it lists everything. Either way a

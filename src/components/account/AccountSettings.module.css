@@ -66,3 +66,66 @@
 .linkish:hover { color: var(--accent-hover); }
 
 .signOut { margin-top: 1.25rem; }
+
+.levels {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-left: 0;
+}
+
+.level {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+  color: var(--text-1);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.level:hover:not(:disabled) {
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
+}
+
+.level:disabled { cursor: progress; }
+
+.level[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.levelName {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+.levelTick {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--accent-text);
+  visibility: hidden;
+}
+
+.level[aria-pressed="true"] .levelTick { visibility: visible; }
+
+.levelBlurb { font-size: 0.85rem; line-height: 1.5; color: var(--text-2); }

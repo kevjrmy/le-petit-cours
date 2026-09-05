@@ -10,6 +10,7 @@ import {
 } from "react";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { getSupabaseClient } from "@/lib/supabase/client";
+import type { Level } from "@/data/navigation";
 
 export interface Account {
   email: string;
@@ -20,6 +21,13 @@ export interface Account {
    * to show.
    */
   displayName: string | null;
+  /**
+   * The CEFR level this learner is working at, or `null` if they have not
+   * chosen one. Required by the schema, so `null` means the `settings` row does
+   * not exist yet — one representation of "not chosen", not two (#22). Use
+   * `settingsRead` to tell it apart from "not loaded yet".
+   */
+  level: Level | null;
 }
 
 /** What to call this learner: their chosen name, else the email before the @. */
@@ -28,27 +36,37 @@ export function displayName(account: Account): string {
 }
 
 /**
- * The display name lives in `settings`, not in the session, so it is a separate
- * read. A missing row is not an error — `maybeSingle` returns `null` data, and
- * that means the learner has not chosen a level yet (#22). A real error means
- * the table is unreachable, and the right answer is still `null`: it must cost
- * them their name, never their session.
+ * The settings row: the name and the level. Neither is in the session, so this
+ * is a separate read.
+ *
+ * A missing row is not an error — `maybeSingle` returns `null` data, and that
+ * means the learner has not chosen a level yet (#22). A real error means the
+ * table is unreachable, and the right answer is still empty: it must cost them
+ * their settings, never their session.
  */
-async function readDisplayName(
+async function readSettings(
   supabase: SupabaseClient,
   userId: string,
-): Promise<string | null> {
+): Promise<{ displayName: string | null; level: Level | null }> {
   const { data, error } = await supabase
     .from("settings")
-    .select("display_name")
+    .select("display_name, level")
     .eq("user_id", userId)
     .maybeSingle();
 
-  return error ? null : ((data?.display_name as string | null) ?? null);
+  if (error) return { displayName: null, level: null };
+  return {
+    displayName: (data?.display_name as string | null) ?? null,
+    level: (data?.level as Level | null) ?? null,
+  };
 }
 
 const AccountContext = createContext<{
   account: Account | null;
+  /** Whether the `settings` read has come back for this session. Without it
+   *  `level: null` is ambiguous — "has not chosen" and "we do not know yet"
+   *  look identical, and the interface would ask a question already answered. */
+  settingsRead: boolean;
   reload: () => void;
 } | null>(null);
 
@@ -66,6 +84,7 @@ const AccountContext = createContext<{
  */
 export function AccountProvider({ children }: { children: ReactNode }) {
   const [account, setAccount] = useState<Account | null>(null);
+  const [settingsRead, setSettingsRead] = useState(false);
   const userId = useRef<string | null>(null);
 
   useEffect(() => {
@@ -84,22 +103,27 @@ export function AccountProvider({ children }: { children: ReactNode }) {
       const user = session?.user;
       if (!user?.email) {
         userId.current = null;
-        if (active) setAccount(null);
+        if (active) {
+          setAccount(null);
+          setSettingsRead(false);
+        }
         return;
       }
 
       const email = user.email;
       userId.current = user.id;
-      /* Signed in as soon as the session says so. The name catches up. */
-      if (active) setAccount({ email, displayName: null });
+      /* Signed in as soon as the session says so. The settings catch up. */
+      if (active) {
+        setAccount({ email, displayName: null, level: null });
+        setSettingsRead(false);
+      }
 
-      void readDisplayName(supabase, user.id).then((name) => {
+      void readSettings(supabase, user.id).then((settings) => {
         if (!active) return;
         setAccount((current) =>
-          current && current.email === email
-            ? { ...current, displayName: name }
-            : current,
+          current && current.email === email ? { ...current, ...settings } : current,
         );
+        setSettingsRead(true);
       });
     });
 
@@ -109,19 +133,20 @@ export function AccountProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  /** Re-read the name after it has been changed, so every consumer agrees. */
+  /** Re-read the settings after a change, so every consumer agrees. */
   function reload() {
     const supabase = getSupabaseClient();
     const id = userId.current;
     if (!supabase || !id) return;
 
-    void readDisplayName(supabase, id).then((name) => {
-      setAccount((current) => (current ? { ...current, displayName: name } : current));
+    void readSettings(supabase, id).then((settings) => {
+      setAccount((current) => (current ? { ...current, ...settings } : current));
+      setSettingsRead(true);
     });
   }
 
   return (
-    <AccountContext.Provider value={{ account, reload }}>
+    <AccountContext.Provider value={{ account, settingsRead, reload }}>
       {children}
     </AccountContext.Provider>
   );
@@ -133,7 +158,12 @@ export function useAccount(): Account | null {
   return useContext(AccountContext)?.account ?? null;
 }
 
-/** Ask the shell to re-read the display name. A no-op outside the provider. */
+/** Whether the `settings` read has resolved for the current session. */
+export function useSettingsRead(): boolean {
+  return useContext(AccountContext)?.settingsRead ?? false;
+}
+
+/** Ask the shell to re-read the settings. A no-op outside the provider. */
 export function useReloadAccount(): () => void {
   const context = useContext(AccountContext);
   return context ? context.reload : () => {};

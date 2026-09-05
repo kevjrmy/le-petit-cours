@@ -63,6 +63,17 @@ export interface Chapter {
 /** Every level the book declares. B1 upward are empty on purpose (#12). */
 export const LEVELS: Level[] = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
+/**
+ * The levels a learner can actually choose.
+ *
+ * Mirrors `settings_level_known` in
+ * `supabase/migrations/20260905154500_progress.sql`. Offering a level the
+ * constraint rejects would fail the save with an error nobody can act on, and
+ * offering an empty level would hand someone an empty book. Opening B1 is a
+ * one-line migration and this one line, in the same commit (#22).
+ */
+export const CHOOSABLE_LEVELS: Level[] = ["A1", "A2"];
+
 const A1: Level[] = ["A1"];
 const A1A2: Level[] = ["A1", "A2"];
 const ANY: Level[] = [];

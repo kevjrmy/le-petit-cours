@@ -43,6 +43,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 31 | 2026-09-05 | An account may hold an optional display name — the one thing added to #22 | Binding |
 | 32 | 2026-09-05 | The session is read once, by a provider inside the shell; the name is updated, never upserted | Binding |
 | 33 | 2026-09-05 | Sign-in is a magic link through `/auth/callback`; no session-refresh proxy is needed | Binding |
+| 34 | 2026-09-05 | Choosing a level is what creates the settings row; everything else about a learner hangs off it | Binding |
 
 ---
 
@@ -888,3 +889,33 @@ as the only dynamic route in the app.
 `.exception`, which injects « Sauf — » — a label about French grammar — in front of an
 authentication error. `.message` and its variants exist for the interface and inject nothing. The
 lesson callouts are content, and their labels are part of the content.
+
+## 34 · Choosing a level is what creates the settings row
+**2026-09-05 · Binding · implements #23**
+
+The chooser on `/compte`. Three things about it are decisions rather than implementation.
+
+**`saveLevel` is an upsert where `saveDisplayName` is an update**, and the asymmetry is the whole
+shape of this table. The level call supplies the `level` the not-null constraint wants, so it can
+create the row; the name call cannot, because there is no level it could invent that would not be a
+guess made on the learner's behalf (#31, #32). **Choosing a level is therefore the act that brings a
+settings row into existence**, and every other setting hangs off it. Only the columns in the payload
+are written, so re-choosing a level leaves a display name alone.
+
+**The name field is not offered until a level exists.** It would offer a save that cannot succeed.
+The error message for that case still exists — a row can go missing between reads — but the ordinary
+path never reaches it.
+
+**`settingsRead` exists because `level: null` is ambiguous.** "Has not chosen" and "we have not
+looked yet" are the same value, and without the flag the interface asks a question the learner
+already answered, for as long as a round trip takes. A pause is better than a question you have to
+re-answer.
+
+**`CHOOSABLE_LEVELS` mirrors `settings_level_known`**, the same discipline as `checkDisplayName`
+mirroring `settings_display_name_shape` (#31). Offering a level the constraint rejects would fail
+the save with an error nobody can act on, and offering an empty level would hand someone an empty
+book. Opening B1 is a one-line migration and one line in `navigation.ts`, in the same commit.
+
+**What this does not do yet:** the sommaire ignores the chosen level. `visibleLessons` and
+`useAccount().level` both exist; nothing calls them together. Until that is wired the level is a
+stored preference with no visible effect beyond unblocking the name.

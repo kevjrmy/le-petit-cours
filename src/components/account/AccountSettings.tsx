@@ -8,7 +8,13 @@ import {
   SaveDisplayNameError,
   type SaveProblem,
 } from "@/lib/account";
-import { displayName, useAccount, useReloadAccount } from "@/hooks/useAccount";
+import {
+  displayName,
+  useAccount,
+  useReloadAccount,
+  useSettingsRead,
+} from "@/hooks/useAccount";
+import { LevelChooser } from "./LevelChooser";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { SignInForm } from "./SignInForm";
 import styles from "./AccountSettings.module.css";
@@ -23,6 +29,7 @@ import styles from "./AccountSettings.module.css";
  */
 export function AccountSettings() {
   const account = useAccount();
+  const settingsRead = useSettingsRead();
 
   if (!account) return <SignInForm />;
 
@@ -35,7 +42,22 @@ export function AccountSettings() {
           l&rsquo;adresse {account.email}.
         </p>
       </section>
-      <DisplayNameField initial={account.displayName} />
+      {/* Until the settings read comes back, `level: null` is ambiguous — it
+          means "has not chosen" and "we do not know yet" at once. Asking a
+          question the learner has already answered is worse than a pause. */}
+      {!settingsRead ? (
+        <section>
+          <p className={styles.aside}>Chargement de vos réglages…</p>
+        </section>
+      ) : (
+        <>
+          <LevelChooser current={account.level} />
+          {/* The name is kept in the settings row, and the row cannot exist
+              before a level does (#31). Offering the field first would offer a
+              save that cannot succeed. */}
+          {account.level && <DisplayNameField initial={account.displayName} />}
+        </>
+      )}
 
       <section>
         <h2>Se déconnecter</h2>
