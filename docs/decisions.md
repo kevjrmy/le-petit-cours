@@ -32,6 +32,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 20 | 2026-09-05 | Supabase provisioned directly, not through the Vercel Marketplace integration | Binding |
 | 21 | 2026-09-05 | No key that bypasses RLS lives in the deployment environment | Binding |
 | 22 | 2026-09-05 | An account stores the tick and the chosen level — no scores; level never keys progress | Binding |
+| 23 | 2026-09-05 | A lesson carries a set of levels; the learner's level is required and filters the book | Binding |
 
 ---
 
@@ -240,7 +241,8 @@ schoolchildren. One pool of lessons, different orderings.
 ## 14 · Levels are tags; parcours order lessons without owning them
 **2026-09-05 · Binding**
 
-Every lesson carries a CEFR level tag. A **parcours** is an ordered path through lessons that
+Every lesson carries a CEFR level tag. *(Made a set by #23: a lesson may be tagged with several
+levels.)* A **parcours** is an ordered path through lessons that
 already exist — `Parcours A1`, `Parcours A2`, and a heritage parcours through the orthography and
 conjugation pages.
 
@@ -447,9 +449,9 @@ first is shaped the way it is.
 lesson inserts a row; unmarking deletes it. There is no `done` column because a row's existence
 already says it, and no score column because nothing is stored about a drill run at all.
 
-**`settings` — one row per learner, holding the chosen level.** Null means unchosen: the app asks on
-first sign-in rather than guessing, and a missing row means the same thing as a null, so no code
-should distinguish them. The check constraint accepts only levels that have content, so nobody can
+**`settings` — one row per learner, holding the chosen level.** The level is required, so the column
+is `not null` and "not chosen yet" is simply the absence of the row — one representation of that
+state rather than two. The check constraint accepts only levels that have content, so nobody can
 select an empty book; adding B1 is then a one-line migration, which is the right amount of friction.
 
 **The level is a setting, never part of a progress key.** This is the whole design. A learner must be
@@ -481,3 +483,28 @@ which is the line between "all content is public" (#18) and "progress needs an a
 **What this replaced:** a first draft, written the same day and never applied, carrying a `done`
 boolean and a `score` / `score_total` / `scored_at` triple. It was cut in review — the tick is the
 whole of what a learner asked to keep.
+
+## 23 · Levels are a set on the lesson, and a required choice for the learner
+**2026-09-05 · Binding**
+
+Two halves of one mechanism.
+
+**On the content side, a lesson carries a set of levels, not one.** A page on *les articles* can be
+tagged `['A1', 'A2']` and appear for both; a page on the *passé composé* might be `['A2']` alone.
+This supersedes the singular tag of #14, whose reasoning is otherwise untouched — the point of that
+entry was that a level does not *own* a lesson, and a set is that idea taken to its conclusion. The
+alternative, duplicating a page so each level can have its own copy, is the same failure #14
+already rejects for parcours: two copies drift, and the learner meets whichever one is stale.
+
+**On the learner side, the level is required before the book renders.** The flow is: sign in, choose
+a level, then see the content tagged with it. `settings.level` is `not null`, so an account either
+has a chosen level or has no settings row at all — and the app treats the second as "ask".
+
+**Filtering is `learner level ∈ lesson levels`**, evaluated against `src/data/navigation.ts` at
+render time. The database holds no opinion about which content belongs to which level: content
+lives in the repo (#8), so a retagging is a diff, not a data migration.
+
+**And the level filters the view, never the progress.** Ticks are keyed by path alone (#22), so
+moving between levels changes what is on screen and nothing else. A lesson tagged for both levels
+keeps one tick, not one per level — which is the reason a set beats duplication rather than merely
+being tidier.

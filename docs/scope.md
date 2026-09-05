@@ -59,7 +59,8 @@ lessons.
   and `Parcours A2` follow the DELF syllabus; a heritage parcours (« Écrire le français ») walks
   the orthography and conjugation pages in remediation order.
 
-One library, several orderings. Every lesson carries a CEFR **level tag**, so greying out B1–C2 is
+One library, several orderings. Every lesson carries one or more CEFR **level tags** — a page can
+serve A1 and A2 at once — so greying out B1–C2 is
 a filter rather than a fork in the codebase, and adding a profile later means adding a parcours
 rather than an app.
 

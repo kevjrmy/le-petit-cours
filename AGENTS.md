@@ -225,7 +225,8 @@ because it removes the single most common bug in the old app and introduces a ne
 
 ### Levels and parcours
 
-The manifest carries a second axis. Every lesson has a **CEFR level tag**, and a **parcours** is
+The manifest carries a second axis. Every lesson carries **one or more CEFR level tags** — a page
+that serves both A1 and A2 is tagged with both rather than duplicated — and a **parcours** is
 an ordered path through lessons that already exist:
 
 - `Parcours A1` and `Parcours A2` follow the DELF syllabus.

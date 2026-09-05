@@ -54,24 +54,28 @@ comment on column public.progress.path is
 -- let a learner select an empty book. Adding B1 is then a one-line migration,
 -- which is the right amount of friction.
 --
--- `level` is nullable and has no default: unchosen is a real state, and the app
--- asks on first sign-in rather than guessing A1. A missing row and a row with a
--- null level are the same state — do not make code distinguish them. A learner
--- who already picked a level while signed out has answered the question, and
--- the app should adopt that choice rather than ask again.
+-- `level` is required and has no default. The app asks on first sign-in and
+-- writes the row once answered, so "not chosen yet" is the absence of the row —
+-- one representation of that state rather than two. A learner who already picked
+-- a level while signed out has answered the question, and the app should adopt
+-- that choice rather than ask again.
+--
+-- The level a learner is working at; a lesson may be tagged with several. The
+-- matching happens in src/data/navigation.ts, never here — the database holds no
+-- opinion about which content belongs to which level.
 -- ---------------------------------------------------------------------------
 create table public.settings (
   user_id    uuid        primary key references auth.users (id) on delete cascade,
-  level      text,
+  level      text        not null,
   updated_at timestamptz not null default now(),
 
-  constraint settings_level_known check (level is null or level in ('A1', 'A2'))
+  constraint settings_level_known check (level in ('A1', 'A2'))
 );
 
 comment on table public.settings is
   'One row per learner. Currently the chosen CEFR level; the local copy stays the read path.';
 comment on column public.settings.level is
-  'Null means not chosen yet - the app asks on first sign-in. Same state as no row at all.';
+  'Required. No row means not chosen yet - the app asks on first sign-in.';
 
 -- ---------------------------------------------------------------------------
 -- Row-level security. Redundant while the automatic-RLS event trigger is on,
