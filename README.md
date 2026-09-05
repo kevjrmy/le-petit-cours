@@ -12,9 +12,11 @@ a track that teaches them to write it.
 > ### 🚧 Being rewritten
 >
 > From August 2026 this was a Vue 3 + Vite app with 119 lessons across 14 chapters. On
-> **2026-09-05** it was restarted on Next.js. The design system, the app shell and the navigation
-> manifest are written; the fourteen chapters are declared and **three lessons exist**, so most of
-> the book still shows as *Bientôt*. Accounts and offline caching are not wired up yet.
+> **2026-09-05** it was restarted on Next.js. The design system, the app shell, the navigation
+> manifest and the whole account flow — magic-link sign-in, the chosen level, the display name —
+> are written. The fourteen chapters are declared and **three lessons exist**, so most of the book
+> still shows as *Bientôt*. The database schema has not been applied yet, so accounts do not work
+> in the deployed site; offline caching is not installed.
 >
 > The Vue implementation is kept in [`.vue/`](.vue/) as a reference. It is not built, not
 > imported, and not being ported file-for-file; it is there to be read. See
@@ -65,7 +67,7 @@ Full detail in [`docs/scope.md`](docs/scope.md), including what this project del
   the French being taught, the sans sets the instruction around it — a split by role, so it works
   on both tracks at once.
 - **Vercel** for hosting · **Supabase** for auth (magic link) and progress sync — the sign-in flow
-  is written; the schema is not applied yet, so accounts do not work in the deployed site
+  is written and the auth redirect URLs are configured; the schema is not applied yet
 - **Serwist** for the service worker and offline precaching (not yet installed)
 
 ## Running it
@@ -115,6 +117,12 @@ what protects a learner's data.
 - **The session is never read in a layout.** Doing so would opt every lesson underneath out of
   static prerendering and break offline. Only the leaf controls that write progress know who is
   signed in.
+- **A chosen level filters the listings, never access.** Signed in, the sommaire, the chapter pages
+  and the sidebar show a lesson when its levels are empty or contain yours. Signed out, they show
+  everything. A lesson at another level still opens from a link — the level decides what the book
+  *offers*, not what it permits. The listings are client components inside static pages, so the
+  **unfiltered book is what ships in the HTML** and hydration narrows it; that is what a signed-out
+  reader should get, and what an offline page should contain.
 - **An exercise is graded; a game is replayable.** An exercise walks a fixed deck once, scores
   out of N on screen and practises one named lesson; a game redraws every round, keeps no tally,
   and pulls from the whole book. Neither stores a score.

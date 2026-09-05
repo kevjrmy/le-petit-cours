@@ -25,6 +25,25 @@ grep -rln "'use client'" src/app --include=page.tsx --include=layout.tsx
 its whole tree as JavaScript, and stops being free to serve offline. The fix is always the same:
 lift the interactive part into its own leaf and leave the page on the server.
 
+**One route is legitimately dynamic: `/auth/callback`.** It exchanges a single-use code for a
+session and has to run per request. Everything else must be static or SSG. If a second dynamic
+route appears, something started reading cookies or `searchParams` where it should not — check
+`/compte` in particular, which stays static only because it reads `?erreur=` through
+`useSearchParams` inside a `<Suspense>` boundary rather than from the page's props.
+
+**The listings are client components, and their content must still be in the static HTML.** The
+sommaire's grid, the chapter lesson lists and the sidebar read the learner's level, so they are
+`'use client'` — but React server-renders them, so the *unfiltered* book ships in the HTML and
+hydration narrows it. That is deliberate: it is what a signed-out reader should see and what an
+offline page must contain. Check it directly, because nothing else will:
+
+```bash
+curl -s http://localhost:3000/vocabulaire | grep -c 'Les couleurs'   # must be 1, not 0
+```
+
+A zero means a listing started fetching instead of reading the manifest, and every cold or offline
+page just went blank.
+
 Then confirm it in the build output — `npm run build` marks each route static or dynamic, and a
 lesson that has quietly become dynamic is a regression worth reporting with the route name.
 
