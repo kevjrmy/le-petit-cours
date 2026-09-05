@@ -39,6 +39,8 @@
   min-height: 1.2em;
 }
 
-/* The message is never colour alone — it always says what happened. */
-.input[aria-invalid="true"] ~ .help,
-.form:has(.input[aria-invalid="true"]) .help { color: var(--danger-text); }
+/* Never colour alone — every message says in words what happened. A save that
+   failed must not read like the character counter, which is what it looked
+   like when both were --text-3. */
+.helpBad { color: var(--danger-text); }
+.helpGood { color: var(--success-text); }

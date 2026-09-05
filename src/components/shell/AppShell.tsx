@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
+import { AccountProvider } from "@/hooks/useAccount";
 import { useShellMode } from "@/hooks/useShellMode";
 import { AppSidebar } from "./AppSidebar";
 import { AppTopbar } from "./AppTopbar";
@@ -44,7 +45,9 @@ export function AppShell({ children }: { children: ReactNode }) {
   }, [open, mode]);
 
   return (
-    <>
+    /* One account for the whole shell: the sidebar and anything a page renders
+       read the same answer, so saving a name updates both. */
+    <AccountProvider>
       <AppSidebar open={open} onNavigate={() => setOpen(false)} />
 
       {mode === "drawer" && open && (
@@ -60,6 +63,6 @@ export function AppShell({ children }: { children: ReactNode }) {
         <main className={styles.content}>{children}</main>
         <Footer />
       </div>
-    </>
+    </AccountProvider>
   );
 }

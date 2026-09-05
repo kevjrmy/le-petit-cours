@@ -64,8 +64,8 @@ Full detail in [`docs/scope.md`](docs/scope.md), including what this project del
 - **Spectral and Inter**, on a palette anchored to the blue the logo is drawn in. The serif sets
   the French being taught, the sans sets the instruction around it — a split by role, so it works
   on both tracks at once.
-- **Vercel** for hosting · **Supabase** for auth (magic link) and progress sync (project created;
-  nothing wired up to it yet)
+- **Vercel** for hosting · **Supabase** for auth (magic link) and progress sync — the browser
+  client and the session hook are wired; sign-in itself and the schema are not applied yet
 - **Serwist** for the service worker and offline precaching (not yet installed)
 
 ## Running it
@@ -89,9 +89,10 @@ node scripts/shot.mjs http://localhost:3000/ shot.png --full --dark   # themed s
 node scripts/make-icons.mjs                                           # every icon, from one SVG
 ```
 
-Two environment variables exist — `NEXT_PUBLIC_SUPABASE_URL` and
-`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` — but nothing reads them yet, so the app runs without
-them. They are not secrets: the publishable key is public by design and row-level security is
+Two environment variables — `NEXT_PUBLIC_SUPABASE_URL` and
+`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. The app **runs without them**: the client returns `null`,
+the shell renders signed out, and the whole course still works, because every lesson is public and
+static. They are not secrets — the publishable key is public by design and row-level security is
 what protects a learner's data.
 
 ## How it is put together

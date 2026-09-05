@@ -1,8 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { checkDisplayName, DISPLAY_NAME_MAX, saveDisplayName } from "@/lib/account";
-import { displayName, useAccount } from "@/hooks/useAccount";
+import {
+  checkDisplayName,
+  DISPLAY_NAME_MAX,
+  saveDisplayName,
+  SaveDisplayNameError,
+  type SaveProblem,
+} from "@/lib/account";
+import { displayName, useAccount, useReloadAccount } from "@/hooks/useAccount";
 import styles from "./AccountSettings.module.css";
 
 /**
@@ -53,9 +59,32 @@ type Status =
   | { kind: "saved"; cleared: boolean }
   | { kind: "error"; message: string };
 
+const SAVE_MESSAGE: Record<SaveProblem, string> = {
+  unavailable:
+    "L’enregistrement n’a pas abouti. Vérifiez votre connexion et réessayez.",
+  "no-session": "Votre session a expiré. Reconnectez-vous pour enregistrer.",
+  /* Not a failure to apologise for — a step that has not happened yet. */
+  "no-settings-row":
+    "Choisissez d’abord votre niveau : votre nom est gardé avec vos réglages.",
+  rejected: "Ce nom a été refusé. Essayez-en un plus court ou plus simple.",
+};
+
 function DisplayNameField({ initial }: { initial: string | null }) {
+  const reload = useReloadAccount();
   const [value, setValue] = useState(initial ?? "");
   const [status, setStatus] = useState<Status>({ kind: "idle" });
+
+  /* The name arrives a moment after the session — the field mounts before the
+     `settings` read comes back — so it has to adopt a late-arriving value.
+     Adjusting during render rather than in an effect, and rather than keying
+     the component: a `key` would remount it on every change including the one
+     the save itself causes, which would wipe the « Nom enregistré » the learner
+     is meant to read. */
+  const [lastInitial, setLastInitial] = useState(initial);
+  if (initial !== lastInitial) {
+    setLastInitial(initial);
+    setValue(initial ?? "");
+  }
 
   const check = checkDisplayName(value);
   const problem = check.ok ? null : check.problem;
@@ -69,12 +98,17 @@ function DisplayNameField({ initial }: { initial: string | null }) {
     setStatus({ kind: "saving" });
     try {
       await saveDisplayName(check.value);
+      /* Tell the shell, or the sidebar keeps showing the old name until the
+         next full load. */
+      reload();
       setStatus({ kind: "saved", cleared: check.value === null });
-    } catch {
+    } catch (error) {
       setStatus({
         kind: "error",
         message:
-          "L’enregistrement n’est pas encore en service. Votre nom n’a pas été gardé.",
+          error instanceof SaveDisplayNameError
+            ? SAVE_MESSAGE[error.problem]
+            : SAVE_MESSAGE.unavailable,
       });
     }
   }
@@ -117,8 +151,20 @@ function DisplayNameField({ initial }: { initial: string | null }) {
         </div>
 
         {/* One live region for every outcome, so a screen reader hears the
-            result without the field being re-announced on each keystroke. */}
-        <p id="display-name-help" className={styles.help} role="status">
+            result without the field being re-announced on each keystroke. The
+            tone is never the only carrier — every branch below says in words
+            what happened. */}
+        <p
+          id="display-name-help"
+          role="status"
+          className={`${styles.help} ${
+            problem !== null || status.kind === "error"
+              ? styles.helpBad
+              : status.kind === "saved"
+                ? styles.helpGood
+                : ""
+          }`}
+        >
           {problem === "too-long" &&
             `${used} caractères sur ${DISPLAY_NAME_MAX} au maximum.`}
           {problem === "control-chars" &&

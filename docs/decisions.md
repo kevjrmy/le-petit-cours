@@ -41,6 +41,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 29 | 2026-09-05 | The shell derives from the manifest: one generated chapter route, no icon field | Binding |
 | 30 | 2026-09-05 | The shell follows the claude.ai pattern: account at the foot of the sidebar, theme three-way | Binding |
 | 31 | 2026-09-05 | An account may hold an optional display name — the one thing added to #22 | Binding |
+| 32 | 2026-09-05 | The session is read once, by a provider inside the shell; the name is updated, never upserted | Binding |
 
 ---
 
@@ -820,3 +821,35 @@ carelessly — it counts **code points**, because `length()` in Postgres counts 
 `"🙂".length` is 2 in JavaScript, so counting the JavaScript way would let a name through here and
 have the database reject it; and an empty field stores `null` rather than `''`, so the single
 representation of "unset" survives the round trip.
+
+## 32 · One session for the shell, and an update rather than an upsert
+**2026-09-05 · Binding**
+
+`useAccount` reads a real Supabase session now: `AccountProvider` subscribes to
+`onAuthStateChange` inside `AppShell`, and `src/lib/supabase/client.ts` memoises the browser client.
+
+**One provider, not one hook per consumer.** The obvious version — every component calling
+`useAccount` and holding its own state — was wrong for a reason that only shows up after the write
+path exists: the sidebar and `/compte` would each keep a copy, and saving a name would update one of
+them. The sidebar would keep showing the old name until a full reload. One subscription, one answer,
+and a `reload()` the settings form calls after a successful save.
+
+It lives **inside `AppShell`**, which is already the single client boundary, so the root layout and
+every page under it stay Server Components. Every route is still static in `next build`, which is
+the check that matters (`AGENTS.md` §8).
+
+**The email and the name are set separately, in that order.** The email is in the session; the name
+is a row in `settings` and arrives a round trip later. A learner is signed in the moment the session
+says so — a `settings` table that is unreachable must cost them their name, not their session.
+Today that path is not hypothetical: the migrations are unapplied, the table genuinely 404s, and the
+interface correctly falls back to the local part of the email.
+
+**Saving is an `update`, never an `upsert`.** An upsert would have to supply a `level` to satisfy the
+not-null constraint, and there is no level this code could supply that would not be a guess made on
+the learner's behalf (#22, #23). So a save into a missing row fails with `no-settings-row`, and the
+interface says « Choisissez d'abord votre niveau » rather than apologising — it is a step that has
+not happened yet, not an error. This is the coupling #31 predicted, now visible in the UI.
+
+**The client returns `null` when the environment variables are absent**, rather than throwing.
+Someone who clones the repo without an `.env` still gets the whole book: it is public and static,
+and only the account chrome degrades. `useAccount` reads that as signed out, which is true.

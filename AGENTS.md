@@ -34,7 +34,12 @@ What exists off the repo, as of 2026-09-05:
 - **`supabase/migrations/` holds the schema and it has not been applied.** Two tables — `progress`
   and `settings` — reviewed but never executed against a Postgres. Applying it is the next
   database step, and whoever does it should expect to fix something.
-- **Auth is configured but unwritten**: no `/compte`, no callback route, no client.
+- **Auth is half-written.** The browser client exists, `AccountProvider` subscribes to
+  `onAuthStateChange`, `/compte` renders the signed-in settings and saves a display name. What is
+  missing is the way *in*: no magic-link form, no `/auth/callback` route handler, and the Supabase
+  redirect URLs are not configured — so no session can be created yet and the shell always renders
+  signed out. The migrations are also still unapplied, so `settings` does not exist: a name read
+  fails and falls back to the email, which is the behaviour that path was written for.
 
 The design system, the icons and the shell are written — `globals.css`, `src/data/navigation.ts`,
 the sidebar, the topbar and the sommaire (§5, §6). The manifest declares fourteen chapters and
@@ -126,8 +131,9 @@ src/
     exercice/             the drill primitives
   data/
     navigation.ts         SINGLE SOURCE OF TRUTH for chapters, lessons, cross-links
-  hooks/                  useShellMode — useSpeech, useProgress to come  ('use client')
-  lib/                    site.ts (the origin, in one place) — shuffle, progress adapter…
+  components/account/     AccountSettings — the signed-in half of /compte
+  hooks/                  useAccount (+ AccountProvider), useShellMode  ('use client')
+  lib/                    site.ts, account.ts, supabase/client.ts — shuffle, progress adapter…
 scripts/                  shot.mjs (themed screenshots), make-icons.mjs
 public/                   brand assets (logo, logo-mark, PWA icons) and lesson images
 ```
@@ -376,8 +382,13 @@ dynamic and destroy the offline story. Public content is what lets lessons prere
 `await createClient().auth.getUser()` in `layout.tsx` throws that away in one line, and nothing
 will fail loudly when it happens — the pages still render, they just stop being static.
 
-Auth lives at the leaves, exactly like the theme toggle (§4). The « J'ai terminé » control knows
+Auth lives at the leaves, exactly like the account menu (§4). The « J'ai terminé » control knows
 whether you are signed in. The lesson wrapping it does not, and stays static HTML.
+
+**`AccountProvider` holds the session, once, inside `AppShell`.** One subscription and one answer:
+two components each keeping their own copy would disagree the moment one saved a new name, and the
+sidebar would show the old one until a reload. It sits inside the shell's existing client boundary,
+so nothing above it reads the session and every route stays static — check it in `next build`.
 
 Check it in the `next build` output: a lesson that has become dynamic is a regression, not a
 detail.
