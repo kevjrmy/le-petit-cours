@@ -82,8 +82,8 @@ Two things to know about `light-dark()`:
 
 **Absence of `data-theme` is meaningful: it is "système"**, and it is a state the interface has to
 be able to return to. The inline script in `layout.tsx` sets the attribute only when the learner has
-actually chosen, so a first-time visitor follows their OS; the control in `AccountMenu` is
-three-way, and picking « Système » *removes* the attribute and the stored key rather than writing
+actually chosen, so a first-time visitor follows their OS; the control is a three-choice submenu of
+`AccountMenu`, and picking « Système » *removes* the attribute and the stored key rather than writing
 some third value into them. Storing the string `"system"` would pin the page to whichever theme
 happened to be active when it was written.
 

@@ -735,6 +735,14 @@ focus trap for one menu. It light-dismisses on Escape, on a pointer outside it, 
 `annexes` in the manifest carries `where: "tree" | "menu"`. `Nouveautés` is about the book and stays
 in the tree; the rest are about the reader and belong to the menu.
 
+**The theme is a submenu of that popover**, not a control sitting open in it: a row reading
+« Thème › » with the current choice beside it, which swaps the panel for the three options and a way
+back. It **replaces the panel rather than flying out to the side** — the panel is as wide as the
+sidebar and anchored to its bottom corner, so a flyout would need collision handling at the viewport
+edge and would have some 166px to live in inside the mobile drawer. Swapping contents behaves
+identically at both breakpoints, which is worth more here than the animation. Putting the current
+value on the row is the small win: the theme is legible without opening anything.
+
 **The theme control became three-way, and that is the part that fixes a bug.** The theme has three
 states — light, dark, and "système", which is the *absence* of `data-theme` so that
 `color-scheme: light dark` can resolve against the OS. The old top-bar toggle exposed two. Once a
