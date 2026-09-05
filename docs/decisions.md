@@ -45,6 +45,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 33 | 2026-09-05 | Sign-in is a magic link through `/auth/callback`; no session-refresh proxy is needed | Binding |
 | 34 | 2026-09-05 | Choosing a level is what creates the settings row; everything else about a learner hangs off it | Binding |
 | 35 | 2026-09-05 | Every listing obeys the level; the unfiltered book is what ships and hydration narrows it | Binding |
+| 36 | 2026-09-06 | One table. The learner's settings live in the account's user metadata, not in a table of ours | Binding |
 
 ---
 
@@ -452,7 +453,7 @@ leak would matter — which is worth stating because it is a property to keep, n
 future feature that needs a real secret should add it deliberately, to `.env` and nowhere else.
 
 ## 22 · What an account stores: the tick, and the level
-**2026-09-05 · Binding** *(one column added by #31)*
+**2026-09-05 · Binding** *(one column added by #31; the `settings` table itself removed by #36 before it was ever applied — the scope below stands, only its storage moved)*
 
 `supabase/migrations/20260905154500_progress.sql`. Two tables, and the second one is the reason the
 first is shaped the way it is.
@@ -778,7 +779,7 @@ unchanged — sign-in is `/compte`, a linkable page a magic link can return to �
 form in the chrome". Only the location of the link changed.
 
 ## 31 · An account may hold a display name
-**2026-09-05 · Binding · extends #22**
+**2026-09-05 · Binding · extends #22** *(the column moved to user metadata by #36; that an account may hold a name still stands)*
 
 `settings.display_name`, nullable, added by `supabase/migrations/20260905190000_display_name.sql`.
 Before this, the only identity an account carried was its email, so the interface called a learner
@@ -826,7 +827,7 @@ have the database reject it; and an empty field stores `null` rather than `''`, 
 representation of "unset" survives the round trip.
 
 ## 32 · One session for the shell, and an update rather than an upsert
-**2026-09-05 · Binding**
+**2026-09-05 · Binding** *(the update/upsert half is moot under #36 — there is no row to create)*
 
 `useAccount` reads a real Supabase session now: `AccountProvider` subscribes to
 `onAuthStateChange` inside `AppShell`, and `src/lib/supabase/client.ts` memoises the browser client.
@@ -892,7 +893,7 @@ authentication error. `.message` and its variants exist for the interface and in
 lesson callouts are content, and their labels are part of the content.
 
 ## 34 · Choosing a level is what creates the settings row
-**2026-09-05 · Binding · implements #23**
+**2026-09-05 · Binding · implements #23** *(superseded by #36: there is no settings row, and the ordering it forced is gone)*
 
 The chooser on `/compte`. Three things about it are decisions rather than implementation.
 
@@ -950,3 +951,52 @@ interface cannot answer.
 **What this exposes about the current manifest:** at A1 the filter hides nothing, because every
 placeholder lesson is tagged A1 or carries no level at all. It only bites at A2. That is a property
 of content written before the DELF gap analysis, not of the filter.
+
+## 36 · One table; settings live in the account's user metadata
+**2026-09-06 · Binding · supersedes the storage half of #22, #31, #32 and #34**
+
+`public.progress` is the only table this project owns. The learner's chosen level and display name
+moved to `auth.users.raw_user_meta_data` — the account's own metadata, which Supabase already stores
+and which arrives with the session.
+
+**Asked for directly:** as few tables as possible. Two was the relational floor while settings had a
+table, and `progress` cannot be folded into anything — it is many rows per learner, written one at a
+time from more than one device, so held as a list on a single row two devices syncing after being
+offline would overwrite each other's ticks. Moving the *other* side was the way down to one.
+
+**Free only because nothing had run.** Both migrations were unapplied — verified against the live
+project, where both tables 404'd — so the `settings` table was deleted rather than dropped, and the
+two files became one. After an apply this would have been a migration to write and a backfill to get
+right instead.
+
+**What it deleted, which is the real argument.** Every one of these existed only to work around
+`settings.level NOT NULL`, which made the row impossible to create without a level:
+
+- the second round trip, and with it `settingsRead` — the flag that told "has not chosen" apart from
+  "we have not looked yet";
+- the asymmetry where `saveLevel` was an upsert and `saveDisplayName` an update (#34);
+- the rule that the name field could not be offered until a level existed;
+- `no-settings-row` and the message that went with it;
+- `reload()`, and the whole business of telling other consumers to re-read. `updateUser` emits
+  `USER_UPDATED` through the same subscription the provider already has.
+
+Four RLS policies went with the table. The account layer lost about a third of its code and gained
+no branches.
+
+**The cost, stated plainly: there are no database constraints on these two values any more.**
+Metadata is writable by its owner through the Supabase API, with no check constraint behind it. So:
+
+- **The rules moved into `src/lib/account.ts`, and are applied on read as well as on write.**
+  `readLevel` returns `null` for anything outside `CHOOSABLE_LEVELS`; `readDisplayName` runs the
+  same check the form does. A malformed value cannot reach the interface, whatever put it there.
+- **The blast radius is the account holder's own view.** The level filters their sommaire; the name
+  is shown to them and to nobody else (#31). Neither is an identifier, neither grants anything, and
+  re-choosing fixes either. **This is what makes the trade acceptable, and it is also the boundary:
+  a setting that ever grants something, or that anyone else can see, does not belong here — it
+  belongs in a table with a constraint.**
+- **Queryability is lost**, and costs nothing: `docs/scope.md` rules out analytics on learners, so
+  there was never going to be a "how many are at A2" query to write.
+- `settings_level_known` is gone as an enforcement mechanism, so the "adding B1 is a one-line
+  migration, which is the right amount of friction" argument in #22 no longer holds.
+  `CHOOSABLE_LEVELS` in `navigation.ts` is now the only gate, and opening a level is a one-line
+  change there — less friction than intended, and worth remembering when B1 is written.

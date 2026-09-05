@@ -15,8 +15,8 @@ a track that teaches them to write it.
 > **2026-09-05** it was restarted on Next.js. The design system, the app shell, the navigation
 > manifest and the whole account flow — magic-link sign-in, the chosen level, the display name —
 > are written. The fourteen chapters are declared and **three lessons exist**, so most of the book
-> still shows as *Bientôt*. The database schema has not been applied yet, so accounts do not work
-> in the deployed site; offline caching is not installed.
+> still shows as *Bientôt*. The database schema — one table — has not been applied yet, so accounts
+> do not work in the deployed site; offline caching is not installed.
 >
 > The Vue implementation is kept in [`.vue/`](.vue/) as a reference. It is not built, not
 > imported, and not being ported file-for-file; it is there to be read. See
@@ -67,7 +67,7 @@ Full detail in [`docs/scope.md`](docs/scope.md), including what this project del
   the French being taught, the sans sets the instruction around it — a split by role, so it works
   on both tracks at once.
 - **Vercel** for hosting · **Supabase** for auth (magic link) and progress sync — the sign-in flow
-  is written and the auth redirect URLs are configured; the schema is not applied yet
+  is written and the auth redirect URLs are configured; the one-table schema is not applied yet
 - **Serwist** for the service worker and offline precaching (not yet installed)
 
 ## Running it
@@ -110,6 +110,10 @@ what protects a learner's data.
 - **Lessons are Server Components** — no `'use client'`, no hooks, no state. They prerender to
   HTML and ship no JavaScript. Interactivity (drills, games, audio, the account menu) lives in
   small client leaves, never in the page wrapping them.
+- **One table.** `progress` is the only table this project owns; a learner's level and display name
+  live in their account's own user metadata and arrive with the session. Progress cannot join them:
+  it is many rows per learner written from several devices, and held as a list on one row, two
+  devices syncing after being offline would overwrite each other's ticks.
 - Progress is keyed by route path, ticked **manually** by the learner, and stored behind a
   swappable adapter. It requires an account; the content around it does not. The local copy stays
   the read path even when signed in — this is an offline app, so the server is a sync target and

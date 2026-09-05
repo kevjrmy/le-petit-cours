@@ -5,15 +5,10 @@ import {
   checkDisplayName,
   DISPLAY_NAME_MAX,
   saveDisplayName,
-  SaveDisplayNameError,
+  SaveSettingError,
   type SaveProblem,
 } from "@/lib/account";
-import {
-  displayName,
-  useAccount,
-  useReloadAccount,
-  useSettingsRead,
-} from "@/hooks/useAccount";
+import { displayName, useAccount } from "@/hooks/useAccount";
 import { LevelChooser } from "./LevelChooser";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { SignInForm } from "./SignInForm";
@@ -29,7 +24,6 @@ import styles from "./AccountSettings.module.css";
  */
 export function AccountSettings() {
   const account = useAccount();
-  const settingsRead = useSettingsRead();
 
   if (!account) return <SignInForm />;
 
@@ -42,22 +36,12 @@ export function AccountSettings() {
           l&rsquo;adresse {account.email}.
         </p>
       </section>
-      {/* Until the settings read comes back, `level: null` is ambiguous — it
-          means "has not chosen" and "we do not know yet" at once. Asking a
-          question the learner has already answered is worse than a pause. */}
-      {!settingsRead ? (
-        <section>
-          <p className={styles.aside}>Chargement de vos réglages…</p>
-        </section>
-      ) : (
-        <>
-          <LevelChooser current={account.level} />
-          {/* The name is kept in the settings row, and the row cannot exist
-              before a level does (#31). Offering the field first would offer a
-              save that cannot succeed. */}
-          {account.level && <DisplayNameField initial={account.displayName} />}
-        </>
-      )}
+      {/* Both arrive with the session, so there is no loading state to show and
+          no ordering between them: the level no longer has to exist before a
+          name can be saved (#36). The level still comes first because it is the
+          one a learner is asked for once, on arrival (#23). */}
+      <LevelChooser current={account.level} />
+      <DisplayNameField initial={account.displayName} />
 
       <section>
         <h2>Se déconnecter</h2>
@@ -93,23 +77,19 @@ const SAVE_MESSAGE: Record<SaveProblem, string> = {
   unavailable:
     "L’enregistrement n’a pas abouti. Vérifiez votre connexion et réessayez.",
   "no-session": "Votre session a expiré. Reconnectez-vous pour enregistrer.",
-  /* Not a failure to apologise for — a step that has not happened yet. */
-  "no-settings-row":
-    "Choisissez d’abord votre niveau : votre nom est gardé avec vos réglages.",
   rejected: "Ce nom a été refusé. Essayez-en un plus court ou plus simple.",
 };
 
 function DisplayNameField({ initial }: { initial: string | null }) {
-  const reload = useReloadAccount();
   const [value, setValue] = useState(initial ?? "");
   const [status, setStatus] = useState<Status>({ kind: "idle" });
 
-  /* The name arrives a moment after the session — the field mounts before the
-     `settings` read comes back — so it has to adopt a late-arriving value.
-     Adjusting during render rather than in an effect, and rather than keying
-     the component: a `key` would remount it on every change including the one
-     the save itself causes, which would wipe the « Nom enregistré » the learner
-     is meant to read. */
+  /* The field has to adopt a value that changes underneath it — after a save,
+     when USER_UPDATED comes back through the provider, and when a different
+     learner signs in. Adjusting during render rather than in an effect, and
+     rather than keying the component: a `key` would remount it on every change
+     including the one the save itself causes, which would wipe the « Nom
+     enregistré » the learner is meant to read. */
   const [lastInitial, setLastInitial] = useState(initial);
   if (initial !== lastInitial) {
     setLastInitial(initial);
@@ -127,16 +107,15 @@ function DisplayNameField({ initial }: { initial: string | null }) {
 
     setStatus({ kind: "saving" });
     try {
+      /* Nothing to reload: updateUser emits USER_UPDATED, the provider is
+         subscribed, and the sidebar re-renders with the new name. */
       await saveDisplayName(check.value);
-      /* Tell the shell, or the sidebar keeps showing the old name until the
-         next full load. */
-      reload();
       setStatus({ kind: "saved", cleared: check.value === null });
     } catch (error) {
       setStatus({
         kind: "error",
         message:
-          error instanceof SaveDisplayNameError
+          error instanceof SaveSettingError
             ? SAVE_MESSAGE[error.problem]
             : SAVE_MESSAGE.unavailable,
       });

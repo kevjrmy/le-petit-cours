@@ -1,13 +1,16 @@
-/**
- * Display-name rules, mirroring `settings_display_name_shape` in
- * `supabase/migrations/20260905190000_display_name.sql`.
- *
- * The client must never be *looser* than the constraint, or a save fails in the
- * database with an error nobody can act on. It is allowed to be stricter.
- */
+import { CHOOSABLE_LEVELS, type Level } from "@/data/navigation";
 import { getSupabaseClient } from "@/lib/supabase/client";
-import type { Level } from "@/data/navigation";
 
+/**
+ * Display-name rules.
+ *
+ * These used to mirror a database check constraint. They no longer can: the
+ * name lives in the account's user metadata, which has no constraints and which
+ * the account holder can write to directly (#36). **These rules are therefore
+ * the only ones there are**, and they matter more than when a constraint sat
+ * behind them — they are applied on write *and* on read, so a value put there
+ * by some other route still cannot reach the interface malformed.
+ */
 export const DISPLAY_NAME_MAX = 40;
 
 export type DisplayNameProblem = "too-long" | "control-chars";
@@ -19,106 +22,86 @@ export type DisplayNameCheck =
 /**
  * Normalise what the learner typed into what should be stored.
  *
- * An empty field means "I do not want a name" and stores `null` — the same
- * single representation of unset the column uses. Nothing stores `''`.
+ * An empty field means "I do not want a name" and stores `null` — one
+ * representation of unset. Nothing stores `''`.
  */
 export function checkDisplayName(raw: string): DisplayNameCheck {
   const value = raw.trim();
   if (value === "") return { ok: true, value: null };
 
-  /* Code points, not UTF-16 units: Postgres `length()` counts characters, and
-     `"🙂".length` is 2 in JavaScript. Counting the JS way would let a name
-     through here and have the database reject it. */
+  /* Code points, not UTF-16 units: `"🙂".length` is 2 in JavaScript, and the
+     limit is a count of characters. */
   if ([...value].length > DISPLAY_NAME_MAX) return { ok: false, problem: "too-long" };
 
-  /* \p{Cc} is C0, DEL and C1 — the same set Postgres's [[:cntrl:]] matches.
-     A newline in a name breaks the layout it is rendered into. */
+  /* \p{Cc} is C0, DEL and C1. A newline in a name breaks the layout it is
+     rendered into, and nothing legitimate needs one. */
   if (/\p{Cc}/u.test(value)) return { ok: false, problem: "control-chars" };
 
   return { ok: true, value };
 }
 
 /**
- * Why a save can fail, in terms the interface can turn into a sentence.
+ * What the metadata says the name is, or `null`.
  *
- * `no-settings-row` is the interesting one, and it is a consequence of the
- * schema rather than a bug: `settings.level` is `not null`, so a row cannot
- * exist before a level is chosen, so a name cannot be stored before one either
- * (`docs/decisions.md` #31). Writing the name would mean inventing a level, and
- * the level is the learner's to choose (#23).
+ * Read-side validation, and not paranoia: user metadata is writable by its
+ * owner through the Supabase API, so a value can arrive here without ever
+ * passing `checkDisplayName`. The worst case is cosmetic and self-inflicted,
+ * which is exactly why the answer is to ignore it rather than to add a table.
  */
-export type SaveProblem = "unavailable" | "no-session" | "no-settings-row" | "rejected";
+export function readDisplayName(raw: unknown): string | null {
+  if (typeof raw !== "string") return null;
+  const check = checkDisplayName(raw);
+  return check.ok ? check.value : null;
+}
 
-export class SaveDisplayNameError extends Error {
+/** What the metadata says the level is, or `null` if it is not one we offer. */
+export function readLevel(raw: unknown): Level | null {
+  return typeof raw === "string" && (CHOOSABLE_LEVELS as string[]).includes(raw)
+    ? (raw as Level)
+    : null;
+}
+
+export type SaveProblem = "unavailable" | "no-session" | "rejected";
+
+export class SaveSettingError extends Error {
   constructor(readonly problem: SaveProblem) {
     super(problem);
-    this.name = "SaveDisplayNameError";
+    this.name = "SaveSettingError";
   }
 }
 
 /**
- * Persist the chosen name, or `null` to clear it.
+ * Write one or more settings into the account's user metadata.
  *
- * An **update**, never an upsert. An upsert would have to supply a `level` to
- * satisfy the not-null constraint, and there is no level this function could
- * supply that would not be a guess made on the learner's behalf.
+ * `updateUser` merges rather than replaces, so writing a level leaves a name
+ * alone. It also emits `USER_UPDATED` on `onAuthStateChange`, which is how
+ * every consumer learns about the change — there is nothing to re-read and no
+ * cache to invalidate.
  */
-export async function saveDisplayName(value: string | null): Promise<void> {
+async function saveSettings(data: Record<string, string | null>): Promise<void> {
   const supabase = getSupabaseClient();
-  if (!supabase) throw new SaveDisplayNameError("unavailable");
+  if (!supabase) throw new SaveSettingError("unavailable");
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new SaveDisplayNameError("no-session");
+  const { error } = await supabase.auth.updateUser({ data });
+  if (error) {
+    throw new SaveSettingError(
+      error.status === 401 || error.status === 403 ? "no-session" : "unavailable",
+    );
+  }
+}
 
-  /* The `eq` is what targets the row; RLS is what guarantees it could only ever
-     have been this learner's. Both, deliberately — the policy is the security
-     boundary and the filter is the intent. */
-  const { data, error } = await supabase
-    .from("settings")
-    .update({ display_name: value, updated_at: new Date().toISOString() })
-    .eq("user_id", user.id)
-    .select("user_id");
-
-  /* 23514 is a check-constraint violation: the name got past checkDisplayName
-     but not past settings_display_name_shape, which means the two have drifted
-     apart. Worth its own message rather than a generic failure. */
-  if (error) throw new SaveDisplayNameError(error.code === "23514" ? "rejected" : "unavailable");
-  if (data.length === 0) throw new SaveDisplayNameError("no-settings-row");
+/** Persist the chosen name, or `null` to clear it. */
+export async function saveDisplayName(value: string | null): Promise<void> {
+  return saveSettings({ display_name: value });
 }
 
 /**
  * Record the level this learner is working at.
  *
- * An **upsert**, where `saveDisplayName` is an update — and the difference is
- * the point. This call supplies the `level` the not-null constraint wants, so
- * it can create the row; a name save cannot, because there is no level it could
- * invent that would not be a guess made on the learner's behalf (#31, #32).
- * Choosing a level is therefore what brings a settings row into existence, and
- * everything else about a learner hangs off it.
- *
- * Only the columns in the payload are written, so re-choosing a level leaves a
- * display name alone.
+ * Checked against `CHOOSABLE_LEVELS` before it is written, because nothing
+ * downstream will check it — that is the trade this storage makes (#36).
  */
 export async function saveLevel(level: Level): Promise<void> {
-  const supabase = getSupabaseClient();
-  if (!supabase) throw new SaveDisplayNameError("unavailable");
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new SaveDisplayNameError("no-session");
-
-  const { error } = await supabase.from("settings").upsert(
-    { user_id: user.id, level, updated_at: new Date().toISOString() },
-    { onConflict: "user_id" },
-  );
-
-  /* 23514 here means the level got past CHOOSABLE_LEVELS but not past
-     settings_level_known — the two have drifted, which happens when a level is
-     opened in one place and not the other. */
-  if (error) {
-    throw new SaveDisplayNameError(error.code === "23514" ? "rejected" : "unavailable");
-  }
+  if (!CHOOSABLE_LEVELS.includes(level)) throw new SaveSettingError("rejected");
+  return saveSettings({ level });
 }

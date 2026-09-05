@@ -34,10 +34,9 @@ What exists off the repo, as of 2026-09-05:
 - **Supabase Auth is configured.** Email sign-in is on, and the redirect allowlist covers
   localhost, production and the preview wildcard — verified against the `verify` endpoint, which
   honours all three and rejects anything else. Nothing else needs doing in the dashboard.
-- **`supabase/migrations/` holds the schema and it has NOT been applied.** Two migrations —
-  `…_progress.sql` then `…_display_name.sql` — reviewed but never executed against a Postgres.
-  `settings` and `progress` both 404 today. **This is the only thing standing between the app and
-  a working account**, and whoever applies them should expect to fix something.
+- **`supabase/migrations/` holds the schema and it has NOT been applied.** One migration, one
+  table: `progress`. It 404s today. **This is the only thing standing between the app and a working
+  account**, and whoever applies it should expect to fix something.
 - **Auth is written end to end**: the magic-link form, `/auth/callback`, the session provider,
   sign-out, the level chooser, the display-name field and the level filter. Sign-in itself will
   work now; anything that touches `settings` fails until the migrations run. A name read failing
@@ -434,8 +433,17 @@ dashboard — a dashboard edit is a change nobody can review and nobody can repl
 
 An account holds an email, progress rows and settings — the settings are a chosen CEFR level and
 an optional display name. **Nothing else.** No analytics on learners, no behavioural tracking —
-that is a principle in `docs/scope.md`, not an oversight to correct. The bar for a new column is
-that a learner would notice its absence; "it might be useful later" is not a reason (#31).
+that is a principle in `docs/scope.md`, not an oversight to correct.
+
+**The two settings are not in a table of ours.** They live in the account's user metadata on
+`auth.users`, and arrive with the session (#36). `public.progress` is the only table this project
+owns. That means **no database constraint stands behind either value** — the rules live in
+`src/lib/account.ts` and are applied on read as well as on write, so a value written by some other
+route cannot reach the interface malformed. It is an acceptable trade only because neither value is
+an identifier, neither grants anything, and both are visible to their owner alone. **A setting that
+ever grants something, or that anyone else can see, belongs in a table with a constraint instead.**
+The bar for storing anything new at all is that a learner would notice its absence; "it might be
+useful later" is not a reason (#31).
 
 ### Progress
 

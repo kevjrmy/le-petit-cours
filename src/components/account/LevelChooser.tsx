@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { CHOOSABLE_LEVELS, type Level } from "@/data/navigation";
-import { SaveDisplayNameError, saveLevel } from "@/lib/account";
-import { useReloadAccount } from "@/hooks/useAccount";
+import { SaveSettingError, saveLevel } from "@/lib/account";
 import styles from "./AccountSettings.module.css";
 
 /** What each level is for, in the learner's own terms rather than in CEFR's. */
@@ -23,7 +22,6 @@ const PROBLEM: Record<string, string> = {
 };
 
 export function LevelChooser({ current }: { current: Level | null }) {
-  const reload = useReloadAccount();
   const [saving, setSaving] = useState<Level | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,11 +30,12 @@ export function LevelChooser({ current }: { current: Level | null }) {
     setSaving(level);
     setError(null);
     try {
+      /* Nothing to reload: updateUser emits USER_UPDATED, the provider is
+         subscribed, and every consumer re-renders with the new value. */
       await saveLevel(level);
-      reload();
     } catch (caught) {
       setError(
-        caught instanceof SaveDisplayNameError
+        caught instanceof SaveSettingError
           ? (PROBLEM[caught.problem] ?? PROBLEM.unavailable)
           : PROBLEM.unavailable,
       );
