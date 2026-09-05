@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { annexes, chapters } from "@/data/navigation";
+import { annexes, chapters, visibleLessons } from "@/data/navigation";
+import { useAccount } from "@/hooks/useAccount";
 import { AccountMenu } from "./AccountMenu";
 import styles from "./AppSidebar.module.css";
 
@@ -15,6 +16,8 @@ import styles from "./AppSidebar.module.css";
  */
 export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: () => void }) {
   const pathname = usePathname();
+  const account = useAccount();
+  const level = account?.level ?? null;
   const [toggled, setToggled] = useState<Record<string, boolean>>({});
 
   return (
@@ -39,10 +42,15 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
               pathname === chapter.path || pathname.startsWith(`${chapter.path}/`);
             /* The current chapter opens itself; an explicit click wins. */
             const expanded = toggled[chapter.slug] ?? active;
+            /* Filtered on the same rule as the sommaire and the chapter pages
+               — the sidebar is the book's table of contents, and a count here
+               that disagreed with the card on the sommaire would just look
+               broken. Hiding is never gating: every path still resolves. */
+            const lessons = visibleLessons(chapter, level);
             /* The number of rows this chapter opens to, not the published
                tally: most of the book is unwritten, and a column of zeroes
                reads as a bug. Each row says « Bientôt » for itself. */
-            const total = chapter.lessons.length;
+            const total = lessons.length;
 
             return (
               <li key={chapter.slug}>
@@ -83,7 +91,7 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
                         Tout le chapitre
                       </Link>
                     </li>
-                    {chapter.lessons.map((lesson) =>
+                    {lessons.map((lesson) =>
                       lesson.soon ? (
                         <li key={lesson.path}>
                           <span className={`${styles.lesson} ${styles.soon}`}>

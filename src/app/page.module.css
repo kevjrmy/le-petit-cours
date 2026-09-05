@@ -38,71 +38,14 @@
   margin-bottom: 0.85rem;
 }
 
-.grid {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-  gap: 0.7rem;
-}
-
-.card {
-  height: 100%;
+.notice {
   display: flex;
-  align-items: flex-start;
-  gap: 0.85rem;
-  padding: 0.95rem 1.05rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface-1);
-  color: inherit;
-  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
-}
-
-.card:hover {
-  border-color: var(--accent-line);
-  background: var(--accent-subtle);
-  text-decoration: none;
-}
-
-.initial {
-  flex: 0 0 auto;
-  width: 2.4rem;
-  height: 2.4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-sm);
-  background: var(--accent-soft);
-  color: var(--accent-text);
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  line-height: 1;
-}
-
-.body {
-  flex: 1 1 auto;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.cardTitle {
-  font-family: var(--font-serif);
-  font-size: 1.02rem;
-  font-weight: 600;
-  color: var(--text-heading);
-}
-
-.blurb {
-  font-size: 0.83rem;
-  line-height: 1.5;
-  color: var(--text-2);
-}
-
-.count {
-  margin-top: 0.15rem;
-  font-size: 0.72rem;
-  font-variant-numeric: tabular-nums;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  align-items: baseline;
+  margin-bottom: 0.85rem;
+  font-size: 0.82rem;
   color: var(--text-3);
 }
+
+.notice strong { color: var(--text-2); font-weight: 600; }

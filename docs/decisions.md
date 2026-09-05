@@ -44,6 +44,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 32 | 2026-09-05 | The session is read once, by a provider inside the shell; the name is updated, never upserted | Binding |
 | 33 | 2026-09-05 | Sign-in is a magic link through `/auth/callback`; no session-refresh proxy is needed | Binding |
 | 34 | 2026-09-05 | Choosing a level is what creates the settings row; everything else about a learner hangs off it | Binding |
+| 35 | 2026-09-05 | Every listing obeys the level; the unfiltered book is what ships and hydration narrows it | Binding |
 
 ---
 
@@ -919,3 +920,33 @@ book. Opening B1 is a one-line migration and one line in `navigation.ts`, in the
 **What this does not do yet:** the sommaire ignores the chosen level. `visibleLessons` and
 `useAccount().level` both exist; nothing calls them together. Until that is wired the level is a
 stored preference with no visible effect beyond unblocking the name.
+
+## 35 · Every listing obeys the level, and the unfiltered book is what ships
+**2026-09-05 · Binding · completes #23**
+
+The chosen level now filters the sommaire's counts, the chapter pages and the sidebar.
+
+**All three, not just the sommaire.** §6 said "the sommaire" because it was written before the
+sidebar existed. A sidebar saying seven lessons beside a card saying one does not read as a filter,
+it reads as a bug — and the sidebar is the book's table of contents, so it is the listing a learner
+actually navigates by.
+
+**The unfiltered book is what ships; hydration narrows it.** The listings are Client Components
+inside Server Component pages, so React server-renders them into the static HTML with everything
+visible, and the filter applies once `useAccount` resolves. That ordering is not a compromise, it is
+the correct default twice over: it is what a signed-out visitor should see (#23), and it is what a
+cold page from the service worker should contain. A page that rendered empty until JavaScript
+decided otherwise would break the offline story that public, static lessons exist to protect.
+
+**Hiding is never gating.** Every path still resolves, and a lesson at another level opens normally
+from a cross-link, a bookmark or a search result. Nothing reads the session to decide whether a page
+renders — that is what would drag lessons out of prerendering (§8).
+
+**A filter has to be visible or it is indistinguishable from an unwritten book.** The sommaire says
+which programme it is showing and offers a way to change it. A chapter with nothing at the learner's
+level still appears and says so, rather than vanishing: a missing chapter raises a question the
+interface cannot answer.
+
+**What this exposes about the current manifest:** at A1 the filter hides nothing, because every
+placeholder lesson is tagged A1 or carries no level at all. It only bites at A2. That is a property
+of content written before the DELF gap analysis, not of the filter.

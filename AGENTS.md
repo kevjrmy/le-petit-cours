@@ -317,12 +317,10 @@ for whoever wants to read them. So `levels` is a **required field** on every ent
 way to say "no level" — never an omitted field. Forgetting to tag a page and deciding it needs no
 tag must not look identical in a diff, and a required field makes the first one a type error.
 
-**Not wired yet:** the sommaire does not read the chosen level. `visibleLessons` and the level
-itself both exist — `useAccount().level` — but the sommaire still lists every chapter. Wiring it is
-the one thing left before levels do anything a learner can see.
-
-**The filter is on the sommaire, never on access.** Signed in, the sommaire lists a lesson when its
-`levels` is empty or contains the learner's level. Signed out, it lists everything. Either way a
+**The filter is on the listings, never on access.** Signed in, a listing shows a lesson when its
+`levels` is empty or contains the learner's level. Signed out, it shows everything. **Every**
+listing obeys it — the sommaire's counts, the chapter pages and the sidebar — because a sidebar
+saying seven beside a card saying one reads as a bug rather than as a filter. Either way a
 lesson reached by direct link — a cross-link, a bookmark, a search result — renders in full: an A1
 learner following "pour aller plus loin" into an A2 page gets the page. Gating it would mean reading
 the session to decide whether a page renders, which §8 forbids precisely because it would drag every

@@ -1,10 +1,15 @@
-import Link from "next/link";
-import { chapterCount, chapters } from "@/data/navigation";
+import { ChapterGrid } from "@/components/sommaire/ChapterGrid";
+import { LevelNotice } from "@/components/sommaire/LevelNotice";
 import styles from "./page.module.css";
 
-/* The sommaire. Every row here comes from src/data/navigation.ts — adding a
-   chapter to the manifest adds it to this page, the sidebar and the chapter
-   landing pages at once. Nothing is hand-listed. */
+/* The sommaire. Every row comes from src/data/navigation.ts — adding a chapter
+   to the manifest adds it here, to the sidebar and to the chapter pages at
+   once. Nothing is hand-listed.
+
+   The page is a Server Component; the two listings below are client leaves so
+   they can read the chosen level. React server-renders them into this page's
+   static HTML, so the unfiltered book is what ships and hydration narrows it —
+   which is also the right answer for a signed-out visitor (#23). */
 export default function Sommaire() {
   return (
     <div className={styles.page}>
@@ -21,33 +26,8 @@ export default function Sommaire() {
       </header>
 
       <h2 className={styles.sectionTitle}>Le livre</h2>
-      <ul className={styles.grid}>
-        {chapters.map((chapter) => {
-          const { count, label } = chapterCount(chapter);
-          return (
-            <li key={chapter.slug}>
-              <Link href={chapter.path} className={styles.card}>
-                {/* The mark is a letter, not a pictogram: the identity is
-                    lettering, so the chapter initial in the serif does the job
-                    an icon set would — and cannot drift out of step with the
-                    manifest the way an icon mapping does. */}
-                <span className={styles.initial} aria-hidden="true">
-                  {chapter.title.charAt(0)}
-                </span>
-                <span className={styles.body}>
-                  <span className={styles.cardTitle}>{chapter.title}</span>
-                  <span className={styles.blurb}>{chapter.blurb}</span>
-                  <span className={styles.count}>
-                    {count > 0
-                      ? `${count} ${label}`
-                      : `${chapter.lessons.length} à venir`}
-                  </span>
-                </span>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+      <LevelNotice />
+      <ChapterGrid />
     </div>
   );
 }

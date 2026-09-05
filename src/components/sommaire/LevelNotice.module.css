@@ -1,0 +1,11 @@
+.notice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.6rem;
+  align-items: baseline;
+  margin-bottom: 0.85rem;
+  font-size: 0.82rem;
+  color: var(--text-3);
+}
+
+.notice strong { color: var(--text-2); font-weight: 600; }
