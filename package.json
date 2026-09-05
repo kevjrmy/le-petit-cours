@@ -1,7 +1,27 @@
 {
-  "name": "lepetitcours",
+  "name": "le-petit-cours",
   "version": "0.1.0",
   "private": true,
+  "description": "A free, open French course for Spanish speakers — an offline-capable PWA teaching A2 French, with everything explained in Spanish.",
+  "license": "MIT",
+  "author": "kevjrmy (https://github.com/kevjrmy)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevjrmy/le-petit-cours.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kevjrmy/le-petit-cours/issues"
+  },
+  "homepage": "https://github.com/kevjrmy/le-petit-cours#readme",
+  "keywords": [
+    "french",
+    "spanish",
+    "language-learning",
+    "education",
+    "pwa",
+    "nextjs",
+    "fle"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",

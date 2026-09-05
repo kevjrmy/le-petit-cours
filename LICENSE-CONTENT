@@ -1,0 +1,64 @@
+# Course content licence
+
+Copyright (c) 2026 kevjrmy and the Le Petit Cours contributors.
+
+The course content of Le Petit Cours — the lessons, exercises, games, dictées,
+dialogues, vocabulary lists, French text and Spanish translations written for
+this project — is licensed under the
+
+    Creative Commons Attribution-ShareAlike 4.0 International licence
+    (CC BY-SA 4.0)
+
+You are free to **share** (copy and redistribute in any medium or format) and to
+**adapt** (remix, transform and build upon the material), for any purpose,
+including commercially, under these terms:
+
+  * **Attribution** — you must give appropriate credit, provide a link to this
+    licence, and indicate if changes were made. Credit "Le Petit Cours" with a
+    link to https://github.com/kevjrmy/le-petit-cours.
+
+  * **ShareAlike** — if you remix, transform, or build upon the material, you
+    must distribute your contributions under the same licence as the original.
+
+  * **No additional restrictions** — you may not apply legal terms or
+    technological measures that legally restrict others from doing anything the
+    licence permits.
+
+The authoritative text is the full legal code at
+
+    https://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+and it governs in case of any conflict with the summary above. The summary is
+not a substitute for it. A human-readable overview is at
+https://creativecommons.org/licenses/by-sa/4.0/
+
+-------------------------------------------------------------------------------
+
+## Third-party material — NOT covered by the licences above
+
+Teaching a language means quoting the language, so parts of this repository
+include material this project does not own and cannot relicense. **The licences
+above do not extend to any of it.** If you reuse the content, you are
+responsible for clearing these separately.
+
+**Literary text.** Reading pages quote works that are in the public domain in
+their country of origin (La Fontaine, Verne, Dumas and similar). Public domain
+status is jurisdictional — verify it where you are before republishing.
+
+**Song lyrics.** Pages in the `musique` chapter quote short excerpts of songs
+that are still in copyright, used for commentary and teaching. That is a
+quotation, not a grant: the excerpts remain the rights holders' property, this
+project claims no licence over them, and it cannot pass one to you. Never
+reproduce a full lyric sheet, here or in a derivative.
+
+**Photographs.** Images in the `culture` chapter come from free-licence sources
+(CC0, public domain, CC BY, CC BY-SA) and each page credits its sources
+individually with author, link and licence. Those individual licences govern
+those files. Where a photograph is CC BY-SA, its own share-alike terms apply to
+adaptations of it in addition to anything here.
+
+**Dependencies.** Third-party packages carry their own licences; see their
+respective distributions.
+
+When in doubt about a specific piece of content, open an issue and ask rather
+than assuming the blanket licence covers it.

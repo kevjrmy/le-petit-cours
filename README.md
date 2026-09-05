@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Le Petit Cours
 
-## Getting Started
+**A free, open French course for Spanish speakers** — a PWA that installs to your home screen,
+works offline, and teaches French at A2 level with everything explained in Spanish.
 
-First, run the development server:
+[![Licence: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
+[![Content: CC BY-SA 4.0](https://img.shields.io/badge/content-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE-CONTENT)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+> ### 🚧 Being rewritten
+>
+> From August 2026 this was a Vue 3 + Vite app with 119 lessons across 14 chapters. On
+> **2026-09-05** it was restarted on Next.js. The repository currently holds the framework
+> scaffold and the project's documentation — the shell, the design system and the lessons are
+> still to be written.
+>
+> The Vue implementation is kept in [`.vue/`](.vue/) as a reference. It is not built, not
+> imported, and not being ported file-for-file; it is there to be read. See
+> [`docs/decisions.md`](docs/decisions.md) for why.
+
+## What it is
+
+Most French courses are written for English speakers. This one is written for **hispanophones**,
+which changes the material rather than just the interface language: it leans on what a Spanish
+speaker already owns — gendered articles, verb families, reflexives (`se lever` ↔ *levantarse*) —
+and flags the false friends that trip them (`une robe` ≠ *la ropa*). It also assumes a **Spanish
+keyboard**, where `é`/`è`/`ê` cost a dead-key detour and `œ`/`ç` cannot be typed at all, so drills
+prefer clicking to typing wherever accents are involved.
+
+It serves **two kinds of reader**:
+
+- **The learner** — a Spanish speaker starting French from zero. Explanations in Spanish.
+- **The heritage speaker** — someone with French family who grew up in Spain, speaks French
+  fluently at home, and never went to a French school. She does not need to learn French; she
+  needs to learn to *write* it — accents, accord, homophones, the spelling of forms she already
+  says correctly. Explanations in French.
+
+They are not two levels of one thing. A heritage speaker can be orally C1 and written A2 at the
+same time. One library of lessons serves both, ordered differently for each.
+
+**Levels.** The goal is A1 → C2. The current scope is **A1 and A2**; B1–C2 appear as *bientôt*.
+A level counts as complete when it covers the published **DELF** syllabus for that level.
+
+Chapters cover grammar, spelling, conjugation, pronunciation, vocabulary, reading, culture,
+dialogues, dictations, graded exercises and replayable games. You can browse them as a book, or
+follow a *parcours* — an ordered path through the same lessons for a given level or profile.
+
+**Accounts.** Everything is free and public — no account is needed to read a lesson or play a
+drill. An account only exists so your progress follows you across devices, and it holds nothing
+but an email, your ticked lessons and your settings.
+
+Full detail in [`docs/scope.md`](docs/scope.md), including what this project deliberately is not.
+
+## Stack
+
+- **Next.js 16** (App Router) · React 19 · TypeScript · React Compiler
+- **Plain CSS** — design tokens and shared content patterns in `src/app/globals.css`, component
+  styles in co-located CSS Modules. No Tailwind, no CSS-in-JS.
+- **Vercel** for hosting · **Supabase** for auth (magic link) and progress sync (not yet provisioned)
+- **Serwist** for the service worker and offline precaching (not yet installed)
+
+## Running it
+
+```sh
+git clone https://github.com/kevjrmy/le-petit-cours.git
+cd le-petit-cours
+npm install
+npm run dev      # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```sh
+npm run build    # must pass before a change is done
+npm run lint
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+No environment variables are needed yet — nothing talks to a server.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## How it is put together
 
-## Learn More
+- **`src/data/navigation.ts` is the single source of truth** for chapters, lessons, order and
+  cross-links. The sidebar, the home page and every chapter page read from it. Nothing
+  auto-discovers pages, so a lesson missing from the manifest is reachable from nothing.
+- Routes come from the filesystem: `src/app/{chapitre}/{lecon}/page.tsx`.
+- **The shell lives in `src/app/layout.tsx`**, so the sidebar keeps its scroll position and
+  expanded chapters across navigation.
+- **Lessons are Server Components** — no `'use client'`, no hooks, no state. They prerender to
+  HTML and ship no JavaScript. Interactivity (drills, games, audio, the theme toggle) lives in
+  small client leaves, never in the page wrapping them.
+- Progress is keyed by route path, ticked **manually** by the learner, and stored behind a
+  swappable adapter. It requires an account; the content around it does not. The local copy stays
+  the read path even when signed in — this is an offline app, so the server is a sync target and
+  never something a render waits on.
+- **The session is never read in a layout.** Doing so would opt every lesson underneath out of
+  static prerendering and break offline. Only the leaf controls that write progress know who is
+  signed in.
+- **An exercise is graded; a game is replayable.** An exercise walks a fixed deck once, scores
+  out of N and practises one named lesson; a game redraws every round, records no score, and
+  pulls from the whole book.
 
-To learn more about Next.js, take a look at the following resources:
+## Contributing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Contributions are welcome, and **corrections to the French or the Spanish are the most valuable
+thing you can send** — this is teaching material, so an error in it teaches the error. You do not
+need to write code to help.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Start with [`CONTRIBUTING.md`](CONTRIBUTING.md). If you are writing lessons or drills, read
+[`AGENTS.md`](AGENTS.md) too — it carries the rules and the traps that previous bugs have paid
+for.
 
-## Deploy on Vercel
+## Documentation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| File | Carries |
+|---|---|
+| [`docs/scope.md`](docs/scope.md) | what is being built and for whom — the profiles, the levels, the non-goals |
+| [`AGENTS.md`](AGENTS.md) | the conventions and the traps — read before changing anything |
+| [`.claude/agents/*.md`](.claude/agents/) | the how-to for each recurring job (design, lessons, drills, wiring, auditing, proofreading) |
+| [`docs/decisions.md`](docs/decisions.md) | why the project is shaped this way, and what is still open |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | how to propose a change |
+| [`.vue/AUDIT.md`](.vue/AUDIT.md) | the closed 2026-08 content audit — a record of the bug classes worth checking for |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Licence
+
+Two licences, because the code and the teaching material want different things:
+
+- **Code** (`src/`, configuration, tooling) — [MIT](LICENSE).
+- **Course content** (lessons, exercises, vocabulary, translations) —
+  [CC BY-SA 4.0](LICENSE-CONTENT). Reuse and adapt with credit, keeping derivatives under the
+  same licence.
+
+**Some included material is under neither and is not ours to relicense** — quoted song lyrics
+still in copyright, literary text whose public domain status is jurisdictional, and photographs
+under their own individual free licences. Read the "Third-party material" section of
+[`LICENSE-CONTENT`](LICENSE-CONTENT) before reusing anything.
