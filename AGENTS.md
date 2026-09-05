@@ -122,9 +122,12 @@ Settled decisions:
   the service worker and precaching — `vite-plugin-pwa` has no Next equivalent and is not coming
   back. Not installed yet.
 - **Supabase for accounts and progress sync only.** Content lives in the repo, in git, reviewed
-  in diffs. The project exists — `ephdtigxjccfauzgexpd`, created directly in the Supabase
-  dashboard rather than through the Vercel Marketplace integration, so nothing injects its env
-  vars for you and there is no Vercel-side billing link (`docs/decisions.md` #20).
+  in diffs. The project exists — `ephdtigxjccfauzgexpd`, created in the Supabase dashboard rather
+  than as a Vercel Marketplace resource, and linked to Vercel from the Supabase side
+  (`docs/decisions.md` #20). That link injects env vars **into Production only**, so the names
+  application code reads are `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+  — set by hand across all three environments. The injected `SUPABASE_*` spellings carry the same
+  values and are incidental; do not write code against them.
 
 ## 3. Next.js 16 — what differs from your training data
 
@@ -381,7 +384,10 @@ consequences bind every change:
   messages. Never commit a key, a token or a connection string — `.env*` is gitignored and that
   is the only place secrets go. The Supabase URL and publishable key live in a gitignored `.env`
   and in the Vercel project env (`vercel env add`, all three environments); the database password
-  stays local and is never pushed. Nothing Supabase-shaped belongs in a tracked file.
+  stays local and is never pushed. Nothing Supabase-shaped belongs in a tracked file, and **no key
+  that bypasses RLS belongs in the deployment env either** — the service role key, the secret key
+  and the `POSTGRES_*` set were deleted on purpose and re-syncing the integration pushes them back
+  (`docs/decisions.md` #21).
 - **You can only license what the project owns.** Content contributed here is CC BY-SA 4.0, so
   anything copied from another course, textbook, app or website cannot go in — not as a lesson,
   not as an exercise item, not as a vocabulary list. Write it, or cite it as a quotation under

@@ -30,6 +30,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 18 | 2026-09-05 | All content is public; an account is required to track progress | Binding |
 | 19 | 2026-09-05 | Supabase Auth, email magic link — not Clerk | Binding |
 | 20 | 2026-09-05 | Supabase provisioned directly, not through the Vercel Marketplace integration | Binding |
+| 21 | 2026-09-05 | No key that bypasses RLS lives in the deployment environment | Binding |
 
 ---
 
@@ -375,7 +376,38 @@ wiring is now a thing that can rot — `NEXT_PUBLIC_SUPABASE_URL` and
 to production, preview and development with `vercel env add`. Adding an environment or rotating a
 key means doing both places.
 
+**Amended the same day:** the project was then linked to Vercel from the Supabase dashboard, which
+does inject a set of env vars — so the sentence above is half wrong and worth keeping visible,
+because the half that survives is the one that matters. It is not a Marketplace resource
+(`vercel integration list` finds none) and billing stays with Supabase. And **it injects into
+Production only**: preview deployments and `vercel env pull` see nothing from it. The two
+`NEXT_PUBLIC_*` vars added by hand are the ones set across all three environments, so they remain
+the names application code reads. The injected `SUPABASE_URL` / `SUPABASE_PUBLISHABLE_KEY` carry
+identical values and are incidental; the legacy `*_ANON_KEY` pair is a second name for the same
+public credential, and code reads neither.
+
 **The database password is not one of them.** It never reaches Vercel and no application code
 reads it; it exists for `psql`, `supabase link` and migrations. The publishable key is public by
 design — RLS is what protects a learner's rows (#19), which is the whole reason the automatic-RLS
 trigger is worth having on.
+
+## 21 · No key that bypasses RLS lives in the deployment environment
+**2026-09-05 · Binding**
+
+Linking Supabase to Vercel (#20) injected `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_SECRET_KEY`,
+`SUPABASE_JWT_SECRET` and seven `POSTGRES_*` variables into the project. All ten were deleted.
+
+**Why, when an unused variable is usually harmless:** the service role and secret keys bypass
+row-level security completely, and RLS *is* the authorization model (#19). #19 chose Supabase Auth
+over Clerk specifically to avoid "abandoning RLS and routing every write through server code
+holding the service key" — leaving that key in the environment leaves exactly that shortcut lying
+around, one `process.env` away, in a codebase whose entire server-side job is saving a tick. The
+`POSTGRES_*` set has the same shape of problem and no use: nothing here opens a direct Postgres
+connection, because the client talks to PostgREST under the learner's own JWT.
+
+**The rule, not just the cleanup:** if a feature ever genuinely needs to bypass a policy, that is a
+decision to take here first — superseding this entry — and not something to enable by re-syncing
+the integration. Re-syncing from the Supabase dashboard will push these back; delete them again.
+
+**What remains** is the project URL and the publishable key, in both their prefixed and unprefixed
+spellings. Both are public by design and safe in a client bundle.
