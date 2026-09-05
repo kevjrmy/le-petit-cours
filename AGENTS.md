@@ -247,16 +247,27 @@ The rules:
 - Accessibility is part of the design system, not a later pass: semantic HTML, `focus-visible`
   rings, `aria-label` on icon-only controls, a `<caption>` on every table.
 
-**The app icons are not done.** They are the wordmark, which is the wrong *format* for an icon —
-nothing is wrong with the wordmark itself. Three separate problems: at 192 px the hairline cursive
-is a smudge, and at 48 px in a browser tab it is a blue smear; `maskable-icon-512x512.png` carries
-enough safe-zone padding to survive Android's circle, but that padding is exactly what shrinks the
-type to nothing, so it lands as a white disc; and `pwa-192x192.png` is **transparent**, so the blue
-wordmark floats unbacked and vanishes into a dark home screen. They need a mark that reads at 48 px
-inside a circle on any background — one letterform, not eleven. The wordmark itself is painted as a
-CSS mask (`mask: url(/logo.svg)` over
-`background-color: currentColor`) rather than served as an `<img>`, so it takes the theme's colour;
-an `<img>` would stay `#0044AA` and go muddy on the dark surface.
+**The mark is one letter of the wordmark.** `public/logo-mark.svg` is the cursive **P** lifted from
+the "Petit" of `public/logo.svg` — the same Playwrite FR Trad outlines, so the icon and the logo are
+literally the same hand. It exists because a wordmark cannot be an icon: eleven letters of hairline
+script do not survive 48 px, and Android's circle leaves no room for them. One letterform does.
+
+Both brand assets take their colour from the page rather than carrying it:
+
+- **The wordmark** is painted as a CSS mask (`mask: url(/logo.svg)` over `background-color:
+  currentColor`), so it follows the theme. An `<img>` would stay `#0044AA` and go muddy on the dark
+  surface.
+- **The icons** are generated — white P on an opaque `#0044AA` ground, by
+  `node scripts/make-icons.mjs` from `logo-mark.svg`. **Never hand-edit a generated icon**; change
+  the SVG or the script and rerun. The script writes `public/pwa-*.png`, the maskable, and the three
+  `src/app/` file conventions (`favicon.ico`, `icon.svg`, `apple-icon.png`).
+
+Two traps it already pays for: an icon must be **opaque** — the previous `pwa-192x192.png` was
+transparent and vanished into a dark home screen — and only the **maskable** pays for the safe zone,
+because a glyph shrunk to survive Android's circle is a glyph too small everywhere else.
+
+**Do not set `metadata.icons` in `layout.tsx`.** It replaces the `src/app/` file conventions rather
+than adding to them, and silently drops `icon.svg` from the head.
 
 ## 6. Navigation
 

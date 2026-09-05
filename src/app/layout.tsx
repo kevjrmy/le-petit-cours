@@ -36,6 +36,10 @@ export const metadata: Metadata = {
   description:
     "Cours de français pour hispanophones. Grammaire, orthographe, conjugaison et exercices, hors ligne et gratuits.",
   applicationName: "Le Petit Cours",
+  /* No `icons` here on purpose: declaring it replaces the app/ file
+     conventions rather than adding to them, and silently drops icon.svg from
+     the head. favicon.ico, icon.svg and apple-icon.png are all file
+     conventions in src/app/ and link themselves. */
 };
 
 /* The status bar follows the page, not the brand: --surface-app in each

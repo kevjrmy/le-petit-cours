@@ -37,6 +37,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 25 | 2026-09-05 | A1 first, written from scratch, sized to the DELF A1 syllabus | Binding |
 | 26 | 2026-09-05 | Sign-in lives at `/compte`, with a route handler at `/auth/callback` | Binding |
 | 27 | 2026-09-05 | The palette anchors on the wordmark blue; serif carries the French, sans the instruction | Binding |
+| 28 | 2026-09-05 | The app icon is one letter of the wordmark, generated from it, never hand-drawn | Binding |
 
 ---
 
@@ -623,10 +624,47 @@ covers `U+0000-00FF` and `U+0152-0153`, so every accented character, `ç`, `ñ`,
 ligature are in it. Pulling `latin-ext` would ship glyphs no lesson can contain. Real italics are
 loaded for the serif, because a synthesised italic slants French accents wrongly.
 
-**Two things this decision does not settle.** The app icons are still the wordmark, which is the
-wrong format for an icon rather than a flaw in the wordmark: hairline cursive is a smudge at 192 px
+**One thing this decision does not settle** *(settled by #28 the same day)*. The app icons are
+still the wordmark, which is the wrong format for an icon rather than a flaw in the wordmark: hairline cursive is a smudge at 192 px
 and a smear at 48 px, the maskable's safe-zone padding shrinks the type to nothing to survive
 Android's circle, and `pwa-192x192.png` is transparent so it disappears into a dark home screen.
 They need a mark that reads at 48 px inside a circle, and that is artwork, not a token. And the wordmark itself is painted
 as a CSS mask rather than served as an `<img>`, so it takes `currentColor` and follows the theme —
 an `<img>` would stay `#0044AA` and go muddy on the dark surface.
+
+## 28 · The app icon is one letter of the wordmark
+**2026-09-05 · Binding**
+
+The icon is the cursive **P** from the "Petit" of `public/logo.svg` — subpaths 3 and 4 of the
+outlined wordmark, extracted to `public/logo-mark.svg` — set in white on an opaque `#0044AA` ground.
+
+**The wordmark stays exactly as it is.** Nothing was wrong with it; a wordmark is simply the wrong
+*format* for an icon, and the fix is a crop, not a redraw. It keeps every job where its width is
+available: the topbar, the sommaire, the larger favicon sizes.
+
+**Why one letter.** Three separate failures, all of them about size rather than drawing. Hairline
+script is a smudge at 192 px and a smear at 48 px. `maskable-icon-512x512.png` carried enough
+safe-zone padding to survive Android's circle, but that padding is exactly what shrank the type to
+nothing, so it landed as a white disc. And `pwa-192x192.png` was **transparent**, so the blue
+wordmark floated unbacked and disappeared into a dark home screen.
+
+**Generated, never hand-drawn.** `scripts/make-icons.mjs` renders every size from the one SVG, so
+the set cannot drift and a change to the mark is one command rather than seven exports. It writes
+`public/pwa-{64,192,512}.png`, `public/maskable-icon-512x512.png`, and the three `src/app/` file
+conventions — `favicon.ico` (16 + 32 + 48), `icon.svg` and `apple-icon.png`. Chrome is used purely
+as a rasteriser over the DevTools Protocol; there are no dependencies.
+
+**The details that are load-bearing**, because each one was a bug first:
+
+- **Every icon is opaque.** Transparency is what killed the old set on a dark home screen.
+- **Only the maskable pays for the safe zone** (glyph at 60% of the height, versus 68% elsewhere).
+  A glyph shrunk to survive Android's circle is a glyph too small everywhere else.
+- **The favicon tiles are optically sized** — 78% at 16 and 32 px, 68% at 48. A browser tab has no
+  mask to respect, and 16 px of hairline script needs the extra width to read at all.
+- **`favicon.ico` must embed RGBA PNGs.** Next's ICO decoder rejects RGB outright
+  ("The PNG is not in RGBA format!"), and Chrome drops the alpha channel when a capture is fully
+  opaque. The script decodes and re-encodes the three tiles rather than fudging the artwork
+  translucent to keep the channel.
+- **`metadata.icons` in `layout.tsx` replaces the `src/app/` file conventions** rather than adding
+  to them. Declaring the Apple icon there silently removed `icon.svg` from the head; the Apple icon
+  became `src/app/apple-icon.png` instead, and `metadata.icons` is now unused on purpose.
