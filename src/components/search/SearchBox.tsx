@@ -41,8 +41,16 @@ export function SearchBox({
            clear by hand. */
         enterKeyHint="search"
       />
-      <button type="submit" className={styles.submit}>
-        Chercher
+      <button type="submit" className={styles.submit} aria-label="Chercher">
+        {/* Same 24-grid, stroke 2, round caps as the rest of the chrome. The
+            arrow points up because that is where the answer arrives — the
+            results replace the page above it — and because an icon-only submit
+            is only legible when it is one of the shapes a field already
+            teaches. `aria-label` because there is no text left (§5). */}
+        <svg className={styles.submitIcon} viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 19.5V5.5" />
+          <path d="M6 11.5L12 5.5l6 6" />
+        </svg>
       </button>
     </Form>
   );
