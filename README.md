@@ -1,8 +1,8 @@
 # Le Petit Cours
 
-**A free, open French course for Spanish speakers** — a PWA that installs to your home screen,
-works offline, and explains French in Spanish. Also, for readers who already speak French at home,
-a track that teaches them to write it.
+**A free, open French course written for Spanish speakers** — a PWA that installs to your home
+screen, works offline, and teaches French **in French**. Also, for readers who already speak French
+at home, a track that teaches them to write it.
 
 [![Licence: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 [![Content: CC BY-SA 4.0](https://img.shields.io/badge/content-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE-CONTENT)
@@ -15,8 +15,10 @@ a track that teaches them to write it.
 > **2026-09-05** it was restarted on Next.js. The design system, the app shell, the navigation
 > manifest, search, the whole account flow — sign-in, the chosen level, the display name — and
 > progress, from the « J'ai terminé » tick to `/ma-progression`, are written. The fourteen chapters
-> are declared and **three lessons exist**, so most of the course still shows as *Bientôt*.
-> Accounts work; offline caching is not installed.
+> are declared and **six lessons are published**, all A2, all written in French: four in
+> `grammaire`, one in `orthographe`, one in `vocabulaire`. Nothing is announced before it is
+> written, so a chapter waits offstage until it has a page. Accounts work; offline caching is not
+> installed.
 >
 > The Vue implementation is kept in [`.vue/`](.vue/) as a reference. It is not built, not
 > imported, and not being ported file-for-file; it is there to be read. See
@@ -24,27 +26,30 @@ a track that teaches them to write it.
 
 ## What it is
 
-Most French courses are written for English speakers. This one is written for **hispanophones**,
-which changes the material rather than just the interface language: it leans on what a Spanish
-speaker already owns — gendered articles, verb families, reflexives (`se lever` ↔ *levantarse*) —
-and flags the false friends that trip them (`une robe` ≠ *la ropa*). It also assumes a **Spanish
-keyboard**, where `é`/`è`/`ê` cost a dead-key detour and `œ`/`ç` cannot be typed at all, so drills
-prefer clicking to typing wherever accents are involved.
+Most French courses are written for English speakers. This one is written for **hispanophones** —
+which shapes the material, not the language it is written in. Everything is explained in French, in
+French simple enough to read at the level being taught; what the audience changes is *what gets
+explained*. The false friends that trip a Spanish speaker are defined where they appear (`robe`,
+`sol`, `carte`), the mistakes their first language pulls them towards are printed wrong-then-right,
+and the drills assume a **Spanish keyboard** — `é`/`è`/`ê` cost a dead-key detour and `œ`/`ç` cannot
+be typed at all — so they prefer clicking to typing wherever accents are involved. Explaining in
+French rather than Spanish also keeps the course usable by a reader who arrives from anywhere else.
 
 It serves **two kinds of reader**:
 
-- **The learner** — a Spanish speaker starting French from zero. Explanations in Spanish.
+- **The learner** — a Spanish speaker starting French from zero.
 - **The heritage speaker** — someone with French family who grew up in Spain, speaks French
   fluently at home, and never went to a French school. She does not need to learn French; she
   needs to learn to *write* it — accents, accord, homophones, the spelling of forms she already
-  says correctly. Explanations in French.
+  says correctly.
 
 They are not two levels of one thing. A heritage speaker can be orally C1 and written A2 at the
 same time. One library of lessons serves both, ordered differently for each.
 
-**Levels.** The goal is A1 → C2. The scope is **A1 and A2**, and the rewrite is writing
-**A1 alone** first; B1–C2 appear as *bientôt*.
-A level counts as complete when it covers the published **DELF** syllabus for that level.
+**Levels.** The goal is A1 → C2. The scope is **A1 and A2**, and the content being written now is
+**A2 alone** — that is the level the course's learner is at. A1 keeps its place in the plan and has
+no page yet; B1–C2 are declared and closed. A level counts as complete when it covers the published
+**DELF** syllabus for that level.
 
 Chapters cover grammar, spelling, conjugation, pronunciation, vocabulary, reading, culture,
 dialogues, dictations, graded exercises and replayable games. You can browse them by chapter, or
@@ -126,7 +131,7 @@ what protects a learner's data.
   can enforce neither, so it gets a column with a constraint behind it. Progress could never be
   metadata either: it is many rows per learner written from several devices, and held as a list on
   one row, two devices syncing after being offline would overwrite each other's ticks.
-- Progress is keyed by route path, ticked **manually** by the learner, and stored behind a
+- Progress is keyed by a permanent lesson id, ticked **manually** by the learner, and stored behind a
   swappable adapter — an IndexedDB cache and the Supabase table are two implementations of one
   interface. It requires an account; the content around it does not, and signed out the control
   links to the sign-in page and brings you back. The local copy stays the read path even when
@@ -152,8 +157,8 @@ what protects a learner's data.
 
 ## Contributing
 
-Contributions are welcome, and **corrections to the French or the Spanish are the most valuable
-thing you can send** — this is teaching material, so an error in it teaches the error. You do not
+Contributions are welcome, and **corrections to the French are the most valuable thing you can
+send** — this is teaching material, so an error in it teaches the error. You do not
 need to write code to help.
 
 Start with [`CONTRIBUTING.md`](CONTRIBUTING.md). If you are writing lessons or drills, read

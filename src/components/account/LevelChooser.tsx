@@ -81,8 +81,9 @@ export function LevelChooser({ current }: { current: Level | null }) {
       </ul>
 
       <p className={styles.aside}>
-        B1 à C2 sont annoncés mais pas encore écrits : ils ne sont pas
-        proposables tant qu’ils sont vides.
+        Les autres niveaux ne sont pas proposables tant qu’ils sont vides : le
+        cours s’écrit en A2 d’abord, et chaque niveau s’ouvrira ici quand il
+        aura des leçons.
       </p>
 
       {error && (

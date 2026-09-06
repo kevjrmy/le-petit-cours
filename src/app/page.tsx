@@ -19,7 +19,7 @@ export default function Home() {
       <header className={styles.hero}>
         <h1>Le Petit Cours</h1>
         <p className={styles.tagline}>
-          Apprendre le français quand on parle espagnol — et apprendre à
+          Apprendre le français quand on parle espagnol, et apprendre à
           l&rsquo;écrire quand on le parle déjà.
         </p>
       </header>

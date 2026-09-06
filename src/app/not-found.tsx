@@ -11,12 +11,13 @@ export default function NotFound() {
       <h1>Page introuvable</h1>
       <section>
         <p>
-          Cette page n&rsquo;existe pas — ou pas encore : le site est en cours
-          de réécriture, et les leçons marquées <em>Bientôt</em> dans le
-          sommaire n&rsquo;ont pas encore d&rsquo;adresse.
+          Cette adresse ne correspond à aucune page du cours. Le sommaire
+          n&rsquo;annonce que des leçons qui existent : si vous suivez un lien
+          d&rsquo;ici, il vous mènera quelque part.
         </p>
         <p>
-          <Link href="/">Retour au sommaire</Link>
+          <Link href="/sommaire">Voir le sommaire</Link> ·{" "}
+          <Link href="/">Chercher une leçon</Link>
         </p>
       </section>
     </article>

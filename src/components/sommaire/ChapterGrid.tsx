@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { chapters, visibleLessons } from "@/data/navigation";
+import { listedChapters, visibleLessons } from "@/data/navigation";
 import { useAccount } from "@/hooks/useAccount";
 import styles from "./ChapterGrid.module.css";
 
@@ -11,19 +11,36 @@ import styles from "./ChapterGrid.module.css";
  * A Client Component, but the page holding it is not: React server-renders this
  * into the static HTML, so a visitor with no JavaScript — or the service worker
  * serving a cold page offline — still gets the whole grid. Hydration then
- * narrows the counts. The unfiltered course is the correct thing to serve when
- * nobody has said otherwise, which is exactly what signed-out means (#23).
+ * narrows it. The unfiltered course is the correct thing to serve when nobody
+ * has said otherwise, which is exactly what signed-out means (#23).
+ *
+ * **A chapter with nothing to offer is not a card** (#51). It used to be one
+ * reading « 3 à venir » or « rien à ce niveau », which is a card that costs a
+ * click to learn nothing.
  */
 export function ChapterGrid() {
   const account = useAccount();
   const level = account?.level ?? null;
+  const listed = listedChapters(level);
+
+  /* The course is being written and nothing is published yet (#52). Said here,
+     once, rather than by fourteen cards each announcing their own emptiness —
+     which is the thing #51 removed. */
+  if (listed.length === 0) {
+    return (
+      <p className="message">
+        Aucune leçon n&rsquo;est encore publiée. Le cours s&rsquo;écrit en ce
+        moment, en commençant par le niveau A2 : les chapitres apparaîtront ici
+        au fur et à mesure, avec leurs leçons.
+      </p>
+    );
+  }
 
   return (
     <ul className={styles.grid}>
-      {chapters.map((chapter) => {
-        const shown = visibleLessons(chapter, level);
-        const published = shown.filter((lesson) => !lesson.soon).length;
-        const label = chapter.unit[published === 1 ? 0 : 1];
+      {listed.map((chapter) => {
+        const count = visibleLessons(chapter, level).length;
+        const label = chapter.unit[count === 1 ? 0 : 1];
 
         return (
           <li key={chapter.slug}>
@@ -39,11 +56,7 @@ export function ChapterGrid() {
                 <span className={styles.cardTitle}>{chapter.title}</span>
                 <span className={styles.blurb}>{chapter.blurb}</span>
                 <span className={styles.count}>
-                  {published > 0
-                    ? `${published} ${label}`
-                    : shown.length > 0
-                      ? `${shown.length} à venir`
-                      : "rien à ce niveau"}
+                  {count} {label}
                 </span>
               </span>
             </Link>

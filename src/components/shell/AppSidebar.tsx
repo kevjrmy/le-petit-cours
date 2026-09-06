@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { chapters, treeAnnexes, visibleLessons, type TreeAnnexe } from "@/data/navigation";
+import { listedChapters, treeAnnexes, visibleLessons, type TreeAnnexe } from "@/data/navigation";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
 import { useAccount } from "@/hooks/useAccount";
 import { useRestoreRail } from "@/hooks/useShellMode";
@@ -27,34 +27,35 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
   const level = account?.level ?? null;
   useRestoreRail();
 
+  /* Either list can be empty — nothing but the manifest decides what is in
+     them — and an empty <ul> here is a stray rule across the panel, since both
+     carry a border. So each is drawn only if it has rows. */
+  const topAnnexes = treeAnnexes("top");
+  const tailAnnexes = treeAnnexes("tree");
+  /* Empty while the course is unwritten (#52), and the sommaire says why — a
+     panel of nothing needs no caption of its own. */
+  const listed = listedChapters(level);
+
   /* One row, wherever the annexe sits. Written once because the two lists are
      the same row in two places, and the day one grows an active state or a
      badge the other has to have it too. */
   const annexeRow = (page: TreeAnnexe) => (
     <li key={page.path}>
-      {page.soon ? (
-        <span className={`${styles.lesson} ${styles.soon}`} title={page.title}>
-          <ChapterIcon name={page.icon} />
-          <span className={styles.label}>{page.title}</span>
-          <em className={styles.badge}>Bientôt</em>
-        </span>
-      ) : (
-        <Link
-          href={page.path}
-          className={`${styles.lesson} ${pathname === page.path ? styles.activeLesson : ""}`}
-          aria-current={pathname === page.path ? "page" : undefined}
-          /* The name is on the link itself, so the row keeps it when the rail
-             hides the text — an icon-only control must still say what it is
-             (`AGENTS.md` §5). `title` gives the sighted rail user the same
-             thing on hover. */
-          aria-label={page.title}
-          title={page.title}
-          onClick={onNavigate}
-        >
-          <ChapterIcon name={page.icon} />
-          <span className={styles.label}>{page.title}</span>
-        </Link>
-      )}
+      <Link
+        href={page.path}
+        className={`${styles.lesson} ${pathname === page.path ? styles.activeLesson : ""}`}
+        aria-current={pathname === page.path ? "page" : undefined}
+        /* The name is on the link itself, so the row keeps it when the rail
+           hides the text — an icon-only control must still say what it is
+           (`AGENTS.md` §5). `title` gives the sighted rail user the same thing
+           on hover. */
+        aria-label={page.title}
+        title={page.title}
+        onClick={onNavigate}
+      >
+        <ChapterIcon name={page.icon} />
+        <span className={styles.label}>{page.title}</span>
+      </Link>
     </li>
   );
 
@@ -74,16 +75,22 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
         <Link href="/" className={styles.brand} onClick={onNavigate}>
           <span className={styles.wordmark} aria-hidden="true" />
           <span className={styles.mark} aria-hidden="true" />
-          <span className="visually-hidden">Le Petit Cours — accueil</span>
+          <span className="visually-hidden">Le Petit Cours, accueil</span>
         </Link>
       </div>
 
       <nav className={styles.tree} aria-label="Sommaire du cours">
         {/* Above the chapters, because it is the way into them. */}
-        <ul className={styles.top}>{treeAnnexes("top").map(annexeRow)}</ul>
+        {topAnnexes.length > 0 && (
+          /* The rule under this list separates it from the chapters. With none
+             to separate it from, it is a line under nothing (#52). */
+          <ul className={`${styles.top} ${listed.length === 0 ? styles.topAlone : ""}`}>
+            {topAnnexes.map(annexeRow)}
+          </ul>
+        )}
 
         <ul className={styles.chapters}>
-          {chapters.map((chapter) => {
+          {listed.map((chapter) => {
             /* A lesson keeps its chapter marked: the row is the only thing left
                in here saying where you are. */
             const active =
@@ -112,9 +119,11 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
                   <span className={styles.chapterTitle}>
                     {chapter.shortTitle ?? chapter.title}
                   </span>
-                  {/* The rows this chapter opens to, not the published tally:
-                      most of the course is unwritten, and a column of zeroes
-                      reads as a bug. Each row says « Bientôt » for itself. */}
+                  {/* What the chapter opens to at this level — every row it
+                      lists is a page that exists (#51), so the count and the
+                      list can no longer say different things. A chapter with
+                      nothing to offer is not drawn at all rather than sitting
+                      here as a zero. */}
                   <span className={styles.count}>
                     {total}
                     <span className="visually-hidden">
@@ -128,7 +137,9 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
           })}
         </ul>
 
-        <ul className={styles.annexes}>{treeAnnexes("tree").map(annexeRow)}</ul>
+        {tailAnnexes.length > 0 && (
+          <ul className={styles.annexes}>{tailAnnexes.map(annexeRow)}</ul>
+        )}
       </nav>
 
       <AccountMenu onNavigate={onNavigate} />

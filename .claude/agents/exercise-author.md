@@ -120,8 +120,11 @@ looks fine on paper. Check within each set, not across sets.
 **A blank before a vowel has no typeable answer.** `me/te/le/la/ne/je` elide (`m'`, `l'`, `n'`,
 `j'`). Assert that no type-in blank is followed by a vowel or a mute h.
 
-**Two defensible answers means the item is broken.** The usual fix is a Spanish cue on the card:
-*« il ___ prend dans ses bras »* accepts both *me* and *te* until the gloss says *me toma (a mí)*.
+**Two defensible answers means the item is broken.** The fix is a French cue inside the item itself,
+since there is no gloss to lean on any more (`docs/decisions.md` #53): *« il ___ prend dans ses
+bras »* accepts both *me* and *te* until the sentence names the person — *« Viens, il ___ prend dans
+ses bras », dit ma mère en me tendant les siens*. Lengthening the sentence is usually cheaper than
+replacing the item.
 
 **A validation check must count what it matched.** One check silently skipped a row once the data
 was column-aligned and reported clean on 101 of 102 nouns. Compare the hit count against the
@@ -232,8 +235,9 @@ first element.
 
 1. `src/app/exercices/{slug}/page.tsx` plus its client drill.
 2. Cross-links pointing back at the lesson the drill practises, and forward from that lesson.
-3. The manifest entry in `src/data/navigation.ts`, with a tag naming the mechanic or the skill
-   (`Chrono`, `Écoute`, `Mémoire`, `Correction`, `Grammaire`…).
+3. The manifest entry in `src/data/navigation.ts`, with its permanent `id` (`ex-pluriel`,
+   `jeu-un-ou-une` — chosen once and never changed, `docs/decisions.md` #50) and a tag naming the
+   mechanic or the skill (`Chrono`, `Écoute`, `Mémoire`, `Correction`, `Grammaire`…).
 4. The score screen at the end. It is shown and then forgotten — a drill writes no progress at all,
    and the « J'ai terminé » tick stays the learner's (`docs/decisions.md` #2, #22).
 

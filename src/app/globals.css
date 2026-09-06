@@ -320,16 +320,17 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 /* ───────────────────────────────────────────────────────────────────────────
    5. THE LANGUAGE RULE
 
-   Serif is the French being taught; sans is the instruction around it. The
-   split is by role, not by track: an orthographe page written in French for
-   the heritage speaker still sets its explanation in sans and its example
-   words in serif.
+   Serif is the French being taught; sans is the sentence explaining it. Since
+   the whole course is written in French (docs/decisions.md #53), that split is
+   the only thing separating the two — it is what keeps a form under study from
+   dissolving into the prose around it.
 
-   `.fr` always travels with lang="fr" — the attribute is not decoration. It
-   picks the right voice for useSpeech, and it tells a screen reader to stop
-   reading French with a Spanish accent.
+   lang="fr" is inherited from <html> and does not need repeating on every
+   span. Set it only where an element is pronounced on its own — an audio
+   button reading a single word, say.
 
-     <span class="fr" lang="fr">le livre</span> · el libro
+     Le participe passé de <span class="fr">prendre</span> est
+     <span class="fr">pris</span>.
 ─────────────────────────────────────────────────────────────────────────── */
 .fr {
   font-family: var(--font-serif);
@@ -469,7 +470,7 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 }
 
 .attention::before {
-  content: "À retenir — ";
+  content: "À retenir : ";
   font-weight: 700;
   color: var(--warn-text);
 }
@@ -484,7 +485,7 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 }
 
 .exception::before {
-  content: "Sauf — ";
+  content: "Sauf : ";
   font-weight: 700;
   color: var(--danger-text);
 }
@@ -543,8 +544,9 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   color: var(--success-text);
 }
 
-/* Table chrome. Four columns maximum, a <caption> on every one, and the
-   translation column in Spanish — AGENTS.md §9. */
+/* Table chrome. Four columns maximum and a <caption> on every one — AGENTS.md
+   §9. The fourth column carries an example sentence, not a translation: the
+   course is French-only (#53). */
 .table-wrap { overflow-x: auto; }
 
 table {

@@ -69,8 +69,8 @@ export function SignInForm() {
       <p>
         Tout le contenu du site est en accès libre, sans compte. Un compte sert
         uniquement à garder vos leçons cochées et le niveau que vous avez choisi
-        d&rsquo;un appareil à l&rsquo;autre — plus, si vous voulez, le nom sous
-        lequel le site vous appelle.
+        d&rsquo;un appareil à l&rsquo;autre. Il garde aussi, si vous voulez, le
+        nom sous lequel le site vous appelle.
       </p>
 
       <form className={styles.form} onSubmit={onSubmit} noValidate>
@@ -142,7 +142,7 @@ export function SignInForm() {
       <p className={styles.aside}>
         Les comptes ne se créent pas depuis le site : ils sont attribués. Si
         vous n&rsquo;en avez pas, vous pouvez lire et faire tout le site sans en
-        avoir un — seule la progression d&rsquo;un appareil à l&rsquo;autre
+        avoir un : seule la progression d&rsquo;un appareil à l&rsquo;autre
         demande un compte.
       </p>
     </section>

@@ -4,6 +4,11 @@ import { difference, type Progress, type ProgressStore } from "./store";
 /**
  * The Supabase half: `public.progress`, one row per ticked lesson.
  *
+ * The row is keyed by `lesson_id` — the manifest's permanent name for the page,
+ * not its URL — so a lesson that is renamed or moved keeps every tick on it
+ * (`docs/decisions.md` #50). The column is opaque to the database: it holds no
+ * lessons table and no foreign key to one.
+ *
  * Authorization is row-level security, not code here — `auth.uid() = user_id`
  * on all four verbs (`docs/decisions.md` #19). `user_id` is still written on
  * insert because the column has no default; the policy is what makes writing
@@ -28,11 +33,12 @@ export function remoteStore(userId: string): ProgressStore {
     async load() {
       const { data, error } = await client()
         .from("progress")
-        .select("path, marked_at");
+        .select("lesson_id, marked_at");
       if (error) throw error;
 
       const state: Progress = {};
-      for (const row of data ?? []) state[row.path as string] = row.marked_at as string;
+      for (const row of data ?? [])
+        state[row.lesson_id as string] = row.marked_at as string;
       return state;
     },
 
@@ -45,8 +51,8 @@ export function remoteStore(userId: string): ProgressStore {
         const { error } = await client()
           .from("progress")
           .upsert(
-            added.map((path) => ({ user_id: userId, path, marked_at: next[path] })),
-            { onConflict: "user_id,path" },
+            added.map((id) => ({ user_id: userId, lesson_id: id, marked_at: next[id] })),
+            { onConflict: "user_id,lesson_id" },
           );
         if (error) throw error;
       }
@@ -56,7 +62,7 @@ export function remoteStore(userId: string): ProgressStore {
           .from("progress")
           .delete()
           .eq("user_id", userId)
-          .in("path", removed);
+          .in("lesson_id", removed);
         if (error) throw error;
       }
     },

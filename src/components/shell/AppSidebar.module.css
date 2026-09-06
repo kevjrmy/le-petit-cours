@@ -90,6 +90,9 @@
   border-bottom: 1px solid var(--border-soft);
 }
 
+/* Nothing below it to divide from. */
+.topAlone { padding-bottom: 0; border-bottom: none; }
+
 /* A link, not a disclosure: the lessons are on the chapter page (#40). */
 .chapter {
   display: flex;
@@ -158,21 +161,6 @@ a.activeLesson:hover {
   font-weight: 600;
 }
 
-/* An announced-but-unwritten page. Dimmed *and* labelled: the state has to
-   survive a reader who cannot tell the two greys apart. */
-.soon { color: var(--text-3); cursor: default; }
-
-.soon .badge {
-  flex: 0 0 auto;
-  margin-left: auto;
-  font-size: 0.66rem;
-  font-style: normal;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-3);
-}
-
 .annexes {
   margin-top: 0.75rem;
   padding-top: 0.75rem;
@@ -211,12 +199,4 @@ a.activeLesson:hover {
 
   .tree { padding-inline: 0.35rem; }
 
-  /* A « Bientôt » row keeps its own signal: with the badge gone, the dimmed
-     icon is all that is left, so it is dashed-outlined instead. */
-  .soon {
-    opacity: 0.55;
-    outline: 1px dashed var(--border-strong);
-    outline-offset: -1px;
-    border-radius: var(--radius-sm);
-  }
 }

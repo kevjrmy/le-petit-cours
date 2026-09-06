@@ -16,8 +16,6 @@ a.row:hover {
   text-decoration: none;
 }
 
-.rowSoon { background: var(--surface-2); border-style: dashed; }
-
 .main {
   flex: 1 1 auto;
   min-width: 0;
@@ -34,13 +32,11 @@ a.row:hover {
   color: var(--text-heading);
 }
 
-.rowSoon .title { color: var(--text-2); font-weight: 400; }
-
 .subtitle { font-size: 0.82rem; color: var(--text-3); }
 
 .meta { flex: 0 0 auto; display: flex; align-items: center; gap: 0.35rem; }
 
-.where, .tag, .level, .soon {
+.where, .tag, .level {
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -53,4 +49,3 @@ a.row:hover {
 .where { color: var(--text-3); padding-inline: 0; letter-spacing: 0.08em; }
 .tag { background: var(--surface-3); color: var(--text-2); }
 .level { background: var(--accent-soft); color: var(--accent-text); }
-.soon { border: 1px solid var(--border-strong); color: var(--text-3); }

@@ -53,25 +53,18 @@ export default function DesignPage() {
       <section className={styles.section}>
         <h2>Le français en serif, l’explication en sans</h2>
         <p>
-          En francés, cada sustantivo lleva un artículo, y el género no siempre
-          coincide con el español:{" "}
-          <span className="fr" lang="fr">
-            une robe
-          </span>{" "}
-          no es <em>la ropa</em>, y{" "}
-          <span className="fr" lang="fr">
-            le sol
-          </span>{" "}
-          no es <em>el sol</em>.
+          Tout le cours est écrit en français (#53) : les deux familles ne
+          séparent donc plus deux langues, mais deux rôles. Le serif porte la
+          langue étudiée — <span className="fr">une robe</span>,{" "}
+          <span className="fr">le sol</span> — et le sans porte la phrase qui
+          l’explique.
         </p>
-        <div className="example" lang="fr">
+        <div className="example">
           le livre · la table · l’école · les sœurs · un garçon
         </div>
         <p>
-          La misma regla en la vía de herencia, explicada en francés :{" "}
-          <span className="fr" lang="fr">
-            une sœur
-          </span>{" "}
+          Sans cette séparation, une forme citée au milieu d’un paragraphe se
+          confond avec le paragraphe : <span className="fr">une sœur</span>{" "}
           prend un <em>e</em> au féminin.
         </p>
       </section>
@@ -95,7 +88,7 @@ export default function DesignPage() {
             des <span className="fr" lang="fr">œufs</span> se prononce « eu ».
           </div>
           <div className="message">
-            Un message de l&rsquo;interface — neutre. Rien n&rsquo;est ajouté
+            Un message de l&rsquo;interface, neutre. Rien n&rsquo;est ajouté
             devant, contrairement aux blocs de leçon ci-dessus.
           </div>
           <div className="message message-danger">
@@ -103,7 +96,7 @@ export default function DesignPage() {
           </div>
           <div className="message message-success">Nom enregistré.</div>
           <div className={styles.elevated}>
-            Une carte posée sur la page — <code>--shadow</code> et{" "}
+            Une carte posée sur la page : <code>--shadow</code> et{" "}
             <code>--surface-1</code>.
           </div>
         </div>
@@ -150,10 +143,10 @@ export default function DesignPage() {
         </p>
         <div className={styles.states}>
           <span className={`${styles.state} is-correct`}>
-            ✓ <span className="fr" lang="fr">la table</span> — juste
+            ✓ <span className="fr" lang="fr">la table</span> : juste
           </span>
           <span className={`${styles.state} is-wrong`}>
-            ✗ <span className="fr" lang="fr">le table</span> — faux
+            ✗ <span className="fr" lang="fr">le table</span> : faux
           </span>
         </div>
       </section>
@@ -175,13 +168,13 @@ export default function DesignPage() {
           </button>
         </div>
         <p style={{ fontSize: "0.8rem", color: "var(--text-3)" }}>
-          Un bouton désactivé le montre — et quelque chose à côté dit pourquoi.
+          Un bouton désactivé le montre, et quelque chose à côté dit pourquoi.
         </p>
         <ul>
           <li>Une liste dans la colonne de lecture.</li>
           <li>
             Le reset met les marges à zéro, donc <code>.prose</code> les
-            redéclare — puces comprises.
+            redéclare, puces comprises.
           </li>
         </ul>
       </section>
@@ -189,7 +182,7 @@ export default function DesignPage() {
       <section className={styles.section}>
         <h2>Liens et focus</h2>
         <p>
-          <Link href="/">Retour à l’accueil</Link> — tabulez jusqu’ici pour voir
+          <Link href="/">Retour à l’accueil</Link> : tabulez jusqu’ici pour voir
           l’anneau de focus.
         </p>
       </section>

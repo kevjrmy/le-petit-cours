@@ -21,8 +21,21 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
   const account = useAccount();
   const lessons = visibleLessons(chapter, account?.level ?? null);
 
-  const published = lessons.filter((lesson) => !lesson.soon).length;
-  const label = chapter.unit[published === 1 ? 0 : 1];
+  const label = chapter.unit[lessons.length === 1 ? 0 : 1];
+
+  /* Two different silences, and they must not be told the same way. The
+     chapter is declared and empty — nothing is written yet, and no level would
+     change that — or it holds pages that this level is not offered. Neither
+     page is reachable from a listing (#51); both are reachable by URL, which is
+     why they still answer. */
+  if (chapter.lessons.length === 0) {
+    return (
+      <p className="message">
+        Ce chapitre n’a pas encore de leçon. Il en aura : c’est un chapitre du
+        cours, pas une page en attente.
+      </p>
+    );
+  }
 
   if (lessons.length === 0) {
     return (
@@ -40,9 +53,7 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
           count in the server-rendered header would keep saying seven while the
           list showed four. */}
       <p className={styles.count}>
-        {published > 0
-          ? `${published} ${label} · ${lessons.length - published} à venir`
-          : `${lessons.length} ${chapter.unit[lessons.length === 1 ? 0 : 1]} à venir`}
+        {lessons.length} {label}
       </p>
       <ul className={styles.list}>
         {lessons.map((lesson) => (

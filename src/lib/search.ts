@@ -1,4 +1,4 @@
-import { annexes, chapters, type Level, type Lesson } from "@/data/navigation";
+import { annexes, chapters, type Level, type PageEntry } from "@/data/navigation";
 
 /**
  * Searching the course, over the manifest and nothing else.
@@ -43,7 +43,6 @@ export interface SearchHit {
   subtitle?: string;
   tag?: string;
   levels: Level[];
-  soon?: boolean;
   /** Where the hit sits in the course — « Grammaire », « Chapitre », « Le site ». */
   where: string;
 }
@@ -55,7 +54,7 @@ interface Entry extends SearchHit {
   rest_: string;
 }
 
-function entry(page: Lesson, where: string, rest: string[] = []): Entry {
+function entry(page: PageEntry, where: string, rest: string[] = []): Entry {
   return {
     path: page.path,
     title: page.title,
@@ -63,7 +62,6 @@ function entry(page: Lesson, where: string, rest: string[] = []): Entry {
     subtitle: page.subtitle,
     tag: page.tag,
     levels: page.levels,
-    soon: page.soon,
     where,
     title_: fold(page.title),
     rest_: fold([page.subtitle, page.tag, page.delf, ...rest].filter(Boolean).join(" ")),
@@ -73,15 +71,23 @@ function entry(page: Lesson, where: string, rest: string[] = []): Entry {
 /* Built once, at module scope: the manifest is a constant, so rebuilding this
    per keystroke would be work with no possible new answer. Chapters are in it
    as well as lessons — typing « conju » should offer the chapter, not only the
-   verbs inside it. Annexes too, so « compte » finds the account page. */
+   verbs inside it. Annexes too, so « compte » finds the account page.
+
+   An **empty** chapter is left out (#51), and it is the one place search hides
+   something rather than grouping it. The level rule groups because those pages
+   exist and open in full; a chapter with no lesson has nothing to show, so a
+   row leading to « pas encore de leçon » would be the « Bientôt » badge back
+   under another name. It reappears with its first lesson. */
+const listed = chapters.filter((chapter) => chapter.lessons.length > 0);
+
 const index: Entry[] = [
-  ...chapters.map((chapter) =>
+  ...listed.map((chapter) =>
     entry(
       { path: chapter.path, title: chapter.title, subtitle: chapter.blurb, levels: [] },
       "Chapitre",
     ),
   ),
-  ...chapters.flatMap((chapter) =>
+  ...listed.flatMap((chapter) =>
     chapter.lessons.map((lesson) =>
       entry(lesson, chapter.shortTitle ?? chapter.title, [chapter.title]),
     ),
@@ -107,10 +113,7 @@ function score(row: Entry, query: string, terms: string[]): number {
   else if (row.title_.includes(query)) points = 25;
   else if (terms.every((term) => row.title_.includes(term))) points = 15;
 
-  /* A written page outranks an announced one at the same score. It never
-     outranks a better match: a « Bientôt » row that is what you typed is still
-     the answer, and hiding it would only make you search for it twice. */
-  return row.soon ? points - 1 : points;
+  return points;
 }
 
 /**

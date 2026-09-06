@@ -21,6 +21,20 @@ const DB_NAME = "lepetitcours";
 const DB_VERSION = 1;
 const STORE = "progress";
 
+/**
+ * The shape of a cached record. Bumped when the meaning of its keys changes —
+ * `1` was keyed by route path, `2` by lesson id (`docs/decisions.md` #50) — and
+ * a record from any other version is dropped rather than read.
+ *
+ * Dropping it is safe because this is a **cache**: the server holds the same
+ * ticks, and the next online load refills it. What it does cost is a pending
+ * queue written offline under the old keys, which cannot be replayed against
+ * the new column at all. That is the whole price of the rekey, and it is paid
+ * once, by a learner who ticked something offline and did not reconnect before
+ * updating.
+ */
+const CACHE_VERSION = 2;
+
 function open(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -52,11 +66,12 @@ function transact<T>(
 
 /** One learner's cached record. */
 interface Cached {
+  version: number;
   ticks: Progress;
   pending: Pending;
 }
 
-const EMPTY: Cached = { ticks: {}, pending: {} };
+const EMPTY: Cached = { version: CACHE_VERSION, ticks: {}, pending: {} };
 
 async function read(userId: string): Promise<Cached> {
   try {
@@ -67,7 +82,9 @@ async function read(userId: string): Promise<Cached> {
        only in the shape it is expected in — the same posture `src/lib/account.ts`
        takes to metadata. */
     if (!value || typeof value !== "object") return EMPTY;
+    if (value.version !== CACHE_VERSION) return EMPTY;
     return {
+      version: CACHE_VERSION,
       ticks: plain(value.ticks),
       pending: plain(value.pending) as Pending,
     };

@@ -126,19 +126,6 @@ a.item:hover {
   text-decoration: none;
 }
 
-/* Announced but unwritten. Dimmed *and* labelled, so the state survives a
-   reader who cannot tell the two greys apart. */
-.soon { color: var(--text-3); cursor: default; }
-
-.soon em {
-  margin-left: auto;
-  font-size: 0.64rem;
-  font-style: normal;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
 /* ── the theme submenu ──────────────────────────────────────────────────── */
 
 /* The row that leads into it: label, current value, chevron. */

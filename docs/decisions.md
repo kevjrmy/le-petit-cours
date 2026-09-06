@@ -1575,3 +1575,178 @@ bundle for the sidebar, so no new bytes ship, and the markup is still prerendere
 
 **The measure moved up with them.** Both blocks used to inherit `--measure` from the `.prose`
 wrapper they sat inside; `LessonEnd` sets it once for the pair.
+
+
+## 50 · Progress is keyed by a permanent lesson id, not by the route path
+**2026-09-06 · Binding · supersedes the keying half of #22 and #48, and closes `pathAliases`**
+
+Every lesson in `src/data/navigation.ts` carries a required `id` — `gram-articles`,
+`orth-pluriel-des-noms`, `ex-pluriel` — and that is what a tick is stored under, in IndexedDB and
+in `public.progress` alike. The column was renamed `path` → `lesson_id` and the three published
+lessons' rows were mapped across in the same migration.
+
+**The path was never the lesson.** It carries the title, the chapter and whatever spelling looked
+right the day the page was written, and a course revises all three: a page gets a better name, an
+astuce is promoted into `grammaire`, a five-part sheet is split in three. Each of those was, until
+now, a silent deletion of every learner's history on that page.
+
+**What it replaces is a discipline nobody could see failing.** #22 keyed progress by path and #48
+accepted the consequence, mitigated by `pathAliases`: rename a lesson, remember to add the old path
+to a map in the same commit, and ticks fold forward on read. The mitigation was sound and the
+failure mode was not — forgetting the entry looked exactly like remembering it, in the diff, in the
+build and on screen. Nothing failed; a learner simply found a lesson unticked one day. A required
+field that is never edited cannot be forgotten in that way, so the alias map is gone rather than
+kept beside the ids.
+
+**Chosen against three alternatives.** A *uuid per lesson* is unreadable in a diff, and this
+manifest is reviewed by eye. *Chapter + slug as a compound key* is the path again with a different
+separator. *Keeping the path and enforcing aliases in the audit* was the closest call — it would
+have caught the forgotten entry — but it defends a rename with a check that has to be run, when the
+alternative removes the danger from the operation altogether.
+
+**The id is frozen from the commit that adds it.** Changing one deletes every tick on that lesson,
+silently, exactly as a rename used to. That is now the only way to lose progress, and it is a thing
+you have to go and do rather than a thing you can neglect. `AGENTS.md` §6 and the `nav-wiring`
+brief both say so at the point where the temptation arises.
+
+**Two checks stand behind it, at the two ends.** `navigation.ts` validates shape and uniqueness
+*at import*, so a duplicate fails `next build` rather than shipping a pair of lessons that tick
+each other; `progress_lesson_id_shape` re-checks the shape in Postgres, for a row written by
+something that is not this app.
+
+**Only lessons carry an id.** The `Lesson` interface now extends a `PageEntry` base that chapters
+and annexes use, so the field is required exactly where a tick is possible — an annexe with a spare
+id is an invitation to store progress against `/compte`.
+
+**What it costs:** the local cache is versioned and a record from before the rekey is dropped
+rather than read. That is free for ticks, which the server still holds, and not free for a pending
+queue written offline and never reconnected before the update — those operations name paths the new
+column cannot accept. One learner, one unlikely window, and the alternative is a translation layer
+for a shape that will never be written again.
+
+
+## 51 · The course announces nothing it has not written
+**2026-09-06 · Binding · supersedes the `soon` mechanism of #12 and the "annoncé plutôt que caché" line on the sommaire**
+
+The thirty-nine placeholder lesson entries and the `/nouveautes` annexe are deleted, the `soon`
+field is gone from the manifest type, and every row it drew — the dimmed sidebar entry, the dashed
+« Bientôt » card, the disabled popover item, the "3 à venir" tally — went with it. A chapter with no
+lesson is no longer drawn at all: `listedChapters(level)` keeps it out of the sidebar, the sommaire,
+the home pills and the search index, and it returns on its own the moment its first lesson lands.
+
+**The placeholders were a promise the repo kept making and could not date.** They were written when
+the manifest was the plan — fourteen chapters sketched out so the shape of the course was visible in
+one file. That job is done: the shape is settled, the shell is built, and what remains is writing.
+From here a « Bientôt » row is a learner clicking something that turns out not to exist, fourteen
+times, and a maintainer reading counts that describe intentions rather than pages.
+
+**What replaces it is the manifest's own rule, applied without exception**: an entry goes in the
+same commit as its `page.tsx`. Nothing in the interface can then point at a page that is not there,
+which is a property of the data rather than a discipline — the removed field is what makes it
+impossible rather than merely discouraged.
+
+**Chosen against keeping the fourteen chapters visible with an honest empty state.** That was the
+close alternative: the sidebar keeps its map of the course, and an empty chapter's page says it has
+no lesson yet. It was rejected because it is the same experience under better manners — eleven rows
+that lead to a page with nothing on it. The map is worth something, but not eleven dead ends, and
+the sommaire's tagline now carries the shape instead: « Quatorze chapitres au programme. Ne
+s'affichent ici que ceux qui ont déjà une leçon à lire. »
+
+**The chapters themselves stay declared.** All fourteen keep their slug, icon, blurb and unit noun,
+`generateStaticParams` still builds all fourteen landing pages, and every URL still answers. The
+structure is decided; only the offer is filtered. An empty chapter's page says plainly that it has
+no lesson yet — reachable by link, never by offer, the same line the level filter already draws.
+
+**Search hides an empty chapter rather than grouping it**, which is the one place search does not
+follow "answer what was typed". A page filtered out by level still opens and reads in full, so
+grouping it is honest; an empty chapter has nothing behind it, so a result for it would be the
+badge again. It is the narrowest exception: lessons and annexes are all still indexed.
+
+**What it costs.** The planned titles are gone from git HEAD — recoverable from history, and the
+real syllabus is the published DELF one and the Vue course in `.vue/`, both better sources than a
+sketch in a manifest. `A1A2` went with the last entry using it and comes back with the first A2
+lesson. And the sidebar is three rows deep today, which looks like a small course because it is one.
+
+
+## 52 · The content starts at A2, and the scaffold's three A1 lessons are deleted
+**2026-09-06 · Binding · supersedes the A1-first half of #25**
+
+`/grammaire/les-articles`, `/orthographe/le-pluriel-des-noms` and `/vocabulaire/les-nombres` are
+removed — their folders, their manifest entries and the cross-link map that joined them. The course
+now holds fourteen declared chapters and **no lesson at all**, and the first one written will be A2.
+`CHOOSABLE_LEVELS` is `["A2"]` alone.
+
+**The reason is the learner, not the content.** `docs/scope.md` has said from the start that the
+course has one student and that she is at A2. #25 nonetheless set the rewrite to start at A1, sized
+to the DELF A1 syllabus — a defensible order for a course with an audience, and the wrong one for a
+course with a reader. Three A1 pages were a sample of a level nobody here is at.
+
+**Deleting them beat keeping them.** They were good pages and they cost little to leave in place;
+what they cost is not disk. Three A1 lessons in an otherwise empty course make A1 look like the
+level in progress — to a learner opening the sommaire, to a contributor reading the manifest, and to
+whatever writes the next page. They also set the house style for a course whose real first page will
+be written to a different level and a different reader. Better to start from `/design` and the
+patterns in `globals.css`, which is what they were built from anyway. They are one `git show` away
+in `891649b` if a rewritten A2 page wants their shape.
+
+**A1 is not out of scope.** It is out of the *offer*: no page, and not choosable, so nobody can pick
+a level and be handed nothing. It returns to `CHOOSABLE_LEVELS` in the commit that gives it a first
+lesson — one line, deliberately, by the same rule that governs B1.
+
+**What this exposes is that every listing is now empty**, which is a state the interface has to
+handle rather than a hole to be filled by placeholders (#51 forbids those, and this is exactly the
+pressure that would reintroduce them). So: the sommaire's grid says the course is being written and
+names A2; `/ma-progression` says there is nothing to tick yet instead of « 0 sur 0 » under a
+zero-length bar; the sidebar drops the separator that divided the sommaire from a list of chapters
+that is not drawn; the home page keeps its one « Tout le cours » pill. Every one of those was
+checked on screen in both themes rather than reasoned about.
+
+**Progress rows for the deleted lessons are left alone.** Keyed by lesson id (#50), an orphaned tick
+resolves to no lesson and shows nowhere; deleting a learner's rows to tidy a table is a worse
+default than carrying three dead ones. If those ids are ever reused — they will not be — that is the
+commit that has to clear them.
+
+
+## 53 · One language of instruction, and it is French
+**2026-09-06 · Binding · closes the open question in `AGENTS.md` §12, supersedes #16**
+
+Every page of the course is written in French: the explanations, the tables, the callouts, the
+drill instructions and the chrome. No Spanish gloss, no translation column, no bilingual page. The
+`metalanguage` field is deleted from the manifest — with one language there is nothing left for it
+to distinguish — and the first six lessons were written to this rule.
+
+**#16 split the course by reader: Spanish for the learner, French for the heritage speaker.** It
+was a sound rule with a nationality baked into it. The course is public and unlisted rather than
+private, and a Spanish gloss is dead weight for a Brazilian, an Italian or a Moroccan reader who is
+otherwise squarely in the audience — while the heritage speaker was already being served in French.
+Choosing French for everyone widens the door without moving it.
+
+**It also removes the tension §12 recorded as open.** Orthography and conjugation pages serve both
+profiles and cannot be Spanish-first and French-first at once; the working resolution was a
+per-page declaration, with two lessons where a topic genuinely needed both. That entire problem is
+gone rather than resolved — which is the better outcome for a question that had been open since
+2026-08.
+
+**The audience did not change; it moved from the language to the content.** The course is still
+written for Spanish speakers. That now decides *what* is explained and how plainly, never *which
+language explains it*:
+
+- a false friend gets a French definition and an example that makes the wrong reading impossible,
+  where it used to get a gloss — *« Elle porte une robe bleue »* settles what a `robe` is;
+- an interference error is printed wrong-then-right — *on ne dit pas « il est trois », on dit « il
+  est trois heures »*;
+- the French of the explanation stays **easier than the French being taught**. That is the failure
+  mode of this decision, and the `content-proofreader` brief now hunts for it first.
+
+**What it costs.** A beginner reading a rule in a language they do not yet have is genuinely harder
+than reading it in their own, and A1 would feel that most — which is survivable precisely because
+the content starts at A2 (#52). The drills lose the Spanish disambiguating cue and must lengthen the
+sentence instead. And the fourth table column, which held the translation, now holds an example
+sentence: a paradigm with nothing anchoring it is not a lesson.
+
+**English remains forbidden**, for both profiles, exactly as before.
+
+**The typographic split survives intact and means one thing now.** Serif is the French under study,
+sans is the sentence explaining it — the role split `AGENTS.md` §5 always claimed it was. With no
+second language on the page, `lang="fr"` no longer needs repeating on every span; `<html lang="fr">`
+covers it, and the attribute is kept only where an element is pronounced on its own.

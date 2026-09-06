@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { chapters, publishedLessons, type Chapter, type Lesson } from "@/data/navigation";
+import { chapters, type Chapter, type Lesson } from "@/data/navigation";
 import { useAccount } from "@/hooks/useAccount";
 import { useProgress } from "@/hooks/useProgress";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
@@ -17,9 +17,10 @@ import styles from "./Progression.module.css";
  * makes search group by level rather than cut by it, and the same reasoning
  * behind the migration keeping the level out of the progress key.
  *
- * The denominator is **published** lessons, so a chapter announcing five pages
- * and shipping one is scored out of one — a `soon` entry must never make a
- * finished chapter look unfinished (§8).
+ * The denominator is the chapter's lessons, which is now the same thing as the
+ * pages that exist: the manifest holds no announced-but-unwritten entries to
+ * inflate it (#51). A chapter with none is left out of the list entirely rather
+ * than shown as 0 / 0.
  */
 export function Progression() {
   const account = useAccount();
@@ -32,14 +33,26 @@ export function Progression() {
 
   const rows = chapters
     .map((chapter) => {
-      const lessons = publishedLessons(chapter);
-      const done = lessons.filter((lesson) => lesson.path in state);
+      const lessons = chapter.lessons;
+      const done = lessons.filter((lesson) => lesson.id in state);
       return { chapter, lessons, done };
     })
     .filter((row) => row.lessons.length > 0);
 
   const total = rows.reduce((sum, row) => sum + row.lessons.length, 0);
   const finished = rows.reduce((sum, row) => sum + row.done.length, 0);
+
+  /* No lesson exists to have been ticked (#52). « 0 sur 0 » with an empty bar
+     under it reads as a broken page rather than as an unwritten course. */
+  if (total === 0) {
+    return (
+      <p className="message">
+        Le cours n&rsquo;a pas encore de leçon à cocher. Dès qu&rsquo;il y en
+        aura une, «&nbsp;J&rsquo;ai terminé&nbsp;» au bas de la page la rangera
+        ici.
+      </p>
+    );
+  }
 
   return (
     <>
@@ -79,7 +92,7 @@ export function Progression() {
             {done.length > 0 && (
               <ul className={styles.lessons}>
                 {done.map((lesson) => (
-                  <Done key={lesson.path} lesson={lesson} chapter={chapter} at={state[lesson.path]} />
+                  <Done key={lesson.id} lesson={lesson} chapter={chapter} at={state[lesson.id]} />
                 ))}
               </ul>
             )}
@@ -154,7 +167,7 @@ function SignedOut() {
         </Link>
       </p>
       <p className={styles.empty}>
-        Tout le reste du site se lit et se fait sans compte. Rien n&rsquo;est fermé —
+        Tout le reste du site se lit et se fait sans compte. Rien n&rsquo;est fermé :
         c&rsquo;est seulement la mémoire qui demande un compte.
       </p>
     </section>

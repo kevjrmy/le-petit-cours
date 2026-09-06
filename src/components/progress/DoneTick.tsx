@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import type { LessonId } from "@/data/navigation";
 import { useProgress } from "@/hooks/useProgress";
 import styles from "./DoneTick.module.css";
 
@@ -16,6 +17,11 @@ import styles from "./DoneTick.module.css";
  * of a page is not finishing it, and a drill scored at 50 % is not a finished
  * lesson either. Do not make this component clever.
  *
+ * **Two props, and they are not the same thing.** `id` is what the tick is
+ * stored under — the lesson's permanent name, so a page that is later renamed
+ * keeps its ticks (`docs/decisions.md` #50). `path` is only where to come back
+ * to after signing in, which has to be a URL.
+ *
  * Signed out it is a link to `/compte`, carrying where to come back to. It is
  * not disabled and it is not hidden: the learner should be able to see what an
  * account is *for* before being asked to have one — **and it says nothing else**.
@@ -23,7 +29,7 @@ import styles from "./DoneTick.module.css";
  * second copy under every lesson was the pitch made fourteen times a day to
  * someone who has already decided.
  */
-export function DoneTick({ path }: { path: string }) {
+export function DoneTick({ id, path }: { id: LessonId; path: string }) {
   const { state, signedIn, isDone, toggle } = useProgress();
 
   if (!signedIn) {
@@ -40,7 +46,7 @@ export function DoneTick({ path }: { path: string }) {
     );
   }
 
-  const done = isDone(path);
+  const done = isDone(id);
 
   return (
     <aside className={styles.tick}>
@@ -51,7 +57,7 @@ export function DoneTick({ path }: { path: string }) {
            be right — clicking would toggle from a guess. */
         disabled={state === null}
         aria-pressed={done}
-        onClick={() => toggle(path)}
+        onClick={() => toggle(id)}
       >
         <Mark done={done} />
         {done ? "Leçon terminée" : "J’ai terminé"}

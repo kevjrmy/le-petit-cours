@@ -15,6 +15,6 @@ export function lessonMetadata(path: string): Metadata {
   const { chapter, lesson } = found;
   return {
     title: lesson.title,
-    description: lesson.delf ?? `${lesson.title} — ${chapter.title}`,
+    description: lesson.delf ?? `${lesson.title} : ${chapter.title}`,
   };
 }

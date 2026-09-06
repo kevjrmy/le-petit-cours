@@ -157,28 +157,17 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
               <ul className={styles.links}>
                 {links.map((page) => (
                   <li key={page.path} role="none">
-                    {page.soon ? (
-                      <span
-                        className={`${styles.item} ${styles.soon}`}
-                        role="menuitem"
-                        aria-disabled="true"
-                      >
-                        {page.title}
-                        <em>Bientôt</em>
-                      </span>
-                    ) : (
-                      <Link
-                        href={page.path}
-                        className={styles.item}
-                        role="menuitem"
-                        onClick={() => {
-                          close();
-                          onNavigate();
-                        }}
-                      >
-                        {page.title}
-                      </Link>
-                    )}
+                    <Link
+                      href={page.path}
+                      className={styles.item}
+                      role="menuitem"
+                      onClick={() => {
+                        close();
+                        onNavigate();
+                      }}
+                    >
+                      {page.title}
+                    </Link>
                   </li>
                 ))}
                 <li role="none">

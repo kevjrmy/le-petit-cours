@@ -47,11 +47,15 @@ These come from the audience, and a change that breaks one will be asked to chan
   speaker learning French from zero, and a heritage speaker who grew up with spoken French in
   Spain and needs to learn to *write* it. They need opposite things, and the second one is not
   simply a higher level — she can be orally C1 and written A2 at the same time.
-- **Instruction is in Spanish for the learner track and in French for the heritage track.**
-  **English is never used for either** — no English glosses, no English mnemonics (no DR & MRS
+- **Everything is written in French — explanations included, on every page and for both profiles.**
+  No Spanish gloss, no translation column, no bilingual page. Most readers are Spanish speakers, so
+  keep the French of the explanation simpler than the French being taught, define the false friends
+  instead of translating them, and print the common wrong sentence beside the right one.
+  **English is never used either** — no English glosses, no English mnemonics (no DR & MRS
   VANDERTRAMP). Never assume the reader knows English.
-- **Current scope is A1 and A2, and A1 is being written first.** B1–C2 are shown as *bientôt* and
-  take no content yet. Short sentences, everyday vocabulary, no literary tenses, no metalanguage
+- **Current scope is A1 and A2, and A2 is being written first** — the course's learner is at A2, so
+  that is where the content starts. A1 pages are welcome once A2 has substance; B1–C2 take no
+  content at all. Short sentences, everyday vocabulary, no literary tenses, no metalanguage
   beyond *verbe, sujet, adjectif, accord* — the heritage track is the one place school grammar
   vocabulary is allowed.
 - **They type on a Spanish keyboard.** Prefer clicking to typing wherever an answer carries French
@@ -68,6 +72,10 @@ These come from the audience, and a change that breaks one will be asked to chan
 - **Every lesson declares its `levels`** in `src/data/navigation.ts`, and `[]` is how you say "no
   level, always visible". An omitted field is a type error on purpose: forgetting to tag a page
   and deciding it needs no tag must not look the same in a diff.
+- **Every lesson declares an `id`, and it is permanent.** It is the key a learner's « J'ai terminé »
+  is stored under, so a page can be renamed, moved or given a better URL freely — but changing its
+  `id` erases that lesson from everyone's history with nothing failing anywhere. Choose it once,
+  in the shape `chapitre-nom` (`gram-articles`, `ex-pluriel`), and leave it alone.
 - **No copyrighted text.** Reading pages use public-domain works or original writing. Song pages
   quote short excerpts for commentary and never a full lyric sheet. Images must be CC0, public
   domain, CC BY or CC BY-SA, credited individually with author, link and licence, and stored

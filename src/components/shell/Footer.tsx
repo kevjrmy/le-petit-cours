@@ -17,7 +17,7 @@ import styles from "./Footer.module.css";
  * signature on a page that is already signed.
  */
 export function Footer() {
-  const links = annexes.filter((page) => page.where === "footer" && !page.soon);
+  const links = annexes.filter((page) => page.where === "footer");
 
   return (
     <footer className={styles.footer}>

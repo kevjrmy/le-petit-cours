@@ -3,25 +3,60 @@
  *
  * The sidebar, the sommaire and every chapter landing page read from this file.
  * Routes are the filesystem now, so there is no route table to keep in step —
- * but a `soon: false` entry with no `page.tsx` is a link to a 404, and a
- * `page.tsx` with no entry here is a page nothing links to. See
- * `.claude/agents/nav-wiring.md` for the audit that catches both.
+ * but an entry with no `page.tsx` is a link to a 404, and a `page.tsx` with no
+ * entry here is a page nothing links to. See `.claude/agents/nav-wiring.md` for
+ * the audit that catches both.
+ *
+ * **Every entry is a page that exists** (`docs/decisions.md` #51). There is no
+ * flag for an announced-but-unwritten lesson and no row that cannot be clicked:
+ * a lesson enters this file in the commit that creates its folder, and a
+ * chapter with an empty `lessons` array is simply not offered anywhere until
+ * one does.
+ *
+ * **Every chapter is in that state right now** (#52). The three A1 pages written
+ * during the scaffold were deleted on 2026-09-06: the course serves an A2
+ * learner, and three A1 lessons were a sample of a level nobody here is at. What
+ * is left is the shape — fourteen chapters, their blurbs, their icons — and the
+ * first real lesson will be A2.
  *
  * **Chapter order is inherited from the Vue app, not decided.** Which chapters
- * carry A1 and in what order is still open (`AGENTS.md` §12) and is meant to be
- * settled by the DELF A1 gap analysis, not by whatever this file happened to
- * say first. The lesson lists below are likewise a plausible starting subset,
- * not a syllabus.
+ * carry the A2 content and in what order is still open (`AGENTS.md` §12) and is
+ * meant to be settled by the DELF A2 syllabus, not by whatever this file
+ * happened to say first.
  */
 
 export type Level = "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
 
-/** Which language the page explains *in* — Spanish for the learner track,
- *  French for the heritage track (`AGENTS.md` §1, `docs/decisions.md` #16). */
-export type Metalanguage = "es" | "fr";
+/**
+ * A lesson's permanent name, and the key every tick is stored under.
+ *
+ * **It is not the path.** A path is an editorial choice — it carries the title,
+ * the chapter and whatever spelling looked right the day the page was written,
+ * and all three are things a course revises. An id is chosen once and never
+ * changes again, so renaming a page, moving it to another chapter or resplitting
+ * it costs nothing a learner can see.
+ *
+ * The chapter prefix (`gram-`, `ex-`, `conj-`) is a reading aid for whoever is
+ * looking at a diff, **not a lookup key**. Nothing parses it, and a lesson that
+ * moves chapters keeps the id it was born with — the alternative is an id that
+ * means something, which is an id that can go out of date.
+ *
+ * Shape: lower case, digits and hyphens, alphanumeric at both ends, 2–64
+ * characters. `assertLessonIds()` below enforces it at import time and
+ * `progress_lesson_id_shape` enforces it again in Postgres.
+ */
+export type LessonId = string;
 
-export interface Lesson {
-  /** Route path. Unique, and the key progress is stored under. */
+/**
+ * What every listable page carries — a lesson, a chapter row, an annexe.
+ *
+ * Split from `Lesson` for one reason: `id` is required on a lesson and must not
+ * exist on anything else. Only a lesson can be ticked, so only a lesson has a
+ * key to be ticked under, and an annexe carrying a spare id would be an
+ * invitation to store progress against `/compte`.
+ */
+export interface PageEntry {
+  /** Route path. Unique, and what every link is written against. */
   path: string;
   /** Plain text, used for the sidebar, search and accessible names. */
   title: string;
@@ -40,12 +75,21 @@ export interface Lesson {
   levels: Level[];
   /** The DELF descriptor this page answers to, when it answers to one. */
   delf?: string;
-  metalanguage?: Metalanguage;
   /** ISO date. Drives "récemment ajouté"; a wrong one misplaces the page. */
   created?: string;
-  /** Announced but unwritten. Renders as a disabled « Bientôt » row and has no
-   *  folder. Promoting one means creating the page in the same change. */
-  soon?: boolean;
+}
+
+/**
+ * A page of the course, and the only kind of page progress is kept on.
+ *
+ * **`id` is required, and it is required here rather than on `PageEntry`** so
+ * that adding a lesson without one is a type error rather than a page that
+ * quietly cannot be ticked. Give it a value once, at creation, and treat it as
+ * frozen from that commit on: changing one is deleting every learner's tick on
+ * that lesson, silently, with nothing failing anywhere.
+ */
+export interface Lesson extends PageEntry {
+  id: LessonId;
 }
 
 /**
@@ -73,8 +117,7 @@ export type IconName =
   | "litterature"
   | "musique"
   | "culture"
-  | "sommaire"
-  | "nouveautes";
+  | "sommaire";
 
 export interface Chapter {
   slug: string;
@@ -110,13 +153,17 @@ export const LEVELS: Level[] = ["A1", "A2", "B1", "B2", "C1", "C2"];
  * back, and there is no third line of defence.
  *
  * Offering an empty level would hand someone an empty course, so a level belongs
- * here only once it has content. Opening B1 is now this one line, which is less
- * friction than #22 intended — worth remembering when B1 is written.
+ * here only once it has content — or, today, once it is the level being written.
+ * **A2 alone** (#52): the rewrite's content starts there, so A1 comes back to
+ * this line when an A1 page does. Opening a level is now this one edit, which is
+ * less friction than #22 intended — worth remembering when B1 is written.
  */
-export const CHOOSABLE_LEVELS: Level[] = ["A1", "A2"];
+export const CHOOSABLE_LEVELS: Level[] = ["A2"];
 
-const A1: Level[] = ["A1"];
-const A1A2: Level[] = ["A1", "A2"];
+/* Shorthands for the `levels` field, so a lesson entry reads as one line. `A2`
+   is the level being written (#52); `ANY` is "no level, always visible" — the
+   literacy pages, which answer to spelling rather than to a CEFR rung. */
+const A2: Level[] = ["A2"];
 const ANY: Level[] = [];
 
 export const chapters: Chapter[] = [
@@ -132,19 +179,37 @@ export const chapters: Chapter[] = [
        tenses in teaching order, then pronouns. */
     lessons: [
       {
-        path: "/grammaire/les-articles",
-        title: "Les articles",
-        levels: A1,
-        delf: "Désigner une chose et dire si elle est connue ou non",
-        metalanguage: "es",
-        created: "2026-09-05",
+        id: "gram-passe-compose",
+        path: "/grammaire/le-passe-compose",
+        title: "Le passé composé",
+        levels: A2,
+        delf: "Raconter un événement passé",
+        created: "2026-09-06",
       },
-      { path: "/grammaire/les-adjectifs", title: "Les adjectifs qualificatifs", levels: A1, metalanguage: "es", soon: true },
-      { path: "/grammaire/la-negation", title: "La négation", levels: A1, metalanguage: "es", soon: true },
-      { path: "/grammaire/l-interrogation", title: "Poser une question", levels: A1, metalanguage: "es", soon: true },
-      { path: "/grammaire/verbe-1er-groupe", title: "Les verbes du 1er groupe", titleHtml: "Les verbes du 1<sup>er</sup> groupe", levels: A1, metalanguage: "es", soon: true },
-      { path: "/grammaire/le-passe-compose", title: "Le passé composé", levels: A1A2, metalanguage: "es", soon: true },
-      { path: "/grammaire/les-prepositions-de-lieu", title: "Les prépositions de lieu", levels: A1, metalanguage: "es", soon: true },
+      {
+        id: "gram-imparfait",
+        path: "/grammaire/l-imparfait",
+        title: "L’imparfait",
+        levels: A2,
+        delf: "Décrire une situation ou une habitude au passé",
+        created: "2026-09-06",
+      },
+      {
+        id: "gram-pc-ou-imparfait",
+        path: "/grammaire/passe-compose-ou-imparfait",
+        title: "Passé composé ou imparfait ?",
+        levels: A2,
+        delf: "Choisir le temps du passé dans un récit",
+        created: "2026-09-06",
+      },
+      {
+        id: "gram-pronoms-cod-coi",
+        path: "/grammaire/les-pronoms-cod-coi",
+        title: "Les pronoms COD et COI",
+        levels: A2,
+        delf: "Reprendre un mot déjà dit sans le répéter",
+        created: "2026-09-06",
+      },
     ],
   },
   {
@@ -155,13 +220,7 @@ export const chapters: Chapter[] = [
     unit: ["verbe", "verbes"],
     blurb:
       "Les tableaux des verbes les plus utiles, au présent, au passé composé et au futur.",
-    lessons: [
-      { path: "/conjugaison/etre", title: "être", subtitle: "ser / estar", tag: "Auxiliaire", levels: A1, metalanguage: "fr", soon: true },
-      { path: "/conjugaison/avoir", title: "avoir", subtitle: "haber / tener", tag: "Auxiliaire", levels: A1, metalanguage: "fr", soon: true },
-      { path: "/conjugaison/parler", title: "parler", subtitle: "hablar", tag: "1er groupe", levels: A1, metalanguage: "fr", soon: true },
-      { path: "/conjugaison/finir", title: "finir", subtitle: "terminar", tag: "2e groupe", levels: A1, metalanguage: "fr", soon: true },
-      { path: "/conjugaison/aller", title: "aller", subtitle: "ir", tag: "Irrégulier", levels: A1, metalanguage: "fr", soon: true },
-    ],
+    lessons: [],
   },
   {
     slug: "orthographe",
@@ -171,19 +230,19 @@ export const chapters: Chapter[] = [
     unit: ["leçon", "leçons"],
     blurb:
       "Accorder en genre et en nombre, choisir le bon déterminant, ne plus confondre les homophones.",
-    /* The heritage track's home chapter: written in French, for a reader who
-       already speaks it (`docs/decisions.md` #16). */
+    /* The literacy chapter: what a reader who already speaks French gets wrong
+       in writing, and what a learner gets wrong for the same reason — the
+       forms sound identical. */
     lessons: [
       {
-        path: "/orthographe/le-pluriel-des-noms",
-        title: "Le pluriel des noms",
+        id: "orth-homophones",
+        path: "/orthographe/les-homophones",
+        title: "Les homophones",
+        subtitle: "a / à · et / est · on / ont · son / sont · ou / où",
         levels: ANY,
-        metalanguage: "fr",
-        created: "2026-09-05",
+        delf: "Écrire sans confondre les mots qui se prononcent pareil",
+        created: "2026-09-06",
       },
-      { path: "/orthographe/a-ou-a", title: "a ou à", levels: ANY, metalanguage: "fr", soon: true },
-      { path: "/orthographe/et-ou-est", title: "et ou est", levels: ANY, metalanguage: "fr", soon: true },
-      { path: "/orthographe/les-accents", title: "Les accents", levels: ANY, metalanguage: "fr", soon: true },
     ],
   },
   {
@@ -192,21 +251,16 @@ export const chapters: Chapter[] = [
     path: "/vocabulaire",
     title: "Vocabulaire",
     unit: ["fiche", "fiches"],
-    blurb: "Les mots du quotidien, par thème, avec leur traduction en espagnol.",
+    blurb: "Les mots du quotidien, par thème, avec des exemples pour les employer.",
     lessons: [
       {
-        path: "/vocabulaire/les-nombres",
-        title: "Les nombres",
-        levels: A1,
-        delf: "Compter, dire un prix, donner son numéro",
-        metalanguage: "es",
-        created: "2026-09-05",
+        id: "voc-heure",
+        path: "/vocabulaire/l-heure",
+        title: "L’heure",
+        levels: A2,
+        delf: "Demander et dire l’heure, fixer un rendez-vous",
+        created: "2026-09-06",
       },
-      { path: "/vocabulaire/les-salutations", title: "Se saluer et se présenter", levels: A1, metalanguage: "es", soon: true },
-      { path: "/vocabulaire/la-famille", title: "La famille", levels: A1, metalanguage: "es", soon: true },
-      { path: "/vocabulaire/la-nourriture", title: "La nourriture", levels: A1, metalanguage: "es", soon: true },
-      { path: "/vocabulaire/les-couleurs", title: "Les couleurs", levels: A1, metalanguage: "es", soon: true },
-      { path: "/vocabulaire/la-ville", title: "La ville", levels: A1A2, metalanguage: "es", soon: true },
     ],
   },
   {
@@ -217,10 +271,7 @@ export const chapters: Chapter[] = [
     unit: ["astuce", "astuces"],
     blurb:
       "Un truc à retenir, ses exceptions, et un lien vers la leçon qui l'explique en entier.",
-    lessons: [
-      { path: "/astuces/a-en-au-aux", title: "à, en, au, aux", levels: A1, metalanguage: "es", soon: true },
-      { path: "/astuces/masculin-ou-feminin", title: "Masculin ou féminin ?", levels: A1, metalanguage: "es", soon: true },
-    ],
+    lessons: [],
   },
   {
     slug: "prononciation",
@@ -229,11 +280,7 @@ export const chapters: Chapter[] = [
     title: "Prononciation",
     unit: ["leçon", "leçons"],
     blurb: "Lire le français à voix haute : les groupes de lettres et leurs sons.",
-    lessons: [
-      { path: "/prononciation/les-voyelles", title: "Les voyelles", levels: A1, metalanguage: "es", soon: true },
-      { path: "/prononciation/les-lettres-muettes", title: "Les lettres muettes", levels: A1, metalanguage: "es", soon: true },
-      { path: "/prononciation/la-liaison", title: "La liaison", levels: A1A2, metalanguage: "es", soon: true },
-    ],
+    lessons: [],
   },
   {
     slug: "exercices",
@@ -242,11 +289,7 @@ export const chapters: Chapter[] = [
     title: "Exercices",
     unit: ["exercice", "exercices"],
     blurb: "Mettre la théorie en pratique. Chaque exercice se corrige tout seul.",
-    lessons: [
-      { path: "/exercices/les-articles", title: "Les articles", levels: A1, metalanguage: "es", soon: true },
-      { path: "/exercices/etre-ou-avoir", title: "être ou avoir", levels: A1, metalanguage: "es", soon: true },
-      { path: "/exercices/le-pluriel", title: "Le pluriel", levels: ANY, metalanguage: "fr", soon: true },
-    ],
+    lessons: [],
   },
   {
     slug: "jeux",
@@ -256,10 +299,7 @@ export const chapters: Chapter[] = [
     unit: ["jeu", "jeux"],
     blurb:
       "Des parties courtes qui rebrassent le vocabulaire du cours. Rien n'est noté, tout se rejoue.",
-    lessons: [
-      { path: "/jeux/un-ou-une", title: "Un ou une ?", levels: ANY, metalanguage: "es", soon: true },
-      { path: "/jeux/le-mot-mystere", title: "Le mot mystère", levels: ANY, metalanguage: "es", soon: true },
-    ],
+    lessons: [],
   },
   {
     slug: "dictees",
@@ -268,10 +308,7 @@ export const chapters: Chapter[] = [
     title: "Dictées",
     unit: ["dictée", "dictées"],
     blurb: "Écouter, écrire, comparer. Avec le texte et ses points de vigilance.",
-    lessons: [
-      { path: "/dictees/la-rentree", title: "La rentrée", levels: ANY, metalanguage: "fr", soon: true },
-      { path: "/dictees/au-marche", title: "Au marché", levels: ANY, metalanguage: "fr", soon: true },
-    ],
+    lessons: [],
   },
   {
     slug: "conversation",
@@ -280,11 +317,7 @@ export const chapters: Chapter[] = [
     title: "Conversation",
     unit: ["dialogue", "dialogues"],
     blurb: "Des situations de la vie quotidienne, à compléter puis à dire à voix haute.",
-    lessons: [
-      { path: "/conversation/a-la-boulangerie", title: "À la boulangerie", levels: A1, metalanguage: "es", soon: true },
-      { path: "/conversation/demander-son-chemin", title: "Demander son chemin", levels: A1, metalanguage: "es", soon: true },
-      { path: "/conversation/au-restaurant", title: "Au restaurant", levels: A1A2, metalanguage: "es", soon: true },
-    ],
+    lessons: [],
   },
   {
     slug: "lecture",
@@ -294,9 +327,7 @@ export const chapters: Chapter[] = [
     unit: ["texte", "textes"],
     blurb:
       "De courts textes à lire, avec des questions et la traduction espagnole cachée dessous.",
-    lessons: [
-      { path: "/lecture/une-journee-a-paris", title: "Une journée à Paris", levels: A1A2, metalanguage: "es", soon: true },
-    ],
+    lessons: [],
   },
   {
     slug: "litterature",
@@ -305,9 +336,7 @@ export const chapters: Chapter[] = [
     title: "Littérature",
     unit: ["page", "pages"],
     blurb: "Les classiques français, en extraits courts et commentés.",
-    lessons: [
-      { path: "/litterature/le-petit-prince", title: "Le Petit Prince", subtitle: "Saint-Exupéry, 1943", levels: ANY, metalanguage: "fr", soon: true },
-    ],
+    lessons: [],
   },
   {
     slug: "musique",
@@ -316,9 +345,7 @@ export const chapters: Chapter[] = [
     title: "Musique",
     unit: ["chanson", "chansons"],
     blurb: "Apprendre en chantant : vocabulaire et contexte, extrait par extrait.",
-    lessons: [
-      { path: "/musique/la-vie-en-rose", title: "La Vie en rose", subtitle: "Édith Piaf, 1947", levels: ANY, metalanguage: "es", soon: true },
-    ],
+    lessons: [],
   },
   {
     slug: "culture",
@@ -327,10 +354,7 @@ export const chapters: Chapter[] = [
     title: "Culture",
     unit: ["page", "pages"],
     blurb: "Le pays derrière la langue : ses régions, ses villes, ses habitudes.",
-    lessons: [
-      { path: "/culture/les-regions", title: "Les régions", levels: ANY, metalanguage: "es", soon: true },
-      { path: "/culture/la-galette-des-rois", title: "La galette des rois", levels: ANY, metalanguage: "es", soon: true },
-    ],
+    lessons: [],
   },
 ];
 
@@ -349,7 +373,7 @@ export const chapters: Chapter[] = [
  * wants one. An optional field would have made both cases look identical in a
  * diff — the mistake #29 removed the icon field over (#42).
  */
-export type Annexe = Lesson &
+export type Annexe = PageEntry &
   ({ where: "top" | "tree"; icon: IconName } | { where: "menu" | "footer" });
 
 /** An annexe the sidebar draws — narrowed so `icon` is there to read. */
@@ -360,7 +384,6 @@ export const annexes: Annexe[] = [
      the way into the course rather than something beside it, and the foot of a
      fourteen-row list is not where you look for the list's own overview. */
   { path: "/sommaire", title: "Sommaire", levels: ANY, where: "top", icon: "sommaire" },
-  { path: "/nouveautes", title: "Nouveautés", levels: ANY, where: "tree", icon: "nouveautes", soon: true },
   { path: "/ma-progression", title: "Ma progression", levels: ANY, where: "menu" },
   { path: "/compte", title: "Compte", levels: ANY, where: "menu" },
   /* In the footer rather than the popover: it is a page about the site, and the
@@ -391,8 +414,11 @@ export const unlistedPages: string[] = ["/", "/recherche", "/design"];
  * renamed or a chapter dropped is caught rather than silently costing a pill.
  *
  * The choice is editorial: where a learner most often starts, plus the drills.
- * `exercices` is here before it has content on purpose — the home page is where
- * we say what the course is for, and practice is half of it.
+ * `exercices` is named here before it has content — the home page is where we
+ * say what the course is for, and practice is half of it — and it simply does
+ * not draw until it does (#51). Naming a chapter here is a statement of intent
+ * in a file only maintainers read, which is a different thing from a pill a
+ * learner can press.
  */
 export const featuredChapterSlugs: string[] = [
   "grammaire",
@@ -401,35 +427,59 @@ export const featuredChapterSlugs: string[] = [
   "exercices",
 ];
 
-/** Those slugs resolved to chapters, in order. Fails soft, like `relatedFor`. */
+/**
+ * Those slugs resolved to chapters, in order. Fails soft, like `relatedFor` —
+ * and **an empty chapter is dropped too**, so a pill can never lead to a page
+ * with nothing on it (`docs/decisions.md` #51). The list may therefore be
+ * shorter than `featuredChapterSlugs`; « Tout le cours » is always the last
+ * pill, so it is never a dead end.
+ */
 export function featuredChapters(): Chapter[] {
   return featuredChapterSlugs
     .map((slug) => chapters.find((chapter) => chapter.slug === slug))
-    .filter((chapter): chapter is Chapter => chapter !== undefined);
+    .filter((chapter): chapter is Chapter => chapter !== undefined)
+    .filter((chapter) => chapter.lessons.length > 0);
 }
 
 /**
- * Renamed lesson paths — old path → current path.
+ * Every lesson id is well-formed, and no two lessons share one.
  *
- * Progress is keyed by route path, so moving a lesson would otherwise orphan
- * every tick a learner has on it. Add the old path here in the same commit as
- * the rename. Entries are cheap and never expire: keep them.
+ * Checked at module scope, which means **at import time**, which means a clash
+ * fails `next build` rather than shipping. That matters more than an audit line
+ * would: two lessons sharing an id do not look broken, they look like one
+ * lesson two learners tick for each other.
+ *
+ * There is no id → lesson index beside it, because nothing needs one yet:
+ * `LessonEnd` resolves the lesson from the path it is already rendering, and
+ * `/ma-progression` walks the manifest and asks whether each id is in the
+ * learner's record. A tick whose lesson has since been removed simply shows
+ * nowhere, which is what it should do.
  */
-export const pathAliases: Record<string, string> = {
-  // '/grammaire/ancien-slug': '/grammaire/nouveau-slug',
-};
+const LESSON_ID_SHAPE = /^[a-z0-9][a-z0-9-]{0,62}[a-z0-9]$/;
 
-/**
- * The path a tick belongs to, following a rename.
- *
- * Applied on **read as well as write**, so a tick stored under an old path
- * before the alias existed still finds its lesson. One hop only: an alias whose
- * target is itself aliased is a chain nobody would notice was broken, so keep
- * `pathAliases` pointing at current paths rather than at each other.
- */
-export function canonicalPath(routePath: string): string {
-  return pathAliases[routePath] ?? routePath;
+function assertLessonIds(): void {
+  const seen = new Map<LessonId, string>();
+  for (const chapter of chapters) {
+    for (const lesson of chapter.lessons) {
+      if (!LESSON_ID_SHAPE.test(lesson.id)) {
+        throw new Error(
+          `navigation: « ${lesson.id} » (${lesson.path}) is not a usable lesson id — ` +
+            "lower case, digits and hyphens, alphanumeric at both ends, 2–64 characters.",
+        );
+      }
+      const clash = seen.get(lesson.id);
+      if (clash) {
+        throw new Error(
+          `navigation: two lessons share the id « ${lesson.id} » — ` +
+            `${clash} and ${lesson.path}. An id is one lesson's, for good.`,
+        );
+      }
+      seen.set(lesson.id, lesson.path);
+    }
+  }
 }
+
+assertLessonIds();
 
 /**
  * The annexes the sidebar draws at one position, narrowed to carry an icon.
@@ -440,17 +490,6 @@ export function canonicalPath(routePath: string): string {
  */
 export function treeAnnexes(where: "top" | "tree"): TreeAnnexe[] {
   return annexes.filter((page): page is TreeAnnexe => page.where === where);
-}
-
-/** Lessons that actually have a route. */
-export function publishedLessons(chapter: Chapter): Lesson[] {
-  return chapter.lessons.filter((lesson) => !lesson.soon);
-}
-
-/** « 7 leçons » / « 1 dictée » — pluralised with the chapter's own unit noun. */
-export function chapterCount(chapter: Chapter): { count: number; label: string } {
-  const count = publishedLessons(chapter).length;
-  return { count, label: chapter.unit[count === 1 ? 0 : 1] };
 }
 
 /**
@@ -466,6 +505,25 @@ export function visibleLessons(chapter: Chapter, level: Level | null): Lesson[] 
   return chapter.lessons.filter(
     (lesson) => lesson.levels.length === 0 || lesson.levels.includes(level),
   );
+}
+
+/**
+ * The chapters a listing draws: those with at least one lesson to offer.
+ *
+ * **A chapter with nothing in it is not shown** (`docs/decisions.md` #51). The
+ * fourteen are declared here because the course's shape is decided; what the
+ * interface offers is what is written, and a row leading to an empty page is
+ * the « Bientôt » badge again with worse manners. A chapter reappears on its
+ * own the moment its first lesson lands — there is no second list to update.
+ *
+ * It takes the level for the same reason `visibleLessons` does: a chapter whose
+ * only lessons are A2 has nothing to offer an A1 learner this week, and saying
+ * « rien à ce niveau » on a card is a card that costs a click to learn nothing.
+ * The chapter's own page still renders at its URL and still says what it holds
+ * — the filter is on the offer, never on access (#23).
+ */
+export function listedChapters(level: Level | null): Chapter[] {
+  return chapters.filter((chapter) => visibleLessons(chapter, level).length > 0);
 }
 
 export function findChapter(routePath: string): Chapter | null {
@@ -488,9 +546,20 @@ export const MAX_RELATED = 4;
 
 /** « Pour aller plus loin », keyed by route. Fails soft: see `relatedFor`. */
 export const relatedPages: Record<string, string[]> = {
-  "/grammaire/les-articles": ["/vocabulaire/les-nombres", "/orthographe/le-pluriel-des-noms"],
-  "/orthographe/le-pluriel-des-noms": ["/grammaire/les-articles"],
-  "/vocabulaire/les-nombres": ["/grammaire/les-articles"],
+  "/grammaire/le-passe-compose": [
+    "/grammaire/l-imparfait",
+    "/grammaire/passe-compose-ou-imparfait",
+    "/grammaire/les-pronoms-cod-coi",
+  ],
+  "/grammaire/l-imparfait": [
+    "/grammaire/le-passe-compose",
+    "/grammaire/passe-compose-ou-imparfait",
+  ],
+  "/grammaire/passe-compose-ou-imparfait": [
+    "/grammaire/le-passe-compose",
+    "/grammaire/l-imparfait",
+  ],
+  "/grammaire/les-pronoms-cod-coi": ["/grammaire/le-passe-compose"],
 };
 
 export interface RelatedLink {
@@ -501,15 +570,15 @@ export interface RelatedLink {
 
 /**
  * Resolve a page's related links into renderable rows. A path with no matching
- * lesson — or one still `soon` — is dropped, so a stale entry costs one link
- * instead of rendering a dead anchor.
+ * lesson is dropped, so a stale entry costs one link instead of rendering a
+ * dead anchor.
  */
 export function relatedFor(routePath: string): RelatedLink[] {
   return (relatedPages[routePath] ?? [])
     .slice(0, MAX_RELATED)
     .map((path) => {
       const found = findLesson(path);
-      if (!found || found.lesson.soon) return null;
+      if (!found) return null;
       return {
         path,
         title: found.lesson.title,

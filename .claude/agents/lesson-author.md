@@ -21,15 +21,21 @@ opposite things, and the answer decides the language the page is written in. `do
 the full picture.
 
 **The learner** — a native Spanish speaker acquiring French from zero. The rewrite is writing
-**A1 first** (`docs/decisions.md` #25); A2 is in scope and unwritten. Explanations **in Spanish**.
+**A2 first, and only A2 for now** (`docs/decisions.md` #52): the course has one learner and she is
+at A2, so a page aimed at A1 is a page nobody here reads. Explanations **in French, like every page
+of this course** (#53) — the reader is mostly a Spanish speaker, and that decides *what* you
+explain and how plainly, never *which language* you explain it in.
 
-- Lean on cognates (`la famille` / *la familia*), and **explicitly flag false friends**
-  (`la carte` ≠ *la carta*, `une robe` ≠ *la ropa*, `le sol` ≠ *el sol*, `rester` ≠ *restar*). A
-  "faux amis" note is worth more than an extra paradigm table.
-- Compare structures the learner already owns: gendered articles, verb families, reflexive verbs.
-  `se lever` ↔ *levantarse* teaches more than an abstract rule.
-- A1–A2 register: short sentences, present / passé composé / futur proche, concrete everyday
-  vocabulary. No subjunctive, no literary tenses, no metalanguage beyond *verbe, sujet, adjectif,
+- **Define the false friends rather than translating them.** `la carte`, `une robe`, `le sol`,
+  `rester` are the words a Spanish speaker reads wrong. Give the French definition and an example
+  that makes the wrong reading impossible — *« Elle porte une robe bleue »* settles what a `robe` is
+  without a word of Spanish. That note is worth more than an extra paradigm table.
+- **Write the correction, not the comparison.** Where the learner's first language pulls them
+  towards a wrong French sentence, print the wrong sentence and the right one side by side and move
+  on: *on ne dit pas « il est trois », on dit « il est trois heures »*. Naming the other language is
+  what #53 removed; anticipating its interference is the whole reason this course exists.
+- A2 register: short sentences, present / passé composé / imparfait / futur proche, concrete
+  everyday vocabulary. No subjunctive, no literary tenses, no metalanguage beyond *verbe, sujet, adjectif,
   accord*. "Semi-voyelle" and "complément circonstanciel" do not belong on a page for her.
 - Pronunciation notes matter most where Spanish has no equivalent: nasal vowels, the `u`/`ou`
   contrast, silent final consonants, liaison.
@@ -69,17 +75,20 @@ reason. Vocabulary references run longer by nature; use a dense table for lists 
 A lesson is a **Server Component**. No `'use client'`, no hooks, no state, no event handlers. It
 prerenders to HTML, ships no JavaScript, and is free to serve offline.
 
-Three real lessons exist — read one before writing your first:
-`src/app/grammaire/les-articles/page.tsx` (learner track, Spanish),
-`src/app/orthographe/le-pluriel-des-noms/page.tsx` (heritage track, French) and
-`src/app/vocabulaire/les-nombres/page.tsx`.
+**No lesson exists to read.** The three A1 pages written during the scaffold were deleted on
+2026-09-06 (`docs/decisions.md` #52), so the skeleton below and `src/app/globals.css` — which owns
+every content pattern a lesson uses: `.rule`, `.example`, `.attention`, `.exception`, the tables —
+are what there is. `/design` renders all of them on one page; read it before writing prose, and
+`git show 891649b:src/app/grammaire/les-articles/page.tsx` if you want to see how one was put
+together. **You are writing the first page of this course**: what you choose here is what the next
+twenty copy.
 
 ```tsx
-// src/app/grammaire/les-articles/page.tsx
+// src/app/grammaire/le-passe-compose/page.tsx
 import { lessonMetadata } from '@/components/lesson/metadata'
 import { PageHeader } from '@/components/lesson/PageHeader'
 
-const PATH = '/grammaire/les-articles'
+const PATH = '/grammaire/le-passe-compose'
 
 export const metadata = lessonMetadata(PATH)
 
@@ -91,7 +100,7 @@ export default function Page() {
       {/* Learner track: the prose is Spanish, so say so. */}
       <div lang="es">
         <section>
-          <h2>Los artículos definidos</h2>
+          <h2>El passé composé con « avoir »</h2>
           <p>…</p>
           <div className="rule">La règle, en une ou deux phrases.</div>
           <div className="example" lang="fr">le livre · la table · l’école</div>
@@ -113,8 +122,8 @@ manifest, so the tab, the breadcrumb, the sidebar and the heading cannot disagre
 means the renamed one is always the other one.
 
 **There are no `<Rule>` / `<Table>` / `<Attention>` components.** The lesson patterns are CSS
-classes in `globals.css` — `.rule`, `.example`, `.attention` (prints « À retenir — »),
-`.exception` (prints « Sauf — »), `.astuce` with `.astuce-hook`, `.table-wrap`, and plain
+classes in `globals.css` — `.rule`, `.example`, `.attention` (prints « À retenir : »),
+`.exception` (prints « Sauf : »), `.astuce` with `.astuce-hook`, `.table-wrap`, and plain
 `<table>` / `<section>` / `<p>`. `PageHeader` is the only component a lesson calls, because it is
 the only one that reads the manifest on the page's behalf — the rest of the manifest-driven
 furniture is the shell's. This is deliberate while `docs/decisions.md` #10 is open: classes commit
@@ -246,6 +255,9 @@ from a lesson or an astuce; do not write them here.
 1. `src/app/{chapitre}/{lecon}/page.tsx`.
 2. The lesson entry in `src/data/navigation.ts`, in reading order. Nothing auto-discovers pages:
    a lesson missing from the manifest is reachable from nothing. It carries, at minimum: its
+   **`id`** — a *required*, permanent name (`gram-articles`, `orth-pluriel-des-noms`), the key every
+   progress tick is stored under, chosen once and **never changed afterwards**, since changing one
+   deletes that lesson from every learner's history (`docs/decisions.md` #50) — its
    **`levels`** — a *required* array, where `[]` means "no level, always visible", so forgetting
    to tag a page is a type error rather than a silent default — the **DELF descriptor** it covers,
    its **metalanguage** (`es` or `fr`), and its `created` date. The manifest is the single source

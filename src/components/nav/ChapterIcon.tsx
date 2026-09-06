@@ -122,17 +122,11 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M10.2 11h3.6M9 15.5h6" />
     </>
   ),
-  /* Annexes. The contents page: rows with their marks. */
+  /* Annexes. The contents page: rows with their marks. There is one because
+     one annexe is drawn in the sidebar; « Nouveautés » had a calendar glyph and
+     it went with the page (#51) — an icon nothing names is a dead key. */
   sommaire: (
     <path d="M4.5 7h1M9 7h10.5M4.5 12h1M9 12h10.5M4.5 17h1M9 17h10.5" />
-  ),
-  /* What is new: a star on the calendar. */
-  nouveautes: (
-    <>
-      <rect x="3.5" y="5.5" width="17" height="15" rx="2" />
-      <path d="M3.5 10h17M8 3.5v4M16 3.5v4" />
-      <path d="m12 12.5 1.1 2.3 2.4.3-1.8 1.7.5 2.4-2.2-1.2-2.2 1.2.5-2.4-1.8-1.7 2.4-.3Z" />
-    </>
   ),
 };
 

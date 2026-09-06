@@ -9,9 +9,14 @@ being built and for whom.
 **Help Spanish speakers reach French, from A1 to C2, for free.**
 
 The long-term ambition is the full CEFR ladder. The scope is **A1 and A2**, and the rewrite starts
-with **A1 alone** — sized to the DELF A1 syllabus rather than to the 119 lessons the Vue app had.
-B1 through C2 appear in the interface as *bientôt* and have no content. That is a deliberate limit,
-not a gap to be quietly filled — an unbounded A1→C2 project never finishes A1.
+with **A2 alone** — sized to the DELF A2 syllabus rather than to the 119 lessons the Vue app had.
+The course has one learner and she is at A2 (below), so A1 is the level with no reader waiting;
+it keeps its place in the plan and has no page. B1 through C2 are declared as levels, cannot be
+chosen and have no content. That is a deliberate limit, not a gap to be quietly filled — an
+unbounded A1→C2 project never finishes a level.
+
+Nothing announces what is unwritten: a lesson appears in the interface in the commit that creates
+it, and until then its chapter is simply not offered (`docs/decisions.md` #51, #52).
 
 ## Who it is for
 
@@ -61,9 +66,8 @@ lessons.
   the orthography and conjugation pages in remediation order.
 
 One library, several orderings. Every lesson carries one or more CEFR **level tags** — a page can
-serve A1 and A2 at once — so greying out B1–C2 is
-a filter rather than a fork in the codebase, and adding a profile later means adding a parcours
-rather than an app.
+serve A1 and A2 at once — so a level that is not being offered is a filter rather than a fork in
+the codebase, and adding a profile later means adding a parcours rather than an app.
 
 ## What "done" means
 
@@ -74,29 +78,30 @@ existing content instead of hiding them, gives learners a target they could actu
 once teachers are contributing — gives everyone a shared reference to argue from rather than
 taste.
 
-Concretely: map lessons to DELF A1 and A2 descriptors, and track which descriptors have no lesson.
+Concretely: map lessons to DELF A2 descriptors first, then A1, and track which descriptors have no
+lesson.
 The 119 Vue lessons are a starting inventory to map against, not a claim of coverage.
 
 ## Language of instruction
 
-Explanations are in **Spanish** for the learner track, and in **French** for the heritage track —
-she already speaks French, so routing an explanation of French spelling through Spanish is a
-detour, and the Bled teaches in French for the same reason.
+**Everything is written in French.** The explanations, the tables, the callouts, the drill
+instructions and the interface — one language, on every page, for both profiles
+(`docs/decisions.md` #53).
+
+The reader is still, in the main, a Spanish speaker. That fact did not go away; it moved. It no
+longer decides *which language explains*, it decides *what gets explained and how plainly*: the
+false friends get a French definition instead of a gloss, the interference errors are printed
+wrong-then-right, and the French of the explanation stays easier than the French being taught. A
+page that needs a translation to be understood is a page written at the wrong level.
+
+**Why one language.** The old rule — Spanish for the learner, French for the heritage speaker —
+had a reader in mind and a nationality attached to them. The course is public, and a Spanish gloss
+is dead weight for a Brazilian, an Italian or a Moroccan reader who is otherwise squarely in the
+audience. Immersion is also how French is taught to adults everywhere; the monolingual FLE
+textbook is not an accident.
 
 **English is never used anywhere, for either profile.** No English glosses, no English mnemonics
-(never DR & MRS VANDERTRAMP). Never assume the learner reads English.
-
-> ### Known tension: shared pages have one language
->
-> The two rules collide on the pages both profiles use — the orthography and conjugation
-> chapters serve the learner *and* the heritage speaker, and a page cannot be Spanish-first and
-> French-first at once.
->
-> The working resolution: **each lesson declares its metalanguage**, and lessons written for the
-> heritage track are French-first. Where a topic genuinely needs both, that becomes two lessons
-> rather than one bilingual page — but only when a real page demonstrates the need, not in
-> anticipation. This is recorded as open in `AGENTS.md` §12; do not build a translation layer to
-> solve it speculatively.
+(never DR & MRS VANDERTRAMP). Never assume the reader knows English.
 
 ## Accounts and access
 
@@ -169,7 +174,6 @@ Stated so a "no" is about scope rather than about the person asking:
 
 Tracked here, decided in `docs/decisions.md` when they close:
 
-- The metalanguage of shared pages (above).
 - Whether the heritage parcours gets its own front door or stays one path among several.
 - When B1 opens, and whether the same two profiles still describe the audience by then.
 - What a third learner profile looks like — expected, but not yet met.

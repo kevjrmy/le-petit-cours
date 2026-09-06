@@ -1,6 +1,6 @@
 "use client";
 
-import { canonicalPath, findLesson } from "@/data/navigation";
+import { findLesson } from "@/data/navigation";
 import { DoneTick } from "@/components/progress/DoneTick";
 import { RelatedLinks } from "./RelatedLinks";
 import styles from "./LessonEnd.module.css";
@@ -26,13 +26,13 @@ import { usePathname } from "next/navigation";
  * keep in step.
  */
 export function LessonEnd() {
-  const pathname = usePathname();
-  const path = canonicalPath(pathname ?? "");
-  if (!findLesson(path)) return null;
+  const path = usePathname() ?? "";
+  const found = findLesson(path);
+  if (!found) return null;
 
   return (
     <div className={styles.end}>
-      <DoneTick path={path} />
+      <DoneTick id={found.lesson.id} path={path} />
       <RelatedLinks path={path} />
     </div>
   );

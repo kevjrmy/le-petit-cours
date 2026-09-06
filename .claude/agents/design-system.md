@@ -209,7 +209,7 @@ prerendering, and a lesson that stops prerendering stops being free to serve off
 - **Colour is never the only carrier.** Every state that is signalled by colour also says
   something — a visually-hidden label at minimum.
 - **Do not use a lesson callout for an interface message.** `.attention` and `.exception` inject
-  « À retenir — » and « Sauf — », which are labels about French grammar; on a failed save or an
+  « À retenir : » and « Sauf : », which are labels about French grammar; on a failed save or an
   expired link they read as nonsense. `.message`, `.message-danger` and `.message-success` are the
   interface's own, and inject nothing.
 - **A disabled control must look disabled.** `.button:disabled` is muted and takes

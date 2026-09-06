@@ -48,3 +48,6 @@ next-env.d.ts
 .vue/dev-dist/
 .vue/public/img/
 .vue/public/dictees/
+
+# Supabase CLI scratch
+supabase/.temp/

@@ -79,7 +79,7 @@ export function SearchResults() {
         <div className={styles.empty}>
           <p>
             La recherche porte sur les titres du cours, pas encore sur le texte
-            des leçons. Essayez un mot plus court, ou partez d’un chapitre.
+            des leçons. Essayez un mot plus court, ou parcourez le cours.
           </p>
           <StartPills />
         </div>

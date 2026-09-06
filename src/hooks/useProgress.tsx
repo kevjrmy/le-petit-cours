@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
-import { canonicalPath } from "@/data/navigation";
+import type { LessonId } from "@/data/navigation";
 import { localStore } from "@/lib/progress/local";
 import { remoteStore } from "@/lib/progress/remote";
 import { applyPending, type Progress } from "@/lib/progress/store";
@@ -16,8 +16,9 @@ export interface ProgressApi {
   state: Progress | null;
   /** Whether there is an account to keep any of this. */
   signedIn: boolean;
-  isDone(path: string): boolean;
-  toggle(path: string): void;
+  /** Both take a `Lesson.id` — never a route path (`AGENTS.md` §8). */
+  isDone(id: LessonId): boolean;
+  toggle(id: LessonId): void;
 }
 
 const ProgressContext = createContext<ProgressApi>({
@@ -107,14 +108,13 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   }, [userId]);
 
   const toggle = useCallback(
-    (rawPath: string) => {
+    (id: LessonId) => {
       if (!userId || state === null) return;
 
-      const path = canonicalPath(rawPath);
       const next = { ...state };
-      const marking = !(path in next);
-      if (marking) next[path] = new Date().toISOString();
-      else delete next[path];
+      const marking = !(id in next);
+      if (marking) next[id] = new Date().toISOString();
+      else delete next[id];
 
       /* On screen immediately. The write is not awaited: the learner has said
          what they did, and a slow network is not a reason to make them watch. */
@@ -131,14 +131,14 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
           /* Queued as an operation, not as a snapshot, so replaying it later
              cannot undo what another device did in between. */
           const pending = await local.loadPending();
-          await local.savePending({ ...pending, [path]: marking ? next[path] : null });
+          await local.savePending({ ...pending, [id]: marking ? next[id] : null });
         }
       })();
     },
     [userId, state],
   );
 
-  const isDone = useCallback((path: string) => !!state?.[canonicalPath(path)], [state]);
+  const isDone = useCallback((id: LessonId) => !!state?.[id], [state]);
 
   return (
     <ProgressContext.Provider value={{ state, signedIn: !!userId, isDone, toggle }}>

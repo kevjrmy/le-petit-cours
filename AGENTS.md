@@ -38,13 +38,18 @@ What exists off the repo, as of 2026-09-06:
   account must be created with « Auto Confirm User »** — confirmation is on and no mail can reach
   a `.test` address. Both are readable without the dashboard from the public
   `/auth/v1/settings` endpoint.
-- **The schema is applied.** One migration, two tables: `public.progress` and `public.usernames`,
-  with three functions, the trigger and the backfill (#38, 2026-09-06). Verified from outside — both
-  accounts resolve (`email_for_username('kevin')` → `kevin@lepetitcours.test`), an unknown name
-  returns `null`, a mixed-case one folds, and `set_username` refuses an anonymous caller with
-  `28000`. An anonymous caller is refused `select` on **both** tables with `42501`, at the grant
-  level, before RLS is even consulted. If a probe ever comes back with rows instead, someone has
-  taken Supabase's helpful hint to `GRANT SELECT ON public.progress TO anon`; do not.
+- **The schema is applied.** Two migrations, two tables: `public.progress` and `public.usernames`,
+  with three functions, the trigger and the backfill (#38), plus the rekey of `progress.path` to
+  `progress.lesson_id` (#50), applied by hand in the dashboard editor on 2026-09-06. Verified from
+  outside — both accounts resolve (`email_for_username('kevin')` → `kevin@lepetitcours.test`), an
+  unknown name returns `null`, a mixed-case one folds, and `set_username` refuses an anonymous
+  caller with `28000`. An anonymous caller is refused `select` on **both** tables with `42501`, at
+  the grant level, before RLS is even consulted. If a probe ever comes back with rows instead,
+  someone has taken Supabase's helpful hint to `GRANT SELECT ON public.progress TO anon`; do not.
+  **The column names are not checkable from outside**, and that is the same lockdown working: the
+  grant refusal comes before the column is ever consulted, and `/rest/v1/` exposes no definitions to
+  `anon` at all. Confirming a migration landed means the dashboard, or a signed-in tick that
+  survives on a second device.
 - **Auth works end to end**: the username-and-password form, the session provider, sign-out, the
   change-password field, the level chooser, the display-name field and the level filter. The
   database is done; the two dashboard settings above are not.
@@ -56,8 +61,17 @@ every lesson, and `/ma-progression`. Ticking needs an account; nothing else does
 The design system, the icons and the shell are written — `globals.css`, `src/data/navigation.ts`,
 the sidebar in its three shells, the topbar and the chapter icons (§5, §6). **The way in is written
 too**: `/` is a search field over the manifest, `/recherche` answers it, and the sommaire is at
-`/sommaire`. The manifest declares fourteen chapters and three lessons are real; everything else is
-`soon`. The lessons themselves are what is left.
+`/sommaire`. **The manifest declares fourteen chapters and holds six lessons, all real, all A2, all
+in French** — four in `grammaire` (passé composé, imparfait, le choix entre les deux, pronoms COD et
+COI), one in `orthographe` (les homophones), one in `vocabulaire` (l'heure). They were written on
+2026-09-06 against the topics the Vue course covered, not ported from it (#53).
+
+Three things happened to the content that day and they compound: the announced-but-unwritten entries
+were deleted with the flag that drew them (#51), the scaffold's three A1 pages were deleted so the
+course could start where its learner is (#52), and French became the single language of instruction
+(#53). So **a chapter with nothing in it is offered nowhere** — eleven of the fourteen are in that
+state, the sidebar lists the other three, and every empty listing has a state that has been checked on screen.
+The rest of the content is what is left.
 
 `/a-propos` is deliberately down to a sentence and the licence (#46); its prose is owed a pass. It
 is reached from the footer, not from the account popover, which holds only the account (#47).
@@ -105,33 +119,40 @@ never reason about her with a single CEFR badge. The chapters serve both: `gramm
 
 The rules that follow from this:
 
-- **Language of instruction: Spanish for the learner track, French for the heritage track.**
-  Explaining French spelling in Spanish to someone who already speaks French is a detour. Which a
-  given page uses is a property of the page — see §12, it is not fully settled for pages both
-  profiles read.
-- **The interface itself is in French** — « J'ai terminé », « Bientôt », « Parcours », « Compte ».
-  The *instruction* language varies by track; the chrome does not.
+- **Everything is written in French. One language, no exceptions** (`docs/decisions.md` #53,
+  closing §12's open question). The explanations, the tables, the callouts, the drill instructions
+  and the chrome are all French; no Spanish gloss, no translation column, no bilingual page and no
+  `metalanguage` field — the field is gone, because there is nothing left for it to distinguish.
+- **The reader is still, mostly, a Spanish speaker — and that shapes the French you write, not the
+  language you write it in.** Short sentences. Everyday words. A rule stated before it is qualified.
+  Where a Spanish speaker predictably slips, the page addresses the slip *in French*, by being
+  precise about what the French word means and by showing the wrong version beside the right one —
+  never by translating. « Il est trois » is corrected on the page; *son las tres* is not printed on
+  it. Choosing what to explain is where the audience shows; the language of explanation is settled.
 - **The whole content is « le cours », never « le livre »** (`docs/decisions.md` #41). It is a course
   with drills and games, not a printed thing — there is no PDF and no print stylesheet (#1) — and
-  « le livre » is an A1 vocabulary word this course teaches on `/grammaire/les-articles`, so using it
-  as chrome puts the word on screen meaning two things at once. The parts keep their own names and
+  « le livre » is a beginner vocabulary word this course will teach in `grammaire`, so using it as
+  chrome puts the word on screen meaning two things at once. The parts keep their own names and
   they are all taken: **leçon** a page, **chapitre** one of fourteen, **sommaire** the contents page,
   **parcours** an ordered path, **programme** a level's syllabus. In English prose — this file, the
   briefs, commit messages — say *the course*.
 - **English is never used, for either profile.** No English glosses, no English mnemonics (never
   DR & MRS VANDERTRAMP). Never assume the reader knows English.
-- **Lean on Spanish, and flag false friends** — `une robe` ≠ *la ropa*, `le sol` ≠ *el sol*. Where
-  a structure already exists in Spanish (gendered articles, reflexives, verb families), say so:
-  `se lever` ↔ *levantarse* teaches more than an abstract rule.
-- **A1 first; A2 next.** The rewrite starts with A1 alone, sized to the DELF A1 syllabus rather
-  than to parity with the old one (`docs/decisions.md` #25). A2 is in scope and unwritten; B1–C2
-  are `soon` in the interface and have no content. Short
+- **A false friend is defined, not translated.** The words a Spanish speaker misreads — `robe`,
+  `sol`, `carte`, `rester` — earn a French definition and an example that makes the wrong reading
+  impossible, in the lesson where they appear. That is the same protection the old bilingual gloss
+  gave, minus the Spanish (#53).
+- **A2 first, and A2 alone for now** (`docs/decisions.md` #52, superseding #25's A1-first half).
+  The course has one learner and she is at A2, so the writing is sized to the DELF **A2** syllabus
+  rather than to parity with the old course. A1 stays in scope and has no page and no learner
+  waiting; `CHOOSABLE_LEVELS` holds `A2` alone until one of them does. B1–C2 are declared as levels,
+  are not choosable and carry no page. Short
   sentences, everyday vocabulary, no literary tenses, no metalanguage beyond *verbe, sujet,
   adjectif, accord*. The heritage track may use school grammar vocabulary the learner track cannot
   — that is the one place this relaxes.
 - **A level is complete when it covers the published DELF syllabus for that level.** Not when it
   feels thorough.
-- **Both profiles type on a Spanish keyboard.** `é`, `è`, `ê` cost a dead-key detour, and `œ` and
+- **Both profiles type on a Spanish keyboard**, whatever the language on screen. `é`, `è`, `ê` cost a dead-key detour, and `œ` and
   `ç` cannot be typed at all. A design constraint, not a footnote: see §9.
 
 ## 2. Stack and intended shape
@@ -168,7 +189,7 @@ src/
   hooks/                  useAccount (+ AccountProvider), useProgress (+ ProgressProvider),
                           useShellMode  ('use client')
   lib/                    site.ts, account.ts, search.ts, supabase/client.ts,
-                          progress/{store,local,remote}.ts — the seam and its two ends
+                          progress/{store,local,remote}.ts — the seam and its two ends, keyed by lesson id
 scripts/                  shot.mjs (themed screenshots, --seed for signed-in), make-icons.mjs
 public/                   brand assets (logo, logo-mark, PWA icons) and lesson images
 ```
@@ -279,18 +300,18 @@ The rules:
   token could be defined in two of the three places, work in whichever mode you happened to be
   testing, and break in the other. That bug class no longer has anywhere to live. **Never
   reintroduce a per-theme block to add a token.**
-- **The serif carries the French, the sans carries the instruction.** `.fr` (always with
-  `lang="fr"`) and `.example` set French example material in Spectral; everything explaining it is
-  Inter. The split is by role, not by track — an orthographe page written in French for the
-  heritage speaker still sets its explanation in sans and its example words in serif. The `lang`
-  attribute is not decoration: it picks the voice for `useSpeech` and stops a screen reader reading
-  French with a Spanish accent.
+- **The serif carries the French being taught, the sans carries the explanation.** `.fr` and
+  `.example` set example material in Spectral; the prose around it is Inter. **The split is by role,
+  and since #53 that is all it is** — the whole page is French, so the two faces separate *the
+  language under study* from *the sentence explaining it*, which is what keeps a table of forms from
+  reading as continuous prose. `lang="fr"` is inherited from `<html>` and no longer needs repeating
+  on every span; keep it only where an element must be pronounced in isolation.
 - **Red means "you got it wrong", so red is never decoration.** In a course of graded drills, an
   ornamental red teaches the learner to distrust the one signal that has to be trusted. `--danger`
   is for a wrong answer and for `.exception`, and nothing else.
 - **Dark mode is not optional.** Check it, every time — see §11.
 - **Colour is never the only carrier** of meaning. A state that is red also says something:
-  `.attention` prints « À retenir — », `.exception` prints « Sauf — », a drill's feedback carries a
+  `.attention` prints « À retenir : », `.exception` prints « Sauf : », a drill's feedback carries a
   mark as well as a fill.
 - Accessibility is part of the design system, not a later pass: semantic HTML, `focus-visible`
   rings, `aria-label` on icon-only controls, a `<caption>` on every table.
@@ -375,8 +396,20 @@ learner following "pour aller plus loin" into an A2 page gets the page. Gating i
 the session to decide whether a page renders, which §8 forbids precisely because it would drag every
 lesson out of static prerendering. The level decides what the course **offers**, not what it permits.
 
-B1–C2 are declared and empty. They render as *bientôt* and are filtered out, the same mechanism as
-a `soon` lesson — **not** a separate code path, and not an excuse to write B1 content early.
+B1–C2 are declared in `LEVELS` and are absent from `CHOOSABLE_LEVELS`, so nobody can pick one and no
+lesson carries one. That is the whole mechanism: a level opens by being added to one array, once it
+has content. **Not** an excuse to write B1 content early, and not a reason to draw anything that
+says *bientôt* — nothing in this interface does any more (#51).
+
+**Nothing in the interface announces a page that is not written** (#51). The manifest holds no
+`soon` flag and no entry without a folder: a lesson is registered in the commit that creates it. A
+chapter whose `lessons` array is empty is declared — the fourteen are the shape of the course — but
+`listedChapters(level)` drops it, so the sidebar, the sommaire, the pills and search all pass it
+over and it returns on its own with its first lesson. There is no second list to maintain and no
+badge to draw. Its landing page still renders at its URL and says plainly that it has no lesson
+yet; that page is reachable by link, never by offer, which is the same line §6 already draws for the
+level filter. **Do not reintroduce a "coming soon" row in any form** — a dimmed row, a disabled
+link, a count of what is planned. If it is not written, it is not on screen.
 
 **Chapter landing pages are one route, not fourteen.** `app/[chapitre]/page.tsx` renders every
 chapter from the manifest via `generateStaticParams`, with `dynamicParams = false` so an unknown
@@ -392,21 +425,25 @@ row of pills; the sommaire — the fourteen chapter cards — lives at **`/somma
 not read; arriving at a field is arriving at the one you came for.
 
 - **The sommaire is an annexe with `where: "top"`**, so the sidebar puts it *above* the chapters
-  rather than at the foot with « Nouveautés ». `Annexe.where` is `top | tree | menu | footer` — the
+  rather than at their foot. `Annexe.where` is `top | tree | menu | footer` — the
   position is a property of the page in the manifest, never a list hand-copied into the four
   components that render them. The footer is where a page *about the site* goes: « À propos » is
   there, not in the account popover, which holds what belongs to the account.
-- **The sidebar is one level deep: a chapter is a link, not a disclosure.** It lists the fourteen
-  chapters and nothing else; the lessons live on the chapter's own landing page, one click away
+- **The sidebar is one level deep: a chapter is a link, not a disclosure.** It lists the chapters
+  that have a lesson to offer — fourteen when the course is written, three today (#51) — and nothing
+  else; the lessons live on the chapter's own landing page, one click away
   (`docs/decisions.md` #40). A tree that opened was fine at three lessons and unusable at the
   hundred and nineteen this course is heading for. **Do not put the lessons back in it** — the answer
   to "the sidebar should show more" is the chapter page, or search.
 
 - **The pills are the one hand-kept list in the manifest.** `featuredChapterSlugs` — a few chapters,
   then « Tout le cours » to the sommaire, which is what keeps the short list from being a ceiling.
-  They fail soft like cross-links, so the `nav-wiring` audit has a fourth line for them.
+  They fail soft like cross-links, so the `nav-wiring` audit has a fourth line for them — and an
+  empty chapter named there simply does not draw, so `exercices` can stay in the list while it waits
+  for its first drill.
 - **Search reads the manifest and nothing else** (`src/lib/search.ts`): titles, subtitles, tags,
-  blurbs and DELF descriptors, for lessons, chapters and annexes alike. No index to build, no fetch,
+  blurbs and DELF descriptors, for lessons, chapters and annexes alike — an empty chapter excepted,
+  the one thing search hides rather than groups, because it has no page worth arriving at (#51). No index to build, no fetch,
   and it works offline — which is the point. **It folds accents**, because both profiles type on a
   Spanish keyboard and *passe compose* has to find « Le passé composé » (§1). Searching lesson
   *prose* is a different feature and is not this one.
@@ -448,8 +485,12 @@ holds there and only there.
 
 Two things still need deliberate care:
 
-- **Renaming a lesson's path orphans every progress tick on it** (§8). A rename adds the old path
-  to `pathAliases` in the same commit, and a redirect in `next.config.ts` so bookmarks survive.
+- **A lesson's `id` is permanent; its path is not.** Every entry carries a required `id` — the key
+  progress is stored under (§8) — so renaming a lesson, moving it to another chapter or changing
+  its URL costs a learner nothing. A rename needs a redirect in `next.config.ts` so bookmarks
+  survive, and **the id must not change in that commit or any other**: changing one deletes every
+  tick on that lesson silently. The manifest checks the ids are unique and well-formed when it is
+  imported, so a clash fails `next build` rather than shipping.
 - **Cross-links fail soft**, and so do the home page's pills. Both drop a target they cannot resolve
   rather than erroring, so a stale entry costs a link silently. Four cross-links maximum; more is a
   second nav menu. The block itself is placed by `LessonEnd`, not by the lesson (#49), so a page
@@ -596,7 +637,13 @@ silently is worse than saying plainly what an account is for. `?suivant=` is che
 manifest rather than against a pattern — `//ailleurs.example` starts with a slash and leaves the
 site.
 
-- **Keyed by route path**, which the manifest guarantees unique.
+- **Keyed by `Lesson.id`, never by route path** (#50). The id is the lesson's permanent name and
+  the path is an editorial choice, so a rename that would once have orphaned every tick now costs
+  nothing. `id` is required on every manifest entry and frozen from the commit that adds it;
+  `navigation.ts` throws at import on a duplicate or a malformed one, and Postgres checks the shape
+  again in `progress_lesson_id_shape`. Only lessons carry an id — an annexe cannot be ticked, so
+  the field is on `Lesson` rather than on `PageEntry` and there is nothing to store against
+  `/compte`.
 - **Nothing touches storage directly.** Every read and write goes through an adapter with a
   `load()` / `save(state)` pair, so the local cache and the Supabase sync are two implementations
   of one interface and no component knows which is in play. This seam was the best idea in the old
@@ -620,9 +667,10 @@ site.
   and cannot forget its own cross-links.
 - Counts use published lessons as the denominator, so announced-but-unwritten entries never make
   a finished chapter look unfinished.
-- **Renaming a lesson path orphans every tick on it** — see §6 for the `pathAliases` discipline
-  that goes with a rename. `canonicalPath()` applies an alias on **read as well as write**, so a
-  tick stored under the old path before the alias existed still finds its lesson.
+- **Renaming a lesson path costs nothing** — the tick is on the id (#50). What a rename still needs
+  is the redirect in `next.config.ts`, for bookmarks and shared links. `pathAliases` and
+  `canonicalPath()` are gone: they existed only to fold a path-keyed tick forward, and a discipline
+  nobody could see failing is worse than a field that cannot go wrong.
 - **`/ma-progression` is the one listing that does not filter by level** (#48). Every other listing
   shows what the course *offers* at the learner's level; this one shows what they *did*, and a tick
   hidden because they moved from A2 to A1 would read as a lost tick.
@@ -635,8 +683,9 @@ them care which framework renders them, and every one of them will bite again.
 **Content**
 
 - A lesson is **two or three sections**. A topic that needs more is two lessons.
-- Tables: a `<caption>` for screen readers, **four columns maximum**, translation column in
-  Spanish.
+- Tables: a `<caption>` for screen readers, **four columns maximum**. The column that used to hold
+  the Spanish translation now holds an **example sentence** — the French that shows the form in use
+  (#53). A table of forms with nothing to anchor them is a paradigm, not a lesson.
 - **There is no PDF export and no print stylesheet.** Removed 2026-08-26. Do not add a
   `window.print()` button, an `@media print` block or a `.no-print` class.
 - **Lecture quizzes use `<button>` options, not hidden radios** — the click targets overlap and
@@ -662,7 +711,9 @@ the wrong thing. Nothing in the toolchain catches it.
 - **An `accept` list may hold case and accent variants, never a different number or gender.**
   `answer: 'croissants', accept: ['croissant']` marks *deux croissant* correct. Twenty-one of
   these shipped before an audit caught them.
-- **An item with two defensible answers is broken.** Disambiguate with a Spanish cue.
+- **An item with two defensible answers is broken.** Disambiguate in French — a fuller sentence, a
+  named subject, a time expression that forces one tense (#53). A Spanish cue is no longer available
+  and was never the only way.
 - **Minimal-pair listening sets must contain no homophones** — `cent/sang/sans`, `vert/verre`.
 - **Prefer clicking to typing when the answer carries French accents** (§1). Type-in earns its
   place where the *spelling* is the skill, never as the only way to express something a click
@@ -806,15 +857,13 @@ are in `docs/decisions.md` — read it before reopening any of them:
    target; MDX and TSX render to DOM), and contributing teachers eventually (a non-developer can
    fill in a structured file, not TSX). Still: build the primitives, hand-write two or three
    lessons, decide with evidence. Do not build a pipeline before then.
-2. **The metalanguage of shared pages.** Spanish for the learner track and French for the heritage
-   track collide on the orthography and conjugation pages both read. Working resolution: each
-   lesson declares its language, and a topic that genuinely needs both becomes two lessons — but
-   only once a real page shows the need. Do not build a translation layer speculatively.
-3. **Which chapters ship first.** The level half is settled — **A1 only** to begin with, written
-   from scratch, aiming at the DELF A1 syllabus rather than at parity with the 119 Vue lessons
-   (`docs/decisions.md` #25). Which chapters carry it, and in what order, is still open.
-4. **Whether the heritage parcours gets its own front door** or stays one path among several.
-5. **Whether `.vue/` gets deleted** once the rewrite has outgrown it.
+2. **Which chapters ship next.** The level half is settled — **A2 only**, aiming at the DELF A2
+   syllabus rather than at parity with the 119 Vue lessons (`docs/decisions.md` #52). The first six
+   pages landed in `grammaire`, `orthographe` and `vocabulaire` (#53); which chapters follow, and in
+   what order, is still open. `conjugaison` and `prononciation` are the ones that need a decision
+   first, because §7 makes them data-driven and that is a component before it is a lesson.
+3. **Whether the heritage parcours gets its own front door** or stays one path among several.
+4. **Whether `.vue/` gets deleted** once the rewrite has outgrown it.
 
 One decision is recorded as *inferred* rather than settled — plain CSS over Tailwind
 (`docs/decisions.md` #6). It is the working assumption, not a choice that was ever made

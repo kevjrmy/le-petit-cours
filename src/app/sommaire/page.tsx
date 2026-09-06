@@ -27,8 +27,8 @@ export default function Sommaire() {
       <header className={styles.hero}>
         <h1>Le cours</h1>
         <p className={styles.tagline}>
-          Quatorze chapitres. Ce qui n&rsquo;est pas encore écrit est annoncé
-          plutôt que caché.
+          Quatorze chapitres au programme. Ne s&rsquo;affichent ici que ceux qui
+          ont déjà une leçon à lire.
         </p>
       </header>
 
