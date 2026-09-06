@@ -728,11 +728,50 @@ export function findLesson(
 export const MAX_RELATED = 4;
 
 /** « Pour aller plus loin », keyed by route. Fails soft: see `relatedFor`. */
-export const relatedPages: Record<string, string[]> = {
+/**
+ * The two lessons every verb sheet is worth leaving for: the sheet shows the
+ * passé composé and the imparfait, and those are the two tenses on it that have
+ * a page explaining themselves. The futur has none yet.
+ */
+const FROM_A_VERB_SHEET = [
+  "/grammaire/le-passe-compose",
+  "/grammaire/l-imparfait",
+];
+
+/**
+ * The verb sheets' cross-links, built rather than typed out twelve times.
+ *
+ * Hand-writing them would make adding a verb two edits instead of one, which is
+ * exactly what one route and one data file bought (#56) — and eleven of the
+ * twelve entries would be the same two paths, so the twelfth being different by
+ * accident is the failure this avoids. The auxiliaries additionally point at
+ * each other: they are the pair you check together.
+ *
+ * These are audited like any other cross-link — `relatedFor()` resolves them
+ * against the manifest and `nav-wiring`'s third line reads the merged map.
+ */
+const verbSheetLinks: Record<string, string[]> = Object.fromEntries(
+  (chapters.find((chapter) => chapter.slug === "conjugaison")?.lessons ?? []).map(
+    (lesson) => {
+      const auxiliaryPair =
+        lesson.path === "/conjugaison/etre"
+          ? ["/conjugaison/avoir"]
+          : lesson.path === "/conjugaison/avoir"
+            ? ["/conjugaison/etre"]
+            : [];
+      return [lesson.path, [...auxiliaryPair, ...FROM_A_VERB_SHEET]];
+    },
+  ),
+);
+
+const handWrittenLinks: Record<string, string[]> = {
+  /* The auxiliaries come first: a learner stuck mid-lesson wants the forms, and
+     `les-pronoms-cod-coi` still links back the other way. Four is the cap. */
   "/grammaire/le-passe-compose": [
+    "/conjugaison/avoir",
+    "/conjugaison/etre",
     "/grammaire/l-imparfait",
     "/grammaire/passe-compose-ou-imparfait",
-    "/grammaire/les-pronoms-cod-coi",
   ],
   "/grammaire/l-imparfait": [
     "/grammaire/le-passe-compose",
@@ -743,6 +782,8 @@ export const relatedPages: Record<string, string[]> = {
   "/grammaire/passe-compose-ou-imparfait": [
     "/grammaire/le-passe-compose",
     "/grammaire/l-imparfait",
+    "/conjugaison/etre",
+    "/conjugaison/avoir",
   ],
   "/grammaire/les-pronoms-cod-coi": [
     "/grammaire/le-passe-compose",
@@ -772,6 +813,11 @@ export const relatedPages: Record<string, string[]> = {
     "/grammaire/les-pronoms-cod-coi",
     "/grammaire/le-passe-compose",
   ],
+};
+
+export const relatedPages: Record<string, string[]> = {
+  ...handWrittenLinks,
+  ...verbSheetLinks,
 };
 
 export interface RelatedLink {

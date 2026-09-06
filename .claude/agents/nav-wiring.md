@@ -228,3 +228,9 @@ them.
 
 If you find yourself copying a title into a second place, stop: it belongs in the manifest and
 should be read from there.
+
+**`relatedPages` is not entirely hand-written any more.** The verb sheets' cross-links are derived
+from the conjugaison chapter's own lessons and merged into the exported map, so adding a verb stays
+one data entry (#56). The audit reads the merged map, so a derived link that resolves to nothing is
+reported exactly like a typed one. Add a chapter to that treatment only when its pages genuinely all
+want the same links; anywhere else, type them.

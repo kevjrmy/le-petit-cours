@@ -509,7 +509,11 @@ Two things still need deliberate care:
   imported, so a clash fails `next build` rather than shipping.
 - **Cross-links fail soft**, and so do the home page's pills. Both drop a target they cannot resolve
   rather than erroring, so a stale entry costs a link silently. Four cross-links maximum; more is a
-  second nav menu. The block itself is placed by `LessonEnd`, not by the lesson (#49), so a page
+  second nav menu. **The verb sheets' are derived rather than typed** — every sheet leaves for the
+  two tenses on it that have a lesson, and the auxiliaries also point at each other — because
+  hand-writing twelve near-identical entries would make adding a verb two edits instead of the one
+  that #56 bought, and would let the twelfth differ by accident. They resolve and are audited like
+  every other entry. The block itself is placed by `LessonEnd`, not by the lesson (#49), so a page
   cannot lose its cross-links by forgetting to render it — only `relatedPages` can be wrong, and
   that is what the audit's third line reads.
 
