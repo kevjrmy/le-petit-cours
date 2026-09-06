@@ -62,14 +62,14 @@ function applyTheme(choice: ThemeChoice) {
  * ~166px to live in inside the mobile drawer. Swapping the contents behaves
  * identically at both breakpoints, which is worth more here than the animation.
  *
- * Sign-in itself lives at `/compte`, a real route, so a magic link can return
- * to it (`docs/decisions.md` #26). This menu links there; it never holds a form.
+ * Sign-in itself lives at `/compte`, a real route rather than a dialog
+ * (`docs/decisions.md` #26). This menu links there; it never holds a form.
  */
 export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
   const account = useAccount();
-  /* Their chosen name if they set one, else the part of the email before the @
-     (#31). The full address stays on the line below either way, rather than
-     being truncated into uselessness in a 16.5rem rail. */
+  /* Their chosen name if they set one, else their username (#31). The username
+     stays on the line below either way, so a learner who set a name can still
+     see which account they are in. */
   const name = account ? displayName(account) : null;
 
   const [open, setOpen] = useState(false);
@@ -151,7 +151,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
               {account && (
                 <p className={styles.status}>
                   <span className={styles.statusLabel}>{name}</span>
-                  <span className={styles.statusHint}>{account.email}</span>
+                  <span className={styles.statusHint}>{account.username}</span>
                 </p>
               )}
 
@@ -291,7 +291,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
           {/* An offer, not a state. « Non connecté » would report the absence
               of something the site does not require. */}
           <span className={styles.triggerSub}>
-            {account ? account.email : "Se connecter"}
+            {account ? account.username : "Se connecter"}
           </span>
         </span>
         <svg className={styles.chevron} viewBox="0 0 24 24" aria-hidden="true">

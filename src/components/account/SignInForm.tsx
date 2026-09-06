@@ -1,89 +1,66 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { getSupabaseClient } from "@/lib/supabase/client";
+import { signIn, SignInError, type SignInProblem } from "@/lib/account";
 import styles from "./AccountSettings.module.css";
 
 type State =
   | { kind: "idle" }
-  | { kind: "sending" }
-  | { kind: "sent"; email: string }
+  | { kind: "signing" }
   | { kind: "error"; message: string };
 
-/** Reasons `/auth/callback` can send someone back here. */
-const CALLBACK_ERROR: Record<string, string> = {
-  lien: "Ce lien n’est plus valable. Les liens expirent, et ne servent qu’une fois — demandez-en un nouveau.",
-  indisponible:
-    "La connexion est momentanément indisponible. Réessayez dans un instant.",
+/**
+ * Username and password, the classic way in.
+ *
+ * **There is no sign-up form, and that is the design rather than an omission**
+ * (`docs/decisions.md` #37). Accounts are created by hand in the Supabase
+ * dashboard and the credentials handed over directly. Nothing on this page can
+ * create one, and public sign-up is turned off at the Supabase end so nothing
+ * else can either.
+ *
+ * **Either a username or an email address** gets you in (#38) — the `@` is what
+ * decides, and `signIn` resolves a username through the database before
+ * authenticating.
+ *
+ * Nothing here is a Server Component's business: the whole exchange happens in
+ * the browser client, `signInWithPassword` returns a session directly, and
+ * there is no redirect to come back from. That is what let `/auth/callback`
+ * and the server client be deleted with it.
+ */
+const PROBLEM: Record<SignInProblem, string> = {
+  unavailable: "La connexion n’est pas configurée sur ce site.",
+  credentials: "Identifiant ou mot de passe incorrect.",
+  /* Not the learner's mistake: it means the account was created without
+     « Auto Confirm User » and no mail can reach a fake address, so it can only
+     be fixed in the dashboard (#37). Without naming it, this surfaces as a
+     generic failure on correct credentials — miserable to debug. */
+  unconfirmed:
+    "Ce compte n’a pas été activé. Signalez-le à la personne qui vous l’a donné.",
+  failed: "La connexion n’a pas abouti. Réessayez dans un instant.",
 };
-
 export function SignInForm() {
-  const params = useSearchParams();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [state, setState] = useState<State>({ kind: "idle" });
-
-  const callbackError = CALLBACK_ERROR[params.get("erreur") ?? ""] ?? null;
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
-    const address = email.trim();
-    if (!address) return;
+    if (username.trim() === "" || password === "") return;
 
-    const supabase = getSupabaseClient();
-    if (!supabase) {
-      setState({
-        kind: "error",
-        message: "La connexion n’est pas configurée sur ce site.",
-      });
-      return;
-    }
-
-    setState({ kind: "sending" });
-    const { error } = await supabase.auth.signInWithOtp({
-      email: address,
-      options: {
-        /* Must match one of the redirect URLs allowed in the Supabase
-           dashboard, or the link bounces to the site URL instead — which on a
-           preview deploy means landing in production. */
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-
-    if (error) {
+    setState({ kind: "signing" });
+    try {
+      /* Nothing to do on success: signInWithPassword emits SIGNED_IN, the
+         provider is subscribed, and this component is replaced by the
+         settings. */
+      await signIn(username, password);
+    } catch (error) {
       setState({
         kind: "error",
         message:
-          "L’envoi n’a pas abouti. Vérifiez l’adresse, puis réessayez dans un instant.",
+          error instanceof SignInError ? PROBLEM[error.problem] : PROBLEM.failed,
       });
-      return;
+      setPassword("");
     }
-    setState({ kind: "sent", email: address });
-  }
-
-  if (state.kind === "sent") {
-    return (
-      <section>
-        <h2>Regardez vos courriels</h2>
-        <p>
-          Un lien de connexion vient d’être envoyé à{" "}
-          <strong>{state.email}</strong>. Ouvrez-le sur cet appareil pour être
-          connecté.
-        </p>
-        <p className={styles.aside}>
-          Rien reçu ? Le message met parfois une minute, et il arrive qu’il
-          tombe dans les indésirables.{" "}
-          <button
-            type="button"
-            className={styles.linkish}
-            onClick={() => setState({ kind: "idle" })}
-          >
-            Réessayer avec une autre adresse
-          </button>
-          .
-        </p>
-      </section>
-    );
   }
 
   return (
@@ -92,56 +69,82 @@ export function SignInForm() {
       <p>
         Tout le contenu du site est en accès libre, sans compte. Un compte sert
         uniquement à garder vos leçons cochées et le niveau que vous avez choisi
-        d’un appareil à l’autre — plus, si vous voulez, le nom sous lequel le
-        site vous appelle.
-      </p>
-      <p>
-        Il n’y a pas de mot de passe : vous recevez un lien par courriel, et
-        vous cliquez dessus.
+        d&rsquo;un appareil à l&rsquo;autre — plus, si vous voulez, le nom sous
+        lequel le site vous appelle.
       </p>
 
-      {callbackError && (
-        <div className="message message-danger">{callbackError}</div>
-      )}
-
-      <form className={styles.form} onSubmit={onSubmit}>
-        <label className={styles.label} htmlFor="email">
-          Adresse électronique
-        </label>
-        <div className={styles.row}>
+      <form className={styles.form} onSubmit={onSubmit} noValidate>
+        <div className={styles.field}>
+          <label className={styles.label} htmlFor="username">
+            Identifiant ou adresse électronique
+          </label>
           <input
-            id="email"
+            id="username"
             className={styles.input}
-            type="email"
-            value={email}
-            required
-            autoComplete="email"
-            inputMode="email"
-            placeholder="vous@exemple.fr"
-            aria-describedby="email-help"
+            type="text"
+            value={username}
+            autoComplete="username"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
+            aria-describedby="signin-help"
             onChange={(event) => {
-              setEmail(event.target.value);
+              setUsername(event.target.value);
               setState({ kind: "idle" });
             }}
           />
+        </div>
+
+        <div className={styles.field}>
+          <label className={styles.label} htmlFor="password">
+            Mot de passe
+          </label>
+          <input
+            id="password"
+            className={styles.input}
+            type="password"
+            value={password}
+            autoComplete="current-password"
+            aria-describedby="signin-help"
+            onChange={(event) => {
+              setPassword(event.target.value);
+              setState({ kind: "idle" });
+            }}
+          />
+        </div>
+
+        <div className={styles.row}>
           <button
             type="submit"
             className="button button-primary"
-            disabled={state.kind === "sending" || email.trim() === ""}
+            disabled={
+              state.kind === "signing" ||
+              username.trim() === "" ||
+              password === ""
+            }
           >
-            {state.kind === "sending" ? "Envoi…" : "Recevoir le lien"}
+            {state.kind === "signing" ? "Connexion…" : "Se connecter"}
           </button>
         </div>
+
         <p
-          id="email-help"
+          id="signin-help"
           role="status"
           className={`${styles.help} ${state.kind === "error" ? styles.helpBad : ""}`}
         >
-          {state.kind === "error"
-            ? state.message
-            : "Votre adresse ne sert qu’à vous connecter."}
+          {state.kind === "error" ? state.message : " "}
         </p>
       </form>
+
+      {/* Said plainly rather than hidden behind a « Créer un compte » link that
+          leads nowhere. Someone without an account is not stuck — the book is
+          the site, and it is open. */}
+      <p className={styles.aside}>
+        Les comptes ne se créent pas depuis le site : ils sont attribués. Si
+        vous n&rsquo;en avez pas, vous pouvez lire et faire tout le site sans en
+        avoir un — seule la progression d&rsquo;un appareil à l&rsquo;autre
+        demande un compte.
+      </p>
     </section>
   );
 }

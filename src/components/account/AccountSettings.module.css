@@ -1,5 +1,10 @@
 .form { margin-top: 1rem; }
 
+/* A stacked label-over-input block, for a form with more than one field. The
+   inline `.row` still serves the single-field forms, where a button beside the
+   input reads as one gesture. */
+.field { margin-bottom: 0.75rem; }
+
 .label {
   display: block;
   margin-bottom: 0.35rem;

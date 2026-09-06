@@ -13,7 +13,7 @@ a track that teaches them to write it.
 >
 > From August 2026 this was a Vue 3 + Vite app with 119 lessons across 14 chapters. On
 > **2026-09-05** it was restarted on Next.js. The design system, the app shell, the navigation
-> manifest and the whole account flow — magic-link sign-in, the chosen level, the display name —
+> manifest and the whole account flow — sign-in, the chosen level, the display name —
 > are written. The fourteen chapters are declared and **three lessons exist**, so most of the book
 > still shows as *Bientôt*. Accounts work; offline caching is not installed.
 >
@@ -51,7 +51,7 @@ follow a *parcours* — an ordered path through the same lessons for a given lev
 
 **Accounts.** Everything is free and public — no account is needed to read a lesson or play a
 drill. An account only exists so your progress follows you across devices, and it holds nothing
-but an email, your ticked lessons and your settings.
+but a username, an address nobody can send mail to, your ticked lessons and your settings.
 
 Full detail in [`docs/scope.md`](docs/scope.md), including what this project deliberately is not.
 
@@ -65,8 +65,8 @@ Full detail in [`docs/scope.md`](docs/scope.md), including what this project del
 - **Spectral and Inter**, on a palette anchored to the blue the logo is drawn in. The serif sets
   the French being taught, the sans sets the instruction around it — a split by role, so it works
   on both tracks at once.
-- **Vercel** for hosting · **Supabase** for auth (magic link) and progress sync — the sign-in flow
-  is written, the redirect URLs are configured and the one-table schema is applied
+- **Vercel** for hosting · **Supabase** for auth (username or email, plus a password) and progress
+  sync — the sign-in flow is written and the two-table schema is applied
 - **Serwist** for the service worker and offline precaching (not yet installed)
 
 ## Running it
@@ -109,10 +109,13 @@ what protects a learner's data.
 - **Lessons are Server Components** — no `'use client'`, no hooks, no state. They prerender to
   HTML and ship no JavaScript. Interactivity (drills, games, audio, the account menu) lives in
   small client leaves, never in the page wrapping them.
-- **One table.** `progress` is the only table this project owns; a learner's level and display name
-  live in their account's own user metadata and arrive with the session. Progress cannot join them:
-  it is many rows per learner written from several devices, and held as a list on one row, two
-  devices syncing after being offline would overwrite each other's ticks.
+- **Two tables, and a rule for what earns one.** `progress` and `usernames` are all this project
+  owns. A learner's level and display name live in their account's own user metadata instead and
+  arrive with the session — they grant nothing, nobody else sees them, and a bad value is fixed by
+  re-choosing. A username fails both tests: you sign in with it and it must be unique, and metadata
+  can enforce neither, so it gets a column with a constraint behind it. Progress could never be
+  metadata either: it is many rows per learner written from several devices, and held as a list on
+  one row, two devices syncing after being offline would overwrite each other's ticks.
 - Progress is keyed by route path, ticked **manually** by the learner, and stored behind a
   swappable adapter. It requires an account; the content around it does not. The local copy stays
   the read path even when signed in — this is an offline app, so the server is a sync target and

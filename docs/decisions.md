@@ -1000,3 +1000,163 @@ Metadata is writable by its owner through the Supabase API, with no check constr
   migration, which is the right amount of friction" argument in #22 no longer holds.
   `CHOOSABLE_LEVELS` in `navigation.ts` is now the only gate, and opening a level is a one-line
   change there — less friction than intended, and worth remembering when B1 is written.
+
+## 37 · Username and password, no email anywhere
+**2026-09-06 · Binding · supersedes the magic-link half of #19, #26 and #33**
+
+Sign-in is a **username and a password**. There is no email address on an account, no magic link, no
+sign-up form and no `/auth/callback`.
+
+**Asked for directly**, and the reasoning is the size of the audience: there are two accounts —
+Claudia, and the author — and the credentials are handed over in person. Everything the magic link
+bought — no password to invent, nothing to store, a link that proves the address is yours — is worth
+nothing when the person
+creating the account and the person handing over the password are the same person, standing in the
+same room. What it *cost* was a round trip through an inbox on every single sign-in, on a phone, for
+a site that is read in the métro. Email comes back when the app grows past the people its author
+knows; nothing here forecloses it, because the account is still a Supabase Auth user and adding an
+address to one is a field, not a migration.
+
+**A username is carried as `<name>@lepetitcours.test`.** Supabase Auth authenticates an email or
+a phone number and has no username provider, so the username is encoded as the local part of an
+address that can never exist. `.test` is reserved by RFC 2606 — no one can register it and it never
+resolves — which is the property wanted: **no message can be sent to one of these by accident,
+because none of them is real.** Verified against the live project before building on it — Supabase
+checks the format, not the MX record, and answers a wrong password on a `.test` address exactly as
+it does on a deliverable one.
+
+**A registrable domain was asked for first, and rejected on a fact rather than on principle.**
+`lepetitcours.com` was the request. It is registered to someone else, resolves to an OVH address in
+France and **publishes an MX record** (`mail.lepetitcours.com`), so `claudia@lepetitcours.com` is a
+deliverable address belonging to a stranger. Nothing sends mail today — auto-confirm is on and there
+is no reset flow — but that is one dashboard toggle away, and Supabase emails on its own for things
+like an email-change confirmation. A confirmation link landing in someone else's inbox is a way into
+an account. **The check is one `dig MX` and it is worth running before choosing any fake domain**;
+a reserved TLD is the only kind that cannot become someone's property later.
+
+`auth.uid()` is untouched, so RLS still ties a progress row to its owner with no glue code — which
+was the whole reason for choosing Supabase Auth over Clerk (#19), and is the part that had to
+survive.
+
+The suffix is an encoding and never reaches the interface: `usernameFromEmail` strips it at the
+provider boundary, and `Account` carries `username`, not `email`.
+
+**Usernames are case-folded and ASCII.** A learner typing their own name with a capital on a phone
+keyboard must not be told their password is wrong; and since the string becomes the local part of an
+address, an accent would risk it not round-tripping through some normalisation. Both profiles type
+on a Spanish keyboard (`AGENTS.md` §1), so this is a constraint they would have felt.
+
+**No sign-up form, said out loud rather than hidden.** Accounts are created in the Supabase
+dashboard and the credentials handed over. `/compte` says so in a sentence, next to the reminder
+that the entire site is readable without an account — because someone with no account is not locked
+out of anything (#18). **Public sign-up must therefore be off at the Supabase end**: the publishable
+key ships in the JavaScript bundle by design (#21), so `POST /auth/v1/signup` is reachable by
+anyone, and a site with no sign-up UI and sign-up enabled is an open registration nobody is
+watching.
+
+**Two dashboard settings this depends on, neither of which the repo can enforce:**
+
+- **Sign-up disabled.** As above. Checked on 2026-09-06 and it was *on* — `disable_signup: false`
+  from the public `/auth/v1/settings` endpoint, which is the way to check it without a dashboard.
+- **Users created with « Auto Confirm User ».** Confirmation is on (`mailer_autoconfirm: false`),
+  and a confirmation mail to a `.test` address can never arrive — so a user created without that
+  box ticked is permanently unable to sign in. The sign-in form names `email_not_confirmed`
+  separately for exactly this reason: without that branch it surfaces as a generic failure on
+  *correct* credentials, which is a miserable thing to debug.
+
+**Two accounts, and the author's is an ordinary one.** Claudia, and the author — who wants one in
+order to read the site as a learner reads it rather than reasoning about what a learner would see.
+That works only because **there is no admin role and no privileged account**: an account holds a
+username, a password, progress rows and two settings (#36), and nothing distinguishes one from
+another. The author's ticks are his own, isolated
+by the same RLS policy as hers, and the level filter shapes his sommaire exactly as it shapes hers.
+**Do not add a flag that makes one account different**; the day something needs to be
+privileged, it needs a table with a constraint behind it (#36), not a boolean in metadata that the
+account holder can write to themselves.
+
+**A forgotten password is reset by hand in the dashboard.** That is the honest cost of holding no
+address, and it is why `/compte` carries a change-password field: it is the only self-service there
+is. The field asks for the current password even though `updateUser` does not require it — an
+unlocked phone left on a table should not be enough to lock its owner out.
+
+**`/auth/callback` and `src/lib/supabase/server.ts` were deleted, not kept for later.**
+`signInWithPassword` returns a session in the browser; no code is ever exchanged, so the route was
+unreachable and the server client had no caller. **Nothing in this app now reads the session on the
+server at all** — §8 stopped being a discipline and became a property of the codebase, and
+`next build` shows every route static where `/auth/callback` used to be the single dynamic one. If a
+server client ever reappears, it is a new decision and not a restoration.
+
+Two smaller things fell out with it: `/compte` no longer needs its `<Suspense>` boundary (it existed
+so the sign-in form could read `?erreur=` from the callback without forcing the route dynamic), and
+the Supabase redirect allowlist described in #26 is now irrelevant — nothing redirects anywhere. It
+costs nothing to leave in place, and it is what would be needed again on the day email returns.
+
+## 38 · The username is its own thing: a table, unique and mutable
+**2026-09-06 · Binding · reverses the one-table half of #36; supersedes #37's "no email anywhere"**
+
+#37's title is now too absolute and is left standing as written, per the rule that entries here are
+superseded rather than rewritten. What it should be read as: **no *real* email**. Every account
+still carries a fake `@lepetitcours.test` address nobody can receive mail at — but that address is
+now a second way to sign in, not merely an internal encoding of the username.
+
+A learner signs in with **either their username or their email address**, GitHub-style. The username
+is unique across accounts, the learner can change it, and the display name falls back to it when
+unset.
+
+**This reverses #36's "one table".** #36 drew the boundary itself: *"a setting that ever grants
+something, or that anyone else can see, belongs in a table with a constraint instead."* A username
+you sign in with grants something, and uniqueness is a constraint — and user metadata has neither
+constraints nor cross-account visibility, so it cannot hold this. #36 was not wrong; this is the
+case it described. `public.usernames` is the second table, and the bar it clears is the one already
+written down rather than a new one.
+
+**What the coupling cost, and why it had to go.** Until now the username *was* the email's local
+part, computed by arithmetic (#37). That made sign-in possible with no database read at all, which
+is genuinely elegant — but it meant the two could never disagree, so a username could not be changed
+without changing the address, and an account with a real address would have had its local part
+exposed as its public handle. Decoupling buys a mutable name; it costs a lookup.
+
+**The lookup is `email_for_username()`, `security definer`, granted to `anon`.** It has to be:
+sign-in happens with no session, so the browser cannot read a table, and it must still turn `kevin`
+into an address before it can authenticate. Definer rights are what let it answer without granting
+anyone `select` on `auth.users` — the property #21 checks for stays true.
+
+**It is an enumeration oracle, and that is accepted rather than overlooked.** Anyone may ask whether
+a username exists and learn the address behind it. Acceptable **only** while every address is a fake
+`@lepetitcours.test` one, the site is unlisted, and there is no sign-up form — which is exactly the
+ground #37 stands on. **The day a real address goes on an account, this leaks it**, and the
+resolution has to move server-side behind a rate limit. Written into the migration beside the
+function, not left to memory.
+
+**Uniqueness is enforced by the constraint and nowhere else.** The interface never asks "is this
+name free?" before writing — that would be a race *and* a second enumeration oracle. It writes, and
+turns `23505` into « déjà pris ». The same reasoning as #36's read-side validation, pointed the
+other way: the database is the authority, and the client's copy of the rules exists to answer
+someone while they type rather than after a round trip.
+
+**The name is mirrored into user metadata, and the table stays the authority.** This app is an
+offline PWA (`AGENTS.md` §8): a signed-in learner in the métro must still know what they are called,
+and metadata rides in the cached JWT while a table needs a network round trip. So `set_username()`
+writes both in one transaction, and the client calls `refreshSession()` to pull the new claim into
+the token — `TOKEN_REFRESHED` reaches the provider exactly as `USER_UPDATED` does, so #36's "no
+second read, nothing to invalidate" survives intact. **Only those two functions write the mirror**;
+a client that wrote it directly could make the two disagree.
+
+**Accounts get a username without anyone typing one.** They are created by hand in the dashboard
+(#37), where there is no username field — so a trigger on `auth.users` claims one from the email's
+local part, sanitised into the column's shape and suffixed on collision. The two existing accounts
+were backfilled the same way, which means **nobody's name changed on the day this was applied**: the
+value the trigger computes is the value the old arithmetic displayed.
+
+**The two migration files were merged back into one.** `_init.sql` describes the whole schema, both
+tables, in one reviewable file. The usernames half had never run, and `progress` — though applied —
+holds no rows and has no reader: nothing in `src/` calls `.from("progress")`, because the adapter
+(§8) is not written yet. So the file can be replayed whole against a database with `progress`
+dropped, and the live schema then matches it exactly. **This stops being free the moment a learner
+ticks a lesson**, which is also the moment the file stops being an "initial" schema and the next
+change has to be a second migration that alters rather than creates.
+
+**A consequence worth naming: the app no longer builds an email address anywhere.** `USERNAME_DOMAIN`
+and `usernameToEmail` are gone. `@lepetitcours.test` is now only a string typed into the Supabase
+dashboard when an account is made — it has no presence in the codebase at all, which is a better
+place for it than a constant.

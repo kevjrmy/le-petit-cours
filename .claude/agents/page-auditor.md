@@ -25,11 +25,11 @@ grep -rln "'use client'" src/app --include=page.tsx --include=layout.tsx
 its whole tree as JavaScript, and stops being free to serve offline. The fix is always the same:
 lift the interactive part into its own leaf and leave the page on the server.
 
-**One route is legitimately dynamic: `/auth/callback`.** It exchanges a single-use code for a
-session and has to run per request. Everything else must be static or SSG. If a second dynamic
-route appears, something started reading cookies or `searchParams` where it should not — check
-`/compte` in particular, which stays static only because it reads `?erreur=` through
-`useSearchParams` inside a `<Suspense>` boundary rather than from the page's props.
+**Every route is static, with no exceptions — and that is checkable.** `/auth/callback` used to be
+the one legitimately dynamic route; it was deleted along with the magic link, and nothing on the
+server reads a session any more (#37). So **any** dynamic route in `next build` is a regression:
+something started reading cookies, a session, or `searchParams` where it should not. Sign-in
+included — username and password are exchanged entirely in the browser.
 
 **The listings are client components, and their content must still be in the static HTML.** The
 sommaire's grid, the chapter lesson lists and the sidebar read the learner's level, so they are
