@@ -147,6 +147,10 @@ a.item:hover {
   border: 0;
   background: none;
   font: inherit;
+  /* After the shorthand, which resets the size `.item` set — a button does not
+     inherit the surrounding font, so `font: inherit` is what makes it match the
+     links, and then the size has to be said again. */
+  font-size: 0.85rem;
   text-align: left;
   cursor: pointer;
 }
