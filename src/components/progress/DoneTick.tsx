@@ -18,7 +18,10 @@ import styles from "./DoneTick.module.css";
  *
  * Signed out it is a link to `/compte`, carrying where to come back to. It is
  * not disabled and it is not hidden: the learner should be able to see what an
- * account is *for* before being asked to have one.
+ * account is *for* before being asked to have one — **and it says nothing else**.
+ * `/compte` explains what an account keeps, in the sentence written for it; a
+ * second copy under every lesson was the pitch made fourteen times a day to
+ * someone who has already decided.
  */
 export function DoneTick({ path }: { path: string }) {
   const { state, signedIn, isDone, toggle } = useProgress();
@@ -33,10 +36,6 @@ export function DoneTick({ path }: { path: string }) {
           <Mark done={false} />
           J&rsquo;ai terminé
         </Link>
-        <p className={styles.hint}>
-          Un compte garde vos leçons cochées d&rsquo;un appareil à l&rsquo;autre.
-          Tout le reste du site se lit sans.
-        </p>
       </aside>
     );
   }
