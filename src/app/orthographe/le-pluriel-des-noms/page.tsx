@@ -1,6 +1,5 @@
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
-import { RelatedLinks } from "@/components/lesson/RelatedLinks";
 
 const PATH = "/orthographe/le-pluriel-des-noms";
 
@@ -81,7 +80,6 @@ export default function Page() {
         </div>
       </section>
 
-      <RelatedLinks path={PATH} />
     </article>
   );
 }

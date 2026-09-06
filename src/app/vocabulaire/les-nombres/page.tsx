@@ -1,6 +1,5 @@
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
-import { RelatedLinks } from "@/components/lesson/RelatedLinks";
 
 const PATH = "/vocabulaire/les-nombres";
 
@@ -93,8 +92,6 @@ export default function Page() {
           </div>
         </section>
       </div>
-
-      <RelatedLinks path={PATH} />
     </article>
   );
 }

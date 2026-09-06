@@ -446,7 +446,9 @@ Two things still need deliberate care:
   to `pathAliases` in the same commit, and a redirect in `next.config.ts` so bookmarks survive.
 - **Cross-links fail soft**, and so do the home page's pills. Both drop a target they cannot resolve
   rather than erroring, so a stale entry costs a link silently. Four cross-links maximum; more is a
-  second nav menu.
+  second nav menu. The block itself is placed by `LessonEnd`, not by the lesson (#49), so a page
+  cannot lose its cross-links by forgetting to render it — only `relatedPages` can be wrong, and
+  that is what the audit's third line reads.
 
 ## 7. Page types
 
@@ -605,12 +607,11 @@ site.
 - **The local copy stays the read path.** This is an offline PWA: a signed-in learner ticking a
   lesson underground writes locally and syncs on reconnect. The server is a sync target, never
   the thing a render waits on.
-- **The done-tick is rendered by the shell, not by pages.** It renders only when the current
-  path resolves to a lesson in the manifest, which is what keeps it off chapter landing pages and
-  annexes with no allowlist to maintain. Adding a lesson therefore needs no progress work at all.
-  The price is that it sits *after* « Pour aller plus loin », which the lesson renders itself — the
-  alternative is every lesson remembering to place it, which is the omission the manifest exists to
-  prevent (#48).
+- **The done-tick is rendered by the shell, not by pages** — and so is « Pour aller plus loin ».
+  `LessonEnd` draws both, in that order, and only when the current path resolves to a lesson in the
+  manifest, which is what keeps them off chapter landing pages and annexes with no allowlist to
+  maintain. **A lesson renders its prose and nothing else** (#49): adding one needs no progress work
+  and cannot forget its own cross-links.
 - Counts use published lessons as the denominator, so announced-but-unwritten entries never make
   a finished chapter look unfinished.
 - **Renaming a lesson path orphans every tick on it** — see §6 for the `pathAliases` discipline

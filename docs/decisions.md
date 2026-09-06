@@ -1552,3 +1552,26 @@ itself — accepted, against the alternative of every lesson having to remember 
 what the course offers at the learner's level; this one shows what they did. A tick hidden because
 they moved from A2 to A1 would read as a lost tick — the same reason the migration keeps the level
 out of the progress key, and the same reason search groups by level rather than cutting by it.
+
+## 49 · The shell draws the end of a lesson: the tick, then the links
+**2026-09-06 · Binding · supersedes the placement paragraph of #48**
+
+`LessonEnd` renders the done-tick and « Pour aller plus loin », in that order, for any path that
+resolves to a lesson. A lesson page renders its header and its prose, and nothing else.
+
+**#48 accepted the wrong order for a reason that was not the only option.** It weighed shell-owned
+(the tick lands *after* the related links, since the lesson renders those itself) against
+page-owned (every lesson must remember to place it), took the first, and missed the third: move the
+related links into the shell too. They were always manifest-driven furniture — `relatedFor(path)`
+reads the same manifest the tick does — so there was never a reason for the page to place them.
+
+**The ordering was the prompt; the omission is the gain.** A lesson that forgot `<RelatedLinks />`
+lost its cross-links with nothing failing anywhere: the `nav-wiring` audit checks that
+`relatedPages` resolves, not that a page bothered to render it. That failure mode no longer exists.
+
+**What it costs:** the links are inside the shell's client boundary now rather than being part of a
+Server Component's output. Nothing measurable — `src/data/navigation.ts` is already in the client
+bundle for the sidebar, so no new bytes ship, and the markup is still prerendered.
+
+**The measure moved up with them.** Both blocks used to inherit `--measure` from the `.prose`
+wrapper they sat inside; `LessonEnd` sets it once for the pair.

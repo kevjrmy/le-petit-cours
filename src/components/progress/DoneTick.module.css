@@ -1,9 +1,7 @@
-/* The foot of a lesson. Same measure as the prose above it, so the control
-   lines up with the text rather than with the viewport. */
+/* Straight under the lesson's last words. The measure comes from `LessonEnd`,
+   which wraps this and the links below it. */
 .tick {
-  width: 100%;
-  max-width: var(--measure);
-  margin: 2.5rem auto 0;
+  margin-top: 2.5rem;
   padding-top: 1.6rem;
   border-top: 1px solid var(--border-soft);
   display: flex;

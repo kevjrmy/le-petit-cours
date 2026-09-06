@@ -1,0 +1,8 @@
+/* The same measure as the prose above it, so the tick and the links line up
+   with the text rather than with the viewport. It is set here rather than in
+   each child because both of them used to sit inside `.prose` and inherit it. */
+.end {
+  width: 100%;
+  max-width: var(--measure);
+  margin-inline: auto;
+}

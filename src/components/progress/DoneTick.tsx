@@ -1,23 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { canonicalPath, findLesson } from "@/data/navigation";
 import { useProgress } from "@/hooks/useProgress";
 import styles from "./DoneTick.module.css";
 
 /**
  * « J'ai terminé » — the one control that marks a lesson done.
  *
- * **Rendered by the shell, not by pages.** It draws itself only when the
- * current path resolves to a lesson in the manifest, which is what keeps it off
- * chapter landing pages and annexes with no allowlist to maintain, and why
- * adding a lesson needs no progress work at all (`AGENTS.md` §8).
- *
- * The consequence of living in the shell is that it sits *after* « Pour aller
- * plus loin », which the lesson itself renders. It reads as the end of the
- * page either way, and the alternative — every lesson remembering to place it —
- * is the class of omission the manifest exists to prevent.
+ * **Rendered by the shell, not by pages** — `LessonEnd` places it directly under
+ * the lesson's own words and above « Pour aller plus loin », and decides for
+ * itself whether the current path is a lesson at all. Adding a lesson therefore
+ * needs no progress work (`AGENTS.md` §8).
  *
  * **Marking is manual, always.** Nothing here is automatic: reaching the foot
  * of a page is not finishing it, and a drill scored at 50 % is not a finished
@@ -27,12 +20,8 @@ import styles from "./DoneTick.module.css";
  * not disabled and it is not hidden: the learner should be able to see what an
  * account is *for* before being asked to have one.
  */
-export function DoneTick() {
-  const pathname = usePathname();
+export function DoneTick({ path }: { path: string }) {
   const { state, signedIn, isDone, toggle } = useProgress();
-
-  const path = canonicalPath(pathname ?? "");
-  if (!findLesson(path)) return null;
 
   if (!signedIn) {
     return (

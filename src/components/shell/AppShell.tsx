@@ -4,7 +4,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { AccountProvider } from "@/hooks/useAccount";
 import { ProgressProvider } from "@/hooks/useProgress";
 import { useShellMode } from "@/hooks/useShellMode";
-import { DoneTick } from "@/components/progress/DoneTick";
+import { LessonEnd } from "@/components/lesson/LessonEnd";
 import { AppSidebar } from "./AppSidebar";
 import { AppTopbar } from "./AppTopbar";
 import { Footer } from "./Footer";
@@ -66,10 +66,10 @@ export function AppShell({ children }: { children: ReactNode }) {
           <AppTopbar mode={mode} open={open} onToggle={() => setOpen((value) => !value)} />
           <main className={styles.content}>
             {children}
-            {/* Drawn here rather than by each lesson: it decides for itself
-                whether the current path is one, so adding a lesson needs no
-                progress work (AGENTS.md §8). */}
-            <DoneTick />
+            {/* The done-tick and « Pour aller plus loin », in that order. Both
+                come from the manifest, so a lesson renders its prose and
+                nothing else — and cannot forget either of them. */}
+            <LessonEnd />
           </main>
           <Footer />
         </div>
