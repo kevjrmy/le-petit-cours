@@ -2,7 +2,9 @@
 
 import { useEffect, useState, type ReactNode } from "react";
 import { AccountProvider } from "@/hooks/useAccount";
+import { ProgressProvider } from "@/hooks/useProgress";
 import { useShellMode } from "@/hooks/useShellMode";
+import { DoneTick } from "@/components/progress/DoneTick";
 import { AppSidebar } from "./AppSidebar";
 import { AppTopbar } from "./AppTopbar";
 import { Footer } from "./Footer";
@@ -45,24 +47,33 @@ export function AppShell({ children }: { children: ReactNode }) {
   }, [open, mode]);
 
   return (
-    /* One account for the whole shell: the sidebar and anything a page renders
-       read the same answer, so saving a name updates both. */
+    /* One account and one set of ticks for the whole shell: the sidebar, the
+       done-tick and anything a page renders read the same answer, so saving a
+       name — or ticking a lesson — updates every one of them at once. */
     <AccountProvider>
-      <AppSidebar open={open} onNavigate={() => setOpen(false)} />
+      <ProgressProvider>
+        <AppSidebar open={open} onNavigate={() => setOpen(false)} />
 
-      {mode === "drawer" && open && (
-        <div
-          className={styles.scrim}
-          onClick={() => setOpen(false)}
-          aria-hidden="true"
-        />
-      )}
+        {mode === "drawer" && open && (
+          <div
+            className={styles.scrim}
+            onClick={() => setOpen(false)}
+            aria-hidden="true"
+          />
+        )}
 
-      <div className={styles.main}>
-        <AppTopbar mode={mode} open={open} onToggle={() => setOpen((value) => !value)} />
-        <main className={styles.content}>{children}</main>
-        <Footer />
-      </div>
+        <div className={styles.main}>
+          <AppTopbar mode={mode} open={open} onToggle={() => setOpen((value) => !value)} />
+          <main className={styles.content}>
+            {children}
+            {/* Drawn here rather than by each lesson: it decides for itself
+                whether the current path is one, so adding a lesson needs no
+                progress work (AGENTS.md §8). */}
+            <DoneTick />
+          </main>
+          <Footer />
+        </div>
+      </ProgressProvider>
     </AccountProvider>
   );
 }

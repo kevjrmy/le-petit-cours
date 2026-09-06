@@ -7,6 +7,12 @@ import type { Level } from "@/data/navigation";
 
 export interface Account {
   /**
+   * The account's uuid, as `auth.users` knows it. Not shown anywhere — it is
+   * what progress rows are keyed by, and what the local cache is partitioned by
+   * so two people on one browser cannot see each other's ticks.
+   */
+  id: string;
+  /**
    * The name they sign in with and are called by. Owned by `public.usernames`,
    * which enforces uniqueness, and read here from the metadata mirror so it is
    * available offline — the table needs a network round trip, the JWT does not
@@ -84,6 +90,7 @@ export function AccountProvider({ children }: { children: ReactNode }) {
          does not believe it (#36). */
       const meta = user.user_metadata ?? {};
       setAccount({
+        id: user.id,
         username: readUsername(meta.username, user.email),
         email: user.email,
         displayName: readDisplayName(meta.display_name),

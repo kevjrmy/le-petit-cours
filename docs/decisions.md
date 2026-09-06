@@ -1495,3 +1495,60 @@ handle in the MIT copyright line does not reach any page.
 
 **The source link left the footer.** It was the same link three times — the account popover, this
 page, and under every lesson.
+
+## 47 · The account popover holds the account, and nothing else
+**2026-09-06 · Binding**
+
+« À propos » and « Code source » left the popover at the foot of the sidebar. It now holds
+« Ma progression », « Compte » and the theme — things that belong to the *account*. A page about the
+site is not one of them.
+
+**#46 left the third copy standing.** That entry removed the source link from the footer on the
+grounds that it was the same link three times: the popover, `/a-propos`, and under every page. The
+count is now one — `/a-propos` links the repository in its own sentence, which is the place a
+reader looking for it would go.
+
+**And the popover was repeating the trigger it opens from.** It carried the learner's name and
+address in a header a few pixels above the control that already shows both. A popover anchored to
+its own trigger does not need to restate it.
+
+**`Annexe.where` gained `footer`**, so `/a-propos` keeps its manifest entry — it stays searchable,
+and the `nav-wiring` audit still sees a route that is declared — while moving surfaces. The position
+of a page remains a property of the page, and `Footer.tsx` reads the manifest rather than naming the
+route it links.
+
+## 48 · A tick needs an account, and it is never automatic
+**2026-09-06 · Binding**
+
+`/ma-progression` is written, and with it the store beneath it: `src/lib/progress/`, `useProgress`,
+and the « J'ai terminé » control at the foot of every lesson.
+
+**Marking requires being signed in.** Signed out the control is still drawn — not hidden, not
+disabled — and links to `/compte?suivant=<the lesson>`, which returns the learner here once they are
+in. **Decided against a browser-local tick for anonymous visitors**: storage alone is evicted
+without warning, and a course that quietly loses forty ticks has made a promise it could not keep.
+Better to say what an account is for than to remember unreliably. It is the one thing on this site
+an account is needed for, and none of the *content* moved behind it.
+
+**Coming back does not tick the lesson.** `?suivant=` returns the learner to the page; the mark is
+still theirs to make. Marking is manual on every page type, drills included — a drill scored at 50 %
+is not a finished lesson, and reaching the foot of a page is not reading it.
+
+**`?suivant=` is checked against the manifest, not against a pattern.** "Starts with a slash" is not
+a safe test — `//ailleurs.example` starts with a slash and leaves the site. An allowlist of declared
+paths cannot be talked into it.
+
+**Offline is an operation queue, not a snapshot.** A tick made with no connection is stored in
+IndexedDB as *mark* or *unmark* and replayed onto whatever the server holds when it returns. Held as
+a snapshot instead, an unmark made offline would be indistinguishable from a device that never saw
+the tick, and replaying it would resurrect what the learner removed.
+
+**The control is drawn by the shell**, which decides for itself whether the current path is a lesson
+in the manifest. That is what makes adding a lesson cost no progress work at all. The price is that
+it sits *after* « Pour aller plus loin » rather than before it, since the lesson renders that
+itself — accepted, against the alternative of every lesson having to remember to place it.
+
+**`/ma-progression` is the one listing that does not filter by level.** Every other listing shows
+what the course offers at the learner's level; this one shows what they did. A tick hidden because
+they moved from A2 to A1 would read as a lost tick — the same reason the migration keeps the level
+out of the progress key, and the same reason search groups by level rather than cutting by it.

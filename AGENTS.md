@@ -49,13 +49,18 @@ What exists off the repo, as of 2026-09-06:
   change-password field, the level chooser, the display-name field and the level filter. The
   database is done; the two dashboard settings above are not.
 
+**Progress is written too** (#48): `src/lib/progress/` (the IndexedDB cache, the Supabase store and
+the seam between them), `useProgress` inside the shell, the « J'ai terminé » control at the foot of
+every lesson, and `/ma-progression`. Ticking needs an account; nothing else does.
+
 The design system, the icons and the shell are written — `globals.css`, `src/data/navigation.ts`,
 the sidebar in its three shells, the topbar and the chapter icons (§5, §6). **The way in is written
 too**: `/` is a search field over the manifest, `/recherche` answers it, and the sommaire is at
 `/sommaire`. The manifest declares fourteen chapters and three lessons are real; everything else is
 `soon`. The lessons themselves are what is left.
 
-`/a-propos` is deliberately down to a sentence and the licence (#46); its prose is owed a pass.
+`/a-propos` is deliberately down to a sentence and the licence (#46); its prose is owed a pass. It
+is reached from the footer, not from the account popover, which holds only the account (#47).
 
 **So most of this document describes intent, not code that exists.** Where a rule below names a
 file, check whether that file is there yet. When you build the thing, make it match — and when
@@ -355,7 +360,9 @@ tag must not look identical in a diff, and a required field makes the first one 
 
 **The filter is on the listings, never on access.** Signed in, a listing shows a lesson when its
 `levels` is empty or contains the learner's level. Signed out, it shows everything. **Every**
-listing obeys it — the sommaire's counts, the chapter pages and the sidebar — because a sidebar
+listing obeys it — the sommaire's counts, the chapter pages and the sidebar; the two exceptions are
+search, which groups by level rather than cutting, and `/ma-progression`, which is a record of what
+the learner did rather than an offer (#48) — because a sidebar
 saying seven beside a card saying one reads as a bug rather than as a filter. Either way a
 lesson reached by direct link — a cross-link, a bookmark, a search result — renders in full: an A1
 learner following "pour aller plus loin" into an A2 page gets the page. Gating it would mean reading
@@ -565,9 +572,21 @@ useful later" is not a reason (#31).
 
 ### Progress
 
+**Written, as of 2026-09-06** — `src/lib/progress/`, `useProgress`, the « J'ai terminé » control and
+`/ma-progression` (#48).
+
 **Marking is manual on every page type, drills included.** A drill shows its score at the end and
 stores nothing; finishing it never ticks it done. That is the learner's call, and a half-remembered
-pass at 50 % is not a finished lesson. Do not "helpfully" auto-complete anything.
+pass at 50 % is not a finished lesson. Do not "helpfully" auto-complete anything. Returning from
+sign-in does not tick the lesson either.
+
+**A tick needs an account** (#48). Signed out the control is still drawn — not hidden and not
+disabled — and links to `/compte?suivant=<path>`, which brings the learner back afterwards. This is
+the one thing on the site an account is needed for; no *content* moved behind it. **Do not add an
+anonymous browser-local tick**: storage alone is evicted without warning, and losing forty ticks
+silently is worse than saying plainly what an account is for. `?suivant=` is checked against the
+manifest rather than against a pattern — `//ailleurs.example` starts with a slash and leaves the
+site.
 
 - **Keyed by route path**, which the manifest guarantees unique.
 - **Nothing touches storage directly.** Every read and write goes through an adapter with a
@@ -578,16 +597,28 @@ pass at 50 % is not a finished lesson. Do not "helpfully" auto-complete anything
   evicting a learner's progress is a real loss and `localStorage` is the first thing to go
   (`docs/decisions.md` #24). The adapter is therefore async on both sides, which is what the seam
   was for. `localStorage` keeps exactly one job: the theme, which must be read before first paint.
+  The cache is **keyed by account id**, so two people on one browser never see each other's ticks.
+- **Offline is a queue of operations, not a snapshot.** A tick made with no connection is stored as
+  *mark* or *unmark* and replayed onto whatever the server holds when it returns. A snapshot instead
+  would make an offline unmark indistinguishable from a device that never saw the tick, and
+  replaying it would put back what the learner removed (#48).
 - **The local copy stays the read path.** This is an offline PWA: a signed-in learner ticking a
   lesson underground writes locally and syncs on reconnect. The server is a sync target, never
   the thing a render waits on.
-- **The done-tick is rendered by the layout, not by pages.** It renders only when the current
+- **The done-tick is rendered by the shell, not by pages.** It renders only when the current
   path resolves to a lesson in the manifest, which is what keeps it off chapter landing pages and
   annexes with no allowlist to maintain. Adding a lesson therefore needs no progress work at all.
+  The price is that it sits *after* « Pour aller plus loin », which the lesson renders itself — the
+  alternative is every lesson remembering to place it, which is the omission the manifest exists to
+  prevent (#48).
 - Counts use published lessons as the denominator, so announced-but-unwritten entries never make
   a finished chapter look unfinished.
 - **Renaming a lesson path orphans every tick on it** — see §6 for the `pathAliases` discipline
-  that goes with a rename.
+  that goes with a rename. `canonicalPath()` applies an alias on **read as well as write**, so a
+  tick stored under the old path before the alias existed still finds its lesson.
+- **`/ma-progression` is the one listing that does not filter by level** (#48). Every other listing
+  shows what the course *offers* at the learner's level; this one shows what they *did*, and a tick
+  hidden because they moved from A2 to A1 would read as a lost tick.
 
 ## 9. Rules carried over from the Vue app
 
@@ -738,6 +769,18 @@ tablet default, set the attribute the same way the control does:
 node scripts/shot.mjs http://localhost:3000/<route> out.png --width=1400 \
   --eval="document.documentElement.setAttribute('data-rail','1')"
 ```
+
+**A signed-in screenshot needs `--seed`.** Every run of the script starts from an empty Chrome
+profile, so no session exists in it and `--eval` runs too late — the app has already booted and
+decided nobody is signed in. `--seed` runs an expression on a first visit and then loads the page
+again, which is where the Supabase session cookie and the IndexedDB progress cache go:
+
+```bash
+node scripts/shot.mjs http://localhost:3000/ma-progression out.png --seed="$(cat seed.js)"
+```
+
+Without it, the account menu, `/compte`, `/ma-progression` and the done-tick can only ever be
+photographed signed out.
 
 Use the script rather than Chrome flags: `--blink-settings=preferredColorScheme=0` is ignored by
 current Chrome and hands you a light screenshot in a file named `dark.png`, which is worse than

@@ -10,7 +10,7 @@
  *
  *   node scripts/shot.mjs <url> <out.png> [--dark] [--mobile] [--full]
  *                                         [--width=1280] [--height=900]
- *                                         [--eval="<js>"]
+ *                                         [--eval="<js>"] [--seed="<js>"]
  *
  * Next's dev-tools badge is removed before the shutter — it is `next dev`
  * furniture pinned over the app's own bottom-left corner, and leaving it in
@@ -23,6 +23,12 @@
  *
  *   --eval="(async()=>{ btn.click(); await new Promise(r=>setTimeout(r,200));
  *                       next.click() })()" 
+ *
+ * --seed is the same, run on a first visit before the page is loaded again. It
+ * is for state the app reads while it boots and --eval is therefore too late
+ * for: the Supabase session cookie, the IndexedDB progress cache. Every run
+ * starts from an empty Chrome profile, so without it no signed-in surface can
+ * be photographed at all.
  *
  * Needs Node 22+ (global WebSocket) and google-chrome on PATH. No deps.
  */
@@ -122,6 +128,26 @@ try {
   }, s);
 
   await send("Page.enable", {}, s);
+
+  /* --seed runs on a first visit and the page is then loaded again, which is
+     what --eval cannot do: a signed-in screenshot needs the session cookie and
+     the IndexedDB cache to exist *before* the app boots, and every run of this
+     script starts from an empty Chrome profile. Same contract as --eval — an
+     expression, awaited. */
+  const seed = str("seed");
+  if (seed) {
+    await send("Page.navigate", { url }, s);
+    await sleep(600);
+    const { exceptionDetails } = await send(
+      "Runtime.evaluate", { expression: seed, awaitPromise: true }, s);
+    if (exceptionDetails) {
+      const why = exceptionDetails.exception?.description
+        ?? exceptionDetails.exception?.value
+        ?? exceptionDetails.text;
+      throw new Error(`--seed failed: ${why}`);
+    }
+  }
+
   await send("Page.navigate", { url }, s);
   await sleep(1800); // let webfonts land before the shutter
 

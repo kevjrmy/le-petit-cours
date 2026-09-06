@@ -361,7 +361,7 @@ export const annexes: Annexe[] = [
      fourteen-row list is not where you look for the list's own overview. */
   { path: "/sommaire", title: "Sommaire", levels: ANY, where: "top", icon: "sommaire" },
   { path: "/nouveautes", title: "Nouveautés", levels: ANY, where: "tree", icon: "nouveautes", soon: true },
-  { path: "/ma-progression", title: "Ma progression", levels: ANY, where: "menu", soon: true },
+  { path: "/ma-progression", title: "Ma progression", levels: ANY, where: "menu" },
   { path: "/compte", title: "Compte", levels: ANY, where: "menu" },
   /* In the footer rather than the popover: it is a page about the site, and the
      account menu is about the account. The footer is under every page anyway,
@@ -418,6 +418,18 @@ export function featuredChapters(): Chapter[] {
 export const pathAliases: Record<string, string> = {
   // '/grammaire/ancien-slug': '/grammaire/nouveau-slug',
 };
+
+/**
+ * The path a tick belongs to, following a rename.
+ *
+ * Applied on **read as well as write**, so a tick stored under an old path
+ * before the alias existed still finds its lesson. One hop only: an alias whose
+ * target is itself aliased is a chain nobody would notice was broken, so keep
+ * `pathAliases` pointing at current paths rather than at each other.
+ */
+export function canonicalPath(routePath: string): string {
+  return pathAliases[routePath] ?? routePath;
+}
 
 /**
  * The annexes the sidebar draws at one position, narrowed to carry an icon.
