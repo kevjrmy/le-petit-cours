@@ -67,9 +67,10 @@ function applyTheme(choice: ThemeChoice) {
  */
 export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
   const account = useAccount();
-  /* Their chosen name if they set one, else their username (#31). The address
-     stays on the line below either way — it is what tells two accounts apart
-     once a display name has replaced the username on the line above. */
+  /* Their chosen name if they set one, else their username (#31) — never a bare
+     "no name", since an account holds no other identity. The address goes on
+     the line beneath: once a display name has replaced the username, it is the
+     one field that still tells two accounts apart. */
   const name = account ? displayName(account) : null;
 
   const [open, setOpen] = useState(false);
@@ -145,16 +146,9 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
         <div className={styles.menu}>
           {view === "root" ? (
             <div role="menu" aria-label="Compte">
-              {/* Signed out there is no header at all — no « Non connecté »,
-                  and no sales pitch either. Signed out is the normal way to
-                  read this site. */}
-              {account && (
-                <p className={styles.status}>
-                  <span className={styles.statusLabel}>{name}</span>
-                  <span className={styles.statusHint}>{account.email}</span>
-                </p>
-              )}
-
+              {/* No header: the trigger directly beneath the panel already
+                  carries the name and the address, and a popover anchored to
+                  the control it opened does not need to restate it. */}
               <ul className={styles.links}>
                 {links.map((page) => (
                   <li key={page.path} role="none">
