@@ -78,7 +78,6 @@ Three real lessons exist — read one before writing your first:
 // src/app/grammaire/les-articles/page.tsx
 import { lessonMetadata } from '@/components/lesson/metadata'
 import { PageHeader } from '@/components/lesson/PageHeader'
-import { RelatedLinks } from '@/components/lesson/RelatedLinks'
 
 const PATH = '/grammaire/les-articles'
 
@@ -99,12 +98,15 @@ export default function Page() {
           <div className="attention">…</div>
         </section>
       </div>
-
-      <RelatedLinks path={PATH} />
     </article>
   )
 }
 ```
+
+**A lesson renders its prose and nothing else** (`docs/decisions.md` #49). The « J'ai terminé » tick
+and « Pour aller plus loin » are drawn by the shell, from the manifest, under every path that
+resolves to a lesson — do **not** add either to a page. `relatedPages` is where a cross-link is
+declared; there is nothing to render.
 
 **The title is never typed on the page.** `lessonMetadata` and `PageHeader` both read it from the
 manifest, so the tab, the breadcrumb, the sidebar and the heading cannot disagree. Retyping it
@@ -113,8 +115,9 @@ means the renamed one is always the other one.
 **There are no `<Rule>` / `<Table>` / `<Attention>` components.** The lesson patterns are CSS
 classes in `globals.css` — `.rule`, `.example`, `.attention` (prints « À retenir — »),
 `.exception` (prints « Sauf — »), `.astuce` with `.astuce-hook`, `.table-wrap`, and plain
-`<table>` / `<section>` / `<p>`. Only `PageHeader` and `RelatedLinks` are components, because only
-they read the manifest. This is deliberate while `docs/decisions.md` #10 is open: classes commit
+`<table>` / `<section>` / `<p>`. `PageHeader` is the only component a lesson calls, because it is
+the only one that reads the manifest on the page's behalf — the rest of the manifest-driven
+furniture is the shell's. This is deliberate while `docs/decisions.md` #10 is open: classes commit
 to nothing, and wrapping them in components before the authoring format is chosen would be
 building the pipeline the decision says not to build yet.
 

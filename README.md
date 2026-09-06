@@ -13,9 +13,10 @@ a track that teaches them to write it.
 >
 > From August 2026 this was a Vue 3 + Vite app with 119 lessons across 14 chapters. On
 > **2026-09-05** it was restarted on Next.js. The design system, the app shell, the navigation
-> manifest, search and the whole account flow — sign-in, the chosen level, the display name —
-> are written. The fourteen chapters are declared and **three lessons exist**, so most of the course
-> still shows as *Bientôt*. Accounts work; offline caching is not installed.
+> manifest, search, the whole account flow — sign-in, the chosen level, the display name — and
+> progress, from the « J'ai terminé » tick to `/ma-progression`, are written. The fourteen chapters
+> are declared and **three lessons exist**, so most of the course still shows as *Bientôt*.
+> Accounts work; offline caching is not installed.
 >
 > The Vue implementation is kept in [`.vue/`](.vue/) as a reference. It is not built, not
 > imported, and not being ported file-for-file; it is there to be read. See
@@ -66,7 +67,7 @@ Full detail in [`docs/scope.md`](docs/scope.md), including what this project del
   the French being taught, the sans sets the instruction around it — a split by role, so it works
   on both tracks at once.
 - **Vercel** for hosting · **Supabase** for auth (username or email, plus a password) and progress
-  sync — the sign-in flow is written and the two-table schema is applied
+  sync — both written, against the two-table schema in `supabase/migrations/`
 - **Serwist** for the service worker and offline precaching (not yet installed)
 
 ## Running it
@@ -126,15 +127,22 @@ what protects a learner's data.
   metadata either: it is many rows per learner written from several devices, and held as a list on
   one row, two devices syncing after being offline would overwrite each other's ticks.
 - Progress is keyed by route path, ticked **manually** by the learner, and stored behind a
-  swappable adapter. It requires an account; the content around it does not. The local copy stays
-  the read path even when signed in — this is an offline app, so the server is a sync target and
-  never something a render waits on.
+  swappable adapter — an IndexedDB cache and the Supabase table are two implementations of one
+  interface. It requires an account; the content around it does not, and signed out the control
+  links to the sign-in page and brings you back. The local copy stays the read path even when
+  signed in — this is an offline app, so the server is a sync target and never something a render
+  waits on. A tick made with no connection is queued as an *operation* rather than a snapshot, so
+  replaying it later cannot undo what another device did in between.
+- **The end of a lesson is drawn by the shell**: the tick, then « Pour aller plus loin », for any
+  path the manifest knows as a lesson. A lesson page renders its prose and nothing else, so it can
+  forget neither.
 - **The session is never read in a layout.** Doing so would opt every lesson underneath out of
   static prerendering and break offline. Only the leaf controls that write progress know who is
   signed in.
 - **A chosen level filters the listings, never access.** Signed in, the sommaire, the chapter pages
   and the sidebar show a lesson when its levels are empty or contain yours. Signed out, they show
-  everything. A lesson at another level still opens from a link — the level decides what the course
+  everything. Two surfaces stand outside it: search groups out-of-level matches rather than cutting
+  them, and `/ma-progression` never filters at all — it is a record of what you did, not an offer. A lesson at another level still opens from a link — the level decides what the course
   *offers*, not what it permits. The listings are client components inside static pages, so the
   **unfiltered course is what ships in the HTML** and hydration narrows it; that is what a signed-out
   reader should get, and what an offline page should contain.

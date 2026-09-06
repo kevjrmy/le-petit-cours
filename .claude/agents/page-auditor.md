@@ -58,6 +58,16 @@ grep -rn "auth.getUser\|auth.getSession\|cookies()\|headers()" src/app --include
 Any hit in a layout is a defect. Content is public (`AGENTS.md` §8); only the leaf controls that
 write progress need to know who is signed in.
 
+**A lesson that draws its own page furniture is also a defect** — the shell renders the
+« J'ai terminé » tick and « Pour aller plus loin » for every path the manifest knows as a lesson
+(`docs/decisions.md` #49), so a page doing it too renders the block twice:
+
+```bash
+grep -rn "RelatedLinks\|DoneTick\|LessonEnd" src/app
+```
+
+Any hit under `src/app` is one. The same goes for `'use client'` at the top of a lesson.
+
 ## 2. Hydration
 
 A client component is server-rendered for the initial HTML, so anything non-deterministic in

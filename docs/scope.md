@@ -106,8 +106,10 @@ and it is also what keeps the lessons statically prerendered and precacheable �
 the app work offline at all.
 
 **An account is required to keep a learning path** — the « J'ai terminé » tick, the level you are
-working at, and the position in a parcours those imply, across devices. There is no anonymous progress: one storage path, one
-owner.
+working at, and the position in a parcours those imply, across devices. There is no anonymous
+progress: one storage path, one owner. Signed out the tick is still drawn at the foot of every
+lesson and offers the way in, returning to the lesson afterwards — the site says what an account is
+for rather than pretending to remember (`decisions.md` #48).
 
 An account holds a **username, an email, a password, progress rows and settings, and nothing else**
 — the settings being a chosen CEFR level and an optional display name, which is shown to its owner

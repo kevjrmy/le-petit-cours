@@ -170,13 +170,16 @@ mapping to remember.
 
 ## Cross-links — "Pour aller plus loin"
 
-Every lesson page ends with the block; it reads the current path and looks the targets up in one
-map, so the relations stay in a single file.
+Every lesson ends with the block, and **the shell draws it** — `LessonEnd`, from the current path,
+against one map (`docs/decisions.md` #49). Nothing is added to a page: declaring the relation in
+`relatedPages` is the whole job, and a lesson cannot lose its cross-links by forgetting to render
+them.
 
 - **Four links maximum.** Past four it stops being a hint and becomes a second navigation menu.
 - The pairing is always one of three: the lesson a drill practises, the drill that practises a
   lesson, or the sibling page a learner reaches for next. Anything else is decoration.
-- Chapter landing pages and annexes do not carry the block.
+- Chapter landing pages and annexes do not carry the block — the shell only draws it where
+  `findLesson` resolves, so this needs no allowlist.
 - Inline links inside a lesson are a different thing and stay — they sit next to the rule they
   belong to. The foot block is where a learner goes *after*.
 
@@ -186,8 +189,10 @@ map, so the relations stay in a single file.
   a chapter links to its landing page and never opens a list of lessons.
 - The sommaire's chapter grid, and every chapter landing page.
 - Breadcrumbs and the document title.
-- Progress ticks and the per-chapter tally — driven off the route path. **Registering a lesson is
-  all the wiring progress needs**; there is nothing to add to the page.
+- Progress ticks, the per-chapter tally and `/ma-progression` — driven off the route path.
+  **Registering a lesson is all the wiring progress needs**; there is nothing to add to the page.
+- The « J'ai terminé » control and the « Pour aller plus loin » block, both drawn by the shell for
+  any path that resolves to a lesson (#49).
 - The "récemment ajouté" list, from `created` dates in the manifest.
 
 If you find yourself copying a title into a second place, stop: it belongs in the manifest and
