@@ -379,9 +379,10 @@ row of pills; the sommaire — the fourteen chapter cards — lives at **`/somma
 not read; arriving at a field is arriving at the one you came for.
 
 - **The sommaire is an annexe with `where: "top"`**, so the sidebar puts it *above* the chapters
-  rather than at the foot with « Nouveautés ». `Annexe.where` is `top | tree | menu` — the position
-  is a property of the page in the manifest, never a list hand-copied into the three components that
-  render them.
+  rather than at the foot with « Nouveautés ». `Annexe.where` is `top | tree | menu | footer` — the
+  position is a property of the page in the manifest, never a list hand-copied into the four
+  components that render them. The footer is where a page *about the site* goes: « À propos » is
+  there, not in the account popover, which holds what belongs to the account.
 - **The sidebar is one level deep: a chapter is a link, not a disclosure.** It lists the fourteen
   chapters and nothing else; the lessons live on the chapter's own landing page, one click away
   (`docs/decisions.md` #40). A tree that opened was fine at three lessons and unusable at the
@@ -493,9 +494,9 @@ detail.
 
 **Sign-in is a route: `/compte`** — not a modal, so it is linkable and auth UI stays out of the
 shell every lesson renders inside (`docs/decisions.md` #26). **The entry point is the account
-control at the foot of the sidebar**, which opens a popover holding the link, « Ma progression »,
-« À propos » and the theme; it links to `/compte` and never holds a form. Signed in it shows the
-learner's display name if they set one and their username otherwise — never a bare "no name",
+control at the foot of the sidebar**, which opens a popover holding the link, « Ma progression »
+and the theme — and nothing about the site itself; it links to `/compte` and never holds a form.
+Signed in it shows the learner's display name if they set one and their username otherwise — never a bare "no name",
 because an account holds no other identity (#22, #31) — with the **address** on the line beneath.
 Not the username again: once a display name is set, repeating the username twice tells the learner
 nothing, and the address is the one field that still distinguishes two accounts. Signed out it

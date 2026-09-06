@@ -338,9 +338,10 @@ export const chapters: Chapter[] = [
  * Pages that are not lessons and belong to no chapter.
  *
  * `where` says which surface offers it: `top` above the chapter list, `tree`
- * the foot of the sidebar with the chapters, `menu` the account popover. The
- * split is a property of the page rather than a list hand-copied into three
- * components, which is how they would drift.
+ * the foot of the sidebar with the chapters, `menu` the account popover,
+ * `footer` the line under every page. The split is a property of the page
+ * rather than a list hand-copied into four components, which is how they would
+ * drift.
  *
  * It is a union rather than one interface so that **`icon` is required exactly
  * where one is drawn**: the sidebar collapses to icons at the tablet
@@ -349,7 +350,7 @@ export const chapters: Chapter[] = [
  * diff — the mistake #29 removed the icon field over (#42).
  */
 export type Annexe = Lesson &
-  ({ where: "top" | "tree"; icon: IconName } | { where: "menu" });
+  ({ where: "top" | "tree"; icon: IconName } | { where: "menu" | "footer" });
 
 /** An annexe the sidebar draws — narrowed so `icon` is there to read. */
 export type TreeAnnexe = Extract<Annexe, { icon: IconName }>;
@@ -362,7 +363,10 @@ export const annexes: Annexe[] = [
   { path: "/nouveautes", title: "Nouveautés", levels: ANY, where: "tree", icon: "nouveautes", soon: true },
   { path: "/ma-progression", title: "Ma progression", levels: ANY, where: "menu", soon: true },
   { path: "/compte", title: "Compte", levels: ANY, where: "menu" },
-  { path: "/a-propos", title: "À propos", levels: ANY, where: "menu" },
+  /* In the footer rather than the popover: it is a page about the site, and the
+     account menu is about the account. The footer is under every page anyway,
+     which is one link instead of two places offering the same one. */
+  { path: "/a-propos", title: "À propos", levels: ANY, where: "footer" },
 ];
 
 /**

@@ -52,6 +52,11 @@ function applyTheme(choice: ThemeChoice) {
 /**
  * The account control at the foot of the sidebar, and the popover it opens.
  *
+ * It holds what belongs to the account and nothing else: the annexes marked
+ * `where: "menu"` and the theme. « À propos » and the link to the source are
+ * about the site rather than the account, and both are reachable from the
+ * footer under every page.
+ *
  * A popover rather than a modal: it is short, it should not block the page, and
  * on a phone the sidebar is already a drawer — a modal inside a drawer is two
  * layers of trap for one list of links.
@@ -176,17 +181,6 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
                     )}
                   </li>
                 ))}
-                <li role="none">
-                  <a
-                    href="https://github.com/kevjrmy/le-petit-cours"
-                    className={styles.item}
-                    role="menuitem"
-                    onClick={close}
-                  >
-                    Code source
-                  </a>
-                </li>
-
                 <li role="none">
                   {/* The row carries the current value, so the theme is legible
                       without opening the submenu at all. */}
