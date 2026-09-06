@@ -61,16 +61,24 @@ every lesson, and `/ma-progression`. Ticking needs an account; nothing else does
 The design system, the icons and the shell are written — `globals.css`, `src/data/navigation.ts`,
 the sidebar in its three shells, the topbar and the chapter icons (§5, §6). **The way in is written
 too**: `/` is a search field over the manifest, `/recherche` answers it, and the sommaire is at
-`/sommaire`. **The manifest declares fourteen chapters and holds six lessons, all real, all A2, all
-in French** — four in `grammaire` (passé composé, imparfait, le choix entre les deux, pronoms COD et
-COI), one in `orthographe` (les homophones), one in `vocabulaire` (l'heure). They were written on
-2026-09-06 against the topics the Vue course covered, not ported from it (#53).
+`/sommaire`. **The manifest declares fifteen chapters and holds twenty-four lessons, all real, all A2,
+all in French** — four in `grammaire` (passé composé, imparfait, le choix entre les deux, pronoms COD
+et COI), twelve verb sheets in `conjugaison`, one in `orthographe` (les homophones), one in
+`vocabulaire` (l'heure), two in `conversation` (prendre rendez-vous, parler de l'Espagne) and four
+in `traduction`. They were written on 2026-09-06
+against the topics the Vue course covered, not ported from it (#53).
+
+**The four `traduction` texts are chosen against the lessons, not against topics.** Each one
+practises a page that had nothing behind it: `une-journee` the passé composé against the imparfait,
+`quand-j-etais-petite` the imparfait alone, `un-week-end-a-la-plage` the homophones, and
+`hier-dans-la-rue` the COD/COI pronouns and the agreement that follows them. Writing a fifth means
+asking which lesson is still unpractised, not which subject is still unused.
 
 Three things happened to the content that day and they compound: the announced-but-unwritten entries
 were deleted with the flag that drew them (#51), the scaffold's three A1 pages were deleted so the
 course could start where its learner is (#52), and French became the single language of instruction
-(#53). So **a chapter with nothing in it is offered nowhere** — eleven of the fourteen are in that
-state, the sidebar lists the other three, and every empty listing has a state that has been checked on screen.
+(#53). So **a chapter with nothing in it is offered nowhere** — nine of the fifteen are in that
+state, the sidebar lists the other six, and every empty listing has a state that has been checked on screen.
 The rest of the content is what is left.
 
 `/a-propos` is deliberately down to a sentence and the licence (#46); its prose is owed a pass. It
@@ -119,10 +127,13 @@ never reason about her with a single CEFR badge. The chapters serve both: `gramm
 
 The rules that follow from this:
 
-- **Everything is written in French. One language, no exceptions** (`docs/decisions.md` #53,
-  closing §12's open question). The explanations, the tables, the callouts, the drill instructions
-  and the chrome are all French; no Spanish gloss, no translation column, no bilingual page and no
-  `metalanguage` field — the field is gone, because there is nothing left for it to distinguish.
+- **Everything is written in French** (`docs/decisions.md` #53, closing §12's open question). The
+  explanations, the tables, the callouts, the drill instructions and the chrome are all French; no
+  Spanish gloss, no translation column, no bilingual page and no `metalanguage` field — the field is
+  gone, because there is nothing left for it to distinguish. **The single exception is a
+  `traduction` page's source text** (#55), and it is exact: Spanish may appear as *material to be
+  translated*, never as explanation. The instructions, the hints and the model version on those
+  pages are French like everything else.
 - **The reader is still, mostly, a Spanish speaker — and that shapes the French you write, not the
   language you write it in.** Short sentences. Everyday words. A rule stated before it is qualified.
   Where a Spanish speaker predictably slips, the page addresses the slip *in French*, by being
@@ -133,7 +144,7 @@ The rules that follow from this:
   with drills and games, not a printed thing — there is no PDF and no print stylesheet (#1) — and
   « le livre » is a beginner vocabulary word this course will teach in `grammaire`, so using it as
   chrome puts the word on screen meaning two things at once. The parts keep their own names and
-  they are all taken: **leçon** a page, **chapitre** one of fourteen, **sommaire** the contents page,
+  they are all taken: **leçon** a page, **chapitre** one of fifteen, **sommaire** the contents page,
   **parcours** an ordered path, **programme** a level's syllabus. In English prose — this file, the
   briefs, commit messages — say *the course*.
 - **English is never used, for either profile.** No English glosses, no English mnemonics (never
@@ -403,7 +414,7 @@ says *bientôt* — nothing in this interface does any more (#51).
 
 **Nothing in the interface announces a page that is not written** (#51). The manifest holds no
 `soon` flag and no entry without a folder: a lesson is registered in the commit that creates it. A
-chapter whose `lessons` array is empty is declared — the fourteen are the shape of the course — but
+chapter whose `lessons` array is empty is declared — the fifteen are the shape of the course — but
 `listedChapters(level)` drops it, so the sidebar, the sommaire, the pills and search all pass it
 over and it returns on its own with its first lesson. There is no second list to maintain and no
 badge to draw. Its landing page still renders at its URL and says plainly that it has no lesson
@@ -411,16 +422,21 @@ yet; that page is reachable by link, never by offer, which is the same line §6 
 level filter. **Do not reintroduce a "coming soon" row in any form** — a dimmed row, a disabled
 link, a count of what is planned. If it is not written, it is not on screen.
 
-**Chapter landing pages are one route, not fourteen.** `app/[chapitre]/page.tsx` renders every
+**Chapter landing pages are one route, not fifteen.** `app/[chapitre]/page.tsx` renders every
 chapter from the manifest via `generateStaticParams`, with `dynamicParams = false` so an unknown
 slug 404s rather than being rendered on demand — which is also what stops the segment swallowing
 every unmatched top-level path. Adding a chapter to the manifest gives it a landing page; there is
 nothing to write.
 
+**The verb sheets are one route too** — `app/conjugaison/[verbe]/page.tsx`, same shape, reading
+`src/data/conjugaisons.ts` (#56). A data-driven chapter costs the audit a line, because the
+filesystem walk skips dynamic segments and would otherwise report every one of its lessons as
+missing; `nav-wiring`'s snippet carries that line, and the next such chapter needs its own.
+
 ### The home page, the sommaire and search
 
 **`/` is a search field, not the contents.** The home page is the wordmark, one large field and a short
-row of pills; the sommaire — the fourteen chapter cards — lives at **`/sommaire`**
+row of pills; the sommaire — the fifteen chapter cards — lives at **`/sommaire`**
 (`docs/decisions.md` #39). Arriving at a table of contents is arriving at a list of things you have
 not read; arriving at a field is arriving at the one you came for.
 
@@ -430,7 +446,7 @@ not read; arriving at a field is arriving at the one you came for.
   components that render them. The footer is where a page *about the site* goes: « À propos » is
   there, not in the account popover, which holds what belongs to the account.
 - **The sidebar is one level deep: a chapter is a link, not a disclosure.** It lists the chapters
-  that have a lesson to offer — fourteen when the course is written, three today (#51) — and nothing
+  that have a lesson to offer — fifteen when the course is written, five today (#51) — and nothing
   else; the lessons live on the chapter's own landing page, one click away
   (`docs/decisions.md` #40). A tree that opened was fine at three lessons and unusable at the
   hundred and nineteen this course is heading for. **Do not put the lessons back in it** — the answer
@@ -508,12 +524,20 @@ Carried over from the Vue app, because the taxonomy was sound and the content wi
 | `exercices` | graded drill, walked once, scored on screen and stored nowhere |
 | `jeux` | replayable game, redraws every round, records nothing |
 | `dictees` | listen, type, compare |
-| `conversation` | gap-fill dialogue |
-| `lecture`, `litterature` | reading + comprehension quiz + hidden Spanish translation |
+| `conversation` | **guided role-play** — a scene to play with someone, its steps, and every phrase it offers hidden behind a disclosure; graded nowhere, stored nowhere (#54) |
+| `traduction` | a short source text to write in French, with **three of its words uncoverable** for the French term (base form only), then the model version to compare against; graded nowhere. The one chapter where Spanish appears, and only ever as the text being translated (#55) |
+| `lecture`, `litterature` | reading + comprehension quiz |
 
 **An exercise is graded; a game is replayable.** That one line is what stops `jeux/` becoming a
 second `exercices/`, and it drives everything else: a game has no fixed deck to score out of, no
 lesson to record against, and pulls from the whole course rather than practising one page.
+
+**A conversation page is neither: it needs a second person.** It sets a scene and supports the
+learner through it, and the thing being practised — producing your own turn when you do not control
+the next line — cannot be scored by a page (#54). The support is optional *by construction*: every
+phrase list and the model dialogue itself are `<details>`, so a page never prints its own answers
+above the attempt. That also keeps the whole thing static HTML, which is why the only client leaf on
+such a page is the one that changes the constraint between rounds.
 
 Which of these chapters the rewrite ships, and in what order, is not decided. The taxonomy is
 here so that when a chapter does land it lands in the right shape.
@@ -717,7 +741,10 @@ the wrong thing. Nothing in the toolchain catches it.
 - **Minimal-pair listening sets must contain no homophones** — `cent/sang/sans`, `vert/verre`.
 - **Prefer clicking to typing when the answer carries French accents** (§1). Type-in earns its
   place where the *spelling* is the skill, never as the only way to express something a click
-  could.
+  could. **Where it does earn its place, the field gets `AccentBar`** —
+  `src/components/exercice/AccentBar.tsx`, the row of `é è ê ë à â î ï ô ù û ü ç œ` that writes
+  at the caret. Both profiles are on a Spanish keyboard, where `ç` and `œ` cannot be typed at all,
+  so a bare text field marks a learner wrong for her keyboard. A type-in without it is a bug.
 - **Never `sort(() => Math.random() - 0.5)`** — it is biased, and in the word-order drill it
   served the sentence already correct 9.5 % of the time. One shuffle implementation, imported.
 - **A un/une game takes countable nouns only.** *du poivre*, *de la farine* — a mass noun has no
@@ -860,8 +887,9 @@ are in `docs/decisions.md` — read it before reopening any of them:
 2. **Which chapters ship next.** The level half is settled — **A2 only**, aiming at the DELF A2
    syllabus rather than at parity with the 119 Vue lessons (`docs/decisions.md` #52). The first six
    pages landed in `grammaire`, `orthographe` and `vocabulaire` (#53); which chapters follow, and in
-   what order, is still open. `conjugaison` and `prononciation` are the ones that need a decision
-   first, because §7 makes them data-driven and that is a component before it is a lesson.
+   what order, is still open. **`conjugaison` is settled and built** — twelve verbs, one route, one
+   sheet (#56). `prononciation` is the one left that needs a decision before it can be written,
+   because §7 makes it data-driven and that is a component before it is a lesson.
 3. **Whether the heritage parcours gets its own front door** or stays one path among several.
 4. **Whether `.vue/` gets deleted** once the rewrite has outgrown it.
 

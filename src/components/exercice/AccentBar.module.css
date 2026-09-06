@@ -1,0 +1,45 @@
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.key {
+  min-width: 2.1rem;
+  padding: 0.3rem 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  color: var(--text-1);
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.key:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+
+.key:active {
+  background: var(--accent-subtle);
+  border-color: var(--accent-line);
+}
+
+/* On a touch screen these are the keyboard, so they get a real key's target.
+   Keyed off the pointer rather than the width: a tablet at the rail breakpoint
+   is still a finger. */
+@media (pointer: coarse) {
+  .key {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+}
+
+/* A gap in the row rather than a separator rule: the groups are a reading aid,
+   not structure, and a vertical line at this size reads as another key. */
+.gap {
+  width: 0.55rem;
+}

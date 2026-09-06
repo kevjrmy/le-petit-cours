@@ -14,11 +14,12 @@ at home, a track that teaches them to write it.
 > From August 2026 this was a Vue 3 + Vite app with 119 lessons across 14 chapters. On
 > **2026-09-05** it was restarted on Next.js. The design system, the app shell, the navigation
 > manifest, search, the whole account flow — sign-in, the chosen level, the display name — and
-> progress, from the « J'ai terminé » tick to `/ma-progression`, are written. The fourteen chapters
-> are declared and **six lessons are published**, all A2, all written in French: four in
-> `grammaire`, one in `orthographe`, one in `vocabulaire`. Nothing is announced before it is
-> written, so a chapter waits offstage until it has a page. Accounts work; offline caching is not
-> installed.
+> progress, from the « J'ai terminé » tick to `/ma-progression`, are written. The fifteen chapters
+> are declared and **twenty-four lessons are published**, all A2, all written in French: four in
+> `grammaire`, twelve verb sheets in `conjugaison`, one in `orthographe`, one in `vocabulaire`,
+> two role-plays in `conversation` and four texts in `traduction`. Nothing is announced before it
+> is written, so a chapter waits offstage until it has a page. Accounts work; offline caching is
+> not installed.
 >
 > The Vue implementation is kept in [`.vue/`](.vue/) as a reference. It is not built, not
 > imported, and not being ported file-for-file; it is there to be read. See
@@ -51,9 +52,16 @@ same time. One library of lessons serves both, ordered differently for each.
 no page yet; B1–C2 are declared and closed. A level counts as complete when it covers the published
 **DELF** syllabus for that level.
 
-Chapters cover grammar, spelling, conjugation, pronunciation, vocabulary, reading, culture,
-dialogues, dictations, graded exercises and replayable games. You can browse them by chapter, or
-follow a *parcours* — an ordered path through the same lessons for a given level or profile.
+Chapters cover grammar, spelling, conjugation, pronunciation, vocabulary, translation, reading,
+culture, dialogues, dictations, graded exercises and replayable games. You can browse them by
+chapter, or follow a *parcours* — an ordered path through the same lessons for a given level or
+profile.
+
+Three of those chapters are not written like the rest. A **conjugaison** page is a sheet generated
+from a data file, with toggles for the negative and for a feminine subject. A **conversation** page
+is a role-play to do with someone else: a scene, the steps it follows, and a model dialogue kept
+shut until you want it. A **traduction** page gives a short Spanish text to write in French, with
+three of its words uncoverable for the French term.
 
 **Accounts.** Everything is free and public — no account is needed to read a lesson or play a
 drill. An account only exists so your progress follows you across devices, and it holds nothing
@@ -108,7 +116,7 @@ what protects a learner's data.
   cross-links. The sidebar, the home page and every chapter page read from it. Nothing
   auto-discovers pages, so a lesson missing from the manifest is reachable from nothing.
 - Routes come from the filesystem: `src/app/{chapitre}/{lecon}/page.tsx`. **Chapter landing pages
-  are one generated route** — `src/app/[chapitre]/page.tsx` renders all fourteen from the
+  are one generated route** — `src/app/[chapitre]/page.tsx` renders all fifteen from the
   manifest, so adding a chapter means adding an entry and nothing else.
 - **The home page is a search field**; the course's table of contents is at `/sommaire`. Search reads
   the manifest rather than an index — titles, subtitles, blurbs and DELF descriptors — so it works
@@ -116,7 +124,7 @@ what protects a learner's data.
   has to find « Le passé composé ». The query lives in the URL, so `/recherche?q=` is linkable and
   the page stays static.
 - **The shell lives in `src/app/layout.tsx`**, so the sidebar keeps its scroll position across
-  navigation. It is one level deep — fourteen chapter links; a chapter's lessons are on its own
+  navigation. It is one level deep — fifteen chapter links; a chapter's lessons are on its own
   landing page, because a tree that opens does not survive a course this size. It has three shapes:
   a drawer on a phone, an icons-only rail on a tablet, the open panel on a laptop — collapsible
   either way, and the choice is remembered. The chapter icons are drawn in the repo and inlined, so

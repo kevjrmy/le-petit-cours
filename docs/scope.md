@@ -88,6 +88,11 @@ The 119 Vue lessons are a starting inventory to map against, not a claim of cove
 instructions and the interface — one language, on every page, for both profiles
 (`docs/decisions.md` #53).
 
+**One exception, and it is exact**: the source text of a `traduction/` page is in Spanish, because
+a translation exercise cannot exist without one (#55). Spanish is *material to be translated*
+there, never explanation — the instructions, the hints and the model version on those pages are
+French like everywhere else.
+
 The reader is still, in the main, a Spanish speaker. That fact did not go away; it moved. It no
 longer decides *which language explains*, it decides *what gets explained and how plainly*: the
 false friends get a French definition instead of a gloss, the interference errors are printed

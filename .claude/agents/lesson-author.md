@@ -1,6 +1,6 @@
 ---
 name: lesson-author
-description: Use to write or revise course content for le-petit-cours — a grammaire/orthographe/vocabulaire lesson, a lecture (reading) page, a culture page, a dictée, or an astuce. Handles the French pedagogy, the Spanish glossaries, and the page itself. Do NOT use for interactive drills (exercise-author), styling (design-system) or routing (nav-wiring).
+description: Use to write or revise course content for le-petit-cours — a grammaire/orthographe/vocabulaire lesson, a conversation role-play, a lecture (reading) page, a culture page, a dictée, or an astuce. Handles the French pedagogy and the page itself. Do NOT use for interactive drills (exercise-author), styling (design-system) or routing (nav-wiring).
 tools: Read, Edit, Write, Grep, Glob, Bash
 model: sonnet
 ---
@@ -97,16 +97,13 @@ export default function Page() {
     <article className="prose">
       <PageHeader path={PATH} />
 
-      {/* Learner track: the prose is Spanish, so say so. */}
-      <div lang="es">
-        <section>
-          <h2>El passé composé con « avoir »</h2>
-          <p>…</p>
-          <div className="rule">La règle, en une ou deux phrases.</div>
-          <div className="example" lang="fr">le livre · la table · l’école</div>
-          <div className="attention">…</div>
-        </section>
-      </div>
+      <section>
+        <h2>Le passé composé avec « avoir »</h2>
+        <p>…</p>
+        <div className="rule">La règle, en une ou deux phrases.</div>
+        <div className="example">le livre · la table · l’école</div>
+        <div className="attention">…</div>
+      </section>
     </article>
   )
 }
@@ -139,11 +136,9 @@ building the pipeline the decision says not to build yet.
 - `<div className="example" lang="fr">…</div>` for a block of French; it is serif throughout, so
   `.fr` inside it is redundant.
 - A table's French column takes `className="fr" lang="fr"` per cell.
-- On the learner track, wrap the Spanish prose in `lang="es"`. The page is inside
-  `<html lang="fr">`, so without it a screen reader reads Spanish with a French accent.
-
-**`lang` always travels with `.fr`.** It is not decoration: it picks the voice for `useSpeech` and
-it is what makes a mixed-language page readable aloud at all. A `.fr` without a `lang` is a bug.
+**`lang` no longer travels with `.fr`** (`docs/decisions.md` #53). The page is French throughout
+and sits inside `<html lang="fr">`, so repeating the attribute on every span says nothing. Keep it
+only where an element must be pronounced on its own — a single word a speech control reads aloud.
 
 Order inside a section: **rule → table → examples → one key exception.**
 
@@ -152,8 +147,10 @@ that does not exist, that is a request to `design-system`, not a CSS Module next
 the new pattern goes on `/design` in the same change, or nobody will ever see it in dark mode. A
 one-off style on one lesson is how a design system dies.
 
-Tables: always a caption for screen readers, **four columns maximum**, translation column in
-**Spanish**. Make the caption say something the heading does not — a caption that repeats the `<h2>`
+Tables: always a caption for screen readers, **four columns maximum**, and where a fourth column
+would once have held the Spanish, it holds an **example sentence** — the French that shows the form
+in use (#53). A table of forms with nothing anchoring them is a paradigm, not a lesson. Make the
+caption say something the heading does not — a caption that repeats the `<h2>`
 above it is read twice and adds nothing.
 
 > **The authoring format is deliberately undecided** (`AGENTS.md` §12). Hand-written TSX like the
@@ -179,15 +176,71 @@ Prefer a mnemonic that works for a **hispanophone**: no English acronyms (never 
 VANDERTRAMP), and use Spanish contrast where it helps — *haber* is always the auxiliary in
 Spanish, so `être` is the surprise, not `avoir`.
 
+### Conversation pages — a role-play, not a drill
+
+A scene for the learner to play with someone else in the room, and the scaffolding to get through
+it (`docs/decisions.md` #54). It grades nothing and stores nothing. Three sections is the shape:
+
+1. **La situation** — who she is, who the other person is, what she wants. Then the constraint
+   card, which is the page's one client leaf: a handful of variations on the same scene (only the
+   morning is free; the cabinet has nothing before Thursday; she is calling for her son) and a
+   button that moves to the next. **Cycle in order, never at random** — a random pick renders one
+   thing on the server and another on the client, which is `AGENTS.md` §4's hydration trap, and in
+   a class you want to walk the whole list anyway.
+2. **Les étapes** — the order the exchange usually follows, as five plain lines. Name each move;
+   do not write out phrases for it.
+3. **Si vous bloquez** — one full model dialogue, inside a `<details>`.
+
+**One aid, in one place.** The first draft of this page also hung a phrase list off every step,
+and the phrases then existed twice — once as lists, once inside the model dialogue that follows.
+Two aids for one difficulty is not twice the help: it is a page the learner reads instead of
+playing, which is the whole failure this format exists to avoid. The steps carry the *shape* of the
+conversation, the dialogue carries the *words*, and nothing carries both.
+
+**What is left is optional by construction.** The model dialogue is a `<details>`, because a page
+that prints its answers above the attempt teaches the learner to read them first. `<details>` is
+native HTML: no JavaScript, no hydration risk, and it works offline like the prose around it.
+
+**Two callouts is the ceiling for the whole page** — one register or grammar note, one astuce. A
+role-play page that grows a paradigm table has become a lesson with a dialogue stapled to it.
+
+**Write the scene so the grammar she has just learnt is unavoidable**, not so it is mentioned.
+A page about booking an appointment forces `l'heure` because the whole exchange is about settling
+one, and that is worth more than a section explaining that times are useful.
+
+### Traduction pages — the one place Spanish is allowed
+
+A short source text in Spanish, a place to write the French, and the model version
+(`docs/decisions.md` #55). `src/components/exercice/Traduction.tsx` renders all of it, so the page
+is data: `lines`, `model`, and a `note` saying what to compare. Write no component and no CSS.
+
+- **Four sentences, and they must hang together.** Four unrelated sentences is a grammar exercise
+  wearing a text; a small scene gives every choice a context to be right in.
+- **Choose the text against a lesson, never against a topic.** Each of the first four practises a
+  page that had no drill behind it — the imparfait, the homophones, the COD/COI pronouns. Ask which
+  lesson is still unpractised.
+- **Three hints, on the words Spanish does not give away**: a false friend (`un pueblo` is not
+  « peuple », `coche` is not « coche »), a connector, a noun. **Never hint a word the text exists to
+  test** — no hint on a verb in a text about the imparfait, none on a homophone.
+- **A hint gives the base form.** `se réveiller`, not `je me suis réveillée`. Vocabulary is what
+  stops a learner mid-sentence; tense, auxiliary and agreement are the exercise.
+- **Check the Spanish as carefully as the French.** A French word or French punctuation left in the
+  source (`et` for `y`, a space before `?`) is invisible to the build and obvious to the reader.
+- **The note under the model says what does not count.** Name the synonyms and variants you accept,
+  then name the one thing you do not: the tense, the accord, the homophone. Without it she will read
+  every difference as a mistake.
+
 ### Lecture (reading) pages
 
 Real **public-domain** French text (La Fontaine, Saint-Exupéry, Dumas, Verne…) or an original A2
 dialogue for a practical scenario. Never machine-generated filler, never in-copyright text. Keep
 it to a screen or so.
 
-Structure: source stamp (`Auteur · Œuvre · Année · Chapitre`) → the text with inline hints
-carrying a Spanish gloss → vocabulary table (français | définition FR | español) → an
-"Avez-vous compris ?" comprehension quiz → the Spanish translation hidden in a `<details>`.
+Structure: source stamp (`Auteur · Œuvre · Année · Chapitre`) → the text → vocabulary table
+(mot | définition en français | exemple) → an "Avez-vous compris ?" comprehension quiz. **There is
+no Spanish translation under the text and no Spanish gloss in it** (`docs/decisions.md` #53): a word
+the reader cannot get from context earns a French definition and an example that makes the wrong
+reading impossible, in the table.
 
 The quiz is interactive, so it is a **client leaf** imported into the server page — not a reason
 to mark the whole lesson `'use client'`. Its options are `<button>` elements, **not hidden
@@ -239,14 +292,29 @@ keyboard cannot type them, and say so on the page when a sentence needs one.
 component. A page there is a wrapper and nothing else. If you find yourself writing `<td>` for
 either chapter, you are in the wrong file.
 
-Neither the data files nor their components exist yet. When they are built, the rules that made
-them work in the Vue app are worth re-reading in `.vue/AGENTS.md` §5 — in particular that
-conjugation forms were **generated from a stem + a boundary marker** rather than stored, so the
-coloured terminaison that makes a table scannable could not drift from the form itself.
+**`conjugaison/` is built** (`docs/decisions.md` #56): `src/data/conjugaisons.ts` holds the verbs,
+`src/components/conjugaison/ConjugationSheet.tsx` draws them, and
+`src/app/conjugaison/[verbe]/page.tsx` is the one route that renders all ten. Adding a verb is one
+entry in the data file plus one entry in the manifest. There is no page to write.
+
+Three things about that data file, all of which cost something to learn:
+
+- **A form is stored `radical|terminaison`.** The mark is what lets the sheet colour the ending, so
+  the colour cannot drift from the form. A form with no mark is all stem (`ai`, `va`) — a fact
+  about the verb, not a missing split.
+- **The futur and the imparfait are generated from a stem**, because every French verb shares those
+  endings and storing them twelve times invites a typo into one of them. `assertVerbs()` runs at
+  import and refuses a futur stem that does not end in `r`, or an imparfait stem ending in `e`, `g`
+  or `ç` — that last one is the `-ger`/`-cer` trap, where one stem cannot give both *je mangeais*
+  and *nous mangions*. Such a verb needs its six forms stored and the sheet taught to read them.
+- **`prononciation/` is still unbuilt**, and its data file and component are still to be designed.
+
+`.vue/AGENTS.md` §5 is worth reading for the Vue sheet's reasoning, but the files here are the
+reference now.
 
 ## Exercise pages — not yours
 
-`exercices/`, `jeux/` and the gap-fill dialogues in `conversation/` belong to **exercise-author**.
+`exercices/` and `jeux/` belong to **exercise-author**.
 They are data-and-mechanic work with their own validation discipline, not prose. Link *to* them
 from a lesson or an astuce; do not write them here.
 

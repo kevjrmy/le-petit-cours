@@ -1,0 +1,63 @@
+.line {
+  margin: 0;
+}
+
+.line + .line {
+  margin-top: 0.35rem;
+}
+
+/* A word of the source she can uncover. Accent, never danger: red here would be
+   the only red on the page and would read as "wrong" before she has written
+   anything (`AGENTS.md` §5). The dashed underline carries the meaning for a
+   reader who cannot see the tint. */
+.hint {
+  /* No inline padding: any at all pushes a visible gap between the word and the
+     punctuation after it, which reads as a space before a full stop. The tint
+     hugs the glyphs and the underline does the rest of the work. */
+  padding: 0.1em 0;
+  border: 0;
+  border-bottom: 1px dashed var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--accent-subtle);
+  color: inherit;
+  cursor: pointer;
+}
+
+.hint:hover {
+  background: var(--accent-soft);
+}
+
+/* Uncovered: the tint goes, so at a glance she sees which ones she has spent. */
+.hint[aria-expanded="true"] {
+  background: transparent;
+  border-bottom-style: solid;
+}
+
+.mot {
+  font-family: var(--font-serif);
+  color: var(--accent-text);
+  white-space: nowrap;
+}
+
+.zone {
+  display: block;
+  width: 100%;
+  min-height: 9rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  color: var(--text-1);
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  line-height: 1.65;
+  resize: vertical;
+}
+
+.zone:focus-visible {
+  border-color: var(--accent);
+}
+
+.controls {
+  margin-top: 0.9rem;
+}

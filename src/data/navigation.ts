@@ -16,7 +16,7 @@
  * **Every chapter is in that state right now** (#52). The three A1 pages written
  * during the scaffold were deleted on 2026-09-06: the course serves an A2
  * learner, and three A1 lessons were a sample of a level nobody here is at. What
- * is left is the shape — fourteen chapters, their blurbs, their icons — and the
+ * is left is the shape — fifteen chapters, their blurbs, their icons — and the
  * first real lesson will be A2.
  *
  * **Chapter order is inherited from the Vue app, not decided.** Which chapters
@@ -113,6 +113,7 @@ export type IconName =
   | "jeux"
   | "dictees"
   | "conversation"
+  | "traduction"
   | "lecture"
   | "litterature"
   | "musique"
@@ -219,8 +220,117 @@ export const chapters: Chapter[] = [
     title: "Conjugaison",
     unit: ["verbe", "verbes"],
     blurb:
-      "Les tableaux des verbes les plus utiles, au présent, au passé composé et au futur.",
-    lessons: [],
+      "Les tableaux des verbes les plus utiles, du présent au futur, à l’affirmatif comme au négatif.",
+    lessons: [
+      {
+        id: "conj-etre",
+        path: "/conjugaison/etre",
+        title: "être",
+        tag: "Auxiliaire",
+        levels: A2,
+        delf: "Présent, imparfait, passé composé, futur simple, impératif.",
+        created: "2026-09-06",
+      },
+      {
+        id: "conj-avoir",
+        path: "/conjugaison/avoir",
+        title: "avoir",
+        tag: "Auxiliaire",
+        levels: A2,
+        delf: "Présent, imparfait, passé composé, futur simple, impératif.",
+        created: "2026-09-06",
+      },
+      {
+        id: "conj-parler",
+        path: "/conjugaison/parler",
+        title: "parler",
+        tag: "1er groupe",
+        levels: A2,
+        delf: "Présent, imparfait, passé composé, futur simple, impératif.",
+        created: "2026-09-06",
+      },
+      {
+        id: "conj-finir",
+        path: "/conjugaison/finir",
+        title: "finir",
+        tag: "2e groupe",
+        levels: A2,
+        delf: "Présent, imparfait, passé composé, futur simple, impératif.",
+        created: "2026-09-06",
+      },
+      {
+        id: "conj-manger",
+        path: "/conjugaison/manger",
+        title: "manger",
+        tag: "1er groupe",
+        levels: A2,
+        delf: "Présent, imparfait, passé composé, futur simple, impératif.",
+        created: "2026-09-06",
+      },
+      {
+        id: "conj-commencer",
+        path: "/conjugaison/commencer",
+        title: "commencer",
+        tag: "1er groupe",
+        levels: A2,
+        delf: "Présent, imparfait, passé composé, futur simple, impératif.",
+        created: "2026-09-06",
+      },
+      {
+        id: "conj-aller",
+        path: "/conjugaison/aller",
+        title: "aller",
+        tag: "3e groupe",
+        levels: A2,
+        delf: "Présent, imparfait, passé composé, futur simple, impératif.",
+        created: "2026-09-06",
+      },
+      {
+        id: "conj-faire",
+        path: "/conjugaison/faire",
+        title: "faire",
+        tag: "3e groupe",
+        levels: A2,
+        delf: "Présent, imparfait, passé composé, futur simple, impératif.",
+        created: "2026-09-06",
+      },
+      {
+        id: "conj-prendre",
+        path: "/conjugaison/prendre",
+        title: "prendre",
+        tag: "3e groupe",
+        levels: A2,
+        delf: "Présent, imparfait, passé composé, futur simple, impératif.",
+        created: "2026-09-06",
+      },
+      {
+        id: "conj-venir",
+        path: "/conjugaison/venir",
+        title: "venir",
+        tag: "3e groupe",
+        levels: A2,
+        delf: "Présent, imparfait, passé composé, futur simple, impératif.",
+        created: "2026-09-06",
+      },
+      {
+        id: "conj-pouvoir",
+        path: "/conjugaison/pouvoir",
+        title: "pouvoir",
+        tag: "3e groupe",
+        levels: A2,
+        delf: "Présent, imparfait, passé composé, futur simple, impératif.",
+        created: "2026-09-06",
+      },
+      {
+        id: "conj-vouloir",
+        path: "/conjugaison/vouloir",
+        title: "vouloir",
+        tag: "3e groupe",
+        levels: A2,
+        delf: "Présent, imparfait, passé composé, futur simple, impératif.",
+        created: "2026-09-06",
+      },
+    ],
   },
   {
     slug: "orthographe",
@@ -316,8 +426,81 @@ export const chapters: Chapter[] = [
     path: "/conversation",
     title: "Conversation",
     unit: ["dialogue", "dialogues"],
-    blurb: "Des situations de la vie quotidienne, à compléter puis à dire à voix haute.",
-    lessons: [],
+    blurb:
+      "Des situations de la vie quotidienne à jouer à deux, avec des aides à regarder ou à ignorer.",
+    lessons: [
+      {
+        id: "conv-rendez-vous-medecin",
+        path: "/conversation/prendre-rendez-vous",
+        title: "Prendre rendez-vous",
+        subtitle: "Chez le médecin",
+        tag: "Jeu de rôle",
+        levels: A2,
+        delf: "Demander un rendez-vous, proposer et accepter une heure.",
+        created: "2026-09-06",
+      },
+      {
+        id: "conv-parler-espagne",
+        path: "/conversation/parler-de-l-espagne",
+        title: "Parler de l’Espagne",
+        subtitle: "À des enfants de dix ans",
+        tag: "Jeu de rôle",
+        levels: A2,
+        delf: "Décrire son pays et sa vie quotidienne, en réponse à des questions simples.",
+        created: "2026-09-06",
+      },
+    ],
+  },
+  {
+    slug: "traduction",
+    icon: "traduction",
+    path: "/traduction",
+    title: "Traduction",
+    unit: ["texte", "textes"],
+    blurb:
+      "De courts textes à écrire en français, avec trois indices quand vous bloquez.",
+    lessons: [
+      {
+        id: "trad-une-journee",
+        path: "/traduction/une-journee",
+        title: "Une journée",
+        subtitle: "Quatre phrases au passé",
+        tag: "Traduction",
+        levels: A2,
+        delf: "Écrire un court récit au passé à partir d’un texte source.",
+        created: "2026-09-06",
+      },
+      {
+        id: "trad-quand-jetais-petite",
+        path: "/traduction/quand-j-etais-petite",
+        title: "Quand j’étais petite",
+        subtitle: "Un souvenir, tout à l’imparfait",
+        tag: "Traduction",
+        levels: A2,
+        delf: "Décrire des habitudes et un décor passés.",
+        created: "2026-09-06",
+      },
+      {
+        id: "trad-week-end-plage",
+        path: "/traduction/un-week-end-a-la-plage",
+        title: "Un week-end à la plage",
+        subtitle: "a / à · et / est · on / ont · son / sont · où / ou",
+        tag: "Traduction",
+        levels: A2,
+        delf: "Écrire des phrases simples sans confondre les homophones.",
+        created: "2026-09-06",
+      },
+      {
+        id: "trad-hier-dans-la-rue",
+        path: "/traduction/hier-dans-la-rue",
+        title: "Hier, dans la rue",
+        subtitle: "Les pronoms au passé composé",
+        tag: "Traduction",
+        levels: A2,
+        delf: "Raconter un échange en remplaçant les noms par des pronoms.",
+        created: "2026-09-06",
+      },
+    ],
   },
   {
     slug: "lecture",
@@ -326,7 +509,7 @@ export const chapters: Chapter[] = [
     title: "Lecture",
     unit: ["texte", "textes"],
     blurb:
-      "De courts textes à lire, avec des questions et la traduction espagnole cachée dessous.",
+      "De courts textes à lire, avec des questions pour vérifier ce que vous avez compris.",
     lessons: [],
   },
   {
@@ -382,7 +565,7 @@ export type TreeAnnexe = Extract<Annexe, { icon: IconName }>;
 export const annexes: Annexe[] = [
   /* Above the chapters, not below them with the other annexes: the sommaire is
      the way into the course rather than something beside it, and the foot of a
-     fourteen-row list is not where you look for the list's own overview. */
+     fifteen-row list is not where you look for the list's own overview. */
   { path: "/sommaire", title: "Sommaire", levels: ANY, where: "top", icon: "sommaire" },
   { path: "/ma-progression", title: "Ma progression", levels: ANY, where: "menu" },
   { path: "/compte", title: "Compte", levels: ANY, where: "menu" },
@@ -408,7 +591,7 @@ export const unlistedPages: string[] = ["/", "/recherche", "/design"];
 /**
  * The chapters offered as shortcuts under the search field on the home page.
  *
- * A deliberate short list, not everything: fourteen pills is a second sommaire,
+ * A deliberate short list, not everything: fifteen pills is a second sommaire,
  * and the sommaire is one click away in the last pill. It is the one hand-kept
  * list in this file — which is why the `nav-wiring` audit checks it, so a slug
  * renamed or a chapter dropped is caught rather than silently costing a pill.
@@ -511,7 +694,7 @@ export function visibleLessons(chapter: Chapter, level: Level | null): Lesson[] 
  * The chapters a listing draws: those with at least one lesson to offer.
  *
  * **A chapter with nothing in it is not shown** (`docs/decisions.md` #51). The
- * fourteen are declared here because the course's shape is decided; what the
+ * fifteen are declared here because the course's shape is decided; what the
  * interface offers is what is written, and a row leading to an empty page is
  * the « Bientôt » badge again with worse manners. A chapter reappears on its
  * own the moment its first lesson lands — there is no second list to update.
@@ -554,12 +737,41 @@ export const relatedPages: Record<string, string[]> = {
   "/grammaire/l-imparfait": [
     "/grammaire/le-passe-compose",
     "/grammaire/passe-compose-ou-imparfait",
+    "/traduction/quand-j-etais-petite",
+    "/conversation/parler-de-l-espagne",
   ],
   "/grammaire/passe-compose-ou-imparfait": [
     "/grammaire/le-passe-compose",
     "/grammaire/l-imparfait",
   ],
-  "/grammaire/les-pronoms-cod-coi": ["/grammaire/le-passe-compose"],
+  "/grammaire/les-pronoms-cod-coi": [
+    "/grammaire/le-passe-compose",
+    "/traduction/hier-dans-la-rue",
+  ],
+  "/orthographe/les-homophones": ["/traduction/un-week-end-a-la-plage"],
+  "/vocabulaire/l-heure": ["/conversation/prendre-rendez-vous"],
+  "/conversation/prendre-rendez-vous": [
+    "/vocabulaire/l-heure",
+    "/grammaire/passe-compose-ou-imparfait",
+  ],
+  "/conversation/parler-de-l-espagne": [
+    "/grammaire/l-imparfait",
+    "/conversation/prendre-rendez-vous",
+  ],
+  "/traduction/une-journee": [
+    "/grammaire/passe-compose-ou-imparfait",
+    "/vocabulaire/l-heure",
+    "/conversation/prendre-rendez-vous",
+  ],
+  "/traduction/quand-j-etais-petite": [
+    "/grammaire/l-imparfait",
+    "/conversation/parler-de-l-espagne",
+  ],
+  "/traduction/un-week-end-a-la-plage": ["/orthographe/les-homophones"],
+  "/traduction/hier-dans-la-rue": [
+    "/grammaire/les-pronoms-cod-coi",
+    "/grammaire/le-passe-compose",
+  ],
 };
 
 export interface RelatedLink {

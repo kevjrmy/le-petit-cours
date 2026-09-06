@@ -92,6 +92,18 @@ const PATHS: Record<IconName, React.ReactNode> = {
   conversation: (
     <path d="M6 4.5h12A2.5 2.5 0 0 1 20.5 7v7a2.5 2.5 0 0 1-2.5 2.5h-6l-4.5 3.5v-3.5H6A2.5 2.5 0 0 1 3.5 14V7A2.5 2.5 0 0 1 6 4.5Z" />
   ),
+  /* A letter, an arrow, and the lines it becomes: one text turned into another.
+     Letter-based on purpose — the two-arrow swap every app uses for "translate"
+     reads as "sync" here, next to a chapter about writing. */
+  traduction: (
+    <>
+      <path d="M3.5 12.5 6.25 5.5 9 12.5" />
+      <path d="M4.6 10.2h3.3" />
+      <path d="M12 9h7.5" />
+      <path d="M17 6.5 19.5 9 17 11.5" />
+      <path d="M12 14.5h8M12 18h5.5" />
+    </>
+  ),
   /* A page with text on it — a text to read, not a book to study. */
   lecture: (
     <>

@@ -1,0 +1,162 @@
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 2rem;
+  margin: 0;
+}
+
+.meta div {
+  display: flex;
+  gap: 0.45rem;
+  align-items: baseline;
+}
+
+.meta dt {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+.meta dd {
+  margin: 0;
+  font-family: var(--font-serif);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.toggle {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.toggle button {
+  padding: 0.35rem 0.8rem;
+  border: 0;
+  background: var(--surface-1);
+  color: var(--text-2);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.toggle button + button {
+  border-left: 1px solid var(--border);
+}
+
+.toggle button[aria-pressed="true"] {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+/* The sheet is a pattern before it is a list of words, and the pattern is
+   invisible without a key to it. Ordered radical → terminaison, the way the
+   word is built; each entry appears only when that mark is actually on screen. */
+/* The class is doubled on purpose. `globals.css` styles lists inside `.prose`
+   with `.prose ul { padding-left: 1.35rem }` and `.prose li + li { margin-top:
+   0.35rem }`, both of which outrank a single class — so a plain `.legend` rule
+   lost, and the legend sat 21.6px right of the content column with its second
+   entry 5.6px below the first. Two classes beat one class and one element, and
+   the global rhythm every lesson depends on is left alone. */
+.legend.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 1.1rem;
+  margin: 1rem 0 0;
+  padding-left: 0;
+  list-style: none;
+  font-size: 0.82rem;
+}
+
+.legend.legend li + li {
+  margin-top: 0;
+}
+
+/* Every entry is a swatch and a word, `radical` included. It used to be the one
+   without a swatch, which left its text starting at a different x and sitting a
+   couple of pixels off the others' baseline — the mark on the rest was taller
+   than the line. Flex centring aligns the pair; giving every entry the same two
+   parts aligns the entries. */
+.legend.legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.legend.legend li::before {
+  content: "";
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.6rem 2rem;
+  margin-top: 1.6rem;
+}
+
+/* `globals.css` gives every `.prose section + section` 2.4rem of top margin,
+   which is right for stacked prose sections and wrong inside a grid: it pushed
+   every tense except the first one down by that much, so the column headings
+   did not line up. Two classes beat the global's one class and one element, so
+   this wins without `!important` and without touching the global rhythm. */
+.tense + .tense {
+  margin-top: 0;
+}
+
+.tense h2 {
+  margin: 0 0 0.5rem;
+}
+
+.tense.tense ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  line-height: 1.9;
+}
+
+/* The pronoun is grammatical furniture, not part of the form being taught, so
+   it recedes furthest — the same call the Vue sheet made. */
+.person {
+  color: var(--text-3);
+  font-style: italic;
+}
+
+/* Three levels of emphasis climbing towards the ending, which is the one part
+   of the word this whole page exists to show changing: pronoun muted, radical
+   quiet, terminaison in the accent. */
+.stem {
+  color: var(--text-2);
+}
+
+/* Colour is never the only carrier (`AGENTS.md` §5): the legend names each mark,
+   the ending is also bolder, and the accord is also underlined. */
+.end {
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+.neg {
+  color: var(--warn-text);
+}
+
+.accord {
+  color: var(--accent-text);
+  font-weight: 600;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+}

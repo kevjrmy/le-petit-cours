@@ -1750,3 +1750,161 @@ sentence: a paradigm with nothing anchoring it is not a lesson.
 sans is the sentence explaining it — the role split `AGENTS.md` §5 always claimed it was. With no
 second language on the page, `lang="fr"` no longer needs repeating on every span; `<html lang="fr">`
 covers it, and the attribute is kept only where an element is pronounced on its own.
+
+## 54 · A conversation page is a guided role-play, not a gap-fill
+
+**2026-09-06 · Binding · supersedes the `conversation` row of `AGENTS.md` §7**
+
+A page in `conversation/` sets a scene, gives the steps the exchange usually follows, and hides
+every phrase it offers behind a disclosure the learner opens only if she is stuck. It does not
+grade anything and stores nothing. `conversation/prendre-rendez-vous` is the first one, written
+for a class on 2026-09-07.
+
+**It was going to be a gap-fill**, inherited from the Vue app's six dialogue pages and written
+into §7 with them. The mechanic is sound and the rebuild onto one contract was real work — but a
+gap-fill grades a script someone else wrote, and what an A2 learner cannot do is produce her own
+turn in a conversation whose next line she does not control. Filling the seventh blank in a
+dialogue correctly is not evidence of that, and the drill would run perfectly while teaching
+recognition, which is `AGENTS.md` §9's oldest warning about this chapter.
+
+**The support is optional by construction, not by instruction.** The model dialogue is a
+`<details>`. A page that prints its own answers teaches the learner to read them first, so the
+answers are one click away rather than on the page — and because `<details>` is native HTML, that
+costs no JavaScript and works offline like the prose around it.
+
+**And there is exactly one of them.** The page as first written also hung a phrase list off each of
+its five steps, which put every phrase on the page twice — once in a list, once in the dialogue
+underneath. Too much help is not more help: it turns a scene to be played into a page to be read.
+The steps now name the five moves and nothing else, the dialogue carries the words, and the page
+holds two callouts in total.
+
+**The one client leaf is the constraint card**, which cycles through six variations of the same
+scene: only the morning is free, the cabinet has nothing before Thursday, you are calling for your
+son. It exists because a role-play played twice is a script being memorised. It cycles in order
+rather than drawing at random — a random pick would render differently on the server and the
+client, and in a class you want to walk the whole list rather than roll dice against it.
+
+**What this costs.** The chapter no longer has a mechanic that produces a score, so nothing in
+`conversation/` can be checked without a second person in the room. That is the trade: these pages
+are built for a class with a teacher in it, and the chapters that practise alone are `exercices`
+and `jeux`. A gap-fill remains available if a page ever wants one — it is no longer what the
+chapter *is*.
+
+## 55 · A translation chapter, and the one place Spanish is allowed back
+
+**2026-09-06 · Binding · narrows #53**
+
+`traduction` is a fifteenth chapter. A page gives a short source text, a place to write the French,
+**three hints**, and the model version. It grades nothing.
+
+**Spanish is on these pages, and nowhere else.** #53 made French the single language of the course,
+and that stands everywhere it was aimed: explanations, tables, callouts, drill instructions, chrome.
+But a translation exercise cannot exist without a source text in the learner's language, so the
+carve-out is exact and worth stating as a rule rather than an exception: **Spanish may appear as
+material to be translated, never as explanation.** The instructions on a `traduction` page are in
+French, the hints are in French, the model version is in French. The only Spanish is the paragraph
+she is being asked to turn into French, and it carries `lang="es"` so a screen reader does not read
+it with a French accent.
+
+That also keeps #53's actual reasoning intact. The objection to a Spanish gloss was that it is dead
+weight for a reader who is Brazilian, Italian or Moroccan and otherwise squarely in the audience.
+A source text is not dead weight, it is the exercise — and when this chapter serves a reader who is
+not a Spanish speaker, the answer is a page with a different source text, not a bilingual layout.
+
+**Three hints, and they are in the text rather than under it.** Three words of the source carry a
+tinted background; clicking one uncovers the French word beside it. They are the words a Spanish
+speaker cannot guess from Spanish: a pronominal verb, a connector, and a noun whose cognate
+misleads.
+
+**Each hint gives the base form, never the conjugated one.** `se réveiller`, not `je me suis
+réveillée`. The vocabulary is what blocks a learner mid-sentence; the tense, the auxiliary and the
+agreement are what the page is practising, and a hint that hands those over has done the exercise.
+That line is what keeps three hints from being three answers.
+
+**Chosen against a hint button under the field**, which is what this page had first. Three buttoned
+hints with a counter meant reading grammar advice about a sentence you had stopped looking at, and
+the counter made rationing them one more thing to think about while writing. Putting the help on the
+word itself means she asks the question where she has it, and the answer costs her nothing to
+uncover, so there is no budget to manage and none to record. Nothing is stored either way.
+
+**Nothing is graded, and nothing could be.** A four-sentence text has many correct translations, so
+a checker would either accept one and reject four good ones or accept anything at all. She writes,
+then reveals the model and compares — and the page says plainly which differences matter (tense,
+agreement, word order) and which do not (synonyms, « neuf heures trente » against « neuf heures et
+demie »). This is the same self-assessment as the role-plays (#54), for the same reason: the
+skill being practised is production, and production has no answer key.
+
+**Type-in is right here, and it is the exception §9 allows.** The rule is to prefer clicking when
+an answer carries French accents, because both learners are on a Spanish keyboard. Writing *is* the
+skill on this page, so the dead-key detour is part of the exercise rather than noise in front of it.
+
+**But the detour is not the exercise either, so the field carries an accent row.**
+`src/components/exercice/AccentBar.tsx` is the first shared drill primitive: `é è ê ë à â î ï ô ù û
+ü ç œ`, written at the caret, focus left in the field. `ç` and `œ` cannot be produced on a
+Spanish keyboard at all, so without it the page would mark a learner wrong for her hardware and call
+it French. It is a component rather than a copy on this page because every future `traduction` text
+and every type-in drill needs the same row, and the second copy is where they start to differ.
+
+**The whole page shape is a component too**, for the same reason and proved on the same day: the
+second, third and fourth texts arrived within the hour, and `src/components/exercice/Traduction.tsx`
+now renders all four. A page in this chapter is its source text, its three hints, its model version
+and a note saying what to compare — nothing else. That is what the Vue app failed to do with its six
+dialogue pages, each of which grew its own three hundred lines of CSS.
+
+## 56 · The conjugation sheets: ten verbs, one route, and the imparfait added
+
+**2026-09-06 · Binding · closes half of `AGENTS.md` §12.2**
+
+`conjugaison` is built. `src/data/conjugaisons.ts` holds ten verbs, `ConjugationSheet.tsx` draws
+them, and `app/conjugaison/[verbe]/page.tsx` renders all ten from one file with
+`generateStaticParams` and `dynamicParams = false`.
+
+**The Vue app's model was taken, not its files.** `.vue/src/data/conjugaisons.js` carried thirty
+verbs in a shape that had earned itself: a form stored as `radical|terminaison` so the sheet can
+colour the ending without the colour ever drifting from the word, the futur generated from a stem
+because every verb shares those six endings, and the affirmative/négatif and masculin/féminin
+toggles. Three things changed on the way across.
+
+**The Spanish gloss is gone** (#53). The `es` field went with it.
+
+**The imparfait is now on the sheet.** The Vue file said plainly that it had none, on the grounds
+that the imparfait is taught in `grammaire/l-imparfait` — which left the one tense whose forms are
+perfectly regular as the one tense you could not look up. It is generated from a stored stem and the
+six shared endings, exactly like the futur.
+
+**Generating it carries a trap, and the fix is a second stem rather than a ban.** A `-ger` or
+`-cer` verb keeps its soft consonant before `a` and loses it before `i`: *je mangeais* but *nous
+mangions*, *je commençais* but *nous commencions*. One stem cannot say both, so such a verb stores
+two — `imparfait` bare (`mang`, `commenc`) and `imparfaitDevantA` softened (`mange`, `commenç`) —
+and the generator uses the softened one before the four endings that begin with `a`. Both are
+written out rather than derived from a rule, because a rule that inserts an `e` is a rule that will
+one day insert it into the wrong verb.
+
+**The first version of this refused those verbs instead**, throwing on any stem that could soften.
+That was the wrong shape: it kept the data honest by keeping `manger` out of the course, and
+`manger` is A2 vocabulary the learner already has a lesson about. A guard that forbids correct
+content is a guard that will be deleted by whoever needs the content.
+
+**`assertVerbs()` now holds the pair together**, in both directions: a stem ending in `c` or `g`
+must carry its twin, the twin must be exactly that stem softened, a stem that is *already* softened
+is refused as the right string in the wrong field, and a futur stem must end in `r`. Each branch was
+run against a deliberately broken copy of the file and seen to throw — an assertion nobody has
+watched fail is decoration. Same discipline as `assertLessonIds()` in the manifest, and the same
+lesson `.vue/AUDIT.md` records three times over: a check that cannot fail is worse than no check.
+
+**Twelve verbs, chosen as a syllabus rather than a frequency list**: the two auxiliaries, the two
+regular models (`parler`, `finir`), the two spelling models (`manger`, `commencer`), and six
+irregulars nothing can route around (`aller`, `faire`, `prendre`, `venir`, `pouvoir`, `vouloir`).
+The Vue app's other eighteen are a data entry away.
+
+**Chosen against ten wrapper files**, which is what the Vue app had — thirty views, each a one-line
+wrapper, each a chance to drift and each needing a route entry. The cost of the generated route is
+one line in the `nav-wiring` audit, because the filesystem walk skips dynamic segments and would
+otherwise report all ten lessons as missing. That line is in the brief.
+
+**The sheet is a client component, and that is the point.** The two toggles are what a static table
+cannot do: *négatif* shows *ne … pas* closing around the **auxiliary** in the passé composé rather
+than around the participle, and *féminin* shows the participle agreeing, but only on an `être` verb
+— on an `avoir` verb the sheet says so in as many words instead of silently changing nothing. Those
+are the two mistakes a Spanish speaker makes for months, and here she can watch them happen. The
+page around it stays a Server Component and every verb still prerenders; check `next build`.

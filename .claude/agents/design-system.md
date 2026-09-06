@@ -262,3 +262,23 @@ Carried from the Vue app because they are CSS, not framework:
 And one that is new here: **CSS Module class names are hashed**, so a selector in one module can
 never reach a class defined in another. Shared chrome belongs in `globals.css` or in a shared
 component — not in a module you try to target from outside.
+
+And one that cost three separate fixes on 2026-09-06: **a single class in a module does not beat
+`globals.css`'s `.prose` rules.** Anything rendered inside `<article className="prose">` inherits
+that rhythm, and the selectors are stronger than they look:
+
+| Global rule | Specificity | What it did to a component |
+|---|---|---|
+| `.prose section + section` | 0,1,2 | pushed every grid column but the first down 2.4rem, so the headings did not line up |
+| `.prose ul, .prose ol` | 0,1,1 | indented a flex legend 1.35rem from the column everything else aligns on |
+| `.prose li + li` | 0,1,2 | put 0.35rem between two items that were meant to sit side by side |
+
+A plain `.legend` (0,1,0) loses outright; `.tense ol` (0,1,1) merely *ties* and wins on injection
+order, which is not something to leave load-bearing. **Double the class** — `.legend.legend`,
+`.tense.tense ol` — which is (0,2,0) and reads as deliberate. Never `!important`, and never edit the
+global rhythm to suit one component: every lesson depends on it.
+
+**Measure before you fix an alignment.** All three of these looked like the same vague "it's a bit
+off" and were three different rules. `node scripts/shot.mjs <url> out.png --eval="…"` can write
+`getBoundingClientRect()` values into the page before the shutter, which turns a guess into two
+numbers.

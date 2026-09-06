@@ -1,8 +1,8 @@
 # Contributing to Le Petit Cours
 
 Thank you for considering it. This is teaching material, so an error in it does not just look
-bad — it teaches the error. **Corrections to the French or the Spanish are the most valuable
-contribution you can make, and they need no code at all.**
+bad — it teaches the error. **Corrections to the French are the most valuable contribution you can
+make, and they need no code at all.**
 
 ## What is most useful
 
@@ -11,10 +11,16 @@ that is not standard, an example that contradicts the rule above it. If you are 
 advanced speaker reading a page and something is off, that is worth an issue on its own — you do
 not have to propose the fix.
 
-**2. Corrections to the Spanish.** Every gloss and translation column is Spanish. A gloss that is
-*wrong* (as opposed to merely loose — loose is fine at A2) is a bug. So is an unflagged false
-friend: a page that introduces *une robe* without warning it is not *la ropa* is missing
-something the learner will get wrong.
+**2. Unflagged false friends.** The course is written **entirely in French** — no glosses, no
+translation columns, no bilingual pages (`docs/decisions.md` #53). So a word a Spanish speaker
+reads wrong has to be defended *in French*, where it appears: a page that introduces *une robe*
+without an example making the wrong reading impossible is missing something the learner will get
+wrong. Spotting one of those is worth an issue.
+
+There is exactly one place Spanish appears, and it is not a gloss: the **source text of a
+`traduction/` page**, which is the thing being translated (#55). Corrections to that Spanish are
+welcome on the same terms as corrections to the French. Spanish anywhere else on a page is a bug,
+not a feature to extend.
 
 **3. Facts.** Dates, authors, works, chefs-lieux, historical claims. Cheap to check and
 embarrassing to get wrong in a course.

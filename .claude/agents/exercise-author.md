@@ -1,6 +1,6 @@
 ---
 name: exercise-author
-description: Use to write or revise an interactive drill in le-petit-cours — anything under exercices/ or jeux/, plus the gap-fill dialogues in conversation/. Owns the exercise mechanic, the answer data and its validation. Do NOT use for prose lessons (lesson-author) or for styling (design-system).
+description: Use to write or revise an interactive drill in le-petit-cours — anything under exercices/ or jeux/. Owns the exercise mechanic, the answer data and its validation. Do NOT use for prose lessons or the role-plays in conversation/ (lesson-author), or for styling (design-system).
 tools: Read, Edit, Write, Grep, Glob, Bash
 model: sonnet
 ---
@@ -75,6 +75,12 @@ Spanish keyboard, where `é`, `è` and `ê` cost a dead-key detour: a drill that
 « mangé » in a text field is testing their keyboard, not their French. One Vue drill was written
 as a type-in and rebuilt on chips for exactly this. Type-in still earns its place where the
 *spelling* is the skill — just never as the only way to express something a click could.
+
+**Every text field ships `AccentBar` beside it** (`src/components/exercice/AccentBar.tsx`). It takes
+a ref to the field and writes at the caret, replacing a selection, leaving focus where it was. `ç`
+and `œ` cannot be typed on a Spanish keyboard at all, so this is not a convenience: without it the
+drill marks a learner wrong for her hardware. Import it, never re-implement it, and if a field needs
+a character the row does not carry, add it to the row.
 
 **A fixed pool beats per-item distractors.** Keep the nine pronouns, or the eighteen terminaisons,
 on screen all round in a stable order, never shuffled: the learner recalls the paradigm and finds
@@ -216,20 +222,18 @@ Four games shipped in the Vue app, and each left a lesson worth keeping:
   that cannot be solved must never be served — prove it by generating 500 from the real data and
   asserting every word is recoverable by the same path the player uses.
 
-## Gap-fill dialogues (`conversation/`)
+## `conversation/` is not yours any more
 
-Same discipline, different shell. Speakers are **left / right**, never character names — the
-name belongs in the rendering, not in the data. One shared component renders every dialogue; the
-Vue app had five pages with ~300 lines of bespoke CSS each before they were rebuilt onto one
-contract, and that rebuild is the shape to start from rather than end at.
+**A conversation page is a guided role-play, and `lesson-author` owns it** (`docs/decisions.md`
+#54). It grades nothing, scores nothing and stores nothing: it sets a scene, lists the steps of
+the exchange and hides every phrase it offers behind a `<details>`. There is no answer data, so
+there is nothing here for the discipline above to protect.
 
-Each line is a series of parts, each either literal text or a blank carrying `id`, `answer` and
-`accept`. **Branch on whether the part has an id, never on whether its text is truthy** — an
-empty-string part is falsy, so a truthiness check treats it as a blank with no answer and throws.
-Simply never write an empty text part; if a line must start with a blank, make the blank the
-first element.
-
-`accept` should carry the capitalised and uncapitalised variant when a blank starts a sentence.
+The gap-fill this brief used to specify was inherited from the Vue app's six dialogue pages. It
+was dropped because it grades a script the learner did not write, while the skill the chapter
+exists for is producing your own turn. If a page ever wants a gap-fill again it is a drill, it
+belongs in `exercices/`, and the rules above apply to it unchanged — in particular that an
+`accept` list may hold case and accent variants and **never** a different number or gender.
 
 ## Wiring — same change
 

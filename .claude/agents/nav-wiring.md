@@ -60,6 +60,12 @@ if (existsSync('src/app/page.tsx')) routes.add('/')
 // Every chapter landing page comes from one generated route.
 if (existsSync('src/app/[chapitre]/page.tsx')) for (const c of chapters) routes.add(c.path)
 
+// So does every verb sheet (#56). A chapter whose pages are generated from a
+// data file needs a line here, or its lessons read as missing on every run —
+// the walk above skips `[verbe]` along with every other dynamic segment.
+if (existsSync('src/app/conjugaison/[verbe]/page.tsx'))
+  for (const l of chapters.find(c => c.slug === 'conjugaison').lessons) routes.add(l.path)
+
 // Real routes with no manifest entry, by design — the home page, the results
 // page and the specimen. The list is `unlistedPages` in the manifest rather
 // than a copy here, so adding such a route is a manifest edit like any other.

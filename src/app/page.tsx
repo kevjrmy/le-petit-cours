@@ -11,7 +11,7 @@ import styles from "./page.module.css";
    reason search reads the manifest rather than a server (`src/lib/search.ts`).
 
    The course itself is at /sommaire. Putting it here made the first screen a
-   fourteen-card grid: a table of contents is what you consult, not what you
+   fifteen-card grid: a table of contents is what you consult, not what you
    arrive at. */
 export default function Home() {
   return (
