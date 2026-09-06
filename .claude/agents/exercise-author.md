@@ -179,14 +179,14 @@ is graded; a game is replayable.**
 |---|---|---|
 | Deck | fixed, walked once | redrawn every round, no end |
 | Score | `score / deck.length`, shown at the end | a streak, shown while it lasts |
-| Scope | practises one named lesson | pulls from the whole book |
+| Scope | practises one named lesson | pulls from the whole course |
 | Cross-links | point back at the lesson it drills | point at where the words came from |
 
 - **Nothing stores a score, in either.** A drill shows one and forgets it (`docs/decisions.md` #22);
   a game has no lesson to record against in the first place. Do not invent a total to have
   something to store. What separates the two is the deck and the scope, not the bookkeeping.
 - **Every item names the page it came from**, and the end of a round links there. A game that does
-  not send the learner back to the book is an arcade cabinet in a classroom. **Assert the word is
+  not send the learner back to the course is an arcade cabinet in a classroom. **Assert the word is
   actually on that page**, not merely that the page resolves — nine entries across two Vue games
   cited a page that did not contain their word, and a route check passes all nine.
 

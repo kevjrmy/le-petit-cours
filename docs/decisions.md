@@ -38,7 +38,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 26 | 2026-09-05 | Sign-in lives at `/compte`, with a route handler at `/auth/callback` | Binding |
 | 27 | 2026-09-05 | The palette anchors on the wordmark blue; serif carries the French, sans the instruction | Binding |
 | 28 | 2026-09-05 | The app icon is one letter of the wordmark, generated from it, never hand-drawn | Binding |
-| 29 | 2026-09-05 | The shell derives from the manifest: one generated chapter route, no icon field | Binding |
+| 29 | 2026-09-05 | The shell derives from the manifest: one generated chapter route, no icon field | Icon half superseded by #42 |
 | 30 | 2026-09-05 | The shell follows the claude.ai pattern: account at the foot of the sidebar, theme three-way | Binding |
 | 31 | 2026-09-05 | An account may hold an optional display name — the one thing added to #22 | Binding |
 | 32 | 2026-09-05 | The session is read once, by a provider inside the shell; the name is updated, never upserted | Binding |
@@ -46,6 +46,16 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 34 | 2026-09-05 | Choosing a level is what creates the settings row; everything else about a learner hangs off it | Binding |
 | 35 | 2026-09-05 | Every listing obeys the level; the unfiltered book is what ships and hydration narrows it | Binding |
 | 36 | 2026-09-06 | One table. The learner's settings live in the account's user metadata, not in a table of ours | Binding |
+| 37 | 2026-09-06 | Sign-in is a username and a password; no magic link, no mail, no server session | Binding |
+| 38 | 2026-09-06 | The username is its own table — unique, mutable, mirrored into the session | Binding |
+| 39 | 2026-09-06 | The home page is a search field and pills; the sommaire moves to `/sommaire` | Binding |
+| 40 | 2026-09-06 | The sidebar is one level deep: a chapter is a link to its page, not a disclosure | Binding |
+| 41 | 2026-09-06 | The whole content is « le cours », not « le livre » | Binding |
+| 42 | 2026-09-06 | Three shells — drawer, rail, sidebar; chapters get icons again, checked by the compiler | Binding |
+| 43 | 2026-09-06 | The topbar is part of the page: no band, not sticky | Sticky half superseded by #44 |
+| 44 | 2026-09-06 | The topbar is sticky on mobile only, painted in the page's own ground | Binding |
+| 45 | 2026-09-06 | One sidebar control, in the topbar; the trail never names the current page | Binding |
+| 46 | 2026-09-06 | No copyright notice; the reuse terms live on `/a-propos` | Binding |
 
 ---
 
@@ -1160,3 +1170,328 @@ change has to be a second migration that alters rather than creates.
 and `usernameToEmail` are gone. `@lepetitcours.test` is now only a string typed into the Supabase
 dashboard when an account is made — it has no presence in the codebase at all, which is a better
 place for it than a constant.
+
+## 39 · The home page is a search field; the sommaire moves to `/sommaire`
+**2026-09-06 · Binding · changes what `/` is, not what the sommaire is**
+
+`/` is now the wordmark, one large search field and a short row of chapter pills. The fourteen
+chapter cards moved unchanged to `/sommaire`, which is an annexe in the manifest and therefore in
+the sidebar.
+
+**A table of contents is what you consult, not what you arrive at.** The sommaire answered a
+question — *what is in this book?* — that a returning learner has already answered. Landing on it
+meant scanning fourteen cards, most of them « à venir », to reach the one page you wanted. The
+field answers the commoner question in one gesture, and the sommaire is one pill away for the
+first visit, which is the visit it was written for.
+
+**Decided against a search that filters in place.** Instant results under the field would have been
+faster by one navigation, but the query would live in component state instead of the URL — not
+linkable, not shareable, not in the back button, and gone when the service worker serves the page
+cold. `next/form` gives client-side navigation and prefetch anyway, so the round trip costs a
+prefetched static page rather than a request.
+
+**Decided against a hand-picked pill list living in a component.** It is in the manifest
+(`featuredChapterSlugs`) and the `nav-wiring` audit has a fourth line for it, because it fails soft
+the way cross-links do: a renamed slug would otherwise cost a pill and say so nowhere. The list is
+editorial and short on purpose — fourteen pills is the sommaire again — and its last pill is not a
+chapter but the way out of the short list.
+
+**The index is the manifest, read a second way.** `src/lib/search.ts` searches titles, subtitles,
+tags, blurbs and DELF descriptors across lessons, chapters and annexes. No build step, no fetch, no
+server: the shell already imports the data, so search works offline, which is the only version of
+search this project can honestly ship. **It folds accents and apostrophes** — both profiles type on
+a Spanish keyboard where `é` costs a dead-key detour (§1), so *passe compose* has to find « Le passé
+composé », and « l'interrogation » has to answer to *interrogation*. Full-text search over lesson
+prose needs a compile-time index and a fetch; that is a different decision, to be taken when titles
+stop being enough.
+
+**Results are grouped by level, not filtered by it — a deliberate exception to #35.** Every other
+listing hides what is not at the learner's level, and the reason given there was that two listings
+disagreeing reads as a bug. A results page has no counterpart to disagree with, and it answers a
+question someone asked in words rather than offering them the book. Hiding a page whose name was
+typed would say « ça n'existe pas » about a page that exists and opens normally from any link. So
+out-of-level matches appear under « À d'autres niveaux », with the level named and a way to change
+it. The rule in §6 stands as written for listings; this is what a search result is instead.
+
+**What this exposed:** the topbar labelled every unmatched route « Sommaire », so the day the
+sommaire moved, `/` and `/recherche` both claimed to be it. Pages outside the book are now named in
+`unlistedPages`, which the breadcrumb and the audit read from the same place.
+
+**In the sidebar it sits above the chapters, not with the other annexes.** `Annexe.where` grew a
+third value, `top`, beside `tree` and `menu` (#30). The foot of a fourteen-row list is not where
+anyone looks for that list's own overview, and the sommaire is the way *into* the book rather than
+something beside it like « Nouveautés ». It stays a property of the page in the manifest — the
+sidebar renders three positions from one array, and the row itself is written once, so the day one
+position grows an active state or a badge the others cannot miss it.
+
+**`/` did not die, so nothing redirects.** No lesson moved, so `pathAliases` is untouched and no
+progress is orphaned. A bookmark on `/` still resolves — to the field rather than the book, which
+is the change.
+
+## 40 · The sidebar is one level deep
+**2026-09-06 · Binding · narrows the sidebar half of #29 and #30**
+
+Chapters in the sidebar no longer expand. Each row is a link to the chapter's landing page — the
+category summary — and the lessons are listed there, one click away.
+
+**It was sized for a book that does not exist yet.** Three lessons are written; the A1 syllabus
+alone will be dozens, and the Vue app it is replacing had a hundred and nineteen across fourteen
+chapters. Expand two of those and the sidebar stops being the thing you navigate with and becomes
+the thing you scroll. The failure is not visible today, which is exactly why it is worth deciding
+now rather than after the content lands — a tree that works at three lessons quietly stops working
+somewhere around thirty, and nobody notices the day it does.
+
+**The chapter page was already the right place for this.** `app/[chapitre]/page.tsx` renders every
+chapter's lessons from the manifest, with levels, tags and « Bientôt » badges the sidebar never had
+room for. The disclosure was a worse copy of a page that already existed, and keeping both meant
+two lists that had to agree.
+
+**Decided against a scrollable tree, and against showing only the current chapter's lessons.** The
+first is the problem restated. The second is worse than either option: the sidebar would change
+shape as you moved through the book, so the row you were reaching for would not be where it was a
+moment ago.
+
+**What replaces it.** Three things, and this is why removing it costs nothing: the sommaire sits at
+the top of the sidebar (#39), the chapter row stays marked while you are anywhere inside that
+chapter, and search reaches any lesson by name from the home page. Getting to a lesson you can name
+is now shorter than it was, not longer.
+
+**What it takes with it.** The `toggled` state, the auto-expand, and the "Tout le chapitre" row —
+so the sidebar holds no state at all now, only scroll position. The active row grew a fill rather
+than just a colour, because it is the one thing left in there that says where you are.
+
+**Do not put the lessons back.** The answer to "the sidebar should show more" is the chapter page or
+the search field. If the sidebar ever needs to open again, the reason has to be something other than
+"there is room right now".
+
+## 41 · The whole content is « le cours », not « le livre »
+**2026-09-06 · Binding · renames the chrome, including the pill named in #39**
+
+Six interface strings called the whole content « le livre ». They now say « le cours »: the sommaire
+heading, the home page's last pill, the search field's label, the search results' note, the sidebar's
+`aria-label` and the `jeux` blurb. English prose in `AGENTS.md`, the briefs and the README says *the
+course* to match. Entries above this one still say "the book"; that was the term of their date.
+
+**« le livre » is a word this course teaches.** `/grammaire/les-articles` puts « le livre » / *el
+libro* in a table as A1 vocabulary, while « Le livre » sat in the chrome meaning the whole site. The
+audience for that collision is a beginner meeting the word for the first time — the one reader who
+cannot tell which sense is meant. That is what settled it; the rest is confirmation.
+
+**It was never a book.** There is no PDF export and no print stylesheet, on purpose (#1), so the one
+thing the metaphor promises is the one thing that was deliberately removed. What is here is a course:
+prose, but also graded drills, replayable games, dictations and gap-fill dialogues.
+
+**« le cours » was chosen because the brand already says it.** The site is *Le Petit Cours* and the
+footer already reads « cours de français pour hispanophones », so the collective noun and the name
+are the same word by construction — the same trick as the accent being the wordmark's own blue (#27).
+It is also a direct cognate of *el curso*, which is worth something to a reader whose only foothold
+is Spanish.
+
+**Decided against « la méthode »**, which is the correct French publishing term for a language course
+and is what a teacher would say — but it reads as institutional jargon to a beginner and is clumsy in
+a pill (« Toute la méthode »). **Decided against « le programme »**, which was unavailable: the level
+filter already says « le programme A1 », and one word for both the level's syllabus and the whole
+content is the collision this entry exists to remove. **Decided against having no collective noun**
+and naming only the parts; it works, but the sommaire needs a heading and the pill needs a label, and
+« Les chapitres » says less than « Le cours » about what the thing is.
+
+**The parts are all named and all taken**, so a new one has to earn its word: **leçon** a page,
+**chapitre** one of fourteen, **sommaire** the contents page, **parcours** an ordered path,
+**programme** a level's syllabus.
+
+## 42 · Three shells, and chapter icons the compiler checks
+**2026-09-06 · Binding · supersedes the icon half of #29; widens #24 from one localStorage job to two**
+
+The sidebar has three shapes now, by width: a **drawer** below 56.25rem, an **icons-only rail**
+between 56.25rem and 75rem, the **open panel** above. Either of the two wider shapes can be
+collapsed or expanded by a control at the foot, and the choice is remembered.
+
+**The rail exists because 16.5rem is a quarter of a 900px tablet.** The panel was already open at
+that width and the reading column paid for it. Icons keep the whole course one press away without
+taking the page.
+
+**One preference, not one per breakpoint.** `data-rail` on `<html>` is `1`, `0`, or absent — absent
+meaning "follow the width", which is what a first visit gets. CSS resolves it into `--shell-mode`
+and `--sidebar-now`, and `useShellMode` reads the result back, so the hook stays ignorant of both
+the breakpoints and the preference. That is the same arrangement as #29's `--shell-mode` and it is
+why adding a third mode changed no JavaScript logic.
+
+**The rail's own styling is a container query on the panel, not a third breakpoint.** The panel asks
+its own width whether there is room for words. Change `--sidebar-w-collapsed` and the rail follows;
+there is no number to keep in step, which is the failure #29 was written against in the first place.
+
+### Chapters carry icons again — but not the way they did
+
+#29 removed the icon field because the Vue map ended `?? icons.default`: forget a chapter and it
+rendered a generic file glyph, looked like a design choice, and failed nowhere. **That reasoning was
+right and is not being reversed — the mechanism is.** An icons-only rail needs a mark per row, so:
+
+- `icon: IconName` is **required** on `Chapter`, and on `Annexe` it is required exactly where one is
+  drawn — the type is a union on `where`, so a `menu` annexe has no icon field to forget and a
+  `tree` one cannot omit it.
+- `IconName` is a union in the manifest and `ChapterIcon`'s map is a `Record<IconName, …>`, so both
+  directions are compile errors: a chapter with no icon, and an icon nothing names.
+- **There is no `default` entry and there must never be one.** The fallback *was* the bug.
+
+Verified by breaking it on purpose before relying on it: removing one chapter's icon, removing a
+tree annexe's, and renaming one map key each produced a type error.
+
+**The icons are ours, drawn in one file.** The Vue app's `unplugin-icons` compiled `~icons/mdi/*`
+into the bundle at build time, and *that* is the part worth copying — inline SVG, no network, so the
+marks are there in the métro. What is dropped is the dependency and the licence: MDI is Apache-2.0,
+which is compatible with this repo but would have added an attribution obligation to a project that
+currently owes none (§9b). Hand-drawn on the same 24-grid as the magnifier and the chevrons, so the
+chrome looks like one hand.
+
+**The sommaire card keeps the serif initial.** A card has room for lettering; a 3.75rem rail does
+not. Two marks for two surfaces is not the drift #29 feared — the initial is derived from the title
+and cannot fall out of step at all.
+
+### localStorage now has two jobs
+
+#24 said it had exactly one, the theme, because progress and the level are in IndexedDB and cannot
+be read before paint. The collapsed sidebar joins it, from the same inline script.
+
+**The rule was never "one".** It is that a value belongs there when it must be correct **before the
+first paint** and is a short string nobody would mourn. A sidebar restored in an effect renders open
+and snaps shut, which is worse than the theme flash because it moves the page under the reader.
+Progress and the level still fail that test on the first clause — IndexedDB is async — and that is
+the line, not the count.
+
+## 43 · The topbar is part of the page, not a band over it
+**2026-09-06 · Binding**
+
+The topbar keeps its element and loses its chrome: no border, no `--surface-bar`, no backdrop blur,
+and **no `position: sticky`**. It scrolls away with the page.
+
+**Sticky and transparent are one decision, not two.** A bar pinned to the top with nothing behind it
+is page text sliding under a breadcrumb, with neither readable. Dropping the background therefore
+required dropping the stickiness — and that is the rule to remember, because the two will be
+proposed back separately: a change that restores the surface is also asking to pin it, and a change
+that pins it is asking for the surface back.
+
+**Decided against removing it entirely.** Below 56.25rem the bar holds the only control that opens
+the drawer — `.menu` is `display: none` above the breakpoint — so deleting it would strand the
+sidebar on a phone. The alternative was a floating opener, which trades a band at the top for a
+button sitting on top of the lesson.
+
+**Decided against keeping it on mobile and dropping it on desktop**, which was the tidier answer on
+paper: on desktop the crumb is near-pure duplication — « Grammaire › Les articles » directly above a
+page header that already prints `GRAMMAIRE` and the `<h1>`, with the sidebar highlighting the
+chapter as well. It was not taken because one shell having a header and another not is a difference
+a reader has to learn, and the duplication is cheap once the band paying for it is gone.
+
+**The crumb moved into the page's column.** It used to sit at the shell's edge, which a band could
+carry; a flat line of text out there just hangs 120px to the left of the heading it describes. The
+bar now resolves to the same column as `.prose` and every page wrapper — the measure, centred,
+inside the content's gutters — so the crumb sits directly over the `<h1>`. On mobile the padding is
+0.5rem *less* than the content gutter, so the glyph inside the 2.25rem button lands on the text's
+edge rather than the button's box.
+
+**What it took with it:** `--surface-bar` and `--z-bar`, both of which existed only for this band. A
+surface token nothing paints is an invitation to repaint it, and a z-rung named for a bar is an
+invitation to float one.
+
+## 44 · The topbar is sticky on mobile, and only on mobile
+**2026-09-06 · Binding · supersedes the sticky half of #43**
+
+Below 56.25rem the topbar is `position: sticky` again, painted in `--surface-app`. Above the
+breakpoint it stays exactly as #43 left it: normal flow, no background, scrolls away.
+
+**#43 priced this and got it wrong.** It noted that unsticking the bar meant the drawer opener
+scrolls off, and accepted that. It is not acceptable: below the breakpoint that button is the *only*
+way to open the sidebar, so from halfway down a lesson there was no navigation at all without
+scrolling back to the top. A control that is sometimes absent is worse than a band.
+
+**The rest of #43 is untouched, because the fix is not a rollback.** The band was never the point of
+being sticky — occlusion was. `--surface-app` is what `body` is painted in, so a bar filled with it
+hides what scrolls under it and is invisible against the page. No border, no blur, and **no surface
+of its own**: `--surface-bar` was translucent, which is exactly what could not work, and it stays
+deleted.
+
+**Above the breakpoint nothing is pinned**, because nothing up there needs to be within reach — the
+panel is permanent and the crumb is the most duplicated line on the page (#43). A bar that pins
+itself for a breadcrumb is a band with extra steps.
+
+**`--z-bar` comes back, scoped.** A sticky bar genuinely floats over the page, so a positioned
+element inside a lesson would otherwise paint through it. #43 removed the rung on the reasoning that
+nothing floated any more; that reasoning held for one breakpoint out of two. The token's comment now
+says which one, and that nothing else may claim it.
+
+## 45 · One sidebar control, and a trail that never names the page
+**2026-09-06 · Binding · moves the control #42 put at the foot of the sidebar**
+
+Two changes to the topbar, both removals.
+
+### The collapse control moved into the topbar
+
+#42 put it at the foot of the sidebar, reasoning that the head is 3.75rem wide in the rail and a
+control that changes position between modes is one you look for twice. **The reasoning was right and
+the conclusion was too small**: there were already two controls for one idea — a button in the
+topbar that opened the drawer on a phone, and a button at the foot of the panel that collapsed it on
+a laptop. Same icon, same subject, two places, and neither present at all widths.
+
+It is one button now. It opens the drawer below the breakpoint and collapses the panel above it, and
+it sits at the left edge of the content — immediately against the panel it acts on, which is the
+position that needs no explaining. Nothing about the sidebar is operated from inside the sidebar any
+more, which is also why the rail no longer has to find room for a control at all.
+
+**One button, two verbs.** A drawer is *ouvert* and *fermé*; a panel is *réduit* and *développé*.
+The label follows the mode rather than the element, because the label is what the one user who
+depends on it actually gets.
+
+### The trail no longer names the current page
+
+It showed « Grammaire › Les articles » above a page header already printing `GRAMMAIRE` and
+`<h1>Les articles</h1>`; on a chapter page it repeated the `<h1>`; on the home page it said
+« Accueil » over a page that says *Le Petit Cours* in 2.6rem of serif.
+
+What is left is the one thing a page cannot say about itself: **the chapter a lesson belongs to, as a
+link back up.** Top-level pages therefore show nothing at all — correct, not empty, since the control
+beside it keeps the bar from being blank.
+
+**This is the breadcrumb, not a placeholder for one.** When it grows it grows *upward*, from the
+ancestors — a parcours step, a level. **Putting the leaf back is not growth**; it is the duplication
+this entry removed.
+
+**It also stopped being centred on the reading column.** #43 aligned the crumb with the `<h1>`
+because a lone line of text at the shell's edge looked orphaned. With the control beside it the two
+form a group, and a group belongs against the panel, not floating over the measure.
+
+**What it took with it:** the labels in `unlistedPages`, which existed only to name `/`, `/recherche`
+and `/design` in that bar. The list stays — the `nav-wiring` audit reads it to catch a route that is
+in neither the manifest nor it — but it is a `string[]` now, because a map whose values nothing reads
+is a map that will be wrong the first time anyone relies on it.
+
+## 46 · No copyright notice; the reuse terms live on `/a-propos`
+**2026-09-06 · Binding**
+
+The footer is one line — « À propos · Code MIT, contenu CC BY-SA 4.0 » — with **no © symbol, no
+year and no name**. The obligation a reuser actually owes is spelled out on `/a-propos` instead.
+
+**A notice would add nothing this project has.** Copyright arises on creation under the Berne
+Convention; the United States dropped the notice requirement in 1989. The one thing a notice still
+buys is narrow and foreign: it forecloses an "innocent infringement" plea in mitigation of damages
+under 17 U.S.C. § 401(d). It does not affect whether the rights exist.
+
+**And it would say less than what is already there.** © asserts that rights are reserved. `LICENSE`
+and `LICENSE-CONTENT` grant them, which is both more useful to a reader and the thing only the
+holder can do. Leading a repository that exists to be reused with a reservation notice is arguing
+against itself.
+
+**A year is a liability with no upside.** Hardcoded it goes stale; `new Date().getFullYear()` on
+these statically prerendered pages freezes at *build* time, so it would quietly show the year of the
+last deploy.
+
+**What was actually missing was the attribution, and it is not a symbol.** CC BY-SA 4.0 obliges
+*reusers* to credit, and `LICENSE-CONTENT` already fixes the form — credit "Le Petit Cours", link
+the repository. Nothing user-facing said so, so someone wanting to reuse a lesson correctly had to
+go and read the repository first. `/a-propos` now carries it, copied rather than reworded: two
+documents describing one obligation differently is worse than one describing it nowhere. **Change
+both in the same commit.**
+
+**It credits the project, not a person**, which is why the open question of a legal name versus a
+handle in the MIT copyright line does not reach any page.
+
+**The source link left the footer.** It was the same link three times — the account popover, this
+page, and under every lesson.

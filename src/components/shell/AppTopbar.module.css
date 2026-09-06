@@ -1,15 +1,48 @@
+/* No border, no blur, no band — but **sticky below the drawer breakpoint**,
+   because down there this bar holds the only control that opens the sidebar and
+   an opener that has scrolled away is an opener you have to go and find (#44).
+
+   Sticky needs something behind it or page text slides under the breadcrumb and
+   neither is readable. That something is `--surface-app` — the page's own
+   ground, the same colour `body` is painted in — so the bar occludes what
+   passes under it while remaining invisible as a band. It is emphatically not a
+   surface of its own: `--surface-bar` was translucent and blurred, and it is
+   gone (#43).
+
+   It keeps `--topbar-h` because the sidebar's head is that tall too, and the
+   wordmark sitting level with the crumb is the only thing still lining the two
+   columns up. */
 .topbar {
   position: sticky;
   top: 0;
   z-index: var(--z-bar);
+  background: var(--surface-app);
+  width: 100%;
   height: var(--topbar-h);
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0 0.85rem;
-  background: var(--surface-bar);
-  backdrop-filter: saturate(140%) blur(10px);
-  border-bottom: 1px solid var(--border);
+  /* 0.5rem less than the content gutter, so the *glyph* inside the 2.25rem
+     button lands on the text's left edge rather than the button's box. */
+  padding: 0 0.65rem;
+}
+
+/* Above the breakpoint there is no button, and the crumb has to sit directly
+   over the `<h1>` instead of out at the shell's edge — otherwise removing the
+   band just exposes a line of chrome hanging 120px to the left of the page.
+   This resolves to the same column as `.prose` and every page wrapper: the
+   measure, centred, inside the content's own gutters. */
+@media (min-width: 56.25rem) {
+  .topbar {
+    /* Back into the flow: the sidebar is permanent up here, so the control does
+       not have to stay within reach and a bar that pins itself for a link is a
+       band. It is no longer centred on the reading column either — the button
+       belongs against the panel it collapses, and the trail belongs with the
+       button (#45). */
+    position: static;
+    background: none;
+    padding-inline: calc(var(--shell-gutter) - 0.5rem);
+  }
 }
 
 .menu {
@@ -35,34 +68,18 @@
   stroke: currentColor;
   stroke-width: 1.8;
   stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-/* The panel is permanent above the breakpoint, so the control that opens it
-   has nothing to do. Keep in step with --shell-mode in globals.css. */
-@media (min-width: 56.25rem) {
-  .menu { display: none; }
-}
-
+/* One link, back up to the chapter. It is absent on every top-level page, so
+   it must not reserve space — no `flex: 1`, nothing to leave a gap behind. */
 .crumbs {
-  flex: 1 1 auto;
   min-width: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
   font-size: 0.85rem;
-  color: var(--text-2);
   white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .crumbs a { color: var(--text-2); }
 .crumbs a:hover { color: var(--accent); }
-
-.sep { color: var(--text-3); }
-
-.current {
-  color: var(--text-1);
-  font-weight: 600;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}

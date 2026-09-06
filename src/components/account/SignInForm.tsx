@@ -137,8 +137,8 @@ export function SignInForm() {
       </form>
 
       {/* Said plainly rather than hidden behind a « Créer un compte » link that
-          leads nowhere. Someone without an account is not stuck — the book is
-          the site, and it is open. */}
+          leads nowhere. Someone without an account is not stuck — the course
+          is the site, and it is open. */}
       <p className={styles.aside}>
         Les comptes ne se créent pas depuis le site : ils sont attribués. Si
         vous n&rsquo;en avez pas, vous pouvez lire et faire tout le site sans en

@@ -2,15 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { annexes, chapters, visibleLessons } from "@/data/navigation";
+import { chapters, treeAnnexes, visibleLessons, type TreeAnnexe } from "@/data/navigation";
+import { ChapterIcon } from "@/components/nav/ChapterIcon";
 import { useAccount } from "@/hooks/useAccount";
+import { useRestoreRail } from "@/hooks/useShellMode";
 import { AccountMenu } from "./AccountMenu";
 import styles from "./AppSidebar.module.css";
 
 /**
- * The book's tree. Mounted in the root layout, not in a page, so it keeps its
- * scroll position and its expanded chapters across navigation (`AGENTS.md` §4).
+ * The course's chapters. Mounted in the root layout, not in a page, so it keeps
+ * its scroll position across navigation (`AGENTS.md` §4).
+ *
+ * **One level deep: a chapter is a link, not a disclosure.** The lessons are on
+ * the chapter's own landing page, one click away. A tree that opened would be
+ * fine at three lessons and unusable at a hundred and nineteen — the size the
+ * course is actually heading for — and the sidebar would become the place you
+ * scroll rather than the place you navigate (`docs/decisions.md` #40).
  *
  * Everything here derives from `src/data/navigation.ts`. Nothing is hand-listed.
  */
@@ -18,7 +25,38 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
   const pathname = usePathname();
   const account = useAccount();
   const level = account?.level ?? null;
-  const [toggled, setToggled] = useState<Record<string, boolean>>({});
+  useRestoreRail();
+
+  /* One row, wherever the annexe sits. Written once because the two lists are
+     the same row in two places, and the day one grows an active state or a
+     badge the other has to have it too. */
+  const annexeRow = (page: TreeAnnexe) => (
+    <li key={page.path}>
+      {page.soon ? (
+        <span className={`${styles.lesson} ${styles.soon}`} title={page.title}>
+          <ChapterIcon name={page.icon} />
+          <span className={styles.label}>{page.title}</span>
+          <em className={styles.badge}>Bientôt</em>
+        </span>
+      ) : (
+        <Link
+          href={page.path}
+          className={`${styles.lesson} ${pathname === page.path ? styles.activeLesson : ""}`}
+          aria-current={pathname === page.path ? "page" : undefined}
+          /* The name is on the link itself, so the row keeps it when the rail
+             hides the text — an icon-only control must still say what it is
+             (`AGENTS.md` §5). `title` gives the sighted rail user the same
+             thing on hover. */
+          aria-label={page.title}
+          title={page.title}
+          onClick={onNavigate}
+        >
+          <ChapterIcon name={page.icon} />
+          <span className={styles.label}>{page.title}</span>
+        </Link>
+      )}
+    </li>
+  );
 
   return (
     <div
@@ -29,45 +67,54 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
       className={`${styles.sidebar} ${open ? styles.open : ""}`}
     >
       <div className={styles.head}>
+        {/* Both marks are in the DOM and the container query shows one: the
+            eleven letters of the wordmark do not survive a 3.75rem rail, and
+            the cursive P is the same hand (`AGENTS.md` §5). Swapping in CSS
+            rather than in JS keeps the head correct before hydration. */}
         <Link href="/" className={styles.brand} onClick={onNavigate}>
           <span className={styles.wordmark} aria-hidden="true" />
+          <span className={styles.mark} aria-hidden="true" />
           <span className="visually-hidden">Le Petit Cours — accueil</span>
         </Link>
       </div>
 
-      <nav className={styles.tree} aria-label="Sommaire du livre">
+      <nav className={styles.tree} aria-label="Sommaire du cours">
+        {/* Above the chapters, because it is the way into them. */}
+        <ul className={styles.top}>{treeAnnexes("top").map(annexeRow)}</ul>
+
         <ul className={styles.chapters}>
           {chapters.map((chapter) => {
+            /* A lesson keeps its chapter marked: the row is the only thing left
+               in here saying where you are. */
             const active =
               pathname === chapter.path || pathname.startsWith(`${chapter.path}/`);
-            /* The current chapter opens itself; an explicit click wins. */
-            const expanded = toggled[chapter.slug] ?? active;
             /* Filtered on the same rule as the sommaire and the chapter pages
-               — the sidebar is the book's table of contents, and a count here
+               — the sidebar is the course's table of contents, and a count here
                that disagreed with the card on the sommaire would just look
                broken. Hiding is never gating: every path still resolves. */
-            const lessons = visibleLessons(chapter, level);
-            /* The number of rows this chapter opens to, not the published
-               tally: most of the book is unwritten, and a column of zeroes
-               reads as a bug. Each row says « Bientôt » for itself. */
-            const total = lessons.length;
+            const total = visibleLessons(chapter, level).length;
 
             return (
               <li key={chapter.slug}>
-                <button
-                  type="button"
+                <Link
+                  href={chapter.path}
                   className={`${styles.chapter} ${active ? styles.activeChapter : ""}`}
-                  aria-expanded={expanded}
-                  onClick={() =>
-                    setToggled((previous) => ({ ...previous, [chapter.slug]: !expanded }))
-                  }
+                  aria-current={active ? "page" : undefined}
+                  /* Named on the link, so the row still says what it is once
+                     the rail hides the text (`AGENTS.md` §5). It repeats the
+                     visible label rather than elaborating on it — a different
+                     accessible name is what breaks voice control. */
+                  aria-label={chapter.shortTitle ?? chapter.title}
+                  title={chapter.shortTitle ?? chapter.title}
+                  onClick={onNavigate}
                 >
-                  <svg className={styles.chevron} viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M9 5l7 7-7 7" />
-                  </svg>
+                  <ChapterIcon name={chapter.icon} />
                   <span className={styles.chapterTitle}>
                     {chapter.shortTitle ?? chapter.title}
                   </span>
+                  {/* The rows this chapter opens to, not the published tally:
+                      most of the course is unwritten, and a column of zeroes
+                      reads as a bug. Each row says « Bientôt » for itself. */}
                   <span className={styles.count}>
                     {total}
                     <span className="visually-hidden">
@@ -75,70 +122,13 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
                       {chapter.unit[total === 1 ? 0 : 1]}
                     </span>
                   </span>
-                </button>
-
-                {expanded && (
-                  <ul className={styles.lessons}>
-                    <li>
-                      <Link
-                        href={chapter.path}
-                        className={`${styles.lesson} ${styles.overview} ${
-                          pathname === chapter.path ? styles.activeLesson : ""
-                        }`}
-                        aria-current={pathname === chapter.path ? "page" : undefined}
-                        onClick={onNavigate}
-                      >
-                        Tout le chapitre
-                      </Link>
-                    </li>
-                    {lessons.map((lesson) =>
-                      lesson.soon ? (
-                        <li key={lesson.path}>
-                          <span className={`${styles.lesson} ${styles.soon}`}>
-                            {lesson.title}
-                            <em>Bientôt</em>
-                          </span>
-                        </li>
-                      ) : (
-                        <li key={lesson.path}>
-                          <Link
-                            href={lesson.path}
-                            className={`${styles.lesson} ${
-                              pathname === lesson.path ? styles.activeLesson : ""
-                            }`}
-                            aria-current={pathname === lesson.path ? "page" : undefined}
-                            onClick={onNavigate}
-                          >
-                            {lesson.title}
-                          </Link>
-                        </li>
-                      ),
-                    )}
-                  </ul>
-                )}
+                </Link>
               </li>
             );
           })}
         </ul>
 
-        <ul className={styles.annexes}>
-          {annexes
-            .filter((page) => page.where === "tree")
-            .map((page) => (
-              <li key={page.path}>
-                {page.soon ? (
-                  <span className={`${styles.lesson} ${styles.soon}`}>
-                    {page.title}
-                    <em>Bientôt</em>
-                  </span>
-                ) : (
-                  <Link href={page.path} className={styles.lesson} onClick={onNavigate}>
-                    {page.title}
-                  </Link>
-                )}
-              </li>
-            ))}
-        </ul>
+        <ul className={styles.annexes}>{treeAnnexes("tree").map(annexeRow)}</ul>
       </nav>
 
       <AccountMenu onNavigate={onNavigate} />

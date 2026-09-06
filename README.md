@@ -13,8 +13,8 @@ a track that teaches them to write it.
 >
 > From August 2026 this was a Vue 3 + Vite app with 119 lessons across 14 chapters. On
 > **2026-09-05** it was restarted on Next.js. The design system, the app shell, the navigation
-> manifest and the whole account flow — sign-in, the chosen level, the display name —
-> are written. The fourteen chapters are declared and **three lessons exist**, so most of the book
+> manifest, search and the whole account flow — sign-in, the chosen level, the display name —
+> are written. The fourteen chapters are declared and **three lessons exist**, so most of the course
 > still shows as *Bientôt*. Accounts work; offline caching is not installed.
 >
 > The Vue implementation is kept in [`.vue/`](.vue/) as a reference. It is not built, not
@@ -46,7 +46,7 @@ same time. One library of lessons serves both, ordered differently for each.
 A level counts as complete when it covers the published **DELF** syllabus for that level.
 
 Chapters cover grammar, spelling, conjugation, pronunciation, vocabulary, reading, culture,
-dialogues, dictations, graded exercises and replayable games. You can browse them as a book, or
+dialogues, dictations, graded exercises and replayable games. You can browse them by chapter, or
 follow a *parcours* — an ordered path through the same lessons for a given level or profile.
 
 **Accounts.** Everything is free and public — no account is needed to read a lesson or play a
@@ -104,8 +104,17 @@ what protects a learner's data.
 - Routes come from the filesystem: `src/app/{chapitre}/{lecon}/page.tsx`. **Chapter landing pages
   are one generated route** — `src/app/[chapitre]/page.tsx` renders all fourteen from the
   manifest, so adding a chapter means adding an entry and nothing else.
-- **The shell lives in `src/app/layout.tsx`**, so the sidebar keeps its scroll position and
-  expanded chapters across navigation.
+- **The home page is a search field**; the course's table of contents is at `/sommaire`. Search reads
+  the manifest rather than an index — titles, subtitles, blurbs and DELF descriptors — so it works
+  offline, and it folds accents, because both readers type on a Spanish keyboard and *passe compose*
+  has to find « Le passé composé ». The query lives in the URL, so `/recherche?q=` is linkable and
+  the page stays static.
+- **The shell lives in `src/app/layout.tsx`**, so the sidebar keeps its scroll position across
+  navigation. It is one level deep — fourteen chapter links; a chapter's lessons are on its own
+  landing page, because a tree that opens does not survive a course this size. It has three shapes:
+  a drawer on a phone, an icons-only rail on a tablet, the open panel on a laptop — collapsible
+  either way, and the choice is remembered. The chapter icons are drawn in the repo and inlined, so
+  they render offline like everything else.
 - **Lessons are Server Components** — no `'use client'`, no hooks, no state. They prerender to
   HTML and ship no JavaScript. Interactivity (drills, games, audio, the account menu) lives in
   small client leaves, never in the page wrapping them.
@@ -125,13 +134,13 @@ what protects a learner's data.
   signed in.
 - **A chosen level filters the listings, never access.** Signed in, the sommaire, the chapter pages
   and the sidebar show a lesson when its levels are empty or contain yours. Signed out, they show
-  everything. A lesson at another level still opens from a link — the level decides what the book
+  everything. A lesson at another level still opens from a link — the level decides what the course
   *offers*, not what it permits. The listings are client components inside static pages, so the
-  **unfiltered book is what ships in the HTML** and hydration narrows it; that is what a signed-out
+  **unfiltered course is what ships in the HTML** and hydration narrows it; that is what a signed-out
   reader should get, and what an offline page should contain.
 - **An exercise is graded; a game is replayable.** An exercise walks a fixed deck once, scores
   out of N on screen and practises one named lesson; a game redraws every round, keeps no tally,
-  and pulls from the whole book. Neither stores a score.
+  and pulls from the whole course. Neither stores a score.
 
 ## Contributing
 

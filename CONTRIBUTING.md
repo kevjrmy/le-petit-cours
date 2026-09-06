@@ -30,7 +30,7 @@ looks like it is working while it confirms a mistake.
 ## Before you open a pull request
 
 - **For anything more than a typo, open an issue first.** Especially for a new lesson or chapter —
-  the book is sequenced deliberately, and where a topic sits matters as much as whether it exists.
+  the course is sequenced deliberately, and where a topic sits matters as much as whether it exists.
 - **One change per pull request.** A French correction and a refactor in the same branch are two
   reviews wearing one hat.
 - If you are proposing a *new* lesson, say which chapter it belongs to, which **level** it is,

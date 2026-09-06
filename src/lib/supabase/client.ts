@@ -10,7 +10,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
  *
  * Returns `null` when the environment variables are absent, rather than
  * throwing. Someone who clones this repo without an `.env` should still get a
- * working book — the whole course is public and static, and only the account
+ * working site — the whole course is public and static, and only the account
  * chrome degrades. `useAccount` reads that as "signed out", which is true.
  *
  * The publishable key is public by design and row-level security is what

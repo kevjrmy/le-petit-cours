@@ -1,0 +1,50 @@
+.title {
+  font-size: 1.6rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.count {
+  margin: 0.9rem 0 0.6rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.list { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+
+.other {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.otherTitle {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.otherNote {
+  margin: 0.4rem 0 0.85rem;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--text-3);
+}
+
+.otherNote strong { color: var(--text-2); font-weight: 600; }
+
+.empty {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+  text-align: center;
+  color: var(--text-3);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}

@@ -2,14 +2,21 @@
   position: fixed;
   inset: 0 auto 0 0;
   z-index: var(--z-drawer);
-  width: var(--sidebar-w);
+  width: var(--sidebar-now);
   display: flex;
   flex-direction: column;
   background: var(--surface-sidebar);
   border-right: 1px solid var(--border);
   transform: translateX(-100%);
   visibility: hidden;
-  transition: transform var(--dur) var(--ease), visibility var(--dur);
+  transition: transform var(--dur) var(--ease), visibility var(--dur),
+    width var(--dur) var(--ease);
+  /* The rail's styling is a container query on this panel rather than a third
+     copy of a breakpoint. The panel's width is already resolved from
+     --sidebar-now — the viewport *and* the learner's choice — so querying it
+     asks the only question that matters: is there room for words? Change
+     --sidebar-w-collapsed and the rail follows, with nothing to keep in step. */
+  container: sidebar / inline-size;
 }
 
 .open {
@@ -43,6 +50,18 @@
   border-radius: var(--radius-sm);
 }
 
+/* The cursive P from the wordmark, shown only in the rail. Same mask trick as
+   the wordmark, so it takes the theme the same way. */
+.mark {
+  display: none;
+  width: 1.5rem;
+  aspect-ratio: 1;
+  background-color: currentColor;
+  color: var(--accent);
+  -webkit-mask: url(/logo-mark.svg) center / contain no-repeat;
+  mask: url(/logo-mark.svg) center / contain no-repeat;
+}
+
 /* The wordmark as a mask, so it takes currentColor and follows the theme. */
 .wordmark {
   display: block;
@@ -61,42 +80,43 @@
   padding: 0.75rem 0.5rem 2rem;
 }
 
-.chapters, .lessons, .annexes { list-style: none; }
+.chapters, .annexes, .top { list-style: none; }
 
+/* The way into the chapters, sitting above them. Separated by a rule for the same
+   reason `.annexes` is: it is not one of the fourteen. */
+.top {
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+/* A link, not a disclosure: the lessons are on the chapter page (#40). */
 .chapter {
-  width: 100%;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.4rem 0.5rem;
-  border: 0;
+  gap: 0.55rem;
+  padding: 0.45rem 0.5rem;
   border-radius: var(--radius-sm);
-  background: none;
   color: var(--text-1);
   font-size: 0.88rem;
   font-weight: 600;
-  text-align: left;
-  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
-.chapter:hover { background: var(--surface-3); }
-
-.activeChapter { color: var(--accent-text); }
-
-.chevron {
-  flex: 0 0 auto;
-  width: 0.85rem;
-  height: 0.85rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  color: var(--text-3);
-  transition: transform var(--dur-fast) ease;
+a.chapter:hover {
+  background: var(--surface-3);
+  color: var(--text-1);
+  text-decoration: none;
 }
 
-.chapter[aria-expanded="true"] .chevron { transform: rotate(90deg); }
+/* With no tree to open, this row is the only thing in the sidebar that says
+   where you are — so it carries a fill, not just a colour. */
+.activeChapter,
+a.activeChapter:hover {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
 
 .chapterTitle { flex: 1 1 auto; }
 
@@ -108,27 +128,28 @@
   color: var(--text-3);
 }
 
-.lessons { margin: 0.1rem 0 0.4rem 1.35rem; }
-
+/* Still used by the annexes above and below the chapters. */
 .lesson {
   display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  padding: 0.3rem 0.5rem;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.35rem 0.5rem;
   border-radius: var(--radius-sm);
   color: var(--text-2);
   font-size: 0.85rem;
   line-height: 1.4;
   text-decoration: none;
+  white-space: nowrap;
 }
+
+/* The text half of any row — the part the rail drops. */
+.label { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 
 a.lesson:hover {
   background: var(--surface-3);
   color: var(--text-1);
   text-decoration: none;
 }
-
-.overview { color: var(--text-3); font-style: italic; }
 
 .activeLesson,
 a.activeLesson:hover {
@@ -141,7 +162,7 @@ a.activeLesson:hover {
    survive a reader who cannot tell the two greys apart. */
 .soon { color: var(--text-3); cursor: default; }
 
-.soon em {
+.soon .badge {
   flex: 0 0 auto;
   margin-left: auto;
   font-size: 0.66rem;
@@ -156,4 +177,46 @@ a.activeLesson:hover {
   margin-top: 0.75rem;
   padding-top: 0.75rem;
   border-top: 1px solid var(--border-soft);
+}
+
+/* ── the rail ────────────────────────────────────────────────────────────────
+   Everything below is one question — is the panel too narrow for words? — and
+   the answer comes from the panel's own width, so the drawer, the tablet
+   default and an explicit collapse all reach it by the same route. The
+   threshold sits well above --sidebar-w-collapsed (3.75rem) and well below
+   --sidebar-w (16.5rem); anything in that gap would be a panel we never
+   render. */
+@container sidebar (max-width: 8rem) {
+  .wordmark { display: none; }
+  .mark { display: block; }
+
+  .head { justify-content: center; padding: 0; }
+
+  /* The label is removed, not hidden: `aria-label` on the row already carries
+     the name, so clipping the text as well would announce it twice. */
+  .label,
+  .chapterTitle,
+  .count,
+  .badge {
+    display: none;
+  }
+
+  .chapter,
+  .lesson {
+    justify-content: center;
+    gap: 0;
+    padding-inline: 0;
+    margin-inline: 0.35rem;
+  }
+
+  .tree { padding-inline: 0.35rem; }
+
+  /* A « Bientôt » row keeps its own signal: with the badge gone, the dimmed
+     icon is all that is left, so it is dashed-outlined instead. */
+  .soon {
+    opacity: 0.55;
+    outline: 1px dashed var(--border-strong);
+    outline-offset: -1px;
+    border-radius: var(--radius-sm);
+  }
 }

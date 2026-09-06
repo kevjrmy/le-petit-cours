@@ -33,7 +33,7 @@ included — username and password are exchanged entirely in the browser.
 
 **The listings are client components, and their content must still be in the static HTML.** The
 sommaire's grid, the chapter lesson lists and the sidebar read the learner's level, so they are
-`'use client'` — but React server-renders them, so the *unfiltered* book ships in the HTML and
+`'use client'` — but React server-renders them, so the *unfiltered* course ships in the HTML and
 hydration narrows it. That is deliberate: it is what a signed-out reader should see and what an
 offline page must contain. Check it directly, because nothing else will:
 
@@ -151,12 +151,16 @@ auto-darkening and produces a page that is not yours.
 **Read the PNGs back and look at them.** A flex child stretching to fill a column does not show
 up in the DOM.
 
-Also check at 430 px: the sidebar off-canvas, the breadcrumb collapsed to the current page, and
-no horizontal scroll on the body.
+Also check at 430 px: the sidebar off-canvas, the topbar showing its control and at most the parent
+chapter — never the current page's own name (#45) — and
+no horizontal scroll on the body. The topbar **is** sticky here, painted in `--surface-app` so it
+occludes without reading as a band (#44) — scroll the page and check nothing bleeds through it.
+Above the breakpoint it is in normal flow and scrolls away; a background or a `position: sticky`
+up there is a regression, not a fix (#43).
 
 ## 8. Manifest / filesystem drift
 
-Run the audit in `nav-wiring.md` §The audit. Both lines must be `none`.
+Run the audit in `nav-wiring.md` §The audit. All four lines must be `none`.
 
 Also check in-page cross-links: a `<Link href>` pointing at a path with no `page.tsx` renders as a
 normal-looking link that 404s on click — no console warning, no build failure.

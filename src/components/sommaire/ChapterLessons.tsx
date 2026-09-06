@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { visibleLessons, type Chapter } from "@/data/navigation";
+import { PageRow } from "@/components/nav/PageRow";
 import { useAccount } from "@/hooks/useAccount";
 import styles from "./ChapterLessons.module.css";
 
@@ -11,7 +11,11 @@ import styles from "./ChapterLessons.module.css";
  * Server-rendered into the page's static HTML with everything visible, then
  * narrowed on hydration — the same reasoning as `ChapterGrid`. A lesson hidden
  * here is still reachable by its URL, which is the whole of #23: the level
- * decides what the book offers, never what it permits.
+ * decides what the course offers, never what it permits.
+ *
+ * The rows themselves are `PageRow`, shared with the search results — one row,
+ * one stylesheet, so the two listings cannot present the same lesson two ways.
+ * No `where` label here: every row in this list is in the same chapter.
  */
 export function ChapterLessons({ chapter }: { chapter: Chapter }) {
   const account = useAccount();
@@ -41,45 +45,9 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
           : `${lessons.length} ${chapter.unit[lessons.length === 1 ? 0 : 1]} à venir`}
       </p>
       <ul className={styles.list}>
-      {lessons.map((lesson) => {
-        const row = (
-          <>
-            <span className={styles.rowMain}>
-              <span className={styles.title}>
-                {lesson.titleHtml ? (
-                  <span dangerouslySetInnerHTML={{ __html: lesson.titleHtml }} />
-                ) : (
-                  lesson.title
-                )}
-              </span>
-              {lesson.subtitle && (
-                <span className={styles.subtitle}>{lesson.subtitle}</span>
-              )}
-            </span>
-            <span className={styles.meta}>
-              {lesson.tag && <span className={styles.tag}>{lesson.tag}</span>}
-              {lesson.levels.map((level) => (
-                <span key={level} className={styles.level}>
-                  {level}
-                </span>
-              ))}
-              {lesson.soon && <span className={styles.soon}>Bientôt</span>}
-            </span>
-          </>
-        );
-
-        return (
-          <li key={lesson.path}>
-            {lesson.soon ? (
-              <span className={`${styles.row} ${styles.rowSoon}`}>{row}</span>
-            ) : (
-              <Link href={lesson.path} className={styles.row}>
-                {row}
-              </Link>
-            )}
-          </li>
-          );
-        })}
+        {lessons.map((lesson) => (
+          <PageRow key={lesson.path} {...lesson} />
+        ))}
       </ul>
     </>
   );

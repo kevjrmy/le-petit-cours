@@ -1,5 +1,5 @@
 /**
- * Single source of truth for the book's structure.
+ * Single source of truth for the course's structure.
  *
  * The sidebar, the sommaire and every chapter landing page read from this file.
  * Routes are the filesystem now, so there is no route table to keep in step —
@@ -48,8 +48,44 @@ export interface Lesson {
   soon?: boolean;
 }
 
+/**
+ * The marks the shell can draw, and the only values `icon` accepts.
+ *
+ * Declared here rather than in the component because the manifest owns the
+ * vocabulary, and because being a union is what makes both directions a
+ * compile error: a chapter with no icon does not typecheck, and
+ * `ChapterIcon`'s `Record<IconName, …>` cannot be missing one either. That is
+ * the repair to #29 — the Vue map ended `?? icons.default`, so a forgotten
+ * chapter rendered a generic glyph and nothing failed (#42).
+ */
+export type IconName =
+  | "grammaire"
+  | "conjugaison"
+  | "orthographe"
+  | "vocabulaire"
+  | "astuces"
+  | "prononciation"
+  | "exercices"
+  | "jeux"
+  | "dictees"
+  | "conversation"
+  | "lecture"
+  | "litterature"
+  | "musique"
+  | "culture"
+  | "sommaire"
+  | "nouveautes";
+
 export interface Chapter {
   slug: string;
+  /**
+   * The mark shown beside the title in the sidebar, and alone in the rail.
+   * **Required**: at the tablet breakpoint the sidebar is icons only, so a
+   * chapter with no icon is a row with nothing in it (#42). Sommaire cards
+   * still use the chapter's initial in the serif — that is a different mark
+   * for a different surface, and #29's reasoning still holds there.
+   */
+  icon: IconName;
   path: string;
   title: string;
   /** Used where the full title does not fit — the sidebar, a breadcrumb. */
@@ -60,7 +96,7 @@ export interface Chapter {
   lessons: Lesson[];
 }
 
-/** Every level the book declares. B1 upward are empty on purpose (#12). */
+/** Every level the course declares. B1 upward are empty on purpose (#12). */
 export const LEVELS: Level[] = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
 /**
@@ -73,7 +109,7 @@ export const LEVELS: Level[] = ["A1", "A2", "B1", "B2", "C1", "C2"];
  * against this list before writing and `readLevel` checks against it on the way
  * back, and there is no third line of defence.
  *
- * Offering an empty level would hand someone an empty book, so a level belongs
+ * Offering an empty level would hand someone an empty course, so a level belongs
  * here only once it has content. Opening B1 is now this one line, which is less
  * friction than #22 intended — worth remembering when B1 is written.
  */
@@ -86,6 +122,7 @@ const ANY: Level[] = [];
 export const chapters: Chapter[] = [
   {
     slug: "grammaire",
+    icon: "grammaire",
     path: "/grammaire",
     title: "Grammaire",
     unit: ["leçon", "leçons"],
@@ -112,6 +149,7 @@ export const chapters: Chapter[] = [
   },
   {
     slug: "conjugaison",
+    icon: "conjugaison",
     path: "/conjugaison",
     title: "Conjugaison",
     unit: ["verbe", "verbes"],
@@ -127,6 +165,7 @@ export const chapters: Chapter[] = [
   },
   {
     slug: "orthographe",
+    icon: "orthographe",
     path: "/orthographe",
     title: "Orthographe",
     unit: ["leçon", "leçons"],
@@ -149,6 +188,7 @@ export const chapters: Chapter[] = [
   },
   {
     slug: "vocabulaire",
+    icon: "vocabulaire",
     path: "/vocabulaire",
     title: "Vocabulaire",
     unit: ["fiche", "fiches"],
@@ -171,6 +211,7 @@ export const chapters: Chapter[] = [
   },
   {
     slug: "astuces",
+    icon: "astuces",
     path: "/astuces",
     title: "Astuces",
     unit: ["astuce", "astuces"],
@@ -183,6 +224,7 @@ export const chapters: Chapter[] = [
   },
   {
     slug: "prononciation",
+    icon: "prononciation",
     path: "/prononciation",
     title: "Prononciation",
     unit: ["leçon", "leçons"],
@@ -195,6 +237,7 @@ export const chapters: Chapter[] = [
   },
   {
     slug: "exercices",
+    icon: "exercices",
     path: "/exercices",
     title: "Exercices",
     unit: ["exercice", "exercices"],
@@ -207,11 +250,12 @@ export const chapters: Chapter[] = [
   },
   {
     slug: "jeux",
+    icon: "jeux",
     path: "/jeux",
     title: "Jeux",
     unit: ["jeu", "jeux"],
     blurb:
-      "Des parties courtes qui rebrassent le vocabulaire du livre. Rien n'est noté, tout se rejoue.",
+      "Des parties courtes qui rebrassent le vocabulaire du cours. Rien n'est noté, tout se rejoue.",
     lessons: [
       { path: "/jeux/un-ou-une", title: "Un ou une ?", levels: ANY, metalanguage: "es", soon: true },
       { path: "/jeux/le-mot-mystere", title: "Le mot mystère", levels: ANY, metalanguage: "es", soon: true },
@@ -219,6 +263,7 @@ export const chapters: Chapter[] = [
   },
   {
     slug: "dictees",
+    icon: "dictees",
     path: "/dictees",
     title: "Dictées",
     unit: ["dictée", "dictées"],
@@ -230,6 +275,7 @@ export const chapters: Chapter[] = [
   },
   {
     slug: "conversation",
+    icon: "conversation",
     path: "/conversation",
     title: "Conversation",
     unit: ["dialogue", "dialogues"],
@@ -242,6 +288,7 @@ export const chapters: Chapter[] = [
   },
   {
     slug: "lecture",
+    icon: "lecture",
     path: "/lecture",
     title: "Lecture",
     unit: ["texte", "textes"],
@@ -253,6 +300,7 @@ export const chapters: Chapter[] = [
   },
   {
     slug: "litterature",
+    icon: "litterature",
     path: "/litterature",
     title: "Littérature",
     unit: ["page", "pages"],
@@ -263,6 +311,7 @@ export const chapters: Chapter[] = [
   },
   {
     slug: "musique",
+    icon: "musique",
     path: "/musique",
     title: "Musique",
     unit: ["chanson", "chansons"],
@@ -273,6 +322,7 @@ export const chapters: Chapter[] = [
   },
   {
     slug: "culture",
+    icon: "culture",
     path: "/culture",
     title: "Culture",
     unit: ["page", "pages"],
@@ -284,23 +334,75 @@ export const chapters: Chapter[] = [
   },
 ];
 
-/** Pages that are not lessons and belong to no chapter. */
-export interface Annexe extends Lesson {
-  /**
-   * Where the shell offers it. `tree` is the foot of the sidebar, with the
-   * book; `menu` is the account popover. The split is a property of the page
-   * rather than a list hand-copied into two components, which is how the two
-   * would drift.
-   */
-  where: "tree" | "menu";
-}
+/**
+ * Pages that are not lessons and belong to no chapter.
+ *
+ * `where` says which surface offers it: `top` above the chapter list, `tree`
+ * the foot of the sidebar with the chapters, `menu` the account popover. The
+ * split is a property of the page rather than a list hand-copied into three
+ * components, which is how they would drift.
+ *
+ * It is a union rather than one interface so that **`icon` is required exactly
+ * where one is drawn**: the sidebar collapses to icons at the tablet
+ * breakpoint, so a row there needs a mark, and the popover is text and never
+ * wants one. An optional field would have made both cases look identical in a
+ * diff — the mistake #29 removed the icon field over (#42).
+ */
+export type Annexe = Lesson &
+  ({ where: "top" | "tree"; icon: IconName } | { where: "menu" });
+
+/** An annexe the sidebar draws — narrowed so `icon` is there to read. */
+export type TreeAnnexe = Extract<Annexe, { icon: IconName }>;
 
 export const annexes: Annexe[] = [
-  { path: "/nouveautes", title: "Nouveautés", levels: ANY, where: "tree", soon: true },
+  /* Above the chapters, not below them with the other annexes: the sommaire is
+     the way into the course rather than something beside it, and the foot of a
+     fourteen-row list is not where you look for the list's own overview. */
+  { path: "/sommaire", title: "Sommaire", levels: ANY, where: "top", icon: "sommaire" },
+  { path: "/nouveautes", title: "Nouveautés", levels: ANY, where: "tree", icon: "nouveautes", soon: true },
   { path: "/ma-progression", title: "Ma progression", levels: ANY, where: "menu", soon: true },
   { path: "/compte", title: "Compte", levels: ANY, where: "menu" },
   { path: "/a-propos", title: "À propos", levels: ANY, where: "menu" },
 ];
+
+/**
+ * Real routes that carry no manifest entry.
+ *
+ * Three pages are not part of the course: the home page, the results page and
+ * the token specimen. Declaring them is what lets the `nav-wiring` audit report
+ * a route that is in neither the manifest nor this list, instead of letting a
+ * page exist that nothing links to and nothing notices.
+ *
+ * It used to map each one to a breadcrumb label. The topbar no longer names the
+ * page you are on — the `<h1>` does — so the labels went with that (#45).
+ */
+export const unlistedPages: string[] = ["/", "/recherche", "/design"];
+
+/**
+ * The chapters offered as shortcuts under the search field on the home page.
+ *
+ * A deliberate short list, not everything: fourteen pills is a second sommaire,
+ * and the sommaire is one click away in the last pill. It is the one hand-kept
+ * list in this file — which is why the `nav-wiring` audit checks it, so a slug
+ * renamed or a chapter dropped is caught rather than silently costing a pill.
+ *
+ * The choice is editorial: where a learner most often starts, plus the drills.
+ * `exercices` is here before it has content on purpose — the home page is where
+ * we say what the course is for, and practice is half of it.
+ */
+export const featuredChapterSlugs: string[] = [
+  "grammaire",
+  "orthographe",
+  "vocabulaire",
+  "exercices",
+];
+
+/** Those slugs resolved to chapters, in order. Fails soft, like `relatedFor`. */
+export function featuredChapters(): Chapter[] {
+  return featuredChapterSlugs
+    .map((slug) => chapters.find((chapter) => chapter.slug === slug))
+    .filter((chapter): chapter is Chapter => chapter !== undefined);
+}
 
 /**
  * Renamed lesson paths — old path → current path.
@@ -312,6 +414,17 @@ export const annexes: Annexe[] = [
 export const pathAliases: Record<string, string> = {
   // '/grammaire/ancien-slug': '/grammaire/nouveau-slug',
 };
+
+/**
+ * The annexes the sidebar draws at one position, narrowed to carry an icon.
+ *
+ * The narrowing lives here rather than in the component: `.filter()` does not
+ * narrow a union on its own, and a type predicate written twice is a predicate
+ * that can disagree with itself.
+ */
+export function treeAnnexes(where: "top" | "tree"): TreeAnnexe[] {
+  return annexes.filter((page): page is TreeAnnexe => page.where === where);
+}
 
 /** Lessons that actually have a route. */
 export function publishedLessons(chapter: Chapter): Lesson[] {
@@ -329,7 +442,7 @@ export function chapterCount(chapter: Chapter): { count: number; label: string }
  *
  * `null` means "no level chosen", which is also what a signed-out visitor
  * gets: everything. A lesson with no levels is always offered. **This filters
- * what the book offers, never what it permits** — a lesson reached by direct
+ * what the course offers, never what it permits** — a lesson reached by direct
  * link renders in full whatever the level (#23).
  */
 export function visibleLessons(chapter: Chapter, level: Level | null): Lesson[] {

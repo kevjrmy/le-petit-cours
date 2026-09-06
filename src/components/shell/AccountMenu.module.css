@@ -247,3 +247,27 @@ a.item:hover {
 
 .choice[aria-checked="true"] { color: var(--accent-text); font-weight: 600; }
 .choice[aria-checked="true"] .tick { visibility: visible; }
+
+/* ── the rail ────────────────────────────────────────────────────────────────
+   Same container as the sidebar's own rail rules — the panel names itself
+   `sidebar`, and this module queries it rather than repeating a breakpoint. */
+@container sidebar (max-width: 8rem) {
+  .account { padding-inline: 0.35rem; }
+
+  .trigger { justify-content: center; gap: 0; padding-inline: 0; }
+
+  /* The avatar is the whole control here, so the name and the chevron go. */
+  .triggerText,
+  .trigger .chevron {
+    display: none;
+  }
+
+  /* The popover cannot be as wide as a 3.75rem panel and still hold « Ma
+     progression ». It keeps the panel's left edge and grows to the right,
+     which is the only direction there is room in. */
+  .menu {
+    right: auto;
+    left: 0.35rem;
+    min-width: 14rem;
+  }
+}

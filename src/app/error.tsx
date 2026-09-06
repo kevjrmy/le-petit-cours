@@ -9,7 +9,7 @@ import Link from "next/link";
  *
  * It does not catch a failure in the root layout itself; that would need
  * `global-error.tsx`, which replaces the shell wholesale and is not worth
- * carrying for a book of static pages.
+ * carrying for a course of static pages.
  */
 export default function Error({ reset }: { error: Error; reset: () => void }) {
   return (

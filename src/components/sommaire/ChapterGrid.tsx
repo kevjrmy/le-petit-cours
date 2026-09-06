@@ -11,7 +11,7 @@ import styles from "./ChapterGrid.module.css";
  * A Client Component, but the page holding it is not: React server-renders this
  * into the static HTML, so a visitor with no JavaScript — or the service worker
  * serving a cold page offline — still gets the whole grid. Hydration then
- * narrows the counts. The unfiltered book is the correct thing to serve when
+ * narrows the counts. The unfiltered course is the correct thing to serve when
  * nobody has said otherwise, which is exactly what signed-out means (#23).
  */
 export function ChapterGrid() {

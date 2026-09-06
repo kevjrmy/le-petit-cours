@@ -13,8 +13,8 @@ import styles from "./AppShell.module.css";
  *
  * `children` is passed in from the root layout, so every page underneath stays
  * a Server Component and keeps prerendering — putting the shell here rather
- * than in each page is also what lets the sidebar hold its scroll position and
- * its expanded chapters across navigation (`AGENTS.md` §4).
+ * than in each page is also what lets the sidebar hold its scroll position
+ * across navigation (`AGENTS.md` §4).
  *
  * Nothing here reads the session. Doing so would opt every lesson out of
  * static prerendering, silently (`AGENTS.md` §8).
@@ -59,7 +59,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       )}
 
       <div className={styles.main}>
-        <AppTopbar open={open} onToggle={() => setOpen((value) => !value)} />
+        <AppTopbar mode={mode} open={open} onToggle={() => setOpen((value) => !value)} />
         <main className={styles.content}>{children}</main>
         <Footer />
       </div>

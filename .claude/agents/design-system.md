@@ -222,7 +222,7 @@ prerendering, and a lesson that stops prerendering stops being free to serve off
 
 ## Verifying
 
-`npm run build` must pass, then look at the page in **both themes** at **both breakpoints**.
+`npm run build` must pass, then look at the page in **both themes** at **all three shells** (sidebar, rail, drawer — `AGENTS.md` §11).
 Check for a dev server before starting one; never pattern-kill node.
 
 ```bash

@@ -2,81 +2,48 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "À propos",
-  description:
-    "Un cours de français gratuit et hors ligne pour hispanophones, et pour ceux qui parlent français sans l'avoir jamais écrit.",
+  description: "Ce qu’est Le Petit Cours, et sous quelle licence le réutiliser.",
 };
 
+/* Deliberately bare. The audience, the principles and the state of the rewrite
+   were all described here and are all better said elsewhere — or not yet worth
+   saying. What is left is the one thing that has to live on the site rather
+   than in the repository: the licence, and the attribution a reuser owes. The
+   prose is due a pass; this is the floor, not the intent. */
 export default function AProposPage() {
   return (
     <article className="prose">
       <h1>À propos</h1>
 
-      <section>
-        <p>
-          <strong>Le Petit Cours</strong> est un cours de français gratuit,
-          écrit pour deux lecteurs qui n&rsquo;ont pas besoin de la même chose.
-        </p>
-        <p>
-          Le premier parle espagnol et apprend le français depuis le début. Tout
-          lui est expliqué en espagnol, en s&rsquo;appuyant sur ce que les deux
-          langues ont en commun — et en signalant ce qu&rsquo;elles n&rsquo;ont
-          que l&rsquo;air d&rsquo;avoir en commun.
-        </p>
-        <p>
-          Le second parle déjà français, en famille, mais ne l&rsquo;a jamais
-          écrit. Pour lui les pages d&rsquo;orthographe et de conjugaison sont en
-          français : ce qui manque n&rsquo;est pas la langue, c&rsquo;est
-          l&rsquo;écrit.
-        </p>
-      </section>
+      <p>
+        <strong>Le Petit Cours</strong> est un cours de français gratuit et
+        hors ligne, en cours d&rsquo;écriture.
+      </p>
 
       <section>
-        <h2>Ce que le site ne fait pas</h2>
-        <ul>
-          <li>
-            Aucune mesure de ce que vous faites : ni statistiques, ni suivi, ni
-            publicité.
-          </li>
-          <li>
-            Ni séries, ni rappels, ni objectif quotidien. Vous cochez une leçon
-            quand <em>vous</em> estimez l&rsquo;avoir finie — l&rsquo;application
-            ne prétend jamais savoir ce que vous avez appris.
-          </li>
-          <li>
-            Tout le contenu est en accès libre. Un compte, quand il existera, ne
-            gardera qu&rsquo;une adresse électronique, vos leçons cochées, le
-            niveau que vous avez choisi et — si vous en voulez un — le nom sous
-            lequel le site vous appelle. Rien d&rsquo;autre, et ce nom n&rsquo;est
-            montré à personne : il n&rsquo;y a personne à qui le montrer.
-          </li>
-          <li>
-            Le site fonctionne hors ligne : une fois les pages visitées, elles
-            restent lisibles dans le métro.
-          </li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>Licence et corrections</h2>
+        <h2>Licence</h2>
         <p>
           Le code est sous licence MIT, le contenu sous CC BY-SA 4.0, et tout est
           public sur{" "}
           <a href="https://github.com/kevjrmy/le-petit-cours">GitHub</a>.
         </p>
-        <div className="attention">
-          c&rsquo;est du matériel pédagogique, donc une page fausse enseigne
-          l&rsquo;erreur. Les corrections du français et de l&rsquo;espagnol sont
-          les contributions les plus utiles — elles se signalent par une issue
-          sur GitHub.
-        </div>
-      </section>
+        {/* The attribution a reuser owes, in the exact form `LICENSE-CONTENT`
+            asks for — credit the project, link the repository. Copied rather
+            than reworded on purpose: two documents describing the same
+            obligation differently is worse than one describing it nowhere, and
+            this is the copy a reader will actually find. If LICENSE-CONTENT's
+            attribution clause changes, change this in the same commit.
 
-      <section>
-        <h2>Où en est le site</h2>
+            It credits « Le Petit Cours » and not a person, which is why the
+            open question of a legal name in the MIT copyright line does not
+            reach this page. */}
         <p>
-          Il est en cours de réécriture. Les chapitres s&rsquo;annoncent dans le
-          sommaire au fur et à mesure ; ceux marqués <em>Bientôt</em> sont
-          prévus, pas encore écrits.
+          Pour réutiliser une page : créditez « Le Petit Cours » avec un lien
+          vers <a href="https://github.com/kevjrmy/le-petit-cours">le dépôt</a>,
+          signalez vos modifications, et publiez votre version sous la même
+          licence. Les citations et les images empruntées ne sont pas
+          concernées : elles restent à leurs auteurs, et la page qui les emploie
+          indique sa source.
         </p>
       </section>
     </article>

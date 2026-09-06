@@ -1,0 +1,71 @@
+.form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.4rem 0.4rem 0.4rem 0.85rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface-1);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+
+/* The ring goes on the box, not on the input, so the whole control reads as one
+   thing — and `:focus-visible` inside it keeps it off a pointer click. */
+.form:focus-within {
+  border-color: var(--accent);
+  box-shadow: var(--shadow), 0 0 0 3px var(--accent-soft);
+}
+
+.icon {
+  flex: 0 0 auto;
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: var(--text-3);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.5rem 0;
+  border: 0;
+  background: none;
+  color: var(--text-1);
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+.input::placeholder { color: var(--text-3); }
+.input:focus { outline: none; }
+/* WebKit's own clear affordance, removed — see the comment on the field. */
+.input::-webkit-search-cancel-button { display: none; }
+
+.submit {
+  flex: 0 0 auto;
+  padding: 0.5rem 0.95rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--text-on-accent);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--dur-fast) ease;
+}
+
+.submit:hover { background: var(--accent-hover); }
+
+.hero { padding-left: 1.1rem; border-radius: var(--radius-lg); }
+.hero .icon { width: 1.25rem; height: 1.25rem; }
+.hero .input { padding-block: 0.75rem; font-size: 1.05rem; }
+
+/* On a phone the label is the first thing to go: the magnifier and the Entrée
+   key both already say what the button says. */
+@media (max-width: 30rem) {
+  .submit { padding-inline: 0.7rem; font-size: 0.8rem; }
+}

@@ -67,9 +67,9 @@ function applyTheme(choice: ThemeChoice) {
  */
 export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
   const account = useAccount();
-  /* Their chosen name if they set one, else their username (#31). The username
-     stays on the line below either way, so a learner who set a name can still
-     see which account they are in. */
+  /* Their chosen name if they set one, else their username (#31). The address
+     stays on the line below either way — it is what tells two accounts apart
+     once a display name has replaced the username on the line above. */
   const name = account ? displayName(account) : null;
 
   const [open, setOpen] = useState(false);
@@ -151,7 +151,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
               {account && (
                 <p className={styles.status}>
                   <span className={styles.statusLabel}>{name}</span>
-                  <span className={styles.statusHint}>{account.username}</span>
+                  <span className={styles.statusHint}>{account.email}</span>
                 </p>
               )}
 
@@ -291,7 +291,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
           {/* An offer, not a state. « Non connecté » would report the absence
               of something the site does not require. */}
           <span className={styles.triggerSub}>
-            {account ? account.username : "Se connecter"}
+            {account ? account.email : "Se connecter"}
           </span>
         </span>
         <svg className={styles.chevron} viewBox="0 0 24 24" aria-hidden="true">

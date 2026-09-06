@@ -16,7 +16,8 @@ export interface Account {
   /**
    * The account's address. Independent of the username since #38, and also a
    * way to sign in. Currently a fake `@lepetitcours.test` one for every
-   * account, which is why nothing puts it on screen.
+   * account — shown in the account menu as the line under the name, since it is
+   * what tells two accounts apart once a display name hides the username.
    */
   email: string;
   /**

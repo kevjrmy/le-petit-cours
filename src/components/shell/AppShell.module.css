@@ -5,9 +5,18 @@
   min-width: 0;
 }
 
-/* Keep in step with --shell-mode in globals.css. */
+/* Keep in step with --shell-mode in globals.css. The margin follows whatever
+   the panel is currently showing, so collapsing it widens the page in the same
+   frame rather than leaving a gutter behind. */
 @media (min-width: 56.25rem) {
-  .main { margin-left: var(--sidebar-w); }
+  .main {
+    margin-left: var(--sidebar-now);
+    transition: margin-left var(--dur) var(--ease);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .main { transition: none; }
 }
 
 .content {

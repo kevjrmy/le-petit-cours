@@ -51,9 +51,9 @@ since its "Bled content patterns" come from a textbook written for native French
 What differs between the profiles is the **ordering and the entry point**, not the pool of
 lessons.
 
-## Two ways in: the book and the parcours
+## Two ways in: the chapters and the parcours
 
-- **The book.** Browse by chapter — grammaire, orthographe, conjugaison, vocabulaire… This is the
+- **The chapters.** Browse by chapter — grammaire, orthographe, conjugaison, vocabulaire… This is the
   reference view, and it is what exists today. A learner who wants *les articles* goes and reads
   *les articles*.
 - **A parcours.** An ordered path through the same lessons, with a position in it. `Parcours A1`

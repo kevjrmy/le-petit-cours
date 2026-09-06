@@ -1,0 +1,50 @@
+/* The five pills are meant to sit on one line at the column's full 36rem, and
+   they clear it by about 18px — the gap and the side padding below are sized
+   for that, not chosen for their own sake. Measure before widening either:
+   with the labels as they stand the row needs ~558px of 576. It still wraps
+   rather than overflowing, so a longer label costs a second line, not a
+   broken layout. */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.42rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface-1);
+  color: var(--text-2);
+  font-size: 0.86rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease,
+    color var(--dur-fast) ease;
+}
+
+.pill:hover {
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
+  color: var(--accent-text);
+  text-decoration: none;
+}
+
+/* The way out of the short list, so it reads as the different kind of thing it
+   is — a destination, not a fifth chapter. */
+.all { border-color: var(--accent-line); color: var(--accent-text); }
+.all:hover { background: var(--accent-soft); }
+
+.all svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

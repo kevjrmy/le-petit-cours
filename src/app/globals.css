@@ -30,7 +30,7 @@
   --blue-100: #E1EDFD;
   --blue-50:  #F2F7FE;
 
-  /* Rouge — "wrong answer" and nothing else. Never decoration: in a book of
+  /* Rouge — "wrong answer" and nothing else. Never decoration: in a course of
      graded drills, red means you got it wrong, and a red used ornamentally
      somewhere else teaches the learner to distrust it. (AGENTS.md §5.) */
   --red-900: #6E1017;
@@ -102,7 +102,6 @@
   --surface-2:       light-dark(var(--grey-50),  var(--grey-850));
   --surface-3:       light-dark(var(--grey-100), var(--grey-800));
   --surface-sidebar: light-dark(var(--grey-100), #0B1119);
-  --surface-bar:     light-dark(rgb(255 255 255 / 0.82), rgb(14 20 30 / 0.82));
   --surface-overlay: light-dark(rgb(8 12 19 / 0.42),     rgb(0 0 0 / 0.62));
 
   /* Text */
@@ -173,13 +172,23 @@
   --topbar-h:             3.5rem;
   --shell-gutter:         2rem;
 
-  /* Which shell the viewport gets. A media query cannot read a custom
-     property, so the breakpoint would otherwise live in both the CSS and the
-     hook that decides the drawer — and the Vue app's two copies drifted.
-     `useSidebar` reads this token instead of carrying its own number:
+  /* What the sidebar is actually showing right now — one of the two above,
+     resolved by the breakpoint and then by the learner's own choice. The panel
+     and the content margin both read this, so they cannot disagree, and the
+     rail's own styling is a container query on the panel rather than a third
+     copy of a number (`AppSidebar.module.css`). */
+  --sidebar-now: var(--sidebar-w);
+
+  /* Which shell the viewport gets: "drawer" on a phone, "rail" on a tablet,
+     "sidebar" on a laptop. A media query cannot read a custom property, so the
+     breakpoints would otherwise live in both the CSS and the hook that decides
+     the drawer — and the Vue app's two copies drifted. `useShellMode` reads
+     this token instead of carrying its own numbers:
        getComputedStyle(document.documentElement)
-         .getPropertyValue("--shell-mode").trim() === '"sidebar"'
-     CSS stays the single source of truth for the breakpoint. */
+         .getPropertyValue("--shell-mode").trim()
+     CSS stays the single source of truth for the breakpoints, **and for the
+     override below** — which is why the hook gets the learner's choice right
+     without knowing that it exists. */
   --shell-mode: "drawer";
 
   --radius-sm:   6px;
@@ -197,16 +206,42 @@
   --dur-fast: 0.14s;
   --dur:      0.22s;
 
+  /* The ladder. The bar rung is for the topbar **below the drawer breakpoint
+     only** — there it is sticky, so it genuinely floats over the page and a
+     positioned element in a lesson would otherwise paint through it. Above the
+     breakpoint the topbar is in normal flow and takes no z-index at all
+     (#43, #44). Nothing else may claim this rung. */
   --z-content: 1;
   --z-bar:    20;
   --z-scrim:  30;
   --z-drawer: 40;
 }
 
-/* Keep this in step with --shell-mode above; it is the one duplicated number,
-   and it is duplicated because @media cannot read a custom property. */
+/* Keep these in step with --shell-mode above; they are the duplicated numbers,
+   and they are duplicated because @media cannot read a custom property.
+
+   Tablet gets the rail — icons only — because at 900px a 16.5rem panel takes a
+   quarter of the width and the reading column pays for it. Laptop gets the
+   panel open. Either can be overridden, and the override below outranks both
+   by specificity, at every width above the drawer. */
 @media (min-width: 56.25rem) {
-  :root { --shell-mode: "sidebar"; }
+  :root { --shell-mode: "rail"; --sidebar-now: var(--sidebar-w-collapsed); }
+}
+
+@media (min-width: 75rem) {
+  :root { --shell-mode: "sidebar"; --sidebar-now: var(--sidebar-w); }
+}
+
+/* The learner's choice, set before first paint by the script in `layout.tsx`
+   and written by the control at the foot of the sidebar. Absent means "follow
+   the breakpoint", which is what a first visit gets — the attribute is only
+   ever written by someone pressing the button.
+
+   Deliberately scoped to the drawer breakpoint and up: below it the panel is a
+   drawer that is either open or shut, and a half-collapsed drawer is neither. */
+@media (min-width: 56.25rem) {
+  :root[data-rail="1"] { --shell-mode: "rail";    --sidebar-now: var(--sidebar-w-collapsed); }
+  :root[data-rail="0"] { --shell-mode: "sidebar"; --sidebar-now: var(--sidebar-w); }
 }
 
 /* ───────────────────────────────────────────────────────────────────────────

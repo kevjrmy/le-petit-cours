@@ -74,14 +74,21 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <head>
-        {/* Runs synchronously while <head> is parsed, so the theme is right
-            before the first paint. useEffect is exactly what does not prevent
-            the flash, and a cookie read on the server would cost prerendering.
-            The chosen level and progress live in IndexedDB and cannot be read
-            here at all — localStorage keeps this one job (decisions.md #24). */}
+        {/* Runs synchronously while <head> is parsed, so the theme and the
+            sidebar are right before the first paint. useEffect is exactly what
+            does not prevent the flash, and a cookie read on the server would
+            cost prerendering.
+
+            **Two jobs, and only these two** (decisions.md #24, #42). Both have
+            to be correct before anything is painted — a theme that arrives late
+            flashes white, and a sidebar that arrives late renders open and
+            snaps shut, which is worse because it moves the page. Both are one
+            short string nobody would mourn. The chosen level and progress are
+            in IndexedDB, which is async and cannot be read here at all; that is
+            the line, not the count. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()`,
+            __html: `(function(){var d=document.documentElement;try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")d.setAttribute("data-theme",t);var r=localStorage.getItem("rail");if(r==="0"||r==="1")d.setAttribute("data-rail",r)}catch(e){}})()`,
           }}
         />
       </head>

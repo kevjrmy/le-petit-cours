@@ -12,6 +12,10 @@
  *                                         [--width=1280] [--height=900]
  *                                         [--eval="<js>"]
  *
+ * Next's dev-tools badge is removed before the shutter — it is `next dev`
+ * furniture pinned over the app's own bottom-left corner, and leaving it in
+ * makes every mobile screenshot look like the sidebar is leaking.
+ *
  * --eval runs an expression in the page before the shutter, which is how you
  * photograph a state a URL cannot reach on its own — an open mobile drawer, an
  * expanded section, a drill mid-answer. It is awaited, so a sequence that has
@@ -120,6 +124,16 @@ try {
   await send("Page.enable", {}, s);
   await send("Page.navigate", { url }, s);
   await sleep(1800); // let webfonts land before the shutter
+
+  /* Next's dev-tools badge is a fixed element at bottom-left — exactly where
+     the sidebar's account control sits — so it lands on top of the app in every
+     shot and reads as a layout bug that does not exist in production. It is
+     `next dev` furniture, not the page, so the shutter should not see it, and
+     nor should an --eval probing the page with elementFromPoint. A build or
+     runtime error still stops you in the terminal. */
+  await send("Runtime.evaluate", {
+    expression: "document.querySelectorAll('nextjs-portal').forEach((n) => n.remove())",
+  }, s);
 
   const script = str("eval");
   if (script) {

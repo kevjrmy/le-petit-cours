@@ -40,7 +40,7 @@ Run this whenever you touch navigation, and before reporting done:
 ```bash
 node --experimental-strip-types --input-type=module -e "
 import { readdirSync, existsSync } from 'node:fs'
-import { chapters, annexes, relatedPages } from './src/data/navigation.ts'
+import { chapters, annexes, relatedPages, featuredChapterSlugs, unlistedPages } from './src/data/navigation.ts'
 
 // Routes on disk: every directory under src/app holding a page.tsx. Dynamic
 // segments are skipped here and resolved from the manifest just below.
@@ -58,10 +58,12 @@ if (existsSync('src/app/page.tsx')) routes.add('/')
 // Every chapter landing page comes from one generated route.
 if (existsSync('src/app/[chapitre]/page.tsx')) for (const c of chapters) routes.add(c.path)
 
-// Real routes with no manifest entry, by design: the sommaire and the specimen.
-// Counting them makes the check cry wolf on every run, which is how a check
-// stops being read.
-const allowed = new Set(['/', '/design'])
+// Real routes with no manifest entry, by design — the home page, the results
+// page and the specimen. The list is `unlistedPages` in the manifest rather
+// than a copy here, so adding such a route is a manifest edit like any other.
+// (The sommaire *is* in the manifest, as an annexe, because the sidebar links
+// it.)
+const allowed = new Set(unlistedPages)
 
 const declared = [...chapters.flatMap(c => [c, ...c.lessons]), ...annexes]
 const missing = declared.filter(l => !l.soon && !routes.has(l.path)).map(l => l.path)
@@ -75,17 +77,24 @@ const stale = Object.entries(relatedPages).flatMap(([from, tos]) => [
   ...tos.filter(t => !paths.has(t)).map(t => from + ' -> ' + t),
 ])
 
+// The home page's pills are the one hand-kept list in the manifest, and they
+// fail soft in the same way — a slug that resolves to nothing costs a pill and
+// says so nowhere.
+const slugs = new Set(chapters.map(c => c.slug))
+const pills = featuredChapterSlugs.filter(s => !slugs.has(s))
+
 console.log('in the manifest, no page.tsx:', missing.length ? missing : 'none')
 console.log('page.tsx, not in the manifest:', orphan.length ? orphan : 'none')
 console.log('cross-links that resolve to nothing:', stale.length ? stale : 'none')
+console.log('home pills that resolve to nothing:', pills.length ? pills : 'none')
 "
 ```
 
-All three lines must read `none`. (`npx tsx` works too if the manifest ever grows syntax that type
+All four lines must read `none`. (`npx tsx` works too if the manifest ever grows syntax that type
 stripping cannot handle.)
 
-The third line matters most, because cross-links **fail soft**: an unresolvable target is dropped
-rather than rendered, so a stale entry costs a link and raises no error anywhere else.
+The last two matter most, because both lists **fail soft**: an unresolvable cross-link or home pill
+is dropped rather than rendered, so a stale entry costs a link and raises no error anywhere else.
 
 Then `npm run build`.
 
@@ -110,10 +119,13 @@ the page in the same change as dropping the flag**, never the other way round.
 ## Adding a chapter
 
 1. The `chapters` entry: slug, path, title, optional short title for the sidebar, the
-   singular/plural unit for its count, blurb, lessons. **There is no icon field** — the mark on a
-   sommaire card is the chapter's initial in the serif, so there is no mapping to forget. The Vue
-   app's was exactly the kind you could forget with nothing failing: the chapter rendered a
-   fallback glyph and looked like a design choice.
+   singular/plural unit for its count, blurb, lessons, **and `icon`**. The icon is required and its
+   type is a union, so a chapter without one does not compile and a name with no drawing does not
+   either — add the glyph to `src/components/nav/ChapterIcon.tsx` in the same change. **Never give
+   that map a `default` entry**: the Vue app's ended `?? icons.default`, so a forgotten chapter
+   rendered a generic glyph, looked like a design choice and failed nowhere (#29, repaired by #42).
+   The mark on a *sommaire card* is still the chapter's initial in the serif — a different surface
+   with room for lettering, and nothing to keep in step.
 2. **Nothing else.** `src/app/[chapitre]/page.tsx` renders every chapter landing page from the
    manifest, so the new chapter has one the moment its entry exists. Never hand-write one, and
    never add a `src/app/{chapitre}/page.tsx` beside it — everything the page shows (title, blurb,
@@ -170,7 +182,8 @@ map, so the relations stay in a single file.
 
 ## What derives automatically — do not hand-maintain
 
-- The sidebar tree and its active-chapter auto-expand.
+- The sidebar's chapter list, its counts and its active row. It is one level deep on purpose (#40):
+  a chapter links to its landing page and never opens a list of lessons.
 - The sommaire's chapter grid, and every chapter landing page.
 - Breadcrumbs and the document title.
 - Progress ticks and the per-chapter tally — driven off the route path. **Registering a lesson is

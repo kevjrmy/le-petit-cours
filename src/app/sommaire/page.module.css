@@ -1,0 +1,31 @@
+.page {
+  width: 100%;
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+.hero {
+  padding: 1rem 0 1.5rem;
+}
+
+.hero h1 { font-size: 2.1rem; }
+
+.tagline {
+  margin-top: 0.6rem;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--text-2);
+  max-width: 34rem;
+}
+
+.sectionTitle {
+  font-size: 0.78rem;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-top: 2.25rem;
+  margin-bottom: 0.85rem;
+}

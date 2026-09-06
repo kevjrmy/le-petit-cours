@@ -184,7 +184,7 @@ radios**: the click targets overlap and it silently breaks.
 ### Culture pages — the only pages with photographs
 
 Structurally an ordinary lesson; what is new is that it carries images, and images bring rules
-the rest of the book never needed.
+the rest of the course never needed.
 
 - **The files ship with the app**, under `public/`, referenced by a plain absolute path. Never
   hotlink Commons or Unsplash: this is an offline PWA, and a remote photograph is a lesson that
@@ -254,8 +254,8 @@ from a lesson or an astuce; do not write them here.
 
 Never hand-write a chapter landing page; it is generated from the manifest.
 
-Finish with `npm run build`, then run the audit in `nav-wiring.md` — all three lines must read
-`none` — and look at the page in **both themes** and at **both breakpoints**:
+Finish with `npm run build`, then run the audit in `nav-wiring.md` — all four lines must read
+`none` — and look at the page in **both themes** and at **all three shells** (sidebar, rail, drawer — `AGENTS.md` §11):
 
 ```bash
 node scripts/shot.mjs http://localhost:3000/{chapitre}/{lecon} out.png --full        # light
