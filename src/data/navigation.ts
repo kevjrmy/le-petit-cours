@@ -520,7 +520,38 @@ export const chapters: Chapter[] = [
     unit: ["texte", "textes"],
     blurb:
       "De courts textes à lire, avec des questions pour vérifier ce que vous avez compris.",
-    lessons: [],
+    lessons: [
+      {
+        id: "lect-chevre-seguin",
+        path: "/lecture/la-chevre-de-monsieur-seguin",
+        title: "La chèvre de monsieur Seguin",
+        subtitle: "Alphonse Daudet, 1869",
+        tag: "Compréhension",
+        levels: A2,
+        delf: "Comprendre un court récit littéraire et répondre à des questions simples.",
+        created: "2026-09-07",
+      },
+      {
+        id: "lect-phileas-fogg",
+        path: "/lecture/phileas-fogg",
+        title: "Phileas Fogg",
+        subtitle: "Jules Verne, 1873",
+        tag: "Compréhension",
+        levels: A2,
+        delf: "Comprendre la description d’une personne et de ses habitudes, et des heures précises.",
+        created: "2026-09-07",
+      },
+      {
+        id: "lect-cosette-bois",
+        path: "/lecture/cosette-dans-le-bois",
+        title: "Cosette dans le bois",
+        subtitle: "Victor Hugo, 1862",
+        tag: "Compréhension",
+        levels: A2,
+        delf: "Suivre un dialogue simple et en tirer qui parle, à qui, et de quoi.",
+        created: "2026-09-07",
+      },
+    ],
   },
   {
     slug: "litterature",
@@ -798,11 +829,13 @@ const handWrittenLinks: Record<string, string[]> = {
   "/grammaire/les-pronoms-cod-coi": [
     "/grammaire/le-passe-compose",
     "/traduction/hier-dans-la-rue",
+    "/lecture/cosette-dans-le-bois",
   ],
   "/orthographe/les-homophones": ["/traduction/un-week-end-a-la-plage"],
   "/vocabulaire/l-heure": [
     "/conversation/prendre-rendez-vous",
     "/conversation/parler-du-travail",
+    "/lecture/phileas-fogg",
   ],
   "/conversation/prendre-rendez-vous": [
     "/vocabulaire/l-heure",
@@ -826,6 +859,23 @@ const handWrittenLinks: Record<string, string[]> = {
   "/traduction/quand-j-etais-petite": [
     "/grammaire/l-imparfait",
     "/conversation/parler-de-l-espagne",
+    "/lecture/la-chevre-de-monsieur-seguin",
+  ],
+  "/lecture/la-chevre-de-monsieur-seguin": [
+    "/grammaire/l-imparfait",
+    "/traduction/quand-j-etais-petite",
+    "/grammaire/passe-compose-ou-imparfait",
+    "/lecture/phileas-fogg",
+  ],
+  "/lecture/phileas-fogg": [
+    "/vocabulaire/l-heure",
+    "/grammaire/l-imparfait",
+    "/lecture/la-chevre-de-monsieur-seguin",
+  ],
+  "/lecture/cosette-dans-le-bois": [
+    "/grammaire/les-pronoms-cod-coi",
+    "/lecture/la-chevre-de-monsieur-seguin",
+    "/conversation/parler-du-travail",
   ],
   "/traduction/un-week-end-a-la-plage": ["/orthographe/les-homophones"],
   "/traduction/hier-dans-la-rue": [

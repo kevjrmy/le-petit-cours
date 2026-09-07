@@ -246,19 +246,52 @@ is data: `lines`, `model`, and a `note` saying what to compare. Write no compone
 
 ### Lecture (reading) pages
 
-Real **public-domain** French text (La Fontaine, Saint-Exupéry, Dumas, Verne…) or an original A2
-dialogue for a practical scenario. Never machine-generated filler, never in-copyright text. Keep
-it to a screen or so.
+Real **public-domain** French text or an original A2 dialogue for a practical scenario. Never
+machine-generated filler, never in-copyright text. Keep it to a screen or so.
+`lecture/la-chevre-de-monsieur-seguin` is the first one (`docs/decisions.md` #58).
 
-Structure: source stamp (`Auteur · Œuvre · Année · Chapitre`) → the text → vocabulary table
-(mot | définition en français | exemple) → an "Avez-vous compris ?" comprehension quiz. **There is
-no Spanish translation under the text and no Spanish gloss in it** (`docs/decisions.md` #53): a word
-the reader cannot get from context earns a French definition and an example that makes the wrong
-reading impossible, in the table.
+**Public domain means in France, and a death date is not enough.** The safe test is the author died
+before ~1955 — Daudet (1897), Maupassant (1893), Verne (1905), Zola (1902), Hugo (1885), La Fontaine
+(1695). **Saint-Exupéry is not public domain in France**: *mort pour la France* adds thirty years on
+top of the seventy, so *Le Petit Prince* is still protected there into the 2030s even though it is
+free in most of the world. An earlier version of this brief listed him as an example; it was wrong.
+When in doubt, pick another author rather than researching an edge case.
+
+**Then read the text for its tenses before you commit to it.** Nearly all nineteenth-century French
+narrative is in the passé simple, which §1 keeps off this course. Choose a passage carrying the
+tenses she has: the Daudet opening is nine sentences of imparfait, which is why it works at A2 and
+why it doubles as practice for `/grammaire/l-imparfait`. Where a few passé simple verbs survive in
+the quoted text, leave them — it is a quotation — and add one `.attention` saying that
+<span>*il cria*</span> in a book is <span>*il a crié*</span> in speech, and that she will read this
+tense and never write it.
+
+**Quote exactly, and verify against a source.** Wikisource carries the scans; nineteenth-century
+punctuation looks like an error and is not (`veux-tu que j'allonge la corde !`). Do not modernise it,
+and mark your own bridging sentences by keeping them outside the quoted block, in the sans face.
+
+Structure: source stamp (`Auteur · Œuvre · Année · titre de l'extrait`) → the text in `.example`
+blocks → vocabulary table (mot | définition en français | exemple) → an "Avez-vous compris ?"
+comprehension quiz. **There is no Spanish translation under the text and no Spanish gloss in it**
+(`docs/decisions.md` #53): a word the reader cannot get from context earns a French definition and an
+example that makes the wrong reading impossible, in the table.
 
 The quiz is interactive, so it is a **client leaf** imported into the server page — not a reason
-to mark the whole lesson `'use client'`. Its options are `<button>` elements, **not hidden
+to mark the whole lesson `'use client'`. **Do not write one**: `src/components/exercice/Comprehension.tsx`
+renders every quiz from `{ question, options, answer, because }` data, so a page contributes a
+`quiz.tsx` holding its questions and nothing else. Its options are `<button>` elements, **not hidden
 radios**: the click targets overlap and it silently breaks.
+
+Writing the questions:
+
+- **Every answer is in the text, and every distractor is wrong *on the page*** — not merely
+  unlikely. A question answerable from general knowledge tests nothing about the reading.
+- **`because` is one line and it points at the text**, quoting the phrase that settles it. That is
+  what the learner reads when she is wrong, so it has to do the teaching.
+- **Options carry no final full stop.** They are quoted back inside guillemets in the verdict, and
+  `« … . »` reads as a typo.
+- **The last question may be about the language** rather than the plot — the tense of a verb she has
+  just read ten times. It is the cheapest bridge there is between a reading page and its grammar
+  lesson.
 
 ### Culture pages — the only pages with photographs
 

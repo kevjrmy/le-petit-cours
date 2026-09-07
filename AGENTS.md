@@ -61,11 +61,12 @@ every lesson, and `/ma-progression`. Ticking needs an account; nothing else does
 The design system, the icons and the shell are written — `globals.css`, `src/data/navigation.ts`,
 the sidebar in its three shells, the topbar and the chapter icons (§5, §6). **The way in is written
 too**: `/` is a search field over the manifest, `/recherche` answers it, and the sommaire is at
-`/sommaire`. **The manifest declares fifteen chapters and holds twenty-five lessons, all real, all A2,
+`/sommaire`. **The manifest declares fifteen chapters and holds twenty-eight lessons, all real, all A2,
 all in French** — four in `grammaire` (passé composé, imparfait, le choix entre les deux, pronoms COD
 et COI), twelve verb sheets in `conjugaison`, one in `orthographe` (les homophones), one in
 `vocabulaire` (l'heure), three in `conversation` (prendre rendez-vous, parler de l'Espagne, parler du
-travail) and four in `traduction`. All but the last were written on 2026-09-06
+travail), four in `traduction` and three in `lecture` (Daudet, Verne, Hugo). The first
+twenty-four were written on 2026-09-06
 against the topics the Vue course covered, not ported from it (#53).
 
 **The four `traduction` texts are chosen against the lessons, not against topics.** Each one

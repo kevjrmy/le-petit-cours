@@ -1948,3 +1948,47 @@ to either.
 pages were already the ones that need a second person in the room (#54). That is the trade, and it
 is the one this chapter keeps making: the page holds what helps her produce a turn, and nothing that
 produces it for her.
+
+## 58 · The first reading page, and what a `lecture` text has to be
+
+**2026-09-07 · Binding · fills the `lecture` row of `AGENTS.md` §7**
+
+`lecture/la-chevre-de-monsieur-seguin` is the chapter's first page: two extracts from Daudet's
+« La chèvre de monsieur Seguin » (*Lettres de mon moulin*, 1869), a vocabulary table, and seven
+comprehension questions. `src/components/exercice/Comprehension.tsx` is the quiz, shared from the
+first page rather than the second.
+
+**`lecture`, not `litterature`, and the blurbs decided it.** `lecture` promises « de courts textes à
+lire, avec des questions pour vérifier ce que vous avez compris » and `litterature` promises
+« les classiques français, en extraits courts et commentés ». The text here is a classic, but what
+the page does with it is ask questions, so it belongs to the chapter whose contract is questions. The
+same author could carry a `litterature` page later; that one would comment rather than test.
+
+**The text was chosen for its tenses, not for its fame.** Nineteenth-century narrative is written in
+the passé simple, which this course does not teach, so most of the canon is unusable at A2 whatever
+its vocabulary. The Daudet opening is nine sentences of pure imparfait — habitude after habitude,
+which is exactly what `/grammaire/l-imparfait` teaches — and the Blanquette dialogue that follows is
+present-tense speech. The page therefore reads as literature and drills as grammar, and its last
+quiz question asks the tense of `elles cassaient`.
+
+**Where the passé simple does survive in the quotation, it stays, and the page says what it is.**
+`cria`, `laissa`, `répondit` are three verbs in fifteen lines. Cutting them would mean editing
+Daudet; glossing them costs one `.attention`: in a book you read *il cria*, in life you say
+*il a crié*, and you will never write the first. That is a reading skill, and reading is what the
+chapter is for.
+
+**The text was verified against Wikisource, not quoted from memory**, and its nineteenth-century
+punctuation was kept: `veux-tu que j'allonge la corde !` and `qu'est-ce qu'il te faut !` are the
+1895 Charpentier text, not typos to tidy. The bridging sentences between the two extracts are the
+page's own and sit outside the quoted blocks, in the sans face.
+
+**Saint-Exupéry is not public domain in France, and the brief said he was.** *Mort pour la France*
+adds thirty years to the seventy, so *Le Petit Prince* is protected there into the 2030s while being
+free almost everywhere else — and `AGENTS.md` §9b asks for the public domain **in the country of
+origin**. The example list in `lesson-author.md` has been corrected. The working test is now an
+author who died before ~1955.
+
+**The quiz grades on screen and stores nothing** (#48). Seven questions, `<button>` options and
+never hidden radios (`AGENTS.md` §9), a verdict carrying ✓/✗ and a sentence pointing back at the
+text, a score, and « Recommencer ». Finishing it does not tick the lesson: that is still the
+learner's own call, and a page she got four of seven on is not a page she has finished.

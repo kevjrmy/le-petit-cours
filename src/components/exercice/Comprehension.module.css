@@ -1,0 +1,35 @@
+/* Layout only. The option buttons are the global `.button`, and the verdict is
+   the global `.is-correct` / `.is-wrong` pair, so this file adds no colour and
+   nothing here can drift from the design system. */
+
+.list {
+  padding-left: 1.35rem;
+}
+
+.item + .item {
+  margin-top: 1.4rem;
+}
+
+.question {
+  margin: 0 0 0.55rem;
+  font-weight: 600;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Empty until she answers, because the live region has to exist before the
+   verdict is written into it. */
+.verdict {
+  margin-top: 0.6rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+}
+
+.verdict:empty {
+  display: none;
+}
