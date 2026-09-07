@@ -87,6 +87,15 @@ export default function DesignPage() {
             un <span className="fr" lang="fr">œuf</span> se prononce « euf », mais
             des <span className="fr" lang="fr">œufs</span> se prononce « eu ».
           </div>
+          <ul className="mots">
+            <li>les horaires</li>
+            <li>la pause déjeuner</li>
+            <li>les congés</li>
+            <li>un jour férié</li>
+            <li>mon ancien travail</li>
+            <li>tutoyer</li>
+            <li>vouvoyer</li>
+          </ul>
           <div className="message">
             Un message de l&rsquo;interface, neutre. Rien n&rsquo;est ajouté
             devant, contrairement aux blocs de leçon ci-dessus.

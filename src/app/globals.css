@@ -460,6 +460,34 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   font-size: 1.02rem;
 }
 
+/* The words a role-play needs, and nothing built out of them (#57).
+ *
+ * A conversation page carries no model dialogue: sentences on the page are
+ * sentences the learner reads instead of producing. Words are the level below
+ * that — they unblock the turn without writing it — so the cloud is the whole
+ * aid, and it can be face-up rather than behind a disclosure.
+ *
+ * A `ul`, because it is a list of words and a screen reader should count them.
+ * The two `ul.mots` selectors carry a tag on purpose: `.prose ul` indents and
+ * `.prose li + li` spaces, and both would otherwise win over a bare class. */
+ul.mots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+ul.mots li {
+  margin-top: 0;
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  background: var(--accent-subtle);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-pill);
+  padding: 0.25rem 0.8rem;
+}
+
 /* « À retenir ». The label is text, not colour, so the meaning survives for a
    learner who cannot tell the amber from the blue. */
 .attention {

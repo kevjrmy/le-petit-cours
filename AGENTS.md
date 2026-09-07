@@ -61,11 +61,11 @@ every lesson, and `/ma-progression`. Ticking needs an account; nothing else does
 The design system, the icons and the shell are written — `globals.css`, `src/data/navigation.ts`,
 the sidebar in its three shells, the topbar and the chapter icons (§5, §6). **The way in is written
 too**: `/` is a search field over the manifest, `/recherche` answers it, and the sommaire is at
-`/sommaire`. **The manifest declares fifteen chapters and holds twenty-four lessons, all real, all A2,
+`/sommaire`. **The manifest declares fifteen chapters and holds twenty-five lessons, all real, all A2,
 all in French** — four in `grammaire` (passé composé, imparfait, le choix entre les deux, pronoms COD
 et COI), twelve verb sheets in `conjugaison`, one in `orthographe` (les homophones), one in
-`vocabulaire` (l'heure), two in `conversation` (prendre rendez-vous, parler de l'Espagne) and four
-in `traduction`. They were written on 2026-09-06
+`vocabulaire` (l'heure), three in `conversation` (prendre rendez-vous, parler de l'Espagne, parler du
+travail) and four in `traduction`. All but the last were written on 2026-09-06
 against the topics the Vue course covered, not ported from it (#53).
 
 **The four `traduction` texts are chosen against the lessons, not against topics.** Each one
@@ -528,7 +528,7 @@ Carried over from the Vue app, because the taxonomy was sound and the content wi
 | `exercices` | graded drill, walked once, scored on screen and stored nowhere |
 | `jeux` | replayable game, redraws every round, records nothing |
 | `dictees` | listen, type, compare |
-| `conversation` | **guided role-play** — a scene to play with someone, its steps, and every phrase it offers hidden behind a disclosure; graded nowhere, stored nowhere (#54) |
+| `conversation` | **guided role-play** — a scene to play with someone, the steps it follows, and about twenty words to play it out of; no model dialogue, graded nowhere, stored nowhere (#54, #57) |
 | `traduction` | a short source text to write in French, with **three of its words uncoverable** for the French term (base form only), then the model version to compare against; graded nowhere. The one chapter where Spanish appears, and only ever as the text being translated (#55) |
 | `lecture`, `litterature` | reading + comprehension quiz |
 
@@ -538,10 +538,12 @@ lesson to record against, and pulls from the whole course rather than practising
 
 **A conversation page is neither: it needs a second person.** It sets a scene and supports the
 learner through it, and the thing being practised — producing your own turn when you do not control
-the next line — cannot be scored by a page (#54). The support is optional *by construction*: every
-phrase list and the model dialogue itself are `<details>`, so a page never prints its own answers
-above the attempt. That also keeps the whole thing static HTML, which is why the only client leaf on
-such a page is the one that changes the constraint between rounds.
+the next line — cannot be scored by a page (#54). **The support stops at words** (#57): the steps
+name the moves, a cloud of about twenty words carries the vocabulary, and nothing on the page
+carries a sentence she could say instead of building her own. There is no model dialogue and no
+`<details>` hiding one — hiding a finished conversation only delays reading it by one click, and a
+page whose whole aid is words has nothing to hide. That also keeps the page static HTML, which is
+why the only client leaf on it is the one that changes the constraint between rounds.
 
 Which of these chapters the rewrite ships, and in what order, is not decided. The taxonomy is
 here so that when a chapter does land it lands in the right shape.

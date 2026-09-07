@@ -449,6 +449,16 @@ export const chapters: Chapter[] = [
         delf: "Décrire son pays et sa vie quotidienne, en réponse à des questions simples.",
         created: "2026-09-06",
       },
+      {
+        id: "conv-parler-du-travail",
+        path: "/conversation/parler-du-travail",
+        title: "Parler du travail",
+        subtitle: "Avec un collègue français",
+        tag: "Jeu de rôle",
+        levels: A2,
+        delf: "Comparer ses horaires et ses habitudes de travail avec ceux d’un autre pays.",
+        created: "2026-09-07",
+      },
     ],
   },
   {
@@ -790,7 +800,10 @@ const handWrittenLinks: Record<string, string[]> = {
     "/traduction/hier-dans-la-rue",
   ],
   "/orthographe/les-homophones": ["/traduction/un-week-end-a-la-plage"],
-  "/vocabulaire/l-heure": ["/conversation/prendre-rendez-vous"],
+  "/vocabulaire/l-heure": [
+    "/conversation/prendre-rendez-vous",
+    "/conversation/parler-du-travail",
+  ],
   "/conversation/prendre-rendez-vous": [
     "/vocabulaire/l-heure",
     "/grammaire/passe-compose-ou-imparfait",
@@ -798,6 +811,12 @@ const handWrittenLinks: Record<string, string[]> = {
   "/conversation/parler-de-l-espagne": [
     "/grammaire/l-imparfait",
     "/conversation/prendre-rendez-vous",
+    "/conversation/parler-du-travail",
+  ],
+  "/conversation/parler-du-travail": [
+    "/vocabulaire/l-heure",
+    "/grammaire/l-imparfait",
+    "/conversation/parler-de-l-espagne",
   ],
   "/traduction/une-journee": [
     "/grammaire/passe-compose-ou-imparfait",

@@ -48,37 +48,35 @@ export default function Page() {
       </section>
 
       <section>
-        <h2>Si vous bloquez</h2>
+        <h2>Les mots pour le dire</h2>
 
         <p>
-          Un exemple parmi d’autres. Ouvrez-le si vous avez besoin d’aide.
+          De quoi tenir la conversation au téléphone. Prenez ce qui vous
+          sert, laissez le reste.
         </p>
 
-        <details>
-          <summary>Voir un dialogue complet</summary>
-          <div className="example">
-            <p>— Cabinet du docteur Lambert, bonjour.</p>
-            <p>
-              — Bonjour madame. Je voudrais prendre rendez-vous avec le docteur,
-              s’il vous plaît.
-            </p>
-            <p>— Oui. C’est pour quoi ?</p>
-            <p>— J’ai mal à la gorge depuis lundi, et j’ai un peu de fièvre.</p>
-            <p>— D’accord. Vous êtes disponible quand ?</p>
-            <p>— Le matin, si c’est possible. L’après-midi, je travaille.</p>
-            <p>— Alors… jeudi, à neuf heures quarante-cinq ?</p>
-            <p>— Jeudi, c’est un peu loin. Vous n’avez rien avant ?</p>
-            <p>— J’ai mardi, à huit heures trente.</p>
-            <p>— Mardi à huit heures trente, c’est parfait.</p>
-            <p>— C’est à quel nom ?</p>
-            <p>— Martin. M-A-R-T-I-N.</p>
-            <p>
-              — Très bien. Mardi, à huit heures trente. N’oubliez pas votre
-              carte Vitale.
-            </p>
-            <p>— Merci beaucoup. Au revoir madame.</p>
-          </div>
-        </details>
+        <ul className="mots">
+          <li>un rendez-vous</li>
+          <li>le cabinet</li>
+          <li>le docteur</li>
+          <li>la secrétaire</li>
+          <li>je voudrais</li>
+          <li>c’est pour quoi ?</li>
+          <li>j’ai mal à la gorge</li>
+          <li>la fièvre</li>
+          <li>depuis lundi</li>
+          <li>vous êtes disponible quand ?</li>
+          <li>le matin</li>
+          <li>l’après-midi</li>
+          <li>plus tôt</li>
+          <li>ça me convient</li>
+          <li>annuler</li>
+          <li>déplacer</li>
+          <li>pour mon fils</li>
+          <li>c’est à quel nom ?</li>
+          <li>vous pouvez répéter ?</li>
+          <li>la carte Vitale</li>
+        </ul>
       </section>
     </article>
   );

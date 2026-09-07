@@ -120,7 +120,8 @@ means the renamed one is always the other one.
 
 **There are no `<Rule>` / `<Table>` / `<Attention>` components.** The lesson patterns are CSS
 classes in `globals.css` — `.rule`, `.example`, `.attention` (prints « À retenir : »),
-`.exception` (prints « Sauf : »), `.astuce` with `.astuce-hook`, `.table-wrap`, and plain
+`.exception` (prints « Sauf : »), `.astuce` with `.astuce-hook`, `.mots` (the role-play word
+cloud, a `ul`), `.table-wrap`, and plain
 `<table>` / `<section>` / `<p>`. `PageHeader` is the only component a lesson calls, because it is
 the only one that reads the manifest on the page's behalf — the rest of the manifest-driven
 furniture is the shell's. This is deliberate while `docs/decisions.md` #10 is open: classes commit
@@ -189,17 +190,30 @@ it (`docs/decisions.md` #54). It grades nothing and stores nothing. Three sectio
    a class you want to walk the whole list anyway.
 2. **Les étapes** — the order the exchange usually follows, as five plain lines. Name each move;
    do not write out phrases for it.
-3. **Si vous bloquez** — one full model dialogue, inside a `<details>`.
+3. **Les mots pour le dire** — about twenty words in a `<ul className="mots">`, covering the
+   situations on the card, and nothing else (`docs/decisions.md` #57).
 
-**One aid, in one place.** The first draft of this page also hung a phrase list off every step,
-and the phrases then existed twice — once as lists, once inside the model dialogue that follows.
-Two aids for one difficulty is not twice the help: it is a page the learner reads instead of
-playing, which is the whole failure this format exists to avoid. The steps carry the *shape* of the
-conversation, the dialogue carries the *words*, and nothing carries both.
+**One aid, in one place.** The first draft of this page hung a phrase list off every step *and*
+closed with a full model dialogue, so every phrase existed twice. Two aids for one difficulty is
+not twice the help: it is a page the learner reads instead of playing, which is the whole failure
+this format exists to avoid. The steps carry the *shape* of the conversation, the cloud carries the
+*words*, and nothing carries the sentences — those are what she is there to produce.
 
-**What is left is optional by construction.** The model dialogue is a `<details>`, because a page
-that prints its answers above the attempt teaches the learner to read them first. `<details>` is
-native HTML: no JavaScript, no hydration risk, and it works offline like the prose around it.
+**The model dialogue is gone, and it does not come back** (#57). A page that prints a finished
+conversation teaches the learner to read one; hiding it in a `<details>` only delayed that by a
+click. Words unblock a turn without writing it, so the cloud needs no disclosure and sits face-up.
+
+Writing the cloud:
+
+- **Roughly twenty entries, walked against the constraint card.** Every situation on the card must
+  be answerable out of it — that is the test, not the count.
+- **An entry is a word or a small fixed piece**: `les congés`, `ça me convient`,
+  `vous pouvez répéter ?`. Never a full sentence about the scene, which is a model dialogue smuggled
+  back in one chip at a time.
+- **Order them the way the conversation runs**, not alphabetically. The learner reads the cloud
+  once before playing and should meet the opening before the goodbye.
+- **No glosses and no translations.** The chips are serif because they are the French being taught;
+  a word that needs explaining belongs in the lesson this page links to.
 
 **Two callouts is the ceiling for the whole page** — one register or grammar note, one astuce. A
 role-play page that grows a paradigm table has become a lesson with a dialogue stapled to it.

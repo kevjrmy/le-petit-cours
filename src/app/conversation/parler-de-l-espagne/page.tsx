@@ -52,47 +52,35 @@ export default function Page() {
       </section>
 
       <section>
-        <h2>Si vous bloquez</h2>
+        <h2>Les mots pour le dire</h2>
 
-        <p>Un exemple parmi d’autres. Ouvrez-le si vous avez besoin d’aide.</p>
+        <p>
+          De quoi répondre aux enfants. Prenez ce qui vous sert, laissez le
+          reste.
+        </p>
 
-        <details>
-          <summary>Voir un dialogue complet</summary>
-          <div className="example">
-            <p>— Madame, vous venez d’où ?</p>
-            <p>
-              — Je viens d’Espagne, de Valence. C’est une ville au bord de la
-              mer, à l’est du pays.
-            </p>
-            <p>— Il fait chaud tout le temps ?</p>
-            <p>
-              — L’été, oui, très chaud. Mais en hiver il pleut, et dans le nord
-              il neige.
-            </p>
-            <p>— Vous mangez de la paella tous les jours ?</p>
-            <p>
-              — Non, non ! On en mange le dimanche, en famille. Le reste du
-              temps, on mange comme vous.
-            </p>
-            <p>— C’est quoi, votre fête préférée ?</p>
-            <p>
-              — Les Fallas, à Valence. On construit des statues géantes dans la
-              rue, et à la fin on les brûle.
-            </p>
-            <p>— Pardon ? Vous pouvez répéter, s’il vous plaît ?</p>
-            <p>— On les brûle. Toutes, la même nuit.</p>
-            <p>— Et l’école, c’est comme ici ?</p>
-            <p>
-              — Un peu. Mais quand j’étais petite, on finissait à cinq heures et
-              on mangeait à deux heures.
-            </p>
-            <p>— Pourquoi vous êtes venue en France ?</p>
-            <p>
-              — Pour le travail. Et vous, vous connaissez un pays où on parle
-              espagnol ?
-            </p>
-          </div>
-        </details>
+        <ul className="mots">
+          <li>je viens de Valence</li>
+          <li>au bord de la mer</li>
+          <li>dans le nord</li>
+          <li>il fait chaud</li>
+          <li>il pleut</li>
+          <li>il neige</li>
+          <li>un plat</li>
+          <li>la paella</li>
+          <li>le dimanche, en famille</li>
+          <li>une fête</li>
+          <li>la rue</li>
+          <li>l’école</li>
+          <li>la récréation</li>
+          <li>quand j’étais petite</li>
+          <li>on finissait à cinq heures</li>
+          <li>je ne sais pas</li>
+          <li>peut-être</li>
+          <li>vous pouvez répéter ?</li>
+          <li>une chanson</li>
+          <li>plus connu que</li>
+        </ul>
       </section>
     </article>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import {
   AGREEMENT,
   IMPERATIF_PERSONS,
@@ -199,7 +199,26 @@ export function ConjugationSheet({ verb }: { verb: Verb }) {
       <div className={styles.grid}>
         <Tense title="Présent" lines={present} />
         <Tense title="Imparfait" lines={imparfait} />
-        <Tense title="Passé composé" lines={passeCompose} />
+        <Tense
+          title="Passé composé"
+          lines={passeCompose}
+          /* The `vous` line above reads as several people. Said to one person
+             out of politeness — which is most of the time, for a learner — the
+             participle is singular, and nothing else on the sheet shows that. */
+          note={
+            verb.aux === "être" ? (
+              <>
+                Un « vous » de politesse s’adresse à une seule personne : le
+                participe reste alors au singulier, «{" "}
+                <span className={styles.stem}>
+                  vous êtes {verb.participe}
+                  {feminine ? "e" : ""}
+                </span>{" "}
+                ».
+              </>
+            ) : undefined
+          }
+        />
         <Tense title="Futur simple" lines={futur} />
 
         <section className={styles.tense}>
@@ -231,7 +250,15 @@ export function ConjugationSheet({ verb }: { verb: Verb }) {
   );
 }
 
-function Tense({ title, lines }: { title: string; lines: Segment[][] }) {
+function Tense({
+  title,
+  lines,
+  note,
+}: {
+  title: string;
+  lines: Segment[][];
+  note?: ReactNode;
+}) {
   return (
     <section className={styles.tense}>
       <h2>{title}</h2>
@@ -249,6 +276,7 @@ function Tense({ title, lines }: { title: string; lines: Segment[][] }) {
           </li>
         ))}
       </ol>
+      {note && <p className={styles.footnote}>{note}</p>}
     </section>
   );
 }

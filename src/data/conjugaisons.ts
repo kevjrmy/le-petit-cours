@@ -84,7 +84,16 @@ export const PRONOUNS = {
 
 export const IMPERATIF_PERSONS = ["(tu)", "(nous)", "(vous)"] as const;
 
-/** Participle agreement, by person, when the auxiliary is `être`. */
+/**
+ * Participle agreement, by person, when the auxiliary is `être`.
+ *
+ * **The `vous` row is the plural reading, and it is only half the truth.** A
+ * `vous` addressed to one person out of politeness takes a singular participle —
+ * *vous êtes allée*, not *vous êtes allées* — and for a learner that is the more
+ * common of the two. A table cannot show both without becoming *allé(e)(s)*, so
+ * the row stays plural and `ConjugationSheet` prints the singular underneath the
+ * passé composé, in the gender currently selected.
+ */
 export const AGREEMENT = {
   masculin: ["", "", "", "s", "s", "s"],
   feminin: ["e", "e", "e", "es", "es", "es"],

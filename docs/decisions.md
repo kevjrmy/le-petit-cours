@@ -1908,3 +1908,43 @@ than around the participle, and *féminin* shows the participle agreeing, but on
 — on an `avoir` verb the sheet says so in as many words instead of silently changing nothing. Those
 are the two mistakes a Spanish speaker makes for months, and here she can watch them happen. The
 page around it stays a Server Component and every verb still prerenders; check `next build`.
+
+## 57 · A role-play offers words, not a dialogue
+
+**2026-09-07 · Binding · supersedes the model-dialogue half of #54**
+
+A page in `conversation/` ends with **« Les mots pour le dire »**: about twenty words in a
+`ul.mots`, covering the situations on its constraint card. The « Si vous bloquez » section and the
+model dialogue inside it are gone from all three pages.
+
+**#54 got the principle right and the aid wrong.** It said the steps carry the shape and the
+dialogue carries the words, and that the dialogue is safe because a `<details>` keeps it off the
+page until asked for. But what the dialogue actually carries is *sentences*, and sentences are the
+one thing the learner is there to produce. A disclosure does not change what is behind it: a page
+holding a finished conversation is a page you can read instead of playing, one click later. Words
+are the level below — they unblock a turn without writing it — so the aid was cut down rather than
+hidden better.
+
+**Which is why the cloud is face-up.** #54 hid its aid because the aid was an answer key; this one
+is not, so there is nothing to hide and one less click between a stuck learner and the word she is
+missing. `<details>` remains the right shape for anything that *is* an answer.
+
+**A chip is a word or a small fixed piece** — `les congés`, `ça me convient`,
+`vous pouvez répéter ?` — never a full sentence about the scene, which would be the model dialogue
+smuggled back in one chip at a time. They run in the order the conversation runs, and they carry no
+gloss: the cloud is serif because it is the French being taught.
+
+**Twenty is a rough count, and the real test is the card.** Every situation on the constraint card
+must be answerable out of the cloud. `parler-du-travail` was written against seven, so the cloud
+reaches the horaires, midi, the words she is meant to ask about (`les congés`, `un jour férié`), the
+imparfait of the old job, and the tutoiement.
+
+**`ul.mots` is a new pattern in `globals.css`**, on `/design` in the same commit. It is a `ul`
+because it is a list of words and a screen reader should be able to count them; both its selectors
+carry the tag, because `.prose ul` indents and `.prose li + li` spaces, and a bare class would lose
+to either.
+
+**What this costs.** A learner playing alone no longer has a finished dialogue to read, and these
+pages were already the ones that need a second person in the room (#54). That is the trade, and it
+is the one this chapter keeps making: the page holds what helps her produce a turn, and nothing that
+produces it for her.

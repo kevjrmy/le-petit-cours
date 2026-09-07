@@ -131,6 +131,15 @@
 
 /* The pronoun is grammatical furniture, not part of the form being taught, so
    it recedes furthest — the same call the Vue sheet made. */
+/* A remark about one line of the table above it, not a callout: `.attention`
+   prints « À retenir : » and would claim the whole tense. */
+.footnote {
+  margin: 0.7rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
 .person {
   color: var(--text-3);
   font-style: italic;
