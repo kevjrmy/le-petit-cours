@@ -571,6 +571,20 @@ export const chapters: Chapter[] = [
         delf: "Comprendre le récit d’un souvenir et repérer ce qui est concret dans un texte difficile.",
         created: "2026-09-07",
       },
+      {
+        id: "lect-romeo-juliette",
+        /* The one text in the chapter that was not written in French. The
+           subtitle names the translator rather than only the author, because
+           that is the labelling: what she reads is F.-V. Hugo's French, and a
+           translation is somebody's work (#60). */
+        path: "/lecture/romeo-et-juliette",
+        title: "Roméo et Juliette",
+        subtitle: "Shakespeare, traduit par François-Victor Hugo",
+        tag: "Compréhension",
+        levels: A2,
+        delf: "Comprendre le début d’une pièce traduite : le lieu, les personnages, le conflit.",
+        created: "2026-09-07",
+      },
     ],
   },
   {
@@ -905,6 +919,11 @@ const handWrittenLinks: Record<string, string[]> = {
   "/lecture/cyrano-de-bergerac": [
     "/lecture/cosette-dans-le-bois",
     "/lecture/phileas-fogg",
+    "/lecture/romeo-et-juliette",
+  ],
+  "/lecture/romeo-et-juliette": [
+    "/lecture/cyrano-de-bergerac",
+    "/lecture/cosette-dans-le-bois",
   ],
   "/lecture/du-cote-de-chez-swann": [
     "/grammaire/passe-compose-ou-imparfait",

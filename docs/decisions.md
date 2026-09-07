@@ -2031,3 +2031,35 @@ The prefixes were stripped by hand against the scan.
 the imparfait (Daudet, Verne), dialogue (Hugo, Rostand), and one page whose job is to prove that a
 famous difficult book has a door in it (Proust). What the chapter needs next is not a sixth text but
 a drill behind the four grammar pages, which is still `exercices`' empty chapter.
+
+## 60 · World literature in `lecture`, and the translator's copyright
+
+**2026-09-07 · Binding · widens #58**
+
+`lecture/romeo-et-juliette` is the chapter's sixth text and its first that was not written in
+French: Shakespeare's prologue and the street quarrel of act I, in François-Victor Hugo's 1868
+translation.
+
+**A translated text is allowed, and it is labelled.** The chapter's job is reading French, not
+reading French authors, and a learner who can follow the prologue of *Roméo et Juliette* has read
+French whoever wrote the English underneath. But the page never lets that be ambiguous: the
+manifest **subtitle names the translator** — « Shakespeare, traduit par François-Victor Hugo » — so
+the label rides along into the sommaire, the chapter page, the search results and the cross-links;
+the source stamp gives the author, the play, its date, the translator and *his* date; and the page
+opens with a callout saying in French that what she is reading is Hugo's French.
+
+**The copyright test is the translator, not the author.** Shakespeare has been in the public domain
+for four hundred years and that settles nothing: a translation is a work, its translator holds
+rights in it, and the standard modern French Shakespeares are fully in copyright. François-Victor
+Hugo died in 1873, so his is free. This is the same shape as the Saint-Exupéry trap #58 recorded,
+and it will catch someone who reasons from the author's dates alone.
+
+**No English appears on the page, in any form** — no facing original, no title in English, no
+« as Shakespeare puts it ». `AGENTS.md` §1 forbids English for both profiles and makes no exception
+for quotation; a bilingual layout here would also hand a Spanish speaker the wrong crutch, since
+English is not her language either.
+
+**It is the third theatre text and the second whose scene is a quarrel**, which is not an accident:
+a play gives short lines, named speakers and a physical situation, and that is the most readable
+shape a difficult period text can take. The quarrel opens over a bitten thumb — a gesture nobody
+now recognises — so the vocabulary table has to carry the gesture as well as the words.

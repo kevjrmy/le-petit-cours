@@ -257,6 +257,15 @@ top of the seventy, so *Le Petit Prince* is still protected there into the 2030s
 free in most of the world. An earlier version of this brief listed him as an example; it was wrong.
 When in doubt, pick another author rather than researching an edge case.
 
+**World literature is allowed, in a public-domain French translation, and the translator is the
+copyright holder you have to check** (`docs/decisions.md` #60). Shakespeare has been out of
+copyright for four centuries; a translation of him made in 2020 is not, and neither is the reader's
+favourite modern edition. The test is the **translator's** death date, so François-Victor Hugo
+(1873) is safe and anything post-war is not. Such a page is **labelled**: the manifest subtitle
+names the translator rather than only the author, the source stamp gives both plus the year of the
+translation, and the page says in French that it is a translation. English never appears on it, in
+any form — that is `AGENTS.md` §1, and it is why the original is not printed beside the French.
+
 **Then read the text for its tenses before you commit to it.** Nearly all nineteenth-century French
 narrative is in the passé simple, which §1 keeps off this course. Choose a passage carrying the
 tenses she has: the Daudet opening is nine sentences of imparfait, which is why it works at A2 and
