@@ -1992,3 +1992,42 @@ author who died before ~1955.
 never hidden radios (`AGENTS.md` §9), a verdict carrying ✓/✗ and a sentence pointing back at the
 text, a score, and « Recommencer ». Finishing it does not tick the lesson: that is still the
 learner's own call, and a page she got four of seven on is not a page she has finished.
+
+## 59 · How hard a `lecture` text may be, and what to do when it is too hard
+
+**2026-09-07 · Binding · narrows #58**
+
+`cyrano-de-bergerac` and `du-cote-de-chez-swann` join the chapter. Both are harder than the three
+before them, and choosing them forced a rule #58 did not need: **a text is chosen for what the
+learner can answer about it, not for what she can construe of it.**
+
+**Difficulty is a property of the questions, not only of the prose.** Rostand's crowd scene is in
+alexandrins and full of 1640 vocabulary — but it is also twenty people arriving at a theatre, and
+who pays, who refuses, and who plays cards while waiting are all answerable at A2. Proust's opening
+sentence is A2 (`Longtemps, je me suis couché de bonne heure`) and the paragraph around it is not;
+what the page asks about is the candle, the book, the half-hour and the train, and it asks nothing
+about the church, the quartet or the métempsycose that follows.
+
+**Where the page cannot make the text easy, it says so and gives a way in.** Cyrano's carries a note
+explaining that one line of verse is shared between two speakers — which is what makes the layout
+unreadable until someone says it — and tells her to read it aloud, at two, because it is a play.
+Proust's says in French what the extract is: the first lines of a three-thousand-page book, not the
+chapter. **Neither pretends.** A page that quietly presents C1 prose as A2 teaches a learner that
+she cannot read, which is the opposite of the chapter's job.
+
+**These two get two cross-links each rather than four.** A page at the edge of the level should
+point back at the reading that prepares it, not sideways at four more.
+
+**Both are public domain in France**: Rostand died in 1918, Proust in 1922, so the seventy-year
+term expired long ago in each case — the test #58 wrote down. Both texts were taken from the
+validated Wikisource editions.
+
+**One trap the verse cost.** Wikisource renders a split alexandrin by reprinting the previous
+half-line in front of the next speaker's, so `— Holà ! vos quinze sols !` appears again at the head
+of the cavalier's reply. Copy it as it comes and you print a nonsense duplicate in every exchange.
+The prefixes were stripped by hand against the scan.
+
+**The chapter now has five texts and stops for a while.** Five is enough to see the shape: prose in
+the imparfait (Daudet, Verne), dialogue (Hugo, Rostand), and one page whose job is to prove that a
+famous difficult book has a door in it (Proust). What the chapter needs next is not a sixth text but
+a drill behind the four grammar pages, which is still `exercices`' empty chapter.

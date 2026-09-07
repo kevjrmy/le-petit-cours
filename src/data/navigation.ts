@@ -551,6 +551,26 @@ export const chapters: Chapter[] = [
         delf: "Suivre un dialogue simple et en tirer qui parle, à qui, et de quoi.",
         created: "2026-09-07",
       },
+      {
+        id: "lect-cyrano",
+        path: "/lecture/cyrano-de-bergerac",
+        title: "Cyrano de Bergerac",
+        subtitle: "Edmond Rostand, 1897",
+        tag: "Compréhension",
+        levels: A2,
+        delf: "Suivre une scène de théâtre et dire qui fait quoi, dans un lieu public.",
+        created: "2026-09-07",
+      },
+      {
+        id: "lect-swann",
+        path: "/lecture/du-cote-de-chez-swann",
+        title: "Du côté de chez Swann",
+        subtitle: "Marcel Proust, 1913",
+        tag: "Compréhension",
+        levels: A2,
+        delf: "Comprendre le récit d’un souvenir et repérer ce qui est concret dans un texte difficile.",
+        created: "2026-09-07",
+      },
     ],
   },
   {
@@ -871,11 +891,24 @@ const handWrittenLinks: Record<string, string[]> = {
     "/vocabulaire/l-heure",
     "/grammaire/l-imparfait",
     "/lecture/la-chevre-de-monsieur-seguin",
+    "/lecture/cyrano-de-bergerac",
   ],
   "/lecture/cosette-dans-le-bois": [
     "/grammaire/les-pronoms-cod-coi",
     "/lecture/la-chevre-de-monsieur-seguin",
     "/conversation/parler-du-travail",
+    "/lecture/du-cote-de-chez-swann",
+  ],
+  /* Two links each, and on purpose: both texts are harder than the rest of the
+     chapter, so they point at the reading that prepares them rather than at
+     four more places to go. */
+  "/lecture/cyrano-de-bergerac": [
+    "/lecture/cosette-dans-le-bois",
+    "/lecture/phileas-fogg",
+  ],
+  "/lecture/du-cote-de-chez-swann": [
+    "/grammaire/passe-compose-ou-imparfait",
+    "/lecture/la-chevre-de-monsieur-seguin",
   ],
   "/traduction/un-week-end-a-la-plage": ["/orthographe/les-homophones"],
   "/traduction/hier-dans-la-rue": [
