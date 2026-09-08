@@ -585,6 +585,16 @@ export const chapters: Chapter[] = [
         delf: "Comprendre le début d’une pièce traduite : le lieu, les personnages, le conflit.",
         created: "2026-09-07",
       },
+      {
+        id: "lect-monte-cristo",
+        path: "/lecture/le-comte-de-monte-cristo",
+        title: "Le Comte de Monte-Cristo",
+        subtitle: "Alexandre Dumas, 1844",
+        tag: "Compréhension",
+        levels: A2,
+        delf: "Suivre un dialogue et repérer ce qu’un personnage veut vraiment, sans qu’il le dise.",
+        created: "2026-09-08",
+      },
     ],
   },
   {
@@ -913,17 +923,27 @@ const handWrittenLinks: Record<string, string[]> = {
     "/conversation/parler-du-travail",
     "/lecture/du-cote-de-chez-swann",
   ],
-  /* Two links each, and on purpose: both texts are harder than the rest of the
-     chapter, so they point at the reading that prepares them rather than at
-     four more places to go. */
+  /* The two theatre texts are harder than the rest of the chapter, so they
+     point at the reading that prepares them rather than at four more places to
+     go. Cyrano keeps a fourth, to Monte-Cristo: it is the other crowded scene
+     where the interest is who says what to whom. */
   "/lecture/cyrano-de-bergerac": [
     "/lecture/cosette-dans-le-bois",
     "/lecture/phileas-fogg",
     "/lecture/romeo-et-juliette",
+    "/lecture/le-comte-de-monte-cristo",
   ],
   "/lecture/romeo-et-juliette": [
     "/lecture/cyrano-de-bergerac",
     "/lecture/cosette-dans-le-bois",
+  ],
+  /* The one lecture text that carries both passé composé auxiliaries in the
+     same speech, which is why the grammar page leads. */
+  "/lecture/le-comte-de-monte-cristo": [
+    "/grammaire/le-passe-compose",
+    "/grammaire/passe-compose-ou-imparfait",
+    "/lecture/cosette-dans-le-bois",
+    "/lecture/cyrano-de-bergerac",
   ],
   "/lecture/du-cote-de-chez-swann": [
     "/grammaire/passe-compose-ou-imparfait",
