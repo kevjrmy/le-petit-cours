@@ -13,9 +13,13 @@ export const metadata: Metadata = {
 /* The sommaire — the whole course, one card per chapter. It lived at `/` until
    the home page became a search field; the content is unchanged.
 
-   The heading stands alone. The sentence under it counted the chapters and
-   explained which of them draw, which is the manifest describing itself to
-   somebody who came here to pick a chapter (#51).
+   The heading stands alone, and it is the word the rest of the app already
+   uses: the manifest entry, the sidebar row, the breadcrumb and the document
+   title all say « Sommaire » (`AGENTS.md` §1 — sommaire *is* the contents
+   page), so an <h1> reading « Le cours » was the one place naming it twice.
+   The sentence that was under it counted the chapters and explained which of
+   them draw, which is the manifest describing itself to somebody who came here
+   to pick a chapter (#51).
 
    Every row comes from src/data/navigation.ts — adding a chapter to the
    manifest adds it here, to the sidebar and to the chapter pages at once.
@@ -29,7 +33,7 @@ export default function Sommaire() {
   return (
     <div className={styles.page}>
       <header className={styles.hero}>
-        <h1>Le cours</h1>
+        <h1>Sommaire</h1>
       </header>
 
       {/* The field again, because arriving here and not finding the chapter you
