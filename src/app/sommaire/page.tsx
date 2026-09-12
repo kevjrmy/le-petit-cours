@@ -13,6 +13,10 @@ export const metadata: Metadata = {
 /* The sommaire — the whole course, one card per chapter. It lived at `/` until
    the home page became a search field; the content is unchanged.
 
+   The heading stands alone. The sentence under it counted the chapters and
+   explained which of them draw, which is the manifest describing itself to
+   somebody who came here to pick a chapter (#51).
+
    Every row comes from src/data/navigation.ts — adding a chapter to the
    manifest adds it here, to the sidebar and to the chapter pages at once.
    Nothing is hand-listed.
@@ -26,10 +30,6 @@ export default function Sommaire() {
     <div className={styles.page}>
       <header className={styles.hero}>
         <h1>Le cours</h1>
-        <p className={styles.tagline}>
-          Quatorze chapitres au programme. Ne s&rsquo;affichent ici que ceux qui
-          ont déjà une leçon à lire.
-        </p>
       </header>
 
       {/* The field again, because arriving here and not finding the chapter you

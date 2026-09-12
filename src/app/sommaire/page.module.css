@@ -10,15 +10,6 @@
 
 .hero h1 { font-size: 2.1rem; }
 
-.tagline {
-  margin-top: 0.6rem;
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  line-height: 1.5;
-  color: var(--text-2);
-  max-width: 34rem;
-}
-
 .sectionTitle {
   font-size: 0.78rem;
   font-family: var(--font-sans);
