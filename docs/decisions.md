@@ -21,20 +21,20 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 9 | 2026-09-05 | One repo, Vue history preserved; `.vue/` committed without its lesson images | Binding |
 | 10 | 2026-09-05 | The lesson authoring format is deferred until the primitives exist | **Open** |
 | 11 | 2026-09-05 | Open source: MIT for the code, CC BY-SA 4.0 for the content, contributions welcome | Binding |
-| 12 | 2026-09-05 | Scope: A1→C2 the ambition, A1+A2 the current scope; B1–C2 shown as *bientôt* | Binding |
+| 12 | 2026-09-05 | Scope: A1→C2 the ambition, A1+A2 the current scope; B1–C2 shown as *bientôt* | `soon` half superseded by #51 |
 | 13 | 2026-09-05 | Two learner profiles — the learner and the heritage speaker | Binding |
 | 14 | 2026-09-05 | Levels are lesson tags; parcours order lessons without owning them | Binding |
 | 15 | 2026-09-05 | A level is complete when it covers the DELF syllabus for that level | Binding |
-| 16 | 2026-09-05 | Instruction in Spanish for the learner track, French for the heritage track | Binding |
+| 16 | 2026-09-05 | Instruction in Spanish for the learner track, French for the heritage track | Superseded by #53 |
 | 17 | 2026-09-05 | Collaboration means curated teachers contributing content — later, and not student management | Directional |
 | 18 | 2026-09-05 | All content is public; an account is required to track progress | Binding |
 | 19 | 2026-09-05 | Supabase Auth, email magic link — not Clerk | Binding |
 | 20 | 2026-09-05 | Supabase provisioned directly, not through the Vercel Marketplace integration | Binding |
 | 21 | 2026-09-05 | No key that bypasses RLS lives in the deployment environment | Binding |
-| 22 | 2026-09-05 | An account stores the tick and the chosen level — no scores; level never keys progress | Binding |
+| 22 | 2026-09-05 | An account stores the tick and the chosen level — no scores; level never keys progress | Keying half superseded by #50 |
 | 23 | 2026-09-05 | A lesson carries a set of levels; the learner's level is required and filters the book | Binding |
 | 24 | 2026-09-05 | IndexedDB is the local store; `localStorage` keeps only the theme | Binding |
-| 25 | 2026-09-05 | A1 first, written from scratch, sized to the DELF A1 syllabus | Binding |
+| 25 | 2026-09-05 | A1 first, written from scratch, sized to the DELF A1 syllabus | A1-first half superseded by #52 |
 | 26 | 2026-09-05 | Sign-in lives at `/compte`, with a route handler at `/auth/callback` | Binding |
 | 27 | 2026-09-05 | The palette anchors on the wordmark blue; serif carries the French, sans the instruction | Binding |
 | 28 | 2026-09-05 | The app icon is one letter of the wordmark, generated from it, never hand-drawn | Binding |
@@ -56,6 +56,23 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 44 | 2026-09-06 | The topbar is sticky on mobile only, painted in the page's own ground | Binding |
 | 45 | 2026-09-06 | One sidebar control, in the topbar; the trail never names the current page | Binding |
 | 46 | 2026-09-06 | No copyright notice; the reuse terms live on `/a-propos` | Binding |
+| 47 | 2026-09-06 | The account popover holds the account, and nothing else | Binding |
+| 48 | 2026-09-06 | A tick needs an account, and it is never automatic | Placement half superseded by #49, keying half by #50 |
+| 49 | 2026-09-06 | The shell draws the end of a lesson: the tick, then the links | Binding |
+| 50 | 2026-09-06 | Progress is keyed by a permanent lesson id, not by the route path | Binding |
+| 51 | 2026-09-06 | The course announces nothing it has not written — no `soon`, no empty chapter | Binding |
+| 52 | 2026-09-06 | The content starts at A2; the scaffold's three A1 lessons are deleted | Binding |
+| 53 | 2026-09-06 | One language of instruction, and it is French | Binding |
+| 54 | 2026-09-06 | A conversation page is a guided role-play, not a gap-fill | Model-dialogue half superseded by #57 |
+| 55 | 2026-09-06 | A `traduction` chapter — the one place Spanish is allowed back | Binding |
+| 56 | 2026-09-06 | The conjugation sheets: ten verbs, one route, the imparfait added | Binding |
+| 57 | 2026-09-07 | A role-play offers words, not a dialogue | Binding |
+| 58 | 2026-09-07 | The first reading page, and what a `lecture` text has to be | Binding |
+| 59 | 2026-09-07 | How hard a `lecture` text may be, and what to do when it is too hard | Binding |
+| 60 | 2026-09-07 | World literature in `lecture`; the translator's death date is the copyright test | Binding |
+| 61 | 2026-09-12 | The first screen: the badge is the chrome's brand, the wordmark the home page's `<h1>` | Binding |
+| 62 | 2026-09-12 | Nothing counts what is in a chapter; `Chapter.unit` is retired | Binding |
+| 63 | 2026-09-12 | The footer belongs to the home page; the shell's foot is one shared row | Binding |
 
 ---
 
