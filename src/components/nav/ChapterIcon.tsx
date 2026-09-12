@@ -52,13 +52,25 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M13 11.6l2.7 2.9 5.3-6" />
     </>
   ),
-  /* A tag: a word tied to the thing it names. Two offset cards were meant to
-     be flashcards and drew the copy glyph every operating system already owns,
-     so the row said « duplicate » where it meant « words ». */
+  /* ABC — the words themselves. The two shapes it is not: a tag says « label »
+     and offset cards are the copy glyph every operating system already owns.
+
+     It is the one mark in the set drawn as letterforms rather than an object,
+     so the spacing is load-bearing and tighter than it looks. The gaps between
+     the three are 3.2 units, measured centreline to centreline at the letters'
+     closest approach: at the 19px a sidebar row actually draws this, a 1.8
+     stroke eats 1.4px of any gap, and at 2.8 the A's right leg fused into the
+     B's stem. The A is 5 wide against 11 tall for the same reason — narrower
+     and its crossbar closes on its own legs and it reads as a 4. Retune one
+     letter, check all three at pixel size, not zoomed. */
   vocabulaire: (
     <>
-      <path d="M11.4 4h6.2a2.4 2.4 0 0 1 2.4 2.4v6.2a2 2 0 0 1-.59 1.41l-5.4 5.4a2 2 0 0 1-2.83 0l-6.4-6.4a2 2 0 0 1 0-2.83l5.4-5.4A2 2 0 0 1 11.4 4Z" />
-      <circle cx="16.6" cy="7.4" r="1.25" />
+      <path d="M1.5 17.5 4 6.5l2.5 11" />
+      <path d="M2.1 14.9h3.8" />
+      <path d="M9.7 6.5v11" />
+      <path d="M9.7 6.5h1a2.75 2.75 0 0 1 0 5.5H9.7" />
+      <path d="M9.7 12h1.2a2.75 2.75 0 0 1 0 5.5H9.7" />
+      <path d="M22.36 8.95a3.6 3.6 0 1 0 0 6.1" />
     </>
   ),
   /* A bulb: the thing you remember instead of the rule. */
