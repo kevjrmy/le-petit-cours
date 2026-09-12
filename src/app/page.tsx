@@ -17,7 +17,12 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <header className={styles.hero}>
-        <h1>Le Petit Cours</h1>
+        {/* The name is drawn, not set: the wordmark is the heading. The text
+            stays inside it, visually hidden, so the document still has an <h1>
+            with a name for a screen reader and for search. */}
+        <h1 className={styles.wordmark}>
+          <span className="visually-hidden">Le Petit Cours</span>
+        </h1>
         <p className={styles.tagline}>
           Apprendre le français quand on parle espagnol, et apprendre à
           l&rsquo;écrire quand on le parle déjà.

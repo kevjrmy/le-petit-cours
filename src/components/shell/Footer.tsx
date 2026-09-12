@@ -12,9 +12,9 @@ import styles from "./Footer.module.css";
  * **No link to the source here.** `/a-propos` links GitHub in its own sentence,
  * so a second copy in the chrome of every page was the same link twice.
  *
- * The wordmark and the tagline went too: the sidebar signs the app with its
- * badge and the home page says the tagline, and a footer repeating both under
- * every lesson is a signature on a page that is already signed.
+ * The wordmark and the tagline went too: the home page is where both belong —
+ * the wordmark is its `<h1>` — and a footer repeating them under every lesson
+ * is a signature on a page that is already signed.
  */
 export function Footer() {
   const links = annexes.filter((page) => page.where === "footer");

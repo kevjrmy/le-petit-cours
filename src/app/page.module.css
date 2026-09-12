@@ -14,13 +14,23 @@
   text-align: center;
 }
 
-.hero h1 {
-  font-size: clamp(2rem, 6vw, 2.6rem);
-  line-height: 1.1;
+/* The wordmark as a mask over a token, so it follows the theme the way every
+   brand asset does (`AGENTS.md` §5). It is sized in rem against a cap of the
+   hero's own width: below ~24rem the aspect ratio makes it shrink rather than
+   overflow, which is what keeps the eleven letters legible on a phone. */
+.wordmark {
+  width: min(22rem, 100%);
+  aspect-ratio: 113.85 / 20.38;
+  margin-inline: auto;
+  background-color: var(--accent);
+  -webkit-mask: url(/logo.svg) center / contain no-repeat;
+  mask: url(/logo.svg) center / contain no-repeat;
 }
 
 .tagline {
-  margin-top: 0.7rem;
+  /* Wider than it was under a text heading: logo.svg is cropped to the glyph,
+     so the tail of « Cours » hangs into whatever sits under it. */
+  margin-top: 1rem;
   margin-inline: auto;
   max-width: 30rem;
   font-family: var(--font-serif);
