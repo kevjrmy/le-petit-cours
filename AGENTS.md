@@ -236,6 +236,10 @@ through lessons that already exist (#14).
 - **Annexe position is a manifest property** (`where: top | tree | menu | footer`), never a list
   hand-copied into the components that render them. The footer holds pages *about the site*; the
   account popover holds only the account (#47).
+- **The footer draws on `/` and nowhere else**, and `Footer` decides that itself rather than the
+  shell. The licence line is a fact about the site, said once where somebody arrives and in full on
+  `/a-propos`. So a `where: "footer"` annexe is reachable from the home page only — **put a page
+  anywhere else in the manifest if it has to be reachable from a lesson.**
 - **`featuredChapterSlugs` is the one hand-kept list.** Fails soft; an empty chapter named there
   simply does not draw.
 - **Search reads the manifest and nothing else** and **folds accents**, so *passe compose* finds
