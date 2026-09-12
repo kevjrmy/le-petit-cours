@@ -1,9 +1,1 @@
 .list { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
-
-.count {
-  margin-top: 0.7rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--text-3);
-}

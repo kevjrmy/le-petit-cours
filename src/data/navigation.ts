@@ -134,8 +134,6 @@ export interface Chapter {
   title: string;
   /** Used where the full title does not fit — the sidebar, a breadcrumb. */
   shortTitle?: string;
-  /** Singular and plural of what this chapter counts. */
-  unit: [string, string];
   blurb: string;
   lessons: Lesson[];
 }
@@ -173,7 +171,6 @@ export const chapters: Chapter[] = [
     icon: "grammaire",
     path: "/grammaire",
     title: "Grammaire",
-    unit: ["leçon", "leçons"],
     blurb:
       "Les règles essentielles : les mots, leur accord et la construction de la phrase.",
     /* Ordered as a course, not alphabetically: word classes first, then the
@@ -218,7 +215,6 @@ export const chapters: Chapter[] = [
     icon: "conjugaison",
     path: "/conjugaison",
     title: "Conjugaison",
-    unit: ["verbe", "verbes"],
     blurb:
       "Les tableaux des verbes les plus utiles, du présent au futur, à l’affirmatif comme au négatif.",
     lessons: [
@@ -337,7 +333,6 @@ export const chapters: Chapter[] = [
     icon: "orthographe",
     path: "/orthographe",
     title: "Orthographe",
-    unit: ["leçon", "leçons"],
     blurb:
       "Accorder en genre et en nombre, choisir le bon déterminant, ne plus confondre les homophones.",
     /* The literacy chapter: what a reader who already speaks French gets wrong
@@ -360,7 +355,6 @@ export const chapters: Chapter[] = [
     icon: "vocabulaire",
     path: "/vocabulaire",
     title: "Vocabulaire",
-    unit: ["fiche", "fiches"],
     blurb: "Les mots du quotidien, par thème, avec des exemples pour les employer.",
     lessons: [
       {
@@ -378,7 +372,6 @@ export const chapters: Chapter[] = [
     icon: "astuces",
     path: "/astuces",
     title: "Astuces",
-    unit: ["astuce", "astuces"],
     blurb:
       "Un truc à retenir, ses exceptions, et un lien vers la leçon qui l'explique en entier.",
     lessons: [],
@@ -388,7 +381,6 @@ export const chapters: Chapter[] = [
     icon: "prononciation",
     path: "/prononciation",
     title: "Prononciation",
-    unit: ["leçon", "leçons"],
     blurb: "Lire le français à voix haute : les groupes de lettres et leurs sons.",
     lessons: [],
   },
@@ -397,7 +389,6 @@ export const chapters: Chapter[] = [
     icon: "exercices",
     path: "/exercices",
     title: "Exercices",
-    unit: ["exercice", "exercices"],
     blurb: "Mettre la théorie en pratique. Chaque exercice se corrige tout seul.",
     lessons: [],
   },
@@ -406,7 +397,6 @@ export const chapters: Chapter[] = [
     icon: "jeux",
     path: "/jeux",
     title: "Jeux",
-    unit: ["jeu", "jeux"],
     blurb:
       "Des parties courtes qui rebrassent le vocabulaire du cours. Rien n'est noté, tout se rejoue.",
     lessons: [],
@@ -416,7 +406,6 @@ export const chapters: Chapter[] = [
     icon: "dictees",
     path: "/dictees",
     title: "Dictées",
-    unit: ["dictée", "dictées"],
     blurb: "Écouter, écrire, comparer. Avec le texte et ses points de vigilance.",
     lessons: [],
   },
@@ -425,7 +414,6 @@ export const chapters: Chapter[] = [
     icon: "conversation",
     path: "/conversation",
     title: "Conversation",
-    unit: ["dialogue", "dialogues"],
     blurb:
       "Des situations de la vie quotidienne à jouer à deux, avec des aides à regarder ou à ignorer.",
     lessons: [
@@ -466,7 +454,6 @@ export const chapters: Chapter[] = [
     icon: "traduction",
     path: "/traduction",
     title: "Traduction",
-    unit: ["texte", "textes"],
     blurb:
       "De courts textes à écrire en français, avec trois indices quand vous bloquez.",
     lessons: [
@@ -517,7 +504,6 @@ export const chapters: Chapter[] = [
     icon: "lecture",
     path: "/lecture",
     title: "Lecture",
-    unit: ["texte", "textes"],
     blurb:
       "De courts textes à lire, avec des questions pour vérifier ce que vous avez compris.",
     lessons: [
@@ -602,7 +588,6 @@ export const chapters: Chapter[] = [
     icon: "litterature",
     path: "/litterature",
     title: "Littérature",
-    unit: ["page", "pages"],
     blurb: "Les classiques français, en extraits courts et commentés.",
     lessons: [],
   },
@@ -611,7 +596,6 @@ export const chapters: Chapter[] = [
     icon: "musique",
     path: "/musique",
     title: "Musique",
-    unit: ["chanson", "chansons"],
     blurb: "Apprendre en chantant : vocabulaire et contexte, extrait par extrait.",
     lessons: [],
   },
@@ -620,7 +604,6 @@ export const chapters: Chapter[] = [
     icon: "culture",
     path: "/culture",
     title: "Culture",
-    unit: ["page", "pages"],
     blurb: "Le pays derrière la langue : ses régions, ses villes, ses habitudes.",
     lessons: [],
   },

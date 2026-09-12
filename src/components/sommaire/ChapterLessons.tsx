@@ -20,6 +20,10 @@ import styles from "./ChapterLessons.module.css";
  *
  * Signed in, each row ends in the lesson's tick. Read-only: marking stays at
  * the foot of the lesson (`AGENTS.md` §8).
+ *
+ * **No tally above the rows.** The rows are the count, and a number over a list
+ * short enough to see is a number for its own sake — the same reason the
+ * sidebar and the sommaire cards dropped theirs.
  */
 export function ChapterLessons({ chapter }: { chapter: Chapter }) {
   const account = useAccount();
@@ -28,8 +32,6 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
 
   /* Null until there are ticks to draw: an empty circle is a claim. */
   const ticks = signedIn ? state : null;
-
-  const label = chapter.unit[lessons.length === 1 ? 0 : 1];
 
   /* Two different silences, and they must not be told the same way. The
      chapter is declared and empty — nothing is written yet, and no level would
@@ -56,22 +58,14 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
   }
 
   return (
-    <>
-      {/* The tally sits with the list because both depend on the level; a
-          count in the server-rendered header would keep saying seven while the
-          list showed four. */}
-      <p className={styles.count}>
-        {lessons.length} {label}
-      </p>
-      <ul className={styles.list}>
-        {lessons.map((lesson) => (
-          <PageRow
-            key={lesson.path}
-            {...lesson}
-            done={ticks ? lesson.id in ticks : undefined}
-          />
-        ))}
-      </ul>
-    </>
+    <ul className={styles.list}>
+      {lessons.map((lesson) => (
+        <PageRow
+          key={lesson.path}
+          {...lesson}
+          done={ticks ? lesson.id in ticks : undefined}
+        />
+      ))}
+    </ul>
   );
 }

@@ -144,8 +144,8 @@ dimmed row or a "planned" count to fill a chapter out.**
 
 ## Adding a chapter
 
-1. The `chapters` entry: slug, path, title, optional short title for the sidebar, the
-   singular/plural unit for its count, blurb, lessons, **and `icon`**. The icon is required and its
+1. The `chapters` entry: slug, path, title, optional short title for the sidebar, blurb, lessons,
+   **and `icon`**. There is no count noun any more — nothing counts a chapter. The icon is required and its
    type is a union, so a chapter without one does not compile and a name with no drawing does not
    either — add the glyph to `src/components/nav/ChapterIcon.tsx` in the same change. **Never give
    that map a `default` entry**: the Vue app's ended `?? icons.default`, so a forgotten chapter
@@ -217,9 +217,10 @@ them.
 
 - The sidebar's chapter list and its active row. It is one level deep on purpose (#40): a chapter
   links to its landing page and never opens a list of lessons, and the row is a name and an icon.
-- The sommaire's chapter grid — a mark, a name, a blurb. **Neither listing counts what is in a
-  chapter**: the number belongs beside the pages themselves, which is the chapter landing page.
-- Every chapter landing page, the tally above its rows included.
+- The sommaire's chapter grid — a mark, a name, a blurb. **Nothing counts what is in a chapter**,
+  here, in the sidebar or on the chapter page: the rows are the count, and the `unit` noun that fed
+  those tallies is gone from the manifest with them.
+- Every chapter landing page and the rows on it.
 - Breadcrumbs and the document title.
 - Progress ticks, the per-chapter tally and `/ma-progression` — driven off the entry's `id`.
   **Registering a lesson is all the wiring progress needs**; there is nothing to add to the page.
