@@ -23,10 +23,7 @@ export default function Home() {
         <h1 className={styles.wordmark}>
           <span className="visually-hidden">Le Petit Cours</span>
         </h1>
-        <p className={styles.tagline}>
-          Apprendre le français quand on parle espagnol, et apprendre à
-          l&rsquo;écrire quand on le parle déjà.
-        </p>
+        <p className={styles.tagline}>Apprendre le français petit à petit</p>
       </header>
 
       <SearchBox hero />
