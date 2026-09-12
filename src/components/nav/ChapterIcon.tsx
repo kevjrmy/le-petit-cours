@@ -52,25 +52,29 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M13 11.6l2.7 2.9 5.3-6" />
     </>
   ),
-  /* ABC — the words themselves. The two shapes it is not: a tag says « label »
-     and offset cards are the copy glyph every operating system already owns.
+  /* abc — the words themselves. A tag says « label »; offset cards are the copy
+     glyph every operating system already owns.
 
-     It is the one mark in the set drawn as letterforms rather than an object,
-     so the spacing is load-bearing and tighter than it looks. The gaps between
-     the three are 3.2 units, measured centreline to centreline at the letters'
-     closest approach: at the 19px a sidebar row actually draws this, a 1.8
-     stroke eats 1.4px of any gap, and at 2.8 the A's right leg fused into the
-     B's stem. The A is 5 wide against 11 tall for the same reason — narrower
-     and its crossbar closes on its own legs and it reads as a 4. Retune one
-     letter, check all three at pixel size, not zoomed. */
+     Lowercase and monospaced: three cells 8.2 units apart, each letter built
+     from one 2.5 bowl on a 5-unit x-height, the b's ascender the only thing
+     that leaves the band. Capitals had to be condensed to fit three of them
+     across 24 units and came out deformed — a round lowercase bowl fits where
+     an upright A, B and C do not.
+
+     The baseline sits at 16 rather than on the box's centreline: the bowls are
+     the mark's whole weight, so centring the drawing leaves the weight low.
+
+     The spacing is load-bearing: 3.2 units of centreline gap, because at the
+     19px a sidebar row actually draws this a 1.8 stroke eats 1.4px of any gap.
+     The stems are tangent to their bowls on purpose — that is how an a and a b
+     are drawn. Retune one letter, check all three at pixel size, not zoomed. */
   vocabulaire: (
     <>
-      <path d="M1.5 17.5 4 6.5l2.5 11" />
-      <path d="M2.1 14.9h3.8" />
-      <path d="M9.7 6.5v11" />
-      <path d="M9.7 6.5h1a2.75 2.75 0 0 1 0 5.5H9.7" />
-      <path d="M9.7 12h1.2a2.75 2.75 0 0 1 0 5.5H9.7" />
-      <path d="M22.36 8.95a3.6 3.6 0 1 0 0 6.1" />
+      <circle cx="4.3" cy="13.5" r="2.5" />
+      <path d="M6.8 11v5" />
+      <path d="M10 6v10" />
+      <circle cx="12.5" cy="13.5" r="2.5" />
+      <path d="M22.62 11.89a2.5 2.5 0 1 0 0 3.22" />
     </>
   ),
   /* A bulb: the thing you remember instead of the rule. */
