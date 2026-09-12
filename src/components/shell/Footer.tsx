@@ -6,19 +6,22 @@ import { annexes } from "@/data/navigation";
 import styles from "./Footer.module.css";
 
 /**
- * One line under the home page: the annexes that belong there, and what the
- * licences are.
+ * One line: a way across, and what the licences are.
  *
  * It reads `where: "footer"` from the manifest rather than naming a route, so a
  * page's placement stays a property of the page — the same rule the sidebar and
  * the account popover follow.
  *
- * **It draws on `/` and nowhere else**, decided here rather than by the shell,
- * the way `LessonEnd` decides whether a path is a lesson (`AGENTS.md` §8). The
- * licence is a fact about the site, so it is said once, where somebody arrives —
- * and in full on `/a-propos`, which is the page the line links to and the only
- * copy that states the attribution a reuser owes. Under every lesson it was a
- * signature on a page that is already signed.
+ * **It draws on `/` and on the pages the line itself points to, nowhere else**,
+ * decided here rather than by the shell, the way `LessonEnd` decides whether a
+ * path is a lesson (`AGENTS.md` §8). The licence is a fact about the site, so
+ * it is said where somebody arrives and beside the page that states it in full;
+ * under every lesson it was a signature on a page that is already signed.
+ *
+ * **The line never links to the page you are reading.** On `/` it points out to
+ * `/a-propos`; standing on `/a-propos` it points back to « Accueil », which is
+ * the one title written here rather than read from the manifest — `/` lives in
+ * `unlistedPages`, a list of paths with no titles to read.
  *
  * **No link to the source here.** `/a-propos` links GitHub in its own sentence,
  * so a second copy in the chrome was the same link twice. The wordmark and the
@@ -26,9 +29,15 @@ import styles from "./Footer.module.css";
  */
 export function Footer() {
   const pathname = usePathname();
-  if (pathname !== "/") return null;
+  const footerAnnexes = annexes.filter((page) => page.where === "footer");
+  const onFooterAnnexe = footerAnnexes.some((page) => page.path === pathname);
 
-  const links = annexes.filter((page) => page.where === "footer");
+  if (pathname !== "/" && !onFooterAnnexe) return null;
+
+  const links = [
+    ...(onFooterAnnexe ? [{ path: "/", title: "Accueil" }] : []),
+    ...footerAnnexes.filter((page) => page.path !== pathname),
+  ];
 
   return (
     <footer className={styles.footer}>
