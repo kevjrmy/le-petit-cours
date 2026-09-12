@@ -1,21 +1,32 @@
+/* One control, not a field with a button glued to the end: the box owns the
+   border, the padding and the ring, and everything inside it is borderless.
+
+   Flat at rest. A resting shadow would lift the field off a page whose own
+   chrome is deliberately in the page rather than over it (#43), and the weight
+   it was carrying is what made the control read as heavy. The border does the
+   work instead: --border at rest, --border-strong under the pointer. */
 .form {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   width: 100%;
-  padding: 0.4rem 0.4rem 0.4rem 0.85rem;
-  border: 1px solid var(--border-strong);
+  padding: 0.35rem 0.35rem 0.35rem 0.9rem;
+  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-1);
-  box-shadow: var(--shadow-sm);
   transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
 }
 
+.form:hover { border-color: var(--border-strong); }
+
 /* The ring goes on the box, not on the input, so the whole control reads as one
-   thing — and `:focus-visible` inside it keeps it off a pointer click. */
-.form:focus-within {
+   thing. `:focus-within` rather than `:has(:focus-visible)` on purpose: a text
+   field matches `:focus-visible` on a pointer click anyway, and the simpler
+   selector keeps the ring when focus is on the submit button too. */
+.form:focus-within,
+.form:focus-within:hover {
   border-color: var(--accent);
-  box-shadow: var(--shadow), 0 0 0 3px var(--accent-soft);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 .icon {
@@ -44,9 +55,10 @@
 /* WebKit's own clear affordance, removed — see the comment on the field. */
 .input::-webkit-search-cancel-button { display: none; }
 
-/* Icon-only, so it is a circle rather than a pill with nothing in it: a square
-   box at `--radius-pill`. Sized to the field's inner height so the control
-   reads as one thing at both scales. */
+/* A rounded square, not a disc. It sits in the corner of a 14px-radius box, and
+   a disc in that corner reads as a badge stuck on the end rather than part of
+   the control; --radius is close enough to the box's own inner radius that the
+   two curves agree. Sized to the field's inner height at both scales. */
 .submit {
   display: grid;
   place-items: center;
@@ -54,7 +66,7 @@
   width: 2.25rem;
   height: 2.25rem;
   border: 0;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius);
   background: var(--accent);
   color: var(--text-on-accent);
   cursor: pointer;
@@ -73,8 +85,10 @@
   stroke-linejoin: round;
 }
 
-.hero { padding-left: 1.1rem; border-radius: var(--radius-lg); }
-.hero .icon { width: 1.25rem; height: 1.25rem; }
-.hero .input { padding-block: 0.75rem; font-size: 1.05rem; }
-.hero .submit { width: 2.75rem; height: 2.75rem; }
-.hero .submitIcon { width: 1.3rem; height: 1.3rem; }
+/* The home page's field is the page's one control, so it is taller and set a
+   step larger — but it is the same control, so nothing about it changes shape. */
+.hero { padding-left: 1.05rem; }
+.hero .icon { width: 1.2rem; height: 1.2rem; }
+.hero .input { padding-block: 0.8rem; font-size: 1.05rem; }
+.hero .submit { width: 2.6rem; height: 2.6rem; }
+.hero .submitIcon { width: 1.25rem; height: 1.25rem; }
