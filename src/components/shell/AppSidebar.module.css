@@ -174,8 +174,7 @@ a.activeLesson:hover {
   /* The label is removed, not hidden: `aria-label` on the row already carries
      the name, so clipping the text as well would announce it twice. */
   .label,
-  .chapterTitle,
-  .badge {
+  .chapterTitle {
     display: none;
   }
 
