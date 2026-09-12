@@ -173,6 +173,13 @@
   --sidebar-w-collapsed:  3.75rem;
   --topbar-h:             3.5rem;
   --shell-gutter:         2rem;
+  /* The foot of the shell, on both sides of the sidebar's edge: the account
+     control and the footer are one row, so the rule over them is one line and
+     the type on them sits on one baseline. It is the two-line account label
+     plus its paddings, which is why it is not a round number — and why the
+     account control keeps it as a floor even in the rail, where the label is
+     hidden and the avatar alone would come up short. */
+  --shell-foot-h:         3.925rem;
 
   /* What the sidebar is actually showing right now — one of the two above,
      resolved by the breakpoint and then by the learner's own choice. The panel

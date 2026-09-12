@@ -1,6 +1,11 @@
+/* The floor is shared with the footer across the sidebar's edge
+   (`--shell-foot-h`, globals.css): the two-line label already reaches it, and
+   the rail — where the label is hidden and the avatar is the whole control —
+   would otherwise come up 2px short and step the rule as it crossed. */
 .account {
   position: relative;
   flex: 0 0 auto;
+  min-height: var(--shell-foot-h);
   padding: 0.5rem;
   border-top: 1px solid var(--border-soft);
 }

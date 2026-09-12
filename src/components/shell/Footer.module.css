@@ -1,12 +1,25 @@
+/* Level with the sidebar's account control, and at the far end of the row from
+   it: same height, so the rule across the content column continues the rule
+   over that block, and the line of type sits on the baseline of the address
+   under the name. The height is `--shell-foot-h`, shared with `.account` so
+   the two cannot drift; the padding below is what puts the two baselines
+   together, and it is the one number here that was measured rather than
+   derived — 0.8rem type on a 1.6 line against 0.72rem on a 1.25 line.
+
+   Right-aligned because the account control holds the left end already. The
+   gutters match `.content`'s at both breakpoints. */
 .footer {
   margin-top: auto;
-  /* Matches `.content`'s gutters at both breakpoints, so the line sits on the
-     same left edge as the page above it rather than 0.85rem out from it. */
-  padding: 2rem 1.15rem 2.5rem;
+  min-height: var(--shell-foot-h);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 0 1.15rem 0.78rem;
   border-top: 1px solid var(--border-soft);
   font-size: 0.8rem;
   line-height: 1.6;
   color: var(--text-3);
+  text-align: right;
 }
 
 @media (min-width: 56.25rem) {
