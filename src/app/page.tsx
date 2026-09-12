@@ -12,7 +12,11 @@ import styles from "./page.module.css";
 
    The course itself is at /sommaire. Putting it here made the first screen a
    fifteen-card grid: a table of contents is what you consult, not what you
-   arrive at. */
+   arrive at.
+
+   Nothing here explains the account. /compte says what one is for, at the only
+   moment anybody is asking — a first screen that answers a question nobody has
+   yet asked is a first screen with a paragraph on it. */
 export default function Home() {
   return (
     <div className={styles.page}>
@@ -28,11 +32,6 @@ export default function Home() {
 
       <SearchBox hero />
       <StartPills />
-
-      <p className={styles.note}>
-        Tout est en accès libre. Un compte sert seulement à garder votre
-        progression d&rsquo;un appareil à l&rsquo;autre.
-      </p>
     </div>
   );
 }
