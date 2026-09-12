@@ -193,7 +193,9 @@ export default function Page() {
         <h2>Avez-vous compris ?</h2>
 
         <p>
-          Sept questions : quatre sur le prologue, trois sur la scène de la rue.
+          Le même texte à deux niveaux : choisissez le vôtre sous ce
+          paragraphe. Les questions A2 suivent le prologue puis la scène de la
+          rue ; celles de B1 s’arrêtent sur ce que les mots font.
         </p>
 
         <Quiz />

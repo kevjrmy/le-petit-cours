@@ -1,30 +1,47 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
-import type { LessonId } from "@/data/navigation";
+import type { Lesson, Level } from "@/data/navigation";
 import { localStore } from "@/lib/progress/local";
 import { remoteStore } from "@/lib/progress/remote";
-import { applyPending, type Progress } from "@/lib/progress/store";
+import { applyPending, progressKey, type Progress } from "@/lib/progress/store";
 import { useAccount } from "./useAccount";
 
+/**
+ * **The ticks themselves are not on this interface, deliberately.**
+ *
+ * They used to be — a plain `Record<string, string>` called `state` — and two
+ * of the three consumers indexed it by hand (`lesson.id in state`) instead of
+ * going through `isDone`. That worked only for as long as the key was the bare
+ * lesson id: the day a lesson carried a tick per level, those call sites went
+ * on compiling and started answering with another variant's tick, silently.
+ *
+ * So the record stays inside the provider and every question about it is a
+ * function taking the lesson **and the level being looked at**. The level is
+ * required rather than optional, so adding a variant to a page cannot leave a
+ * call site quietly reading the wrong one — it has to say which one it means.
+ * `progressKey` decides whether that level ends up in the key at all.
+ */
 export interface ProgressApi {
   /**
-   * `null` until the cache has answered — which is not the same as "empty".
+   * False until the cache has answered — which is not the same as "empty".
    * Rendering « rien de terminé » during the load would flash the wrong answer
    * at a learner who has ticked forty lessons.
    */
-  state: Progress | null;
+  ready: boolean;
   /** Whether there is an account to keep any of this. */
   signedIn: boolean;
-  /** Both take a `Lesson.id` — never a route path (`AGENTS.md` §8). */
-  isDone(id: LessonId): boolean;
-  toggle(id: LessonId): void;
+  isDone(lesson: Lesson, level: Level | null): boolean;
+  /** When it was ticked, for a listing that shows the date. */
+  doneAt(lesson: Lesson, level: Level | null): string | undefined;
+  toggle(lesson: Lesson, level: Level | null): void;
 }
 
 const ProgressContext = createContext<ProgressApi>({
-  state: null,
+  ready: false,
   signedIn: false,
   isDone: () => false,
+  doneAt: () => undefined,
   toggle: () => {},
 });
 
@@ -108,13 +125,14 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   }, [userId]);
 
   const toggle = useCallback(
-    (id: LessonId) => {
+    (lesson: Lesson, level: Level | null) => {
       if (!userId || state === null) return;
 
+      const key = progressKey(lesson, level);
       const next = { ...state };
-      const marking = !(id in next);
-      if (marking) next[id] = new Date().toISOString();
-      else delete next[id];
+      const marking = !(key in next);
+      if (marking) next[key] = new Date().toISOString();
+      else delete next[key];
 
       /* On screen immediately. The write is not awaited: the learner has said
          what they did, and a slow network is not a reason to make them watch. */
@@ -131,17 +149,27 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
           /* Queued as an operation, not as a snapshot, so replaying it later
              cannot undo what another device did in between. */
           const pending = await local.loadPending();
-          await local.savePending({ ...pending, [id]: marking ? next[id] : null });
+          await local.savePending({ ...pending, [key]: marking ? next[key] : null });
         }
       })();
     },
     [userId, state],
   );
 
-  const isDone = useCallback((id: LessonId) => !!state?.[id], [state]);
+  const isDone = useCallback(
+    (lesson: Lesson, level: Level | null) => !!state?.[progressKey(lesson, level)],
+    [state],
+  );
+
+  const doneAt = useCallback(
+    (lesson: Lesson, level: Level | null) => state?.[progressKey(lesson, level)],
+    [state],
+  );
 
   return (
-    <ProgressContext.Provider value={{ state, signedIn: !!userId, isDone, toggle }}>
+    <ProgressContext.Provider
+      value={{ ready: state !== null, signedIn: !!userId, isDone, doneAt, toggle }}
+    >
       {children}
     </ProgressContext.Provider>
   );

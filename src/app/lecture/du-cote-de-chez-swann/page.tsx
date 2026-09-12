@@ -116,8 +116,10 @@ export default function Page() {
         <h2>Avez-vous compris ?</h2>
 
         <p>
-          Sept questions, toutes sur ce qui se passe vraiment : une bougie, un
-          livre, une demi-heure, un train.
+          Le même texte à deux niveaux : choisissez le vôtre sous ce
+          paragraphe. Les questions A2 portent sur ce qui se passe vraiment,
+          une bougie, un livre, un train ; celles de B1 sur la façon dont c’est
+          écrit.
         </p>
 
         <Quiz />

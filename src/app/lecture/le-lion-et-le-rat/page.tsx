@@ -198,8 +198,9 @@ export default function Page() {
         <h2>Avez-vous compris ?</h2>
 
         <p>
-          Sept questions. Répondez sans relire, puis retournez au texte pour
-          celles qui vous manquent.
+          Le même texte à deux niveaux : choisissez le vôtre sous ce
+          paragraphe. Répondez sans relire, puis retournez au texte pour celles
+          qui vous manquent.
         </p>
 
         <Quiz />

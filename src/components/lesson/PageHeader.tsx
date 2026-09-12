@@ -1,4 +1,5 @@
 import { findLesson } from "@/data/navigation";
+import { LessonDelf } from "./LessonDelf";
 import styles from "./PageHeader.module.css";
 
 /**
@@ -21,7 +22,10 @@ export function PageHeader({ path }: { path: string }) {
           lesson.title
         )}
       </h1>
-      {lesson.delf && <p className={styles.delf}>{lesson.delf}</p>}
+      {/* A leaf, because on a page with a question set per level the descriptor
+          changes with the picker and this component must stay on the server
+          (`docs/decisions.md` #68). */}
+      <LessonDelf lesson={lesson} className={styles.delf} />
     </header>
   );
 }

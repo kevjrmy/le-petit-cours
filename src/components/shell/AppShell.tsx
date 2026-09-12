@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from "react";
 import { AccountProvider } from "@/hooks/useAccount";
+import { LessonVariantProvider } from "@/hooks/useLessonVariant";
 import { ProgressProvider } from "@/hooks/useProgress";
 import { useShellMode } from "@/hooks/useShellMode";
 import { LessonEnd } from "@/components/lesson/LessonEnd";
@@ -53,32 +54,38 @@ export function AppShell({ children }: { children: ReactNode }) {
        name — or ticking a lesson — updates every one of them at once. */
     <AccountProvider>
       <ProgressProvider>
-        <AppSidebar open={open} onNavigate={() => setOpen(false)} />
+        {/* Which level's questions a multi-level page is showing. Here rather
+            than inside the page because two things have to agree about it and
+            only one of them is the page: the questions, and the tick under
+            them that `LessonEnd` draws (`docs/decisions.md` #68). */}
+        <LessonVariantProvider>
+          <AppSidebar open={open} onNavigate={() => setOpen(false)} />
 
-        {mode === "drawer" && open && (
-          <div
-            className={styles.scrim}
-            onClick={() => setOpen(false)}
-            aria-hidden="true"
-          />
-        )}
+          {mode === "drawer" && open && (
+            <div
+              className={styles.scrim}
+              onClick={() => setOpen(false)}
+              aria-hidden="true"
+            />
+          )}
 
-        <div className={styles.main}>
-          <AppTopbar mode={mode} open={open} onToggle={() => setOpen((value) => !value)} />
-          {/* Before `<main>` in the DOM, because a table of contents is read
-              before what it indexes — and fixed, so the order costs no layout.
-              It draws only on a lesson, and only where the margin has room for
-              it (`LessonToc.module.css`). */}
-          <LessonToc />
-          <main className={styles.content}>
-            {children}
-            {/* The done-tick and « Pour aller plus loin », in that order. Both
-                come from the manifest, so a lesson renders its prose and
-                nothing else — and cannot forget either of them. */}
-            <LessonEnd />
-          </main>
-          <Footer />
-        </div>
+          <div className={styles.main}>
+            <AppTopbar mode={mode} open={open} onToggle={() => setOpen((value) => !value)} />
+            {/* Before `<main>` in the DOM, because a table of contents is read
+                before what it indexes — and fixed, so the order costs no layout.
+                It draws only on a lesson, and only where the margin has room for
+                it (`LessonToc.module.css`). */}
+            <LessonToc />
+            <main className={styles.content}>
+              {children}
+              {/* The done-tick and « Pour aller plus loin », in that order. Both
+                  come from the manifest, so a lesson renders its prose and
+                  nothing else — and cannot forget either of them. */}
+              <LessonEnd />
+            </main>
+            <Footer />
+          </div>
+        </LessonVariantProvider>
       </ProgressProvider>
     </AccountProvider>
   );

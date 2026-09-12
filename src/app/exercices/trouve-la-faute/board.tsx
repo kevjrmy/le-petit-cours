@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
 import { shuffle } from "@/lib/shuffle";
-import { FIXES, items, type FaultItem } from "./data";
+import type { Level } from "@/data/navigation";
+import { bankFor, type FaultItem } from "./data";
 import styles from "./drill.module.css";
 
 /**
@@ -29,7 +30,11 @@ import styles from "./drill.module.css";
  * Never server-rendered: the deck is shuffled in a `useState` initialiser and
  * `drill.tsx` loads this with `ssr: false`. See the note there.
  */
-export function Board() {
+export function Board({ level }: { level: Level | null }) {
+  /* Read once. `drill.tsx` remounts this component when the level changes, so
+     the initialiser below runs again with the new bank, and the pastilles
+     change with it (`docs/decisions.md` #68). */
+  const { items, fixes } = bankFor(level);
   const [deck, setDeck] = useState<FaultItem[]>(() => shuffle(items));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
@@ -113,7 +118,7 @@ export function Board() {
         </p>
 
         <div className={styles.fixes}>
-          {FIXES.map((candidate) => (
+          {fixes.map((candidate) => (
             <button
               key={candidate}
               type="button"

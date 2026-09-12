@@ -27,11 +27,12 @@ import styles from "./ChapterLessons.module.css";
  */
 export function ChapterLessons({ chapter }: { chapter: Chapter }) {
   const account = useAccount();
-  const { state, signedIn } = useProgress();
-  const lessons = visibleLessons(chapter, account?.level ?? null);
+  const { ready, signedIn, isDone } = useProgress();
+  const level = account?.level ?? null;
+  const lessons = visibleLessons(chapter, level);
 
-  /* Null until there are ticks to draw: an empty circle is a claim. */
-  const ticks = signedIn ? state : null;
+  /* False until there are ticks to draw: an empty circle is a claim. */
+  const drawTicks = signedIn && ready;
 
   /* Two different silences, and they must not be told the same way. The
      chapter is declared and empty — nothing is written yet, and no level would
@@ -63,7 +64,10 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
         <PageRow
           key={lesson.path}
           {...lesson}
-          done={ticks ? lesson.id in ticks : undefined}
+          /* Asked at the level this list is filtered to, which is the whole
+             point of passing it: a B1 learner reading a text that also serves
+             A2 must see her B1 tick, not the one she left at A2. */
+          done={drawTicks ? isDone(lesson, level) : undefined}
         />
       ))}
     </ul>

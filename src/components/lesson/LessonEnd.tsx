@@ -1,6 +1,7 @@
 "use client";
 
 import { findLesson } from "@/data/navigation";
+import { useLessonVariant } from "@/hooks/useLessonVariant";
 import { DoneTick } from "@/components/progress/DoneTick";
 import { RelatedLinks } from "./RelatedLinks";
 import styles from "./LessonEnd.module.css";
@@ -28,11 +29,18 @@ import { usePathname } from "next/navigation";
 export function LessonEnd() {
   const path = usePathname() ?? "";
   const found = findLesson(path);
+  /* Called before the early return, because a hook cannot be. It answers `null`
+     for a path that is not a lesson, which is what that return is for. */
+  const { level } = useLessonVariant(found?.lesson ?? null);
   if (!found) return null;
 
   return (
     <div className={styles.end}>
-      <DoneTick id={found.lesson.id} path={path} />
+      {/* The tick is for the variant she is looking at, not for the level she
+          is working at: she can read a text's B1 questions from A2, and what
+          she ticks is what she did (`docs/decisions.md` #68). Every lesson
+          serving one level resolves to it, and `progressKey` ignores it. */}
+      <DoneTick lesson={found.lesson} level={level} path={path} />
       <RelatedLinks path={path} />
     </div>
   );

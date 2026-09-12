@@ -13,15 +13,13 @@ export default function Page() {
       <PageHeader path={PATH} />
 
       <section>
-        <h2>Dix phrases, dix fautes</h2>
+        <h2>Une faute par phrase</h2>
 
         <p>
-          Les cinq paires se prononcent de la même façon et ne s’écrivent pas
-          pareil : <span className="fr">a / à</span>,{" "}
-          <span className="fr">et / est</span>,{" "}
-          <span className="fr">on / ont</span>,{" "}
-          <span className="fr">son / sont</span>,{" "}
-          <span className="fr">ou / où</span>. Le test de remplacement est dans{" "}
+          Chaque phrase contient un homophone mal écrit : deux mots qui se
+          prononcent de la même façon et ne s’écrivent pas pareil. Les paires
+          changent avec le niveau ; le test de remplacement, lui, ne change pas,
+          et il est dans{" "}
           <Link href="/orthographe/les-homophones">Les homophones</Link>.
         </p>
 

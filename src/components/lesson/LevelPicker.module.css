@@ -1,0 +1,31 @@
+/* Layout only. The buttons are the global `.button`, so the one thing this file
+   adds is which of them is current — and it says that with the accent surface
+   the rest of the course already uses for a chosen thing. */
+
+.picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.1rem;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.level {
+  min-inline-size: 3.1rem;
+  justify-content: center;
+}
+
+/* Doubled, so it beats `.button`'s own background without depending on which
+   stylesheet lands first — the same reason `.is-correct` is doubled
+   (`AGENTS.md` §5). */
+.current.current {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--text-on-accent);
+}

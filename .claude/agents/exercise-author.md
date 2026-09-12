@@ -64,6 +64,40 @@ feedback states and the score screen belong to the design system. Only the drill
 its pool, columns, chips, slots — gets a CSS Module. Feedback colours are tokens; a raw hex will
 not survive dark mode.
 
+## One drill, an item bank per level
+
+A drill's **mechanic is level-independent**; only its deck moves
+(`docs/decisions.md` #68). Sorting verbs is sorting verbs whether the verbs are
+*aller / manger* or *monter dans le train / monter l'escalier*, so a harder
+level is a second bank on the same page, never a second page.
+
+- **`data.ts` exports `BANKS`**, keyed by level, plus a `bankFor(level)` that
+  falls back to the first bank written. Its keys must be exactly the lesson's
+  `levels` in the manifest, and the `nav-wiring` audit's fifth line is what
+  reports a disagreement — it reads `BANKS` from `data.ts` and `SETS` from a
+  `questions.ts`, so keep the export named.
+- **`drill.tsx` renders `<LevelPicker />` and keys the board on the level.**
+  `<Board key={level} level={level} />` remounts on a change, which is the whole
+  reset: a deck, its placements, its score and its « vérifié » flag all belong
+  together, and threading a reset through four setters loses whichever one you
+  forget — as a board scored against the other level's answers.
+- **Nothing in the page's prose may count the deck.** « Classez les seize
+  verbes » was true of one bank and false of the next; the instruction line
+  reads `deck.length` instead. Same trap as a caption over a table (`AGENTS.md`
+  §9).
+- **Every item still needs exactly one defensible answer, in both banks**, and
+  the harder bank is where that breaks. *monter* alone has no answer — *elle est
+  montée* and *elle a monté l'escalier* are both right — so it enters with the
+  complement that decides it. A homophone is the same: « ces clés » and « ses
+  clés » are two French sentences, so the item carries what settles it (a
+  « -là » that calls for the demonstrative, a possessor the sentence never
+  names).
+- **Run the file's own verification command after any edit**, and read the
+  printed count as well as the verdict. For a fault-finding drill that means
+  reading all ten corrected sentences back: two B1 items had the fault at word
+  zero, which the data cannot show you and the corrected sentence does — it
+  started with a lower-case letter.
+
 ## Shared state shape
 
 `deck` (shuffled), `currentIndex`, `checked`, `score`, `finished`, plus the result thresholds at

@@ -85,18 +85,47 @@ const stale = Object.entries(relatedPages).flatMap(([from, tos]) => [
 const slugs = new Set(chapters.map(c => c.slug))
 const pills = featuredChapterSlugs.filter(s => !slugs.has(s))
 
+// A page serving several levels holds one body of work per level, in a module
+// beside its page.tsx (#68): questions.ts exporting SETS for a reading quiz,
+// data.ts exporting BANKS for a drill. Its keys and the manifest's levels are
+// two lists that must say the same thing, and the manifest wins where they
+// differ — so a level tagged with nothing behind it serves another level's
+// material rather than failing. Nothing else says so.
+//
+// No backticks in these comments: the whole script is a double-quoted bash
+// string, so bash would run their contents as commands before node sees it.
+const sets = []
+for (const l of declared) {
+  const levels = l.levels ?? []
+  let keys = null
+  for (const [file, name] of [['/questions.ts', 'SETS'], ['/data.ts', 'BANKS']]) {
+    const path = './src/app' + l.path + file
+    if (!existsSync(path)) continue
+    const map = (await import(path))[name]
+    if (map) { keys = Object.keys(map).sort().join(','); break }
+  }
+  if (keys === null) {
+    if (levels.length > 1) sets.push(l.path + ' -> several levels, no per-level module')
+    continue
+  }
+  const want = [...levels].sort().join(',')
+  if (keys !== want) sets.push(l.path + ' -> module [' + keys + '] vs manifest [' + want + ']')
+}
+
 console.log('in the manifest, no page.tsx:', missing.length ? missing : 'none')
 console.log('page.tsx, not in the manifest:', orphan.length ? orphan : 'none')
 console.log('cross-links that resolve to nothing:', stale.length ? stale : 'none')
 console.log('home pills that resolve to nothing:', pills.length ? pills : 'none')
+console.log('per-level material that disagrees with the manifest:', sets.length ? sets : 'none')
 "
 ```
 
-All four lines must read `none`. (`npx tsx` works too if the manifest ever grows syntax that type
+All five lines must read `none`. (`npx tsx` works too if the manifest ever grows syntax that type
 stripping cannot handle.)
 
-The last two matter most, because both lists **fail soft**: an unresolvable cross-link or home pill
-is dropped rather than rendered, so a stale entry costs a link and raises no error anywhere else.
+The last three matter most, because all three **fail soft**: an unresolvable cross-link or home pill
+is dropped rather than rendered, and a level with no question set behind it shows another level's
+questions — so each costs something real and raises no error anywhere else.
 
 Then `npm run build`.
 

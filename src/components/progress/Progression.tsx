@@ -24,17 +24,23 @@ import styles from "./Progression.module.css";
  */
 export function Progression() {
   const account = useAccount();
-  const { state, signedIn } = useProgress();
+  const { ready, signedIn, isDone, doneAt } = useProgress();
+  const level = account?.level ?? null;
 
   if (!signedIn) return <SignedOut />;
   /* Not "nothing done" — not known yet. Saying zero here and three a moment
      later is worse than saying nothing for that moment. */
-  if (state === null) return <p className={styles.loading}>Chargement…</p>;
+  if (!ready) return <p className={styles.loading}>Chargement…</p>;
 
+  /* The lessons are not filtered by level — that is what this page is (#48) —
+     but a lesson carrying a tick per level still has to be asked about one, and
+     the honest one to ask about is the learner's own. Which variants a page
+     with several should count toward which tally is a separate question, and
+     belongs with the per-level breakdown rather than here. */
   const rows = chapters
     .map((chapter) => {
       const lessons = chapter.lessons;
-      const done = lessons.filter((lesson) => lesson.id in state);
+      const done = lessons.filter((lesson) => isDone(lesson, level));
       return { chapter, lessons, done };
     })
     .filter((row) => row.lessons.length > 0);
@@ -92,7 +98,12 @@ export function Progression() {
             {done.length > 0 && (
               <ul className={styles.lessons}>
                 {done.map((lesson) => (
-                  <Done key={lesson.id} lesson={lesson} chapter={chapter} at={state[lesson.id]} />
+                  <Done
+                    key={lesson.id}
+                    lesson={lesson}
+                    chapter={chapter}
+                    at={doneAt(lesson, level)}
+                  />
                 ))}
               </ul>
             )}

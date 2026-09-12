@@ -1,6 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { findLesson, type Level } from "@/data/navigation";
+import { LevelPicker } from "@/components/lesson/LevelPicker";
+import { useLessonVariant } from "@/hooks/useLessonVariant";
 import styles from "./Comprehension.module.css";
 
 /**
@@ -31,19 +35,70 @@ export interface Question {
   because: string;
 }
 
-export function Comprehension({ questions }: { questions: Question[] }) {
-  const [chosen, setChosen] = useState<(number | null)[]>(() =>
-    questions.map(() => null),
+/**
+ * A set of questions per level, for a text that serves more than one.
+ *
+ * **Its keys must be exactly the lesson's `levels` in the manifest**, which is
+ * what the picker offers and what the tick is keyed by (`docs/decisions.md`
+ * #68). A key the manifest does not list is a set nothing can reach; a level
+ * the manifest lists with no set here falls back to the first, which is a page
+ * quietly showing the wrong questions. Nothing in the toolchain catches either
+ * yet — see `.claude/agents/nav-wiring.md`.
+ */
+export type QuestionSets = Partial<Record<Level, Question[]>>;
+
+/**
+ * One set, or one per level — never both. A page with a single set passes
+ * `questions` and draws no picker, which is every `lecture` page today.
+ */
+type ComprehensionProps =
+  | { questions: Question[]; sets?: never }
+  | { sets: QuestionSets; questions?: never };
+
+export function Comprehension(props: ComprehensionProps) {
+  const pathname = usePathname() ?? "";
+  const found = findLesson(pathname);
+  const { level } = useLessonVariant(found?.lesson ?? null);
+
+  /* The manifest decides which variant is in view; this only looks it up. A
+     level with no set here falls back to the first one written rather than to
+     an empty quiz — the page is wrong either way, and a quiz with no questions
+     reads as a broken page rather than as a mistake in the data. */
+  const sets = props.sets;
+  const questions =
+    props.questions ??
+    (level && sets?.[level]) ??
+    Object.values(sets ?? {})[0] ??
+    [];
+
+  /* Tagged with the level they answer, and read back through that tag — the
+     same trick `ProgressProvider` uses for the account its ticks belong to.
+     Switching level replaces the questions, and answers to the old set must not
+     survive the swap: **counting them would not catch it**, because an A2 set
+     and a B1 set on the same text are both likely to hold seven. Tagging also
+     keeps this out of an effect, so a render showing the previous level's
+     answers against the new level's questions cannot happen at all. */
+  const [chosen, setChosen] = useState<{ level: string; answers: (number | null)[] }>(
+    () => ({ level: level ?? "", answers: questions.map(() => null) }),
   );
 
-  const done = chosen.every((c) => c !== null);
-  const score = chosen.filter((c, i) => c === questions[i].answer).length;
+  const answers =
+    chosen.level === (level ?? "") ? chosen.answers : questions.map(() => null);
+
+  const record = (next: (number | null)[]) =>
+    setChosen({ level: level ?? "", answers: next });
+
+  const done = questions.length > 0 && answers.every((c) => c !== null);
+  const score = answers.filter((c, i) => c === questions[i].answer).length;
 
   return (
     <>
+      {/* Draws nothing unless the lesson serves more than one level. */}
+      <LevelPicker />
+
       <ol className={styles.list}>
         {questions.map((item, index) => {
-          const answer = chosen[index];
+          const answer = answers[index];
           const answered = answer !== null;
           const right = answer === item.answer;
 
@@ -59,10 +114,8 @@ export function Comprehension({ questions }: { questions: Question[] }) {
                     className="button"
                     disabled={answered}
                     onClick={() =>
-                      setChosen((previous) =>
-                        previous.map((value, i) =>
-                          i === index ? position : value,
-                        ),
+                      record(
+                        answers.map((value, i) => (i === index ? position : value)),
                       )
                     }
                   >
@@ -111,7 +164,7 @@ export function Comprehension({ questions }: { questions: Question[] }) {
             <button
               type="button"
               className="button"
-              onClick={() => setChosen(questions.map(() => null))}
+              onClick={() => record(questions.map(() => null))}
             >
               Recommencer
             </button>

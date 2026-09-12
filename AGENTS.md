@@ -81,9 +81,12 @@ are all built. What no amount of reading the repo will reveal:
   definition and an example that makes the wrong reading impossible.
 - **English is never used, for either profile.** No English glosses, no English mnemonics (never
   DR & MRS VANDERTRAMP).
-- **A2 only, for now** (#52). `CHOOSABLE_LEVELS` holds `A2` alone; B1–C2 are
-  declared, unchoosable, and carry no page. No literary tenses, no metalanguage beyond *verbe,
-  sujet, adjectif, accord* — the heritage track is the one place that relaxes.
+- **A2 only, for now** (#52). `CHOOSABLE_LEVELS` holds `A2` alone; B1–C2 are declared and
+  unchoosable. **B1 has material but no course**: every `lecture` text and both `exercices` drills
+  carry a B1 set behind the picker (#68), and **no page belongs to B1 alone**. A level joins
+  `CHOOSABLE_LEVELS` when choosing it would hand someone a course, not a chapter.
+- No literary tenses, no metalanguage beyond *verbe, sujet, adjectif, accord* — the heritage track
+  is the one place that relaxes.
 - **A level is complete when it covers the published DELF syllabus** (#15), not when it feels
   thorough.
 - **The content is « le cours », never « le livre »** (#41). **leçon** a page, **chapitre** one of
@@ -351,8 +354,28 @@ that has become dynamic is a regression, not a detail.**
   disabled — and links to `/compte?suivant=<path>`, checked against the manifest rather than a
   pattern. **Do not add an anonymous browser-local tick**: storage alone is evicted without
   warning, and losing forty ticks silently is worse than saying what an account is for.
-- **Keyed by `Lesson.id`, never by route path** (#50). Only lessons carry an id, so an annexe
-  cannot be ticked.
+- **Keyed by `progressKey(lesson, level)`, never by a route path and never by an id typed at the
+  call site** (#50, #68). It returns the bare `Lesson.id` — so only lessons can be ticked — except
+  where `lesson.levels.length > 1`, the one case where a page holds a body of work per level and
+  one tick cannot report both. **That rule lives in `progressKey` and nowhere else.**
+- **The ticks are not on `ProgressApi` and must not go back on it** (#68). `isDone` / `doneAt` /
+  `toggle` each take the lesson **and a required level**; exposing the record again lets a caller
+  index it by a bare id, which compiles, and reads another variant's tick. Two of the three
+  consumers were doing exactly that when the column was added.
+- **An unmark filters on the level as well as the id** — deleting on `lesson_id` alone takes every
+  variant of the lesson with it, in a background sync, with nothing failing.
+- **The variant in view is shell state (`useLessonVariant`), never a query parameter** (#68). The
+  questions and the tick under them must agree about it, and `useSearchParams` would make the
+  nearest `Suspense` fallback the prerendered output — every lesson shipping a placeholder as its
+  static page and filling itself in on the client. **`?niveau=` is not a small improvement to make
+  later**; it costs the offline story (§8).
+- **A page's per-level material and its manifest `levels` are two lists that must say the same
+  thing.** The manifest is the authority — it drives the picker and keys the tick — so a level
+  listed there with nothing behind it serves another level's material silently. That material
+  therefore lives in a module of **type-only imports** beside the page — `questions.ts` exporting
+  `SETS` for a quiz, `data.ts` exporting `BANKS` for a drill — which is what lets the `nav-wiring`
+  audit read it. Its fifth line is the only thing that reports the mismatch. **Keep the export
+  named**: rename it and the audit stops looking without saying so.
 - **Nothing touches storage directly** — every read and write goes through a `load()` / `save()`
   adapter, so the cache and the sync are two implementations of one interface. This seam was the
   best idea in the old app; keep it.

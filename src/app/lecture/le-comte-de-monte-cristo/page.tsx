@@ -224,8 +224,10 @@ export default function Page() {
         <h2>Avez-vous compris ?</h2>
 
         <p>
-          Sept questions. Les deux dernières ne sont pas dans les mots :
-          personne ne dit ce qu’il pense, et le texte le montre autrement.
+          Le même texte à deux niveaux : choisissez le vôtre sous ce
+          paragraphe. Les questions les plus difficiles ne sont pas dans les
+          mots : personne ne dit ce qu’il pense, et le texte le montre
+          autrement.
         </p>
 
         <Quiz />

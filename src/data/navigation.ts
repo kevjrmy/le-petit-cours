@@ -73,8 +73,15 @@ export interface PageEntry {
    * diff, which is what makes forgetting to tag a page a type error (#23).
    */
   levels: Level[];
-  /** The DELF descriptor this page answers to, when it answers to one. */
-  delf?: string;
+  /**
+   * The DELF descriptor this page answers to, when it answers to one.
+   *
+   * **A page serving several levels answers to one descriptor per level** (#68)
+   * — a claim about what its questions check, and the questions are what the
+   * level changes. `delfFor()` resolves it; a plain string is the same claim at
+   * every level the page serves.
+   */
+  delf?: string | Partial<Record<Level, string>>;
   /** ISO date. Drives "récemment ajouté"; a wrong one misplaces the page. */
   created?: string;
 }
@@ -163,6 +170,13 @@ export const CHOOSABLE_LEVELS: Level[] = ["A2"];
    is the level being written (#52); `ANY` is "no level, always visible" — the
    literacy pages, which answer to spelling rather than to a CEFR rung. */
 const A2: Level[] = ["A2"];
+/* A page serving two levels' worth of work from one text — the same reading
+   with a question set per level (#68). It keeps **one** tick per level, not one
+   page per level, which is what #23 chose a set of levels over duplication for.
+   It does not make B1 choosable: `CHOOSABLE_LEVELS` is still A2 alone (#52), so
+   the B1 questions are reached from the picker on the page rather than by
+   working at B1. */
+const A2B1: Level[] = ["A2", "B1"];
 const ANY: Level[] = [];
 
 export const chapters: Chapter[] = [
@@ -486,8 +500,11 @@ export const chapters: Chapter[] = [
         path: "/exercices/etre-ou-avoir",
         title: "Être ou avoir ?",
         tag: "Tri",
-        levels: A2,
-        delf: "Choisir l’auxiliaire du passé composé",
+        levels: A2B1,
+        delf: {
+          A2: "Choisir l’auxiliaire du passé composé",
+          B1: "Choisir l’auxiliaire quand le verbe en change selon qu’il a un complément d’objet.",
+        },
         created: "2026-09-12",
       },
       {
@@ -495,8 +512,11 @@ export const chapters: Chapter[] = [
         path: "/exercices/trouve-la-faute",
         title: "Trouvez la faute",
         tag: "Correction",
-        levels: A2,
-        delf: "Repérer et corriger un homophone mal écrit",
+        levels: A2B1,
+        delf: {
+          A2: "Repérer et corriger un homophone mal écrit",
+          B1: "Appliquer le test de remplacement à des homophones que rien ne sépare à l’oreille.",
+        },
         created: "2026-09-12",
       },
     ],
@@ -642,8 +662,11 @@ export const chapters: Chapter[] = [
         title: "Un entretien d’embauche",
         subtitle: "Dialogue écrit pour ce cours",
         tag: "Compréhension",
-        levels: A2,
-        delf: "Comprendre un échange professionnel simple et en retenir les faits.",
+        levels: A2B1,
+        delf: {
+          A2: "Comprendre un échange professionnel simple et en retenir les faits.",
+          B1: "Lire un entretien comme un genre : une réponse qui n’accuse personne, un fait transformé en argument, une objection devancée.",
+        },
         created: "2026-09-12",
       },
       {
@@ -652,8 +675,11 @@ export const chapters: Chapter[] = [
         title: "La chèvre de monsieur Seguin",
         subtitle: "Alphonse Daudet, 1869",
         tag: "Compréhension",
-        levels: A2,
-        delf: "Comprendre un court récit littéraire et répondre à des questions simples.",
+        levels: A2B1,
+        delf: {
+          A2: "Comprendre un court récit littéraire et répondre à des questions simples.",
+          B1: "Lire ce qu’un narrateur laisse entendre : une ironie légère, une offre qui manque la question, un renoncement démenti trois lignes plus loin.",
+        },
         created: "2026-09-07",
       },
       {
@@ -662,8 +688,11 @@ export const chapters: Chapter[] = [
         title: "Le Lion et le Rat",
         subtitle: "Jean de La Fontaine, 1668",
         tag: "Compréhension",
-        levels: A2,
-        delf: "Comprendre un récit court en vers et en dégager la morale.",
+        levels: A2B1,
+        delf: {
+          A2: "Comprendre un récit court en vers et en dégager la morale.",
+          B1: "Lire une fable comme une forme : deux morales qui n’en font pas une, une question qui n’en est pas une, un titre déplacé.",
+        },
         created: "2026-09-12",
       },
       {
@@ -672,8 +701,11 @@ export const chapters: Chapter[] = [
         title: "Phileas Fogg",
         subtitle: "Jules Verne, 1873",
         tag: "Compréhension",
-        levels: A2,
-        delf: "Comprendre la description d’une personne et de ses habitudes, et des heures précises.",
+        levels: A2B1,
+        delf: {
+          A2: "Comprendre la description d’une personne et de ses habitudes, et des heures précises.",
+          B1: "Lire un portrait construit par soustraction, et le vocabulaire d’un tribunal posé sur une faute de deux degrés.",
+        },
         created: "2026-09-07",
       },
       {
@@ -682,8 +714,11 @@ export const chapters: Chapter[] = [
         title: "Cosette dans le bois",
         subtitle: "Victor Hugo, 1862",
         tag: "Compréhension",
-        levels: A2,
-        delf: "Suivre un dialogue simple et en tirer qui parle, à qui, et de quoi.",
+        levels: A2B1,
+        delf: {
+          A2: "Suivre un dialogue simple et en tirer qui parle, à qui, et de quoi.",
+          B1: "Lire ce qu’un silence et un « donc » laissent entendre, et ce qu’un seul mot dit de la place d’une enfant.",
+        },
         created: "2026-09-07",
       },
       {
@@ -692,8 +727,11 @@ export const chapters: Chapter[] = [
         title: "Cyrano de Bergerac",
         subtitle: "Edmond Rostand, 1897",
         tag: "Compréhension",
-        levels: A2,
-        delf: "Suivre une scène de théâtre et dire qui fait quoi, dans un lieu public.",
+        levels: A2B1,
+        delf: {
+          A2: "Suivre une scène de théâtre et dire qui fait quoi, dans un lieu public.",
+          B1: "Lire une scène de foule : deux registres dans une salle, un jeu de mots sur le nom du théâtre, un vers partagé entre deux voix.",
+        },
         created: "2026-09-07",
       },
       {
@@ -702,8 +740,11 @@ export const chapters: Chapter[] = [
         title: "Du côté de chez Swann",
         subtitle: "Marcel Proust, 1913",
         tag: "Compréhension",
-        levels: A2,
-        delf: "Comprendre le récit d’un souvenir et repérer ce qui est concret dans un texte difficile.",
+        levels: A2B1,
+        delf: {
+          A2: "Comprendre le récit d’un souvenir et repérer ce qui est concret dans un texte difficile.",
+          B1: "Suivre un texte difficile : un verbe qui avoue une erreur, une comparaison qui mesure l’espace, un dormeur qui se croit éveillé.",
+        },
         created: "2026-09-07",
       },
       {
@@ -716,8 +757,11 @@ export const chapters: Chapter[] = [
         title: "Roméo et Juliette",
         subtitle: "Shakespeare, traduit par François-Victor Hugo",
         tag: "Compréhension",
-        levels: A2,
-        delf: "Comprendre le début d’une pièce traduite : le lieu, les personnages, le conflit.",
+        levels: A2B1,
+        delf: {
+          A2: "Comprendre le début d’une pièce traduite : le lieu, les personnages, le conflit.",
+          B1: "Lire un prologue qui annonce le prix de la paix, une métaphore du destin, et un tutoiement qui sert d’arme.",
+        },
         created: "2026-09-07",
       },
       {
@@ -726,8 +770,17 @@ export const chapters: Chapter[] = [
         title: "Le Comte de Monte-Cristo",
         subtitle: "Alexandre Dumas, 1844",
         tag: "Compréhension",
-        levels: A2,
-        delf: "Suivre un dialogue et repérer ce qu’un personnage veut vraiment, sans qu’il le dise.",
+        /* The first page to carry a question set per level (#68). The extract
+           was chosen for it: Morrel asking after his cargo before his dead
+           captain, and Danglars giving a compliment back as an insult, are
+           there to be read at either level — what changes is how much of it the
+           question asks her to see. `questions.ts` holds both sets and its keys
+           must stay in step with this line. */
+        levels: A2B1,
+        delf: {
+          A2: "Suivre un dialogue et repérer ce qu’un personnage veut vraiment, sans qu’il le dise.",
+          B1: "Lire entre les lignes d’un dialogue : ce qu’un adverbe juge, ce qu’une phrase coupée laisse deviner.",
+        },
         created: "2026-09-08",
       },
     ],
@@ -944,6 +997,22 @@ export function visibleLessons(chapter: Chapter, level: Level | null): Lesson[] 
  */
 export function listedChapters(level: Level | null): Chapter[] {
   return chapters.filter((chapter) => visibleLessons(chapter, level).length > 0);
+}
+
+/**
+ * The descriptor to print for the variant in view.
+ *
+ * A plain `delf` is returned whatever the level, which is every page but the
+ * few that serve several. A record with no entry for `level` falls back to the
+ * lesson's first level, matching `progressKey`'s own fallback so the line under
+ * the title and the tick beneath the page cannot disagree about which variant
+ * this is.
+ */
+export function delfFor(lesson: Lesson, level: Level | null): string | undefined {
+  const { delf } = lesson;
+  if (delf === undefined || typeof delf === "string") return delf;
+  const variant = level && lesson.levels.includes(level) ? level : lesson.levels[0];
+  return variant ? delf[variant] : undefined;
 }
 
 export function findChapter(routePath: string): Chapter | null {

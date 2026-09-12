@@ -212,6 +212,74 @@ and it breaks silently.
 - **Options carry no final full stop** — they are quoted back inside guillemets.
 - **The last question may be about the language** rather than the plot: the cheapest bridge there is
   to a grammar lesson.
+- **No markdown in a question, an option or a `because`.** They are rendered as plain text, so
+  `*mot*` prints its asterisks. Emphasis is guillemets, like everywhere else in the course.
+
+#### One text, a question set per level
+
+A text can serve several levels: the same reading, the same vocabulary table, the same tick, and a
+harder question (`docs/decisions.md` #59, #68). `lecture/le-comte-de-monte-cristo` is the worked
+example.
+
+- **The sets live in `questions.ts` beside `page.tsx`**, exported as `SETS`, with `quiz.tsx` reduced
+  to `<Comprehension sets={SETS} />`. That file must import **types only**, so the `nav-wiring`
+  audit can read it without loading a client component.
+- **Its keys and the manifest's `levels` must match**, and the audit's fifth line is what says so.
+  The manifest wins where they differ, which means a level tagged with no set behind it shows
+  another level's questions rather than failing.
+- **The harder set asks more of the same page, never more pages.** A word read from its context
+  instead of from the table, an adverb that judges the speaker, a cut sentence to reconstruct, a
+  compliment given back as an insult. Every answer is still on the page and every wrong option is
+  still something the text *contradicts*.
+- **Not every text can carry a harder set honestly.** Eighteen lines of La Fontaine hold a finite
+  number of answerable questions, and past them a "B1 set" is trivia or literary analysis the page
+  never prepared. Tag the lesson for the levels it can actually serve.
+- **The page's prose around the quiz must not count the questions** — two sets will not agree on a
+  number, and « Sept questions » over six is the trap §9 already records.
+- **`delf` takes a descriptor per level** — `{ A2: '…', B1: '…' }` — because it is a claim about
+  what the questions check. `LessonDelf`, a client leaf inside `PageHeader`, follows the picker;
+  `<meta name="description">` cannot, and publishes the first level's.
+
+#### Checking a set before you call it done
+
+Nothing in `npm run build` reads a question. Run this, and read the count as well as the verdict —
+a check that silently matches nothing reports clean (`AGENTS.md` §9):
+
+```bash
+node --experimental-strip-types --input-type=module -e "
+import { readdirSync, existsSync } from 'node:fs'
+let files = 0, items = 0
+const bad = []
+for (const d of readdirSync('src/app/lecture')) {
+  const f = './src/app/lecture/' + d + '/questions.ts'
+  if (!existsSync(f)) { bad.push(d + ': no questions.ts'); continue }
+  files++
+  const { SETS } = await import(f)
+  for (const [level, qs] of Object.entries(SETS)) {
+    if (!Array.isArray(qs) || qs.length === 0) { bad.push(d + '/' + level + ': empty set'); continue }
+    for (const q of qs) {
+      items++
+      const at = d + '/' + level + ' ' + q.question.slice(0, 36)
+      if (!Number.isInteger(q.answer) || q.answer < 0 || q.answer >= q.options.length) bad.push(at + ': answer out of range')
+      if (q.options.length < 2 || q.options.length > 4) bad.push(at + ': ' + q.options.length + ' options')
+      if (new Set(q.options).size !== q.options.length) bad.push(at + ': duplicate options')
+      if (!q.because || q.because.length < 20) bad.push(at + ': because too short')
+      for (const t of [q.question, q.because, ...q.options]) {
+        if (/[*_]/.test(t)) bad.push(at + ': markdown character in rendered text')
+        if (/[\p{L}\p{N}] — /u.test(t)) bad.push(at + ': em dash used as prose punctuation')
+      }
+    }
+  }
+}
+console.log('files checked:', files, '/ questions checked:', items)
+console.log('problems:', bad.length ? bad : 'none')
+"
+```
+
+It catches the mechanical faults only. **The two it cannot see are the ones that matter**: an option
+the text does not actually contradict, and a B1 question that only restates its A2 neighbour. Read
+the A2 set before writing the B1 one, every time — three of the nine had to be rewritten because
+that step was skipped.
 
 ### Culture — the only pages with photographs
 

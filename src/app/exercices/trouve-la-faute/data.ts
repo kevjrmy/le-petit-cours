@@ -1,3 +1,5 @@
+import type { Level } from "@/data/navigation";
+
 /**
  * « Trouvez la faute » — dix phrases, une seule faute dans chacune.
  *
@@ -11,20 +13,31 @@
  * serve jamais : une pastille qui n'est jamais la réponse serait un piège, et
  * un piège se déclare.
  *
- * **Vérification : on effectue la substitution et on relit les dix phrases.**
+ * **Un lot par niveau** (`docs/decisions.md` #68), et chacun a ses propres
+ * pastilles : la mécanique ne change pas, les paires montent. A2 prend les cinq
+ * de la leçon ; B1 en prend cinq que la leçon nomme sans les détailler, ou
+ * auxquelles son test de remplacement s'applique tel quel. C'est bien la même
+ * compétence : reconnaître laquelle des deux formes la phrase demande.
+ *
+ * **Vérification : on effectue la substitution et on relit chaque phrase.**
  * Une faute de lecture ne se voit pas dans les données, seulement dans la
  * phrase corrigée (`.claude/agents/exercise-author.md`).
  *
- *   npx tsx -e "
- *   import { items, FIXES } from './src/app/exercices/trouve-la-faute/data'
- *   items.forEach((it, i) => {
- *     const fixed = it.words.map((w, j) => (j === it.badIndex ? it.fix : w))
- *     console.log(String(i + 1).padStart(2), fixed.join(' '))
- *     if (!FIXES.includes(it.fix)) console.log('   !! correction absente du choix :', it.fix)
- *     if (it.words[it.badIndex] === it.fix) console.log('   !! le mot fautif est déjà la correction')
- *     if (it.badIndex < 0 || it.badIndex >= it.words.length) console.log('   !! badIndex hors phrase')
- *   })
- *   console.log(items.length, 'phrases,', new Set(items.map(i => i.fix)).size, 'corrections distinctes sur', FIXES.length)"
+ *   node --experimental-strip-types --input-type=module -e "
+ *   import { BANKS } from './src/app/exercices/trouve-la-faute/data.ts'
+ *   for (const [level, { items, fixes }] of Object.entries(BANKS)) {
+ *     console.log('--', level)
+ *     items.forEach((it, i) => {
+ *       const fixed = it.words.map((w, j) => (j === it.badIndex ? it.fix : w))
+ *       console.log(String(i + 1).padStart(2), fixed.join(' '))
+ *       if (!fixes.includes(it.fix)) console.log('   !! correction absente du choix :', it.fix)
+ *       if (it.words[it.badIndex] === it.fix) console.log('   !! le mot fautif est deja la correction')
+ *       if (it.badIndex < 0 || it.badIndex >= it.words.length) console.log('   !! badIndex hors phrase')
+ *     })
+ *     const used = new Set(items.map(i => i.fix))
+ *     console.log(items.length, 'phrases,', used.size, 'corrections distinctes sur', fixes.length)
+ *     for (const f of fixes) if (!used.has(f)) console.log('   !! pastille jamais correcte :', f)
+ *   }"
  */
 export interface FaultItem {
   /** The sentence, one clickable token per entry. Punctuation stays attached. */
@@ -43,7 +56,7 @@ export interface FaultItem {
  * forme dans le tableau qu'elle a appris, au lieu d'éliminer trois leurres
  * tirés au sort.
  */
-export const FIXES = [
+const FIXES_A2 = [
   "a",
   "à",
   "et",
@@ -56,7 +69,7 @@ export const FIXES = [
   "sont",
 ] as const;
 
-export const items: FaultItem[] = [
+const ITEMS_A2: FaultItem[] = [
   {
     words: ["Elle", "a", "fini", "son", "travail", "et", "elle", "est", "rentrée", "a", "la", "maison."],
     badIndex: 9,
@@ -119,3 +132,126 @@ export const items: FaultItem[] = [
     because: "« mon père était ma mère » n’a pas de sens : ici le mot relie deux sujets, c’est « et ».",
   },
 ];
+
+/**
+ * B1 : cinq paires que la leçon nomme sans les détailler, ou qui tombent sous
+ * son test de remplacement sans qu'il faille rien apprendre de neuf.
+ *
+ * **Chaque phrase tranche elle-même.** Un homophone se défend presque toujours
+ * dans l'absolu — « ces clés » et « ses clés » sont deux phrases françaises —
+ * donc chaque item porte ce qui décide : un « -là » qui appelle le
+ * démonstratif, un possesseur que la phrase ne nomme pas, un féminin qui
+ * s'entend. Sans cela l'item aurait deux réponses défendables, ce qui est un
+ * item cassé (`AGENTS.md` §9).
+ *
+ * Deux phrases portent aussi un exemplaire **correct** du mot, comme en A2 :
+ * c'est là qu'est la difficulté.
+ */
+const FIXES_B1 = [
+  "ce",
+  "se",
+  "ces",
+  "ses",
+  "la",
+  "là",
+  "peu",
+  "peut",
+  "près",
+  "prêt",
+] as const;
+
+const ITEMS_B1: FaultItem[] = [
+  {
+    words: ["Il", "ce", "lève", "à", "six", "heures", "tous", "les", "matins."],
+    badIndex: 1,
+    fix: "se",
+    because:
+      "On remplace par « cela » : « cela lève à six heures » ne se dit pas. Devant un verbe, c’est « se ».",
+  },
+  {
+    words: ["Je", "n’ai", "pas", "du", "tout", "aimé", "se", "livre."],
+    badIndex: 6,
+    fix: "ce",
+    because:
+      "« Se » accompagne toujours un verbe. Devant un nom, on écrit « ce » : on pourrait dire « je n’ai pas aimé celui-ci ».",
+  },
+  {
+    words: ["Regarde", "ses", "arbres-là,", "ils", "ont", "plus", "de", "cent", "ans."],
+    badIndex: 1,
+    fix: "ces",
+    because:
+      "« -là » appelle le démonstratif : ces arbres-là, ceux-là. « Ses » supposerait un propriétaire, et la phrase n’en nomme aucun.",
+  },
+  {
+    words: ["Il", "est", "parti", "sans", "prévenir", "ces", "parents."],
+    badIndex: 5,
+    fix: "ses",
+    because:
+      "Ce sont les parents de lui : « les siens ». « Ces parents » renverrait à des parents déjà nommés, et il n’y en a pas.",
+  },
+  {
+    words: ["Elle", "ne", "peu", "pas", "venir", "avant", "huit", "heures."],
+    badIndex: 2,
+    fix: "peut",
+    because:
+      "On remplace par « pouvait » : « elle ne pouvait pas venir » se dit. C’est le verbe pouvoir, donc « peut ».",
+  },
+  {
+    words: ["Il", "reste", "très", "peut", "de", "pain."],
+    badIndex: 3,
+    fix: "peu",
+    because:
+      "« Très pouvait de pain » ne veut rien dire. Après « très », c’est l’adverbe de quantité : « peu ».",
+  },
+  {
+    words: ["Le", "repas", "est", "près", "dans", "cinq", "minutes."],
+    badIndex: 3,
+    fix: "prêt",
+    because:
+      "On le met au féminin pour entendre la différence : « la table est prête ». « Près » ne change jamais et dit la distance.",
+  },
+  {
+    words: ["La", "boulangerie", "est", "tout", "prêt", "de", "chez", "moi."],
+    badIndex: 4,
+    fix: "près",
+    because:
+      "« Tout près de » dit la distance. « Prêt » se construit avec « à » et jamais avec « de » : on est prêt à partir, près de la gare.",
+  },
+  {
+    words: ["Posez", "les", "valises", "la", "et", "fermez", "la", "porte."],
+    badIndex: 3,
+    fix: "là",
+    because:
+      "Ce mot-ci dit le lieu : on peut le remplacer par « ici ». Le second « la » est l’article de « la porte » et reste sans accent.",
+  },
+  {
+    words: ["Je", "là", "vois", "tous", "les", "jours", "à", "la", "gare."],
+    badIndex: 1,
+    fix: "la",
+    because:
+      "Ici le mot remplace une personne : « je vois Marie » devient « je la vois ». C’est le pronom, sans accent.",
+  },
+];
+
+export interface FaultBank {
+  items: FaultItem[];
+  /** Les pastilles proposées, dans un ordre stable. */
+  fixes: readonly string[];
+}
+
+/**
+ * Les lots, par niveau. **Les clés doivent être exactement les `levels` de la
+ * leçon dans le manifeste**, et l'audit de `nav-wiring` ne vérifie que cela.
+ */
+export const BANKS: Partial<Record<Level, FaultBank>> = {
+  A2: { items: ITEMS_A2, fixes: FIXES_A2 },
+  B1: { items: ITEMS_B1, fixes: FIXES_B1 },
+};
+
+/** Le lot du niveau regardé, ou le premier écrit si ce niveau n'en a pas. */
+export function bankFor(level: Level | null): FaultBank {
+  return (
+    (level ? BANKS[level] : undefined) ??
+    Object.values(BANKS)[0] ?? { items: [], fixes: [] }
+  );
+}

@@ -2,7 +2,7 @@
   "name": "le-petit-cours",
   "version": "0.1.0",
   "private": true,
-  "description": "A free, open French course for Spanish speakers — an offline-capable PWA teaching A2 French, with everything explained in Spanish.",
+  "description": "A free, open French course for Spanish speakers — an offline-capable PWA teaching A2 French, explained in French.",
   "license": "MIT",
   "author": "kevjrmy (https://github.com/kevjrmy)",
   "repository": {

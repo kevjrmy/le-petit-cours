@@ -11,9 +11,11 @@ being built and for whom.
 The long-term ambition is the full CEFR ladder. The scope is **A1 and A2**, and the course starts
 with **A2 alone** — sized to the DELF A2 syllabus rather than to however many lessons exist.
 The course has one learner and she is at A2 (below), so A1 is the level with no reader waiting;
-it keeps its place in the plan and has no page. B1 through C2 are declared as levels, cannot be
-chosen and have no content. That is a deliberate limit, not a gap to be quietly filled — an
-unbounded A1→C2 project never finishes a level.
+it keeps its place in the plan and has no page. B1 is declared, **cannot be chosen**, and now has
+its first content: the nine `lecture` texts each carry a harder question set reached from a picker
+on the page, not from a level (`docs/decisions.md` #68). C1 and C2 are declared and empty. That is
+a deliberate limit, not a gap to be quietly filled — an unbounded A1→C2 project never finishes a
+level, and B1 joins `CHOOSABLE_LEVELS` when it has a course behind it rather than a chapter.
 
 Nothing announces what is unwritten: a lesson appears in the interface in the commit that creates
 it, and until then its chapter is simply not offered (`docs/decisions.md` #51, #52).

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { LessonId } from "@/data/navigation";
+import type { Lesson, Level } from "@/data/navigation";
 import { useProgress } from "@/hooks/useProgress";
 import styles from "./DoneTick.module.css";
 
@@ -17,10 +17,12 @@ import styles from "./DoneTick.module.css";
  * of a page is not finishing it, and a drill scored at 50 % is not a finished
  * lesson either. Do not make this component clever.
  *
- * **Two props, and they are not the same thing.** `id` is what the tick is
- * stored under — the lesson's permanent name, so a page that is later renamed
- * keeps its ticks (`docs/decisions.md` #50). `path` is only where to come back
- * to after signing in, which has to be a URL.
+ * **Three props, and they are not the same thing.** `lesson` is what the tick is
+ * stored under — the manifest entry, whose permanent id means a page that is
+ * later renamed keeps its ticks (`docs/decisions.md` #50). `level` is which
+ * variant of it she is looking at, and matters only for a page that carries
+ * several; `progressKey` ignores it for every other page. `path` is only where
+ * to come back to after signing in, which has to be a URL.
  *
  * Signed out it is a link to `/compte`, carrying where to come back to. It is
  * not disabled and it is not hidden: the learner should be able to see what an
@@ -29,8 +31,16 @@ import styles from "./DoneTick.module.css";
  * second copy under every lesson was the pitch made fourteen times a day to
  * someone who has already decided.
  */
-export function DoneTick({ id, path }: { id: LessonId; path: string }) {
-  const { state, signedIn, isDone, toggle } = useProgress();
+export function DoneTick({
+  lesson,
+  level,
+  path,
+}: {
+  lesson: Lesson;
+  level: Level | null;
+  path: string;
+}) {
+  const { ready, signedIn, isDone, toggle } = useProgress();
 
   if (!signedIn) {
     return (
@@ -46,7 +56,7 @@ export function DoneTick({ id, path }: { id: LessonId; path: string }) {
     );
   }
 
-  const done = isDone(id);
+  const done = isDone(lesson, level);
 
   return (
     <aside className={styles.tick}>
@@ -55,9 +65,9 @@ export function DoneTick({ id, path }: { id: LessonId; path: string }) {
         className={`button ${styles.control} ${done ? styles.controlDone : ""}`}
         /* Until the cache has answered, the state on screen is not yet known to
            be right — clicking would toggle from a guess. */
-        disabled={state === null}
+        disabled={!ready}
         aria-pressed={done}
-        onClick={() => toggle(id)}
+        onClick={() => toggle(lesson, level)}
       >
         <Mark done={done} />
         {done ? "Leçon terminée" : "J’ai terminé"}

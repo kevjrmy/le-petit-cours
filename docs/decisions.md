@@ -76,6 +76,7 @@ than marking it superseded.
 | 65 | 2026-09-12 | The lesson's level rides in the trail, in front of the chapter | Binding |
 | 66 | 2026-09-12 | Sections are marked, not merely spaced; the in-page index is read from the page | Binding |
 | 67 | 2026-09-12 | « En résumé » is a titled block, and one line closes a lesson | Binding |
+| 68 | 2026-09-12 | A tick names its level only when the lesson serves more than one | Binding |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -313,7 +314,7 @@ to keep, not a coincidence — **a feature that genuinely needs a real secret is
 here first**, not one to acquire by accident.
 
 ## 22 · A progress row *is* the tick; the level never keys progress
-**2026-09-05 · Binding**
+**2026-09-05 · Binding · narrowed by #68**
 
 `(user_id, lesson_id)` and a `marked_at`, nothing else. Marking inserts a row; unmarking deletes it.
 **No `done` column**, because a row's existence already says it, and **no score column**, because
@@ -1250,3 +1251,97 @@ lessons shipped that way and were caught in a screenshot, not in review.
 **One line closes the lesson.** The tick drew a rule and the cross-links drew another, centimetres
 apart with a button between them. It is on `LessonEnd` now, once, above the tick: the lesson ends
 where the shell's furniture begins (#49).
+
+## 68 · A tick names its level only when the lesson serves more than one
+**2026-09-12 · Binding · narrows #22**
+
+`public.progress` gained a `level` column, and the key a tick is stored under is
+`progressKey(lesson, level)` in `src/lib/progress/store.ts`: the bare `Lesson.id` for a page serving
+one level or none, `id@LEVEL` for a page serving several.
+
+**#22 is narrowed, not overturned, and the sentence that survives is the one that matters**: a
+learner must be able to drop a level and climb back without losing anything. What #22 rejects is
+recording the learner's *ambient setting* on every row — tick an A2 page while set to B1 and the row
+says B1, drop back and the tick is gone. This column is a different claim. It names **which variant
+of the page was finished**, chosen from the lesson's own `levels`, so it is a property of the work
+exactly as `lesson_id` is, and never of the learner. A single-level page still keeps one tick, so
+changing level still costs nothing.
+
+**The rule is `levels.length > 1`, and it is derived rather than listed.** One level and the page
+already carries it — storing it would write a constant. `[]` and the page belongs to no level on
+purpose (a verb sheet, a culture page), so a per-level tick would invent a distinction the content
+does not have; this is what answers "conjugaison is the same at every level" without a hand-kept
+list of chapters to fall out of date. Two or more and the page holds two or more bodies of work — a
+`lecture` text with a question set per level, an `exercices` drill with an item bank per level — and
+one tick cannot report both: a learner who read a text at A2 and later moved to B1 would find the B1
+questions already ticked.
+
+**Chosen against a second route per level.** `/lecture/le-lion-et-le-rat/b1` would duplicate the
+text, the id and the tick to vary the questions, which is the failure #14 rejects for parcours and
+#23 rejects for levels. The variant is a property of the work done on one page, so it belongs in the
+key, not in the URL.
+
+**The global key is byte-identical to what it was**, which is why this shipped without touching
+data: every existing row takes the column's `''` default, and every record in the IndexedDB cache
+and every queued offline operation stays readable. Nothing was backfilled and `CACHE_VERSION` did
+not move.
+
+**The ticks left `ProgressApi` in the same change, and that is the load-bearing half.** `state` was
+a plain `Record<string, string>` and two of its three consumers indexed it by hand — `lesson.id in
+state` in `Progression`, `lesson.id in ticks` in `ChapterLessons`. Both were correct only while the
+key was the bare id, and both would have gone on compiling and started reading another variant's
+tick. The record is now private and every question is a function taking the lesson **and a required
+level**, so a page that grows a variant cannot leave a call site quietly reading the wrong one.
+
+**Two columns, not a composite id.** The `@` is a JavaScript map-key separator and never reaches
+Postgres: `progress_lesson_id_shape` would reject it, and keeping the level in its own column is
+what lets that constraint stand and keeps the table as ignorant of the course as #22 wants it.
+`level`'s own check is a shape — `'' or ^[ABC][12]$` — not the list of levels this course offers.
+
+**The unmark is the line that had to be right.** Deleting on `lesson_id` alone removes every variant
+of that lesson, so unticking a B1 reading would take the A2 tick with it, inside a background sync,
+with no error anywhere. `remote.ts` groups the removals by level and filters on both columns.
+
+**The variant in view is shell state, and `?niveau=b1` was tried first and dropped.** Two things
+have to agree about which set she is doing — the questions, and the tick beneath them — and the URL
+was the obvious shared source: one hook, shareable links, reset by navigation for free. It cannot be
+used. Reading it needs `useSearchParams`, and a component that calls it renders its nearest Suspense
+fallback into the **prerendered** HTML rather than its own output; with the boundary anywhere that
+covers both consumers, every lesson would ship a placeholder as its static page and fill itself in
+on the client. That is the offline story, traded for a shareable link. `LessonVariantProvider` holds
+the choice instead, tagged with the path it was made on so navigation drops it without an effect,
+and the picker sets it the way the theme toggle sets a theme the whole shell reads — nothing flows
+upward out of a page.
+
+**`exercices` followed, and it is what proved the rule was about the mechanic.** A sorting board is
+a sorting board whether the chips read *aller* or *monter dans le train*, so both drills took a
+second bank rather than a second page — `data.ts` exports `BANKS`, `drill.tsx` keys the board on the
+level, and the remount *is* the reset: a deck, its placements, its score and its « vérifié » flag
+belong together, and threading a reset through four setters loses whichever one you forget, as a
+board scored against the other level's answers. The chapters that got nothing are the honest half of
+the same rule: a B1 `grammaire` lesson is a new page, a harder dictée is a different text, and a
+verb sheet has no level at all.
+
+**The two lists that must agree are checked.** A page's per-level sets and its manifest `levels` are
+written in different files, and the manifest wins where they differ — so a level tagged with no set
+behind it would show another level's questions rather than fail. The sets therefore live in a module
+of type-only imports beside the page — `questions.ts` for a quiz, `data.ts` for a drill — which
+plain `node` can read, and the `nav-wiring` audit grew a fifth line comparing them. It reports both
+directions: keys that disagree, and a lesson tagged for several levels with no such module at all.
+Both directions were broken on purpose and watched to fail before the line was believed.
+
+**All nine `lecture` texts now carry both sets**, and the chapter is the proof that the shape holds:
+a set per level is worth building only where the stimulus is level-independent and the *task*
+scales. It did not hold everywhere by default — the A2 set had to be read first each time, because a
+B1 question that merely restates an A2 one teaches nothing, and three had to be rewritten for
+exactly that. **`delf` became a descriptor per level in the same change**: it is a claim about what
+the questions check, so one string could not serve both, and `PageHeader` handed the line to a
+client leaf rather than becoming a client component itself.
+
+**`lecture/le-comte-de-monte-cristo` was the first page to use it** — chosen because the extract
+already turns on what nobody says (Morrel asking after his cargo before his dead captain, Danglars
+handing a compliment back as an insult), so both levels read the same seven hundred words and only
+the question changes. **It does not make B1 choosable**: `CHOOSABLE_LEVELS` is still A2 alone (#52),
+so the B1 set is reached from the picker rather than by working at B1 — which is what lets the
+machinery be exercised before a B1 course exists to put behind it.
+

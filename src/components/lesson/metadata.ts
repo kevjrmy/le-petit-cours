@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { findLesson } from "@/data/navigation";
+import { delfFor, findLesson } from "@/data/navigation";
 
 /**
  * A lesson's `<title>` and description, read from the manifest.
@@ -13,8 +13,13 @@ export function lessonMetadata(path: string): Metadata {
   if (!found) return {};
 
   const { chapter, lesson } = found;
+  /* The lesson's first level, because a `<meta>` description is written once
+     for a URL and cannot follow a picker the way the line under the title does
+     (`docs/decisions.md` #68). The page's lowest claim is the honest one to
+     publish: what it offers everyone who opens it. */
+  const delf = delfFor(lesson, null);
   return {
     title: lesson.title,
-    description: lesson.delf ?? `${lesson.title} : ${chapter.title}`,
+    description: delf ?? `${lesson.title} : ${chapter.title}`,
   };
 }

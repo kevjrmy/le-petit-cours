@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
 import { shuffle } from "@/lib/shuffle";
-import { verbs, type VerbItem } from "./data";
+import type { Level } from "@/data/navigation";
+import { bankFor, type VerbItem } from "./data";
 import styles from "./drill.module.css";
 
 type Column = "etre" | "avoir";
@@ -41,8 +42,12 @@ const COLUMNS: { key: Column; label: string; hint: string }[] = [
  * the two sides different decks and React throws a hydration error. `drill.tsx`
  * loads it with `ssr: false` — see the note there.
  */
-export function Board() {
-  const [deck, setDeck] = useState<VerbItem[]>(() => shuffle(verbs));
+export function Board({ level }: { level: Level | null }) {
+  /* Read once. `drill.tsx` remounts this component when the level changes, so
+     the initialiser below runs again with the new bank and every bit of state
+     that belonged to the old deck goes with it (`docs/decisions.md` #68). */
+  const bank = bankFor(level);
+  const [deck, setDeck] = useState<VerbItem[]>(() => shuffle(bank));
   const [placed, setPlaced] = useState<Placed>({});
   const [checked, setChecked] = useState(false);
   const [finished, setFinished] = useState(false);
@@ -63,7 +68,7 @@ export function Board() {
   }
 
   function restart() {
-    setDeck(shuffle(verbs));
+    setDeck(shuffle(bank));
     setPlaced({});
     setChecked(false);
     setFinished(false);
@@ -105,7 +110,7 @@ export function Board() {
         Cliquez sur un verbe pour le déplacer : d’abord vers{" "}
         <span className="fr">être</span>, puis vers{" "}
         <span className="fr">avoir</span>, puis de nouveau dans la réserve.
-        Classez les seize verbes, puis vérifiez.
+        Classez les {deck.length} verbes, puis vérifiez.
       </Instructions>
 
       <Meter value={sorted} max={deck.length} label="Verbes classés" />

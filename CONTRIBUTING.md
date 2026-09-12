@@ -78,10 +78,17 @@ These come from the audience, and a change that breaks one will be asked to chan
 - **Every lesson declares its `levels`** in `src/data/navigation.ts`, and `[]` is how you say "no
   level, always visible". An omitted field is a type error on purpose: forgetting to tag a page
   and deciding it needs no tag must not look the same in a diff.
+- **A lesson tagged for several levels owes one body of work per level**, in a module beside the
+  page — `questions.ts` exporting `SETS` for a reading quiz, `data.ts` exporting `BANKS` for a
+  drill. Its keys and the `levels` above must match: the manifest wins where they differ, so a
+  level tagged with nothing behind it quietly serves another level's material. The navigation
+  audit is the only thing that reports it.
 - **Every lesson declares an `id`, and it is permanent.** It is the key a learner's « J'ai terminé »
   is stored under, so a page can be renamed, moved or given a better URL freely — but changing its
   `id` erases that lesson from everyone's history with nothing failing anywhere. Choose it once,
-  in the shape `chapitre-nom` (`gram-articles`, `ex-pluriel`), and leave it alone.
+  in the shape `chapitre-nom` (`gram-articles`, `ex-pluriel`), and leave it alone. A page serving
+  several levels keeps one tick **per level**, since it holds a level's work per level; every other
+  page keeps exactly one, under the bare `id`.
 - **No copyrighted text.** Reading pages use public-domain works or original writing. Song pages
   quote short excerpts for commentary and never a full lyric sheet. Images must be CC0, public
   domain, CC BY or CC BY-SA, credited individually with author, link and licence, and stored
