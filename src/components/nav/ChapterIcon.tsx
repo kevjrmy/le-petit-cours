@@ -34,26 +34,31 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M12 7c1.6-1.4 4.3-2 8-1.6v12.6c-3.7-.4-6.4.2-8 1.6" />
     </>
   ),
-  /* A paradigm table: header row, first column. */
+  /* A paradigm table: a header row, the persons down one side, the forms
+     beside them. One rule and one column short of this it read as the layout
+     glyph — a panel with a sidebar, which is what the app itself looks like. */
   conjugaison: (
     <>
       <rect x="3.5" y="4.5" width="17" height="15" rx="2" />
-      <path d="M3.5 9.5h17M9.5 9.5v10" />
+      <path d="M3.5 9h17M12 9v10.5M3.5 14.25h17" />
     </>
   ),
-  /* A letter and a tick — spelling checked. */
+  /* A letter and a tick — spelling checked. Both stand on one baseline: the
+     tick used to hang below the A's feet, where it read as a subscript. */
   orthographe: (
     <>
-      <path d="M3.5 14 7 4l3.5 10" />
-      <path d="M4.7 11.2h4.6" />
-      <path d="M13 15.5l3 3 5-6" />
+      <path d="M3 15.5 6.75 5.5l3.75 10" />
+      <path d="M4.4 12.3h4.7" />
+      <path d="M13 11.6l2.7 2.9 5.3-6" />
     </>
   ),
-  /* Two cards, one behind the other: a word and its translation. */
+  /* A tag: a word tied to the thing it names. Two offset cards were meant to
+     be flashcards and drew the copy glyph every operating system already owns,
+     so the row said « duplicate » where it meant « words ». */
   vocabulaire: (
     <>
-      <path d="M7.5 8.5V6a1.5 1.5 0 0 1 1.5-1.5h9A1.5 1.5 0 0 1 19.5 6v9a1.5 1.5 0 0 1-1.5 1.5h-2.5" />
-      <rect x="4.5" y="8.5" width="11" height="11" rx="1.5" />
+      <path d="M11.4 4h6.2a2.4 2.4 0 0 1 2.4 2.4v6.2a2 2 0 0 1-.59 1.41l-5.4 5.4a2 2 0 0 1-2.83 0l-6.4-6.4a2 2 0 0 1 0-2.83l5.4-5.4A2 2 0 0 1 11.4 4Z" />
+      <circle cx="16.6" cy="7.4" r="1.25" />
     </>
   ),
   /* A bulb: the thing you remember instead of the rule. */
@@ -92,16 +97,20 @@ const PATHS: Record<IconName, React.ReactNode> = {
   conversation: (
     <path d="M6 4.5h12A2.5 2.5 0 0 1 20.5 7v7a2.5 2.5 0 0 1-2.5 2.5h-6l-4.5 3.5v-3.5H6A2.5 2.5 0 0 1 3.5 14V7A2.5 2.5 0 0 1 6 4.5Z" />
   ),
-  /* A letter, an arrow, and the lines it becomes: one text turned into another.
-     Letter-based on purpose — the two-arrow swap every app uses for "translate"
-     reads as "sync" here, next to a chapter about writing. */
+  /* A text and where it is going: three lines for the source, an arrow out of
+     it — this chapter gives her a text and asks for it back in French. The
+     lines sit 4.5 units apart because 3.5 closes up at the 19px the sidebar
+     actually draws them at.
+
+     The three shapes it is not: the two-arrow swap reads as "sync" beside a
+     chapter about writing; a letter plus an arrow plus the lines it becomes
+     packed five strokes into 24 units and came out a smudge; and a bar, an
+     arrow down and a second bar is the download glyph exactly. */
   traduction: (
     <>
-      <path d="M3.5 12.5 6.25 5.5 9 12.5" />
-      <path d="M4.6 10.2h3.3" />
-      <path d="M12 9h7.5" />
-      <path d="M17 6.5 19.5 9 17 11.5" />
-      <path d="M12 14.5h8M12 18h5.5" />
+      <path d="M3.5 7.5h8M3.5 12h5.5M3.5 16.5h8" />
+      <path d="M13.5 12h7" />
+      <path d="M17.6 9 20.6 12l-3 3" />
     </>
   ),
   /* A page with text on it — a text to read, not a book to study. */

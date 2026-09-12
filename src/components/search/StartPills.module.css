@@ -18,7 +18,8 @@
 .pill {
   display: inline-flex;
   align-items: center;
-  padding: 0.42rem 0.75rem;
+  gap: 0.35rem;
+  padding: 0.42rem 0.7rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface-1);
@@ -28,6 +29,14 @@
   white-space: nowrap;
   transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease,
     color var(--dur-fast) ease;
+}
+
+/* Smaller than the 1.35em the sidebar's rows give it: there the mark is the
+   whole of the row in the rail, here it stands beside a label that is never
+   hidden, and at 1.35em five icons cost the row its single line. */
+.pill svg {
+  width: 1.05em;
+  height: 1.05em;
 }
 
 .pill:hover {

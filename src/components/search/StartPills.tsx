@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { featuredChapters } from "@/data/navigation";
+import { ChapterIcon } from "@/components/nav/ChapterIcon";
 import styles from "./StartPills.module.css";
 
 /**
@@ -17,10 +18,14 @@ export function StartPills() {
     <nav className={styles.pills} aria-label="Par où commencer">
       {featuredChapters().map((chapter) => (
         <Link key={chapter.slug} href={chapter.path} className={styles.pill}>
+          <ChapterIcon name={chapter.icon} />
           {chapter.shortTitle ?? chapter.title}
         </Link>
       ))}
+      {/* The sommaire's own mark, the one the sidebar gives it — the last pill
+          is a destination like the others, not a button. */}
       <Link href="/sommaire" className={`${styles.pill} ${styles.all}`}>
+        <ChapterIcon name="sommaire" />
         Tout le cours
       </Link>
     </nav>
