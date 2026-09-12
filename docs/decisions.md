@@ -28,25 +28,25 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 16 | 2026-09-05 | Instruction in Spanish for the learner track, French for the heritage track | Superseded by #53 |
 | 17 | 2026-09-05 | Collaboration means curated teachers contributing content — later, and not student management | Directional |
 | 18 | 2026-09-05 | All content is public; an account is required to track progress | Binding |
-| 19 | 2026-09-05 | Supabase Auth, email magic link — not Clerk | Binding |
+| 19 | 2026-09-05 | Supabase Auth, email magic link — not Clerk | Magic-link half superseded by #37 |
 | 20 | 2026-09-05 | Supabase provisioned directly, not through the Vercel Marketplace integration | Binding |
 | 21 | 2026-09-05 | No key that bypasses RLS lives in the deployment environment | Binding |
-| 22 | 2026-09-05 | An account stores the tick and the chosen level — no scores; level never keys progress | Keying half superseded by #50 |
+| 22 | 2026-09-05 | An account stores the tick and the chosen level — no scores; level never keys progress | Storage half superseded by #36, keying half by #50 |
 | 23 | 2026-09-05 | A lesson carries a set of levels; the learner's level is required and filters the book | Binding |
-| 24 | 2026-09-05 | IndexedDB is the local store; `localStorage` keeps only the theme | Binding |
+| 24 | 2026-09-05 | IndexedDB is the local store; `localStorage` keeps only the theme | Widened by #42 — two `localStorage` jobs |
 | 25 | 2026-09-05 | A1 first, written from scratch, sized to the DELF A1 syllabus | A1-first half superseded by #52 |
-| 26 | 2026-09-05 | Sign-in lives at `/compte`, with a route handler at `/auth/callback` | Binding |
+| 26 | 2026-09-05 | Sign-in lives at `/compte`, with a route handler at `/auth/callback` | Callback half superseded by #37 |
 | 27 | 2026-09-05 | The palette anchors on the wordmark blue; serif carries the French, sans the instruction | Binding |
 | 28 | 2026-09-05 | The app icon is one letter of the wordmark, generated from it, never hand-drawn | Binding |
 | 29 | 2026-09-05 | The shell derives from the manifest: one generated chapter route, no icon field | Icon half superseded by #42 |
 | 30 | 2026-09-05 | The shell follows the claude.ai pattern: account at the foot of the sidebar, theme three-way | Binding |
-| 31 | 2026-09-05 | An account may hold an optional display name — the one thing added to #22 | Binding |
-| 32 | 2026-09-05 | The session is read once, by a provider inside the shell; the name is updated, never upserted | Binding |
-| 33 | 2026-09-05 | Sign-in is a magic link through `/auth/callback`; no session-refresh proxy is needed | Binding |
-| 34 | 2026-09-05 | Choosing a level is what creates the settings row; everything else about a learner hangs off it | Binding |
+| 31 | 2026-09-05 | An account may hold an optional display name — the one thing added to #22 | Storage half superseded by #36 |
+| 32 | 2026-09-05 | The session is read once, by a provider inside the shell; the name is updated, never upserted | Storage half superseded by #36 |
+| 33 | 2026-09-05 | Sign-in is a magic link through `/auth/callback`; no session-refresh proxy is needed | Magic-link half superseded by #37; the no-proxy half stands |
+| 34 | 2026-09-05 | Choosing a level is what creates the settings row; everything else about a learner hangs off it | Storage half superseded by #36 |
 | 35 | 2026-09-05 | Every listing obeys the level; the unfiltered book is what ships and hydration narrows it | Binding |
-| 36 | 2026-09-06 | One table. The learner's settings live in the account's user metadata, not in a table of ours | Binding |
-| 37 | 2026-09-06 | Sign-in is a username and a password; no magic link, no mail, no server session | Binding |
+| 36 | 2026-09-06 | One table. The learner's settings live in the account's user metadata, not in a table of ours | One-table half reversed by #38 |
+| 37 | 2026-09-06 | Sign-in is a username and a password; no magic link, no mail, no server session | « No email anywhere » superseded by #38 |
 | 38 | 2026-09-06 | The username is its own table — unique, mutable, mirrored into the session | Binding |
 | 39 | 2026-09-06 | The home page is a search field and pills; the sommaire moves to `/sommaire` | Binding |
 | 40 | 2026-09-06 | The sidebar is one level deep: a chapter is a link to its page, not a disclosure | Binding |
