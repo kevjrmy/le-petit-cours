@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { listedChapters, treeAnnexes, visibleLessons, type TreeAnnexe } from "@/data/navigation";
+import { listedChapters, treeAnnexes, type TreeAnnexe } from "@/data/navigation";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
 import { useAccount } from "@/hooks/useAccount";
 import { useRestoreRail } from "@/hooks/useShellMode";
@@ -93,11 +93,6 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
                in here saying where you are. */
             const active =
               pathname === chapter.path || pathname.startsWith(`${chapter.path}/`);
-            /* Filtered on the same rule as the sommaire and the chapter pages
-               — the sidebar is the course's table of contents, and a count here
-               that disagreed with the card on the sommaire would just look
-               broken. Hiding is never gating: every path still resolves. */
-            const total = visibleLessons(chapter, level).length;
 
             return (
               <li key={chapter.slug}>
@@ -116,18 +111,6 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
                   <ChapterIcon name={chapter.icon} />
                   <span className={styles.chapterTitle}>
                     {chapter.shortTitle ?? chapter.title}
-                  </span>
-                  {/* What the chapter opens to at this level — every row it
-                      lists is a page that exists (#51), so the count and the
-                      list can no longer say different things. A chapter with
-                      nothing to offer is not drawn at all rather than sitting
-                      here as a zero. */}
-                  <span className={styles.count}>
-                    {total}
-                    <span className="visually-hidden">
-                      {" "}
-                      {chapter.unit[total === 1 ? 0 : 1]}
-                    </span>
                   </span>
                 </Link>
               </li>

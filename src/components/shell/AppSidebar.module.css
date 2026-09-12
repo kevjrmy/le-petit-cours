@@ -125,14 +125,6 @@ a.activeChapter:hover {
 
 .chapterTitle { flex: 1 1 auto; }
 
-.count {
-  flex: 0 0 auto;
-  font-size: 0.72rem;
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-  color: var(--text-3);
-}
-
 /* Still used by the annexes above and below the chapters. */
 .lesson {
   display: flex;
@@ -183,7 +175,6 @@ a.activeLesson:hover {
      the name, so clipping the text as well would announce it twice. */
   .label,
   .chapterTitle,
-  .count,
   .badge {
     display: none;
   }
