@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { listedChapters, visibleLessons } from "@/data/navigation";
+import { listedChapters } from "@/data/navigation";
 import { useAccount } from "@/hooks/useAccount";
 import styles from "./ChapterGrid.module.css";
 
 /**
- * The chapter cards, with counts that respect the learner's chosen level.
+ * The chapter cards: a mark, a name, a blurb. **No count** — a card is an offer
+ * to read a chapter, and how many pages are in it is something the chapter page
+ * says once you are there, next to the pages themselves.
  *
  * A Client Component, but the page holding it is not: React server-renders this
  * into the static HTML, so a visitor with no JavaScript — or the service worker
@@ -38,31 +40,23 @@ export function ChapterGrid() {
 
   return (
     <ul className={styles.grid}>
-      {listed.map((chapter) => {
-        const count = visibleLessons(chapter, level).length;
-        const label = chapter.unit[count === 1 ? 0 : 1];
-
-        return (
-          <li key={chapter.slug}>
-            <Link href={chapter.path} className={styles.card}>
-              {/* The mark is a letter, not a pictogram: the identity of this
-                  project is lettering, so the chapter initial in the serif does
-                  the job an icon set would — and cannot drift out of step with
-                  the manifest the way an icon mapping does. */}
-              <span className={styles.initial} aria-hidden="true">
-                {chapter.title.charAt(0)}
-              </span>
-              <span className={styles.body}>
-                <span className={styles.cardTitle}>{chapter.title}</span>
-                <span className={styles.blurb}>{chapter.blurb}</span>
-                <span className={styles.count}>
-                  {count} {label}
-                </span>
-              </span>
-            </Link>
-          </li>
-        );
-      })}
+      {listed.map((chapter) => (
+        <li key={chapter.slug}>
+          <Link href={chapter.path} className={styles.card}>
+            {/* The mark is a letter, not a pictogram: the identity of this
+                project is lettering, so the chapter initial in the serif does
+                the job an icon set would — and cannot drift out of step with
+                the manifest the way an icon mapping does. */}
+            <span className={styles.initial} aria-hidden="true">
+              {chapter.title.charAt(0)}
+            </span>
+            <span className={styles.body}>
+              <span className={styles.cardTitle}>{chapter.title}</span>
+              <span className={styles.blurb}>{chapter.blurb}</span>
+            </span>
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 }

@@ -216,9 +216,10 @@ them.
 ## What derives automatically — do not hand-maintain
 
 - The sidebar's chapter list and its active row. It is one level deep on purpose (#40): a chapter
-  links to its landing page and never opens a list of lessons, and the row is a name and an icon —
-  **no count**, which the sommaire card and the chapter page both carry already.
-- The sommaire's chapter grid, and every chapter landing page.
+  links to its landing page and never opens a list of lessons, and the row is a name and an icon.
+- The sommaire's chapter grid — a mark, a name, a blurb. **Neither listing counts what is in a
+  chapter**: the number belongs beside the pages themselves, which is the chapter landing page.
+- Every chapter landing page, the tally above its rows included.
 - Breadcrumbs and the document title.
 - Progress ticks, the per-chapter tally and `/ma-progression` — driven off the entry's `id`.
   **Registering a lesson is all the wiring progress needs**; there is nothing to add to the page.

@@ -59,10 +59,3 @@
   line-height: 1.5;
   color: var(--text-2);
 }
-
-.count {
-  margin-top: 0.15rem;
-  font-size: 0.72rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--text-3);
-}
