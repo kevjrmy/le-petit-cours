@@ -68,13 +68,13 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
       className={`${styles.sidebar} ${open ? styles.open : ""}`}
     >
       <div className={styles.head}>
-        {/* Both marks are in the DOM and the container query shows one: the
-            eleven letters of the wordmark do not survive a 3.75rem rail, and
-            the cursive P is the same hand (`AGENTS.md` §5). Swapping in CSS
-            rather than in JS keeps the head correct before hydration. */}
+        {/* The badge holds at every width; the wordmark beside it is dropped by
+            the container query, because eleven letters do not survive a
+            3.75rem rail (`AGENTS.md` §5). Dropping it in CSS rather than in JS
+            keeps the head correct before hydration. */}
         <Link href="/" className={styles.brand} onClick={onNavigate}>
-          <span className={styles.wordmark} aria-hidden="true" />
           <span className={styles.mark} aria-hidden="true" />
+          <span className={styles.wordmark} aria-hidden="true" />
           <span className="visually-hidden">Le Petit Cours, accueil</span>
         </Link>
       </div>

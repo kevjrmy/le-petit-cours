@@ -45,17 +45,20 @@
 }
 
 .brand {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 0.35rem 0.15rem;
   border-radius: var(--radius-sm);
 }
 
-/* The cursive P from the wordmark, shown only in the rail, drawn as the app
-   icon is: the letter reversed out of a filled accent disc. The letter is a
-   mask over --text-on-accent rather than white, because --accent lightens in
-   dark mode and white on it fails AA (globals.css, --text-on-accent). */
+/* The badge, drawn as the app icon is: the cursive P reversed out of a filled
+   accent disc. It sits before the wordmark at every width and is all that is
+   left of the brand in the rail. The letter is a mask over --text-on-accent
+   rather than white, because --accent lightens in dark mode and white on it
+   fails AA (globals.css, --text-on-accent). */
 .mark {
-  display: none;
+  flex: 0 0 auto;
   width: 1.75rem;
   aspect-ratio: 1;
   border-radius: 50%;
@@ -187,7 +190,6 @@ a.activeLesson:hover {
    render. */
 @container sidebar (max-width: 8rem) {
   .wordmark { display: none; }
-  .mark { display: block; }
 
   .head { justify-content: center; padding: 0; }
 
