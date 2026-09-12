@@ -50,16 +50,27 @@
   border-radius: var(--radius-sm);
 }
 
-/* The cursive P from the wordmark, shown only in the rail. Same mask trick as
-   the wordmark, so it takes the theme the same way. */
+/* The cursive P from the wordmark, shown only in the rail, drawn as the app
+   icon is: the letter reversed out of a filled accent disc. The letter is a
+   mask over --text-on-accent rather than white, because --accent lightens in
+   dark mode and white on it fails AA (globals.css, --text-on-accent). */
 .mark {
   display: none;
-  width: 1.5rem;
+  width: 1.75rem;
   aspect-ratio: 1;
-  background-color: currentColor;
-  color: var(--accent);
-  -webkit-mask: url(/logo-mark.svg) center / contain no-repeat;
-  mask: url(/logo-mark.svg) center / contain no-repeat;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.mark::after {
+  content: "";
+  display: block;
+  height: 100%;
+  background-color: var(--text-on-accent);
+  /* Sized off the height, like the icon script's own scale: the glyph is tall
+     and narrow, and `contain` would let it touch the disc top and bottom. */
+  -webkit-mask: url(/logo-mark.svg) center / auto 58% no-repeat;
+  mask: url(/logo-mark.svg) center / auto 58% no-repeat;
 }
 
 /* The wordmark as a mask, so it takes currentColor and follows the theme. */
