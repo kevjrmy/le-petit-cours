@@ -190,6 +190,13 @@ getComputedStyle(document.documentElement).getPropertyValue("--shell-mode").trim
 
 Note the quotes in the comparison: the value is a CSS string and comes back with them.
 
+**The same trick covers a metric two components have to agree on.** The footer and the sidebar's
+account control are one row across the panel's edge — one rule, one baseline — so the height is
+`--shell-foot-h` and both read it (#63). Written twice it drifts, and the rail is where you find
+out: there the account label is hidden, the avatar alone is shorter, and the rule steps as it
+crosses. If a number appears in two modules, it belongs in `globals.css` with a comment saying who
+reads it.
+
 ## Keep interactivity at the leaves
 
 The account menu, the sidebar and the drawer are Client Components. The layout that holds them is
@@ -282,6 +289,13 @@ global rhythm to suit one component: every lesson depends on it.
 off" and were three different rules. `node scripts/shot.mjs <url> out.png --eval="…"` can write
 `getBoundingClientRect()` values into the page before the shutter, which turns a guess into two
 numbers.
+
+**A letterform drawn as an icon has to be measured at the size it renders, not zoomed.**
+`ChapterIcon`'s marks are stroked on a 24-grid and drawn at about 19px, where a 1.8 stroke eats
+1.4px of any gap. « ABC » in capitals had to be condensed to fit and read as deformed; lowercase
+« abc » fits because a round bowl does, and it still needed 3.2 units between letters — at 2.8 the
+a's leg fused into the b's stem. Zoom in to check the shape, then look at it unzoomed to check the
+white.
 
 **A badge beside an `<h1>` goes outside it.** Inside, the heading's accessible name becomes
 « Le passé composé A2 ». Flex wrapper, `align-items: baseline`, badge as a sibling — and after the

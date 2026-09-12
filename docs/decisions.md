@@ -2068,3 +2068,91 @@ English is not her language either.
 a play gives short lines, named speakers and a physical situation, and that is the most readable
 shape a difficult period text can take. The quarrel opens over a bitten thumb — a gesture nobody
 now recognises — so the vocabulary table has to carry the gesture as well as the words.
+
+## 61 · The first screen, and where the brand marks go
+
+**2026-09-12 · Binding · narrows #28, #39**
+
+The home page and the chrome around it were both saying the project's name, and between them they
+said it three times on one screen. The split is now by kind of mark.
+
+**The badge is the brand in the chrome.** The sidebar's head draws the cursive P reversed out of a
+filled `--accent` disc — the construction `src/app/icon.svg` already used — at every width. Its ink
+is `--text-on-accent`, not white, because `--accent` lightens to `--blue-400` in dark mode and
+white on it fails AA. The eleven-letter wordmark that stood beside it is gone from the chrome: it
+cannot survive the 3.75rem rail, so keeping it meant a head that changed shape at a breakpoint to
+say a thing the badge already said.
+
+**The wordmark is the home page's `<h1>`.** `public/logo.svg` masked over `--accent`, with the text
+inside the heading as `.visually-hidden` so the document still has a named `<h1>` for a screen
+reader and for search. This is where the full lettering earns its space: one screen, arrived at,
+with room for it.
+
+**The first screen lost two paragraphs and gained nothing.** The tagline is « Apprendre le français
+petit à petit », four words under a wordmark that already carries « Petit »; the two-profile
+sentence it replaced said at length what `docs/scope.md` says properly. The paragraph explaining
+that an account only keeps your progress went entirely — `/compte` says that, at the only moment
+anybody is asking, and a first screen that answers an unasked question is a first screen with a
+paragraph on it.
+
+**The field and the pills are one family of shape.** The search box is flat at rest (a resting
+shadow lifts it off a page whose own chrome is deliberately *in* the page, #43) and its border
+carries the state: `--border`, `--border-strong` on hover, `--accent` plus a soft ring on focus. Its
+submit is a rounded square at `--radius`, not a disc — a disc in the corner of a `--radius-lg` box
+reads as a badge stuck on the end — and it is a step smaller than the field rather than filling it.
+The pills under it moved from `--radius-pill` to `--radius` for the same reason, and each carries
+its chapter's `ChapterIcon` at `1.05em`; at the sidebar's `1.35em` five of them cost the row its
+single line at 36rem. « Tout le cours » dropped its chevron: it was saying « this is a link » in a
+row that is links all the way across.
+
+## 62 · Nothing counts what is in a chapter
+
+**2026-09-12 · Binding · narrows #51 · retires `Chapter.unit`**
+
+Three listings carried a tally — the sidebar row, the sommaire card, and a line above the chapter
+page's own rows — and none of them was answering a question. A learner picking a chapter is
+choosing a subject, not a workload, and on the chapter page the rows *are* the count, sitting
+directly underneath the number that counted them.
+
+They were also three chances to disagree. Each had to filter by the chosen level to avoid saying
+seven over a list of four, which is real logic in three components to keep one number honest.
+
+**`Chapter.unit` goes with them.** The `["leçon", "leçons"]` pair existed only to name what those
+tallies counted, so it is out of the manifest and out of the `Chapter` type: a required field
+nothing reads is a noun every new chapter would have had to invent. #51's rule is unchanged and
+this follows from it — a listing shows what exists, and what exists is the rows.
+
+**The progress tallies stay.** `/ma-progression` and its per-chapter bars count *what she did*
+against published lessons (§8), which is a different claim from how big a chapter is, and the
+denominator rule there is untouched.
+
+## 63 · The footer belongs to the home page, and the shell's foot is one row
+
+**2026-09-12 · Binding · narrows #46, #47**
+
+« À propos · Code MIT, contenu CC BY-SA 4.0 » sat under every lesson. The licence is a fact about
+the site, not about the page you are reading, and a signature under prose that is already signed is
+chrome asking to be ignored.
+
+**It draws on `/` and on the pages it points to, nowhere else**, and `Footer` decides that itself
+rather than the shell — the same shape as `LessonEnd` deciding whether a path is a lesson (#49),
+so there is no allowlist to keep in step. It never links to the page you are reading: on `/` it
+points out to « À propos », standing on `/a-propos` it points back to « Accueil ». That makes the
+line reciprocal, which matters because those two pages are the only ones about the site.
+
+**The consequence is recorded in `AGENTS.md` §6 because it is easy to walk into:** a
+`where: "footer"` annexe is now reachable from the home page only. A page that has to be reachable
+from a lesson belongs somewhere else in the manifest — `tree`, or `menu` if it is about the account
+(#47).
+
+**« Accueil » is the one title written in the component.** `/` lives in `unlistedPages`, a list of
+paths with no titles to read, so there is nothing to read it from; every other label in the line
+still comes from the manifest.
+
+**The foot of the shell is one row across the sidebar's edge.** The footer was 2rem above and 2.5rem
+below a line of 0.8rem type, floating; it is now exactly as tall as the account control beside it,
+right-aligned because that control holds the left end, and sat on the baseline of the address under
+the name. The shared height is `--shell-foot-h`, read by both — two numbers would have drifted, and
+it is also what stops the rail stepping the rule, since there the account label is hidden and the
+avatar alone comes up short. **Change the account control's height and this token follows, or the
+rule breaks in half as it crosses the panel's edge.**
