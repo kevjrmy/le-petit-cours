@@ -229,6 +229,35 @@ export default function Page() {
           l’écrit il est obligatoire.
         </div>
       </section>
+
+      {/* Le résumé redit, il n’ajoute jamais : une ligne qui apporte quelque
+          chose de neuf est une section qui manque plus haut. */}
+      <div className="resume">
+        <ul>
+          <li>
+            Le passé composé raconte une action terminée : un auxiliaire au
+            présent, puis le participe passé.
+          </li>
+          <li>
+            La plupart des verbes prennent <span className="fr">avoir</span>.
+          </li>
+          <li>
+            Les verbes de déplacement ou de changement d’état, et tous les
+            verbes pronominaux, prennent <span className="fr">être</span>.
+          </li>
+          <li>
+            Avec <span className="fr">être</span>, le participe s’accorde avec
+            le sujet : <span className="fr">elle est partie</span>,{" "}
+            <span className="fr">ils sont partis</span>.
+          </li>
+          <li>
+            À la forme négative, <span className="fr">ne</span> et{" "}
+            <span className="fr">pas</span> entourent l’auxiliaire :{" "}
+            <span className="fr">je n’ai pas compris</span>.
+          </li>
+        </ul>
+      </div>
+
     </article>
   );
 }

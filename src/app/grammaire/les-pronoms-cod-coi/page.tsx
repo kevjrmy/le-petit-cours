@@ -195,6 +195,36 @@ export default function Page() {
           reprend sa place habituelle : <span className="fr">Ne la regarde pas.</span>
         </div>
       </section>
+
+      <div className="resume">
+        <ul>
+          <li>
+            Le COD suit le verbe sans préposition. Il se remplace par{" "}
+            <span className="fr">le</span>, <span className="fr">la</span>,{" "}
+            <span className="fr">les</span>.
+          </li>
+          <li>
+            Le COI est relié au verbe par <span className="fr">à</span>. Pour
+            une personne, il se remplace par <span className="fr">lui</span> au
+            singulier et <span className="fr">leur</span> au pluriel.
+          </li>
+          <li>
+            Le pronom se place devant le verbe conjugué, donc devant
+            l’auxiliaire au passé composé. Sauf à l’impératif affirmatif, où il
+            passe après : <span className="fr">Regarde-la !</span>
+          </li>
+          <li>
+            Devant une voyelle, <span className="fr">me</span>,{" "}
+            <span className="fr">te</span>, <span className="fr">le</span> et{" "}
+            <span className="fr">la</span> perdent leur voyelle :{" "}
+            <span className="fr">Je l’écoute</span>.
+          </li>
+          <li>
+            Quand le COD est placé avant le verbe, le participe passé s’accorde
+            avec lui : <span className="fr">Je les ai invités</span>.
+          </li>
+        </ul>
+      </div>
     </article>
   );
 }

@@ -161,6 +161,37 @@ export default function Page() {
           <span className="fr">ce / se</span> demandent un autre raisonnement.
         </div>
       </section>
+
+      <div className="resume">
+        <ul>
+          <li>
+            Le test : on remplace le mot par le même verbe à un autre temps. Si
+            la phrase tient debout, c’est le verbe.
+          </li>
+          <li>
+            <span className="fr">a → avait</span>,{" "}
+            <span className="fr">est → était</span>,{" "}
+            <span className="fr">ont → avaient</span>,{" "}
+            <span className="fr">sont → étaient</span>.
+          </li>
+          <li>
+            L’autre mot de chaque paire n’est pas un verbe :{" "}
+            <span className="fr">à</span> est une préposition,{" "}
+            <span className="fr">et</span> relie,{" "}
+            <span className="fr">on</span> est un sujet,{" "}
+            <span className="fr">son</span> dit à qui la chose appartient.
+          </li>
+          <li>
+            <span className="fr">ou</span> se remplace par{" "}
+            <span className="fr">ou bien</span>.{" "}
+            <span className="fr">où</span> parle d’un lieu ou d’un moment.
+          </li>
+          <li>
+            Le test ne vaut que si l’un des deux mots est un verbe. Les autres
+            paires demandent un autre raisonnement.
+          </li>
+        </ul>
+      </div>
     </article>
   );
 }

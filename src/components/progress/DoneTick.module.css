@@ -43,10 +43,3 @@
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-
-.hint {
-  font-size: 0.82rem;
-  line-height: 1.5;
-  color: var(--text-3);
-  max-width: 42ch;
-}

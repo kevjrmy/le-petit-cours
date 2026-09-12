@@ -87,6 +87,17 @@ export default function DesignPage() {
             un <span className="fr" lang="fr">œuf</span> se prononce « euf », mais
             des <span className="fr" lang="fr">œufs</span> se prononce « eu ».
           </div>
+          <div className="resume">
+            <ul>
+              <li>Le résumé redit la leçon, il n’y ajoute rien.</li>
+              <li>
+                Quatre ou cinq lignes, au pied des leçons de prose seulement.
+              </li>
+              <li>
+                Neutre exprès : la couleur reste aux blocs qu’il résume.
+              </li>
+            </ul>
+          </div>
           <ul className="mots">
             <li>les horaires</li>
             <li>la pause déjeuner</li>

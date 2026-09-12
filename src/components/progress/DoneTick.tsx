@@ -62,11 +62,6 @@ export function DoneTick({ id, path }: { id: LessonId; path: string }) {
         <Mark done={done} />
         {done ? "Leçon terminée" : "J’ai terminé"}
       </button>
-      {done && (
-        <p className={styles.hint}>
-          Cochée. Cliquez de nouveau pour la décocher.
-        </p>
-      )}
     </aside>
   );
 }

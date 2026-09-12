@@ -144,6 +144,10 @@
   --success-soft:  light-dark(var(--green-100), #11241A);
   --success-line:  light-dark(var(--green-300), #2A5733);
   --success-text:  light-dark(var(--green-700), var(--green-300));
+  /* Ink on a filled success, and it flips for the same reason --text-on-accent
+     does: --success is green-600 in light mode and the lighter green-500 in
+     dark, where white would fall under AA. */
+  --text-on-success: light-dark(var(--white), var(--grey-950));
 
   /* Elevation. The colour is the token; the geometry is theme-independent. */
   --shadow-color:  light-dark(rgb(8 12 19 / 0.10), rgb(0 0 0 / 0.5));
@@ -545,6 +549,34 @@ ul.mots li {
   font-size: 1.15rem;
   line-height: 1.45;
   color: var(--text-heading);
+}
+
+/* « En résumé » — the four or five lines a lesson comes down to, at its foot.
+ *
+ * Deliberately neutral. Every block above it is colour-coded by role (.rule
+ * accent, .attention warn, .exception danger) and the résumé restates all of
+ * them at once, so a fifth accent here would compete with the very blocks it
+ * is summarising. The label carries the meaning, as it does for .attention.
+ *
+ * Prose lessons only: a conjugaison sheet's table is already its own summary,
+ * and a drill has nothing to restate. */
+.resume {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  padding: 1.1rem 1.35rem;
+}
+
+.resume::before {
+  content: "En résumé";
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  margin-bottom: 0.5rem;
 }
 
 /* A message from the interface — a save that failed, a link that expired.

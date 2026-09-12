@@ -157,6 +157,30 @@ export default function Page() {
           </p>
         </div>
       </section>
+
+      <div className="resume">
+        <ul>
+          <li>
+            Le radical vient du <span className="fr">nous</span> du présent, sans{" "}
+            <span className="fr">-ons</span>.
+          </li>
+          <li>
+            Les terminaisons sont les mêmes pour tous les verbes :{" "}
+            <span className="fr">-ais, -ais, -ait, -ions, -iez, -aient</span>.
+          </li>
+          <li>
+            Quatre d’entre elles se prononcent de la même façon. Seule
+            l’orthographe les sépare, et elle dépend du sujet.
+          </li>
+          <li>
+            <span className="fr">être</span> est le seul verbe irrégulier :{" "}
+            <span className="fr">j’étais</span>.
+          </li>
+          <li>
+            Trois emplois : la description, l’habitude, l’action qui durait.
+          </li>
+        </ul>
+      </div>
     </article>
   );
 }

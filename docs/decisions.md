@@ -1446,6 +1446,11 @@ It showed « Grammaire › Les articles » above a page header already printing 
 `<h1>Les articles</h1>`; on a chapter page it repeated the `<h1>`; on the home page it said
 « Accueil » over a page that says *Le Petit Cours* in 2.6rem of serif.
 
+*(2026-09-12: the other half of that duplication went too. `PageHeader` no longer prints the
+chapter, so the crumb is now the **only** place a lesson names it — the one of the two that is also
+a link back up. This entry's conclusion is unchanged; the redundancy it describes is simply now
+resolved on both sides rather than one.)*
+
 What is left is the one thing a page cannot say about itself: **the chapter a lesson belongs to, as a
 link back up.** Top-level pages therefore show nothing at all — correct, not empty, since the control
 beside it keeps the bar from being blank.

@@ -46,6 +46,38 @@ a.row:hover {
   white-space: nowrap;
 }
 
+/* The tick, at the end of the row. Empty is a ring on the row's own ground —
+   an outline, not a grey fill, so it reads as "nothing here yet" rather than as
+   a state of its own. */
+.state {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.3rem;
+  block-size: 1.3rem;
+  margin-inline-start: 0.15rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  background: transparent;
+  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+
+.state.stateDone {
+  border-color: var(--success);
+  background: var(--success);
+}
+
+.check {
+  inline-size: 0.8rem;
+  block-size: 0.8rem;
+  fill: none;
+  stroke: var(--text-on-success);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .where { color: var(--text-3); padding-inline: 0; letter-spacing: 0.08em; }
 .tag { background: var(--surface-3); color: var(--text-2); }
 .level { background: var(--accent-soft); color: var(--accent-text); }

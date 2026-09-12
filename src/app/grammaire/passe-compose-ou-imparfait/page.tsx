@@ -146,6 +146,35 @@ export default function Page() {
           </p>
         </div>
       </section>
+
+      <div className="resume">
+        <ul>
+          <li>
+            Le passé composé dit ce qui est arrivé ; l’imparfait décrit le décor
+            autour.
+          </li>
+          <li>
+            Une action terminée et limitée va au passé composé. Une situation
+            sans limite, ou répétée, va à l’imparfait.
+          </li>
+          <li>
+            Certaines expressions indiquent la direction :{" "}
+            <span className="fr">soudain</span>,{" "}
+            <span className="fr">un jour</span> d’un côté ;{" "}
+            <span className="fr">souvent</span>,{" "}
+            <span className="fr">tous les jours</span> de l’autre. Elles
+            indiquent, elles ne décident pas.
+          </li>
+          <li>
+            Une durée précise ferme l’action, donc elle appelle le passé
+            composé : <span className="fr">J’ai vécu dix ans à Lyon</span>.
+          </li>
+          <li>
+            Dans un récit, les deux se relaient : l’imparfait tient la scène, le
+            passé composé la fait avancer.
+          </li>
+        </ul>
+      </div>
     </article>
   );
 }

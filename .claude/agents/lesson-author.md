@@ -120,8 +120,8 @@ means the renamed one is always the other one.
 
 **There are no `<Rule>` / `<Table>` / `<Attention>` components.** The lesson patterns are CSS
 classes in `globals.css` — `.rule`, `.example`, `.attention` (prints « À retenir : »),
-`.exception` (prints « Sauf : »), `.astuce` with `.astuce-hook`, `.mots` (the role-play word
-cloud, a `ul`), `.table-wrap`, and plain
+`.exception` (prints « Sauf : »), `.astuce` with `.astuce-hook`, `.resume` (prints « En résumé »),
+`.mots` (the role-play word cloud, a `ul`), `.table-wrap`, and plain
 `<table>` / `<section>` / `<p>`. `PageHeader` is the only component a lesson calls, because it is
 the only one that reads the manifest on the page's behalf — the rest of the manifest-driven
 furniture is the shell's. This is deliberate while `docs/decisions.md` #10 is open: classes commit
@@ -158,6 +158,37 @@ above it is read twice and adds nothing.
 > above is the interim, chosen so the primitives can be discovered by using them. Do not set up
 > an MDX pipeline or a content-block schema on your own initiative — write the lesson, and note
 > what fought you.
+
+### The end of a lesson: « En résumé »
+
+A prose lesson closes with `<div className="resume">` holding four or five `<li>`, after the last
+teaching section. Borrowed from how OpenClassrooms ends a chapter, and page-local: no route, no
+manifest entry, no stored state.
+
+- **It restates and never adds.** A bullet carrying something the sections did not cover is a
+  section missing higher up, not a bullet worth keeping.
+- **One line per rule the page taught**, in the order the page taught them, so the résumé reads as
+  the lesson's own spine rather than as a second lesson.
+- **No heading.** The pattern prints « En résumé » itself, like `.attention` prints « À retenir : ».
+- **Never echo the block directly above it.** A lesson usually ends on an `.astuce` or an
+  `.attention`, and the two sit adjacent on screen: a final bullet repeating that block in the same
+  words reads as duplication rather than as a summary. Both `les-homophones` and `l-heure` shipped
+  that way on 2026-09-12 and were caught in a screenshot, not in review. Compress the line, or
+  spend it on a section the résumé has not covered yet.
+- **Outside the `<section>` elements**, as the last child of the `<article>`, because it summarises
+  all of them rather than belonging to the last one.
+
+**Which page types get one:** prose lessons — `grammaire`, `orthographe`, `vocabulaire`,
+`astuces`, `culture`, `musique`. **Not** `conjugaison` or `prononciation`, where the sheet is
+already its own summary; not `exercices` or `jeux`, which have nothing to restate; not
+`traduction`, `conversation` or `dictees`, whose whole page is the exercise; and not `lecture`,
+which exists for its text rather than for a rule and already ends on its comprehension quiz.
+
+**A prose lesson gets no quiz of its own.** The « Avez-vous compris ? » block belongs to `lecture/`
+pages, where it checks a *text* that was just read. A five-question version of it was written for
+`le-passe-compose` on 2026-09-12 and removed the same day: on a grammar page the questions restate
+the rules a third time, after the sections and after the résumé. Practice belongs in `exercices/`,
+which is a page of its own with a deck behind it.
 
 ## Page types
 

@@ -4,15 +4,19 @@ import styles from "./PageHeader.module.css";
 /**
  * A lesson's title block, read from the manifest rather than retyped — a page
  * that carries its own copy of its title drifts the moment it is renamed.
+ *
+ * **It does not name the chapter.** The topbar's breadcrumb sits directly above
+ * this block and says « Grammaire » already; printing it again put the same
+ * word twice on one screen, a few pixels apart. The crumb is now the only place
+ * a lesson names its chapter (`AGENTS.md` §6).
  */
 export function PageHeader({ path }: { path: string }) {
   const found = findLesson(path);
   if (!found) return null;
-  const { chapter, lesson } = found;
+  const { lesson } = found;
 
   return (
     <header className={styles.header}>
-      <p className={styles.chapter}>{chapter.shortTitle ?? chapter.title}</p>
       <h1>
         {lesson.titleHtml ? (
           <span dangerouslySetInnerHTML={{ __html: lesson.titleHtml }} />

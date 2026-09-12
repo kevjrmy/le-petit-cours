@@ -12,6 +12,13 @@ export interface PageRowProps {
   /** Where the page sits in the course. Shown only where the list is not already
    *  one chapter's — a search result needs it, a chapter's own list does not. */
   where?: string;
+  /**
+   * Whether this lesson is ticked, when that is known — `undefined` draws no
+   * circle at all. Three states, not two: signed out, or before the cache has
+   * answered, there is no record to report, and a row of empty circles then
+   * says « pas encore terminé » about lessons nobody is keeping track of.
+   */
+  done?: boolean;
 }
 
 /**
@@ -24,7 +31,7 @@ export interface PageRowProps {
  * No hooks: it renders from the props it is handed, so it costs nothing when a
  * Client Component maps over it and stays usable from a Server one.
  */
-export function PageRow({ path, title, titleHtml, subtitle, tag, levels, where }: PageRowProps) {
+export function PageRow({ path, title, titleHtml, subtitle, tag, levels, where, done }: PageRowProps) {
   return (
     <li>
       <Link href={path} className={styles.row}>
@@ -42,6 +49,26 @@ export function PageRow({ path, title, titleHtml, subtitle, tag, levels, where }
               {level}
             </span>
           ))}
+          {done !== undefined && (
+            <>
+              {/* A mark as well as a fill, like every other state in this app
+                  (`AGENTS.md` §5): the green ring alone would be the only thing
+                  telling a reader who cannot see it apart from the empty one. */}
+              <span
+                className={`${styles.state} ${done ? styles.stateDone : ""}`}
+                aria-hidden="true"
+              >
+                {done && (
+                  <svg className={styles.check} viewBox="0 0 24 24">
+                    <path d="M6.5 12.5l3.7 3.7 7.3-7.7" />
+                  </svg>
+                )}
+              </span>
+              <span className="visually-hidden">
+                {done ? ", terminée" : ", pas encore terminée"}
+              </span>
+            </>
+          )}
         </span>
       </Link>
     </li>

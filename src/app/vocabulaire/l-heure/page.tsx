@@ -200,6 +200,40 @@ export default function Page() {
           </p>
         </div>
       </section>
+
+      <div className="resume">
+        <ul>
+          <li>
+            On répond avec <span className="fr">il est</span>, le nombre, puis{" "}
+            <span className="fr">heure</span> ou{" "}
+            <span className="fr">heures</span>, qui ne disparaît jamais.
+          </li>
+          <li>
+            Après la demie, on annonce l’heure suivante et on retire les minutes
+            avec <span className="fr">moins</span> :{" "}
+            <span className="fr">onze heures moins vingt</span>.
+          </li>
+          <li>
+            <span className="fr">midi</span> et{" "}
+            <span className="fr">minuit</span> sont masculins :{" "}
+            <span className="fr">midi et demi</span>, mais{" "}
+            <span className="fr">une heure et demie</span>.
+          </li>
+          <li>
+            L’heure officielle utilise les vingt-quatre heures et dit les
+            minutes en entier. Elle s’écrit{" "}
+            <span className="fr">14 h 30</span>, sans{" "}
+            <span className="fr">et quart</span> ni{" "}
+            <span className="fr">moins le quart</span>.
+          </li>
+          <li>
+            Pour situer un moment, on ajoute{" "}
+            <span className="fr">du matin</span>,{" "}
+            <span className="fr">de l’après-midi</span> ou{" "}
+            <span className="fr">du soir</span> après l’heure.
+          </li>
+        </ul>
+      </div>
     </article>
   );
 }
