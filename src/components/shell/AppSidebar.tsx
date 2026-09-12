@@ -68,13 +68,11 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
       className={`${styles.sidebar} ${open ? styles.open : ""}`}
     >
       <div className={styles.head}>
-        {/* The badge holds at every width; the wordmark beside it is dropped by
-            the container query, because eleven letters do not survive a
-            3.75rem rail (`AGENTS.md` §5). Dropping it in CSS rather than in JS
-            keeps the head correct before hydration. */}
+        {/* One mark at every width, so the head does not change shape at a
+            breakpoint. It is decoration to a screen reader; the link's name is
+            the text beside it (`AGENTS.md` §5). */}
         <Link href="/" className={styles.brand} onClick={onNavigate}>
           <span className={styles.mark} aria-hidden="true" />
-          <span className={styles.wordmark} aria-hidden="true" />
           <span className="visually-hidden">Le Petit Cours, accueil</span>
         </Link>
       </div>

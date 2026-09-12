@@ -45,20 +45,19 @@
 }
 
 .brand {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  display: block;
   padding: 0.35rem 0.15rem;
   border-radius: var(--radius-sm);
 }
 
-/* The badge, drawn as the app icon is: the cursive P reversed out of a filled
-   accent disc. It sits before the wordmark at every width and is all that is
-   left of the brand in the rail. The letter is a mask over --text-on-accent
-   rather than white, because --accent lightens in dark mode and white on it
-   fails AA (globals.css, --text-on-accent). */
+/* The brand, and the whole of it at every width: the cursive P reversed out of
+   a filled accent disc, drawn as the app icon is. The eleven-letter wordmark
+   was here too and is gone — it could not survive the rail, so the head changed
+   shape at a breakpoint to say a thing the badge already says. The letter is a
+   mask over --text-on-accent rather than white, because --accent lightens in
+   dark mode and white on it fails AA (globals.css, --text-on-accent). */
 .mark {
-  flex: 0 0 auto;
+  display: block;
   width: 1.75rem;
   aspect-ratio: 1;
   border-radius: 50%;
@@ -74,17 +73,6 @@
      and narrow, and `contain` would let it touch the disc top and bottom. */
   -webkit-mask: url(/logo-mark.svg) center / auto 58% no-repeat;
   mask: url(/logo-mark.svg) center / auto 58% no-repeat;
-}
-
-/* The wordmark as a mask, so it takes currentColor and follows the theme. */
-.wordmark {
-  display: block;
-  width: 9.5rem;
-  aspect-ratio: 113.85 / 20.38;
-  background-color: currentColor;
-  color: var(--accent);
-  -webkit-mask: url(/logo.svg) center / contain no-repeat;
-  mask: url(/logo.svg) center / contain no-repeat;
 }
 
 .tree {
@@ -189,8 +177,6 @@ a.activeLesson:hover {
    --sidebar-w (16.5rem); anything in that gap would be a panel we never
    render. */
 @container sidebar (max-width: 8rem) {
-  .wordmark { display: none; }
-
   .head { justify-content: center; padding: 0; }
 
   /* The label is removed, not hidden: `aria-label` on the row already carries

@@ -10,7 +10,7 @@
    gone (#43).
 
    It keeps `--topbar-h` because the sidebar's head is that tall too, and the
-   wordmark sitting level with the crumb is the only thing still lining the two
+   brand badge sitting level with the crumb is the only thing still lining the two
    columns up. */
 .topbar {
   position: sticky;
