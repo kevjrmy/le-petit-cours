@@ -5,10 +5,7 @@ import styles from "./PageHeader.module.css";
  * A lesson's title block, read from the manifest rather than retyped — a page
  * that carries its own copy of its title drifts the moment it is renamed.
  *
- * **It does not name the chapter.** The topbar's breadcrumb sits directly above
- * this block and says « Grammaire » already; printing it again put the same
- * word twice on one screen, a few pixels apart. The crumb is now the only place
- * a lesson names its chapter (`AGENTS.md` §6).
+ * No chapter line: the topbar crumb already names it (`AGENTS.md` §6).
  */
 export function PageHeader({ path }: { path: string }) {
   const found = findLesson(path);
@@ -17,21 +14,28 @@ export function PageHeader({ path }: { path: string }) {
 
   return (
     <header className={styles.header}>
-      <h1>
-        {lesson.titleHtml ? (
-          <span dangerouslySetInnerHTML={{ __html: lesson.titleHtml }} />
-        ) : (
-          lesson.title
+      {/* La pastille reste hors du `h1` : dedans, le nom accessible du titre
+          deviendrait « Le passé composé A2 ». */}
+      <div className={styles.title}>
+        <h1>
+          {lesson.titleHtml ? (
+            <span dangerouslySetInnerHTML={{ __html: lesson.titleHtml }} />
+          ) : (
+            lesson.title
+          )}
+        </h1>
+        {lesson.levels.length > 0 && (
+          <p className={styles.levels}>
+            <span className="visually-hidden">
+              {lesson.levels.length === 1 ? "Niveau " : "Niveaux "}
+            </span>
+            {lesson.levels.map((level) => (
+              <span key={level}>{level}</span>
+            ))}
+          </p>
         )}
-      </h1>
+      </div>
       {lesson.delf && <p className={styles.delf}>{lesson.delf}</p>}
-      {lesson.levels.length > 0 && (
-        <p className={styles.levels}>
-          {lesson.levels.map((level) => (
-            <span key={level}>{level}</span>
-          ))}
-        </p>
-      )}
     </header>
   );
 }

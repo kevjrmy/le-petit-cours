@@ -282,3 +282,7 @@ global rhythm to suit one component: every lesson depends on it.
 off" and were three different rules. `node scripts/shot.mjs <url> out.png --eval="…"` can write
 `getBoundingClientRect()` values into the page before the shutter, which turns a guess into two
 numbers.
+
+**A badge beside an `<h1>` goes outside it.** Inside, the heading's accessible name becomes
+« Le passé composé A2 ». Flex wrapper, `align-items: baseline`, badge as a sibling — and after the
+title, never before, or the `h1` is the one element not aligned with the reading column.

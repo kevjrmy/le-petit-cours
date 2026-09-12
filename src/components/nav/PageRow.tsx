@@ -12,12 +12,7 @@ export interface PageRowProps {
   /** Where the page sits in the course. Shown only where the list is not already
    *  one chapter's — a search result needs it, a chapter's own list does not. */
   where?: string;
-  /**
-   * Whether this lesson is ticked, when that is known — `undefined` draws no
-   * circle at all. Three states, not two: signed out, or before the cache has
-   * answered, there is no record to report, and a row of empty circles then
-   * says « pas encore terminé » about lessons nobody is keeping track of.
-   */
+  /** Ticked, not ticked, or `undefined` — no record to report, so no circle. */
   done?: boolean;
 }
 
@@ -51,9 +46,7 @@ export function PageRow({ path, title, titleHtml, subtitle, tag, levels, where, 
           ))}
           {done !== undefined && (
             <>
-              {/* A mark as well as a fill, like every other state in this app
-                  (`AGENTS.md` §5): the green ring alone would be the only thing
-                  telling a reader who cannot see it apart from the empty one. */}
+              {/* A mark as well as a fill (`AGENTS.md` §5). */}
               <span
                 className={`${styles.state} ${done ? styles.stateDone : ""}`}
                 aria-hidden="true"

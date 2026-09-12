@@ -230,8 +230,6 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Le résumé redit, il n’ajoute jamais : une ligne qui apporte quelque
-          chose de neuf est une section qui manque plus haut. */}
       <div className="resume">
         <ul>
           <li>

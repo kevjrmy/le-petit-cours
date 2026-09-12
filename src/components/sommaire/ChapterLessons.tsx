@@ -18,21 +18,15 @@ import styles from "./ChapterLessons.module.css";
  * one stylesheet, so the two listings cannot present the same lesson two ways.
  * No `where` label here: every row in this list is in the same chapter.
  *
- * Signed in, each row ends in the lesson's tick — green and checked, or an
- * empty ring. It reads from `useProgress` and never writes: the only place a
- * lesson is marked done is « J'ai terminé » at the foot of the lesson itself
- * (`AGENTS.md` §8), and a listing that could tick a page from outside it would
- * be a second way to make that claim.
+ * Signed in, each row ends in the lesson's tick. Read-only: marking stays at
+ * the foot of the lesson (`AGENTS.md` §8).
  */
 export function ChapterLessons({ chapter }: { chapter: Chapter }) {
   const account = useAccount();
   const { state, signedIn } = useProgress();
   const lessons = visibleLessons(chapter, account?.level ?? null);
 
-  /* Ticks are drawn only once there are ticks to draw. Signed out — which is
-     the state the static HTML is rendered in — and while the cache is still
-     answering, `ticks` is null and no row carries a circle at all: an empty
-     circle is a claim about a lesson, and the page has nothing to claim yet. */
+  /* Null until there are ticks to draw: an empty circle is a claim. */
   const ticks = signedIn ? state : null;
 
   const label = chapter.unit[lessons.length === 1 ? 0 : 1];
