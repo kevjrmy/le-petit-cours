@@ -5,4 +5,12 @@
   width: 100%;
   max-width: var(--measure);
   margin-inline: auto;
+  /* **One line, and it is here** (#67). The tick drew a rule and « Pour aller
+     plus loin » drew another, so the foot of every lesson was two hairlines
+     three centimetres apart with a button between them — bands again, and
+     neither of them said the thing that is actually true: the lesson is over
+     and what follows belongs to the shell, not to the page (#49). */
+  margin-top: 2.8rem;
+  padding-top: 1.7rem;
+  border-top: 1px solid var(--border-soft);
 }

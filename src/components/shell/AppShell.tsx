@@ -5,6 +5,7 @@ import { AccountProvider } from "@/hooks/useAccount";
 import { ProgressProvider } from "@/hooks/useProgress";
 import { useShellMode } from "@/hooks/useShellMode";
 import { LessonEnd } from "@/components/lesson/LessonEnd";
+import { LessonToc } from "@/components/lesson/LessonToc";
 import { AppSidebar } from "./AppSidebar";
 import { AppTopbar } from "./AppTopbar";
 import { Footer } from "./Footer";
@@ -64,6 +65,11 @@ export function AppShell({ children }: { children: ReactNode }) {
 
         <div className={styles.main}>
           <AppTopbar mode={mode} open={open} onToggle={() => setOpen((value) => !value)} />
+          {/* Before `<main>` in the DOM, because a table of contents is read
+              before what it indexes — and fixed, so the order costs no layout.
+              It draws only on a lesson, and only where the margin has room for
+              it (`LessonToc.module.css`). */}
+          <LessonToc />
           <main className={styles.content}>
             {children}
             {/* The done-tick and « Pour aller plus loin », in that order. Both

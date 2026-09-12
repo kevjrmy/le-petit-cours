@@ -1,0 +1,107 @@
+/* Le plateau : la phrase cliquable, puis le choix de corrections. Le reste de
+   l'habillage est partagé (`src/components/exercice/Drill.tsx`). */
+
+.card {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.35rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+/* Les mots sont des boutons, jamais des `<span>` cliquables : c'est ce qui les
+   met dans l'ordre de tabulation et leur donne un état pressé annonçable. */
+.sentence {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem;
+}
+
+.word {
+  padding: 0.15rem 0.3rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-1);
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+
+.word:hover:not(:disabled) {
+  background: var(--accent-subtle);
+  border-color: var(--accent-line);
+}
+
+.word:disabled { cursor: default; }
+
+.picked {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+.step {
+  margin-top: 1.2rem;
+  font-size: 0.85rem;
+  color: var(--text-3);
+}
+
+/* Le choix reste dans le même ordre d'un bout à l'autre de l'exercice : on y
+   retrouve la paire, on ne la redécouvre pas. */
+.fixes {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.fix {
+  min-width: 3.2rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--text-1);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.fix:hover:not(:disabled) {
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
+}
+
+.fix:disabled { cursor: default; opacity: 0.55; }
+
+.chosen {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  opacity: 1;
+}
+
+.verdict {
+  margin-top: 1.2rem;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+}
+
+.corrected {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--text-heading);
+}
+
+.actions {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}

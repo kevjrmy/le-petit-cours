@@ -276,7 +276,7 @@ that rhythm, and the selectors are stronger than they look:
 
 | Global rule | Specificity | What it did to a component |
 |---|---|---|
-| `.prose section + section` | 0,1,2 | pushed every grid column but the first down 2.4rem, so the headings did not line up |
+| `.prose section + section` | 0,1,2 | pushed every grid column but the first down a whole section break, so the headings did not line up |
 | `.prose ul, .prose ol` | 0,1,1 | indented a flex legend 1.35rem from the column everything else aligns on |
 | `.prose li + li` | 0,1,2 | put 0.35rem between two items that were meant to sit side by side |
 
@@ -284,6 +284,10 @@ A plain `.legend` (0,1,0) loses outright; `.tense ol` (0,1,1) merely *ties* and 
 order, which is not something to leave load-bearing. **Double the class** — `.legend.legend`,
 `.tense.tense ol` — which is (0,2,0) and reads as deliberate. Never `!important`, and never edit the
 global rhythm to suit one component: every lesson depends on it.
+
+**It bites from the other side too.** `.is-correct` tied with a drill's own `.chip` and lost, so the
+first drill's feedback showed ✓ and ✗ with no colour at all. A shared class that lands on something
+a component has already styled is doubled in `globals.css` — that is why those two are.
 
 **Measure before you fix an alignment.** All three of these looked like the same vague "it's a bit
 off" and were three different rules. `node scripts/shot.mjs <url> out.png --eval="…"` can write
@@ -297,6 +301,6 @@ numbers.
 a's leg fused into the b's stem. Zoom in to check the shape, then look at it unzoomed to check the
 white.
 
-**A badge beside an `<h1>` goes outside it.** Inside, the heading's accessible name becomes
-« Le passé composé A2 ». Flex wrapper, `align-items: baseline`, badge as a sibling — and after the
-title, never before, or the `h1` is the one element not aligned with the reading column.
+**A badge beside an `<h1>` goes outside it**, or the heading's accessible name becomes « Le passé
+composé A2 ». The level pill that taught this now sits in the topbar instead (#65), and no page
+carries a badge beside its title.

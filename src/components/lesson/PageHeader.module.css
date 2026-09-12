@@ -11,22 +11,3 @@
   color: var(--text-2);
 }
 
-/* `baseline`, pas `center` : la pastille se pose sur la ligne du titre. */
-.title {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.2rem 0.75rem;
-}
-
-.levels { display: flex; gap: 0.35rem; }
-
-.levels span {
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  padding: 0.12rem 0.45rem;
-  border-radius: var(--radius-pill);
-  background: var(--accent-soft);
-  color: var(--accent-text);
-}

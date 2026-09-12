@@ -1,0 +1,60 @@
+/* The chrome every drill shares: the instruction line, the meter and the score
+   panel. A drill's own board — its pool, its columns, its chips — belongs to
+   the drill's own module. */
+
+.instructions {
+  color: var(--text-2);
+}
+
+/* Count and bar on one row. The count is the accessible answer as well as the
+   visible one: a bar alone says nothing when it is read aloud. */
+.meter {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.count {
+  flex: 0 0 auto;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-3);
+}
+
+.track {
+  flex: 1 1 auto;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-3);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  transition: width var(--dur) var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill { transition: none; }
+}
+
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.tally {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  color: var(--text-heading);
+}
+
+.tally span {
+  font-size: 1rem;
+  color: var(--text-3);
+}

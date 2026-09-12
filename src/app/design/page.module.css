@@ -1,8 +1,8 @@
+/* No flex column and no gap here: `.page` is also `.prose`, so a gap of its own
+   was added *on top of* the section rhythm and the specimen showed a spacing no
+   lesson has. The rhythm in `globals.css` is the thing being specimened. */
 .page {
   padding: 2.5rem 1.25rem 5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
 }
 
 .section {

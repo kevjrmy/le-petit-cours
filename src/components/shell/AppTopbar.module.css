@@ -27,21 +27,36 @@
   padding: 0 0.65rem;
 }
 
-/* Above the breakpoint there is no button, and the crumb has to sit directly
-   over the `<h1>` instead of out at the shell's edge — otherwise removing the
-   band just exposes a line of chrome hanging 120px to the left of the page.
-   This resolves to the same column as `.prose` and every page wrapper: the
-   measure, centred, inside the content's own gutters. */
+/* Above the breakpoint the bar stops holding the page down and the two things
+   in it stop being one group: the button belongs to the panel on its left, the
+   crumb to the page below it. */
 @media (min-width: 56.25rem) {
   .topbar {
     /* Back into the flow: the sidebar is permanent up here, so the control does
        not have to stay within reach and a bar that pins itself for a link is a
-       band. It is no longer centred on the reading column either — the button
-       belongs against the panel it collapses, and the trail belongs with the
-       button (#45). */
+       band (#45). The button stays against the panel it collapses; the crumb
+       does not stay with the button (#64). */
     position: static;
     background: none;
     padding-inline: calc(var(--shell-gutter) - 0.5rem);
+    /* The crumb sets its own offset below, so the gap must not add to it. */
+    gap: 0;
+  }
+
+  /* The trail lines up with the `<h1>` under it rather than with the button
+     beside it (#64) — and it is the trail, not the crumb, that carries the
+     offset, so the level pill in front of the chapter starts on the column
+     too (#65). `.prose` is centred at `--measure` inside `.content`'s gutters,
+     so the offset is computable rather than guessed: this bar's box is 1rem
+     wider than the content's (its padding is `--shell-gutter` less the 0.5rem
+     that puts the *glyph* on the text edge), and the button eats 2.25rem of the
+     start — hence `(100% - measure) / 2 - 2.25rem`.
+
+     `max()` is the floor, not a nicety: in the rail the column is barely wider
+     than the measure, the computed offset goes to zero, and without it the
+     trail would sit on top of the button. */
+  .trail {
+    margin-left: max(0.85rem, calc((100% - var(--measure)) / 2 - 2.25rem));
   }
 }
 
@@ -71,8 +86,18 @@
   stroke-linejoin: round;
 }
 
-/* One link, back up to the chapter. It is absent on every top-level page, so
-   it must not reserve space — no `flex: 1`, nothing to leave a gap behind. */
+/* The level, then one link back up to the chapter. The whole trail is absent
+   on every top-level page, so it must not reserve space — no `flex: 1`,
+   nothing to leave a gap behind. `center` rather than `baseline`: the pill is a
+   box with padding and the link is 0.85rem of text, and there is no large type
+   here for the two to share a baseline with. */
+.trail {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
 .crumbs {
   min-width: 0;
   font-size: 0.85rem;
@@ -83,3 +108,22 @@
 
 .crumbs a { color: var(--text-2); }
 .crumbs a:hover { color: var(--accent); }
+
+/* The lesson's own level, moved off the page header (#65). `flex: 0 0 auto`,
+   because in a row a flex child with a zero basis collapses — and a two-letter
+   pill has nothing to spare. */
+.levels {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 0.35rem;
+}
+
+.levels span {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.12rem 0.45rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}

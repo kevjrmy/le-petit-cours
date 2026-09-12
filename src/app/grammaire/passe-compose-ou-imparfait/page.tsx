@@ -148,6 +148,7 @@ export default function Page() {
       </section>
 
       <div className="resume">
+        <h2>En résumé</h2>
         <ul>
           <li>
             Le passé composé dit ce qui est arrivé ; l’imparfait décrit le décor

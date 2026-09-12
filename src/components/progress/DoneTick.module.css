@@ -1,9 +1,8 @@
 /* Straight under the lesson's last words. The measure comes from `LessonEnd`,
    which wraps this and the links below it. */
+/* No rule and no gap of its own: `LessonEnd` draws the one line that closes the
+   lesson, and this is the first thing under it (#67). */
 .tick {
-  margin-top: 2.5rem;
-  padding-top: 1.6rem;
-  border-top: 1px solid var(--border-soft);
   display: flex;
   flex-direction: column;
   align-items: flex-start;

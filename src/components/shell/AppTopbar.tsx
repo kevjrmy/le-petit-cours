@@ -24,6 +24,16 @@ import styles from "./AppTopbar.module.css";
  * say about itself: the chapter a lesson belongs to, as a link back up. Top
  * level pages therefore show nothing, which is correct rather than empty. When
  * this grows into a full breadcrumb it grows upward, from the ancestors.
+ *
+ * **The trail is aligned on the page, not on the button.** Above the drawer
+ * breakpoint it starts where the `<h1>` beneath it starts, which is the reading
+ * column and not the shell's edge (`docs/decisions.md` #64); the button keeps
+ * its place against the panel it collapses.
+ *
+ * **The lesson's level rides in front of the chapter** rather than beside the
+ * `<h1>` (#65). It is the lesson's own tag, read from the manifest — not the
+ * learner's chosen level, which is a filter on listings and nothing this bar
+ * knows about (#35). So there is no session to read here and nothing to flash.
  */
 export function AppTopbar({
   mode,
@@ -35,7 +45,9 @@ export function AppTopbar({
   onToggle: () => void;
 }) {
   const pathname = usePathname();
-  const parent = findLesson(pathname)?.chapter ?? null;
+  const found = findLesson(pathname);
+  const parent = found?.chapter ?? null;
+  const levels = found?.lesson.levels ?? [];
 
   const drawer = mode === "drawer";
   const railed = mode === "rail";
@@ -67,9 +79,23 @@ export function AppTopbar({
       </button>
 
       {parent && (
-        <nav className={styles.crumbs} aria-label="Fil d'Ariane">
-          <Link href={parent.path}>{parent.shortTitle ?? parent.title}</Link>
-        </nav>
+        <div className={styles.trail}>
+          {/* Hors du `<nav>` : le niveau n'est pas une étape du fil, et le nom
+              accessible du fil d'Ariane ne doit pas commencer par « A2 ». */}
+          {levels.length > 0 && (
+            <p className={styles.levels}>
+              <span className="visually-hidden">
+                {levels.length === 1 ? "Niveau " : "Niveaux "}
+              </span>
+              {levels.map((level) => (
+                <span key={level}>{level}</span>
+              ))}
+            </p>
+          )}
+          <nav className={styles.crumbs} aria-label="Fil d'Ariane">
+            <Link href={parent.path}>{parent.shortTitle ?? parent.title}</Link>
+          </nav>
+        </div>
       )}
     </header>
   );

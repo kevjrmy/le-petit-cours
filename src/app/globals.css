@@ -173,6 +173,10 @@
   --sidebar-w-collapsed:  3.75rem;
   --topbar-h:             3.5rem;
   --shell-gutter:         2rem;
+  /* The in-page nav in the right margin. Read by `LessonToc.module.css` for
+     its width and by the thresholds that decide whether the margin can hold
+     it at all — a lesson's measure never shrinks to make room. */
+  --toc-w:               11rem;
   /* The foot of the shell, on both sides of the sidebar's edge: the account
      control and the footer are one row, so the rule over them is one line and
      the type on them sits on one baseline. It is the two-line account label
@@ -289,17 +293,41 @@ img, picture, svg, video { display: block; max-width: 100%; height: auto; }
 
 button, input, select, textarea { font: inherit; color: inherit; }
 
-/* Headings are the serif, because a heading is a piece of French. */
+/* Headings are the serif, because a heading is a piece of French.
+ *
+ * **The weight is declared, not inherited.** The UA sheet asks every heading
+ * for 700 and Spectral is loaded at 400 and 600 only, so the browser has been
+ * quietly serving 600 all along — while Georgia, next in the stack, has a real
+ * 700 and renders heavier for the moment before the webfont lands. Naming 600
+ * makes the two agree, and stops the whole course changing weight the day
+ * someone adds "700" to the loader in `layout.tsx`.
+ *
+ * **Tracking goes negative as the size goes up.** Spectral's default fit is
+ * set for text; at 2.1rem it opens up and the title reads spaced. The small
+ * end keeps the face's own fit — tightening a 1rem serif only muddies it. */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
+  font-weight: 600;
   color: var(--text-heading);
-  line-height: 1.25;
   text-wrap: balance;
 }
 
-h1 { font-size: 1.9rem;  letter-spacing: 0.01em; }
-h2 { font-size: 1.35rem; }
-h3 { font-size: 1.1rem; }
+/* The scale steps hardest at the top — 1.4× from h1 to h2, then 1.25×, then
+   1.17× — because the page title has to outrank a section by more than a
+   section outranks a sub-point. Spectral's x-height is below Inter's, so every
+   size here reads about a tenth smaller than the same number in sans; that is
+   why h3 is 1.2rem and not the 1.1rem that would look right on paper. */
+h1 { font-size: 2.1rem; line-height: 1.15; letter-spacing: -0.018em; }
+h2 { font-size: 1.5rem; line-height: 1.25; letter-spacing: -0.01em; }
+h3 { font-size: 1.2rem; line-height: 1.35; }
+
+/* The course stops at h3. These exist so that a fourth level, the day a page
+   needs one, is not *smaller* than the paragraph under it — the UA sizes h5 and
+   h6 at 0.83em and 0.67em, which is a heading that reads as a footnote. Below
+   h3 the answer is usually a label rather than a heading: see `.astuce::before`
+   for the idiom the interface already uses. */
+h4 { font-size: 1.05rem; line-height: 1.4; }
+h5, h6 { font-size: 1rem; line-height: 1.4; }
 
 p { text-wrap: pretty; }
 
@@ -373,11 +401,59 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
  * asking. Sections are the unit: siblings inside one are close, sections are
  * far apart, and a heading owns the gap above itself rather than below. */
 .prose section > * + * { margin-top: 0.95rem; }
-.prose section + section { margin-top: 2.4rem; }
+.prose section + section { margin-top: 4.75rem; }
 .prose > * + * { margin-top: 1.6rem; }
 
-.prose h2 { margin-bottom: 0.15rem; }
-.prose h3 { margin-top: 1.4rem; }
+/* A section announces itself.
+ *
+ * Space alone was not doing it: two or three sections is the whole lesson
+ * (`AGENTS.md` §9), so each break is a real change of subject, and a gap has to
+ * be enormous before it reads as one. The rule is a short accent bar over the
+ * heading — the same blue `.rule` uses down its left edge, turned on its side.
+ *
+ * **Not a full-width divider.** The page already carries a line under the title
+ * block and another over « Pour aller plus loin »; a third across every break
+ * would turn a lesson into a stack of bands, which is the thing #43 took out of
+ * the topbar. The bar marks a beginning instead of cutting the page.
+ *
+ * `scroll-margin-top` because these are the in-page nav's targets, and below
+ * the drawer breakpoint the topbar is sticky and would otherwise sit on the
+ * heading it just scrolled to (#44). */
+.prose section > h2 {
+  scroll-margin-top: calc(var(--topbar-h) + 1.25rem);
+}
+
+.prose section > h2::before {
+  content: "";
+  display: block;
+  width: 2.25rem;
+  height: 2px;
+  margin-bottom: 0.85rem;
+  border-radius: 1px;
+  background: var(--accent);
+}
+
+/* A heading binds to what it introduces.
+ *
+ * The gap *above* an h2 is the section break above it, so the only thing left
+ * to set is the gap below — and it has to be set on the next element, not on
+ * the heading: adjacent siblings collapse their margins to the larger of the
+ * two, which is why the `margin-bottom: 0.15rem` that used to sit on `.prose
+ * h2` did nothing at all against the 0.95rem above.
+ *
+ * Both selectors are deliberate. A heading inside a `section` has to outrank
+ * `.prose section > * + *`, and the pair of them outrank `.prose > * + *`;
+ * a class alone would merely tie and win on source order, which is not
+ * something to leave load-bearing (`.claude/agents/design-system.md`). */
+.prose section > h2 + *,
+.prose > h2 + * { margin-top: 0.55rem; }
+
+.prose section > h3 + *,
+.prose > h3 + * { margin-top: 0.4rem; }
+
+/* A sub-point is a break inside a section, so it owns more air than a
+   paragraph but well under a section's own. */
+.prose h3 { margin-top: 1.8rem; }
 
 /* A caption is already spaced from its table; without this it collides with
    whatever precedes the table. */
@@ -558,24 +634,32 @@ ul.mots li {
 
 /* « En résumé », at the foot of a prose lesson. Neutral on purpose: it restates
    blocks that are already colour-coded by role, so a fifth accent would compete
-   with them. */
+   with them.
+ *
+ * **It carries a real `<h2>`, and that is what tells it apart from the
+ * callouts** (#67). Printing « En résumé » from a `::before`, the way
+ * `.attention` prints « À retenir : », made the lesson's conclusion look like a
+ * fifth box in a page already full of boxes — same radius, same padding, one
+ * more tiny uppercase label. `.attention` and the rest label a remark inside a
+ * section; this one closes the page, so it is titled like the block it is, and
+ * a title is also what « Index » can point at.
+ *
+ * **And it is not a box.** A border, a tint and a radius are what the callouts
+ * are made of, so wearing them was the whole problem — a titled card at the foot
+ * of a page of cards still reads as one more of them. What is left is what a
+ * conclusion actually is: a heading, a list, and more air above it than any
+ * section break, so the eye stops before it rather than reading on. */
 .resume {
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface-2);
-  padding: 1.1rem 1.35rem;
+  margin-top: 5.5rem;
 }
 
-.resume::before {
-  content: "En résumé";
-  display: block;
-  font-family: var(--font-sans);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-2);
-  margin-bottom: 0.5rem;
+/* `h3`'s size, like « Pour aller plus loin » under it: both close the page
+   rather than open a section, and the pair reads as one kind of thing. No
+   accent bar — that mark belongs to a section beginning, and this is the
+   opposite end. */
+.resume > h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.7rem;
 }
 
 /* A message from the interface — a save that failed, a link that expired.
@@ -617,15 +701,29 @@ table {
   overflow: hidden;
 }
 
+/* The caption names the table, so it is set as a sentence — not as a label.
+ *
+ * Uppercase belongs to the categories the system writes itself: « Astuce »,
+ * « En résumé », « Pour aller plus loin ». Those are one word, chosen here, and
+ * the case carries no information. A caption is the author's own line and it
+ * holds the French being taught — « Le verbe « manger » au passé composé » —
+ * so uppercasing it flattened the guillemets, rode over the accented capitals
+ * this course is half about, and turned a sentence into a tag.
+ *
+ * Serif, by the role split (#53), and italic — which in French is free to be
+ * the caption's own voice, because a cited word takes guillemets rather than
+ * italics. Spectral's italic is a real face (`layout.tsx` loads it), so the
+ * accents are drawn and not slanted. */
 caption {
   caption-side: top;
   text-align: left;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--text-3);
-  padding-bottom: 0.5rem;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--text-2);
+  text-wrap: pretty;
+  padding-bottom: 0.55rem;
 }
 
 th, td {
@@ -646,14 +744,25 @@ thead th {
 tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
 
 /* Feedback states for drills. Each carries a mark as well as a colour, so the
-   state is never signalled by colour alone. */
-.is-correct {
+   state is never signalled by colour alone.
+ *
+ * **Doubled, and that is the whole point of the rule.** These land on a chip,
+ * a word or a card that a drill's own CSS Module has already styled, and a
+ * single class would merely *tie* with that module's `.chip` or `.word` — which
+ * of two equal selectors wins then depends on the order the sheets happen to
+ * land in, which is not the same in dev and in a production build
+ * (`.claude/agents/design-system.md`). The first drill shipped with its chips
+ * showing ✓ and ✗ and no colour at all, because the module won.
+ *
+ * This is the shared vocabulary for "right" and "wrong"; it has to beat the
+ * board it is applied to. A drill must not restate these tokens locally. */
+.is-correct.is-correct {
   border-color: var(--success-line);
   background: var(--success-soft);
   color: var(--success-text);
 }
 
-.is-wrong {
+.is-wrong.is-wrong {
   border-color: var(--danger-line);
   background: var(--danger-soft);
   color: var(--danger-text);

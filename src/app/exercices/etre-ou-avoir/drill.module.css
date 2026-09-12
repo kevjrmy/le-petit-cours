@@ -1,0 +1,139 @@
+/* The board: a pool of verbs above two columns. Only the drill's own furniture
+   lives here — the instructions, the meter and the score panel are shared
+   (`src/components/exercice/Drill.tsx`). */
+
+.board {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  min-height: 3.5rem;
+  padding: 0.7rem;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+}
+
+.poolEmpty {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-3);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+/* Doubled, because `.prose h3` is (0,1,1) and a single class is (0,1,0): the
+   global rhythm would otherwise push the column's own head down 1.8rem
+   (`.claude/agents/design-system.md`). */
+.columnHead.columnHead {
+  margin-top: 0;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--text-heading);
+}
+
+.columnHint {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--text-3);
+}
+
+/* Chips flow and wrap. One per line made a full column sixteen rows tall, so
+   the two columns could not be compared without scrolling, which is the one
+   thing this mechanic exists to let you do. */
+.slot {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+}
+
+/* A chip is a button because it is one: it moves on click and on Enter, and it
+   has to announce which column it is in. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--text-1);
+  font-family: var(--font-serif);
+  font-size: 0.98rem;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.chip:hover:not(:disabled) {
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
+}
+
+.chip:disabled { cursor: default; }
+
+/* The verdict is a mark as well as a tint, so a learner who cannot tell the
+   green from the red still reads the result (`AGENTS.md` §5). */
+.mark {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.corrections {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.corrections li {
+  margin-top: 0;
+  font-size: 0.92rem;
+}
+
+.corrections .verb {
+  font-family: var(--font-serif);
+  color: var(--text-heading);
+}
+
+.actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.remaining {
+  font-size: 0.85rem;
+  color: var(--text-3);
+}
+
+@media (max-width: 30rem) {
+  .columns { grid-template-columns: minmax(0, 1fr); }
+}

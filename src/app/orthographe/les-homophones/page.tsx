@@ -163,6 +163,7 @@ export default function Page() {
       </section>
 
       <div className="resume">
+        <h2>En résumé</h2>
         <ul>
           <li>
             Le test : on remplace le mot par le même verbe à un autre temps. Si

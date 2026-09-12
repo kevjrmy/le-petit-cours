@@ -390,7 +390,28 @@ export const chapters: Chapter[] = [
     path: "/exercices",
     title: "Exercices",
     blurb: "Mettre la théorie en pratique. Chaque exercice se corrige tout seul.",
-    lessons: [],
+    /* Un exercice par mécanique, pas par leçon : le tri montre la famille des
+       verbes en être d'un coup d'œil, la correction fait chercher la faute. */
+    lessons: [
+      {
+        id: "ex-etre-ou-avoir",
+        path: "/exercices/etre-ou-avoir",
+        title: "Être ou avoir ?",
+        tag: "Tri",
+        levels: A2,
+        delf: "Choisir l’auxiliaire du passé composé",
+        created: "2026-09-12",
+      },
+      {
+        id: "ex-trouve-la-faute",
+        path: "/exercices/trouve-la-faute",
+        title: "Trouvez la faute",
+        tag: "Correction",
+        levels: A2,
+        delf: "Repérer et corriger un homophone mal écrit",
+        created: "2026-09-12",
+      },
+    ],
   },
   {
     slug: "jeux",
@@ -836,9 +857,9 @@ const handWrittenLinks: Record<string, string[]> = {
   /* The auxiliaries come first: a learner stuck mid-lesson wants the forms, and
      `les-pronoms-cod-coi` still links back the other way. Four is the cap. */
   "/grammaire/le-passe-compose": [
+    "/exercices/etre-ou-avoir",
     "/conjugaison/avoir",
     "/conjugaison/etre",
-    "/grammaire/l-imparfait",
     "/grammaire/passe-compose-ou-imparfait",
   ],
   "/grammaire/l-imparfait": [
@@ -853,12 +874,30 @@ const handWrittenLinks: Record<string, string[]> = {
     "/conjugaison/etre",
     "/conjugaison/avoir",
   ],
+  /* Chaque exercice renvoie à la leçon qu'il fait travailler, et la leçon
+     renvoie vers lui : un exercice qu'aucune leçon ne cite n'est jamais
+     rencontré au moment où il sert. */
+  "/exercices/etre-ou-avoir": [
+    "/grammaire/le-passe-compose",
+    "/conjugaison/etre",
+    "/conjugaison/avoir",
+    "/grammaire/passe-compose-ou-imparfait",
+  ],
+  "/exercices/trouve-la-faute": [
+    "/orthographe/les-homophones",
+    "/conjugaison/avoir",
+    "/conjugaison/etre",
+    "/traduction/hier-dans-la-rue",
+  ],
   "/grammaire/les-pronoms-cod-coi": [
     "/grammaire/le-passe-compose",
     "/traduction/hier-dans-la-rue",
     "/lecture/cosette-dans-le-bois",
   ],
-  "/orthographe/les-homophones": ["/traduction/un-week-end-a-la-plage"],
+  "/orthographe/les-homophones": [
+    "/exercices/trouve-la-faute",
+    "/traduction/un-week-end-a-la-plage",
+  ],
   "/vocabulaire/l-heure": [
     "/conversation/prendre-rendez-vous",
     "/conversation/parler-du-travail",

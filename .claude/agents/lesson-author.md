@@ -120,7 +120,7 @@ means the renamed one is always the other one.
 
 **There are no `<Rule>` / `<Table>` / `<Attention>` components.** The lesson patterns are CSS
 classes in `globals.css` — `.rule`, `.example`, `.attention` (prints « À retenir : »),
-`.exception` (prints « Sauf : »), `.astuce` with `.astuce-hook`, `.resume` (prints « En résumé »),
+`.exception` (prints « Sauf : »), `.astuce` with `.astuce-hook`, `.resume` (takes a written `h2`),
 `.mots` (the role-play word cloud, a `ul`), `.table-wrap`, and plain
 `<table>` / `<section>` / `<p>`. `PageHeader` is the only component a lesson calls, because it is
 the only one that reads the manifest on the page's behalf — the rest of the manifest-driven
@@ -154,6 +154,12 @@ in use (#53). A table of forms with nothing anchoring them is a paradigm, not a 
 caption say something the heading does not — a caption that repeats the `<h2>`
 above it is read twice and adds nothing.
 
+**A caption is set as a sentence**, in the serif and in italic, so write one: « Le verbe
+« manger » au passé composé », never « MANGER — PASSÉ COMPOSÉ ». Capital on the first word only, no
+full stop at the end, and a cited word takes guillemets. A French word in a row header is French
+like any other: `<th scope="row" className="fr">` — a pronoun column set in sans beside its forms in
+serif is the mismatch this rule exists to stop.
+
 > **The authoring format is deliberately undecided** (`AGENTS.md` §12). Hand-written TSX like the
 > above is the interim, chosen so the primitives can be discovered by using them. Do not set up
 > an MDX pipeline or a content-block schema on your own initiative — write the lesson, and note
@@ -161,15 +167,18 @@ above it is read twice and adds nothing.
 
 ### The end of a lesson: « En résumé »
 
-A prose lesson closes with `<div className="resume">` holding four or five `<li>`, after the last
-teaching section. Borrowed from how OpenClassrooms ends a chapter, and page-local: no route, no
+A prose lesson closes with `<div className="resume">` holding `<h2>En résumé</h2>` and four or five
+`<li>`, after the last teaching section. Borrowed from how OpenClassrooms ends a chapter, and page-local: no route, no
 manifest entry, no stored state.
 
 - **It restates and never adds.** A bullet carrying something the sections did not cover is a
   section missing higher up, not a bullet worth keeping.
 - **One line per rule the page taught**, in the order the page taught them, so the résumé reads as
   the lesson's own spine rather than as a second lesson.
-- **No heading.** The pattern prints « En résumé » itself, like `.attention` prints « À retenir : ».
+- **The heading is written out**, `<h2>En résumé</h2>`, and is not printed by the CSS (#67). It was
+  a `::before` like `.attention`'s « À retenir : », and that made the lesson's conclusion look like a
+  fifth callout in a page already full of them. It is also what « Index » lists, so a
+  résumé without it is a résumé the in-page nav cannot point at.
 - **Never echo the block directly above it.** A lesson usually ends on an `.astuce` or an
   `.attention`, and the two sit adjacent on screen: a final bullet repeating that block in the same
   words reads as duplication rather than as a summary. Both `les-homophones` and `l-heure` shipped

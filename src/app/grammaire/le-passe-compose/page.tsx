@@ -42,32 +42,32 @@ export default function Page() {
             </thead>
             <tbody>
               <tr>
-                <th scope="row">j’</th>
+                <th scope="row" className="fr">j’</th>
                 <td className="fr">ai</td>
                 <td className="fr">mangé</td>
               </tr>
               <tr>
-                <th scope="row">tu</th>
+                <th scope="row" className="fr">tu</th>
                 <td className="fr">as</td>
                 <td className="fr">mangé</td>
               </tr>
               <tr>
-                <th scope="row">il / elle / on</th>
+                <th scope="row" className="fr">il / elle / on</th>
                 <td className="fr">a</td>
                 <td className="fr">mangé</td>
               </tr>
               <tr>
-                <th scope="row">nous</th>
+                <th scope="row" className="fr">nous</th>
                 <td className="fr">avons</td>
                 <td className="fr">mangé</td>
               </tr>
               <tr>
-                <th scope="row">vous</th>
+                <th scope="row" className="fr">vous</th>
                 <td className="fr">avez</td>
                 <td className="fr">mangé</td>
               </tr>
               <tr>
-                <th scope="row">ils / elles</th>
+                <th scope="row" className="fr">ils / elles</th>
                 <td className="fr">ont</td>
                 <td className="fr">mangé</td>
               </tr>
@@ -231,6 +231,7 @@ export default function Page() {
       </section>
 
       <div className="resume">
+        <h2>En résumé</h2>
         <ul>
           <li>
             Le passé composé raconte une action terminée : un auxiliaire au

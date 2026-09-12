@@ -1,45 +1,48 @@
+/* Under the tick, inside the block `LessonEnd` has already separated from the
+   lesson — so space, not a second rule (#67). Enough of it that the tick reads
+   as the end of what you were doing rather than as the first row of this. */
 .related {
-  margin-top: 2.5rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--border-soft);
+  margin-top: 3.6rem;
 }
 
+/* Still a heading — it names the block, and a reader is meant to arrive at it
+   rather than skip it, which is why it is not the uppercase micro-label it used
+   to be (#67). But it is quieter than a section's: smaller, and in `--text-2`
+   rather than the heading colour, because in end-matter the *destinations* are
+   the thing and the label is only telling you what they are. */
 .heading {
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-3);
-  margin-bottom: 0.7rem;
+  font-size: 1.05rem;
+  color: var(--text-2);
+  margin-bottom: 0.6rem;
 }
 
+/* **No cards.** A bordered box on `--surface-1` is the content idiom — it is
+   what a lesson's blocks are made of — so four of them after the tick read as
+   one more section of the page rather than as the way out of it. What is left
+   is what the site's own footer is: small type, muted, links that colour on
+   hover (`Footer.module.css`, #63). The links stay legible at the foot of the
+   lesson because they are the offer, not the signature. */
 .related ul {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  column-gap: 2rem;
+  row-gap: 0.15rem;
 }
 
 .related a {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
-  padding: 0.6rem 0.8rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface-1);
+  gap: 0.05rem;
+  padding: 0.4rem 0;
   color: inherit;
 }
 
-.related a:hover {
-  border-color: var(--accent-line);
-  background: var(--accent-subtle);
-  text-decoration: none;
-}
+.related a:hover { text-decoration: none; }
+.related a:hover .title { color: var(--accent); }
 
 .chapter {
-  font-size: 0.66rem;
+  font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -48,6 +51,7 @@
 
 .title {
   font-family: var(--font-serif);
-  font-size: 0.98rem;
+  font-size: 0.95rem;
   color: var(--text-heading);
+  transition: color var(--dur-fast) ease;
 }

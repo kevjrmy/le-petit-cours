@@ -197,6 +197,7 @@ export default function Page() {
       </section>
 
       <div className="resume">
+        <h2>En résumé</h2>
         <ul>
           <li>
             Le COD suit le verbe sans préposition. Il se remplace par{" "}

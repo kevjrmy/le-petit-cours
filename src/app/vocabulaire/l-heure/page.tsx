@@ -202,6 +202,7 @@ export default function Page() {
       </section>
 
       <div className="resume">
+        <h2>En résumé</h2>
         <ul>
           <li>
             On répond avec <span className="fr">il est</span>, le nombre, puis{" "}

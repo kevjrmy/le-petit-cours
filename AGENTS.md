@@ -177,6 +177,9 @@ Palette and typography are settled (#27): accent `#0044AA` — the wordmark's ow
 - **One definition per token.** Both themes in a single `light-dark(light, dark)` value on
   `:root`; the toggle only flips `color-scheme`. **Never add a per-theme block to define a token** —
   that is how a token works in one mode and breaks in the other.
+- **Spectral is loaded at 400 and 600 only** (`layout.tsx`), so `font-weight: 700` in anything
+  serif — a heading, `.fr`, `.example` — silently renders 600. Headings name 600 themselves; add a
+  weight to the loader and every heading in the course changes. Inter is variable and has 700.
 - **The serif carries the French being taught, the sans carries the explanation.** `.fr` and
   `.example` are Spectral; the prose around them is Inter. The split is by *role* (#53).
   `lang="fr"` is inherited from `<html>` — keep it only where an element is pronounced in isolation.
@@ -184,6 +187,11 @@ Palette and typography are settled (#27): accent `#0044AA` — the wordmark's ow
   and for `.exception`. Nothing else.
 - **Colour is never the only carrier.** `.attention` prints « À retenir : », `.exception` prints
   « Sauf : », a drill's feedback carries a mark as well as a fill.
+- **`.is-correct` / `.is-wrong` are doubled selectors** so they beat the `.chip` or `.word` a drill
+  styles them onto. A single class only ties, and which one wins then depends on the order the
+  sheets land in — the first drill shipped showing ✓ and ✗ with no colour at all.
+- **A `<section>` inside a lesson's section is a section**: it takes the accent bar, the 4.75rem
+  break and a line in the page's Index (#66). Column heads, cards and boards are `div` + `h3`.
 - **Dark mode is not optional** — check it every time (§11). Accessibility is part of the system,
   not a later pass: semantic HTML, `focus-visible` rings, `aria-label` on icon-only controls, a
   `<caption>` on every table.
@@ -260,7 +268,15 @@ through lessons that already exist (#14).
 - **The topbar never names the page you are on** (#45) — the `<h1>` is directly beneath it, and the
   crumb is now the only place a lesson names its chapter. **A fuller breadcrumb grows upward, never
   by putting the leaf back.**
+- **The trail carries the lesson's level, in front of the chapter** (#65) — `Lesson.levels` from the
+  manifest, outside the `<nav>`. **Never the learner's chosen level**: that is a filter on listings
+  (#35), and reading it here puts an async session read in the chrome above every lesson.
 - **One sidebar control, in the topbar, at every breakpoint.**
+
+- **« Index » is read from the page, not the manifest** (#66) — `LessonToc` walks every `h2` in the
+  article after paint and assigns the ids. A lesson declares no outline, so the anchors are **not
+  permanent**: renaming a section changes its fragment. Lessons only, and only where the margin has
+  room — **the reading column never shrinks for it**.
 
 **Chapters carry an icon and a missing one does not compile** (#42). `IconName` is a union in the
 manifest and `ChapterIcon`'s map is a `Record<IconName, …>`, so both directions are checked.
@@ -374,8 +390,10 @@ These cost real bugs in the old codebase. None of them care which framework rend
 **Content**
 
 - A lesson is **two or three sections**. A topic that needs more is two lessons.
-- **A prose lesson closes with « En résumé »** — `.resume`, four or five bullets that restate the
-  sections and add nothing, as the last child of the `<article>`. Prose chapters only.
+- **A prose lesson closes with « En résumé »** — `.resume`, holding an `<h2>En résumé</h2>` and four
+  or five bullets that restate the sections and add nothing, as the last child of the `<article>`.
+  Prose chapters only. **The heading is written, not printed by the CSS** (#67): it is what tells
+  the block from the callouts and what « Index » points at.
   **A prose lesson gets no quiz of its own**; « Avez-vous compris ? » belongs to `lecture/`, where
   it checks a text. Practice is `exercices/`. `lesson-author.md` carries the page-type list.
 - Tables: a `<caption>`, **four columns maximum**, and where a Spanish column once sat, an
@@ -480,6 +498,10 @@ icons-only rail (56.25–75rem), mobile drawer (< 56.25rem). Most of this app's 
 one of those six combinations, and **the rail is the one nobody remembers**, because no default
 window width lands in it.
 
+**A lesson has a fourth width**: « Index » appears at ≥ 93.75rem beside the full panel and
+at ≥ 81.25rem beside the rail (#66). Neither is a shell mode, and no default window lands on the
+second — force it with `--width=1400 --eval="document.documentElement.setAttribute('data-rail','1')"`.
+
 ```bash
 node scripts/shot.mjs http://localhost:3000/<route> out.png --full            # light, sidebar
 node scripts/shot.mjs http://localhost:3000/<route> out.png --full --dark     # dark
@@ -506,7 +528,9 @@ Recorded so nobody decides them by writing code. Closed ones are in `docs/decisi
    eventually and contributing teachers eventually both push toward **content-as-data**. Build the
    primitives, hand-write a few lessons, decide with evidence. **Do not build a pipeline yet.**
 2. **Which chapters ship next.** A2 only is settled (#52); the order is not. `conjugaison` is built
-   (#56). **`prononciation` needs a decision before it can be written**, because §7 makes it
-   data-driven — a component before it is a lesson.
-3. **Whether the heritage parcours gets its own front door.**
-4. **Whether `.vue/` gets deleted** once the rewrite has outgrown it.
+   (#56) and `exercices` has opened with two drills (#68). **`prononciation` needs a decision before
+   it can be written**, because §7 makes it data-driven — a component before it is a lesson.
+3. **Where « Index » goes below the breakpoint** (#66). The margin does not exist on a phone, and a
+   disclosure at the top of every lesson is chrome in front of the prose. Decide before writing one.
+4. **Whether the heritage parcours gets its own front door.**
+5. **Whether `.vue/` gets deleted** once the rewrite has outgrown it.

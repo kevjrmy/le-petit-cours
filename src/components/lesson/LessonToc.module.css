@@ -1,0 +1,86 @@
+/* The in-page nav lives in the margin beside the reading column, and the
+   margin is the whole constraint.
+ *
+ * `.prose` is a 52rem measure centred in the content area, so the free space on
+ * each side is `(main - measure) / 2`. The nav needs `--toc-w` of it plus the
+ * gaps, and below that it does not draw at all rather than crowd the text: the
+ * reading column does not shrink for a convenience, and shifting it left would
+ * move every lesson off the axis the crumb above it is aligned on (#64).
+ *
+ * The two thresholds are that sum, once per sidebar state — 16.5rem of panel
+ * needs 93.75rem of viewport, the 3.75rem rail needs 81.25rem. Between them the
+ * learner who collapses the panel gets the nav, which is the right answer to
+ * « where did it go » (`AGENTS.md` §11: this is a fourth width to check). */
+.toc {
+  display: none;
+  position: fixed;
+  top: calc(var(--topbar-h) + 2.25rem);
+  right: max(
+    1.5rem,
+    calc((100vw - var(--sidebar-now) - var(--measure)) / 2 - var(--toc-w) - 2rem)
+  );
+  width: var(--toc-w);
+  max-height: calc(100vh - var(--topbar-h) - 5rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* `right` is computed from `--sidebar-now`, which flips the instant the panel
+     is collapsed; without this the nav jumps while the page slides. */
+  transition: right var(--dur) var(--ease);
+}
+
+@media (min-width: 93.75rem) {
+  .toc { display: block; }
+}
+
+@media (min-width: 81.25rem) {
+  :root[data-rail="1"] .toc { display: block; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toc { transition: none; }
+}
+
+/* An interface label, not a heading: one fixed phrase, chosen here and never by
+   an author, which is the case the uppercase idiom is for — the same one
+   `.astuce::before` uses. */
+.label {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 0.55rem;
+}
+
+/* The line is the spine of the list and the active marker sits on it, which is
+   why the links pull one pixel left over it rather than beside it. */
+.toc ol {
+  list-style: none;
+  padding: 0;
+  border-left: 1px solid var(--border);
+}
+
+.toc a {
+  display: block;
+  margin-left: -1px;
+  padding: 0.28rem 0 0.28rem 0.8rem;
+  border-left: 2px solid transparent;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--text-2);
+  transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+
+.toc a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* The section you are reading. The mark is a line as well as a colour, so it
+   survives for anyone who cannot tell the blue from the grey. */
+.toc a[aria-current] {
+  border-left-color: var(--accent);
+  color: var(--accent-text);
+  font-weight: 600;
+}

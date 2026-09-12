@@ -51,6 +51,26 @@ export default function DesignPage() {
       </section>
 
       <section className={styles.section}>
+        <h2>Titres</h2>
+        <p>
+          L’échelle entière, en Spectral 600. Le cours s’arrête à{" "}
+          <code>h3</code> : en dessous, ce qu’il faut est presque toujours une
+          étiquette et non un titre (voir « Astuce » plus bas).
+        </p>
+        <div className={styles.stack}>
+          <h1>Le passé composé</h1>
+          <h2>Le passé composé avec « avoir »</h2>
+          <h3>Les verbes du premier groupe</h3>
+          <h4>Un quatrième niveau, si une page en a besoin</h4>
+          <p>
+            Et le paragraphe qui suit, en Inter : c’est lui qui donne son sens à
+            l’échelle, puisqu’un titre n’est grand que par rapport au texte
+            qu’il annonce.
+          </p>
+        </div>
+      </section>
+
+      <section className={styles.section}>
         <h2>Le français en serif, l’explication en sans</h2>
         <p>
           Tout le cours est écrit en français (#53) : les deux familles ne
@@ -88,6 +108,7 @@ export default function DesignPage() {
             des <span className="fr" lang="fr">œufs</span> se prononce « eu ».
           </div>
           <div className="resume">
+            <h2>En résumé</h2>
             <ul>
               <li>Le résumé redit la leçon, il n’y ajoute rien.</li>
               <li>

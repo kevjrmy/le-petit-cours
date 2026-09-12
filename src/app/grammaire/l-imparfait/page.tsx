@@ -47,37 +47,37 @@ export default function Page() {
             </thead>
             <tbody>
               <tr>
-                <th scope="row">je</th>
+                <th scope="row" className="fr">je</th>
                 <td className="fr">parlais</td>
                 <td className="fr">finissais</td>
                 <td className="fr">prenais</td>
               </tr>
               <tr>
-                <th scope="row">tu</th>
+                <th scope="row" className="fr">tu</th>
                 <td className="fr">parlais</td>
                 <td className="fr">finissais</td>
                 <td className="fr">prenais</td>
               </tr>
               <tr>
-                <th scope="row">il / elle / on</th>
+                <th scope="row" className="fr">il / elle / on</th>
                 <td className="fr">parlait</td>
                 <td className="fr">finissait</td>
                 <td className="fr">prenait</td>
               </tr>
               <tr>
-                <th scope="row">nous</th>
+                <th scope="row" className="fr">nous</th>
                 <td className="fr">parlions</td>
                 <td className="fr">finissions</td>
                 <td className="fr">prenions</td>
               </tr>
               <tr>
-                <th scope="row">vous</th>
+                <th scope="row" className="fr">vous</th>
                 <td className="fr">parliez</td>
                 <td className="fr">finissiez</td>
                 <td className="fr">preniez</td>
               </tr>
               <tr>
-                <th scope="row">ils / elles</th>
+                <th scope="row" className="fr">ils / elles</th>
                 <td className="fr">parlaient</td>
                 <td className="fr">finissaient</td>
                 <td className="fr">prenaient</td>
@@ -159,6 +159,7 @@ export default function Page() {
       </section>
 
       <div className="resume">
+        <h2>En résumé</h2>
         <ul>
           <li>
             Le radical vient du <span className="fr">nous</span> du présent, sans{" "}

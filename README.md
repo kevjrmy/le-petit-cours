@@ -15,11 +15,11 @@ at home, a track that teaches them to write it.
 > **2026-09-05** it was restarted on Next.js. The design system, the app shell, the navigation
 > manifest, search, the whole account flow — sign-in, the chosen level, the display name — and
 > progress, from the « J'ai terminé » tick to `/ma-progression`, are written. The fifteen chapters
-> are declared and **twenty-four lessons are published**, all A2, all written in French: four in
-> `grammaire`, twelve verb sheets in `conjugaison`, one in `orthographe`, one in `vocabulaire`,
-> two role-plays in `conversation` and four texts in `traduction`. Nothing is announced before it
-> is written, so a chapter waits offstage until it has a page. Accounts work; offline caching is
-> not installed.
+> are declared and **thirty-four lessons are published**, all A2, all written in French: four in
+> `grammaire`, twelve verb sheets in `conjugaison`, seven texts in `lecture`, four in `traduction`,
+> three role-plays in `conversation`, two drills in `exercices`, one in `orthographe` and one in
+> `vocabulaire`. Nothing is announced before it is written, so a chapter waits offstage until it has
+> a page. Accounts work; offline caching is not installed.
 >
 > The Vue implementation is kept in [`.vue/`](.vue/) as a reference. It is not built, not
 > imported, and not being ported file-for-file; it is there to be read. See

@@ -54,7 +54,7 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 42 | 2026-09-06 | Three shells — drawer, rail, sidebar; chapters get icons again, checked by the compiler | Binding |
 | 43 | 2026-09-06 | The topbar is part of the page: no band, not sticky | Sticky half superseded by #44 |
 | 44 | 2026-09-06 | The topbar is sticky on mobile only, painted in the page's own ground | Binding |
-| 45 | 2026-09-06 | One sidebar control, in the topbar; the trail never names the current page | Binding |
+| 45 | 2026-09-06 | One sidebar control, in the topbar; the trail never names the current page | Crumb-placement half superseded by #64 |
 | 46 | 2026-09-06 | No copyright notice; the reuse terms live on `/a-propos` | Binding |
 | 47 | 2026-09-06 | The account popover holds the account, and nothing else | Binding |
 | 48 | 2026-09-06 | A tick needs an account, and it is never automatic | Placement half superseded by #49, keying half by #50 |
@@ -73,6 +73,11 @@ record, and a decision reversed without a reason tends to get reversed back.
 | 61 | 2026-09-12 | The first screen: the badge is the chrome's brand, the wordmark the home page's `<h1>` | Binding |
 | 62 | 2026-09-12 | Nothing counts what is in a chapter; `Chapter.unit` is retired | Binding |
 | 63 | 2026-09-12 | The footer belongs to the home page; the shell's foot is one shared row | Binding |
+| 64 | 2026-09-12 | The crumb is aligned on the reading column, not on the button beside it | Binding |
+| 65 | 2026-09-12 | The lesson's level rides in the trail, in front of the chapter | Binding |
+| 66 | 2026-09-12 | Sections are marked, not merely spaced; the in-page nav is read from the page | Binding |
+| 67 | 2026-09-12 | « En résumé » is a titled block, and one line closes a lesson | Binding |
+| 68 | 2026-09-12 | The exercices chapter opens with two drills, chosen for their mechanics | Binding |
 
 ---
 
@@ -1480,6 +1485,10 @@ this entry removed.
 because a lone line of text at the shell's edge looked orphaned. With the control beside it the two
 form a group, and a group belongs against the panel, not floating over the measure.
 
+*(2026-09-12: **superseded by #64.** They never read as a group — they read as a link crowded
+against a button. The crumb is back on the reading column above the breakpoint; the control stays
+where this entry put it.)*
+
 **What it took with it:** the labels in `unlistedPages`, which existed only to name `/`, `/recherche`
 and `/design` in that bar. The list stays — the `nav-wiring` audit reads it to catch a route that is
 in neither the manifest nor it — but it is a `string[]` now, because a map whose values nothing reads
@@ -2173,3 +2182,109 @@ the name. The shared height is `--shell-foot-h`, read by both — two numbers wo
 it is also what stops the rail stepping the rule, since there the account label is hidden and the
 avatar alone comes up short. **Change the account control's height and this token follows, or the
 rule breaks in half as it crosses the panel's edge.**
+
+## 64 · The crumb sits over the reading column, not beside the button
+
+**2026-09-12 · Binding · supersedes the crumb-placement half of #45**
+
+#45 put the control and the trail together and called them a group. They are not one: a 2.25rem
+button and 0.85rem of text, 0.6rem apart, while the `<h1>` the crumb names the parent of starts a
+hundred pixels to the right. The crumb is on the reading column now, above the drawer breakpoint
+only; the button keeps its place against the panel it collapses.
+
+The offset is computed from the tokens the content uses — `(100% - var(--measure)) / 2 - 2.25rem` —
+so it follows `--measure` and `--shell-gutter`. **`max()` is load-bearing**: in the rail the column
+is barely wider than the measure, the computed offset falls to zero, and the crumb would land on
+the button.
+
+## 65 · The level moves off the title and into the trail
+
+**2026-09-12 · Binding · grows the trail #45 left room for**
+
+« A2 » sat beside the `<h1>`; it is in front of the chapter now — **A2 · Grammaire** — over a title
+that is only the title. #45 named a level as the legitimate way for the trail to grow.
+
+**It is the lesson's tag, not the learner's chosen level.** `Lesson.levels` is manifest data, so the
+bar reads no session and nothing flashes. The chosen level is a filter on listings, never on access
+(#35): putting *it* there would claim the page belongs to a level the learner picked, on a page that
+renders in full whatever they picked, and would drag a client session read into the chrome above
+every lesson. **Do not.**
+
+It stays outside the `<nav>` — a level is not a step of the trail — and `levels: []` still draws
+nothing (#23).
+
+## 66 · Sections are marked, and the margin carries an index
+
+**2026-09-12 · Binding · the mobile placement is open, see `AGENTS.md` §12**
+
+**« Pour aller plus loin » is a heading, not an eyebrow.** Uppercase belongs to the labels the
+*system* writes — « Astuce », « En résumé », « Index » — one fixed word where the case says nothing.
+Dressing the one thing offered after a lesson as chrome told the eye to skip it.
+
+**A short accent bar over every section heading.** Two or three sections *is* the lesson (§9), so
+each break is a change of subject, and space alone never read as one. Decided against a full-width
+divider: the page already rules the title block and the cross-links, and a third line at every break
+makes a lesson a stack of bands (#43). A bar marks a beginning; a rule cuts.
+
+**« Index » lists the lesson's own headings, read from the rendered page.** The manifest owns
+lessons, not the headings inside them, and a second list would drift the first time a section was
+renamed (#56). `LessonToc` walks every `h2` in the article after paint and assigns the ids, so a
+lesson declares no outline — and **the anchors are therefore not permanent**: rename a section and
+its fragment changes. The path is the address that is promised (#50).
+
+**It does not draw when the margin cannot hold it, and the reading column never shrinks for it** —
+93.75rem of viewport beside the full panel, 81.25rem beside the rail. Shifting the column left to
+fit one on narrower screens was the alternative, and it would move every lesson off the axis the
+crumb is aligned on (#64), on every page, for something only wide screens see.
+
+## 67 · The end of a lesson: a title, one line, an index entry
+
+**2026-09-12 · Binding · changes the markup `.resume` has had since the scaffold**
+
+**« En résumé » carries a written `<h2>`, and is not a box.** It printed its own label from a
+`::before` inside a bordered, tinted card — the callouts' own clothes — so the lesson's conclusion
+read as one more of them. A `::before` is also unpointable: #66's index links to headings, and this
+is the part a reader comes back for. Decided against keeping the `::before` and giving the div an
+id — a link whose target has no accessible name, to save one line in seven files.
+
+**One line closes the lesson.** The tick drew a rule and the cross-links drew another, a few
+centimetres apart with a button between them. It is on `LessonEnd` now, once, above the tick: the
+lesson ends where the shell's furniture begins (#49). The résumé stays above it, being the lesson's
+own conclusion rather than furniture.
+
+**The scroll-spy reads rects on scroll, not an IntersectionObserver.** Found by screenshot: an
+observer watching a zero-height band never fires when the page jumps past every heading at once,
+which is exactly what following a link *in this index* does.
+
+## 68 · The first two drills, and what was taken from the Vue app
+
+**2026-09-12 · Binding · first content in `exercices/`**
+
+Twenty drills exist in `.vue/`; two were rebuilt here, chosen for their **mechanic**, because nine
+of the first eleven there were the same four-option MCQ.
+
+- **« Être ou avoir ? »** — a sorting board: sixteen verbs, two columns, all on screen, so the small
+  family of *être* verbs is visible against the mass of the others. Asked one verb at a time with
+  four options, the same content is an elimination game.
+- **« Trouvez la faute »** — locate, then repair. The sentence arrives whole, because the heritage
+  speaker's difficulty is that it *looks* finished; several items carry a correct instance of the
+  same word.
+
+**Nothing was ported** (#4): the Vue files were read for the mechanic, the data and the French are
+new. Two data decisions worth keeping:
+
+- **A verb that changes auxiliary cannot be a bare chip.** *sortir* takes être **and** avoir, which
+  the lesson teaches in its own astuce, so the Vue drill's bare « sortir » in the être column had
+  two defensible answers. Both readings are in the deck, each with its complement.
+- **The repair is a click, not a text field.** The corrections are *à*, *où*, *est*: dead keys on
+  the Spanish keyboard both profiles use (§1). Ten forms, fixed pool, stable order.
+
+**A drill is browser-only, and that is forced rather than chosen.** A shuffled deck cannot be
+server-rendered, and the escape — shuffle in an effect — is rejected by
+`react-hooks/set-state-in-effect`. Each drill is a `dynamic(…, { ssr: false })` wrapper over a
+board; the page around it still prerenders.
+
+**Two traps found by playing them, not reading them.** Column heads as `<section><h2>` took the
+section accent bar, the section break and a line in the Index (#66). And `.is-correct` only *tied*
+with the module's `.chip`, so the first round showed ✓ and ✗ with no colour at all — the feedback
+classes are doubled selectors now.

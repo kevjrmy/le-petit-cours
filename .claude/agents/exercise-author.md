@@ -20,15 +20,41 @@ The page is a Server Component; the drill is a `'use client'` leaf it imports.
 
 ```tsx
 // src/app/exercices/les-articles/page.tsx      — server
+import { lessonMetadata } from '@/components/lesson/metadata'
+import { PageHeader } from '@/components/lesson/PageHeader'
 import { LesArticlesDrill } from './drill'
-export const metadata = { title: 'Les articles' }
-export default function Page() { return <Exercice title="Les articles"><LesArticlesDrill /></Exercice> }
+
+const PATH = '/exercices/les-articles'
+export const metadata = lessonMetadata(PATH)          // read from the manifest, never retyped
+
+export default function Page() {
+  return (
+    <article className="prose">
+      <PageHeader path={PATH} />
+      <section>
+        <h2>…</h2>
+        <p>… la consigne, et un lien vers la leçon que l'exercice fait travailler …</p>
+        <LesArticlesDrill />
+      </section>
+    </article>
+  )
+}
 ```
 
+There is no `<Exercice>` wrapper: an exercise is a lesson in the manifest like any other, so
+`PageHeader` gives it its title and `LessonEnd` gives it the tick and the cross-links.
+
 ```tsx
-// src/app/exercices/les-articles/drill.tsx     — client
+// src/app/exercices/les-articles/drill.tsx     — client, the dynamic() wrapper
+// src/app/exercices/les-articles/board.tsx     — client, never server-rendered
+// src/app/exercices/les-articles/data.ts       — the items, and the check that validates them
 'use client'
 ```
+
+**The shared furniture exists**: `Instructions`, `Meter` and `Score` in
+`src/components/exercice/Drill.tsx` (the thresholds live in `Score`, so two drills cannot disagree
+about what a good round is), `AccentBar` beside it, and the one `shuffle()` in `src/lib/shuffle.ts`.
+A drill writes its board's CSS Module and nothing else.
 
 Never mark the page client to make the drill work. The instructions, the title and the
 cross-links stay server-rendered.
@@ -54,8 +80,12 @@ initial HTML for a drill is rendered on the server, so anything non-deterministi
 produces a different tree on each side and React throws a hydration error:
 
 - **`shuffle()` in render or in a lazy `useState` initialiser** — the server shuffles one way,
-  the browser another. Shuffle in an effect on mount and render a quiet placeholder until the
-  deck exists, or load the drill with `next/dynamic` and `ssr: false`.
+  the browser another. **Load the drill with `next/dynamic` and `ssr: false`**; shuffling in an
+  effect is no longer available, because `react-hooks/set-state-in-effect` rejects the `setState`
+  that would publish the deck, and laundering a correctness rule past a lint rule is worse than
+  either. That costs one file — a `'use client'` `drill.tsx` holding the `dynamic()` call, with the
+  board itself in `board.tsx` — and the page around it still prerenders. See
+  `src/app/exercices/etre-ou-avoir/drill.tsx`.
 - `Math.random()`, `Date.now()`, `new Date()` in render — same problem, same fix.
 - `localStorage`, `window`, `navigator`, `speechSynthesis` — undefined on the server. Touch them
   in an effect or in an event handler, never during render.
