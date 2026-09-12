@@ -19,7 +19,7 @@
  * is left is the shape — fifteen chapters, their blurbs, their icons — and the
  * first real lesson will be A2.
  *
- * **Chapter order is inherited from the Vue app, not decided.** Which chapters
+ * **Chapter order is inherited, not decided.** Which chapters
  * carry the A2 content and in what order is still open (`AGENTS.md` §12) and is
  * meant to be settled by the DELF A2 syllabus, not by whatever this file
  * happened to say first.
@@ -99,7 +99,7 @@ export interface Lesson extends PageEntry {
  * vocabulary, and because being a union is what makes both directions a
  * compile error: a chapter with no icon does not typecheck, and
  * `ChapterIcon`'s `Record<IconName, …>` cannot be missing one either. That is
- * the repair to #29 — the Vue map ended `?? icons.default`, so a forgotten
+ * the repair to #29 — an earlier map ended `?? icons.default`, so a forgotten
  * chapter rendered a generic glyph and nothing failed (#42).
  */
 export type IconName =
@@ -138,7 +138,7 @@ export interface Chapter {
   lessons: Lesson[];
 }
 
-/** Every level the course declares. B1 upward are empty on purpose (#12). */
+/** Every level the course declares. B1 upward are empty on purpose (#52). */
 export const LEVELS: Level[] = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
 /**
@@ -177,6 +177,14 @@ export const chapters: Chapter[] = [
        tenses in teaching order, then pronouns. */
     lessons: [
       {
+        id: "gram-negation",
+        path: "/grammaire/la-negation",
+        title: "La négation",
+        levels: A2,
+        delf: "Dire ce qu’on ne fait pas, ce qu’on n’a pas",
+        created: "2026-09-12",
+      },
+      {
         id: "gram-passe-compose",
         path: "/grammaire/le-passe-compose",
         title: "Le passé composé",
@@ -199,6 +207,14 @@ export const chapters: Chapter[] = [
         levels: A2,
         delf: "Choisir le temps du passé dans un récit",
         created: "2026-09-06",
+      },
+      {
+        id: "gram-futur-proche",
+        path: "/grammaire/le-futur-proche",
+        title: "Le futur proche",
+        levels: A2,
+        delf: "Dire ce qu’on va faire, projeter une action",
+        created: "2026-09-12",
       },
       {
         id: "gram-pronoms-cod-coi",
@@ -309,6 +325,15 @@ export const chapters: Chapter[] = [
         created: "2026-09-06",
       },
       {
+        id: "conj-partir",
+        path: "/conjugaison/partir",
+        title: "partir",
+        tag: "3e groupe",
+        levels: A2,
+        delf: "Présent, imparfait, passé composé, futur simple, impératif.",
+        created: "2026-09-12",
+      },
+      {
         id: "conj-pouvoir",
         path: "/conjugaison/pouvoir",
         title: "pouvoir",
@@ -326,6 +351,15 @@ export const chapters: Chapter[] = [
         delf: "Présent, imparfait, passé composé, futur simple, impératif.",
         created: "2026-09-06",
       },
+      {
+        id: "conj-devoir",
+        path: "/conjugaison/devoir",
+        title: "devoir",
+        tag: "3e groupe",
+        levels: A2,
+        delf: "Présent, imparfait, passé composé, futur simple, impératif.",
+        created: "2026-09-12",
+      },
     ],
   },
   {
@@ -340,6 +374,15 @@ export const chapters: Chapter[] = [
        forms sound identical. */
     lessons: [
       {
+        id: "orth-accents",
+        path: "/orthographe/les-accents",
+        title: "Les accents et la cédille",
+        subtitle: "é · è · ê · ë · ç",
+        levels: ANY,
+        delf: "Écrire les signes qui font partie du mot",
+        created: "2026-09-12",
+      },
+      {
         id: "orth-homophones",
         path: "/orthographe/les-homophones",
         title: "Les homophones",
@@ -347,6 +390,15 @@ export const chapters: Chapter[] = [
         levels: ANY,
         delf: "Écrire sans confondre les mots qui se prononcent pareil",
         created: "2026-09-06",
+      },
+      {
+        id: "orth-determinants-possessifs",
+        path: "/orthographe/les-determinants-possessifs",
+        title: "Les déterminants possessifs",
+        subtitle: "mon / ma / mes · son / sa / ses · leur / leurs",
+        levels: ANY,
+        delf: "Écrire à qui la chose appartient, et l’accorder",
+        created: "2026-09-12",
       },
     ],
   },
@@ -365,6 +417,23 @@ export const chapters: Chapter[] = [
         delf: "Demander et dire l’heure, fixer un rendez-vous",
         created: "2026-09-06",
       },
+      {
+        id: "voc-jours-et-date",
+        path: "/vocabulaire/les-jours-et-la-date",
+        title: "Les jours et la date",
+        levels: A2,
+        delf: "Situer un événement dans la semaine, dans l’année",
+        created: "2026-09-12",
+      },
+      {
+        id: "voc-travail",
+        path: "/vocabulaire/le-travail",
+        title: "Le travail",
+        subtitle: "Le métier, le lieu, le contrat",
+        levels: A2,
+        delf: "Parler de son métier et de ses conditions de travail",
+        created: "2026-09-12",
+      },
     ],
   },
   {
@@ -374,7 +443,26 @@ export const chapters: Chapter[] = [
     title: "Astuces",
     blurb:
       "Un truc à retenir, ses exceptions, et un lien vers la leçon qui l'explique en entier.",
-    lessons: [],
+    lessons: [
+      {
+        id: "astuce-etre-ou-avoir",
+        path: "/astuces/etre-ou-avoir",
+        title: "Être ou avoir ?",
+        subtitle: "Choisir l’auxiliaire du passé composé",
+        levels: A2,
+        delf: "Raconter un événement passé",
+        created: "2026-09-12",
+      },
+      {
+        id: "astuce-a-en-au-aux",
+        path: "/astuces/a-en-au-aux",
+        title: "à, en, au ou aux ?",
+        subtitle: "Devant une ville, devant un pays",
+        levels: A2,
+        delf: "Dire où l’on habite, où l’on va, d’où l’on vient",
+        created: "2026-09-12",
+      },
+    ],
   },
   {
     slug: "prononciation",
@@ -447,6 +535,26 @@ export const chapters: Chapter[] = [
         levels: A2,
         delf: "Demander un rendez-vous, proposer et accepter une heure.",
         created: "2026-09-06",
+      },
+      {
+        id: "conv-demander-son-chemin",
+        path: "/conversation/demander-son-chemin",
+        title: "Demander son chemin",
+        subtitle: "Dans une ville inconnue",
+        tag: "Jeu de rôle",
+        levels: A2,
+        delf: "Demander et suivre un itinéraire simple, faire répéter.",
+        created: "2026-09-12",
+      },
+      {
+        id: "conv-au-restaurant",
+        path: "/conversation/au-restaurant",
+        title: "Au restaurant",
+        subtitle: "Commander, et régler l’addition",
+        tag: "Jeu de rôle",
+        levels: A2,
+        delf: "Commander un repas, poser une question sur un plat, payer.",
+        created: "2026-09-12",
       },
       {
         id: "conv-parler-espagne",
@@ -529,6 +637,16 @@ export const chapters: Chapter[] = [
       "De courts textes à lire, avec des questions pour vérifier ce que vous avez compris.",
     lessons: [
       {
+        id: "lect-entretien-embauche",
+        path: "/lecture/un-entretien-d-embauche",
+        title: "Un entretien d’embauche",
+        subtitle: "Dialogue écrit pour ce cours",
+        tag: "Compréhension",
+        levels: A2,
+        delf: "Comprendre un échange professionnel simple et en retenir les faits.",
+        created: "2026-09-12",
+      },
+      {
         id: "lect-chevre-seguin",
         path: "/lecture/la-chevre-de-monsieur-seguin",
         title: "La chèvre de monsieur Seguin",
@@ -537,6 +655,16 @@ export const chapters: Chapter[] = [
         levels: A2,
         delf: "Comprendre un court récit littéraire et répondre à des questions simples.",
         created: "2026-09-07",
+      },
+      {
+        id: "lect-lion-et-rat",
+        path: "/lecture/le-lion-et-le-rat",
+        title: "Le Lion et le Rat",
+        subtitle: "Jean de La Fontaine, 1668",
+        tag: "Compréhension",
+        levels: A2,
+        delf: "Comprendre un récit court en vers et en dégager la morale.",
+        created: "2026-09-12",
       },
       {
         id: "lect-phileas-fogg",
@@ -609,8 +737,18 @@ export const chapters: Chapter[] = [
     icon: "litterature",
     path: "/litterature",
     title: "Littérature",
-    blurb: "Les classiques français, en extraits courts et commentés.",
-    lessons: [],
+    blurb:
+      "Les classiques français : par où commencer, et ce qu’on trouve dans chacun.",
+    lessons: [
+      {
+        id: "litt-par-ou-commencer",
+        path: "/litterature/par-ou-commencer",
+        title: "Par où commencer",
+        subtitle: "Quatorze classiques, et lequel ouvrir en premier",
+        levels: ANY,
+        created: "2026-09-12",
+      },
+    ],
   },
   {
     slug: "musique",
@@ -618,7 +756,17 @@ export const chapters: Chapter[] = [
     path: "/musique",
     title: "Musique",
     blurb: "Apprendre en chantant : vocabulaire et contexte, extrait par extrait.",
-    lessons: [],
+    lessons: [
+      {
+        id: "mus-vie-en-rose",
+        path: "/musique/la-vie-en-rose",
+        title: "La vie en rose",
+        subtitle: "Édith Piaf, 1945",
+        levels: ANY,
+        delf: "Comprendre une chanson simple et l’expression qui lui donne son titre",
+        created: "2026-09-12",
+      },
+    ],
   },
   {
     slug: "culture",
@@ -854,6 +1002,86 @@ const verbSheetLinks: Record<string, string[]> = Object.fromEntries(
 );
 
 const handWrittenLinks: Record<string, string[]> = {
+  /* Une astuce renvoie à la leçon qui possède la règle et à l'exercice qui la
+     fait travailler (`.claude/agents/lesson-author.md`) : sans ces deux liens,
+     le raccourci vit seul et finit par contredire la leçon. */
+  "/astuces/etre-ou-avoir": [
+    "/grammaire/le-passe-compose",
+    "/exercices/etre-ou-avoir",
+    "/conjugaison/etre",
+    "/conjugaison/avoir",
+  ],
+  "/astuces/a-en-au-aux": [
+    "/conversation/demander-son-chemin",
+    "/conversation/parler-de-l-espagne",
+  ],
+  "/grammaire/la-negation": [
+    "/grammaire/le-futur-proche",
+    "/grammaire/le-passe-compose",
+    "/conjugaison/etre",
+    "/conjugaison/avoir",
+  ],
+  "/grammaire/le-futur-proche": [
+    "/conjugaison/aller",
+    "/grammaire/la-negation",
+    "/grammaire/les-pronoms-cod-coi",
+    "/lecture/un-entretien-d-embauche",
+  ],
+  /* Les trois pages d'orthographe se tiennent : les accents expliquent pourquoi
+     deux mots diffèrent à l'écrit, les homophones donnent le test, les
+     possessifs sont la paire que le test ne tranche pas. */
+  "/orthographe/les-accents": [
+    "/orthographe/les-homophones",
+    "/orthographe/les-determinants-possessifs",
+    "/conjugaison/commencer",
+  ],
+  "/orthographe/les-determinants-possessifs": [
+    "/orthographe/les-homophones",
+    "/orthographe/les-accents",
+  ],
+  "/vocabulaire/les-jours-et-la-date": [
+    "/vocabulaire/l-heure",
+    "/conversation/prendre-rendez-vous",
+    "/lecture/un-entretien-d-embauche",
+  ],
+  "/vocabulaire/le-travail": [
+    "/lecture/un-entretien-d-embauche",
+    "/conversation/parler-du-travail",
+    "/vocabulaire/les-jours-et-la-date",
+  ],
+  "/conversation/au-restaurant": [
+    "/grammaire/la-negation",
+    "/grammaire/le-futur-proche",
+    "/conversation/demander-son-chemin",
+  ],
+  "/conversation/demander-son-chemin": [
+    "/astuces/a-en-au-aux",
+    "/conversation/au-restaurant",
+    "/conjugaison/prendre",
+  ],
+  "/lecture/un-entretien-d-embauche": [
+    "/vocabulaire/le-travail",
+    "/conversation/parler-du-travail",
+    "/grammaire/le-futur-proche",
+    "/grammaire/le-passe-compose",
+  ],
+  "/lecture/le-lion-et-le-rat": [
+    "/litterature/par-ou-commencer",
+    "/lecture/la-chevre-de-monsieur-seguin",
+    "/grammaire/le-passe-compose",
+  ],
+  "/musique/la-vie-en-rose": [
+    "/grammaire/les-pronoms-cod-coi",
+    "/litterature/par-ou-commencer",
+  ],
+  /* La liste de lectures pointe vers les textes du cours qui en sont tirés :
+     c'est ce qui empêche la page de rester une bibliographie. */
+  "/litterature/par-ou-commencer": [
+    "/lecture/le-lion-et-le-rat",
+    "/lecture/le-comte-de-monte-cristo",
+    "/lecture/cyrano-de-bergerac",
+    "/lecture/du-cote-de-chez-swann",
+  ],
   /* The auxiliaries come first: a learner stuck mid-lesson wants the forms, and
      `les-pronoms-cod-coi` still links back the other way. Four is the cap. */
   "/grammaire/le-passe-compose": [
@@ -879,9 +1107,9 @@ const handWrittenLinks: Record<string, string[]> = {
      rencontré au moment où il sert. */
   "/exercices/etre-ou-avoir": [
     "/grammaire/le-passe-compose",
+    "/astuces/etre-ou-avoir",
     "/conjugaison/etre",
     "/conjugaison/avoir",
-    "/grammaire/passe-compose-ou-imparfait",
   ],
   "/exercices/trouve-la-faute": [
     "/orthographe/les-homophones",
@@ -893,18 +1121,24 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/le-passe-compose",
     "/traduction/hier-dans-la-rue",
     "/lecture/cosette-dans-le-bois",
+    "/musique/la-vie-en-rose",
   ],
   "/orthographe/les-homophones": [
     "/exercices/trouve-la-faute",
+    "/orthographe/les-accents",
+    "/orthographe/les-determinants-possessifs",
     "/traduction/un-week-end-a-la-plage",
   ],
   "/vocabulaire/l-heure": [
+    "/vocabulaire/les-jours-et-la-date",
     "/conversation/prendre-rendez-vous",
     "/conversation/parler-du-travail",
     "/lecture/phileas-fogg",
   ],
   "/conversation/prendre-rendez-vous": [
     "/vocabulaire/l-heure",
+    "/vocabulaire/les-jours-et-la-date",
+    "/conversation/demander-son-chemin",
     "/grammaire/passe-compose-ou-imparfait",
   ],
   "/conversation/parler-de-l-espagne": [
@@ -913,9 +1147,10 @@ const handWrittenLinks: Record<string, string[]> = {
     "/conversation/parler-du-travail",
   ],
   "/conversation/parler-du-travail": [
+    "/vocabulaire/le-travail",
+    "/lecture/un-entretien-d-embauche",
     "/vocabulaire/l-heure",
     "/grammaire/l-imparfait",
-    "/conversation/parler-de-l-espagne",
   ],
   "/traduction/une-journee": [
     "/grammaire/passe-compose-ou-imparfait",

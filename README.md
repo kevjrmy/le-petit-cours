@@ -11,19 +11,18 @@ at home, a track that teaches them to write it.
 
 > ### 🚧 Being rewritten
 >
-> From August 2026 this was a Vue 3 + Vite app with 119 lessons across 14 chapters. On
-> **2026-09-05** it was restarted on Next.js. The design system, the app shell, the navigation
+> The project was restarted on Next.js on **2026-09-05**. The design system, the app shell, the navigation
 > manifest, search, the whole account flow — sign-in, the chosen level, the display name — and
 > progress, from the « J'ai terminé » tick to `/ma-progression`, are written. The fifteen chapters
-> are declared and **thirty-four lessons are published**, all A2, all written in French: four in
-> `grammaire`, twelve verb sheets in `conjugaison`, seven texts in `lecture`, four in `traduction`,
-> three role-plays in `conversation`, two drills in `exercices`, one in `orthographe` and one in
-> `vocabulaire`. Nothing is announced before it is written, so a chapter waits offstage until it has
-> a page. Accounts work; offline caching is not installed.
+> are declared and **fifty lessons are published**, written in French: fourteen verb sheets in
+> `conjugaison`, nine texts in `lecture`, six in `grammaire`, five role-plays in `conversation`,
+> four in `traduction`, three each in `orthographe` and `vocabulaire`, two in `astuces`, two drills
+> in `exercices`, and one each in `litterature` and `musique`. Nothing is announced before it is
+> written, so a chapter waits offstage until it has a page. Accounts work; offline caching is not
+> installed.
 >
-> The Vue implementation is kept in [`.vue/`](.vue/) as a reference. It is not built, not
-> imported, and not being ported file-for-file; it is there to be read. See
-> [`docs/decisions.md`](docs/decisions.md) for why.
+> [`docs/decisions.md`](docs/decisions.md) records why the project is shaped this way, including
+> what was carried over from the version before it and what was deliberately not.
 
 ## What it is
 
@@ -182,7 +181,7 @@ for.
 | [`.claude/agents/*.md`](.claude/agents/) | the how-to for each recurring job (design, lessons, drills, wiring, auditing, proofreading) |
 | [`docs/decisions.md`](docs/decisions.md) | why the project is shaped this way, and what is still open |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | how to propose a change |
-| [`.vue/AUDIT.md`](.vue/AUDIT.md) | the closed 2026-08 content audit — a record of the bug classes worth checking for |
+| [`AGENTS.md` §9](AGENTS.md) | the content traps that have actually shipped — the list worth checking a new page against |
 
 The deployed site also carries `/design`, a specimen of every shared visual pattern on one page.
 It is in no menu and indexed by nothing; it exists so a change to a token can be checked in both

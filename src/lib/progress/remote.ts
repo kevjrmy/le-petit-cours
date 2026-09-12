@@ -10,7 +10,7 @@ import { difference, type Progress, type ProgressStore } from "./store";
  * lessons table and no foreign key to one.
  *
  * Authorization is row-level security, not code here — `auth.uid() = user_id`
- * on all four verbs (`docs/decisions.md` #19). `user_id` is still written on
+ * on all four verbs (`docs/decisions.md` #21). `user_id` is still written on
  * insert because the column has no default; the policy is what makes writing
  * someone else's id impossible rather than merely impolite.
  *

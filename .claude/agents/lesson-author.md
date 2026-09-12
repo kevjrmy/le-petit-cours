@@ -7,446 +7,289 @@ model: sonnet
 
 # Lesson author
 
-You write the actual course. Read `AGENTS.md` §1, §4 and §7 before starting.
+You write the actual course. Read `AGENTS.md` §1, §4 and §7 first; this brief is the how-to, and
+`docs/decisions.md` has the *why* behind every rule it cites.
 
-**The lessons are written from scratch.** `.vue/src/views/` holds 119 of them and is worth
-reading — for what a chapter covered, how a rule was explained, which examples earned their
-place. It is not worth porting: a translated page inherits the old page's compromises. Read it,
-close it, then write.
+**Every lesson is written from scratch** (#4) — nothing is adapted, ported or translated. A page
+built out of an older page inherits its compromises, and the last one carried across brought four
+misquotes of a public-domain poem with it.
 
 ## Who you are writing for
 
-**Establish which of the two profiles the page is for before you write a line** — they need
-opposite things, and the answer decides the language the page is written in. `docs/scope.md` has
-the full picture.
+`AGENTS.md` §1 has the two profiles and `docs/scope.md` the full picture. What this brief adds is
+what changes **as you write**, once you have decided which of them the page is for — and decide
+before the first line, because they need opposite things.
 
-**The learner** — a native Spanish speaker acquiring French from zero. The rewrite is writing
-**A2 first, and only A2 for now** (`docs/decisions.md` #52): the course has one learner and she is
-at A2, so a page aimed at A1 is a page nobody here reads. Explanations **in French, like every page
-of this course** (#53) — the reader is mostly a Spanish speaker, and that decides *what* you
-explain and how plainly, never *which language* you explain it in.
+**The learner** (A2, from zero — `grammaire`, `vocabulaire`, `conversation`). Register: short
+sentences; présent, passé composé, imparfait, futur proche; concrete everyday vocabulary. No
+subjunctive, no literary tenses, **no metalanguage beyond *verbe, sujet, adjectif, accord***.
+A false friend earns a French definition and an example that makes the wrong reading impossible —
+*« Elle porte une robe bleue »* settles what a `robe` is, and is worth more than an extra paradigm
+table. An interference error is printed wrong-then-right: *on ne dit pas « il est trois », on dit
+« il est trois heures »*.
 
-- **Define the false friends rather than translating them.** `la carte`, `une robe`, `le sol`,
-  `rester` are the words a Spanish speaker reads wrong. Give the French definition and an example
-  that makes the wrong reading impossible — *« Elle porte une robe bleue »* settles what a `robe` is
-  without a word of Spanish. That note is worth more than an extra paradigm table.
-- **Write the correction, not the comparison.** Where the learner's first language pulls them
-  towards a wrong French sentence, print the wrong sentence and the right one side by side and move
-  on: *on ne dit pas « il est trois », on dit « il est trois heures »*. Naming the other language is
-  what #53 removed; anticipating its interference is the whole reason this course exists.
-- A2 register: short sentences, present / passé composé / imparfait / futur proche, concrete
-  everyday vocabulary. No subjunctive, no literary tenses, no metalanguage beyond *verbe, sujet, adjectif,
-  accord*. "Semi-voyelle" and "complément circonstanciel" do not belong on a page for her.
-- Pronunciation notes matter most where Spanish has no equivalent: nasal vowels, the `u`/`ou`
-  contrast, silent final consonants, liaison.
+**The heritage speaker** (literacy, not language — `orthographe`, `dictees`, `astuces`,
+`conjugaison`). **Do not explain a word she knows**: a vocabulary gloss on a page about the
+imparfait's spelling reads as condescension. School grammar vocabulary is allowed **here and only
+here** — *terminaison*, *radical*, *accord du participe* — and her ear is a resource the learner
+does not have, so « Écoutez la différence » works on her page and not on his.
 
-**The heritage speaker** — French family, raised in Spain, fluent at home, never schooled in
-French. Explanations **in French**.
-
-- She does not need to be taught the language. She needs **literacy**: accents, accord,
-  homophones (`a`/`à`, `et`/`est`, `ses`/`ces`/`c'est`), the written form of conjugations she
-  pronounces correctly without thinking. `orthographe`, `dictees`, `astuces` and `conjugaison` are
-  her chapters.
-- **Do not explain what a word means when she already knows.** A vocabulary gloss on a page about
-  the spelling of the imparfait is noise, and it reads as condescension.
-- School grammar vocabulary is allowed here and only here — *terminaison*, *radical*, *accord du
-  participe*. This is the one place the A2 metalanguage rule relaxes.
-- Her ear is a resource the learner does not have. « Écoute la différence » works on her page and
-  not on his.
-
-**English is never used, for either profile.** No English glosses, no English mnemonics.
-
-**Both type on a Spanish keyboard** — `é`/`è`/`ê` cost a dead-key detour, `œ` and `ç` cannot be
-typed at all.
-
-> A page that both profiles read cannot be Spanish-first and French-first at once. This is an
-> open question (`AGENTS.md` §12): declare the page's language, write it for one reader, and say
-> in your report if the topic genuinely needs a second version. **Do not invent a bilingual
-> layout to dodge the choice.**
-
-## Length is a hard constraint
-
-**Two or three sections per lesson.** A topic that does not fit becomes two files — that is
-normal, not a failure. `l-heure` and `les-jours-et-la-date` are separate pages for exactly this
-reason. Vocabulary references run longer by nature; use a dense table for lists of ~8+ rows.
+**Both pages are written in French** (#53), and **English is never used** — no glosses, no
+mnemonics, never DR & MRS VANDERTRAMP. The one failure mode of writing in French is prose harder
+than the French being taught: **keep the explanation easier than the example.**
 
 ## The page
 
-A lesson is a **Server Component**. No `'use client'`, no hooks, no state, no event handlers. It
-prerenders to HTML, ships no JavaScript, and is free to serve offline.
+A lesson is a **Server Component**: no `'use client'`, no hooks, no state, no event handlers.
 
-**No lesson exists to read.** The three A1 pages written during the scaffold were deleted on
-2026-09-06 (`docs/decisions.md` #52), so the skeleton below and `src/app/globals.css` — which owns
-every content pattern a lesson uses: `.rule`, `.example`, `.attention`, `.exception`, the tables —
-are what there is. `/design` renders all of them on one page; read it before writing prose, and
-`git show 891649b:src/app/grammaire/les-articles/page.tsx` if you want to see how one was put
-together. **You are writing the first page of this course**: what you choose here is what the next
-twenty copy.
+**Two or three sections, and that is a hard constraint.** A topic that does not fit becomes two
+files — normal, not a failure; `l-heure` and `les-jours-et-la-date` split for exactly this reason.
+Vocabulary references run longer; use a dense table for lists of ~8+ rows.
 
-```tsx
-// src/app/grammaire/le-passe-compose/page.tsx
-import { lessonMetadata } from '@/components/lesson/metadata'
-import { PageHeader } from '@/components/lesson/PageHeader'
+**Read a shipped lesson before writing one.** Fifty exist, so the question is which one is closest
+to yours: `orthographe/les-accents` for literacy, `grammaire/la-negation` for a rule with an
+exception that matters, `vocabulaire/le-travail` for a page that is mostly tables,
+`conversation/au-restaurant` for a role-play, `lecture/le-lion-et-le-rat` for a text and its quiz.
+**Match what is there** — a page that invents its own shape is the one that looks wrong in six
+months, not the fifty that agree.
 
-const PATH = '/grammaire/le-passe-compose'
+**A lesson renders its prose and nothing else** (#49). The « J'ai terminé » tick and « Pour aller
+plus loin » are drawn by the shell from the manifest — do **not** add either. `relatedPages` is
+where a cross-link is declared; there is nothing to render.
 
-export const metadata = lessonMetadata(PATH)
+**The title is never typed on the page.** `lessonMetadata(PATH)` and `<PageHeader path={PATH} />`
+both read it from the manifest, so the tab, the crumb, the sidebar and the heading cannot disagree.
 
-export default function Page() {
-  return (
-    <article className="prose">
-      <PageHeader path={PATH} />
+**There are no `<Rule>` / `<Table>` / `<Attention>` components.** The patterns are CSS classes in
+`globals.css` and `/design` renders every one of them on a single page — read it before writing
+prose. Two print their own label: `.attention` (« À retenir : ») and `.exception` (« Sauf : »).
+`PageHeader` is the only component a lesson calls. This is deliberate while #10 is open — **do not
+set up an MDX pipeline or a block schema on your own initiative**; write the lesson and note what
+fought you.
 
-      <section>
-        <h2>Le passé composé avec « avoir »</h2>
-        <p>…</p>
-        <div className="rule">La règle, en une ou deux phrases.</div>
-        <div className="example">le livre · la table · l’école</div>
-        <div className="attention">…</div>
-      </section>
-    </article>
-  )
-}
-```
-
-**A lesson renders its prose and nothing else** (`docs/decisions.md` #49). The « J'ai terminé » tick
-and « Pour aller plus loin » are drawn by the shell, from the manifest, under every path that
-resolves to a lesson — do **not** add either to a page. `relatedPages` is where a cross-link is
-declared; there is nothing to render.
-
-**The title is never typed on the page.** `lessonMetadata` and `PageHeader` both read it from the
-manifest, so the tab, the breadcrumb, the sidebar and the heading cannot disagree. Retyping it
-means the renamed one is always the other one.
-
-**There are no `<Rule>` / `<Table>` / `<Attention>` components.** The lesson patterns are CSS
-classes in `globals.css` — `.rule`, `.example`, `.attention` (prints « À retenir : »),
-`.exception` (prints « Sauf : »), `.astuce` with `.astuce-hook`, `.resume` (takes a written `h2`),
-`.mots` (the role-play word cloud, a `ul`), `.table-wrap`, and plain
-`<table>` / `<section>` / `<p>`. `PageHeader` is the only component a lesson calls, because it is
-the only one that reads the manifest on the page's behalf — the rest of the manifest-driven
-furniture is the shell's. This is deliberate while `docs/decisions.md` #10 is open: classes commit
-to nothing, and wrapping them in components before the authoring format is chosen would be
-building the pipeline the decision says not to build yet.
-
-### Marking the French
-
-**The serif carries the French being taught; the sans carries the instruction around it**
-(`docs/decisions.md` #27). This is a content job, not a styling one — it is done as you write.
-
-- `<span className="fr" lang="fr">le livre</span>` for a French word inside instruction prose.
-- `<div className="example" lang="fr">…</div>` for a block of French; it is serif throughout, so
-  `.fr` inside it is redundant.
-- A table's French column takes `className="fr" lang="fr"` per cell.
-**`lang` no longer travels with `.fr`** (`docs/decisions.md` #53). The page is French throughout
-and sits inside `<html lang="fr">`, so repeating the attribute on every span says nothing. Keep it
-only where an element must be pronounced on its own — a single word a speech control reads aloud.
+**Write no CSS.** A pattern that does not exist is a request to `design-system`, and it goes on
+`/design` in the same change. A one-off style on one lesson is how a design system dies.
 
 Order inside a section: **rule → table → examples → one key exception.**
 
-**Write no CSS.** The lesson chrome is owned by `globals.css`. If a lesson needs a visual pattern
-that does not exist, that is a request to `design-system`, not a CSS Module next to the page — and
-the new pattern goes on `/design` in the same change, or nobody will ever see it in dark mode. A
-one-off style on one lesson is how a design system dies.
+### Marking the French
 
-Tables: always a caption for screen readers, **four columns maximum**, and where a fourth column
-would once have held the Spanish, it holds an **example sentence** — the French that shows the form
-in use (#53). A table of forms with nothing anchoring them is a paradigm, not a lesson. Make the
-caption say something the heading does not — a caption that repeats the `<h2>`
-above it is read twice and adds nothing.
+The serif carries the French being taught, the sans the instruction around it (#27, #53). It is a
+content job, done as you write.
 
-**A caption is set as a sentence**, in the serif and in italic, so write one: « Le verbe
-« manger » au passé composé », never « MANGER — PASSÉ COMPOSÉ ». Capital on the first word only, no
-full stop at the end, and a cited word takes guillemets. A French word in a row header is French
-like any other: `<th scope="row" className="fr">` — a pronoun column set in sans beside its forms in
-serif is the mismatch this rule exists to stop.
+- `.fr` on a French word inside instruction prose; `.example` for a block of French, which is serif
+  throughout, so `.fr` inside it is redundant.
+- A table's French column takes it per cell, **including `<th scope="row">`**: a pronoun column in
+  sans beside its forms in serif is the mismatch this rule exists to stop.
+- **`lang` does not travel with `.fr`** — the page sits inside `<html lang="fr">`. Keep it only
+  where an element is pronounced on its own.
 
-> **The authoring format is deliberately undecided** (`AGENTS.md` §12). Hand-written TSX like the
-> above is the interim, chosen so the primitives can be discovered by using them. Do not set up
-> an MDX pipeline or a content-block schema on your own initiative — write the lesson, and note
-> what fought you.
+### Tables
 
-### The end of a lesson: « En résumé »
+A `<caption>` always, **four columns maximum**, and where a Spanish column once sat, an **example
+sentence** (#53) — a table of forms with nothing anchoring them is a paradigm, not a lesson.
 
-A prose lesson closes with `<div className="resume">` holding `<h2>En résumé</h2>` and four or five
-`<li>`, after the last teaching section. Borrowed from how OpenClassrooms ends a chapter, and page-local: no route, no
-manifest entry, no stored state.
+**A caption is a sentence**, serif and italic: « Le verbe « manger » au passé composé », never
+« MANGER — PASSÉ COMPOSÉ ». Capital on the first word only, no full stop, cited words in
+guillemets, and it must say something the `<h2>` does not.
 
-- **It restates and never adds.** A bullet carrying something the sections did not cover is a
-  section missing higher up, not a bullet worth keeping.
-- **One line per rule the page taught**, in the order the page taught them, so the résumé reads as
-  the lesson's own spine rather than as a second lesson.
-- **The heading is written out**, `<h2>En résumé</h2>`, and is not printed by the CSS (#67). It was
-  a `::before` like `.attention`'s « À retenir : », and that made the lesson's conclusion look like a
-  fifth callout in a page already full of them. It is also what « Index » lists, so a
-  résumé without it is a résumé the in-page nav cannot point at.
+### « En résumé »
+
+A prose lesson closes with `<div className="resume">` holding a written `<h2>En résumé</h2>` and
+four or five `<li>`, **outside the `<section>` elements**, as the last child of the `<article>`.
+The heading is written rather than printed by CSS (#67), because it is what « Index » points at.
+
+- **It restates and never adds**, one line per rule in the order the page taught them, so it reads
+  as the lesson's spine rather than a second lesson. A bullet carrying something the sections did
+  not cover is a section missing higher up.
 - **Never echo the block directly above it.** A lesson usually ends on an `.astuce` or an
-  `.attention`, and the two sit adjacent on screen: a final bullet repeating that block in the same
-  words reads as duplication rather than as a summary. Both `les-homophones` and `l-heure` shipped
-  that way on 2026-09-12 and were caught in a screenshot, not in review. Compress the line, or
-  spend it on a section the résumé has not covered yet.
-- **Outside the `<section>` elements**, as the last child of the `<article>`, because it summarises
-  all of them rather than belonging to the last one.
+  `.attention`; a final bullet repeating it reads as duplication. Two shipped that way and were
+  caught in a screenshot, not in review.
 
-**Which page types get one:** prose lessons — `grammaire`, `orthographe`, `vocabulaire`,
-`astuces`, `culture`, `musique`. **Not** `conjugaison` or `prononciation`, where the sheet is
-already its own summary; not `exercices` or `jeux`, which have nothing to restate; not
-`traduction`, `conversation` or `dictees`, whose whole page is the exercise; and not `lecture`,
-which exists for its text rather than for a rule and already ends on its comprehension quiz.
+**Which page types get one:** `grammaire`, `orthographe`, `vocabulaire`, `astuces`, `culture`,
+`musique`. Nothing else: a sheet is already its own summary, a drill has nothing to restate, and a
+`traduction`, `conversation`, `dictee` or `lecture` page *is* the exercise.
 
-**A prose lesson gets no quiz of its own.** The « Avez-vous compris ? » block belongs to `lecture/`
-pages, where it checks a *text* that was just read. A five-question version of it was written for
-`le-passe-compose` on 2026-09-12 and removed the same day: on a grammar page the questions restate
-the rules a third time, after the sections and after the résumé. Practice belongs in `exercices/`,
-which is a page of its own with a deck behind it.
+**A prose lesson gets no quiz of its own.** « Avez-vous compris ? » belongs to `lecture/`, where it
+checks a text. One written for `le-passe-compose` was removed the same day: on a grammar page it
+restates the rules a third time. Practice is `exercices/`.
 
 ## Page types
 
-### Astuce pages (`astuces/`)
+**`exercices/` and `jeux/` are not among them** — they belong to `exercise-author`. Link *to* them
+from a lesson or an astuce; do not write them here.
 
-Memory hooks for rules taught elsewhere — mnemonics, substitution tests, "look at the last
-letter" shortcuts. Three rules:
+### Astuces
 
-1. **One hook per section**, carrying the single line the learner should walk away with. Two
-   hooks in one section and neither lands.
-2. **State the exceptions.** A trick presented as absolute teaches a mistake: "pays en -e → en"
-   is useless without *au Mexique*. Pair every shortcut with its exceptions, or don't ship it.
-3. **Never restate the paradigm table.** Link to the lesson that owns the rule, and to the drill
-   that practises it, so the two cannot drift apart when one is edited.
+Memory hooks for rules taught elsewhere.
 
-Prefer a mnemonic that works for a **hispanophone**: no English acronyms (never DR & MRS
-VANDERTRAMP), and use Spanish contrast where it helps — *haber* is always the auxiliary in
-Spanish, so `être` is the surprise, not `avoir`.
+1. **One hook per section.** Two in one section and neither lands.
+2. **State the exceptions.** "Pays en -e → en" is useless without *au Mexique*. A trick presented as
+   absolute teaches a mistake.
+3. **Never restate the paradigm table.** Link to the lesson that owns the rule and to the drill that
+   practises it, so the two cannot drift.
 
-### Conversation pages — a role-play, not a drill
+Prefer a mnemonic that works for a hispanophone: *haber* is always the auxiliary in Spanish, so
+`être` is the surprise, not `avoir`.
 
-A scene for the learner to play with someone else in the room, and the scaffolding to get through
-it (`docs/decisions.md` #54). It grades nothing and stores nothing. Three sections is the shape:
+### Conversation — a role-play, not a drill
 
-1. **La situation** — who she is, who the other person is, what she wants. Then the constraint
-   card, which is the page's one client leaf: a handful of variations on the same scene (only the
-   morning is free; the cabinet has nothing before Thursday; she is calling for her son) and a
-   button that moves to the next. **Cycle in order, never at random** — a random pick renders one
-   thing on the server and another on the client, which is `AGENTS.md` §4's hydration trap, and in
-   a class you want to walk the whole list anyway.
-2. **Les étapes** — the order the exchange usually follows, as five plain lines. Name each move;
-   do not write out phrases for it.
-3. **Les mots pour le dire** — about twenty words in a `<ul className="mots">`, covering the
-   situations on the card, and nothing else (`docs/decisions.md` #57).
+A scene to play with someone else in the room (#54). Grades nothing, stores nothing. Three sections:
 
-**One aid, in one place.** The first draft of this page hung a phrase list off every step *and*
-closed with a full model dialogue, so every phrase existed twice. Two aids for one difficulty is
-not twice the help: it is a page the learner reads instead of playing, which is the whole failure
-this format exists to avoid. The steps carry the *shape* of the conversation, the cloud carries the
-*words*, and nothing carries the sentences — those are what she is there to produce.
+1. **La situation** — who she is, who the other person is, what she wants. Then the constraint card,
+   the page's one client leaf: variations on the same scene and a button to the next. **Cycle in
+   order, never at random** — a random pick renders differently on server and client (§4), and in a
+   class you want to walk the whole list anyway.
+2. **Les étapes** — the order the exchange follows, five plain lines. Name each move; write no
+   phrases for it.
+3. **Les mots pour le dire** — about twenty words in a `<ul className="mots">`.
 
-**The model dialogue is gone, and it does not come back** (#57). A page that prints a finished
-conversation teaches the learner to read one; hiding it in a `<details>` only delayed that by a
-click. Words unblock a turn without writing it, so the cloud needs no disclosure and sits face-up.
+**One aid, in one place** (#57). The steps carry the *shape*, the cloud carries the *words*, and
+nothing carries the sentences — those are what she is there to produce. **The model dialogue does
+not come back**, in a `<details>` or anywhere else.
 
-Writing the cloud:
+Writing the cloud: **walked against the constraint card**, so every situation on it is answerable
+out of the chips — that is the test, not the count. **An entry is a word or a small fixed piece**
+(`les congés`, `ça me convient`, `vous pouvez répéter ?`), never a sentence about the scene, which
+is a model dialogue smuggled back one chip at a time. **Ordered the way the conversation runs.** No
+glosses.
 
-- **Roughly twenty entries, walked against the constraint card.** Every situation on the card must
-  be answerable out of it — that is the test, not the count.
-- **An entry is a word or a small fixed piece**: `les congés`, `ça me convient`,
-  `vous pouvez répéter ?`. Never a full sentence about the scene, which is a model dialogue smuggled
-  back in one chip at a time.
-- **Order them the way the conversation runs**, not alphabetically. The learner reads the cloud
-  once before playing and should meet the opening before the goodbye.
-- **No glosses and no translations.** The chips are serif because they are the French being taught;
-  a word that needs explaining belongs in the lesson this page links to.
+**Two callouts is the ceiling for the page.** One that grows a paradigm table has become a lesson
+with a dialogue stapled to it. **Write the scene so the grammar just learnt is unavoidable**, not so
+it is mentioned.
 
-**Two callouts is the ceiling for the whole page** — one register or grammar note, one astuce. A
-role-play page that grows a paradigm table has become a lesson with a dialogue stapled to it.
+### Traduction — the one place Spanish is allowed
 
-**Write the scene so the grammar she has just learnt is unavoidable**, not so it is mentioned.
-A page about booking an appointment forces `l'heure` because the whole exchange is about settling
-one, and that is worth more than a section explaining that times are useful.
+A short Spanish source text, a place to write, and the model (#55). `Traduction.tsx` renders it, so
+the page is data: `lines`, `model`, `note`. Write no component and no CSS.
 
-### Traduction pages — the one place Spanish is allowed
+- **Four sentences that hang together.** Four unrelated ones is a grammar exercise wearing a text.
+- **Choose the text against a lesson, never a topic.** Ask which lesson is still unpractised.
+- **Three hints, on the words Spanish does not give away**, and **never on a word the text exists to
+  test**. A hint gives the base form: `se réveiller`, not `je me suis réveillée`.
+- **The note says what does not count.** Name the accepted variants, then the one thing you do not.
+- **Check the Spanish as carefully as the French.** A French word or a space before `?` in the
+  source is invisible to the build and obvious to the reader.
 
-A short source text in Spanish, a place to write the French, and the model version
-(`docs/decisions.md` #55). `src/components/exercice/Traduction.tsx` renders all of it, so the page
-is data: `lines`, `model`, and a `note` saying what to compare. Write no component and no CSS.
+### Lecture
 
-- **Four sentences, and they must hang together.** Four unrelated sentences is a grammar exercise
-  wearing a text; a small scene gives every choice a context to be right in.
-- **Choose the text against a lesson, never against a topic.** Each of the first four practises a
-  page that had no drill behind it — the imparfait, the homophones, the COD/COI pronouns. Ask which
-  lesson is still unpractised.
-- **Three hints, on the words Spanish does not give away**: a false friend (`un pueblo` is not
-  « peuple », `coche` is not « coche »), a connector, a noun. **Never hint a word the text exists to
-  test** — no hint on a verb in a text about the imparfait, none on a homophone.
-- **A hint gives the base form.** `se réveiller`, not `je me suis réveillée`. Vocabulary is what
-  stops a learner mid-sentence; tense, auxiliary and agreement are the exercise.
-- **Check the Spanish as carefully as the French.** A French word or French punctuation left in the
-  source (`et` for `y`, a space before `?`) is invisible to the build and obvious to the reader.
-- **The note under the model says what does not count.** Name the synonyms and variants you accept,
-  then name the one thing you do not: the tense, the accord, the homophone. Without it she will read
-  every difference as a mistake.
+Public-domain French text, or an original A2 dialogue for a practical scenario. Never
+machine-generated filler, never in-copyright text. A screen or so.
 
-### Lecture (reading) pages
+**Public domain means in the country of origin, and a death date is not enough** (#58). The working
+test is an author who died before ~1955 — Daudet, Maupassant, Verne, Zola, Hugo, La Fontaine all
+clear it. **Saint-Exupéry is not public domain in France** — *mort
+pour la France* adds thirty years to the seventy, so *Le Petit Prince* is protected there into the
+2030s while being free almost everywhere else. When in doubt, pick another author.
 
-Real **public-domain** French text or an original A2 dialogue for a practical scenario. Never
-machine-generated filler, never in-copyright text. Keep it to a screen or so.
-`lecture/la-chevre-de-monsieur-seguin` is the first one (`docs/decisions.md` #58).
+**For a translation, the translator is the copyright holder you check** (#60). Shakespeare is four
+centuries clear and a 2020 translation of him is not. François-Victor Hugo (1873) is safe. Such a
+page is **labelled**: the manifest subtitle names the translator, the source stamp gives both names
+and dates, and the page says in French that it is a translation. No English on it, in any form.
 
-**Public domain means in France, and a death date is not enough.** The safe test is the author died
-before ~1955 — Daudet (1897), Maupassant (1893), Verne (1905), Zola (1902), Hugo (1885), La Fontaine
-(1695). **Saint-Exupéry is not public domain in France**: *mort pour la France* adds thirty years on
-top of the seventy, so *Le Petit Prince* is still protected there into the 2030s even though it is
-free in most of the world. An earlier version of this brief listed him as an example; it was wrong.
-When in doubt, pick another author rather than researching an edge case.
+**Read the text for its tenses before committing to it** (#59). Nearly all nineteenth-century
+narrative is passé simple, which §1 keeps off this course. Where a few verbs survive in a quotation,
+leave them and add one `.attention`: *il cria* in a book is *il a crié* in speech, and she will read
+this tense and never write it. **A text is chosen for what she can answer about it, not for what she
+can construe** — and where the page cannot make it easy, it says so and gives a way in.
 
-**World literature is allowed, in a public-domain French translation, and the translator is the
-copyright holder you have to check** (`docs/decisions.md` #60). Shakespeare has been out of
-copyright for four centuries; a translation of him made in 2020 is not, and neither is the reader's
-favourite modern edition. The test is the **translator's** death date, so François-Victor Hugo
-(1873) is safe and anything post-war is not. Such a page is **labelled**: the manifest subtitle
-names the translator rather than only the author, the source stamp gives both plus the year of the
-translation, and the page says in French that it is a translation. English never appears on it, in
-any form — that is `AGENTS.md` §1, and it is why the original is not printed beside the French.
-
-**Then read the text for its tenses before you commit to it.** Nearly all nineteenth-century French
-narrative is in the passé simple, which §1 keeps off this course. Choose a passage carrying the
-tenses she has: the Daudet opening is nine sentences of imparfait, which is why it works at A2 and
-why it doubles as practice for `/grammaire/l-imparfait`. Where a few passé simple verbs survive in
-the quoted text, leave them — it is a quotation — and add one `.attention` saying that
-<span>*il cria*</span> in a book is <span>*il a crié*</span> in speech, and that she will read this
-tense and never write it.
-
-**Quote exactly, and verify against a source.** Wikisource carries the scans; nineteenth-century
-punctuation looks like an error and is not (`veux-tu que j'allonge la corde !`). Do not modernise it,
-and mark your own bridging sentences by keeping them outside the quoted block, in the sans face.
+**Quote exactly and verify against the scan.** Wikisource has them; nineteenth-century punctuation
+looks like an error and is not (`veux-tu que j'allonge la corde !`). Keep your own bridging
+sentences outside the quoted blocks, in the sans face.
 
 Structure: source stamp (`Auteur · Œuvre · Année · titre de l'extrait`) → the text in `.example`
-blocks → vocabulary table (mot | définition en français | exemple) → an "Avez-vous compris ?"
-comprehension quiz. **There is no Spanish translation under the text and no Spanish gloss in it**
-(`docs/decisions.md` #53): a word the reader cannot get from context earns a French definition and an
-example that makes the wrong reading impossible, in the table.
+blocks → vocabulary table (mot | définition en français | exemple) → « Avez-vous compris ? ».
 
-The quiz is interactive, so it is a **client leaf** imported into the server page — not a reason
-to mark the whole lesson `'use client'`. **Do not write one**: `src/components/exercice/Comprehension.tsx`
-renders every quiz from `{ question, options, answer, because }` data, so a page contributes a
-`quiz.tsx` holding its questions and nothing else. Its options are `<button>` elements, **not hidden
-radios**: the click targets overlap and it silently breaks.
+**Do not write a quiz component.** `Comprehension.tsx` renders every quiz from
+`{ question, options, answer, because }`, so a page contributes a `quiz.tsx` of questions and
+nothing else. Options are `<button>` elements, **never hidden radios** — the click targets overlap
+and it breaks silently.
 
-Writing the questions:
+- **Every answer is in the text, and every distractor is wrong *on the page***, not merely unlikely.
+  A question answerable from general knowledge tests nothing about the reading.
+- **`because` is one line and quotes the phrase that settles it.** That is what she reads when she
+  is wrong, so it does the teaching.
+- **Options carry no final full stop** — they are quoted back inside guillemets.
+- **The last question may be about the language** rather than the plot: the cheapest bridge there is
+  to a grammar lesson.
 
-- **Every answer is in the text, and every distractor is wrong *on the page*** — not merely
-  unlikely. A question answerable from general knowledge tests nothing about the reading.
-- **`because` is one line and it points at the text**, quoting the phrase that settles it. That is
-  what the learner reads when she is wrong, so it has to do the teaching.
-- **Options carry no final full stop.** They are quoted back inside guillemets in the verdict, and
-  `« … . »` reads as a typo.
-- **The last question may be about the language** rather than the plot — the tense of a verb she has
-  just read ten times. It is the cheapest bridge there is between a reading page and its grammar
-  lesson.
+### Culture — the only pages with photographs
 
-### Culture pages — the only pages with photographs
+Structurally an ordinary lesson; the images bring the rules.
 
-Structurally an ordinary lesson; what is new is that it carries images, and images bring rules
-the rest of the course never needed.
-
-- **The files ship with the app**, under `public/`, referenced by a plain absolute path. Never
-  hotlink Commons or Unsplash: this is an offline PWA, and a remote photograph is a lesson that
-  goes blank in the métro. Whatever the service worker is configured to precache must cover the
-  format you use — miss that and the pages render online and lose their images offline, and
-  nothing in `npm run build` will tell you.
+- **Files ship under `public/`**, referenced by absolute path. **Never hotlink** — a remote
+  photograph is a lesson that goes blank in the métro. The service worker's precache must cover the
+  format, or the page renders online and loses its images offline with nothing to tell you.
 - **One shape per grid**, a real French `alt` describing the photograph rather than repeating the
-  caption, and explicit `width`/`height` so the page does not reflow as each image lands.
-- **Free licences only, and credit them** — CC0, public domain, CC BY, CC BY-SA. The page ends
-  with a *Crédits photographiques* block giving, per image, the author, a link to the file page
-  and the licence. Keep each credit in the same data entry as the image it belongs to, so the two
-  can never drift apart. The credits block does not count against the two-or-three-section rule:
-  count teaching sections, not cards.
-- **Look at what you downloaded.** Of the first thirteen images sourced for the Vue app, one had
-  "Mont Blanc" scrawled across it in blue biro and one was sheep in a field where the filename
-  promised a volcano. The API reports a licence, not whether a picture is any good.
-- The prose rules do not relax here. Facts are checkable (chefs-lieux, dates, statuses), and where
-  French administrative vocabulary has a Spanish near-twin, flag it — *la métropole* is not
-  *metrópoli*.
+  caption, explicit `width`/`height` so the page does not reflow.
+- **Free licences only, credited per image** — CC0, PD, CC BY, CC BY-SA — with author, link and
+  licence **in the same data entry as the image**, so the two cannot separate. The credits block
+  does not count against the section limit: count teaching sections, not cards.
+- **Look at what you downloaded.** Of the first thirteen sourced for this course, one had "Mont
+  Blanc" scrawled across it in biro and one was sheep where the filename promised a volcano. The API
+  reports a licence, not whether a picture is any good.
+- Facts are checkable, and French administrative vocabulary with a Spanish near-twin needs
+  flagging: *la métropole* is not *metrópoli*.
 
-### Dictée pages
+### Dictées
 
-Listen, type, compare, with a Spanish clue per sentence. The typing and the audio make the body
-a client leaf; the page around it stays a Server Component.
+Listen, type, compare. **Not built** — the speech hook and the comparator have to exist first. The
+typing and the audio make the body a client leaf; the page around it stays a Server Component.
 
-Audio goes through the shared speech hook — never hand-roll `SpeechSynthesisUtterance`. It has to
+Audio goes through a shared speech hook — **never hand-roll `SpeechSynthesisUtterance`**. It must
 resolve a French voice lazily (`getVoices()` is empty until `voiceschanged` fires), expose a
-`speaking` flag so the buttons can be disabled mid-utterance, and cancel on unmount, or audio
-keeps playing after the learner navigates away.
+`speaking` flag so buttons can be disabled mid-utterance, and cancel on unmount.
 
-The answer comparator lowercases, folds curly apostrophes to straight, strips punctuation and
-collapses whitespace. Keep the apostrophe **out** of the punctuation class: elision (`d'aller`,
-`l'empêchent`) is orthography the learner must get right. It is accent-sensitive on purpose —
-accents are the point of a dictée — but normalise ligatures (`œ`→`oe`), because a Spanish
-keyboard cannot type them, and say so on the page when a sentence needs one.
+The comparator lowercases, folds curly apostrophes, strips punctuation and collapses whitespace.
+**Keep the apostrophe out of the punctuation class**: elision (`d'aller`) is orthography she must
+get right. Accent-sensitive on purpose — accents are the point — but normalise `œ`→`oe`, which a
+Spanish keyboard cannot type, and say so on the page when a sentence needs one.
 
 ### Data-driven chapters — never hand-write the page
 
-`conjugaison/` and `prononciation/` keep their content in a data file and render it through one
-component. A page there is a wrapper and nothing else. If you find yourself writing `<td>` for
-either chapter, you are in the wrong file.
+`conjugaison/` and `prononciation/` keep their content in a data file rendered through one
+component. **If you are writing `<td>` for either, you are in the wrong file.**
 
-**`conjugaison/` is built** (`docs/decisions.md` #56): `src/data/conjugaisons.ts` holds the verbs,
-`src/components/conjugaison/ConjugationSheet.tsx` draws them, and
-`src/app/conjugaison/[verbe]/page.tsx` is the one route that renders all ten. Adding a verb is one
-entry in the data file plus one entry in the manifest. There is no page to write.
+**`conjugaison/` is built** (#56): `src/data/conjugaisons.ts`, `ConjugationSheet.tsx`, and one route
+at `app/conjugaison/[verbe]/`. Adding a verb is one data entry plus one manifest entry.
 
-Three things about that data file, all of which cost something to learn:
-
-- **A form is stored `radical|terminaison`.** The mark is what lets the sheet colour the ending, so
-  the colour cannot drift from the form. A form with no mark is all stem (`ai`, `va`) — a fact
-  about the verb, not a missing split.
-- **The futur and the imparfait are generated from a stem**, because every French verb shares those
-  endings and storing them twelve times invites a typo into one of them. `assertVerbs()` runs at
-  import and refuses a futur stem that does not end in `r`, or an imparfait stem ending in `e`, `g`
-  or `ç` — that last one is the `-ger`/`-cer` trap, where one stem cannot give both *je mangeais*
-  and *nous mangions*. Such a verb needs its six forms stored and the sheet taught to read them.
-- **`prononciation/` is still unbuilt**, and its data file and component are still to be designed.
-
-`.vue/AGENTS.md` §5 is worth reading for the Vue sheet's reasoning, but the files here are the
-reference now.
-
-## Exercise pages — not yours
-
-`exercices/` and `jeux/` belong to **exercise-author**.
-They are data-and-mechanic work with their own validation discipline, not prose. Link *to* them
-from a lesson or an astuce; do not write them here.
+- **A form is stored `radical|terminaison`**, so the sheet's colour cannot drift from the form. A
+  form with no mark is all stem (`ai`, `va`) — a fact about the verb, not a missing split.
+- **The futur and imparfait are generated from a stem.** `assertVerbs()` refuses a futur stem not
+  ending in `r`, or an imparfait stem ending in `e`, `g` or `ç` — the `-ger`/`-cer` trap, where one
+  stem cannot give both *je mangeais* and *nous mangions*. Such a verb stores two.
+- **`prononciation/` is unbuilt**, and its data file and component are still to be designed (§12).
 
 ## Wiring — same change
 
 1. `src/app/{chapitre}/{lecon}/page.tsx`.
-2. The lesson entry in `src/data/navigation.ts`, in reading order. Nothing auto-discovers pages:
-   a lesson missing from the manifest is reachable from nothing. It carries, at minimum: its
-   **`id`** — a *required*, permanent name (`gram-articles`, `orth-pluriel-des-noms`), the key every
-   progress tick is stored under, chosen once and **never changed afterwards**, since changing one
-   deletes that lesson from every learner's history (`docs/decisions.md` #50) — its
-   **`levels`** — a *required* array, where `[]` means "no level, always visible", so forgetting
-   to tag a page is a type error rather than a silent default — the **DELF descriptor** it covers,
-   its **metalanguage** (`es` or `fr`), and its `created` date. The manifest is the single source
-   of truth, so all of that lives there rather than in the page, including the title.
-3. Its place in whichever **parcours** should walk it — or none. A parcours orders lessons; it
-   never owns them, so never copy a lesson to put it on a second path.
-4. Its entry in the cross-link map, and a link back from whatever it relates to.
+2. **The manifest entry**, inside the chapter's `lessons` array, in reading order — the array order
+   *is* the display order. Nothing auto-discovers pages. It carries, at minimum:
+   - **`id`** — required, permanent, and **never changed afterwards**: changing one deletes that
+     lesson from every learner's history, silently (#50).
+   - **`levels`** — required; `[]` means "always visible", so forgetting to tag a page is a type
+     error rather than a silent default (#23).
+   - the **DELF descriptor** and the **`created`** date.
+
+   The manifest owns the title too, so it is not typed on the page.
+3. Its place in whichever **parcours** should walk it, or none. A parcours orders lessons and never
+   owns them (#14).
+4. Its entry in the cross-link map — **four maximum** — and a link back from whatever relates to it.
 5. `AGENTS.md` if the change touches a rule, not just content.
 
-Never hand-write a chapter landing page; it is generated from the manifest.
+**Never hand-write a chapter landing page**; it is generated (#29).
 
-Finish with `npm run build`, then run the audit in `nav-wiring.md` — all four lines must read
-`none` — and look at the page in **both themes** and at **all three shells** (sidebar, rail, drawer — `AGENTS.md` §11):
-
-```bash
-node scripts/shot.mjs http://localhost:3000/{chapitre}/{lecon} out.png --full        # light
-node scripts/shot.mjs http://localhost:3000/{chapitre}/{lecon} out.png --full --dark
-```
+Finish with `npm run build`, then the audit in `nav-wiring.md` — **all four lines must read
+`none`** — and look at the page in **both themes** and at **all three shells**. §11 has the
+`scripts/shot.mjs` invocations; use the script rather than Chrome flags, and check before starting
+a dev server that one is not already running.
 
 ## French correctness
 
-You are writing teaching material — errors are worse here than in ordinary prose. Check accents,
-elisions (`l'homme`, `d'accord`), agreement, and the gender of every noun you introduce. Read
-every cell of a paradigm table as a word: the Vue app rendered *venuns* in a negation table for
-months because a stem/ending split was wrong in the data.
+You are writing teaching material, so an error here teaches the error. Check accents, elisions
+(`l'homme`, `d'accord`), agreement, and the gender of every noun you introduce. **Read every cell of
+a paradigm table as a word**: one once rendered *venuns* for months because a stem/ending split was
+wrong in the data, and nothing reads a table out loud but you.
 
 When you are unsure whether a form is standard, **say so in your report rather than guessing**. A
 confident wrong correction in teaching material is worse than the original error.

@@ -54,19 +54,6 @@ are all built. What no amount of reading the repo will reveal:
   names are not checkable from outside. If a probe ever returns rows, someone has run Supabase's
   suggested `GRANT SELECT … TO anon`; do not.
 
-### `.vue/` is a reference shelf, not a codebase
-
-The whole Vue app (119 lessons) sits there, committed to be *read* — chapter ordering, wording,
-exercise mechanics that worked, and `.vue/AUDIT.md` for the classes of content bug that actually
-shipped.
-
-- **Never port a `.vue` file into TSX and call the lesson done** (#4). Lessons are written fresh.
-- **Never import from it, never build it, never run its dev server.** It is outside the TypeScript
-  project and its `node_modules` is not installed.
-- **`.vue/AGENTS.md` and `.vue/.claude/agents/*.md` are the old briefs — do not follow them.** The
-  durable parts were carried into the files at this level.
-- Its lesson images were left out of HEAD; they are recoverable from commit `00c44c1`.
-
 ## 1. Audience — this drives every content decision
 
 `docs/scope.md` has the full picture. **There are two profiles and they need opposite things.**
@@ -94,7 +81,7 @@ shipped.
   definition and an example that makes the wrong reading impossible.
 - **English is never used, for either profile.** No English glosses, no English mnemonics (never
   DR & MRS VANDERTRAMP).
-- **A2 only, for now** (#52, superseding #25). `CHOOSABLE_LEVELS` holds `A2` alone; B1–C2 are
+- **A2 only, for now** (#52). `CHOOSABLE_LEVELS` holds `A2` alone; B1–C2 are
   declared, unchoosable, and carry no page. No literary tenses, no metalanguage beyond *verbe,
   sujet, adjectif, accord* — the heritage track is the one place that relaxes.
 - **A level is complete when it covers the published DELF syllabus** (#15), not when it feels
@@ -332,7 +319,7 @@ that has become dynamic is a regression, not a detail.**
   lesson renders inside. Entry is the account control at the foot of the sidebar, a popover that
   links to `/compte` and **never holds a form**. Signed out it offers « Se connecter » and never
   reports « Non connecté ». It learns who is signed in from `useAccount`, a **client** hook.
-- **Supabase Auth, username and password** (#19, #37). The `@` decides: an address goes straight to
+- **Supabase Auth, username and password** (#37). The `@` decides: an address goes straight to
   Supabase, a username resolves through `email_for_username()`. **That function is an enumeration
   oracle**, tolerable only while every address is fake and the site is unlisted; the day a real
   address goes on an account, resolution must move server-side.
@@ -341,7 +328,7 @@ that has become dynamic is a regression, not a detail.**
   only those two functions write the mirror. **Never check whether a name is free before writing
   it** — that is both a race and a second oracle.
 - Accounts are made by hand in the dashboard, which is why public sign-up must be off (§0).
-- **Nothing on the server reads the session, at all** (#33, #37). There is no server Supabase
+- **Nothing on the server reads the session, at all** (#37). There is no server Supabase
   client and this project needs **no session-refresh proxy**. **If a server client ever reappears,
   that is a new decision, not a restoration.**
 - **RLS is the authorization model** — `auth.uid() = user_id`. Do not scatter permission checks
@@ -383,9 +370,11 @@ that has become dynamic is a regression, not a detail.**
 - **`/ma-progression` is the one listing that does not filter by level** (#48): it shows what she
   *did*, and a tick hidden by a level change would read as a lost tick.
 
-## 9. Rules carried over from the Vue app
+## 9. Traps that have actually shipped
 
-These cost real bugs in the old codebase. None of them care which framework renders them.
+Every rule below is here because the mistake it forbids reached a published page. Numbers like
+"twenty-one shipped" are the evidence, not decoration: none of these fail a build, a type check or
+a lint, so the only thing standing between them and a learner is this list.
 
 **Content**
 
@@ -403,7 +392,19 @@ These cost real bugs in the old codebase. None of them care which framework rend
 - **Lecture quizzes use `<button>` options, not hidden radios** — the click targets overlap and it
   breaks silently.
 - **An astuce that has exceptions must state them.** "Pays en -e → en" is wrong for *au Mexique*.
+- **A mnemonic must not invent a structure the content does not have.** *rester* and *tomber* were
+  taught as a pair of opposites; they are not opposites, and the device was covering for two verbs
+  the page had simply left out. Five real pairs plus four verbs with no contrary is the honest
+  shape.
+- **Every count in a sentence must match the rows under it.** A caption said "les trois emplois"
+  over four rows, a heading "cinq adjectifs irréguliers" over three, and two pages disagreed on how
+  many verbs take *être* (twelve on one, fourteen on the other). Count the table, then write the
+  number — and when two pages state the same count, changing one means changing both.
 - **Never restate a paradigm table in a second place.** Link to the lesson that owns the rule.
+- **Write the real characters, not the ones the keyboard offers.** `soeur` for `sœur` and `francais`
+  for `français` are spelling errors on a page that teaches spelling, and they shipped twice. This
+  is the authoring counterpart of `AccentBar` below: the learner gets a helper, the lesson text gets
+  no excuse.
 
 **Images** (only `culture/` has them)
 
@@ -425,8 +426,9 @@ Nothing in the toolchain catches it. Full how-to in `.claude/agents/exercise-aut
   keyboard, since `ç` and `œ` cannot be typed on a Spanish one.
 - **Never `sort(() => Math.random() - 0.5)`** — biased; it served the already-correct sentence 9.5 %
   of the time. One shuffle implementation, imported.
-- **A un/une game takes countable nouns only** — a mass noun has no singular indefinite article, so
-  the question has no answer. Twenty shipped.
+- **A mass noun cannot carry an indefinite article, anywhere.** A un/une game built on one has a
+  question with no answer (twenty shipped), and a lesson that says "note the article: *un lait*" is
+  teaching a form nobody writes. Pick a countable noun: *un nez*, *une table*.
 - **A validation check must count what it matched.** A regex that silently skips rows reports clean
   and grants false confidence.
 
@@ -460,14 +462,21 @@ Treat them as part of the deliverable. **If behaviour and docs disagree, the cha
 | `AGENTS.md` | the traps — what any change must not break, one line each |
 | `.claude/agents/*.md` | the how-to for each recurring job |
 | `docs/scope.md` | what is being built and for whom |
-| `docs/decisions.md` | why the rules are what they are — dated, appended, never rewritten |
+| `docs/decisions.md` | what each rule was chosen *against* — curated, not a log; numbers are permanent |
 | `README.md` | what the project is, for a stranger |
 | `CONTRIBUTING.md` | how an outsider proposes a change |
 
-**This file says what is true now; `decisions.md` says when and why.** If you find yourself writing
-"we used to…" here, it belongs there — and a dated sentence here will be wrong within the month.
-Keep this file short enough to stay resident: a rule earns its place by being **silently violable**,
-not by being interesting.
+**This file says what is true now; `decisions.md` says what the alternative was and why it lost.**
+If you find yourself writing "we used to…" here, it belongs there — and a dated sentence here will
+be wrong within the month. Keep this file short enough to stay resident: a rule earns its place by
+being **silently violable**, not by being interesting.
+
+**`decisions.md` is curated, not append-only.** An entry stays while something still depends on it;
+when a later decision replaces one, fold what still matters into the new entry and **delete the old
+one** rather than marking it superseded. The numbers are permanent and never reused, because
+`AGENTS.md`, the briefs and source comments all cite `#nn` — so **gaps in the sequence are
+deliberate, and nothing is renumbered to close them**. Deleting an entry means fixing every
+citation to it first; `grep -rn '#nn'` is the check.
 
 In the **same change**:
 
@@ -477,6 +486,8 @@ In the **same change**:
 - Changed a shared pattern → the prose **and** every snippet demonstrating it, **and `/design`**.
 - Closed an open decision → `docs/decisions.md`, with what it was decided against, and drop it
   from §12.
+- Replaced an earlier decision → fold its surviving reasoning into the new entry, delete the old
+  entry, and repoint every `#nn` citation to it.
 - Hit a bug worth not hitting twice → §9.
 
 ## 11. Verifying a change
@@ -527,10 +538,13 @@ Recorded so nobody decides them by writing code. Closed ones are in `docs/decisi
 1. **The authoring format for lessons** (#10). Deferred, but no longer neutral: React Native
    eventually and contributing teachers eventually both push toward **content-as-data**. Build the
    primitives, hand-write a few lessons, decide with evidence. **Do not build a pipeline yet.**
-2. **Which chapters ship next.** A2 only is settled (#52); the order is not. `conjugaison` is built
-   (#56) and `exercices` has opened with two drills (#68). **`prononciation` needs a decision before
-   it can be written**, because §7 makes it data-driven — a component before it is a lesson.
+2. **Which chapters ship next.** A2 only is settled (#52); the order is not. Eleven chapters carry
+   pages and the sequencing is still meant to come from the DELF A2 syllabus rather
+   than from whichever chapter is most fun to write. **Four chapters are blocked on something other
+   than writing**: `prononciation` needs a decision before a page can exist at all, because §7 makes
+   it data-driven; `dictees` needs the speech hook and the answer comparator; `jeux` needs a game
+   that is not a second `exercices/`; `culture` needs photographs sourced and credited, which is
+   §9's own job.
 3. **Where « Index » goes below the breakpoint** (#66). The margin does not exist on a phone, and a
    disclosure at the top of every lesson is chrome in front of the prose. Decide before writing one.
 4. **Whether the heritage parcours gets its own front door.**
-5. **Whether `.vue/` gets deleted** once the rewrite has outgrown it.

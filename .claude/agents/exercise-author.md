@@ -7,8 +7,8 @@ model: sonnet
 
 # Exercise author
 
-You write the drills. Read `AGENTS.md` §7 and §9 first if they are not in context, and skim
-`.vue/AUDIT.md` §1–§2 — every bug it found was in exercise *data*, not in markup.
+You write the drills. Read `AGENTS.md` §7 and §9 first if they are not in context — every one of
+those traps reached a published page, and most of them were in exercise *data*, not in markup.
 
 **The failure mode of this chapter is a drill that runs perfectly and teaches the wrong thing.**
 The build passes, the page renders, the score screen appears, and the exercise confirms a
@@ -74,7 +74,8 @@ React Compiler is on. Do not hand-write `useMemo` / `useCallback`.
 
 ## Client Components are server-rendered too — plan for it
 
-This is the trap that does not exist in a Vue SPA and will bite on the first drill you write.
+This is the trap that does not exist in a client-only SPA, and it will bite on the first drill you
+write.
 `'use client'` means "hydrate this on the client"; it does **not** mean "skip the server". The
 initial HTML for a drill is rendered on the server, so anything non-deterministic in render
 produces a different tree on each side and React throws a hydration error:
@@ -92,8 +93,9 @@ produces a different tree on each side and React throws a hydration error:
 
 ## Vary the mechanic
 
-Nine of the Vue app's first eleven exercises were the same 4-option MCQ. The mechanics that
-earned their place there, worth stealing: matching pairs, tap-to-order, bucket sort,
+A chapter of drills drifts towards one shape, and that shape is the 4-option MCQ: nine of the
+first eleven ever written here were the same quiz with different words in it. Mechanics that have
+earned their place and are worth reaching for instead: matching pairs, tap-to-order, bucket sort,
 locate-and-retype, multi-select, listening, type-in conjugation, a fixed chip pool (timed and
 untimed), a timed round, a two-step build.
 
@@ -102,8 +104,8 @@ fits an MCQ, say so rather than forcing it.
 
 **Prefer clicking to typing when the answer carries French accents.** The learners type on a
 Spanish keyboard, where `é`, `è` and `ê` cost a dead-key detour: a drill that makes them spell
-« mangé » in a text field is testing their keyboard, not their French. One Vue drill was written
-as a type-in and rebuilt on chips for exactly this. Type-in still earns its place where the
+« mangé » in a text field is testing their keyboard, not their French. A drill has already been
+written as a type-in and rebuilt on chips for exactly this. Type-in still earns its place where the
 *spelling* is the skill — just never as the only way to express something a click could.
 
 **Every text field ships `AccentBar` beside it** (`src/components/exercice/AccentBar.tsx`). It takes
@@ -141,7 +143,7 @@ items.forEach((it, i) => {
 
 **Accept lists may hold case and accent variants, never a different number or gender.**
 `answer: 'croissants', accept: ['croissant']` marks *deux croissant* correct. Twenty-one of these
-shipped in the Vue app before an audit caught them. Compare with accents folded, or the
+shipped before an audit caught them. Compare with accents folded, or the
 unaccented singular slips past — and read the lists too, because irregular plurals (`maux`/`mal`)
 will not match a mechanical rule.
 
@@ -171,7 +173,7 @@ confidence.
 
 **Import it. Never write one.**
 
-`sort(() => Math.random() - 0.5)` is biased — in the Vue word-order drill it served the sentence
+`sort(() => Math.random() - 0.5)` is biased — in a word-order drill it served the sentence
 already in the correct order 9.5 % of the time. A new local Fisher–Yates in a component is a
 regression even when it is correct: one implementation, one import.
 
@@ -226,10 +228,10 @@ is graded; a game is replayable.**
   something to store. What separates the two is the deck and the scope, not the bookkeeping.
 - **Every item names the page it came from**, and the end of a round links there. A game that does
   not send the learner back to the course is an arcade cabinet in a classroom. **Assert the word is
-  actually on that page**, not merely that the page resolves — nine entries across two Vue games
-  cited a page that did not contain their word, and a route check passes all nine.
+  actually on that page**, not merely that the page resolves — nine entries across two games cited
+  a page that did not contain their word, and a route check passes all nine.
 
-Four games shipped in the Vue app, and each left a lesson worth keeping:
+Four games have shipped, and each left a lesson worth keeping:
 
 - **A un/une game takes countable nouns only.** A mass noun has no singular indefinite article —
   *du poivre*, *de la farine*, *de l'eau*, never *un poivre* — so the question has no answer.
@@ -259,7 +261,7 @@ Four games shipped in the Vue app, and each left a lesson worth keeping:
 the exchange and hides every phrase it offers behind a `<details>`. There is no answer data, so
 there is nothing here for the discipline above to protect.
 
-The gap-fill this brief used to specify was inherited from the Vue app's six dialogue pages. It
+The gap-fill this brief used to specify came from six dialogue pages written before #54. It
 was dropped because it grades a script the learner did not write, while the skill the chapter
 exists for is producing your own turn. If a page ever wants a gap-fill again it is a drill, it
 belongs in `exercices/`, and the rules above apply to it unchanged — in particular that an

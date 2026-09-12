@@ -12,10 +12,9 @@ is not already in context.
 
 **The system exists now.** `globals.css` holds the two token layers, the reset, the base
 typography and the shared content patterns; the palette and typography are settled in
-`docs/decisions.md` #27. `.vue/src/style.css` was not ported — not its components and not its
-tokens. Read it only for the list of problems a system like this has to solve (theme-aware
-surfaces, paradigm-table chrome, exercise feedback states, a readable column width, a "recently
-added" card tint that is neither hover-blue nor done-green); the answers here are new ones.
+`docs/decisions.md` #27. It was written from nothing rather than carried over from anywhere (#5),
+so there is no legacy stylesheet to stay compatible with and no token here that exists only because
+something older needed it.
 
 **`/design` is the specimen.** Every shared pattern on one page, deliberately absent from
 `navigation.ts` because nothing links to it and it is not a lesson. It is what you screenshot when
@@ -49,11 +48,11 @@ announces the wrong colour is worse than one that announces none.
    (`--accent` / `-hover` / `-soft` / `-subtle` / `-line` / `-text`, and the same shape for
    `--danger`, `--warn`, `--success`), plus elevation and layout tokens.
 
-The Vue app had a third layer of `--clr-*` aliases kept alive so pages written before the tokens
-existed would still inherit dark mode. **Do not recreate it.** There is no legacy here to be
-compatible with, and the aliases were the source of a whole bug class on their own — `--clr-page`
-read like "page text colour" and was in fact a *surface* token, so every component that used it
-for text inverted in dark mode.
+An earlier version of this course grew a third layer of `--clr-*` aliases, kept alive so that pages
+written before the tokens existed would still inherit dark mode. **Do not recreate it.** There is no
+legacy here to be compatible with, and the aliases were a bug class on their own — `--clr-page` read
+like "page text colour" and was in fact a *surface* token, so every component that used it for text
+inverted in dark mode.
 
 ### Adding a semantic token
 
@@ -117,8 +116,8 @@ what you see in `next dev`.
 
 ## The theme must not flash
 
-A dark-mode learner seeing a white page for 200 ms on every cold load is a regression against the
-Vue app, which never had one — SSR is what introduces it.
+A dark-mode learner seeing a white page for 200 ms on every cold load is a regression, and a new
+one: a client-rendered app never had this problem, because SSR is what introduces it.
 
 The pattern (see `node_modules/next/dist/docs/01-app/02-guides/preventing-flash-before-hydration.md`):
 
@@ -174,8 +173,8 @@ number is the first thing to re-check.
 ## The breakpoint lives in the CSS, once
 
 A media query cannot read a custom property, so the shell breakpoint would naturally end up in both
-`globals.css` and the hook that decides the drawer — which is exactly how the Vue app's two copies
-drifted. `globals.css` publishes the answer instead:
+`globals.css` and the hook that decides the drawer — which is exactly how two copies of it drifted
+once before. `globals.css` publishes the answer instead:
 
 ```css
 :root { --shell-mode: "drawer"; }
@@ -255,7 +254,8 @@ column, an image collapsed to zero width — do not show up in the DOM.
 
 ## Traps already paid for
 
-Carried from the Vue app because they are CSS, not framework:
+Each of these cost real debugging time. They are CSS rather than framework, so nothing about the
+stack has made them go away:
 
 - A vertical flex container makes `flex: 1` on a child grow it **downwards**, not fill the row.
   Use `flex: 0 0 auto`, and scope `flex: 1 1 auto` to children of the row-direction element.

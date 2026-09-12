@@ -16,23 +16,17 @@ because nothing detects it at build time.
 | `src/app/**/page.tsx` | the URL and the page itself | a sidebar link 404s |
 | the cross-link map | "Pour aller plus loin" | a page silently loses a link, or keeps one to a page that is gone |
 
-## What the App Router changed
+## There is no route table
 
-Read this before reaching for what you remember about the Vue app.
+**Routes are the filesystem.** A folder containing `page.tsx` *is* the route. Nothing registers a
+route and there is no list of them to keep in step.
 
-**Gone: the route table.** `.vue/src/router/index.js` listed all 164 routes by hand and had to
-agree with the manifest; nothing checked it, and a missing line meant a dead sidebar link. Routes
-are now the filesystem — a folder containing `page.tsx` *is* the route. There is nothing to
-register and nothing to keep in sync on that side.
+**So the filesystem is the thing that can disagree with the manifest.** An entry with no matching
+folder is a link to a 404; a `page.tsx` with no entry is a page nothing links to. Neither fails a
+build, which is what the audit below exists for.
 
-**New: the filesystem is now the thing that can disagree.** A manifest entry with no matching
-folder is a link to a 404. A `page.tsx` with no manifest entry is a page nothing links to. Same
-class of bug, different pair of files — so the check moved rather than disappeared.
-
-**Also gone: route names.** The Vue router needed unique per-chapter name prefixes (`grammaire-`,
-`ex-`, `conj-`) so that `/exercices/etre-ou-avoir` and `/astuces/etre-ou-avoir` did not collide.
-Nothing routes by name any more — but the manifest does carry a required `id` per lesson, which
-looks like the old name field and is not one: it is what progress is keyed by, it addresses no
+**Nothing routes by name, and `id` is not a name.** The manifest carries a required `id` per
+lesson; it looks like a route name and is not one. It is what progress is keyed by, it addresses no
 route, and it never changes (`docs/decisions.md` #50).
 
 ## The audit
@@ -148,8 +142,9 @@ dimmed row or a "planned" count to fill a chapter out.**
    **and `icon`**. There is no count noun any more — nothing counts a chapter. The icon is required and its
    type is a union, so a chapter without one does not compile and a name with no drawing does not
    either — add the glyph to `src/components/nav/ChapterIcon.tsx` in the same change. **Never give
-   that map a `default` entry**: the Vue app's ended `?? icons.default`, so a forgotten chapter
-   rendered a generic glyph, looked like a design choice and failed nowhere (#29, repaired by #42).
+   that map a `default` entry**: an earlier version of it ended `?? icons.default`, so a forgotten
+   chapter rendered a generic glyph, looked like a design choice and failed nowhere (#29, repaired
+   by #42).
    The mark on a *sommaire card* is still the chapter's initial in the serif — a different surface
    with room for lettering, and nothing to keep in step.
 2. **Nothing else.** `src/app/[chapitre]/page.tsx` renders every chapter landing page from the

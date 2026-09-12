@@ -8,8 +8,8 @@ being built and for whom.
 
 **Help Spanish speakers reach French, from A1 to C2, for free.**
 
-The long-term ambition is the full CEFR ladder. The scope is **A1 and A2**, and the rewrite starts
-with **A2 alone** — sized to the DELF A2 syllabus rather than to the 119 lessons the Vue app had.
+The long-term ambition is the full CEFR ladder. The scope is **A1 and A2**, and the course starts
+with **A2 alone** — sized to the DELF A2 syllabus rather than to however many lessons exist.
 The course has one learner and she is at A2 (below), so A1 is the level with no reader waiting;
 it keeps its place in the plan and has no page. B1 through C2 are declared as levels, cannot be
 chosen and have no content. That is a deliberate limit, not a gap to be quietly filled — an
@@ -51,10 +51,10 @@ language, and they are an explicit audience, not a side effect.
 written A2 at the same time, so a single CEFR badge mislabels her in both directions: call her A2
 and it insults her French, call her C1 and it hides the pages she actually needs.
 
-The content library serves both — the Vue app was already half-built for the second profile,
-since its "Bled content patterns" come from a textbook written for native French schoolchildren.
-What differs between the profiles is the **ordering and the entry point**, not the pool of
-lessons.
+The content library serves both. What differs between the profiles is the **ordering and the entry
+point**, not the pool of lessons: `orthographe`, `dictees`, `astuces` and `conjugaison` lean to the
+heritage speaker, `grammaire`, `vocabulaire` and `conversation` to the learner, and both read the
+same pages when the page suits them.
 
 ## Two ways in: the chapters and the parcours
 
@@ -79,8 +79,7 @@ once teachers are contributing — gives everyone a shared reference to argue fr
 taste.
 
 Concretely: map lessons to DELF A2 descriptors first, then A1, and track which descriptors have no
-lesson.
-The 119 Vue lessons are a starting inventory to map against, not a claim of coverage.
+lesson. A count of published pages is an inventory, never a claim of coverage.
 
 ## Language of instruction
 

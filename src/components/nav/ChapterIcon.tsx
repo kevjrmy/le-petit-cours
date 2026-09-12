@@ -6,15 +6,14 @@ import styles from "./ChapterIcon.module.css";
  *
  * **Why they are inline SVG and not an icon font, a sprite or a package.** This
  * is a PWA someone opens in the métro: an icon that arrives over the network is
- * an icon that is missing exactly when the app is supposed to still work. The
- * Vue app solved this with `unplugin-icons`, which compiled `~icons/mdi/*` into
- * the bundle at build time — the mechanism was right and it is what is kept
- * here. What is dropped is the dependency and the third-party licence: these
- * are ours, so the repo owes no attribution (`AGENTS.md` §9b).
+ * an icon that is missing exactly when the app is supposed to still work.
+ * Compiling them into the bundle is the mechanism; drawing them in the repo
+ * drops the dependency and the third-party licence with it, so these are ours
+ * and the repo owes no attribution (`AGENTS.md` §9b).
  *
  * **A missing icon is a type error, not a fallback glyph.** That is the whole
  * repair to `docs/decisions.md` #29, which removed the icon field precisely
- * because the Vue map ended `?? icons.default`: forget a chapter and it
+ * because an earlier map ended `?? icons.default`: forget a chapter and it
  * rendered a generic file glyph that looked like a design choice, with nothing
  * failing anywhere. Here `IconName` is declared in the manifest and this map is
  * a `Record<IconName, …>`, so **both** directions are checked at compile time —

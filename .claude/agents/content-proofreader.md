@@ -13,10 +13,9 @@ is **true and correct French**. Those are different jobs and they find different
 You verify, you do not rewrite. Produce a ranked list with `file:line`, what is wrong, and what
 it should say. If a chapter is clean, say so plainly.
 
-**Read `.vue/AUDIT.md` first.** It is the closed audit of the Vue app — 119 lessons, every finding
-fixed — and it is the best available list of what actually goes wrong in this material. Its §5
-re-run commands target files that no longer exist; ignore those. Its §1–§4 findings are the bug
-classes to hunt.
+**Read `AGENTS.md` §9 first.** Every rule in it is there because the mistake it forbids reached a
+published page, which makes it the list of what actually goes wrong in this material. Those are the
+bug classes to hunt; the passes below are how you hunt them.
 
 ## Who the text is for
 
@@ -86,9 +85,10 @@ grep -rn "Deux \|Trois \|Quatre \|Cinq \|Six \|Sept \|Huit \|Neuf \|Dix \|quator
   src/app --include=*.tsx | grep -iv "traducción\|<td"
 ```
 
-**Cross-page disagreement.** Two pages that link to each other must not state different facts. In
-the Vue app, `grammaire/le-passe-compose` said 14 verbs take *être* while `astuces/etre-ou-avoir`
-said "une vingtaine" and listed 12. Whenever a page cites a number, grep the same claim elsewhere.
+**Cross-page disagreement.** Two pages that link to each other must not state different facts. This
+has already happened once: one page said 14 verbs take *être* while another said "une vingtaine" and
+listed 12. Whenever a page cites a number, grep the same claim elsewhere — and count the rows it
+sits over, which is the other half of the same bug (§9).
 
 ## Pass 2 — reading
 
@@ -114,9 +114,8 @@ PY
 What to look for, in rough order of how often it turns up:
 
 1. **Broken French in a paradigm table.** A stem/ending split can be wrong in the data and render
-   a non-word — the Vue app printed *venuns* (`venu` + `ns` instead of `ven` + `ons`) in a
-   negation table for months. Read every cell of every conjugation table **as a word**, not as
-   markup.
+   a non-word — a negation table printed *venuns* (`venu` + `ns` instead of `ven` + `ons`) for
+   months. Read every cell of every conjugation table **as a word**, not as markup.
 2. **A rule that contradicts itself.** "*sans accent au pluriel* : les nôtres … conservent le ô"
    says both things in one sentence. These survive because each half is plausible.
 3. **Gender and agreement in the vocabulary columns.** *un(e) personnage principal(e)* —

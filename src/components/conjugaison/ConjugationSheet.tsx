@@ -16,8 +16,8 @@ import styles from "./ConjugationSheet.module.css";
  * One sheet, every verb (`docs/decisions.md` #56). The page under
  * `app/conjugaison/[verbe]/` is a wrapper; everything you see is here.
  *
- * **The two toggles are the reason this is a client component**, and they are
- * the part of the Vue sheet most worth keeping. Négatif shows where *ne … pas*
+ * **The two toggles are the reason this is a client component**, and they earn
+ * it. Négatif shows where *ne … pas*
  * lands — around the verb in a simple tense, around the *auxiliary* in the passé
  * composé, which is the mistake a Spanish speaker makes for months. Féminin
  * shows the participle agreeing, but only on an `être` verb, which is the other

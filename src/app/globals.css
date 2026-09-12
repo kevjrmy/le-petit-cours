@@ -195,7 +195,7 @@
   /* Which shell the viewport gets: "drawer" on a phone, "rail" on a tablet,
      "sidebar" on a laptop. A media query cannot read a custom property, so the
      breakpoints would otherwise live in both the CSS and the hook that decides
-     the drawer — and the Vue app's two copies drifted. `useShellMode` reads
+     the drawer — and two copies of a breakpoint drift. `useShellMode` reads
      this token instead of carrying its own numbers:
        getComputedStyle(document.documentElement)
          .getPropertyValue("--shell-mode").trim()

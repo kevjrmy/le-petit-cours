@@ -9,9 +9,9 @@ import styles from "./Traduction.module.css";
  * write, and the model version (`docs/decisions.md` #55).
  *
  * **One component, not one per page.** The first text had its own copy and the
- * second would have been a fork — which is exactly how the Vue app ended up
- * with five dialogue pages carrying ~300 lines of bespoke CSS each. A page here
- * is its text, its three hints and its model, and nothing else.
+ * second would have been a fork — which is exactly how five dialogue pages once
+ * ended up carrying ~300 lines of bespoke CSS each. A page here is its text, its
+ * three hints and its model, and nothing else.
  *
  * **A hint gives the base form, never the conjugated one.** `se réveiller`, not
  * `je me suis réveillée`: vocabulary is what stops a learner mid-sentence, and

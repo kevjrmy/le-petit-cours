@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 
 /* The PWA manifest is a Next file convention, not a static JSON in public/.
-   Values carried over from the Vue app's vite.config.js, with theme_color
-   restated against the new palette.
+   theme_color is stated against the palette rather than hard-coded twice: keep
+   it in step with --surface-app and with viewport.themeColor in layout.tsx.
 
    The icons are generated from public/logo-mark.svg by scripts/make-icons.mjs
    — white P on #0044AA, opaque, the maskable with the safe zone Android's

@@ -3,9 +3,9 @@
  *
  * **Never write `sort(() => Math.random() - 0.5)`.** It is not a shuffle: the
  * comparator is inconsistent, so the result depends on the sort algorithm and
- * is heavily biased towards the input order. In the Vue app's word-order drill
- * it served the sentence *already in the correct order* 9.5 % of the time, and
- * eighteen files carried a copy of it (`.vue/AUDIT.md` §3, `AGENTS.md` §9).
+ * is heavily biased towards the input order. In a word-order drill it served the
+ * sentence *already in the correct order* 9.5 % of the time, and eighteen files
+ * had each grown their own copy of it before an audit found them (`AGENTS.md` §9).
  *
  * A local Fisher–Yates in a component is a regression too, even when it is
  * correct — one implementation, one import, one place to check.

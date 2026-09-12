@@ -1,16 +1,15 @@
 /**
  * The conjugation tables, and the only place a verb form is written down.
  *
- * Ported from the Vue app's `src/data/conjugaisons.js` — the *model*, not the
- * file: the shape earned its place over thirty verbs and is kept, and three
- * things change with it.
+ * The shape earned its place over thirty verbs in an earlier version of this
+ * course, and is kept. Three things differ from it:
  *
- * 1. **No Spanish gloss.** The `es` field is gone (`docs/decisions.md` #53).
- * 2. **The imparfait is here**, which the Vue sheet never had: it lived only in
- *    `grammaire/l-imparfait`, so the one tense whose forms are perfectly regular
- *    was the one tense you could not look up.
- * 3. **Twelve verbs, one route.** `app/conjugaison/[verbe]/page.tsx` renders all
- *    of them, the way `[chapitre]` renders the chapter pages (#56).
+ * 1. **No Spanish gloss.** There is no `es` field (`docs/decisions.md` #53).
+ * 2. **The imparfait is here.** It used to live only in `grammaire/l-imparfait`,
+ *    so the one tense whose forms are perfectly regular was the one tense you
+ *    could not look up.
+ * 3. **One route for every verb.** `app/conjugaison/[verbe]/page.tsx` renders
+ *    all of them, the way `[chapitre]` renders the chapter pages (#56).
  *
  * **Two tenses are generated, and for the same reason**: every French verb
  * shares one set of endings, so storing six forms would be storing the same
@@ -264,6 +263,19 @@ export const verbs: Verb[] = [
     imperatif: ["vien|s", "ven|ons", "ven|ez"],
   },
   {
+    slug: "partir",
+    infinitif: "partir",
+    groupe: "3e groupe",
+    note: "Se conjugue avec être au passé composé. Le radical perd son t au singulier du présent : je pars, nous partons.",
+    aux: "être",
+    participe: "parti",
+    ppresent: "part|ant",
+    present: ["par|s", "par|s", "par|t", "part|ons", "part|ez", "part|ent"],
+    imparfait: "part",
+    futur: "partir",
+    imperatif: ["par|s", "part|ons", "part|ez"],
+  },
+  {
     slug: "pouvoir",
     infinitif: "pouvoir",
     groupe: "3e groupe",
@@ -288,6 +300,21 @@ export const verbs: Verb[] = [
     imparfait: "voul",
     futur: "voudr",
     imperatif: ["veuill|e", "veuill|ons", "veuill|ez"],
+  },
+  {
+    slug: "devoir",
+    infinitif: "devoir",
+    groupe: "3e groupe",
+    note: "Verbe modal : il est suivi d’un infinitif (je dois partir). Son participe porte un accent circonflexe au masculin singulier seulement : dû, mais due, dus, dues.",
+    aux: "avoir",
+    participe: "dû",
+    ppresent: "dev|ant",
+    present: ["doi|s", "doi|s", "doi|t", "dev|ons", "dev|ez", "doiv|ent"],
+    imparfait: "dev",
+    futur: "devr",
+    imperatif: null,
+    imperatifNote:
+      "Les formes existent (dois, devons, devez) mais ne s’emploient pas : on dit « tu dois partir », pas « pars, tu le dois ».",
   },
 ];
 

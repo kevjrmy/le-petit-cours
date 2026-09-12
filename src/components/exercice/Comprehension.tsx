@@ -7,7 +7,7 @@ import styles from "./Comprehension.module.css";
  * The « Avez-vous compris ? » quiz at the foot of a `lecture/` page.
  *
  * **The options are `<button>` elements, never hidden radios.** That is
- * `AGENTS.md` §9, and it is there because the Vue app shipped a label-wrapped
+ * `AGENTS.md` §9, and it is there because this course once shipped a label-wrapped
  * radio whose click targets overlapped: a tap near the edge selected the
  * neighbour, silently, and the learner read her own answer as the mistake.
  *

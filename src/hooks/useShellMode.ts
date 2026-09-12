@@ -45,8 +45,8 @@ export function useRestoreRail() {
  * on a tablet, the open panel on a laptop.
  *
  * The breakpoints live in `globals.css` and are published as `--shell-mode`, so
- * this hook carries no number of its own — the Vue app kept the value in two
- * files and they drifted. **The learner's collapse choice is in that token too**
+ * this hook carries no number of its own. Kept in two files, the value drifts;
+ * that has happened. **The learner's collapse choice is in that token too**
  * (`:root[data-rail]` outranks the breakpoint by specificity), which is why
  * reading one computed value is enough and this hook does not know the
  * preference exists. The value is a CSS string, so it comes back quoted.
