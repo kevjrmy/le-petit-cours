@@ -448,6 +448,15 @@ export const chapters: Chapter[] = [
         delf: "Parler de son métier et de ses conditions de travail",
         created: "2026-09-12",
       },
+      {
+        id: "voc-recette-croissants",
+        path: "/vocabulaire/la-recette-des-croissants",
+        title: "La recette des croissants",
+        subtitle: "Les ingrédients, les ustensiles, les gestes",
+        levels: A2,
+        delf: "Suivre une recette écrite et nommer ce qu’elle demande",
+        created: "2026-09-15",
+      },
     ],
   },
   {
@@ -518,6 +527,16 @@ export const chapters: Chapter[] = [
           B1: "Appliquer le test de remplacement à des homophones que rien ne sépare à l’oreille.",
         },
         created: "2026-09-12",
+      },
+      {
+        id: "ex-terminaisons",
+        path: "/exercices/les-terminaisons",
+        title: "Les terminaisons",
+        subtitle: "Le verbe parler, aux cinq temps de la fiche",
+        tag: "Tableau",
+        levels: A2,
+        delf: "Écrire les terminaisons du 1er groupe aux cinq temps du programme A2",
+        created: "2026-09-15",
       },
     ],
   },
@@ -670,19 +689,6 @@ export const chapters: Chapter[] = [
         created: "2026-09-12",
       },
       {
-        id: "lect-chevre-seguin",
-        path: "/lecture/la-chevre-de-monsieur-seguin",
-        title: "La chèvre de monsieur Seguin",
-        subtitle: "Alphonse Daudet, 1869",
-        tag: "Compréhension",
-        levels: A2B1,
-        delf: {
-          A2: "Comprendre un court récit littéraire et répondre à des questions simples.",
-          B1: "Lire ce qu’un narrateur laisse entendre : une ironie légère, une offre qui manque la question, un renoncement démenti trois lignes plus loin.",
-        },
-        created: "2026-09-07",
-      },
-      {
         id: "lect-lion-et-rat",
         path: "/lecture/le-lion-et-le-rat",
         title: "Le Lion et le Rat",
@@ -694,6 +700,19 @@ export const chapters: Chapter[] = [
           B1: "Lire une fable comme une forme : deux morales qui n’en font pas une, une question qui n’en est pas une, un titre déplacé.",
         },
         created: "2026-09-12",
+      },
+      {
+        id: "lect-invitation-voyage",
+        path: "/lecture/l-invitation-au-voyage",
+        title: "L’Invitation au voyage",
+        subtitle: "Charles Baudelaire, 1857",
+        tag: "Compréhension",
+        levels: A2B1,
+        delf: {
+          A2: "Lire un poème et retrouver ce qu’il nomme : à qui il parle, ce qu’il propose, ce que le refrain décrit.",
+          B1: "Lire ce qu’un temps verbal engage : un conditionnel qui retire la chambre au réel, un « ne… que » pris pour un éloge, un compliment qui garde un mot de méfiance.",
+        },
+        created: "2026-09-15",
       },
       {
         id: "lect-phileas-fogg",
@@ -1122,6 +1141,7 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/la-negation",
     "/grammaire/le-futur-proche",
     "/conversation/demander-son-chemin",
+    "/vocabulaire/la-recette-des-croissants",
   ],
   "/conversation/demander-son-chemin": [
     "/astuces/a-en-au-aux",
@@ -1136,7 +1156,7 @@ const handWrittenLinks: Record<string, string[]> = {
   ],
   "/lecture/le-lion-et-le-rat": [
     "/litterature/par-ou-commencer",
-    "/lecture/la-chevre-de-monsieur-seguin",
+    "/lecture/l-invitation-au-voyage",
     "/grammaire/le-passe-compose",
   ],
   "/musique/la-vie-en-rose": [
@@ -1229,23 +1249,40 @@ const handWrittenLinks: Record<string, string[]> = {
   "/traduction/quand-j-etais-petite": [
     "/grammaire/l-imparfait",
     "/conversation/parler-de-l-espagne",
-    "/lecture/la-chevre-de-monsieur-seguin",
+    "/lecture/cosette-dans-le-bois",
   ],
-  "/lecture/la-chevre-de-monsieur-seguin": [
+  /* The refrain's « ne… que » is the one piece of grammar the poem teaches by
+     itself, so « la négation » leads rather than another reading. */
+  /* The one page in the course where « du » and « de la » are unavoidable, so
+     the restaurant scene that spends them leads, and « l’heure » follows for
+     the durations the steps are full of. */
+  /* The sheet first: this drill takes its forms from that verb's entry, so the
+     page that prints them whole is the place to go when a blank will not come. */
+  "/exercices/les-terminaisons": [
+    "/conjugaison/parler",
+    "/conjugaison/finir",
     "/grammaire/l-imparfait",
-    "/traduction/quand-j-etais-petite",
-    "/grammaire/passe-compose-ou-imparfait",
-    "/lecture/phileas-fogg",
+    "/exercices/etre-ou-avoir",
+  ],
+  "/vocabulaire/la-recette-des-croissants": [
+    "/conversation/au-restaurant",
+    "/vocabulaire/l-heure",
+  ],
+  "/lecture/l-invitation-au-voyage": [
+    "/grammaire/la-negation",
+    "/lecture/le-lion-et-le-rat",
+    "/lecture/cyrano-de-bergerac",
+    "/litterature/par-ou-commencer",
   ],
   "/lecture/phileas-fogg": [
     "/vocabulaire/l-heure",
     "/grammaire/l-imparfait",
-    "/lecture/la-chevre-de-monsieur-seguin",
+    "/lecture/le-lion-et-le-rat",
     "/lecture/cyrano-de-bergerac",
   ],
   "/lecture/cosette-dans-le-bois": [
     "/grammaire/les-pronoms-cod-coi",
-    "/lecture/la-chevre-de-monsieur-seguin",
+    "/lecture/phileas-fogg",
     "/conversation/parler-du-travail",
     "/lecture/du-cote-de-chez-swann",
   ],
@@ -1273,7 +1310,7 @@ const handWrittenLinks: Record<string, string[]> = {
   ],
   "/lecture/du-cote-de-chez-swann": [
     "/grammaire/passe-compose-ou-imparfait",
-    "/lecture/la-chevre-de-monsieur-seguin",
+    "/lecture/cosette-dans-le-bois",
   ],
   "/traduction/un-week-end-a-la-plage": ["/orthographe/les-homophones"],
   "/traduction/hier-dans-la-rue": [

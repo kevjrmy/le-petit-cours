@@ -1,0 +1,328 @@
+/* The board: one conjugation table at a time, stepped through by the strip in
+   its caption. Only the drill's own furniture lives here — the instructions and
+   the score panel are shared (`src/components/exercice/Drill.tsx`).
+
+   The size of a conjugated form, declared once. The table and the blanks both
+   read it, so a change here moves them together and neither is left behind.
+   Everything else — the stepper, the headings, the notes — is chrome and keeps
+   its own small sizes. */
+.board {
+  --form: 1.05rem;
+}
+
+/* The verb under drill. Centred over the stepper, because the two together
+   read as one heading for the board: which verb, then which tense of it. */
+.verbHead {
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.verbWord {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+.verbGroup {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--text-3);
+}
+
+/* The tense stepper: « ‹ Présent Imparfait … › », the current one marked.
+
+   Centred, because it reads as a position in a sequence rather than as a row
+   of options, and the two arrows have to sit either side of that position.
+   It still wraps rather than overflowing — at the rail the five names plus two
+   arrows can outrun the reading column, and a second line is better there than
+   a scrollbar inside a caption. */
+.tabs {
+  margin-top: 0;
+  /* Upright, against the italic `globals.css` gives every `caption`. That
+     italic is for a caption written as a sentence; this one is a row of
+     controls, and slanted tense names read as emphasis nobody asked for. */
+  font-style: normal;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--text-3);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.tab:hover {
+  color: var(--text-1);
+}
+
+/* The one on screen: a light accent fill rather than an outline. Inside the
+   caption the strip is the table's head, so the current tense can hold a tint
+   without competing with anything — and a fill reads as « you are here » at a
+   glance, where a hairline border had to be looked for. The transparent border
+   on `.tab` stays, so switching tense never shifts the row by a pixel. */
+.current.current {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+.tabDone {
+  font-size: 0.75rem;
+  color: var(--success-text);
+}
+
+/* A corrected tense carries its score instead of a tick. Tabular figures so
+   « 5/6 » and « 3/3 » do not shift the names either side of them as you step. */
+.tabScore {
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-3);
+}
+
+/* Bare: no box, no fill, no border — the glyph is the control. Colour is what
+   says whether it can be used, so it carries the accent while there is a tense
+   that way and goes grey at either end of the five. The global `:focus-visible`
+   ring is what keeps it reachable without a border of its own. */
+.arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  cursor: pointer;
+  transition: color var(--dur-fast) ease;
+}
+
+.arrow:hover:not(:disabled) {
+  color: var(--accent-text);
+}
+
+.arrow:disabled {
+  color: var(--text-3);
+  cursor: default;
+}
+
+.tableWrap {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+/* **Full width, with the slack pushed to the outside.**
+
+   Sized to its content the table was only as wide as « nous avons parl -[  ] »,
+   and the caption — which now holds the tense stepper — was boxed into that and
+   wrapped the five names onto three lines. So the table spans the card again,
+   and the two outer columns take 50% each while the radical stays at its
+   content width: the subject's slack falls to the left, the blank's to the
+   right, and the three cells still meet tight in the middle. Stretching them
+   evenly, which is what `width: 100%` does on its own, is what put a hand's
+   breadth between « je » and « parl » in the first place.
+
+   Doubled, because `.prose table` and `.prose caption` are (0,1,1) and a single
+   class is (0,1,0) (`.claude/agents/design-system.md`). */
+.table.table {
+  width: 100%;
+  margin: 0;
+  font-size: var(--form);
+}
+
+/* The caption is the stepper's frame now, not a line of type: it spans the
+   card, carries the rule that separates it from the rows, and leaves the
+   strip inside to do the naming. */
+.caption.caption {
+  padding: 0 0 0.6rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+/* Italic, so the pronoun reads as the label of its row rather than as part of
+   the form beside it — the two are set in the same serif and would otherwise
+   run together as « je parl ». */
+.person {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-1);
+  white-space: nowrap;
+  /* Right-aligned against the radical, and half the table wide so the join
+     lands in the middle of the card rather than against its left edge. */
+  width: 50%;
+  text-align: right;
+  padding-right: 0.35rem;
+}
+
+/* The third cell: the join, the blank, and the mark after checking. */
+.form {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  font-family: var(--font-serif);
+}
+
+/* Tight against the stem on its left and the field on its right, so the row
+   reads as one word cut in two rather than as three separate cells. */
+.join {
+  color: var(--text-3);
+}
+
+/* Three levels, as on the verb sheet, but not the sheet's three.
+
+   There the pronoun is the most muted of the three, because the sheet prints
+   the whole form and the pronoun is the part you already know. Here the subject
+   is a column of its own, read on its own, and the only thing that says which
+   of six rows you are on — muted it became the hardest thing on the board to
+   find. So: subject in the plain text colour, radical quiet behind it,
+   terminaison in the accent and bolder, colour never being the only carrier
+   (`AGENTS.md` §5).
+
+   The « Radical » column. Right-aligned, and stripped of the 0.9rem of cell
+   padding `globals.css` gives every `td`, so « parl » sits against the hyphen
+   instead of a column's width away from it. A single class is enough to win:
+   the global rule is `th, td`, which is (0,0,2). */
+.stem {
+  font-family: var(--font-serif);
+  color: var(--text-2);
+  text-align: right;
+  /* Content width: the two 50% columns either side leave exactly what « parl »
+     or « parler » needs, and never break it. */
+  width: 1%;
+  white-space: nowrap;
+  padding-left: 0.35rem;
+  padding-right: 0.2rem;
+}
+
+/* The other half of the same join, and the other half of the width. */
+.endingCell {
+  width: 50%;
+  padding-left: 0;
+}
+
+/* Sized in characters, not in rem: `ch` is the width of a `0` in the current
+   font, so the blank grows with `--form` instead of having to be re-measured
+   after every type change. Seven of them clear the longest ending (`aient`)
+   with room for the caret, and every blank is the same width — the width must
+   never hint at the length of the answer. */
+.field {
+  width: 7ch;
+  padding: 0.15rem 0.4rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--accent-text);
+  font-family: var(--font-serif);
+  font-size: var(--form);
+  font-weight: 600;
+}
+
+/* The focused blank, marked without a ring.
+
+   **`outline: none` is only safe because something replaces it**, and here the
+   field already owns a border and a fill to say it with: both go accent, which
+   on a row of twenty-seven identical blanks reads better than a ring drawn
+   outside the box anyway. Everything else on the board keeps the global
+   `:focus-visible` outline from `globals.css` (`AGENTS.md` §5). */
+.field:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+}
+
+.field:disabled {
+  cursor: default;
+}
+
+/* The verdict is a mark as well as a tint, so a learner who cannot tell the
+   green from the red still reads the result (`AGENTS.md` §5). */
+.mark {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* The accent row and its heading. */
+.aid {
+  margin-top: 1.5rem;
+}
+
+/* Doubled, because `.prose h3` is (0,1,1) and a single class is (0,1,0): the
+   global heading rhythm would otherwise push this label away from the row it
+   names (`.claude/agents/design-system.md`). */
+.aidHead.aidHead {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.note {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-3);
+}
+
+.corrections {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.corrections li {
+  margin-top: 0;
+  font-size: 0.92rem;
+}
+
+.corrections .verb {
+  font-family: var(--font-serif);
+  color: var(--text-heading);
+}
+
+.actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+
+/* Below the drawer breakpoint the strip keeps only the tense you are on, so it
+   reads « ‹ Imparfait › » and never wraps to three lines. The names are still
+   buttons and still reachable by stepping; nothing is lost but the preview of
+   what is either side. */
+@media (max-width: 30rem) {
+  .tab {
+    display: none;
+  }
+
+  .tab.current {
+    display: inline-flex;
+  }
+}
+

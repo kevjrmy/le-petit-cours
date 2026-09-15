@@ -72,8 +72,16 @@
 }
 
 /* A chip is a button because it is one: it moves on click and on Enter, and it
-   has to announce which column it is in. */
+   has to announce which column it is in. Dragging is added on top of that and
+   never instead of it.
+
+   `touch-action: none` is what makes the drag work with a finger: without it
+   the browser claims the gesture for scrolling and sends `pointercancel` the
+   moment the touch moves. The cost is real and deliberate — a swipe that starts
+   exactly on a chip no longer scrolls the page — and it is why the click path
+   stays. */
 .chip {
+  touch-action: none;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -84,13 +92,47 @@
   color: var(--text-1);
   font-family: var(--font-serif);
   font-size: 0.98rem;
-  cursor: pointer;
+  cursor: grab;
   text-align: left;
   transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
 }
 
 .chip:hover:not(:disabled) {
   border-color: var(--accent-line);
+  background: var(--accent-subtle);
+}
+
+/* The chip left behind while its ghost is under the pointer. Kept in place
+   rather than removed, so the pool and the columns do not reflow mid-drag and
+   move the target out from under the finger. */
+.chip.dragging {
+  opacity: 0.3;
+  cursor: grabbing;
+}
+
+/* The chip under the pointer. Inert, so `zoneAt` never finds it instead of the
+   column, and centred on the pointer rather than trailing it. */
+.ghost {
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--text-1);
+  font-family: var(--font-serif);
+  font-size: 0.98rem;
+  box-shadow: var(--shadow-lg);
+}
+
+/* The zone the chip would land in. Doubled on neither: `.pool.over` and
+   `.column.over` are both (0,2,0) and already beat the single class they
+   override. */
+.pool.over,
+.column.over {
+  border-color: var(--accent);
   background: var(--accent-subtle);
 }
 

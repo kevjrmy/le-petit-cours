@@ -28,8 +28,15 @@ const GROUPS = [
 export function AccentBar({
   target,
 }: {
-  /** The field to type into. Its caret position is where the character lands. */
-  target: RefObject<HTMLTextAreaElement | null>;
+  /**
+   * The field to type into. Its caret position is where the character lands.
+   *
+   * An `input` as readily as a `textarea`: `setRangeText`, `selectionStart` and
+   * `selectionEnd` are `HTMLInputElement`'s too. A drill with many small blanks
+   * points this at whichever one has focus rather than drawing one bar per
+   * field (`exercices/les-terminaisons`).
+   */
+  target: RefObject<HTMLTextAreaElement | HTMLInputElement | null>;
 }) {
   function insert(character: string) {
     const field = target.current;
@@ -39,8 +46,12 @@ export function AccentBar({
        after what it wrote — so a run of taps types a word rather than
        reversing it. It also replaces a selection, which is what you want when
        someone highlights a bare `e` to accent it. */
-    const start = field.selectionStart;
-    const end = field.selectionEnd;
+    /* `selectionStart` is `number` on a textarea and `number | null` on an
+       input — null for the types that have no selection (`number`, `email`).
+       Every field this is pointed at is a text one, so the fallback is the
+       caret at the end rather than a special case. */
+    const start = field.selectionStart ?? field.value.length;
+    const end = field.selectionEnd ?? start;
     field.setRangeText(character, start, end, "end");
     field.focus();
   }

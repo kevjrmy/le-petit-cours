@@ -84,8 +84,8 @@ are all built. What no amount of reading the repo will reveal:
 - **English is never used, for either profile.** No English glosses, no English mnemonics (never
   DR & MRS VANDERTRAMP).
 - **A2 only, for now** (#52). `CHOOSABLE_LEVELS` holds `A2` alone; B1–C2 are declared and
-  unchoosable. **B1 has material but no course**: every `lecture` text and both `exercices` drills
-  carry a B1 set behind the picker (#68), and **no page belongs to B1 alone**. A level joins
+  unchoosable. **B1 has material but no course**: some pages carry a B1 set behind the picker
+  (#68) — count them in the manifest rather than here — and **no page belongs to B1 alone**. A level joins
   `CHOOSABLE_LEVELS` when choosing it would hand someone a course, not a chapter.
 - No literary tenses, no metalanguage beyond *verbe, sujet, adjectif, accord* — the heritage track
   is the one place that relaxes.

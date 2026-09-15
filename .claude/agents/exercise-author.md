@@ -115,7 +115,9 @@ initial HTML for a drill is rendered on the server, so anything non-deterministi
 produces a different tree on each side and React throws a hydration error:
 
 - **`shuffle()` in render or in a lazy `useState` initialiser** — the server shuffles one way,
-  the browser another. **Load the drill with `next/dynamic` and `ssr: false`**; shuffling in an
+  the browser another. **Load such a drill with `next/dynamic` and `ssr: false`** — such a drill
+  only: one whose deck is fixed (`les-terminaisons`) server-renders fine, and paying for a loading
+  line it does not need is worse. Shuffling in an
   effect is no longer available, because `react-hooks/set-state-in-effect` rejects the `setState`
   that would publish the deck, and laundering a correctness rule past a lint rule is worse than
   either. That costs one file — a `'use client'` `drill.tsx` holding the `dynamic()` call, with the
@@ -130,11 +132,18 @@ produces a different tree on each side and React throws a hydration error:
 A chapter of drills drifts towards one shape, and that shape is the 4-option MCQ: nine of the
 first eleven ever written here were the same quiz with different words in it. Mechanics that have
 earned their place and are worth reaching for instead: matching pairs, tap-to-order, bucket sort,
-locate-and-retype, multi-select, listening, type-in conjugation, a fixed chip pool (timed and
-untimed), a timed round, a two-step build.
+locate-and-retype, multi-select, listening, type-in conjugation (`les-terminaisons`: the verb
+sheet's five tenses with the endings blanked, read from `conjugaisons.ts` so the drill and the
+sheet cannot drift), a fixed chip pool (timed and untimed), a timed round, a two-step build.
 
 **Prefer a mechanic that does not exist yet over another MCQ.** If a grammar point genuinely only
 fits an MCQ, say so rather than forcing it.
+
+**Dragging is added to a click, never instead of it**, and it costs `touch-action: none` on the
+thing dragged — without it the browser claims the gesture for scrolling and cancels the drag on the
+first finger movement. **Judge a tap by where the gesture ends, not by whether it moved**: a
+trackpad click drifts, and a start-threshold alone made every such click a drag that dropped the
+chip back where it came from and looked like a dead control (`exercices/etre-ou-avoir`).
 
 **Prefer clicking to typing when the answer carries French accents.** The learners type on a
 Spanish keyboard, where `é`, `è` and `ê` cost a dead-key detour: a drill that makes them spell

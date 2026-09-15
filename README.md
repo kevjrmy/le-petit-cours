@@ -14,10 +14,10 @@ at home, a track that teaches them to write it.
 > The project was restarted on Next.js on **2026-09-05**. The design system, the app shell, the navigation
 > manifest, search, the whole account flow — sign-in, the chosen level, the display name — and
 > progress, from the « J'ai terminé » tick to `/ma-progression`, are written. The fifteen chapters
-> are declared and **fifty lessons are published**, written in French: fourteen verb sheets in
+> are declared and **fifty-two lessons are published**, written in French: fourteen verb sheets in
 > `conjugaison`, nine texts in `lecture`, six in `grammaire`, five role-plays in `conversation`,
-> four in `traduction`, three each in `orthographe` and `vocabulaire`, two in `astuces`, two drills
-> in `exercices`, and one each in `litterature` and `musique`. Nothing is announced before it is
+> four each in `traduction` and `vocabulaire`, three each in `orthographe` and `exercices`, two in
+> `astuces`, and one each in `litterature` and `musique`. Nothing is announced before it is
 > written, so a chapter waits offstage until it has a page. Accounts work; offline caching is not
 > installed.
 >
