@@ -651,7 +651,7 @@ export const chapters: Chapter[] = [
         id: "trad-quand-jetais-petite",
         path: "/traduction/le-resume-d-un-film",
         title: "Le résumé d’un film",
-        subtitle: "Quatre phrases, quatre négations",
+        subtitle: "Ratatouille, en quatre négations",
         tag: "Traduction",
         levels: A2,
         delf: "Écrire un court résumé et dire ce qui ne se passe pas.",

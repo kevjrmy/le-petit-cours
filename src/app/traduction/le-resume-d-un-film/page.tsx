@@ -44,10 +44,15 @@ export default function Page() {
         <h2>Le texte</h2>
 
         <p>
-          Le résumé d’un film que vous connaissez peut-être : un rat qui veut
-          cuisiner, à Paris. Les quatre phrases disent surtout ce qui{" "}
-          <em>ne</em> se passe pas, alors regardez d’abord où vous allez poser
-          votre <span className="fr">ne</span>.
+          Brad Bird · <em>Ratatouille</em> · Pixar · 2007 · le début de
+          l’histoire
+        </p>
+
+        <p>
+          Rémy est le rat cuisinier de ce film : voici son histoire, résumée
+          ici en quatre phrases. Elles disent surtout ce qui <em>ne</em> se
+          passe pas, alors regardez d’abord où vous allez poser votre{" "}
+          <span className="fr">ne</span>.
         </p>
 
         <Traduction
