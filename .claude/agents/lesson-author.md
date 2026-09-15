@@ -170,6 +170,9 @@ the page is data: `lines`, `model`, `note`. Write no component and no CSS.
 - **The note says what does not count.** Name the accepted variants, then the one thing you do not.
 - **Check the Spanish as carefully as the French.** A French word or a space before `?` in the
   source is invisible to the build and obvious to the reader.
+- **A source text is written here, never fetched.** Summarising a film or a book in four sentences
+  of your own is fine and the plot is nobody's property; the synopsis printed on the poster, the
+  back cover or a streaming page is someone else's text and cannot go in (§9b).
 
 ### Lecture
 

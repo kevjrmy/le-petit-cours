@@ -615,6 +615,16 @@ export const chapters: Chapter[] = [
         delf: "Comparer ses horaires et ses habitudes de travail avec ceux d’un autre pays.",
         created: "2026-09-07",
       },
+      {
+        id: "conv-decrire-sa-ville",
+        path: "/conversation/decrire-sa-ville",
+        title: "Décrire sa ville",
+        subtitle: "À une amie qui vient vous voir",
+        tag: "Jeu de rôle",
+        levels: A2,
+        delf: "Décrire son cadre de vie, situer un lieu et conseiller un visiteur.",
+        created: "2026-09-15",
+      },
     ],
   },
   {
@@ -636,14 +646,16 @@ export const chapters: Chapter[] = [
         created: "2026-09-06",
       },
       {
+        /* The id predates the text: this slot held « Quand j’étais petite »
+           until the résumé replaced it, and an id never changes (#50). */
         id: "trad-quand-jetais-petite",
-        path: "/traduction/quand-j-etais-petite",
-        title: "Quand j’étais petite",
-        subtitle: "Un souvenir, tout à l’imparfait",
+        path: "/traduction/le-resume-d-un-film",
+        title: "Le résumé d’un film",
+        subtitle: "Quatre phrases, quatre négations",
         tag: "Traduction",
         levels: A2,
-        delf: "Décrire des habitudes et un décor passés.",
-        created: "2026-09-06",
+        delf: "Écrire un court résumé et dire ce qui ne se passe pas.",
+        created: "2026-09-15",
       },
       {
         id: "trad-week-end-plage",
@@ -1102,12 +1114,13 @@ const handWrittenLinks: Record<string, string[]> = {
   "/astuces/a-en-au-aux": [
     "/conversation/demander-son-chemin",
     "/conversation/parler-de-l-espagne",
+    "/conversation/decrire-sa-ville",
   ],
   "/grammaire/la-negation": [
+    "/traduction/le-resume-d-un-film",
     "/grammaire/le-futur-proche",
     "/grammaire/le-passe-compose",
     "/conjugaison/etre",
-    "/conjugaison/avoir",
   ],
   "/grammaire/le-futur-proche": [
     "/conjugaison/aller",
@@ -1146,6 +1159,7 @@ const handWrittenLinks: Record<string, string[]> = {
   "/conversation/demander-son-chemin": [
     "/astuces/a-en-au-aux",
     "/conversation/au-restaurant",
+    "/conversation/decrire-sa-ville",
     "/conjugaison/prendre",
   ],
   "/lecture/un-entretien-d-embauche": [
@@ -1182,7 +1196,6 @@ const handWrittenLinks: Record<string, string[]> = {
   "/grammaire/l-imparfait": [
     "/grammaire/le-passe-compose",
     "/grammaire/passe-compose-ou-imparfait",
-    "/traduction/quand-j-etais-petite",
     "/conversation/parler-de-l-espagne",
   ],
   "/grammaire/passe-compose-ou-imparfait": [
@@ -1232,8 +1245,14 @@ const handWrittenLinks: Record<string, string[]> = {
   ],
   "/conversation/parler-de-l-espagne": [
     "/grammaire/l-imparfait",
+    "/conversation/decrire-sa-ville",
     "/conversation/prendre-rendez-vous",
     "/conversation/parler-du-travail",
+  ],
+  "/conversation/decrire-sa-ville": [
+    "/astuces/a-en-au-aux",
+    "/conversation/demander-son-chemin",
+    "/conversation/parler-de-l-espagne",
   ],
   "/conversation/parler-du-travail": [
     "/vocabulaire/le-travail",
@@ -1246,10 +1265,10 @@ const handWrittenLinks: Record<string, string[]> = {
     "/vocabulaire/l-heure",
     "/conversation/prendre-rendez-vous",
   ],
-  "/traduction/quand-j-etais-petite": [
-    "/grammaire/l-imparfait",
-    "/conversation/parler-de-l-espagne",
-    "/lecture/cosette-dans-le-bois",
+  "/traduction/le-resume-d-un-film": [
+    "/grammaire/la-negation",
+    "/grammaire/le-futur-proche",
+    "/vocabulaire/la-recette-des-croissants",
   ],
   /* The refrain's « ne… que » is the one piece of grammar the poem teaches by
      itself, so « la négation » leads rather than another reading. */
@@ -1266,6 +1285,7 @@ const handWrittenLinks: Record<string, string[]> = {
   ],
   "/vocabulaire/la-recette-des-croissants": [
     "/conversation/au-restaurant",
+    "/traduction/le-resume-d-un-film",
     "/vocabulaire/l-heure",
   ],
   "/lecture/l-invitation-au-voyage": [

@@ -18,6 +18,13 @@ const nextConfig: NextConfig = {
         destination: "/lecture/l-invitation-au-voyage",
         permanent: false,
       },
+      /* Same slot, new text: the imparfait souvenir was replaced by the film
+         summary, so the old path lands on the page that took its place. */
+      {
+        source: "/traduction/quand-j-etais-petite",
+        destination: "/traduction/le-resume-d-un-film",
+        permanent: false,
+      },
     ];
   },
 };
