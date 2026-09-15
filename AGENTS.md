@@ -48,11 +48,13 @@ are all built. What no amount of reading the repo will reveal:
   sign-up form), and every account must be created with **« Auto Confirm User »** — confirmation is
   on and no mail can reach a `.test` address. Both are readable from the public `/auth/v1/settings`
   endpoint without opening the dashboard.
-- **The schema is applied by hand in the dashboard editor**, not by a migration runner. Confirming
-  a migration landed means the dashboard, or a signed-in tick that survives on a second device: an
-  anonymous caller is refused `select` on both tables with `42501` at the grant level, so column
-  names are not checkable from outside. If a probe ever returns rows, someone has run Supabase's
-  suggested `GRANT SELECT … TO anon`; do not.
+- **The schema is applied by hand in the dashboard editor**, not by a migration runner. Whether a
+  *column* landed is checkable without the dashboard, because Postgres resolves names before it
+  checks grants: `select=<column>` on `progress` answers `42501` (permission denied — the column is
+  there) or `42703` (no such column), and never a row. Everything else a migration does — a primary
+  key, a constraint, a backfill — is invisible from outside, so confirming one means the dashboard,
+  or a signed-in tick that survives on a second device. If a probe ever returns rows, someone has
+  run Supabase's suggested `GRANT SELECT … TO anon`; do not.
 
 ## 1. Audience — this drives every content decision
 
