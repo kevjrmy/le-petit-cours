@@ -154,7 +154,7 @@ written as a type-in and rebuilt on chips for exactly this. Type-in still earns 
 **Every text field ships `AccentBar` beside it** (`src/components/exercice/AccentBar.tsx`). It takes
 a ref to the field and writes at the caret, replacing a selection, leaving focus where it was. `ç`
 and `œ` cannot be typed on a Spanish keyboard at all, so this is not a convenience: without it the
-drill marks a learner wrong for her hardware. Import it, never re-implement it, and if a field needs
+drill marks a learner wrong for their hardware. Import it, never re-implement it, and if a field needs
 a character the row does not carry, add it to the row.
 
 **A fixed pool beats per-item distractors.** Keep the nine pronouns, or the eighteen terminaisons,

@@ -209,9 +209,9 @@ heritage speaker** (French family, raised in Spain, fluent at home, never school
 
 **Why it is a decision and not an observation:** the two need opposite things. The learner lacks the
 language; the heritage speaker has the language and lacks literacy — spelling, accord, homophones,
-the written form of what she already says correctly. She can be orally C1 and written A2 at once,
-so **she cannot be represented by a CEFR badge**, and any design that reduces the audience to one
-will mis-serve her.
+the written form of what they already say correctly. They can be orally C1 and written A2 at once,
+so **they cannot be represented by a CEFR badge**, and any design that reduces the audience to one
+will mis-serve them.
 
 **What it does not mean:** two apps, or two content libraries. One pool of lessons, different
 orderings and different entry points.
@@ -567,7 +567,7 @@ and « Auto Confirm User » are the two the dashboard owns; `AGENTS.md` §0 carr
 need checking rather than explaining.
 
 **There is no admin role and no privileged account.** Every account holds the same things, so the
-author's is an ordinary one and his ticks are isolated by the same policy as hers. **Do not add a
+author's is an ordinary one and their ticks are isolated by the same policy as anyone's. **Do not add a
 flag that makes one account different**: the day something needs privilege it needs a table with a
 constraint (#36), not a boolean the account holder can write to themselves.
 
@@ -607,7 +607,7 @@ name free?" before writing — that is both a race *and* a second oracle. It wri
 into « déjà pris ».
 
 **The name is mirrored into user metadata, and the table stays the authority.** This is an offline
-PWA: a signed-in learner in the métro must still know what she is called, and metadata rides in the
+PWA: a signed-in learner in the métro must still know what they are called, and metadata rides in the
 cached JWT while a table needs the network. `set_username()` writes both in one transaction.
 **Only that function and the account trigger write the mirror**; a client writing it directly could
 make the two disagree.
@@ -838,7 +838,7 @@ the learner removed.
 adapter, so the cache and the sync are two implementations of one interface.
 
 **`/ma-progression` is the one listing that does not filter by level.** Every other listing shows
-what the course offers; this one shows what she *did*. A tick hidden because she moved level would
+what the course offers; this one shows what they *did*. A tick hidden because they moved level would
 read as a lost tick.
 
 ## 49 · The shell draws the end of a lesson: the tick, then the links
@@ -920,7 +920,7 @@ is honest; an empty chapter has nothing behind it.
 
 `CHOOSABLE_LEVELS` holds `A2` alone. B1–C2 are declared, unchoosable and carry no page.
 
-**The reason is the learner, not the content.** The course has one student and she is at A2. An
+**The reason is the learner, not the content.** The learners the course was started for are at A2. An
 earlier plan started at A1, sized to the DELF A1 syllabus — a defensible order for a course with an
 audience, and the wrong one for a course with a reader. The three A1 pages written during the
 scaffold were a sample of a level nobody here is at, and were deleted.
@@ -972,8 +972,8 @@ A page in `conversation/` sets a scene, gives the steps the exchange follows, an
 to play it. It grades nothing and stores nothing, because **it needs a second person**.
 
 **It was going to be a gap-fill.** The mechanic is sound, and a gap-fill grades a script someone
-else wrote. What an A2 learner cannot do is produce her own turn in a conversation whose next line
-she does not control; filling the seventh blank correctly is not evidence of that. The drill would
+else wrote. What an A2 learner cannot do is produce their own turn in a conversation whose next line
+they do not control; filling the seventh blank correctly is not evidence of that. The drill would
 run perfectly while teaching recognition.
 
 **Two callouts is the ceiling for the whole page.** A role-play that grows a paradigm table has
@@ -1006,7 +1006,7 @@ have been a fork, which is how a chapter ends up with bespoke CSS on every page.
   test**. A hint gives the base form: vocabulary is what stops a learner mid-sentence, while tense,
   auxiliary and agreement are the exercise.
 - **The note under the model says what does not count.** Name the accepted variants, then name the
-  one thing you do not. Without it she reads every difference as a mistake.
+  one thing you do not. Without it the learner reads every difference as a mistake.
 - **Check the Spanish as carefully as the French.** A French word or French punctuation left in the
   source is invisible to the build and obvious to the reader.
 
@@ -1045,8 +1045,8 @@ twelfth being different by accident is the failure this avoids.
 ## 57 · A role-play offers words, never a model dialogue
 **2026-09-07 · Binding**
 
-The steps name the moves, a cloud carries about twenty words, and **nothing carries a sentence she
-could say instead of building her own.**
+The steps name the moves, a cloud carries about twenty words, and **nothing carries a sentence they
+could say instead of building their own.**
 
 **The model dialogue is gone and does not come back.** A page that prints a finished conversation
 teaches the learner to read one; hiding it behind a `<details>` only delayed that by a click.
@@ -1093,12 +1093,12 @@ face.
 every quiz from `{ question, options, answer, because }` data. Its options are `<button>` elements,
 **never hidden radios** — the click targets overlap and it breaks silently. Every answer is in the
 text and every distractor is wrong *on the page*, not merely unlikely; `because` quotes the phrase
-that settles it, because that is what the learner reads when she is wrong.
+that settles it, because that is what the learner reads when they are wrong.
 
 ## 59 · How hard a `lecture` text may be, and what to do when it is too hard
 **2026-09-07 · Binding · narrows #58**
 
-**A text is chosen for what the learner can answer about it, not for what she can construe of it.**
+**A text is chosen for what the learner can answer about it, not for what they can construe of it.**
 
 **Difficulty is a property of the questions, not only of the prose.** Rostand's crowd scene is in
 alexandrins and full of 1640 vocabulary — and it is also twenty people arriving at a theatre, so who
@@ -1108,7 +1108,7 @@ about the métempsycose.
 
 **Where the page cannot make the text easy, it says so and gives a way in.** A note explaining that
 one line of verse is shared between two speakers is what makes the layout readable at all. **Neither
-pretends.** A page that quietly presents C1 prose as A2 teaches a learner that she cannot read,
+pretends.** A page that quietly presents C1 prose as A2 teaches a learner that they cannot read,
 which is the opposite of the chapter's job.
 
 **A page at the edge of the level gets two cross-links rather than four**, pointing back at the
@@ -1132,11 +1132,11 @@ alone.
 
 **The label rides in the manifest.** The subtitle names the translator, so it reaches the sommaire,
 the chapter page, search and the cross-links; the source stamp gives both names and both dates; and
-the page says in French that what she is reading is a translation.
+the page says in French that what they are reading is a translation.
 
 **No English appears on the page, in any form** — no facing original, no title in English. §1
 forbids English for both profiles and makes no exception for quotation; a bilingual layout would
-also hand a Spanish speaker the wrong crutch, since English is not her language either.
+also hand a Spanish speaker the wrong crutch, since English is not their language either.
 
 ## 61 · The badge is the chrome's brand; the wordmark is the home page's `<h1>`
 **2026-09-12 · Binding**
@@ -1164,7 +1164,7 @@ seven over a list of four: real logic in three components to keep one number hon
 **`Chapter.unit` goes with them.** It existed only to name what the tallies counted, so a required
 field nothing reads would have made every new chapter invent a noun.
 
-**The progress tallies stay.** `/ma-progression` counts *what she did* against published lessons,
+**The progress tallies stay.** `/ma-progression` counts *what they did* against published lessons,
 which is a different claim from how big a chapter is.
 
 ## 63 · The footer belongs to the home page; the shell's foot is one row
@@ -1303,7 +1303,7 @@ of that lesson, so unticking a B1 reading would take the A2 tick with it, inside
 with no error anywhere. `remote.ts` groups the removals by level and filters on both columns.
 
 **The variant in view is shell state, and `?niveau=b1` was tried first and dropped.** Two things
-have to agree about which set she is doing — the questions, and the tick beneath them — and the URL
+have to agree about which set they are doing — the questions, and the tick beneath them — and the URL
 was the obvious shared source: one hook, shareable links, reset by navigation for free. It cannot be
 used. Reading it needs `useSearchParams`, and a component that calls it renders its nearest Suspense
 fallback into the **prerendered** HTML rather than its own output; with the boundary anywhere that
@@ -1346,12 +1346,13 @@ so the B1 set is reached from the picker rather than by working at B1 — which 
 machinery be exercised before a B1 course exists to put behind it.
 
 
-## 69 · A real learner steers the course, and gets no programme of their own
+## 69 · A recurring mistake steers the course, and nobody gets a programme of their own
 **2026-09-17 · Binding · extends #13**
 
-**A real learner has an ordinary account, and nothing in the app is built for them** — no
+**The course is written for profiles, not for people.** Learners come and go; what a profile needs
+stays. **A learner has an ordinary account, and nothing in the app is built for them** — no
 programme, no parcours in their name, no teacher view, no place to hand in work. Their writing and
-its correction happen outside the app. A mistake they keep making only decides **which page the
+its correction happen outside the app. A mistake learners keep making only decides **which page the
 profile gets next**, and that page is written for everyone with the profile, with invented examples.
 
 **Decided against a bespoke programme** because it would be a student-management system under
@@ -1359,7 +1360,7 @@ another name (`docs/scope.md`, non-goals), because a page written around one per
 page nobody else can use, and because it would put that person's writing in a public repository.
 **Nothing about who made a mistake goes in a page, a commit or a doc.**
 
-**The heritage profile widened** (#13): she can be a teenager at a Spanish school, whose written
+**The heritage profile widened** (#13): they can be a teenager at a Spanish school, whose written
 French declines rather than stands still, and who brings Spanish writing habits. A page for this
 profile works for a fifteen-year-old and an adult at once, and names the Spanish habit behind a
 mistake in French, without printing the Spanish word (#53). **A lesson may ship without a drill**;

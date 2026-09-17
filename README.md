@@ -39,9 +39,9 @@ It serves **two kinds of reader**:
 
 - **The learner** — a Spanish speaker starting French from zero.
 - **The heritage speaker** — someone with French family who grew up in Spain, speaks French
-  fluently at home, and never went to a French school. She does not need to learn French; she
-  needs to learn to *write* it — accents, accord, homophones, the spelling of forms she already
-  says correctly. She may be an adult, or a teenager at a Spanish school whose written French is
+  fluently at home, and never went to a French school. They do not need to learn French; they
+  need to learn to *write* it — accents, accord, homophones, the spelling of forms they already
+  says correctly. They may be an adult, or a teenager at a Spanish school whose written French is
   slipping.
 
 They are not two levels of one thing. A heritage speaker can be orally C1 and written A2 at the

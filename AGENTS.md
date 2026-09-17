@@ -22,7 +22,7 @@ rule exists lives in `docs/decisions.md` as a numbered entry, and `#nn` below po
 |---|---|
 | writing a prose lesson, a role-play, a reading or a dictée | `.claude/agents/lesson-author.md` |
 | writing a drill or a game | `.claude/agents/exercise-author.md` |
-| turning a mistake a real learner keeps making into a page | `.claude/agents/mistake-triage.md` |
+| turning a mistake learners keep making into a page | `.claude/agents/mistake-triage.md` |
 | changing tokens, components or the shell's look | `.claude/agents/design-system.md` |
 | adding, renaming, moving or removing a page or chapter | `.claude/agents/nav-wiring.md` |
 | checking a page for regressions before shipping | `.claude/agents/page-auditor.md` |
@@ -63,11 +63,11 @@ are all built. What no amount of reading the repo will reveal:
 - **The learner** — native Spanish speaker acquiring French from zero. Fails at producing a
   sentence.
 - **The heritage speaker** — French family, raised in Spain, fluent at home, never schooled in
-  French. Needs **literacy**: accents, accord, homophones, the written form of conjugations she
-  says correctly without thinking. Fails at writing down a sentence she can say perfectly. She is
-  **not a level** — plausibly oral C1 and written A2 at once, so never reason about her with one
-  CEFR badge (#13). She may be a teenager at a Spanish school, whose mistakes come
-  from Spanish writing habits: a page for her suits a fifteen-year-old and an adult at once (#69).
+  French. Needs **literacy**: accents, accord, homophones, the written form of conjugations they
+  say correctly without thinking. Fails at writing down a sentence they can say perfectly. They are
+  **not a level** — plausibly oral C1 and written A2 at once, so never reason about them with one
+  CEFR badge (#13). They may be a teenager at a Spanish school, whose mistakes come
+  from Spanish writing habits: a page for them suits a fifteen-year-old and an adult at once (#69).
 
 `grammaire`, `vocabulaire`, `conversation` lean to the learner; `orthographe`, `dictees`,
 `astuces`, `conjugaison` lean to the heritage speaker.
@@ -304,7 +304,7 @@ course.
 
 **A conversation page is neither — it needs a second person.** Producing your own turn cannot be
 scored by a page (#54), and **the support stops at words** (#57): steps name the moves, a cloud
-carries the vocabulary, nothing carries a sentence she could say instead of building her own.
+carries the vocabulary, nothing carries a sentence they could say instead of building their own.
 
 ## 8. Accounts, access and progress
 
@@ -393,7 +393,7 @@ that has become dynamic is a regression, not a detail.**
 - **A chapter's listing shows the tick, it never sets it.** `PageRow`'s `done` prop; `undefined`
   draws no circle, because signed out — and before the cache answers — there is nothing to report.
 - **Counts use published lessons as the denominator.**
-- **`/ma-progression` is the one listing that does not filter by level** (#48): it shows what she
+- **`/ma-progression` is the one listing that does not filter by level** (#48): it shows what they
   *did*, and a tick hidden by a level change would read as a lost tick.
 
 ## 9. Traps that have actually shipped
@@ -448,7 +448,7 @@ Nothing in the toolchain catches it. Full how-to in `.claude/agents/exercise-aut
 - **An item with two defensible answers is broken.** Disambiguate in French, inside the item.
 - **Minimal-pair listening sets must contain no homophones** — `cent/sang/sans`, `vert/verre`.
 - **Prefer clicking to typing when the answer carries French accents** (§1). Where type-in earns
-  its place the field gets **`AccentBar`** — without it the drill marks a learner wrong for her
+  its place the field gets **`AccentBar`** — without it the drill marks a learner wrong for their
   keyboard, since `ç` and `œ` cannot be typed on a Spanish one.
 - **Never `sort(() => Math.random() - 0.5)`** — biased; it served the already-correct sentence 9.5 %
   of the time. One shuffle implementation, imported.

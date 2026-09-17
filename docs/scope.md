@@ -10,7 +10,7 @@ being built and for whom.
 
 The long-term ambition is the full CEFR ladder. The scope is **A1 and A2**, and the course starts
 with **A2 alone** — sized to the DELF A2 syllabus rather than to however many lessons exist.
-The course has one learner and she is at A2 (below), so A1 is the level with no reader waiting;
+The learners the course was started for are at A2 (below), so A1 is the level with no reader waiting;
 it keeps its place in the plan and has no page. B1 is declared, **cannot be chosen**, and now has
 its first content: the nine `lecture` texts each carry a harder question set reached from a picker
 on the page, not from a level (`docs/decisions.md` #68). C1 and C2 are declared and empty. That is
@@ -22,10 +22,11 @@ it, and until then its chapter is simply not offered (`docs/decisions.md` #51, #
 
 ## Who it is for
 
-Two learner profiles are served today, both met in real people using the app. More are expected;
-these are the starting points, not the ceiling. **Nobody gets a programme of their own**: a real
-learner has an ordinary account, and what they get wrong only decides which page the profile gets
-next (`docs/decisions.md` #69).
+Two learner profiles are served today. **The course is written for profiles, not for people**:
+real learners suggested both, and learners come and go, while what a profile needs stays. More
+profiles are expected; these are the starting points, not the ceiling. **Nobody gets a programme of
+their own**: a learner has an ordinary account, and a mistake learners keep making only decides
+which page the profile gets next (`docs/decisions.md` #69).
 
 ### 1. The learner — *el aprendiz*
 
@@ -40,28 +41,28 @@ A native Spanish speaker acquiring French from zero. Currently one A2 student.
 ### 2. The heritage speaker — *el francófono de origen*
 
 Someone with French family — typically one French parent — who grew up in Spain, speaks French
-fluently at home, and never attended a French school. She may be an adult or a teenager still at
-a Spanish school, where every page she writes is in Spanish, so her written French does not
+fluently at home, and never attended a French school. They may be an adult or a teenager still at
+a Spanish school, where every page they write is in Spanish, so their written French does not
 stand still, it declines. There are families like this across Spain who want to keep the link to
 the language, and they are an explicit audience, not a side effect.
 
 - Has: the spoken language, an ear, native intuition.
 - Lacks: **literacy**. Spelling, accents, accord, homophones (`a`/`à`, `et`/`est`,
-  `ses`/`ces`/`c'est`), the written forms of conjugations she pronounces correctly without
+  `ses`/`ces`/`c'est`), the written forms of conjugations they pronounce correctly without
   thinking.
 - Brings: **Spanish writing habits**, learnt at school. One written accent where French has
   three, Spanish spellings of shared words (*comisión* behind « comission »), no space before
   `? ! : ;`.
 - Needs: remediation — in substance, French primary- and middle-school orthography, and a page
   that names the Spanish habit behind the mistake.
-- Fails at: writing down a sentence she can say perfectly.
+- Fails at: writing down a sentence they can say perfectly.
 
 **Written for a teenager and an adult at once.** A page for this profile works for both: no
 childish register, and no example that only makes sense at work.
 
 **These are two pedagogies, not two levels.** A heritage speaker can be orally C1 and
-written A2 at the same time, so a single CEFR badge mislabels her in both directions: call her A2
-and it insults her French, call her C1 and it hides the pages she actually needs.
+written A2 at the same time, so a single CEFR badge mislabels them in both directions: call them A2
+and it insults their French, call them C1 and it hides the pages they actually need.
 
 The content library serves both. What differs between the profiles is the **ordering and the entry
 point**, not the pool of lessons: `orthographe`, `dictees`, `astuces` and `conjugaison` lean to the

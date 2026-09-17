@@ -29,11 +29,11 @@ table. An interference error is printed wrong-then-right: *on ne dit pas « il e
 « il est trois heures »*.
 
 **The heritage speaker** (literacy, not language — `orthographe`, `dictees`, `astuces`,
-`conjugaison`). **Do not explain a word she knows**: a vocabulary gloss on a page about the
+`conjugaison`). **Do not explain a word they know**: a vocabulary gloss on a page about the
 imparfait's spelling reads as condescension. School grammar vocabulary is allowed **here and only
-here** — *terminaison*, *radical*, *accord du participe* — and her ear is a resource the learner
-does not have, so « Écoutez la différence » works on her page and not on his. She may be fifteen
-and at a Spanish school: examples that suit a teenager and an adult at once, and where a mistake
+here** — *terminaison*, *radical*, *accord du participe* — and their ear is a resource the learner
+does not have, so « Écoutez la différence » works on the heritage speaker's page and not on the
+learner's. They may be fifteen and at a Spanish school: examples that suit a teenager and an adult at once, and where a mistake
 comes from a Spanish writing habit, name the habit, in French and without printing the Spanish
 word (#53).
 
@@ -139,7 +139,7 @@ Prefer a mnemonic that works for a hispanophone: *haber* is always the auxiliary
 
 A scene to play with someone else in the room (#54). Grades nothing, stores nothing. Three sections:
 
-1. **La situation** — who she is, who the other person is, what she wants. Then the constraint card,
+1. **La situation** — who the learner is, who the other person is, what they want. Then the constraint card,
    the page's one client leaf: variations on the same scene and a button to the next. **Cycle in
    order, never at random** — a random pick renders differently on server and client (§4), and in a
    class you want to walk the whole list anyway.
@@ -148,7 +148,7 @@ A scene to play with someone else in the room (#54). Grades nothing, stores noth
 3. **Les mots pour le dire** — about twenty words in a `<ul className="mots">`.
 
 **One aid, in one place** (#57). The steps carry the *shape*, the cloud carries the *words*, and
-nothing carries the sentences — those are what she is there to produce. **The model dialogue does
+nothing carries the sentences — those are what the learner is there to produce. **The model dialogue does
 not come back**, in a `<details>` or anywhere else.
 
 Writing the cloud: **walked against the constraint card**, so every situation on it is answerable
@@ -195,9 +195,9 @@ and dates, and the page says in French that it is a translation. No English on i
 
 **Read the text for its tenses before committing to it** (#59). Nearly all nineteenth-century
 narrative is passé simple, which §1 keeps off this course. Where a few verbs survive in a quotation,
-leave them and add one `.attention`: *il cria* in a book is *il a crié* in speech, and she will read
-this tense and never write it. **A text is chosen for what she can answer about it, not for what she
-can construe** — and where the page cannot make it easy, it says so and gives a way in.
+leave them and add one `.attention`: *il cria* in a book is *il a crié* in speech, and the learner will read
+this tense and never write it. **A text is chosen for what the learner can answer about it, not for
+what they can construe** — and where the page cannot make it easy, it says so and gives a way in.
 
 **Quote exactly and verify against the scan.** Wikisource has them; nineteenth-century punctuation
 looks like an error and is not (`veux-tu que j'allonge la corde !`). Keep your own bridging
@@ -213,8 +213,8 @@ and it breaks silently.
 
 - **Every answer is in the text, and every distractor is wrong *on the page***, not merely unlikely.
   A question answerable from general knowledge tests nothing about the reading.
-- **`because` is one line and quotes the phrase that settles it.** That is what she reads when she
-  is wrong, so it does the teaching.
+- **`because` is one line and quotes the phrase that settles it.** That is what the learner reads when
+  they are wrong, so it does the teaching.
 - **Options carry no final full stop** — they are quoted back inside guillemets.
 - **The last question may be about the language** rather than the plot: the cheapest bridge there is
   to a grammar lesson.
@@ -315,7 +315,7 @@ resolve a French voice lazily (`getVoices()` is empty until `voiceschanged` fire
 `speaking` flag so buttons can be disabled mid-utterance, and cancel on unmount.
 
 The comparator lowercases, folds curly apostrophes, strips punctuation and collapses whitespace.
-**Keep the apostrophe out of the punctuation class**: elision (`d'aller`) is orthography she must
+**Keep the apostrophe out of the punctuation class**: elision (`d'aller`) is orthography they must
 get right. Accent-sensitive on purpose — accents are the point — but normalise `œ`→`oe`, which a
 Spanish keyboard cannot type, and say so on the page when a sentence needs one.
 

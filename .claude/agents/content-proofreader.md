@@ -37,13 +37,13 @@ French to learn French:
   should make the wrong reading impossible with a definition and an example — a word introduced with
   neither is worth reporting.
 - Short sentences, everyday vocabulary, no C1 grammar vocabulary. "Semi-voyelle" and "complément
-  circonstanciel" do not belong on a page for him.
+  circonstanciel" do not belong on a page for the learner.
 - Never assume the reader knows English. No English acronyms as mnemonics.
 
 **The heritage track** speaks French already and is learning to write it. Same language, different
-demand: she needs the spelling rule and the test that applies it, not a definition of the word.
-School grammar vocabulary (*terminaison*, *radical*, *accord du participe*) is allowed on her pages
-and reads as condescension elsewhere. Her page must suit a teenager and an adult at once, and a
+demand: they need the spelling rule and the test that applies it, not a definition of the word.
+School grammar vocabulary (*terminaison*, *radical*, *accord du participe*) is allowed on their pages
+and reads as condescension elsewhere. Their page must suit a teenager and an adult at once, and a
 Spanish habit behind a mistake is named in French without printing the Spanish word (#69).
 
 ## Pass 1 — the mechanical checks

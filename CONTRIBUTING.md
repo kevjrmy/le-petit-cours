@@ -52,7 +52,7 @@ These come from the audience, and a change that breaks one will be asked to chan
 - **There are two readers, not one** (see [`docs/scope.md`](docs/scope.md)): a native Spanish
   speaker learning French from zero, and a heritage speaker who grew up with spoken French in
   Spain and needs to learn to *write* it. They need opposite things, and the second one is not
-  simply a higher level — she can be orally C1 and written A2 at the same time.
+  simply a higher level — they can be orally C1 and written A2 at the same time.
 - **Everything is written in French — explanations included, on every page and for both profiles.**
   No Spanish gloss, no translation column, no bilingual page. Most readers are Spanish speakers, so
   keep the French of the explanation simpler than the French being taught, define the false friends
