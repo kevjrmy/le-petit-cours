@@ -414,6 +414,15 @@ export const chapters: Chapter[] = [
         delf: "Écrire à qui la chose appartient, et l’accorder",
         created: "2026-09-12",
       },
+      {
+        id: "orth-terminaisons-verbales",
+        path: "/orthographe/les-terminaisons-verbales",
+        title: "Les terminaisons verbales",
+        subtitle: "-er · -é · -ez · -ais / -ait",
+        levels: ANY,
+        delf: "Écrire la terminaison du verbe sans se fier à l’oreille",
+        created: "2026-09-17",
+      },
     ],
   },
   {
@@ -1128,9 +1137,10 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/les-pronoms-cod-coi",
     "/lecture/un-entretien-d-embauche",
   ],
-  /* Les trois pages d'orthographe se tiennent : les accents expliquent pourquoi
+  /* Les pages d'orthographe se tiennent : les accents expliquent pourquoi
      deux mots diffèrent à l'écrit, les homophones donnent le test, les
-     possessifs sont la paire que le test ne tranche pas. */
+     possessifs sont la paire que le test ne tranche pas, et les terminaisons
+     verbales appliquent le même remplacement à la fin du verbe. */
   "/orthographe/les-accents": [
     "/orthographe/les-homophones",
     "/orthographe/les-determinants-possessifs",
@@ -1139,6 +1149,12 @@ const handWrittenLinks: Record<string, string[]> = {
   "/orthographe/les-determinants-possessifs": [
     "/orthographe/les-homophones",
     "/orthographe/les-accents",
+  ],
+  "/orthographe/les-terminaisons-verbales": [
+    "/orthographe/les-homophones",
+    "/exercices/les-terminaisons",
+    "/conjugaison/parler",
+    "/grammaire/le-passe-compose",
   ],
   "/vocabulaire/les-jours-et-la-date": [
     "/vocabulaire/l-heure",
@@ -1229,7 +1245,7 @@ const handWrittenLinks: Record<string, string[]> = {
     "/exercices/trouve-la-faute",
     "/orthographe/les-accents",
     "/orthographe/les-determinants-possessifs",
-    "/traduction/un-week-end-a-la-plage",
+    "/orthographe/les-terminaisons-verbales",
   ],
   "/vocabulaire/l-heure": [
     "/vocabulaire/les-jours-et-la-date",
