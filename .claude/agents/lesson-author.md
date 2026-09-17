@@ -32,7 +32,10 @@ table. An interference error is printed wrong-then-right: *on ne dit pas « il e
 `conjugaison`). **Do not explain a word she knows**: a vocabulary gloss on a page about the
 imparfait's spelling reads as condescension. School grammar vocabulary is allowed **here and only
 here** — *terminaison*, *radical*, *accord du participe* — and her ear is a resource the learner
-does not have, so « Écoutez la différence » works on her page and not on his.
+does not have, so « Écoutez la différence » works on her page and not on his. She may be fifteen
+and at a Spanish school: examples that suit a teenager and an adult at once, and where a mistake
+comes from a Spanish writing habit, name the habit, in French and without printing the Spanish
+word (#53).
 
 **Both pages are written in French** (#53), and **English is never used** — no glosses, no
 mnemonics, never DR & MRS VANDERTRAMP. The one failure mode of writing in French is prose harder

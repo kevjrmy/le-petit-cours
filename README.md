@@ -41,7 +41,8 @@ It serves **two kinds of reader**:
 - **The heritage speaker** — someone with French family who grew up in Spain, speaks French
   fluently at home, and never went to a French school. She does not need to learn French; she
   needs to learn to *write* it — accents, accord, homophones, the spelling of forms she already
-  says correctly.
+  says correctly. She may be an adult, or a teenager at a Spanish school whose written French is
+  slipping.
 
 They are not two levels of one thing. A heritage speaker can be orally C1 and written A2 at the
 same time. One library of lessons serves both, ordered differently for each.

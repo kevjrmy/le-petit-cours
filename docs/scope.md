@@ -22,8 +22,10 @@ it, and until then its chapter is simply not offered (`docs/decisions.md` #51, #
 
 ## Who it is for
 
-Two learner profiles are served today, both real people currently testing the app. More are
-expected; these are the starting points, not the ceiling.
+Two learner profiles are served today, both met in real people using the app. More are expected;
+these are the starting points, not the ceiling. **Nobody gets a programme of their own**: a real
+learner has an ordinary account, and what they get wrong only decides which page the profile gets
+next (`docs/decisions.md` #69).
 
 ### 1. The learner — *el aprendiz*
 
@@ -38,16 +40,24 @@ A native Spanish speaker acquiring French from zero. Currently one A2 student.
 ### 2. The heritage speaker — *el francófono de origen*
 
 Someone with French family — typically one French parent — who grew up in Spain, speaks French
-fluently at home, and never attended a French school. Currently one student, French on her
-mother's side. There are families like this across Spain who want to keep the link to the
-language, and they are an explicit audience, not a side effect.
+fluently at home, and never attended a French school. She may be an adult or a teenager still at
+a Spanish school, where every page she writes is in Spanish, so her written French does not
+stand still, it declines. There are families like this across Spain who want to keep the link to
+the language, and they are an explicit audience, not a side effect.
 
 - Has: the spoken language, an ear, native intuition.
 - Lacks: **literacy**. Spelling, accents, accord, homophones (`a`/`à`, `et`/`est`,
   `ses`/`ces`/`c'est`), the written forms of conjugations she pronounces correctly without
   thinking.
-- Needs: remediation — in substance, French primary-school orthography.
+- Brings: **Spanish writing habits**, learnt at school. One written accent where French has
+  three, Spanish spellings of shared words (*comisión* behind « comission »), no space before
+  `? ! : ;`.
+- Needs: remediation — in substance, French primary- and middle-school orthography, and a page
+  that names the Spanish habit behind the mistake.
 - Fails at: writing down a sentence she can say perfectly.
+
+**Written for a teenager and an adult at once.** A page for this profile works for both: no
+childish register, and no example that only makes sense at work.
 
 **These are two pedagogies, not two levels.** A heritage speaker can be orally C1 and
 written A2 at the same time, so a single CEFR badge mislabels her in both directions: call her A2

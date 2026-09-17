@@ -22,6 +22,7 @@ rule exists lives in `docs/decisions.md` as a numbered entry, and `#nn` below po
 |---|---|
 | writing a prose lesson, a role-play, a reading or a dictée | `.claude/agents/lesson-author.md` |
 | writing a drill or a game | `.claude/agents/exercise-author.md` |
+| turning a mistake a real learner keeps making into a page | `.claude/agents/mistake-triage.md` |
 | changing tokens, components or the shell's look | `.claude/agents/design-system.md` |
 | adding, renaming, moving or removing a page or chapter | `.claude/agents/nav-wiring.md` |
 | checking a page for regressions before shipping | `.claude/agents/page-auditor.md` |
@@ -43,11 +44,10 @@ are all built. What no amount of reading the repo will reveal:
 - **Deployed on Vercel** at <https://lepetitcours.vercel.app>, building from `main`. Supabase
   project `ephdtigxjccfauzgexpd`, RLS on, legacy JWT keys disabled, two public env vars, no
   integration and no secret at rest (#20, #21).
-- **Two settings are outstanding in the Supabase dashboard, and the repo cannot enforce either.**
-  Public sign-up must be **off** (`disable_signup` was `false` on 2026-09-06 and the site has no
-  sign-up form), and every account must be created with **« Auto Confirm User »** — confirmation is
-  on and no mail can reach a `.test` address. Both are readable from the public `/auth/v1/settings`
-  endpoint without opening the dashboard.
+- **Two dashboard settings the repo cannot enforce.** Public sign-up is **off** and must stay off
+  (the site has no sign-up form), and every account is created by hand with **« Auto Confirm
+  User »** — confirmation is on and no mail can reach a `.test` address. Both are readable from the
+  public `/auth/v1/settings` endpoint without opening the dashboard.
 - **The schema is applied by hand in the dashboard editor**, not by a migration runner. Whether a
   *column* landed is checkable without the dashboard, because Postgres resolves names before it
   checks grants: `select=<column>` on `progress` answers `42501` (permission denied — the column is
@@ -66,7 +66,8 @@ are all built. What no amount of reading the repo will reveal:
   French. Needs **literacy**: accents, accord, homophones, the written form of conjugations she
   says correctly without thinking. Fails at writing down a sentence she can say perfectly. She is
   **not a level** — plausibly oral C1 and written A2 at once, so never reason about her with one
-  CEFR badge (#13).
+  CEFR badge (#13). She may be a teenager at a Spanish school, whose mistakes come
+  from Spanish writing habits: a page for her suits a fifteen-year-old and an adult at once (#69).
 
 `grammaire`, `vocabulaire`, `conversation` lean to the learner; `orthographe`, `dictees`,
 `astuces`, `conjugaison` lean to the heritage speaker.

@@ -1345,3 +1345,22 @@ the question changes. **It does not make B1 choosable**: `CHOOSABLE_LEVELS` is s
 so the B1 set is reached from the picker rather than by working at B1 — which is what lets the
 machinery be exercised before a B1 course exists to put behind it.
 
+
+## 69 · A real learner steers the course, and gets no programme of their own
+**2026-09-17 · Binding · extends #13**
+
+**A real learner has an ordinary account, and nothing in the app is built for them** — no
+programme, no parcours in their name, no teacher view, no place to hand in work. Their writing and
+its correction happen outside the app. A mistake they keep making only decides **which page the
+profile gets next**, and that page is written for everyone with the profile, with invented examples.
+
+**Decided against a bespoke programme** because it would be a student-management system under
+another name (`docs/scope.md`, non-goals), because a page written around one person's sentences is a
+page nobody else can use, and because it would put that person's writing in a public repository.
+**Nothing about who made a mistake goes in a page, a commit or a doc.**
+
+**The heritage profile widened** (#13): she can be a teenager at a Spanish school, whose written
+French declines rather than stands still, and who brings Spanish writing habits. A page for this
+profile works for a fifteen-year-old and an adult at once, and names the Spanish habit behind a
+mistake in French, without printing the Spanish word (#53). **A lesson may ship without a drill**;
+the drill comes when practice earns its place.
