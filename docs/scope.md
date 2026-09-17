@@ -30,7 +30,7 @@ which page the profile gets next (`docs/decisions.md` #69).
 
 ### 1. The learner — *el aprendiz*
 
-A native Spanish speaker acquiring French from zero. Currently one A2 student.
+A native Spanish speaker acquiring French from zero.
 
 - Has: Spanish, and the transfer it gives — gendered nouns, verb families, reflexives.
 - Lacks: the language.

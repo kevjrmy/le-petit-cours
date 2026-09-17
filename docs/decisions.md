@@ -77,6 +77,7 @@ than marking it superseded.
 | 66 | 2026-09-12 | Sections are marked, not merely spaced; the in-page index is read from the page | Binding |
 | 67 | 2026-09-12 | « En résumé » is a titled block, and one line closes a lesson | Binding |
 | 68 | 2026-09-12 | A tick names its level only when the lesson serves more than one | Binding |
+| 69 | 2026-09-17 | A recurring mistake steers the course, and nobody gets a programme of their own | Binding |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**

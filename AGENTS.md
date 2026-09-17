@@ -27,7 +27,7 @@ rule exists lives in `docs/decisions.md` as a numbered entry, and `#nn` below po
 | adding, renaming, moving or removing a page or chapter | `.claude/agents/nav-wiring.md` |
 | checking a page for regressions before shipping | `.claude/agents/page-auditor.md` |
 | checking the French itself | `.claude/agents/content-proofreader.md` |
-| asking *why* a rule is what it is | `docs/decisions.md` (#1–#63, dated, appended) |
+| asking *why* a rule is what it is | `docs/decisions.md` (numbered, dated, curated) |
 | asking what is being built and for whom | `docs/scope.md` |
 | arriving from GitHub, or contributing from outside | `README.md`, `CONTRIBUTING.md` |
 
