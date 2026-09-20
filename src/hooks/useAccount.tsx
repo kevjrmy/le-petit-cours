@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { readDisplayName, readLevel, readUsername } from "@/lib/account";
-import { getSupabaseClient } from "@/lib/supabase/client";
+import { getSupabaseClient, SUPABASE_CONFIGURED } from "@/lib/supabase/client";
 import type { Level } from "@/data/navigation";
 
 export interface Account {
@@ -43,6 +43,12 @@ export function displayName(account: Account): string {
 
 const AccountContext = createContext<Account | null>(null);
 
+/* Whether the session has been read at all. A second context rather than a
+   richer value, so `useAccount()` keeps its shape and its callers stay a
+   one-line read: only the one caller that has to tell "signed out" from "not
+   known yet" pays for the distinction. */
+const AccountReadyContext = createContext(false);
+
 /**
  * Holds who is signed in, once, for the whole shell.
  *
@@ -63,6 +69,10 @@ const AccountContext = createContext<Account | null>(null);
  */
 export function AccountProvider({ children }: { children: ReactNode }) {
   const [account, setAccount] = useState<Account | null>(null);
+  /* Without the environment variables nobody can sign in, so the answer is
+     already final and starts that way: `false` there would leave a consumer
+     waiting for an event that cannot arrive. */
+  const [ready, setReady] = useState(!SUPABASE_CONFIGURED);
 
   useEffect(() => {
     const supabase = getSupabaseClient();
@@ -78,6 +88,8 @@ export function AccountProvider({ children }: { children: ReactNode }) {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!active) return;
+
+      setReady(true);
 
       const user = session?.user;
       if (!user?.email) {
@@ -104,11 +116,28 @@ export function AccountProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  return <AccountContext.Provider value={account}>{children}</AccountContext.Provider>;
+  return (
+    <AccountContext.Provider value={account}>
+      <AccountReadyContext.Provider value={ready}>{children}</AccountReadyContext.Provider>
+    </AccountContext.Provider>
+  );
 }
 
 /** Who is signed in, or `null` — which is also the answer outside the provider,
  *  and the correct one for anything rendered above the shell. */
 export function useAccount(): Account | null {
   return useContext(AccountContext);
+}
+
+/**
+ * Whether the session has been read yet.
+ *
+ * `useAccount()` returning `null` means "signed out **or** not read yet", and
+ * almost nothing needs those told apart — a listing draws nothing either way.
+ * The exception is anything that acts on someone *becoming* signed in, where
+ * the two look identical for the first moment of a page's life and acting on
+ * the wrong one moves a page under a learner who only came to read it.
+ */
+export function useAccountReady(): boolean {
+  return useContext(AccountReadyContext);
 }

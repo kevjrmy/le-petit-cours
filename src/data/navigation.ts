@@ -125,7 +125,9 @@ export type IconName =
   | "litterature"
   | "musique"
   | "culture"
-  | "sommaire";
+  | "sommaire"
+  | "progression"
+  | "compte";
 
 export interface Chapter {
   slug: string;
@@ -880,25 +882,55 @@ export const chapters: Chapter[] = [
  * rather than a list hand-copied into four components, which is how they would
  * drift.
  *
- * It is a union rather than one interface so that **`icon` is required exactly
- * where one is drawn**: the sidebar collapses to icons at the tablet
- * breakpoint, so a row there needs a mark, and the popover is text and never
- * wants one. An optional field would have made both cases look identical in a
- * diff — the mistake #29 removed the icon field over (#42).
+ * It is a union rather than one interface so that **a field is required exactly
+ * where it is read**: the sidebar and the account popover both draw a row with
+ * a mark, the footer is a line of text. An optional field would have made the
+ * cases look identical in a diff — the mistake #29 removed the icon field over
+ * (#42).
+ *
+ * **A popover row also says what it is signed out** (#47), because signed out
+ * the panel is not the same list with a row missing: `hide` drops it, and a
+ * title replaces the signed-in one where the page is a different offer without
+ * an account — `/compte` is the settings when you have one and the way in when
+ * you do not. Required, so a row added later cannot quietly inherit either.
  */
 export type Annexe = PageEntry &
-  ({ where: "top" | "tree"; icon: IconName } | { where: "menu" | "footer" });
+  (
+    | { where: "top" | "tree"; icon: IconName }
+    | { where: "menu"; icon: IconName; signedOut: "hide" | { title: string } }
+    | { where: "footer" }
+  );
 
-/** An annexe the sidebar draws — narrowed so `icon` is there to read. */
-export type TreeAnnexe = Extract<Annexe, { icon: IconName }>;
+/** An annexe drawn as a row with a mark — narrowed so `icon` is there to read. */
+export type IconAnnexe = Extract<Annexe, { icon: IconName }>;
 
 export const annexes: Annexe[] = [
   /* Above the chapters, not below them with the other annexes: the sommaire is
      the way into the course rather than something beside it, and the foot of a
      fifteen-row list is not where you look for the list's own overview. */
   { path: "/sommaire", title: "Sommaire", levels: ANY, where: "top", icon: "sommaire" },
-  { path: "/ma-progression", title: "Ma progression", levels: ANY, where: "menu" },
-  { path: "/compte", title: "Compte", levels: ANY, where: "menu" },
+  /* The marks are the ones the popover already shows elsewhere: the tick the
+     listings record, and the glyph on the account control itself.
+
+     Signed out, « Ma progression » is a page whose whole content is the offer
+     to sign in, which the row below it already makes — the same link twice is
+     what took « Code source » out of this panel (#47). */
+  {
+    path: "/ma-progression",
+    title: "Ma progression",
+    levels: ANY,
+    where: "menu",
+    icon: "progression",
+    signedOut: "hide",
+  },
+  {
+    path: "/compte",
+    title: "Compte",
+    levels: ANY,
+    where: "menu",
+    icon: "compte",
+    signedOut: { title: "Se connecter" },
+  },
   /* In the footer rather than the popover: it is a page about the site, and the
      account menu is about the account. The footer is under every page anyway,
      which is one link instead of two places offering the same one. */
@@ -994,15 +1026,93 @@ function assertLessonIds(): void {
 
 assertLessonIds();
 
+/** A row the account popover draws, with the title that state earns it. */
+export interface MenuRow {
+  path: string;
+  title: string;
+  icon: IconName;
+  /**
+   * Whether this row is the way in — a page offered *because* there is no
+   * account, so coming back afterwards is the point. It is what earns the
+   * `?suivant=` the popover appends (#70); the flag rather than a path test in
+   * the component, which would quietly cover a second such row or miss it.
+   */
+  wayIn: boolean;
+}
+
 /**
- * The annexes the sidebar draws at one position, narrowed to carry an icon.
+ * What the account popover offers, which is not the same list twice (#47).
+ *
+ * The resolution lives here rather than in the component so that the panel maps
+ * rows and decides nothing: a component asking « is this `/compte`? » is the
+ * hand-copied path this manifest exists to prevent.
+ */
+export function menuAnnexes(signedIn: boolean): MenuRow[] {
+  return annexes.flatMap((page): MenuRow[] => {
+    if (page.where !== "menu") return [];
+    if (signedIn) {
+      return [{ path: page.path, title: page.title, icon: page.icon, wayIn: false }];
+    }
+    if (page.signedOut === "hide") return [];
+    return [{ path: page.path, title: page.signedOut.title, icon: page.icon, wayIn: true }];
+  });
+}
+
+/**
+ * The annexes drawn as a row with a mark, at one position.
  *
  * The narrowing lives here rather than in the component: `.filter()` does not
  * narrow a union on its own, and a type predicate written twice is a predicate
  * that can disagree with itself.
  */
-export function treeAnnexes(where: "top" | "tree"): TreeAnnexe[] {
-  return annexes.filter((page): page is TreeAnnexe => page.where === where);
+export function iconAnnexes(where: "top" | "tree"): IconAnnexe[] {
+  return annexes.filter((page): page is IconAnnexe => page.where === where);
+}
+
+/** The lesson a learner has not ticked yet, and the chapter it sits in. */
+export interface NextStep {
+  chapter: Chapter;
+  lesson: Lesson;
+  /** Whether anything at all is ticked — « Commencer » rather than « Reprendre ». */
+  started: boolean;
+}
+
+/**
+ * « La suite »: the first lesson at `level` that is not ticked.
+ *
+ * **Both surfaces that offer a next step read it from here** — the home page
+ * and the head of `/ma-progression` — because two definitions of "next" would
+ * eventually disagree in front of the same learner, and the one they would
+ * trust is whichever they saw last.
+ *
+ * It is *the first hole in course order*, not the furthest point reached:
+ * chapters in manifest order, lessons in theirs, filtered by level exactly as a
+ * listing is (#35). Predictable, needs nothing stored, and honest about what an
+ * account holds — a true "where you left off" would mean recording the last
+ * page visited, which is behavioural tracking and is not what an account is
+ * for (#31). This is also the seam a parcours would feed when there is one
+ * (#14).
+ *
+ * `isDone` is passed in rather than imported: the tick lives behind a hook, and
+ * the manifest is not allowed to know about storage.
+ */
+export function nextUp(
+  level: Level | null,
+  isDone: (lesson: Lesson, level: Level | null) => boolean,
+): NextStep | null {
+  let first: { chapter: Chapter; lesson: Lesson } | null = null;
+  let started = false;
+
+  /* The whole course, not an early return: a learner who ticked lesson five and
+     skipped lesson one is still a learner who has started. */
+  for (const chapter of chapters) {
+    for (const lesson of visibleLessons(chapter, level)) {
+      if (isDone(lesson, level)) started = true;
+      else if (!first) first = { chapter, lesson };
+    }
+  }
+
+  return first ? { ...first, started } : null;
 }
 
 /**

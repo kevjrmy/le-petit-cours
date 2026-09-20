@@ -116,7 +116,9 @@
 
 .item {
   display: flex;
-  align-items: baseline;
+  /* Centred, not on the baseline: every row leads with a mark now, and an svg
+     sits on the baseline by its bottom edge. */
+  align-items: center;
   gap: 0.5rem;
   padding: 0.4rem 0.55rem;
   border-radius: var(--radius-sm);
@@ -131,24 +133,54 @@ a.item:hover {
   text-decoration: none;
 }
 
-/* ── the theme submenu ──────────────────────────────────────────────────── */
-
-/* The row that leads into it: label, current value, chevron. */
-.submenuRow {
+/* The rows that are buttons rather than links. `font: inherit` is what makes a
+   button match the links — a button does not inherit the surrounding font — and
+   the shorthand resets the size `.item` set, so the size is said again after
+   it. */
+.submenuRow,
+.choice,
+.action {
   width: 100%;
   border: 0;
   background: none;
   font: inherit;
-  /* After the shorthand, which resets the size `.item` set — a button does not
-     inherit the surrounding font, so `font: inherit` is what makes it match the
-     links, and then the size has to be said again. */
   font-size: 0.85rem;
   text-align: left;
   cursor: pointer;
 }
 
-.submenuRow:hover { background: var(--surface-3); }
+.submenuRow:hover,
+.choice:hover,
+.action:hover { background: var(--surface-3); }
 
+/* The two rows that are not pages draw their own mark, on the same 24-grid and
+   at the same size as `ChapterIcon` — they cannot come from the manifest, where
+   only a page can name an icon (#42). */
+.mark {
+  flex: 0 0 auto;
+  width: 1.35em;
+  height: 1.35em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.half { fill: currentColor; stroke: none; }
+
+/* Signing out sits under a rule: it is the one row that does something instead
+   of going somewhere. Not in `--danger` — red on this page means a wrong answer
+   (`AGENTS.md` §5), and nothing here is lost by signing out. */
+.signOut {
+  margin-top: 0.3rem;
+  padding-top: 0.3rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+/* ── the theme submenu ──────────────────────────────────────────────────── */
+
+/* The current value and the chevron on the row that leads into it. */
 .value {
   margin-left: auto;
   font-size: 0.78rem;
@@ -165,7 +197,6 @@ a.item:hover {
   stroke-linecap: round;
   stroke-linejoin: round;
   color: var(--text-3);
-  align-self: center;
 }
 
 /* The submenu header, which is also the way back. */
@@ -198,23 +229,12 @@ a.item:hover {
   color: var(--text-3);
 }
 
-.choice {
-  width: 100%;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-size: 0.85rem;
-  text-align: left;
-  cursor: pointer;
-  align-items: center;
-}
-
-.choice:hover { background: var(--surface-3); }
-
+/* The submenu's leading column, so it lines up with the marks on the root
+   panel the view replaces. */
 .tick {
   flex: 0 0 auto;
-  width: 0.9rem;
-  height: 0.9rem;
+  width: 1.35em;
+  height: 1.35em;
   fill: none;
   stroke: currentColor;
   stroke-width: 2.4;

@@ -271,8 +271,10 @@ through lessons that already exist (#14).
   permanent**: renaming a section changes its fragment. Lessons only, and only where the margin has
   room — **the reading column never shrinks for it**.
 
-**Chapters carry an icon and a missing one does not compile** (#42). `IconName` is a union in the
-manifest and `ChapterIcon`'s map is a `Record<IconName, …>`, so both directions are checked.
+**Chapters, and every annexe drawn as a row, carry an icon; a missing one does not compile**
+(#42, #47) — `where: "footer"` is the one position that is text, and the union says so. `IconName`
+is a union in the manifest and `ChapterIcon`'s map is a `Record<IconName, …>`, so both directions
+are checked.
 **There is no `default` entry and there must never be one** — a generic glyph makes a forgotten
 chapter look deliberate. The icons are drawn in the repo, inline SVG, so they work offline. The
 sommaire card's mark stays the chapter's initial in the serif.
@@ -321,6 +323,13 @@ that has become dynamic is a regression, not a detail.**
 
 ### Auth
 
+- **Signing in returns them to the page they were on** (#70): every way in carries `?suivant=` —
+  the tick, `/ma-progression` signed out, and the popover's « Se connecter », which is the one that
+  reads the current path. **With nothing to return to it is `/`**, never the settings they came
+  through — and a link from `/` or `/compte` carries no `?suivant=` at all, since it would only
+  name the fallback and would bounce an already-signed-in visitor out of the settings.
+- **`/compte` never bounces a visitor who arrived already signed in** — that would put the settings
+  behind a redirect and out of reach of the popover that links them.
 - **Sign-in is a route, `/compte`** (#26) — not a modal, so auth UI stays out of the shell every
   lesson renders inside. Entry is the account control at the foot of the sidebar, a popover that
   links to `/compte` and **never holds a form**. Signed out it offers « Se connecter » and never
@@ -394,7 +403,12 @@ that has become dynamic is a regression, not a detail.**
   draws no circle, because signed out — and before the cache answers — there is nothing to report.
 - **Counts use published lessons as the denominator.**
 - **`/ma-progression` is the one listing that does not filter by level** (#48): it shows what they
-  *did*, and a tick hidden by a level change would read as a lost tick.
+  *did*, and a tick hidden by a level change would read as a lost tick. **Its « La suite » head is
+  the exception** (#70) — an offer, so it filters like every other listing.
+- **« La suite » is defined once, by `nextUp`** (#70): the first unticked lesson at the level, in
+  manifest order. The home page and `/ma-progression` both draw it; a second definition compiles
+  and disagrees in front of the learner. **Never make it "where you left off"** — that is a stored
+  position, which is a new field on the account and behavioural tracking (#31).
 
 ## 9. Traps that have actually shipped
 

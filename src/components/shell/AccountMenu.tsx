@@ -1,9 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { annexes } from "@/data/navigation";
+import { menuAnnexes } from "@/data/navigation";
+import { signInHref } from "@/components/account/ReturnTo";
+import { ChapterIcon } from "@/components/nav/ChapterIcon";
 import { displayName, useAccount } from "@/hooks/useAccount";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import styles from "./AccountMenu.module.css";
 
 type ThemeChoice = "light" | "dark" | "system";
@@ -53,9 +57,22 @@ function applyTheme(choice: ThemeChoice) {
  * The account control at the foot of the sidebar, and the popover it opens.
  *
  * It holds what belongs to the account and nothing else: the annexes marked
- * `where: "menu"` and the theme. « À propos » and the link to the source are
- * about the site rather than the account, and both are reachable from the
- * footer under every page.
+ * `where: "menu"`, the theme, and — signed in — signing out. « À propos » and
+ * the link to the source are about the site rather than the account, and both
+ * are reachable from the footer under every page.
+ *
+ * **Every row carries a mark.** The rows that are pages take it from the
+ * manifest, where `icon` is required of a `where: "menu"` annexe exactly as it
+ * is of a sidebar row — a row drawn with nothing in it is the failure #29 was
+ * removed over (#42). The theme and signing out are not pages and cannot name
+ * one, so they are drawn below.
+ *
+ * **Signed out the panel is two rows**, « Se connecter » and the theme (#47).
+ * Which pages that leaves is the manifest's answer, not this component's.
+ *
+ * **« Se connecter » carries the page they are on**, so signing in returns them
+ * to it (#70) — the one thing the manifest cannot say, because it is where the
+ * learner is rather than what the page is.
  *
  * A popover rather than a modal: it is short, it should not block the page, and
  * on a phone the sidebar is already a drawer — a modal inside a drawer is two
@@ -69,6 +86,8 @@ function applyTheme(choice: ThemeChoice) {
  *
  * Sign-in itself lives at `/compte`, a real route rather than a dialog
  * (`docs/decisions.md` #26). This menu links there; it never holds a form.
+ * Signing *out* asks for nothing, so it is a row here as well as a section of
+ * `/compte` — it is the one account action that needs no page to perform.
  */
 export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
   const account = useAccount();
@@ -85,6 +104,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
      the cascading setState the compiler rejects. */
   const [theme, setTheme] = useState<ThemeChoice>("system");
   const root = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const backRef = useRef<HTMLButtonElement>(null);
   const themeRowRef = useRef<HTMLButtonElement>(null);
   /* Set when leaving the submenu, so the effect below knows to put focus back
@@ -143,7 +163,10 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
     setView("root");
   }
 
-  const links = annexes.filter((page) => page.where === "menu");
+  /* Signed out this is one row, « Se connecter » — with the theme under it,
+     that is the whole panel. */
+  const links = menuAnnexes(account !== null);
+  const here = usePathname();
 
   return (
     <div className={styles.account} ref={root}>
@@ -158,7 +181,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
                 {links.map((page) => (
                   <li key={page.path} role="none">
                     <Link
-                      href={page.path}
+                      href={page.wayIn ? signInHref(here) : page.path}
                       className={styles.item}
                       role="menuitem"
                       onClick={() => {
@@ -166,6 +189,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
                         onNavigate();
                       }}
                     >
+                      <ChapterIcon name={page.icon} />
                       {page.title}
                     </Link>
                   </li>
@@ -182,6 +206,13 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
                     aria-expanded={false}
                     onClick={() => setView("theme")}
                   >
+                    {/* Half the disc filled. The control is three-way, so a sun
+                        or a moon would put one of the three choices on the row
+                        that opens all of them. */}
+                    <svg className={styles.mark} viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="12" cy="12" r="8.5" />
+                      <path className={styles.half} d="M12 3.5a8.5 8.5 0 0 1 0 17Z" />
+                    </svg>
                     Thème
                     <span className={styles.value}>{THEME_LABEL[theme]}</span>
                     <svg className={styles.into} viewBox="0 0 24 24" aria-hidden="true">
@@ -189,6 +220,37 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
                     </svg>
                   </button>
                 </li>
+                {/* Signed out there is nothing to sign out of, and the row
+                    would read as the way *in* — « Compte » above is that. */}
+                {account && (
+                  <li className={styles.signOut} role="none">
+                    <button
+                      type="button"
+                      className={`${styles.item} ${styles.action}`}
+                      role="menuitem"
+                      onClick={() => {
+                        /* No local state to clear: the provider is subscribed
+                           to onAuthStateChange, so SIGNED_OUT reaches every
+                           consumer. */
+                        void getSupabaseClient()?.auth.signOut();
+                        close();
+                        /* The panel this row lives in is about to unmount, so
+                           focus has to be put back by hand or it lands on the
+                           body and a keyboard user starts again from the top. */
+                        triggerRef.current?.focus();
+                      }}
+                    >
+                      {/* A door and the way out of it, sharing `traduction`'s
+                          arrow so the set stays one hand. */}
+                      <svg className={styles.mark} viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M13 4.5H7A1.5 1.5 0 0 0 5.5 6v12A1.5 1.5 0 0 0 7 19.5h6" />
+                        <path d="M13.5 12h7" />
+                        <path d="M17.6 9l3 3-3 3" />
+                      </svg>
+                      Se déconnecter
+                    </button>
+                  </li>
+                )}
               </ul>
             </div>
           ) : (
@@ -238,6 +300,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
 
       <button
         type="button"
+        ref={triggerRef}
         className={styles.trigger}
         aria-haspopup="menu"
         aria-expanded={open}
@@ -257,10 +320,10 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
                the identity of this project is lettering. */
             <span className={styles.initial}>{name.charAt(0).toUpperCase()}</span>
           ) : (
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="8.5" r="3.6" />
-              <path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0" />
-            </svg>
+            /* The same drawing as the « Compte » row above, named once. It is
+               sized and weighted by `.avatar svg`, which outranks the mark's
+               own class, so it stays the small glyph the disc was built for. */
+            <ChapterIcon name="compte" />
           )}
         </span>
         <span className={styles.triggerText}>

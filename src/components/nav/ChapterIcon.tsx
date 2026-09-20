@@ -164,6 +164,23 @@ const PATHS: Record<IconName, React.ReactNode> = {
   sommaire: (
     <path d="M4.5 7h1M9 7h10.5M4.5 12h1M9 12h10.5M4.5 17h1M9 17h10.5" />
   ),
+  /* The done mark itself, circled — `/ma-progression` is the record of those
+     ticks, so the page is named by the thing it counts. The tick is `PageRow`'s
+     path, not a second one drawn to look like it. */
+  progression: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M8 12.2l2.8 2.8 5.4-5.8" />
+    </>
+  ),
+  /* The account control's own glyph, so the row and the avatar above it are one
+     mark rather than two drawings of a person. */
+  compte: (
+    <>
+      <circle cx="12" cy="8.5" r="3.6" />
+      <path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0" />
+    </>
+  ),
 };
 
 /**

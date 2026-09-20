@@ -1,3 +1,4 @@
+import { NextLesson } from "@/components/progress/NextLesson";
 import { SearchBox } from "@/components/search/SearchBox";
 import { StartPills } from "@/components/search/StartPills";
 import styles from "./page.module.css";
@@ -16,7 +17,14 @@ import styles from "./page.module.css";
 
    Nothing here explains the account. /compte says what one is for, at the only
    moment anybody is asking — a first screen that answers a question nobody has
-   yet asked is a first screen with a paragraph on it. */
+   yet asked is a first screen with a paragraph on it.
+
+   `NextLesson` is the one exception, and only for somebody already signed in:
+   this page is the PWA's start_url, so it is what a student taps on their home
+   screen, and greeting them with an empty field every time wastes the one
+   screen that knows where they stopped. It is a client leaf, so the page stays
+   static (AGENTS.md §4); signed out it draws nothing and this is the search
+   field it has always been. */
 export default function Home() {
   return (
     <div className={styles.page}>
@@ -31,6 +39,7 @@ export default function Home() {
       </header>
 
       <SearchBox hero />
+      <NextLesson as="line" />
       <StartPills />
     </div>
   );

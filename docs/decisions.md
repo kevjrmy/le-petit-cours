@@ -78,6 +78,7 @@ than marking it superseded.
 | 67 | 2026-09-12 | « En résumé » is a titled block, and one line closes a lesson | Binding |
 | 68 | 2026-09-12 | A tick names its level only when the lesson serves more than one | Binding |
 | 69 | 2026-09-17 | A recurring mistake steers the course, and nobody gets a programme of their own | Binding |
+| 70 | 2026-09-21 | « La suite » is the dashboard; signing in returns you where you were | Binding |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -803,12 +804,31 @@ documents describing one obligation differently is worse than one describing it 
 ## 47 · The account popover holds the account, and nothing else
 **2026-09-06 · Binding**
 
-« Ma progression », « Compte » and the theme. A page *about the site* is not one of them, so
-« À propos » and « Code source » left it — the source link was the same link three times, and
-`/a-propos` links the repository in its own sentence.
+Signed in: « Ma progression », « Compte », the theme, « Se déconnecter ». Signing out asks for
+nothing, so it needs no page to perform and is a row here as well as a section of `/compte`; signed
+out it is absent rather than disabled, because there is nothing to leave. A page *about the site* is
+not one of them, so « À propos » and « Code source » left it — the
+source link was the same link three times, and `/a-propos` links the repository in its own
+sentence.
 
 **A popover anchored to its own trigger does not restate it.** It carried the learner's name a few
 pixels above the control that already shows it.
+
+**Signed out the panel is two rows: « Se connecter » and the theme.** It is not the signed-in list
+with one row greyed or missing. « Ma progression » goes, because signed out that page *is* the offer
+to sign in and the row above it already makes it — the same link twice is what took « Code source »
+out of this panel. `/compte` keeps its row under the title its state earns, « Se connecter », the
+switch the account control's own sub-line already makes.
+
+**A popover row says what it is signed out, in the manifest** — `signedOut: "hide" | { title }`,
+required on `where: "menu"`. A component asking « is this `/compte`? » is the hand-copied list this
+manifest exists to prevent, and an optional field would let a row added later inherit a signed-out
+behaviour nobody chose.
+
+**Every row carries a mark**, so `where: "menu"` requires `icon` exactly as a sidebar row does —
+a popover annexe added without one would otherwise draw a blank leading column and fail nowhere,
+which is #29's bug again. The theme and signing out are not pages, cannot name an icon in the
+manifest, and are drawn in the component.
 
 **`Annexe.where` gained `footer`**, so `/a-propos` keeps its manifest entry — searchable, and visible
 to the audit — while moving surfaces. **The position of a page stays a property of the page**, never
@@ -1366,3 +1386,53 @@ French declines rather than stands still, and who brings Spanish writing habits.
 profile works for a fifteen-year-old and an adult at once, and names the Spanish habit behind a
 mistake in French, without printing the Spanish word (#53). **A lesson may ship without a drill**;
 the drill comes when practice earns its place.
+
+## 70 · « La suite » is the dashboard; signing in returns you where you were
+**2026-09-21 · Binding · extends #48**
+
+Signing in used to land on the settings, and nothing in the app could name the next lesson:
+`/ma-progression` records where a learner has been, `/compte` holds their password.
+
+**Everything a dashboard could show has to come from the manifest, the progress rows and the chosen
+level**, because that is all an account holds (#31) and drills record nothing (#2). Streaks, time
+spent, weak areas and "continue where you left off" are all built on events this app deliberately
+does not keep. What is left, and is genuinely missing, is **one derived fact: the first lesson at
+your level that you have not ticked.** `nextUp` in the manifest is the only definition of it —
+two surfaces offer it, and a second definition would disagree in front of the same learner.
+
+**Decided against a `/tableau-de-bord` page.** It would have duplicated the record it sat above,
+needed a redirect and a manifest entry, and held nothing the two existing pages could not. The
+dashboard is a head on `/ma-progression` and a line on the home page instead.
+
+**Decided against storing a position.** True resume means recording the last page visited, which is
+behavioural tracking and a new field on the account; the first hole in course order needs nothing
+stored, is predictable, and is the seam a parcours would feed when there is one (#14).
+
+**The home page is the exception to "nothing here explains the account".** `/` is the PWA's
+`start_url`, so it is what a student taps on their home screen; greeting a signed-in one with an
+empty search field wastes the only screen that knows where they stopped. Signed out it draws
+nothing and `/` is the search field it has always been (#39).
+
+**An offer filters by level; a record does not.** The head of `/ma-progression` obeys the chosen
+level like every other listing (#35); the tally under it still does not (#48). Two claims, one page.
+
+**Signing in returns them to the page they were on, and `/` is the fallback.** Every way into
+`/compte` carries `?suivant=`: the tick at the foot of a lesson (#48), the signed-out block on
+`/ma-progression`, and the popover's « Se connecter », which reads the current path — the one part
+of a row the manifest cannot hold, because it is where the learner is rather than what the page is.
+A row earns that return by being the way in, which the manifest says (`signedOut` carrying a title)
+rather than the component guessing from a path.
+
+**No `?suivant=` where it would only spell out the fallback** — from `/` and from `/compte` the link
+is bare. A redundant one is not just a longer URL: the return is honoured whether or not the learner
+signed in on this visit, so a stale `?suivant=%2F` in a bookmark would bounce somebody already
+signed in out of the settings.
+
+**Decided against landing on `/ma-progression`.** A record is not what somebody who was reading a
+lesson asked for, and with `?suivant=` on every entry point the fallback only ever catches people
+who had no context to begin with — for whom the home page is the honest answer: search, and the
+resume line for the lesson they were going to open next.
+
+**Landing is a consequence of signing in, not of arriving.** `/compte` bouncing every signed-in
+visitor would make the settings unreachable from the popover that links them, so the redirect fires
+only when the session was read as empty first — which is what `useAccountReady` exists for.

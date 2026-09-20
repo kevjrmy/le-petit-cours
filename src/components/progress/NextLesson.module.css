@@ -1,0 +1,111 @@
+/* ── the line, under the home page's search field ────────────────────────── */
+
+/* Reserved whether or not it has drawn yet, so the pills under it hold still
+   while the tick cache answers. The height is the link's own, not a guess. */
+.slot {
+  min-block-size: 1.6rem;
+}
+
+.line {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.line:hover { text-decoration: none; }
+.line:hover .lesson { text-decoration: underline; }
+
+.verb {
+  color: var(--text-3);
+}
+
+.lesson {
+  font-family: var(--font-serif);
+  color: var(--accent-text);
+}
+
+/* ── the card, at the head of /ma-progression ────────────────────────────── */
+.card {
+  margin-top: 1.6rem;
+}
+
+.heading {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.done {
+  margin-top: 0.7rem;
+  font-size: 0.92rem;
+  color: var(--text-2);
+}
+
+.target {
+  margin-top: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+  color: var(--text-1);
+  text-decoration: none;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.target:hover {
+  border-color: var(--accent);
+  background: var(--surface-2);
+  color: var(--text-1);
+  text-decoration: none;
+}
+
+/* The chapter's mark on its own disc, as the record's rows draw it. */
+.mark {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+.text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--text-heading);
+}
+
+.chapter {
+  font-size: 0.8rem;
+  color: var(--text-3);
+}
+
+.chevron {
+  flex: 0 0 auto;
+  width: 0.85rem;
+  height: 0.85rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--text-3);
+}

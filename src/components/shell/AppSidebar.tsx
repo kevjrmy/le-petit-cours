@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { listedChapters, treeAnnexes, type TreeAnnexe } from "@/data/navigation";
+import { listedChapters, iconAnnexes, type IconAnnexe } from "@/data/navigation";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
 import { useAccount } from "@/hooks/useAccount";
 import { useRestoreRail } from "@/hooks/useShellMode";
@@ -30,8 +30,8 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
   /* Either list can be empty — nothing but the manifest decides what is in
      them — and an empty <ul> here is a stray rule across the panel, since both
      carry a border. So each is drawn only if it has rows. */
-  const topAnnexes = treeAnnexes("top");
-  const tailAnnexes = treeAnnexes("tree");
+  const topAnnexes = iconAnnexes("top");
+  const tailAnnexes = iconAnnexes("tree");
   /* Empty while the course is unwritten (#52), and the sommaire says why — a
      panel of nothing needs no caption of its own. */
   const listed = listedChapters(level);
@@ -39,7 +39,7 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
   /* One row, wherever the annexe sits. Written once because the two lists are
      the same row in two places, and the day one grows an active state or a
      badge the other has to have it too. */
-  const annexeRow = (page: TreeAnnexe) => (
+  const annexeRow = (page: IconAnnexe) => (
     <li key={page.path}>
       <Link
         href={page.path}

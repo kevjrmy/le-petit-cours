@@ -157,10 +157,18 @@ what protects a learner's data.
 - **A chosen level filters the listings, never access.** Signed in, the sommaire, the chapter pages
   and the sidebar show a lesson when its levels are empty or contain yours. Signed out, they show
   everything. Two surfaces stand outside it: search groups out-of-level matches rather than cutting
-  them, and `/ma-progression` never filters at all — it is a record of what you did, not an offer. A lesson at another level still opens from a link — the level decides what the course
+  them, and `/ma-progression`'s record never filters at all — it shows what you did, not what is
+  offered, though the « La suite » head above it is an offer and does filter. A lesson at another
+  level still opens from a link — the level decides what the course
   *offers*, not what it permits. The listings are client components inside static pages, so the
   **unfiltered course is what ships in the HTML** and hydration narrows it; that is what a signed-out
   reader should get, and what an offline page should contain.
+- **« La suite » is the one thing derived from the ticks**: the first lesson at your level you have
+  not ticked, named on the home page and at the head of `/ma-progression`. It is the first gap in
+  course order, not a stored position — an account keeps a username, a level, a display name and the
+  ticks, and nothing about where you have been.
+- **Signing in returns you to the page you were reading.** Every way into `/compte` carries it in
+  the URL; with nothing to return to you land on the home page, where « La suite » is.
 - **An exercise is graded; a game is replayable.** An exercise walks a fixed deck once, scores
   out of N on screen and practises one named lesson; a game redraws every round, keeps no tally,
   and pulls from the whole course. Neither stores a score.

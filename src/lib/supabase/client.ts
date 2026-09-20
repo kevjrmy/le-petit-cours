@@ -18,11 +18,23 @@ import type { SupabaseClient } from "@supabase/supabase-js";
  */
 let client: SupabaseClient | null | undefined;
 
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+
+/**
+ * Whether an account is possible on this deployment at all.
+ *
+ * Both variables are inlined at build time, so this is knowable during render —
+ * which is what lets a consumer start from the right answer instead of setting
+ * it in an effect, the cascading update the React Compiler rejects. Read from
+ * here rather than tested again: two copies of the same condition is how a
+ * clone without an `.env` ends up waiting forever for a session nothing will
+ * ever report.
+ */
+export const SUPABASE_CONFIGURED = Boolean(url && key);
+
 export function getSupabaseClient(): SupabaseClient | null {
   if (client !== undefined) return client;
-
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
   client = url && key ? createBrowserClient(url, key) : null;
   return client;

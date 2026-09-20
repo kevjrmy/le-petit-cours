@@ -5,6 +5,7 @@ import { chapters, type Chapter, type Lesson } from "@/data/navigation";
 import { useAccount } from "@/hooks/useAccount";
 import { useProgress } from "@/hooks/useProgress";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
+import { NextLesson } from "./NextLesson";
 import styles from "./Progression.module.css";
 
 /**
@@ -62,6 +63,11 @@ export function Progression() {
 
   return (
     <>
+      {/* The offer, above the record. It filters by level and the record below
+          does not — two claims on one page, which is why the rule about this
+          page not filtering is about the tally and not about the head (#48). */}
+      <NextLesson as="card" />
+
       <section className={styles.summary}>
         <p className={styles.count}>
           <strong>{finished}</strong> {finished === 1 ? "leçon terminée" : "leçons terminées"} sur{" "}

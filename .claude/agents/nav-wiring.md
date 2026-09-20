@@ -188,6 +188,28 @@ A chapter that ships images needs one more thing: its files under `public/`, and
 covered by whatever the service worker precaches. Miss the second and the pages render online and
 lose their images offline — a failure that never appears in `npm run build`.
 
+## Adding an annexe — a page that belongs to no chapter
+
+`where` says which surface offers it, and the union makes each position ask for what that surface
+draws. Give it the wrong position and nothing fails; give it a position without its fields and it
+does not compile, which is the point.
+
+| `where` | Drawn | Also required |
+|---|---|---|
+| `top` | above the chapter list | `icon` |
+| `tree` | the foot of the sidebar, with the chapters | `icon` |
+| `menu` | the account popover | `icon`, **`signedOut`** |
+| `footer` | the line under the home page and its own pages | nothing — it is text |
+
+`signedOut` is `"hide"` or `{ title }` (#47, #70). `hide` drops the row for a visitor with no
+account; a title replaces the signed-in one where the page is a different offer without one, and
+**that row becomes the way in** — the popover appends `?suivant=` to it so signing in returns the
+learner to the page they were on. There is no default: a popover row has to say which it is.
+
+A new `icon` means a new member of `IconName` **and** a drawing in `ChapterIcon.tsx`, exactly as a
+chapter's does. A `footer` annexe is reachable from the home page only, so put a page anywhere else
+if a lesson has to link it (#63).
+
 ## Renaming, moving, removing
 
 **A rename used to be the dangerous one**, and is not any more: progress is keyed by the lesson's
