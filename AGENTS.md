@@ -45,10 +45,18 @@ are all built. What no amount of reading the repo will reveal:
 - **Deployed on Vercel** at <https://lepetitcours.vercel.app>, building from `main`. Supabase
   project `ephdtigxjccfauzgexpd`, RLS on, legacy JWT keys disabled, two public env vars, no
   integration and no secret at rest (#20, #21).
-- **Two dashboard settings the repo cannot enforce.** Public sign-up is **off** and must stay off
-  (the site has no sign-up form), and every account is created by hand with **« Auto Confirm
-  User »** — confirmation is on and no mail can reach a `.test` address. Both are readable from the
-  public `/auth/v1/settings` endpoint without opening the dashboard.
+- **Three dashboard settings the repo cannot enforce**, all in the Email provider and all readable
+  from the public `/auth/v1/settings` endpoint without opening the dashboard. The provider is
+  **enabled** (`external.email`), public sign-up is **off** and must stay off (`disable_signup`; the
+  site has no sign-up form), and confirmation is **on** (`mailer_autoconfirm` false) with every
+  account created by hand ticking **« Auto Confirm User »**, because no mail can reach a `.test`
+  address. **The first one is the master toggle above the other two, and turning it off takes the
+  whole site down** — nobody signs in, including you, and `/auth/v1/token` answers
+  `email_provider_disabled`. It has been switched off by accident once, while closing sign-up.
+- **Check them with the endpoint, not the dashboard, and probe as well as read.** Settings say what
+  is configured; a `POST /auth/v1/signup` with a throwaway address says what actually happens, and
+  must answer `signup_disabled`. A `POST /auth/v1/token?grant_type=password` with a fake account
+  must answer `invalid_credentials` — anything else means sign-in is broken for everyone.
 - **The schema is applied by hand in the dashboard editor**, not by a migration runner. Whether a
   *column* landed is checkable without the dashboard, because Postgres resolves names before it
   checks grants: `select=<column>` on `progress` answers `42501` (permission denied — the column is
