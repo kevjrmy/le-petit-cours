@@ -1,0 +1,85 @@
+/* Le plateau : une phrase, un champ dans la phrase, la rangée d'accents
+   dessous. Le reste de l'habillage est partagé
+   (`src/components/exercice/Drill.tsx`). */
+
+.card {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.35rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+/* La phrase est du français enseigné : sérif (`AGENTS.md` §5). */
+.sentence {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 2;
+  color: var(--text-1);
+}
+
+/* Le champ, dans la ligne. Sa largeur ne dit rien de la réponse : six
+   caractères tiennent « c’est » comme « ce », et toutes les phrases ont la
+   même. */
+.field {
+  width: 6ch;
+  margin: 0 0.15rem;
+  padding: 0.1rem 0.35rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--accent-text);
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* **`outline: none` n'est sûr que parce que quelque chose le remplace** : le
+   champ a déjà une bordure et un fond pour le dire, et les deux passent à
+   l'accent. Tout le reste du plateau garde l'anneau `:focus-visible` global. */
+.field:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+}
+
+.field:disabled { cursor: default; }
+
+.aid {
+  margin-top: 1.3rem;
+}
+
+/* Doublé, parce que `.prose h3` est (0,1,1) et qu'une classe seule est (0,1,0) :
+   le rythme global des titres éloignerait ce libellé de la rangée qu'il nomme
+   (`.claude/agents/design-system.md`). */
+.aidHead.aidHead {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.verdict {
+  margin-top: 1.2rem;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+}
+
+.corrected {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--text-heading);
+}
+
+.actions {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}

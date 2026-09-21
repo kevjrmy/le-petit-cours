@@ -1005,6 +1005,23 @@ tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
   color: var(--danger-text);
 }
 
+/* The third state, and it is not a paler red. A question answered by ticking
+ * several things can be failed two ways, and they are different mistakes:
+ * ticking something that is not there, and failing to tick something that is.
+ * Amber says "you left this out" where red says "this is not it"
+ * (`.claude/agents/exercise-author.md`). The dashed border carries the same
+ * thing without colour, because the mark on such an item is a `+` rather than
+ * a `✓` or a `✗`.
+ *
+ * Doubled like the two above, and for the same reason: it lands on a word or a
+ * chip a drill's own module has already styled. */
+.is-missed.is-missed {
+  border-color: var(--warn-line);
+  border-style: dashed;
+  background: var(--warn-soft);
+  color: var(--warn-text);
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

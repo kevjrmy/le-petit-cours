@@ -279,6 +279,66 @@ export const chapters: Chapter[] = [
     /* Ordered as a course, not alphabetically: word classes first, then the
        tenses in teaching order, then pronouns. */
     lessons: [
+      /* Les pages A1 ouvrent le chapitre, et elles s'insèrent avant l'A2
+         plutôt que de s'y ajouter (#72) : la liste non filtrée est celle que
+         voit un visiteur déconnecté, et « c'est » sous le passé composé s'y
+         lirait comme une page cassée. Rien ne les remplace plus haut, donc
+         elles montent avec le reste (#76).
+
+         L'article vient en premier parce que tout le reste du groupe du nom se
+         pose sur lui : le démonstratif le remplace, « c'est » le réclame, et le
+         partitif est celui des trois séries qui n'existe pas dans la langue de
+         départ de l'apprenante. */
+      {
+        id: "gram-articles-definis",
+        path: "/grammaire/les-articles-definis",
+        title: "Les articles définis",
+        subtitle: "le · la · l’ · les",
+        levels: from("A1"),
+        delf: "Nommer une chose connue, et dire où l’on va",
+        created: "2026-09-21",
+      },
+      {
+        id: "gram-articles-indefinis",
+        path: "/grammaire/les-articles-indefinis",
+        title: "Les articles indéfinis",
+        subtitle: "un · une · des",
+        levels: from("A1"),
+        delf: "Présenter une chose nouvelle, et compter ce dont on parle",
+        created: "2026-09-21",
+      },
+      {
+        id: "gram-c-est-ce-sont",
+        path: "/grammaire/c-est-ce-sont",
+        title: "C’est, ce sont",
+        subtitle: "Nommer, présenter, dire non",
+        levels: from("A1"),
+        delf: "Nommer une chose, présenter une personne, dire ce que ce n’est pas",
+        created: "2026-09-21",
+      },
+      /* Le partitif est écrit à l'A2 et l'inventaire le donne aussi à l'A1 :
+         un jumeau A1 reste donc dû, comme pour les démonstratifs
+         (`docs/programme-a1.md`). Cette page-ci porte ce que l'A1 ne demande
+         pas : le choix entre les trois séries, et ce que la quantité fait à
+         l'article. */
+      {
+        id: "gram-articles-partitifs",
+        path: "/grammaire/les-articles-partitifs",
+        title: "Les articles partitifs",
+        subtitle: "du · de la · de l’ · des",
+        levels: from("A2"),
+        delf: "Demander une quantité de ce qui ne se compte pas",
+        created: "2026-09-21",
+      },
+      {
+        id: "gram-determinants-demonstratifs",
+        path: "/grammaire/les-determinants-demonstratifs",
+        title: "Les déterminants démonstratifs",
+        subtitle: "ce · cet · cette · ces",
+        levels: from("A2"),
+        delf: "Montrer une chose et situer un moment dont on parle",
+        created: "2026-09-21",
+      },
       {
         id: "gram-negation",
         path: "/grammaire/la-negation",
@@ -327,6 +387,18 @@ export const chapters: Chapter[] = [
         delf: "Reprendre un mot déjà dit sans le répéter",
         created: "2026-09-06",
       },
+      /* Avec les pronoms, et juste après le COD/COI : c'est le même geste,
+         ne pas répéter un nom, et le démonstratif est celui des deux qui
+         garde le genre du nom sous les yeux. */
+      {
+        id: "gram-pronoms-demonstratifs",
+        path: "/grammaire/les-pronoms-demonstratifs",
+        title: "Les pronoms démonstratifs",
+        subtitle: "celui · celle · ceux · celles",
+        levels: from("A2"),
+        delf: "Choisir un objet parmi d’autres sans répéter son nom",
+        created: "2026-09-21",
+      },
       /* Les deux premières pages écrites pour le B1. Elles viennent après
          l'A2 parce qu'un chapitre suit l'ordre du cours (#72) : le
          plus-que-parfait se construit sur le passé composé et l'imparfait,
@@ -345,6 +417,27 @@ export const chapters: Chapter[] = [
         title: "Le conditionnel présent",
         levels: from("B1"),
         delf: "Demander poliment, et dire ce qui arriverait",
+        created: "2026-09-21",
+      },
+      /* La troisième page B1, et la dernière du chapitre : elle se construit
+         sur les pronoms démonstratifs de l'A2, qui eux-mêmes se construisent
+         sur les déterminants. L'ordre du chapitre est l'ordre du cours. */
+      {
+        id: "gram-ce-qui-ce-que",
+        path: "/grammaire/ce-qui-ce-que-ce-dont",
+        title: "Ce qui, ce que, ce dont",
+        subtitle: "Le pronom qui ne reprend aucun nom",
+        levels: from("B1"),
+        delf: "Reprendre une idée entière, et mettre en avant ce qui compte",
+        created: "2026-09-21",
+      },
+      {
+        id: "gram-article-disparait",
+        path: "/grammaire/quand-l-article-disparait",
+        title: "Quand l’article disparaît",
+        subtitle: "sans · en · un cours de français",
+        levels: from("B1"),
+        delf: "Écrire sans l’article là où le français n’en met pas",
         created: "2026-09-21",
       },
     ],
@@ -515,6 +608,24 @@ export const chapters: Chapter[] = [
         created: "2026-09-06",
       },
       {
+        id: "orth-homophones-demonstratif",
+        path: "/orthographe/les-homophones-du-demonstratif",
+        title: "Les homophones du démonstratif",
+        subtitle: "ce / se · ces / ses · c’est / s’est · ça / sa",
+        levels: ANY,
+        delf: "Écrire ce qui montre sans le confondre avec ce qui appartient",
+        created: "2026-09-21",
+      },
+      {
+        id: "orth-homophones-article",
+        path: "/orthographe/les-homophones-de-l-article",
+        title: "Les homophones de l’article",
+        subtitle: "la / l’a / là · des / dès · du / dû",
+        levels: ANY,
+        delf: "Écrire l’article sans le confondre avec un verbe ou un adverbe",
+        created: "2026-09-21",
+      },
+      {
         id: "orth-determinants-possessifs",
         path: "/orthographe/les-determinants-possessifs",
         title: "Les déterminants possessifs",
@@ -624,6 +735,27 @@ export const chapters: Chapter[] = [
         delf: "Dire où l’on habite, où l’on va, d’où l’on vient",
         created: "2026-09-12",
       },
+      {
+        id: "astuce-pas-de",
+        path: "/astuces/pas-de",
+        title: "pas de ou pas un ?",
+        subtitle: "Ce que la négation et la quantité font à l’article",
+        levels: from("A2"),
+        delf: "Dire ce qu’on n’a pas, et en quelle quantité",
+        created: "2026-09-21",
+      },
+      /* `ANY` et non `from("A2")`, contrairement aux trois astuces au-dessus :
+         celle-ci ne répond pas à un échelon du CECRL mais à l’orthographe,
+         comme les pages du chapitre `orthographe` qu’elle raccourcit. */
+      {
+        id: "astuce-ces-ou-ses",
+        path: "/astuces/ces-ou-ses",
+        title: "ces ou ses ?",
+        subtitle: "Le test du -là",
+        levels: ANY,
+        delf: "Choisir entre montrer une chose et dire à qui elle appartient",
+        created: "2026-09-21",
+      },
     ],
   },
   {
@@ -678,6 +810,56 @@ export const chapters: Chapter[] = [
         levels: from("A2"),
         delf: "Écrire les terminaisons du 1er groupe aux cinq temps du programme A2",
         created: "2026-09-15",
+      },
+      {
+        id: "ex-ce-ou-celui",
+        path: "/exercices/ce-ou-celui",
+        title: "Ce ou celui ?",
+        subtitle: "Le déterminant ou le pronom",
+        tag: "Pioche",
+        levels: A2B1,
+        perLevel: true,
+        delf: {
+          A2: "Accorder le démonstratif avec le nom, ou avec le nom qu’il remplace",
+          B1: "Reprendre une idée qui n’a pas de nom avec ce qui, ce que, ce dont.",
+        },
+        created: "2026-09-21",
+      },
+      /* Pas de `perLevel` : un seul lot, et il est sans niveau comme la leçon
+         qu’il fait travailler. Le tick reste l’id nu (#76). */
+      {
+        id: "ex-homophones-demonstratif",
+        path: "/exercices/les-homophones-du-demonstratif",
+        title: "Écrivez le bon mot",
+        subtitle: "ce · se · ces · ses · c’est · s’est · ça · sa",
+        tag: "Saisie",
+        levels: ANY,
+        delf: "Écrire l’homophone qui convient dans une phrase complète",
+        created: "2026-09-21",
+      },
+      {
+        id: "ex-le-un-ou-du",
+        path: "/exercices/le-un-ou-du",
+        title: "Le, un ou du ?",
+        subtitle: "Un texte à trous, et le tirage des articles",
+        tag: "Texte",
+        levels: A2B1,
+        perLevel: true,
+        delf: {
+          A2: "Choisir l’article que le texte impose, d’une phrase à la suivante",
+          B1: "Reconnaître aussi les places où l’article ne s’écrit pas.",
+        },
+        created: "2026-09-21",
+      },
+      {
+        id: "ex-relisez-le-paragraphe",
+        path: "/exercices/relisez-le-paragraphe",
+        title: "Relisez le paragraphe",
+        subtitle: "la / l’a / là · des / dès · du / dû",
+        tag: "Relecture",
+        levels: ANY,
+        delf: "Repérer tous les homophones mal écrits d’un texte, et eux seuls",
+        created: "2026-09-21",
       },
     ],
   },
@@ -790,6 +972,26 @@ export const chapters: Chapter[] = [
         delf: "Décrire son cadre de vie, situer un lieu et conseiller un visiteur.",
         created: "2026-09-15",
       },
+      {
+        id: "conv-choisir-un-cadeau",
+        path: "/conversation/choisir-un-cadeau",
+        title: "Choisir un cadeau",
+        subtitle: "Dans une boutique",
+        tag: "Jeu de rôle",
+        levels: from("A2"),
+        delf: "Comparer deux objets, en choisir un et l’acheter.",
+        created: "2026-09-21",
+      },
+      {
+        id: "conv-preparer-un-repas",
+        path: "/conversation/preparer-un-repas",
+        title: "Préparer un repas",
+        subtitle: "Ce qu’il faut acheter",
+        tag: "Jeu de rôle",
+        levels: from("A2"),
+        delf: "Décider d’un repas, dire ce qu’il faut acheter et en quelle quantité.",
+        created: "2026-09-21",
+      },
     ],
   },
   {
@@ -841,6 +1043,26 @@ export const chapters: Chapter[] = [
         levels: from("A2"),
         delf: "Raconter un échange en remplaçant les noms par des pronoms.",
         created: "2026-09-06",
+      },
+      {
+        id: "trad-le-frigo-est-vide",
+        path: "/traduction/le-frigo-est-vide",
+        title: "Le frigo est vide",
+        subtitle: "Quatre phrases, et pas un nom sans article",
+        tag: "Traduction",
+        levels: from("A2"),
+        delf: "Écrire une liste de courses et dire ce qu’on ne mange pas.",
+        created: "2026-09-21",
+      },
+      {
+        id: "trad-le-village",
+        path: "/traduction/le-village",
+        title: "Le village",
+        subtitle: "Montrer, et ne pas répéter le nom",
+        tag: "Traduction",
+        levels: from("A2"),
+        delf: "Décrire un lieu familier en reprenant les noms sans les répéter.",
+        created: "2026-09-21",
       },
     ],
   },
@@ -1474,6 +1696,7 @@ const handWrittenLinks: Record<string, string[]> = {
     "/conjugaison/commencer",
   ],
   "/orthographe/les-determinants-possessifs": [
+    "/orthographe/les-homophones-du-demonstratif",
     "/orthographe/les-homophones",
     "/orthographe/les-accents",
     "/vocabulaire/la-famille",
@@ -1745,6 +1968,143 @@ const handWrittenLinks: Record<string, string[]> = {
     "/conversation/se-presenter",
     "/conversation/parler-du-travail",
     "/conversation/decrire-sa-ville",
+  ],
+  /* Les trois séries d'articles, et ce qui gravite autour : chacune renvoie
+     aux deux autres, à l'exercice qui les fait choisir dans un texte, et au
+     raccourci de la négation. C'est le groupe le plus dense du chapitre, parce
+     que la difficulté n'est jamais une série mais le passage de l'une à
+     l'autre. */
+  "/grammaire/les-articles-definis": [
+    "/grammaire/les-articles-indefinis",
+    "/grammaire/les-articles-partitifs",
+    "/exercices/le-un-ou-du",
+    "/astuces/a-en-au-aux",
+  ],
+  "/grammaire/les-articles-indefinis": [
+    "/grammaire/les-articles-definis",
+    "/grammaire/les-articles-partitifs",
+    "/exercices/le-un-ou-du",
+    "/grammaire/c-est-ce-sont",
+  ],
+  "/grammaire/les-articles-partitifs": [
+    "/exercices/le-un-ou-du",
+    "/astuces/pas-de",
+    "/grammaire/les-articles-indefinis",
+    "/vocabulaire/la-recette-des-croissants",
+  ],
+  "/grammaire/quand-l-article-disparait": [
+    "/grammaire/les-articles-partitifs",
+    "/exercices/le-un-ou-du",
+    "/grammaire/c-est-ce-sont",
+    "/grammaire/les-articles-definis",
+  ],
+  "/orthographe/les-homophones-de-l-article": [
+    "/exercices/relisez-le-paragraphe",
+    "/orthographe/les-homophones",
+    "/orthographe/les-homophones-du-demonstratif",
+    "/grammaire/les-articles-definis",
+  ],
+  /* L'astuce renvoie d'abord à la leçon qui possède la règle, la négation, et
+     non au partitif : c'est là qu'est le tableau, et un raccourci qui ne
+     pointe pas vers son propriétaire finit par le contredire. */
+  "/astuces/pas-de": [
+    "/grammaire/la-negation",
+    "/grammaire/les-articles-partitifs",
+    "/exercices/le-un-ou-du",
+    "/conversation/preparer-un-repas",
+  ],
+  "/exercices/le-un-ou-du": [
+    "/grammaire/les-articles-definis",
+    "/grammaire/les-articles-indefinis",
+    "/grammaire/les-articles-partitifs",
+    "/astuces/pas-de",
+  ],
+  "/exercices/relisez-le-paragraphe": [
+    "/orthographe/les-homophones-de-l-article",
+    "/exercices/trouve-la-faute",
+    "/exercices/les-homophones-du-demonstratif",
+    "/orthographe/les-homophones",
+  ],
+  "/conversation/preparer-un-repas": [
+    "/grammaire/les-articles-partitifs",
+    "/vocabulaire/la-recette-des-croissants",
+    "/astuces/pas-de",
+    "/conversation/faire-des-achats",
+  ],
+  "/traduction/le-frigo-est-vide": [
+    "/grammaire/les-articles-partitifs",
+    "/astuces/pas-de",
+    "/conversation/preparer-un-repas",
+    "/grammaire/la-negation",
+  ],
+  /* Les pages du démonstratif se tiennent en escalier : la page A1 présente,
+     le déterminant montre, le pronom remplace le nom, et le B1 reprend ce qui
+     n'a pas de nom. Chacune renvoie à la suivante, à l'exercice qui la fait
+     travailler, et à la page d'orthographe pour qui écrit ces mots plutôt que
+     de les choisir. */
+  "/grammaire/c-est-ce-sont": [
+    "/grammaire/les-determinants-demonstratifs",
+    "/orthographe/les-homophones-du-demonstratif",
+    "/conversation/se-presenter",
+    "/grammaire/la-negation",
+  ],
+  "/grammaire/les-determinants-demonstratifs": [
+    "/grammaire/les-pronoms-demonstratifs",
+    "/exercices/ce-ou-celui",
+    "/orthographe/les-homophones-du-demonstratif",
+    "/traduction/le-village",
+  ],
+  "/grammaire/les-pronoms-demonstratifs": [
+    "/exercices/ce-ou-celui",
+    "/grammaire/les-determinants-demonstratifs",
+    "/conversation/choisir-un-cadeau",
+    "/grammaire/ce-qui-ce-que-ce-dont",
+  ],
+  "/grammaire/ce-qui-ce-que-ce-dont": [
+    "/grammaire/les-pronoms-demonstratifs",
+    "/exercices/ce-ou-celui",
+    "/grammaire/les-pronoms-cod-coi",
+    "/grammaire/c-est-ce-sont",
+  ],
+  /* La leçon d'orthographe, son astuce et son exercice : trois pages sur les
+     mêmes huit mots, qui doivent se trouver l'une l'autre sans passer par le
+     sommaire. La page des possessifs vient en quatrième, parce que c'est elle
+     qui possède les formes que « ses » met en jeu. */
+  "/orthographe/les-homophones-du-demonstratif": [
+    "/exercices/les-homophones-du-demonstratif",
+    "/astuces/ces-ou-ses",
+    "/orthographe/les-homophones",
+    "/orthographe/les-determinants-possessifs",
+  ],
+  "/astuces/ces-ou-ses": [
+    "/orthographe/les-homophones-du-demonstratif",
+    "/exercices/les-homophones-du-demonstratif",
+    "/orthographe/les-determinants-possessifs",
+    "/grammaire/les-determinants-demonstratifs",
+  ],
+  "/exercices/ce-ou-celui": [
+    "/grammaire/les-determinants-demonstratifs",
+    "/grammaire/les-pronoms-demonstratifs",
+    "/grammaire/ce-qui-ce-que-ce-dont",
+    "/traduction/le-village",
+  ],
+  "/exercices/les-homophones-du-demonstratif": [
+    "/orthographe/les-homophones-du-demonstratif",
+    "/astuces/ces-ou-ses",
+    "/orthographe/les-homophones",
+    "/exercices/trouve-la-faute",
+  ],
+  "/conversation/choisir-un-cadeau": [
+    "/grammaire/les-pronoms-demonstratifs",
+    "/conversation/faire-des-achats",
+    "/vocabulaire/les-nombres",
+    "/exercices/ce-ou-celui",
+  ],
+  "/traduction/le-village": [
+    "/grammaire/les-determinants-demonstratifs",
+    "/grammaire/les-pronoms-demonstratifs",
+    "/conversation/parler-de-l-espagne",
+    "/vocabulaire/la-famille",
   ],
   "/grammaire/le-conditionnel-present": [
     "/grammaire/l-imparfait",

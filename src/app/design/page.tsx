@@ -180,7 +180,9 @@ export default function DesignPage() {
         <h2>Retours d’exercice</h2>
         <p>
           La couleur ne porte jamais le sens toute seule : chaque état dit aussi
-          quelque chose.
+          quelque chose. Le troisième ne sert qu’aux questions à plusieurs
+          réponses, où oublier une case n’est pas la même faute que cocher la
+          mauvaise.
         </p>
         <div className={styles.states}>
           <span className={`${styles.state} is-correct`}>
@@ -188,6 +190,9 @@ export default function DesignPage() {
           </span>
           <span className={`${styles.state} is-wrong`}>
             ✗ <span className="fr" lang="fr">le table</span> : faux
+          </span>
+          <span className={`${styles.state} is-missed`}>
+            + <span className="fr" lang="fr">là table</span> : oublié
           </span>
         </div>
       </section>

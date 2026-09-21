@@ -180,7 +180,7 @@ is hand-written TSX against the lesson primitives.
 what the primitives turn out to look like. Choosing early means building a content pipeline around
 guessed requirements.
 
-**How it gets closed:** hand-write real lessons and decide with the evidence. Fifty exist now, so
+**How it gets closed:** hand-write real lessons and decide with the evidence. Dozens exist now, so
 the evidence is in. What has fought the writer so far: a table row costs twelve lines of TSX, which
 makes a vocabulary page expensive to write and to review; a `traduction` page's source text and
 model live in the page file rather than in something a non-developer could edit; and its `note` is

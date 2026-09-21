@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
 
@@ -158,7 +159,18 @@ export default function Page() {
           compare à un autre temps du même verbe. Ils ne disent rien des paires
           où aucun des deux n’en est un — <span className="fr">ces / ses</span>,{" "}
           <span className="fr">mais / mes</span>,{" "}
-          <span className="fr">ce / se</span> demandent un autre raisonnement.
+          <span className="fr">ce / se</span> demandent un autre raisonnement,
+          et l’ont dans{" "}
+          <Link href="/orthographe/les-homophones-du-demonstratif">
+            Les homophones du démonstratif
+          </Link>
+          . <span className="fr">la / l’a / là</span>,{" "}
+          <span className="fr">des / dès</span> et{" "}
+          <span className="fr">du / dû</span> ont la leur dans{" "}
+          <Link href="/orthographe/les-homophones-de-l-article">
+            Les homophones de l’article
+          </Link>
+          .
         </div>
       </section>
 

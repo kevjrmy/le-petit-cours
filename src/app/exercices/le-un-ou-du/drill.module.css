@@ -1,0 +1,140 @@
+/* Le plateau : un texte à trous, puis le tirage des articles. Le reste de
+   l'habillage est partagé (`src/components/exercice/Drill.tsx`). */
+
+.card {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.35rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+/* Le texte est du français enseigné : sérif, comme partout ailleurs dans le
+   cours (`AGENTS.md` §5). L'interligne est large parce que les trous sont des
+   boutons : sans cela, deux lignes voisines se touchent. */
+.text {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  line-height: 2.1;
+  color: var(--text-1);
+}
+
+/* Le trou. Il garde sa largeur avant d'être rempli, pour que le paragraphe ne
+   se réorganise pas à chaque clic, et son soulignement dit qu'il attend
+   quelque chose. */
+.slot {
+  display: inline-block;
+  min-width: 3.4rem;
+  padding: 0.05rem 0.3rem;
+  border: 1px solid transparent;
+  border-bottom: 2px solid var(--border-strong);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  background: none;
+  color: var(--text-3);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+
+.slot:hover:not(:disabled) {
+  background: var(--accent-subtle);
+}
+
+.slot:disabled { cursor: default; }
+
+.filled {
+  border-bottom-color: var(--accent-line);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+/* Le trou en cours : c'est lui que la prochaine pastille remplira, donc il doit
+   se voir sans être lu comme une réponse. Fond teinté et bordure pleine, là où
+   un trou rempli n'a que sa couleur de texte.
+
+   **Doublé, et pas pour battre une règle globale** : un trou déjà rempli peut
+   être le trou courant, donc `.filled` et `.active` atterrissent ensemble sur
+   le même bouton avec la même spécificité. Sans le doublement, c'est l'ordre
+   des règles dans ce fichier qui trancherait, et un déplacement de bloc
+   suffirait à faire disparaître le curseur. */
+.active.active {
+  border-bottom-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+/* Le tirage garde le même ordre d'un bout à l'autre de la partie : les définis,
+   les indéfinis, les partitifs, puis « de ». */
+.pool {
+  margin-top: 1.6rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  min-width: 3.4rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--text-1);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.chip:hover:not(:disabled) {
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
+}
+
+.chip:disabled { cursor: default; opacity: 0.55; }
+
+/* « rien » n'est pas un article : c'est la pastille qui dit qu'il n'y en a
+   pas. En italique et dans la face du texte explicatif, pour qu'elle ne se
+   lise pas comme un mot à écrire dans la phrase. */
+.nothing {
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--text-2);
+}
+
+.corrections {
+  margin-top: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.corrections li {
+  margin-top: 0;
+}
+
+/* Le morceau de phrase corrigé : la correction se situe dans le texte, au lieu
+   de renvoyer à un numéro de trou que personne ne compte. */
+.fragment {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--text-heading);
+}
+
+.why {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.88rem;
+  color: var(--text-2);
+}
+
+.actions {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}

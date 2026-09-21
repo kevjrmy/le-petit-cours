@@ -136,7 +136,16 @@ first eleven ever written here were the same quiz with different words in it. Me
 earned their place and are worth reaching for instead: matching pairs, tap-to-order, bucket sort,
 locate-and-retype, multi-select, listening, type-in conjugation (`les-terminaisons`: the verb
 sheet's five tenses with the endings blanked, read from `conjugaisons.ts` so the drill and the
-sheet cannot drift), a fixed chip pool (timed and untimed), a timed round, a two-step build.
+sheet cannot drift), a fixed chip pool (timed and untimed), a timed round, a two-step build, and a
+**cloze passage** (`le-un-ou-du`: one short text, every blank filled from the same pool, corrected
+in one go at the end).
+
+**Reach for the cloze passage when the context that decides the answer is larger than a sentence.**
+No isolated sentence can ask for *un chien* on one line and *le chien* on the next, and that
+alternation is the whole of the article system; a paragraph asks for it in one item. It costs
+nothing in randomness — the text is fixed, so the board server-renders — and it buys the one thing
+a deck of sentences cannot give. Correct at the end, never blank by blank: an early correction hands
+over the next answer.
 
 **Prefer a mechanic that does not exist yet over another MCQ.** If a grammar point genuinely only
 fits an MCQ, say so rather than forcing it.
@@ -255,6 +264,26 @@ answering: hearing the contrast again, knowing the answer, is where the learning
 Right (green ✓), wrongly ticked (red ✗), and **missed** (amber, dashed +). Amber, not red, for
 the omission: failing to spot the second tense is a different mistake from naming a tense that is
 not there. Score all-or-nothing on the exact set — partial credit hides exactly that distinction.
+
+**The three classes are shared and live in `globals.css`** — `.is-correct`, `.is-wrong`,
+`.is-missed`, all doubled so they beat the board they land on (`AGENTS.md` §5). **Do not write a
+local amber**: a fourth opinion about what "missed" looks like is how the vocabulary rots.
+
+**The state before the verdict needs a carrier too.** In a multi-select the learner marks several
+words and then waits, so during that time no ✓ ✗ + is on screen and a tint is the only thing saying
+what is selected. `relisez-le-paragraphe` shipped a comment promising an underline and no
+`text-decoration` to go with it; a wavy underline now does the work, which is also the mark every
+word processor puts under a word it thinks is wrong.
+
+**A pool with nothing selected must be inert.** When every slot is filled and the cursor has nowhere
+to go, falling back to the first slot turns a stray click into a silent rewrite of an answer the
+learner already gave. Disable the pool and let them click a slot first — found in review in
+`le-un-ou-du`, where it would have been invisible in testing and infuriating in use.
+
+**A fault-finding drill must also contain the form written correctly.** A paragraph whose every
+`la` is wrong teaches suspicion of the word, not reading of the sentence, and the learner scores by
+clicking every candidate. Assert it: two of the eight paragraphs in `relisez-le-paragraphe` failed
+that check when it was first run, and both looked fine to read.
 
 ## Games (`jeux/`)
 

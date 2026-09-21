@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
 
@@ -132,7 +133,14 @@ export default function Page() {
           <span className="fr">je n’aime pas le café</span>, jamais{" "}
           <span className="fr">je n’aime pas de café</span>. Et après le verbe{" "}
           <span className="fr">être</span>, rien ne change non plus :{" "}
-          <span className="fr">ce n’est pas un problème</span>.
+          <span className="fr">ce n’est pas un problème</span>. Les deux
+          exceptions tiennent sur une ligne dans{" "}
+          <Link href="/astuces/pas-de">pas de ou pas un ?</Link>, et les
+          articles eux-mêmes sont dans{" "}
+          <Link href="/grammaire/les-articles-partitifs">
+            Les articles partitifs
+          </Link>
+          .
         </div>
       </section>
 

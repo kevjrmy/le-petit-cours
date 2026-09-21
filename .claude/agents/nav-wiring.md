@@ -35,7 +35,7 @@ Run this whenever you touch navigation, and before reporting done:
 
 ```bash
 node --experimental-strip-types --input-type=module -e "
-import { readdirSync, existsSync } from 'node:fs'
+import { readdirSync, readFileSync, existsSync } from 'node:fs'
 import { chapters, annexes, relatedPages, featuredChapterSlugs, unlistedPages } from './src/data/navigation.ts'
 
 // Routes on disk: every directory under src/app holding a page.tsx. Dynamic
@@ -121,20 +121,43 @@ for (const l of declared) {
   if (keys.join(',') !== want) sets.push(l.path + ' -> module [' + keys + '] vs manifest [' + want + ']')
 }
 
+// Cross-links are declared in the manifest and checked above. An inline
+// Link inside a lesson's prose is not: it is hand-written beside the rule it
+// belongs to, nothing resolves it, and a typo there is a 404 that the build
+// does not see and the shell cannot fail soft around. /connexion is reachable
+// without being a route -- it is a redirect in next.config.ts, matched before
+// the filesystem (#26).
+const sources = []
+;(function collect(dir) {
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const full = dir + '/' + e.name
+    if (e.isDirectory()) collect(full)
+    else if (e.name.endsWith('.tsx')) sources.push(full)
+  }
+})('src')
+const reachable = new Set([...paths, ...allowed, '/connexion'])
+const dead = []
+for (const file of sources)
+  for (const m of readFileSync(file, 'utf8').matchAll(/href=\"(\/[^\"]*)\"/g))
+    if (!reachable.has(m[1].split('?')[0].split('#')[0]))
+      dead.push(file.replace('src/app', '') + ' -> ' + m[1])
+
 console.log('in the manifest, no page.tsx:', missing.length ? missing : 'none')
 console.log('page.tsx, not in the manifest:', orphan.length ? orphan : 'none')
 console.log('cross-links that resolve to nothing:', stale.length ? stale : 'none')
 console.log('home pills that resolve to nothing:', pills.length ? pills : 'none')
 console.log('per-level material that disagrees with the manifest:', sets.length ? sets : 'none')
+console.log('inline links that resolve to nothing:', dead.length ? dead : 'none')
 "
 ```
 
-All five lines must read `none`. (`npx tsx` works too if the manifest ever grows syntax that type
+All six lines must read `none`. (`npx tsx` works too if the manifest ever grows syntax that type
 stripping cannot handle.)
 
-The last three matter most, because all three **fail soft**: an unresolvable cross-link or home pill
-is dropped rather than rendered, and a level with no question set behind it shows another level's
-questions — so each costs something real and raises no error anywhere else.
+The last four matter most, because they all **fail soft or worse**: an unresolvable cross-link or
+home pill is dropped rather than rendered, and a level with no question set behind it shows another
+level's questions — each costs something real and raises no error anywhere else. The inline link is
+the one that does not fail soft: it renders, it is clickable, and it lands on a 404.
 
 Then `npm run build`.
 

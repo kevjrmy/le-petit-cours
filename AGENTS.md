@@ -210,9 +210,14 @@ Palette and typography are settled (#27): accent `#0044AA` — the wordmark's ow
   and for `.exception`. Nothing else.
 - **Colour is never the only carrier.** `.attention` prints « À retenir : », `.exception` prints
   « Sauf : », a drill's feedback carries a mark as well as a fill.
-- **`.is-correct` / `.is-wrong` are doubled selectors** so they beat the `.chip` or `.word` a drill
-  styles them onto. A single class only ties, and which one wins then depends on the order the
-  sheets land in — the first drill shipped showing ✓ and ✗ with no colour at all.
+- **`.is-correct` / `.is-wrong` / `.is-missed` are doubled selectors** so they beat the `.chip` or
+  `.word` a drill styles them onto. A single class only ties, and which one wins then depends on the
+  order the sheets land in — the first drill shipped showing ✓ and ✗ with no colour at all.
+- **There are three feedback states, not two, and the third is amber.** `.is-missed` is for a
+  question answered by ticking several things: failing to tick one is a different mistake from
+  ticking the wrong one, and red would say they are the same. It is the shared vocabulary like the
+  other two — **a drill must not grow its own** — and it carries a dashed border and a `+` as well
+  as its colour.
 - **A `<section>` inside a lesson's section is a section**: it takes the accent bar, the 4.75rem
   break and a line in the page's Index (#66). Column heads, cards and boards are `div` + `h3`.
 - **Dark mode is not optional** — check it every time (§11). Accessibility is part of the system,
@@ -437,7 +442,8 @@ that has become dynamic is a regression, not a detail.**
   nothing failing — eleven pages shipped that way on 2026-09-12. **Ship the backfill in the same
   commit**, guarded: `(user_id, lesson_id, level)` is the primary key. The cache rebuilds itself.
   **Widening `levels` is not a migration and must never become one** — that is the property #76
-  bought, and the way to check it is that the eleven `perLevel` pages are the only keys with an `@`.
+  bought, and the way to check it is that the pages marked `perLevel` are the only keys with an `@`.
+  **Count them in the manifest, never here**: that list grows whenever a drill earns a second bank.
 - **The ticks are not on `ProgressApi` and must not go back on it** (#68). `isDone` / `doneAt` /
   `toggle` each take the lesson **and a required level**; exposing the record again lets a caller
   index it by a bare id, which compiles, and reads another variant's tick. Two of the three
@@ -608,8 +614,9 @@ npm run lint
 **A dev server is usually already running in the maintainer's terminal.** Check before starting one
 (`curl -sf -o /dev/null -w '%{http_code}' http://localhost:3000/`) and **never pattern-kill node**.
 
-Touched navigation? Run the audit in `nav-wiring.md` — **all five lines must read `none`.** Nothing
-else detects manifest/filesystem drift, and cross-links fail soft.
+Touched navigation? Run the audit in `nav-wiring.md` — **all six lines must read `none`.** Nothing
+else detects manifest/filesystem drift, cross-links fail soft, and an inline `<Link>` written inside
+a lesson's prose is checked by nothing else at all.
 
 Check every visual change in **both themes** and at **all three shells** — open sidebar (≥ 75rem),
 icons-only rail (56.25–75rem), mobile drawer (< 56.25rem). Most of this app's bugs live in exactly

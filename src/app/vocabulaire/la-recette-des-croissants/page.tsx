@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
 
@@ -323,7 +324,12 @@ export default function Page() {
           <span className="fr">de l’</span> :{" "}
           <span className="fr">du beurre</span>,{" "}
           <span className="fr">de la farine</span>,{" "}
-          <span className="fr">de l’eau</span>.
+          <span className="fr">de l’eau</span>. La règle entière, au-delà de la
+          cuisine, est dans{" "}
+          <Link href="/grammaire/les-articles-partitifs">
+            Les articles partitifs
+          </Link>
+          .
         </div>
 
         <div className="attention">

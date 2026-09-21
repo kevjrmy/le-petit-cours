@@ -1,0 +1,103 @@
+/* Le plateau : un paragraphe dont chaque mot est cliquable. Le reste de
+   l'habillage est partagé (`src/components/exercice/Drill.tsx`), et les trois
+   états de correction viennent de `globals.css` — un plateau ne redéfinit pas
+   le vocabulaire du juste, du faux et de l'oublié. */
+
+.card {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.35rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+/* Les mots sont des boutons, jamais des `<span>` cliquables : c'est ce qui les
+   met dans l'ordre de tabulation et leur donne un état pressé annonçable. */
+.paragraph {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.1rem 0.15rem;
+}
+
+.word {
+  padding: 0.12rem 0.28rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-1);
+  font-family: var(--font-serif);
+  font-size: 1.08rem;
+  cursor: pointer;
+  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+
+.word:hover:not(:disabled) {
+  background: var(--accent-subtle);
+  border-color: var(--accent-line);
+}
+
+.word:disabled { cursor: default; }
+
+/* Signalé, avant la correction. Souligné en plus d'être teinté : à ce moment-là
+   plusieurs mots portent la marque en même temps, et la couleur ne peut pas la
+   porter seule (`AGENTS.md` §5) — d'autant qu'aucune coche n'est encore
+   affichée, les marques ✓ ✗ + n'arrivant qu'à la vérification.
+
+   Ondulé, parce que c'est le trait que tout traitement de texte met sous un mot
+   qu'il croit faux : c'est exactement ce que l'apprenante est en train de dire
+   du mot qu'elle vient de cliquer. */
+.picked {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  text-decoration: underline wavy;
+  text-underline-offset: 0.25em;
+}
+
+/* La marque qui accompagne chaque état corrigé, pour que la couleur ne soit
+   jamais seule à le dire (`AGENTS.md` §5). */
+.mark {
+  margin-left: 0.2rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  vertical-align: super;
+}
+
+.verdict {
+  margin-top: 1.3rem;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+}
+
+.corrected {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--text-heading);
+}
+
+.corrections {
+  margin-top: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.corrections li { margin-top: 0; }
+
+.swap {
+  font-family: var(--font-serif);
+  color: var(--text-heading);
+  white-space: nowrap;
+}
+
+.actions {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}

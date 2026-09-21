@@ -41,6 +41,14 @@ word (#53).
 mnemonics, never DR & MRS VANDERTRAMP. The one failure mode of writing in French is prose harder
 than the French being taught: **keep the explanation easier than the example.**
 
+**The `.rule` box is where that fails, and a relative pronoun is how.** It is the first thing read
+and the last thing rewritten, so it collects the subordinate clauses the rest of the page avoided.
+Two A1 pages opened with *« un nom dont on sait déjà de quoi il s'agit »* — `dont` is taught on a
+**B1** page of this course, and the sentence embeds a question inside a relative clause to explain
+`le` and `la`. **Read every `.rule` you write against the level of the page**: no `dont`, no
+`lequel`, nothing three clauses long. Two short sentences always fit, and a rule stated twice
+shortly is easier than a rule stated once completely.
+
 ## The page
 
 A lesson is a **Server Component**: no `'use client'`, no hooks, no state, no event handlers.
@@ -49,12 +57,12 @@ A lesson is a **Server Component**: no `'use client'`, no hooks, no state, no ev
 files — normal, not a failure; `l-heure` and `les-jours-et-la-date` split for exactly this reason.
 Vocabulary references run longer; use a dense table for lists of ~8+ rows.
 
-**Read a shipped lesson before writing one.** Fifty exist, so the question is which one is closest
+**Read a shipped lesson before writing one.** Dozens exist, so the question is which one is closest
 to yours: `orthographe/les-accents` for literacy, `grammaire/la-negation` for a rule with an
 exception that matters, `vocabulaire/le-travail` for a page that is mostly tables,
 `conversation/au-restaurant` for a role-play, `lecture/le-lion-et-le-rat` for a text and its quiz.
 **Match what is there** — a page that invents its own shape is the one that looks wrong in six
-months, not the fifty that agree.
+months, not the dozens that agree. **Count in `src/data/navigation.ts`, never here.**
 
 **A lesson renders its prose and nothing else** (#49). The « J'ai terminé » tick and « Pour aller
 plus loin » are drawn by the shell from the manifest — do **not** add either. `relatedPages` is

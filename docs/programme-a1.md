@@ -37,8 +37,8 @@ that shape is decided. It is the A1 blocker worth clearing first.
 ## FONCTIONS — the twenty-four, and the gate
 
 Marked **·** where a page covers the function **at A1**; otherwise the right-hand column names the
-A2 page an A1 twin would be written beside, where one exists. Nine of the twenty-four are marked,
-two of them only in part.
+A2 page an A1 twin would be written beside, where one exists. Ten of the twenty-four are marked,
+three of them only in part.
 
 | # | Fonction | Page |
 |---|---|---|
@@ -57,7 +57,7 @@ two of them only in part.
 | 13 | Parler de ses projets | `gram-futur-proche` |
 | 14 | S'informer sur les lieux / décrire et caractériser des lieux | `conv-decrire-sa-ville`, `conv-parler-espagne` |
 | 15 | S'informer sur les personnes / décrire et caractériser des personnes | — |
-| 16 | S'informer sur les choses / décrire et caractériser des choses | — |
+| 16 | S'informer sur les choses / décrire et caractériser des choses | **·** `gram-c-est-ce-sont`, nommer et qualifier seulement |
 | 17 | Demander / indiquer des instructions, un itinéraire | `conv-demander-son-chemin` |
 | 18 | Demander des renseignements, des informations | — |
 | 19 | Compter ; l'heure, les horaires, les prix, la date | **·** `voc-nombres` ; `voc-heure`, `voc-jours-et-date` restent A2 |
@@ -75,8 +75,9 @@ symptom. The six that exist keep their ticks untouched.
 
 ## GRAMMAIRE — the thirty-five points
 
-Marked **·** where a page already exists at some level; none is written at A1. A page listed at A2
-is listed at B1 and B2 too (#76), so this gap is A1's alone.
+Marked **·** where a page already exists at some level; three of them are written at A1 —
+`gram-articles-definis`, `gram-articles-indefinis`, `gram-c-est-ce-sont`. A page listed at A2 is
+listed at B1 and B2 too (#76), so this gap is A1's alone.
 
 *Verbes* — le présent (réguliers + usuels) **·** *(the fourteen `conjugaison` sheets, now `ANY`)* ·
 le présent progressif (être en train de) · le futur proche **·** · le passé composé avec avoir et
@@ -88,9 +89,14 @@ pronominaux · il faut / il ne faut pas + infinitif · les structures avec l'inf
 interrogatif + S + V) · les interrogatifs (qui, où, quand, quel, combien, comment, pourquoi) · la
 négation, `ne… pas / jamais` **·** *(`gram-negation`, written at A2's exponents)*.
 
-*Le nom et son groupe* — le masculin et le féminin · le singulier et le pluriel · les articles
-définis et indéfinis · les partitifs · les expressions de quantité · les adjectifs, place et accord ·
-les adjectifs possessifs et démonstratifs **·** *(`orth-determinants-possessifs`, `ANY`)*.
+*Le nom et son groupe* — le masculin et le féminin **·** *(`gram-articles-indefinis`, par les
+terminaisons qui l'annoncent ; il n'a pas de page à lui)* · le singulier et le pluriel · les articles
+définis et indéfinis **·** *(`gram-articles-definis`, `gram-articles-indefinis`)* · les partitifs
+*(écrit à l'A2, `gram-articles-partitifs` : jumeau A1 dû)* · les expressions de quantité *(la
+troisième section du partitif, et `voc-recette-croissants`)* · les adjectifs, place et accord ·
+les adjectifs possessifs et démonstratifs **·** *(`orth-determinants-possessifs`, `ANY`, pour le
+possessif ; le démonstratif est écrit à l'A2, `gram-determinants-demonstratifs`, et doit donc un
+jumeau A1)*.
 
 *Adverbes et prépositions* — les adverbes de quantité (un peu de, beaucoup de, pas de) · d'intensité
 (très, trop) · de lieu (ici, là) · de temps (maintenant, bientôt, demain) · les prépositions de lieu
@@ -98,7 +104,8 @@ les adjectifs possessifs et démonstratifs **·** *(`orth-determinants-possessif
 2015) · les indicateurs de temps (dans, depuis, il y a).
 
 *Le reste de la phrase* — les pronoms personnels sujets et toniques · il y a · c'est, ce sont, voici,
-voilà · l'opposition (mais) · la conséquence (et, alors) · les articulateurs (et, ou).
+voilà **·** *(`gram-c-est-ce-sont`, sauf voici et voilà)* · l'opposition (mais) · la conséquence
+(et, alors) · les articulateurs (et, ou).
 
 ### The six whose floor is A2
 
@@ -151,7 +158,7 @@ inside another.
 |---|---|
 | `conjugaison` | done — the fourteen sheets are `ANY` since #72 and carry le présent already |
 | `orthographe` | done — all four are `ANY`; accents and homophones are A1's entry point |
-| `grammaire` | ~13 new pages; `négation`, `passé composé`, `futur proche` get an A1 twin, not a tag |
+| `grammaire` | ~10 new pages; `négation`, `passé composé`, `futur proche`, `les démonstratifs`, `les partitifs` get an A1 twin, not a tag |
 | `vocabulaire` | ~11 new themes; the four A2 pages get an A1 twin where the theme repeats |
 | `conversation` | ~3 new scenes; the six A2 ones are untouched and keep their ticks |
 | `astuces` | the socio-culturel four, plus what `mistake-triage` turns up |
@@ -160,8 +167,9 @@ inside another.
 | `dictees`, `jeux`, `prononciation`, `culture` | blocked on §12.2 before level is the question |
 
 Close to **thirty new pages** still, and about ten existing pages that want a simpler twin rather
-than a wider tag. The count moves slowly: four landed on 2026-09-21 and took nine functions with
-them, because a role-play answers several at once while a grammar page answers none.
+than a wider tag. The count moves slowly: seven landed on 2026-09-21 and took ten functions with
+them, because a role-play answers several at once while a grammar page answers one at best — the
+last two, the articles, answer none and are owed to every function on the list.
 
 ## Order of work
 

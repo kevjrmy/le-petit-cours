@@ -287,7 +287,15 @@ global rhythm to suit one component: every lesson depends on it.
 
 **It bites from the other side too.** `.is-correct` tied with a drill's own `.chip` and lost, so the
 first drill's feedback showed ✓ and ✗ with no colour at all. A shared class that lands on something
-a component has already styled is doubled in `globals.css` — that is why those two are.
+a component has already styled is doubled in `globals.css` — that is why all three feedback states
+are. **There are three**: `.is-correct`, `.is-wrong` and `.is-missed`, the amber one a multi-select
+question needs for an answer left unticked. A drill that grows its own third state is the bug this
+paragraph is about, one layer up.
+
+**Doubling is not only for beating a global rule.** Two classes from the *same* module can land on
+one element — a blank that is both filled and current — and there equal specificity means the
+source order of that one file decides, which a later tidy-up silently reverses. `.active.active` in
+`exercices/le-un-ou-du` is doubled for that reason, and says so.
 
 **Measure before you fix an alignment.** All three of these looked like the same vague "it's a bit
 off" and were three different rules. `node scripts/shot.mjs <url> out.png --eval="…"` can write
