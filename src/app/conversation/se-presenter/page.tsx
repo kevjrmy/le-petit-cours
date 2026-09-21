@@ -19,8 +19,8 @@ export default function Page() {
           voisin, ou au travail le premier jour. Quelqu’un d’autre joue cette
           personne. Vous devez dire qui vous êtes, comprendre qui elle est, et
           demander de l’aide quand vous ne comprenez pas. C’est la première
-          conversation que vous aurez en français, et c’est celle que vous
-          aurez le plus souvent.
+          conversation qu’on a en français, et c’est celle qu’on a le plus
+          souvent.
         </p>
 
         <Situations />
@@ -55,7 +55,7 @@ export default function Page() {
 
         <div className="astuce">
           <p className="astuce-hook">
-            La question courte est celle que vous entendrez.
+            La question courte est celle que vous entendez.
           </p>
           <p>
             Dans un livre, la question s’écrit{" "}
