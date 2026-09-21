@@ -341,6 +341,7 @@ sommaire card's mark stays the chapter's initial in the serif.
 | `conversation` | **guided role-play** — a scene, the steps it follows, ~20 words to play it out of; no model dialogue, graded nowhere (#54, #57) |
 | `traduction` | a short source text to write in French, three words uncoverable, then the model version; graded nowhere. The one chapter where Spanish appears (#55) |
 | `lecture`, `litterature` | reading + comprehension quiz |
+| `delf` | the exam's **format**, and whole épreuves to sit in real conditions; graded nowhere (#78) |
 
 **An exercise is graded; a game is replayable.** That line is what stops `jeux/` becoming a second
 `exercices/`: a game has no fixed deck, no lesson to record against, and pulls from the whole
@@ -549,6 +550,7 @@ Nothing in the toolchain catches it. Full how-to in `.claude/agents/exercise-aut
 
 | Material | Rule |
 |---|---|
+| A DELF sujet, or a prep book | **Never**, including the free official samples (#78). A published exam's *format* is a fact and may be described; its texts, items, consignes and corrigés are someone's work. Everything in `delf/` is written for this course. |
 | Literary text | Public domain **in its country of origin**; name the work and the year. For a translation the **translator's** death date is what counts (#60). |
 | Song lyrics | Short excerpts for commentary only. **Never a full lyric sheet.** |
 | Photographs | CC0, PD, CC BY or CC BY-SA only, stored locally, credited per image. |

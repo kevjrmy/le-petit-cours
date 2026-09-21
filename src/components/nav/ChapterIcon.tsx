@@ -158,6 +158,18 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M10.2 11h3.6M9 15.5h6" />
     </>
   ),
+  /* A diploma: a sheet with two lines of text and a sealed ribbon. The seal is
+     what tells it from `lecture`'s page and from `traduction`'s sheet — a
+     certificate is a document that has been *awarded*, and the rosette is the
+     only part of one that says so at 20 pixels. */
+  delf: (
+    <>
+      <path d="M4 4.5h16v9.5H4z" />
+      <path d="M7.5 8h7M7.5 11h4" />
+      <circle cx="16.5" cy="16.8" r="2.9" />
+      <path d="M14.8 19.2 14 22l2.5-1.3L19 22l-.8-2.8" />
+    </>
+  ),
   /* Annexes. The contents page: rows with their marks. There is one because
      one annexe is drawn in the sidebar; « Nouveautés » had a calendar glyph and
      it went with the page (#51) — an icon nothing names is a dead key. */

@@ -179,6 +179,7 @@ export type IconName =
   | "litterature"
   | "musique"
   | "culture"
+  | "delf"
   | "sommaire"
   | "progression"
   | "compte";
@@ -1033,6 +1034,34 @@ export const chapters: Chapter[] = [
     blurb: "Le pays derrière la langue : ses régions, ses villes, ses habitudes.",
     lessons: [],
   },
+  /* Le DELF, et pourquoi il est le dernier chapitre : il ne s'apprend pas, il
+     se passe. Tout ce qu'il demande est écrit ailleurs dans le cours ; ici on
+     ne montre que la forme de l'examen et des épreuves entières à faire en
+     conditions réelles (#78).
+
+     **Rien de ce chapitre ne vient d'un sujet officiel ni d'un livre de
+     préparation** (`AGENTS.md` §9b) : le format d'un examen public est un fait,
+     les textes et les consignes d'une épreuve sont l'œuvre de quelqu'un. Tout
+     ce qui est imprimé ici est écrit pour ce cours. */
+  {
+    slug: "delf",
+    icon: "delf",
+    path: "/delf",
+    title: "DELF",
+    blurb:
+      "La forme de l’examen, et des épreuves entières à faire en conditions réelles.",
+    lessons: [
+      {
+        id: "delf-comment-ca-se-passe",
+        path: "/delf/comment-ca-se-passe",
+        title: "Comment se passe l’examen",
+        subtitle: "Les quatre épreuves, le barème, le jour J",
+        levels: ANY,
+        delf: "Savoir ce que l’examen demande avant de s’y présenter",
+        created: "2026-09-21",
+      },
+    ],
+  },
 ];
 
 /**
@@ -1667,6 +1696,16 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/l-imparfait",
     "/grammaire/le-passe-compose",
     "/grammaire/le-conditionnel-present",
+  ],
+  /* La page qui dit comment se passe l'examen renvoie à ce que l'examen
+     demande de produire : les deux jeux de rôle et la traduction sont les
+     seules pages du cours où l'on produit quelque chose sans être corrigé,
+     ce qui est exactement la situation des deux épreuves de production. */
+  "/delf/comment-ca-se-passe": [
+    "/conversation/se-presenter",
+    "/conversation/parler-du-travail",
+    "/traduction/une-journee",
+    "/lecture/un-entretien-d-embauche",
   ],
   "/grammaire/le-conditionnel-present": [
     "/grammaire/l-imparfait",

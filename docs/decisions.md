@@ -84,6 +84,7 @@ than marking it superseded.
 | 73 | 2026-09-21 | The level is chosen in the account, never on the page | Binding |
 | 74 | 2026-09-21 | A level is offered while it is being written, not once it is finished | Binding · narrowed by #76, #77 |
 | 77 | 2026-09-21 | The chooser offers the levels and rates none of them | Binding · narrows #74 |
+| 78 | 2026-09-21 | A `delf` chapter describes the exam and prints none of it | Binding |
 | 75 | 2026-09-21 | The ladder stops at B2; C1 and C2 are out of scope | Binding |
 | 76 | 2026-09-21 | A page is listed from its floor upward; the tick follows the material | Binding · narrows #68, #72 |
 
@@ -1855,3 +1856,43 @@ twenty of which are tagged `[]` and belong to no level at all, and nothing on sc
 is thin. That is acceptable only while the audience is known. **This is the first thing to put back
 if the site is ever listed or opens sign-up** — the badge comes back before the door does, and the
 note with it. A comment on `LevelChooser` says so at the place it would be rebuilt.
+
+
+## 78 · A `delf` chapter describes the exam and prints none of it
+**2026-09-21 · Binding · extends #15, #51, #9b's licence rule**
+
+A fifteenth chapter, `delf`, last in the manifest. It holds one page about how the exam works and,
+as they are written, whole épreuves to sit in real conditions. **Nothing in it is scored**: the two
+compréhension épreuves would be gradeable and are not, so the chapter has one mechanic rather than
+two, and a corrigé the learner reveals when they have finished.
+
+**The line this chapter has to hold is a licence line, and it is the reason the entry exists.** The
+request arrived with a PDF: the *Transcriptions et corrigés* booklet from a Hachette DELF A2 prep
+book, ISBN 978-2-01-719952-6. It cannot go in, and neither can France Éducation international's own
+free sample sujets, which are free to download and not free to relicense. This repo publishes its
+content under CC BY-SA 4.0 and #9b's rule is that you can only license what the project owns — so
+copying either would grant a licence over someone else's work, in public, in git history.
+
+**What is and is not protected, because the distinction is the whole chapter.** The *format* of a
+public examination is a fact: four épreuves, twenty-five points each, fifty to pass, a minimum of
+five per épreuve, the order on the day, what each épreuve asks a candidate to do. Facts may be
+stated and this chapter states them. The *texts, items, consignes and corrigés* of a sujet are
+someone's writing, and no amount of reformatting changes that. **Everything printed in `delf/` is
+written for this course**, exactly as #4 requires of every other page.
+
+**An official sujet is still worth having, as a reference nobody publishes.** Reading one to
+calibrate difficulty and task shape is what a teacher does; it leaves no trace on a page. That is
+the only use this chapter has for one.
+
+**The épreuves carry a written-out level, not `from()`** (#76). A DELF A2 épreuve is *superseded*
+above rather than prolonged: a B1 candidate sits the B1 exam, and the A2 paper is not a lesson they
+still need. This is the first page in the course to use #76's exception, and it is the shape that
+exception was kept open for.
+
+**The overview page is `ANY`.** Four épreuves, a hundred points, fifty to pass, five minimum: that
+frame is identical at A1, A2 and B1, and only the durations and the tasks move, which is what the
+épreuve pages carry. An A1 candidate needs it on the day they register.
+
+**Compréhension de l'oral cannot be written yet**, and there is no row for it. It needs audio, which
+is the blocker `dictees` has had since #12.2 was opened. #51 forbids announcing it in the meantime:
+the chapter simply has three épreuves when it has three, and four when the speech hook exists.
