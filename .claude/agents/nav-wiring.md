@@ -85,12 +85,17 @@ const stale = Object.entries(relatedPages).flatMap(([from, tos]) => [
 const slugs = new Set(chapters.map(c => c.slug))
 const pills = featuredChapterSlugs.filter(s => !slugs.has(s))
 
-// A page serving several levels holds one body of work per level, in a module
-// beside its page.tsx (#68): questions.ts exporting SETS for a reading quiz,
+// A page marked perLevel holds one body of work per level, in a module beside
+// its page.tsx (#68, #76): questions.ts exporting SETS for a reading quiz,
 // data.ts exporting BANKS for a drill. Its keys and the manifest's levels are
 // two lists that must say the same thing, and the manifest wins where they
 // differ — so a level tagged with nothing behind it serves another level's
 // material rather than failing. Nothing else says so.
+//
+// The other direction is the one that costs a tick: several sets and no
+// perLevel means two bodies of work sharing one circle, and adding the flag
+// later moves every tick on the page. A single set with no flag is the ordinary
+// case and fine -- the module is just where that page keeps its data.
 //
 // No backticks in these comments: the whole script is a double-quoted bash
 // string, so bash would run their contents as commands before node sees it.
@@ -102,14 +107,18 @@ for (const l of declared) {
     const path = './src/app' + l.path + file
     if (!existsSync(path)) continue
     const map = (await import(path))[name]
-    if (map) { keys = Object.keys(map).sort().join(','); break }
+    if (map) { keys = Object.keys(map).sort(); break }
   }
   if (keys === null) {
-    if (levels.length > 1) sets.push(l.path + ' -> several levels, no per-level module')
+    if (l.perLevel) sets.push(l.path + ' -> perLevel, no per-level module')
+    continue
+  }
+  if (!l.perLevel) {
+    if (keys.length > 1) sets.push(l.path + ' -> ' + keys.length + ' sets [' + keys + '], no perLevel in the manifest')
     continue
   }
   const want = [...levels].sort().join(',')
-  if (keys !== want) sets.push(l.path + ' -> module [' + keys + '] vs manifest [' + want + ']')
+  if (keys.join(',') !== want) sets.push(l.path + ' -> module [' + keys + '] vs manifest [' + want + ']')
 }
 
 console.log('in the manifest, no page.tsx:', missing.length ? missing : 'none')
@@ -141,6 +150,15 @@ Then `npm run build`.
 
 `levels` is **required** on every entry, and `[]` is how you say "no level, always visible" — an
 omitted field and a deliberate `[]` must not look the same in a diff (`docs/decisions.md` #23).
+Write it as `from("A2")` — the rung the page is written at, and every rung above it, because a
+page is listed from its floor upward (#76). A tag written out — `["A1"]` — is the exception and
+claims something higher up supersedes the page. **Never widen downward**: an A1 learner who needs
+the topic gets the simpler A1 page (#72), not the A2 page's tag.
+
+`perLevel: true` is the separate claim that the page holds **one body of work per level** — a
+question set or an item bank per rung. It is what the tick keys on, so adding or removing it moves
+every tick on the page between `id` and `id@LEVEL`, silently: ship the backfill in the same commit.
+A page that sets it lists exactly the levels it has material for, so `from()` is wrong there.
 
 `id` is **required** too, and it is the one field you can never revise. It is the key every
 progress tick is stored under (#50), so pick it once when the entry is written and treat it as

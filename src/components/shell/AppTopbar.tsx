@@ -34,6 +34,11 @@ import styles from "./AppTopbar.module.css";
  * `<h1>` (#65). It is the lesson's own tag, read from the manifest — not the
  * learner's chosen level, which is a filter on listings and nothing this bar
  * knows about (#35). So there is no session to read here and nothing to flash.
+ *
+ * **It prints the floor, one badge, and never the whole tag** (#76). A page is
+ * listed from the rung it was written at upward, so the tag is now three rungs
+ * wide on most lessons and « A2 B1 B2 » would say nothing a reader could use:
+ * what they want to know is where the page sits, which is where it starts.
  */
 export function AppTopbar({
   mode,
@@ -47,7 +52,8 @@ export function AppTopbar({
   const pathname = usePathname();
   const found = findLesson(pathname);
   const parent = found?.chapter ?? null;
-  const levels = found?.lesson.levels ?? [];
+  /* The floor: the rung the page was written at. See the note above. */
+  const level = found?.lesson.levels[0] ?? null;
 
   const drawer = mode === "drawer";
   const railed = mode === "rail";
@@ -82,14 +88,10 @@ export function AppTopbar({
         <div className={styles.trail}>
           {/* Hors du `<nav>` : le niveau n'est pas une étape du fil, et le nom
               accessible du fil d'Ariane ne doit pas commencer par « A2 ». */}
-          {levels.length > 0 && (
+          {level && (
             <p className={styles.levels}>
-              <span className="visually-hidden">
-                {levels.length === 1 ? "Niveau " : "Niveaux "}
-              </span>
-              {levels.map((level) => (
-                <span key={level}>{level}</span>
-              ))}
+              <span className="visually-hidden">Niveau </span>
+              <span>{level}</span>
             </p>
           )}
           <nav className={styles.crumbs} aria-label="Fil d'Ariane">

@@ -5,7 +5,8 @@ What A1 has to cover before it joins `CHOOSABLE_LEVELS`, and what of it the cour
 the syllabus and the gap, and it goes stale the moment a page lands, so treat a line below as a
 claim to re-check rather than as a record.
 
-Why A1 is written the way it is, and what it was decided against, is `docs/decisions.md` #72.
+Why A1 is written the way it is, and what it was decided against, is `docs/decisions.md` #72;
+why a page written at one rung is listed at every rung above it is #76.
 
 ## The source
 
@@ -73,7 +74,8 @@ symptom. The six that exist keep their ticks untouched.
 
 ## GRAMMAIRE — the thirty-five points
 
-Marked **·** where a page already exists at some level; none is written at A1.
+Marked **·** where a page already exists at some level; none is written at A1. A page listed at A2
+is listed at B1 and B2 too (#76), so this gap is A1's alone.
 
 *Verbes* — le présent (réguliers + usuels) **·** *(the fourteen `conjugaison` sheets, now `ANY`)* ·
 le présent progressif (être en train de) · le futur proche **·** · le passé composé avec avoir et
@@ -97,12 +99,13 @@ les adjectifs possessifs et démonstratifs **·** *(`orth-determinants-possessif
 *Le reste de la phrase* — les pronoms personnels sujets et toniques · il y a · c'est, ce sont, voici,
 voilà · l'opposition (mais) · la conséquence (et, alors) · les articulateurs (et, ou).
 
-### The six that are A2 and stay A2
+### The six whose floor is A2
 
 `l'imparfait`, `l'alternance passé composé / imparfait`, `les pronoms COD et COI`, `la comparaison
 et le superlatif`, `les pronoms EN et Y`, `les pronoms relatifs`. They appear at A2 in the inventory
-and nowhere below it. **This is what a permanent `A2` tag looks like** (#72): a B2 uses the imparfait
-daily and the page is still A2 alone.
+and nowhere below it, so **there is no A1 twin to write for any of them** — which is the only thing
+a level decides here. They are listed at B1 and B2 like every other A2 page (#76): a B1 who never
+sees the imparfait is being filtered away from the course rather than towards it.
 
 ### Why a shared point is still two pages
 
@@ -110,8 +113,9 @@ A1 and A2 both list *le présent*, *le futur proche*, *le passé composé*, *les
 *je voudrais* and *les pronominaux*. They differ by **exponent**, not by topic — A1's negation is
 `ne… pas / jamais`, A2's is `ne… plus / rien / personne`. The inventory is spiral in Bruner's sense,
 and the condition of a spiral is that revisiting brings *new material*. So a topic on both lists
-earns a second, simpler page. **Never an `["A1", "A2"]` tag on the page that exists** — that hands an
-A1 learner the A2 explanation, and it moves every tick already stored (#72, and `AGENTS.md` §8).
+earns a second, simpler page. **Never widen an A2 page's tag down to A1** — that hands an A1 learner
+the A2 explanation, which is the one direction #76 leaves closed. Widening *upward* is free and
+already done: the A2 pages are listed at B1 and B2, and their ticks did not move.
 
 ## THÈMES DE VOCABULAIRE — sixteen
 

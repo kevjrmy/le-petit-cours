@@ -8,6 +8,7 @@ export interface PageRowProps {
   titleHtml?: string;
   subtitle?: string;
   tag?: string;
+  /** The manifest tag. Only its **floor** is drawn — see the note below. */
   levels: Level[];
   /** Where the page sits in the course. Shown only where the list is not already
    *  one chapter's — a search result needs it, a chapter's own list does not. */
@@ -25,6 +26,12 @@ export interface PageRowProps {
  *
  * No hooks: it renders from the props it is handed, so it costs nothing when a
  * Client Component maps over it and stays usable from a Server one.
+ *
+ * **The level badge is the tag's floor, one badge** (#76). A page is listed
+ * from the rung it was written at upward, so `levels` is three rungs wide on
+ * most lessons and a row ending « A2 B1 B2 » would be a column of noise that
+ * separates nothing — every row in the list would carry it. The floor is the
+ * one thing it says that distinguishes one row from the next.
  */
 export function PageRow({ path, title, titleHtml, subtitle, tag, levels, where, done }: PageRowProps) {
   return (
@@ -39,11 +46,7 @@ export function PageRow({ path, title, titleHtml, subtitle, tag, levels, where, 
         <span className={styles.meta}>
           {where && <span className={styles.where}>{where}</span>}
           {tag && <span className={styles.tag}>{tag}</span>}
-          {levels.map((level) => (
-            <span key={level} className={styles.level}>
-              {level}
-            </span>
-          ))}
+          {levels[0] && <span className={styles.level}>{levels[0]}</span>}
           {done !== undefined && (
             <>
               {/* A mark as well as a fill (`AGENTS.md` §5). */}

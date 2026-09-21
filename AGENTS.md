@@ -88,14 +88,22 @@ are all built. What no amount of reading the repo will reveal:
 - **A2 is written; A1 and B1 are offered while being written** (#52, #74). `CHOOSABLE_LEVELS` holds
   `A1, A2, B1`; B2 is declared and unchoosable, and **the ladder stops there** — C1 and C2 are out
   of scope (#75). A level offered but absent from `COURSE_LEVELS` draws « en cours »; **move it in
-  and delete its `IN_PROGRESS` line in the same edit.** **Switching away from A2 shows fewer
-  lessons, not more** — no page belongs to A1 or B1 alone.
+  and delete its `IN_PROGRESS` line in the same edit.** **Climbing never shows fewer lessons** (#76):
+  B1 lists everything A2 does, plus whatever is written for B1. A1 is the thin one, because a page
+  is never widened downward.
 - **Closing a level is a silent reset** (#74). `readLevel` filters on `CHOOSABLE_LEVELS` too, so
   removing an entry makes anyone sitting on it read back as having chosen nothing.
-- **`levels` says who a page is written for, not who still needs it** (#72). A B2 uses the imparfait
-  daily and `gram-imparfait` is `A2` alone; a page right for four rungs is `ANY`, not four tags.
-  Permanently A2: l'imparfait, l'alternance avec le passé composé, COD/COI, la comparaison, EN et Y,
-  les relatifs.
+- **`levels` is the rungs a page is *listed* at, and it runs from its floor upward** (#76). Write
+  `from("A2")` — written at A2, still listed at B1 and B2, because a learner who climbs does not
+  stop needing what they climbed on. **Never widen downward**: an A1 learner needing the topic gets
+  the simpler A1 page (#72), never the A2 page's tag. A written-out tag — `["A1"]` — is the
+  exception and claims something above supersedes the page. `ANY` is still the different claim: no
+  rung at all (#23).
+- **Floor A2, with no A1 twin to write**: l'imparfait, l'alternance avec le passé composé, COD/COI,
+  la comparaison, EN et Y, les relatifs (#72). They are listed at B1 and B2 like everything else.
+- **`perLevel: true` is the separate claim** (#76) — this page holds one body of work per level, a
+  question set or an item bank per rung. It is what the tick keys on, and **only** it; a page marked
+  it lists exactly the levels it has material for, so `from()` is wrong there.
 - **A1 is being written and is choosable, so an A1 page is visible the moment it lands** (#74).
   **DELF A1 coverage is still what "done" means** (#15) — it decides when A1 stops drawing « en
   cours », not when it may be chosen.
@@ -227,7 +235,10 @@ through lessons that already exist (#14).
 - **A parcours orders lessons, it never owns them.** Duplicating a lesson so two paths can each
   "have" it is the mistake this design prevents.
 - **`levels` is required and `[]` means "always visible"** (#23) — an omitted field and a
-  deliberate `[]` must not look the same in a diff.
+  deliberate `[]` must not look the same in a diff. It is the rungs the page is **listed** at,
+  floor upward (#76, §1); `perLevel` is the other claim and keys the tick (§8).
+- **A listing draws the tag's floor, one badge** (#76) — `PageRow` and the topbar's trail. Most tags
+  are three rungs wide now, and « A2 B1 B2 » on every row separates nothing.
 - **A level's lessons are inserted in teaching order, never appended** (#72). A chapter's order is
   the course's order and the signed-out listing shows it unfiltered, so A1's *présent* below A2's
   *passé composé* reads as a broken page rather than as a filter.
@@ -278,9 +289,10 @@ through lessons that already exist (#14).
 - **The topbar never names the page you are on** (#45) — the `<h1>` is directly beneath it, and the
   crumb is now the only place a lesson names its chapter. **A fuller breadcrumb grows upward, never
   by putting the leaf back.**
-- **The trail carries the lesson's level, in front of the chapter** (#65) — `Lesson.levels` from the
-  manifest, outside the `<nav>`. **Never the learner's chosen level**: that is a filter on listings
-  (#35), and reading it here puts an async session read in the chrome above every lesson.
+- **The trail carries the lesson's level, in front of the chapter** (#65) — the **floor** of
+  `Lesson.levels` (#76), from the manifest, outside the `<nav>`. **Never the learner's chosen
+  level**: that is a filter on listings (#35), and reading it here puts an async session read in the
+  chrome above every lesson.
 - **One sidebar control, in the topbar, at every breakpoint.**
 
 - **« Index » is read from the page, not the manifest** (#66) — `LessonToc` walks every `h2` in the
@@ -327,15 +339,20 @@ course.
 scored by a page (#54), and **the support stops at words** (#57): steps name the moves, a cloud
 carries the vocabulary, nothing carries a sentence they could say instead of building their own.
 
-**A second level is a new page, except where the stimulus has no floor** (#72). #68's shape — one
-page, a set per level — scales *up* from a page's floor and never down through it: a B1 reads
-Cosette with harder questions, an A1 cannot read Cosette at all, and a drill whose mechanic *is* the
-level (auxiliary choice is A2 material) hides no easier task. So prose, readings, dictées and most
-drills get a new page reusing the components, and only a floorless stimulus — a role-play's scene, a
-`traduction` source, a level-free mechanic — takes a second set. **`conversation` is not the
-exception it looks like** (#72): a reading shares seven hundred words, a role-play shares a title,
-and #57 makes the page its steps and its cloud — both of which change completely. Each level gets
-its own scene.
+**Writing a page for a *lower* level is a new page; a higher one usually needs nothing** (#72, #76).
+A page is already listed from its floor upward, so a B1 who needs the imparfait has it — there is
+nothing new to say about the imparfait at B1, and a twin would be a copy. Downward is the opposite:
+A1 and A2 negate with different exponents, so the A1 page has new material in it, and handing an A1
+learner the A2 explanation is the failure the twin exists to prevent.
+
+**A second *body of work* on one page — `perLevel` — is for a stimulus with no floor**, and it
+scales *up* only: a B1 reads Cosette with harder questions, an A1 cannot read Cosette at all, and a
+drill whose mechanic *is* the level (auxiliary choice is A2 material) hides no easier task. So
+prose, readings, dictées and most drills get a new page reusing the components, and only a floorless
+stimulus — a `traduction` source, a level-free mechanic — takes a second set. **`conversation` is
+not the exception it looks like** (#72): a reading shares seven hundred words, a role-play shares a
+title, and #57 makes the page its steps and its cloud — both of which change completely. Each level
+gets its own scene.
 
 ## 8. Accounts, access and progress
 
@@ -399,12 +416,16 @@ that has become dynamic is a regression, not a detail.**
   warning, and losing forty ticks silently is worse than saying what an account is for.
 - **Keyed by `progressKey(lesson, level)`, never by a route path and never by an id typed at the
   call site** (#50, #68). It returns the bare `Lesson.id` — so only lessons can be ticked — except
-  where `lesson.levels.length > 1`, the one case where a page holds a body of work per level and
-  one tick cannot report both. **That rule lives in `progressKey` and nowhere else.**
-- **A page crossing from one level to two is a data migration, not a tag edit** (#68, #72). The key
-  moves from `id` to `id@LEVEL` while rows keep `level = ''`, so stored ticks stop being read with
+  on a lesson marked **`perLevel`**, the one case where a page holds a body of work per level and
+  one tick cannot report both. **That rule lives in `progressKey` and nowhere else**, and it is
+  `perLevel`, never `levels.length > 1` (#76): widening a tag must stay free, or a learner loses a
+  tick by climbing.
+- **Adding or removing `perLevel` is a data migration, not a tag edit** (#68, #76). The key moves
+  between `id` and `id@LEVEL` while rows keep `level = ''`, so stored ticks stop being read with
   nothing failing — eleven pages shipped that way on 2026-09-12. **Ship the backfill in the same
   commit**, guarded: `(user_id, lesson_id, level)` is the primary key. The cache rebuilds itself.
+  **Widening `levels` is not a migration and must never become one** — that is the property #76
+  bought, and the way to check it is that the eleven `perLevel` pages are the only keys with an `@`.
 - **The ticks are not on `ProgressApi` and must not go back on it** (#68). `isDone` / `doneAt` /
   `toggle` each take the lesson **and a required level**; exposing the record again lets a caller
   index it by a bare id, which compiles, and reads another variant's tick. Two of the three

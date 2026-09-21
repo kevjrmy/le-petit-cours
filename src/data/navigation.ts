@@ -83,10 +83,23 @@ export interface PageEntry {
   /** Optional short badge: a skill area, a verb group. */
   tag?: string;
   /**
-   * CEFR levels this page serves. **Required**, and `[]` is how you say "no
-   * level, always visible" — `culture` and `musique` are for whoever wants
-   * them. An omitted field and a deliberate `[]` must not look the same in a
-   * diff, which is what makes forgetting to tag a page a type error (#23).
+   * The rungs this page is **listed at**. **Required**, and `[]` is how you say
+   * "no level, always visible" — the verb sheets and the spelling pages, which
+   * answer to literacy rather than to a CEFR rung. An omitted field and a
+   * deliberate `[]` must not look the same in a diff, which is what makes
+   * forgetting to tag a page a type error (#23).
+   *
+   * **A page is listed from its floor upward** (#76), because the levels are a
+   * ladder and a learner who climbs does not stop needing what they climbed on.
+   * `from("A2")` is the normal value: written at A2, still listed at B1 and
+   * above, since nothing supersedes it. A tag written out — `["A1"]` on an A1
+   * twin — is the exception, and it claims the page is superseded above.
+   * **Widening is upward only**: tagging the A2 imparfait `A1` hands a beginner
+   * the harder explanation, which is what #72's second page exists to avoid.
+   *
+   * **This decides listing, never the tick.** A page whose material is the same
+   * at every rung it is listed at keeps one tick, shared — which is the whole
+   * point of listing it at several. `perLevel` below is what says otherwise.
    */
   levels: Level[];
   /**
@@ -113,6 +126,31 @@ export interface PageEntry {
  */
 export interface Lesson extends PageEntry {
   id: LessonId;
+  /**
+   * Set when the page holds **one body of work per level** — a `lecture` text
+   * with a question set per level, an `exercices` drill with an item bank per
+   * level (#68). It is what the tick keys on (#76): `progressKey` returns
+   * `id@LEVEL` here and the bare `id` everywhere else, so a learner who read a
+   * text at A2 and moved to B1 does not find the B1 questions already ticked.
+   *
+   * **It is not `levels.length > 1`, and that is the whole point** (#76). Since
+   * a page is listed from its floor upward, most multi-level pages are one
+   * lesson shown at several rungs — the imparfait is the same page at A2 and at
+   * B1 and keeps **one** tick, which is what makes widening a tag free. Only a
+   * page that genuinely changes with the level sets this.
+   *
+   * **A page that sets it lists exactly the levels it has material for**, so
+   * `from()` is wrong here: write the levels out. The two lists live in
+   * different files — the sets in `questions.ts` / `data.ts` beside the page —
+   * and the manifest wins where they differ, so a level tagged with nothing
+   * behind it would serve another level's material rather than fail. The
+   * `nav-wiring` audit compares them, in both directions.
+   *
+   * **Adding or removing it is a data migration.** It moves every tick on the
+   * page between `id` and `id@LEVEL`, and nothing fails: the circle simply goes
+   * empty. Ship the backfill in the same commit (`AGENTS.md` §8).
+   */
+  perLevel?: true;
 }
 
 /**
@@ -203,32 +241,45 @@ export const CHOOSABLE_LEVELS: Level[] = ["A1", "A2", "B1"];
  */
 export const COURSE_LEVELS: Level[] = ["A2"];
 
+/**
+ * The rungs in order, low to high. **The ladder, not a set** — `from()` slices
+ * it, so adding a rung to `Level` and to this list is all it takes for every
+ * page already written to be listed at it.
+ */
+export const LADDER: readonly Level[] = ["A1", "A2", "B1", "B2"];
+
 /* Shorthands for the `levels` field, so a lesson entry reads as one line.
 
-   **`levels` says who a page is written for, not who still needs it** (#72). A
-   B2 learner uses the imparfait every day and the imparfait lesson is still A2
-   alone: it is tagged with the rung it teaches at, not with every rung that
-   goes on using it. Tagging generously feels helpful and quietly turns the
-   filter into a no-op — the honest alternatives are the level it was written
-   for, or `ANY`.
+   **A page is listed from its floor upward** (#76). The levels are a ladder and
+   a learner who climbs does not stop needing what they climbed on: a B1 who
+   never sees the imparfait because it was written at A2 is looking at a filter
+   that hides the course from the people it was written for. So `from("A2")` is
+   the normal value — written at A2, listed at every rung above it — and it
+   costs nothing, because the tick follows the *material* (`perLevel`) and not
+   the tag.
 
-   `A2` is the level being written (#52). `ANY` is "no level, always visible":
-   the literacy pages, which answer to spelling rather than to a CEFR rung, and
-   the verb sheets, which #68 names as the case a level cannot describe — a
-   conjugation table is the same table at every level, and tagging the fourteen
-   of them `A2` (as they were until 2026-09-21) would have left an A1 learner
-   with no verb sheet at all, since *le présent des verbes réguliers* is A1's
-   central point. */
-const A2: Level[] = ["A2"];
-/* A page serving two levels' worth of work from one text — the same reading
-   with a question set per level (#68). It keeps **one** tick per level, not one
-   page per level, which is what #23 chose a set of levels over duplication for.
-   It does not make B1 choosable: `CHOOSABLE_LEVELS` is still A2 alone (#52), so
-   since #73 — when the on-page picker went and the level became the account's
-   alone — the B1 sets are written and unreachable until B1 is a level someone
-   can work at. */
-const A2B1: Level[] = ["A2", "B1"];
+   **Widening is upward only.** `from` has no downward twin on purpose: tagging
+   the A2 imparfait `A1` would hand a beginner the harder explanation, and the
+   answer to "A1 needs this too" is the simpler A1 page #72 asks for.
+
+   **The exception is a page something higher up supersedes**, and it writes its
+   levels out — `["A1"]` on an A1 twin, which stops at A1 because the A2 page
+   takes over there. A written-out tag is a claim that something above replaces
+   this page, never just "this is the level it teaches at".
+
+   `ANY` is "no level at all, always visible": the literacy pages, which answer
+   to spelling rather than to a CEFR rung, and the verb sheets, which #68 names
+   as the case a level cannot describe — a conjugation table is the same table
+   at every level. It is not the same claim as `from("A1")`, which says a page
+   is written at the bottom rung and climbs. */
+const from = (level: Level): Level[] => LADDER.slice(LADDER.indexOf(level));
 const ANY: Level[] = [];
+
+/* The levels a `perLevel` page has material for, written out rather than sliced
+   from the ladder: here the tag *is* the list of sets, so it stops where they
+   do (#76). A B2 face for these nine readings and two drills would be a B2
+   question set, not a wider tag. */
+const A2B1: Level[] = ["A2", "B1"];
 
 export const chapters: Chapter[] = [
   {
@@ -245,7 +296,7 @@ export const chapters: Chapter[] = [
         id: "gram-negation",
         path: "/grammaire/la-negation",
         title: "La négation",
-        levels: A2,
+        levels: from("A2"),
         delf: "Dire ce qu’on ne fait pas, ce qu’on n’a pas",
         created: "2026-09-12",
       },
@@ -253,7 +304,7 @@ export const chapters: Chapter[] = [
         id: "gram-passe-compose",
         path: "/grammaire/le-passe-compose",
         title: "Le passé composé",
-        levels: A2,
+        levels: from("A2"),
         delf: "Raconter un événement passé",
         created: "2026-09-06",
       },
@@ -261,7 +312,7 @@ export const chapters: Chapter[] = [
         id: "gram-imparfait",
         path: "/grammaire/l-imparfait",
         title: "L’imparfait",
-        levels: A2,
+        levels: from("A2"),
         delf: "Décrire une situation ou une habitude au passé",
         created: "2026-09-06",
       },
@@ -269,7 +320,7 @@ export const chapters: Chapter[] = [
         id: "gram-pc-ou-imparfait",
         path: "/grammaire/passe-compose-ou-imparfait",
         title: "Passé composé ou imparfait ?",
-        levels: A2,
+        levels: from("A2"),
         delf: "Choisir le temps du passé dans un récit",
         created: "2026-09-06",
       },
@@ -277,7 +328,7 @@ export const chapters: Chapter[] = [
         id: "gram-futur-proche",
         path: "/grammaire/le-futur-proche",
         title: "Le futur proche",
-        levels: A2,
+        levels: from("A2"),
         delf: "Dire ce qu’on va faire, projeter une action",
         created: "2026-09-12",
       },
@@ -285,7 +336,7 @@ export const chapters: Chapter[] = [
         id: "gram-pronoms-cod-coi",
         path: "/grammaire/les-pronoms-cod-coi",
         title: "Les pronoms COD et COI",
-        levels: A2,
+        levels: from("A2"),
         delf: "Reprendre un mot déjà dit sans le répéter",
         created: "2026-09-06",
       },
@@ -487,7 +538,7 @@ export const chapters: Chapter[] = [
         id: "voc-heure",
         path: "/vocabulaire/l-heure",
         title: "L’heure",
-        levels: A2,
+        levels: from("A2"),
         delf: "Demander et dire l’heure, fixer un rendez-vous",
         created: "2026-09-06",
       },
@@ -495,7 +546,7 @@ export const chapters: Chapter[] = [
         id: "voc-jours-et-date",
         path: "/vocabulaire/les-jours-et-la-date",
         title: "Les jours et la date",
-        levels: A2,
+        levels: from("A2"),
         delf: "Situer un événement dans la semaine, dans l’année",
         created: "2026-09-12",
       },
@@ -504,7 +555,7 @@ export const chapters: Chapter[] = [
         path: "/vocabulaire/le-travail",
         title: "Le travail",
         subtitle: "Le métier, le lieu, le contrat",
-        levels: A2,
+        levels: from("A2"),
         delf: "Parler de son métier et de ses conditions de travail",
         created: "2026-09-12",
       },
@@ -513,7 +564,7 @@ export const chapters: Chapter[] = [
         path: "/vocabulaire/la-recette-des-croissants",
         title: "La recette des croissants",
         subtitle: "Les ingrédients, les ustensiles, les gestes",
-        levels: A2,
+        levels: from("A2"),
         delf: "Suivre une recette écrite et nommer ce qu’elle demande",
         created: "2026-09-15",
       },
@@ -532,7 +583,7 @@ export const chapters: Chapter[] = [
         path: "/astuces/etre-ou-avoir",
         title: "Être ou avoir ?",
         subtitle: "Choisir l’auxiliaire du passé composé",
-        levels: A2,
+        levels: from("A2"),
         delf: "Raconter un événement passé",
         created: "2026-09-12",
       },
@@ -541,7 +592,7 @@ export const chapters: Chapter[] = [
         path: "/astuces/a-en-au-aux",
         title: "à, en, au ou aux ?",
         subtitle: "Devant une ville, devant un pays",
-        levels: A2,
+        levels: from("A2"),
         delf: "Dire où l’on habite, où l’on va, d’où l’on vient",
         created: "2026-09-12",
       },
@@ -570,6 +621,7 @@ export const chapters: Chapter[] = [
         title: "Être ou avoir ?",
         tag: "Tri",
         levels: A2B1,
+        perLevel: true,
         delf: {
           A2: "Choisir l’auxiliaire du passé composé",
           B1: "Choisir l’auxiliaire quand le verbe en change selon qu’il a un complément d’objet.",
@@ -582,6 +634,7 @@ export const chapters: Chapter[] = [
         title: "Trouvez la faute",
         tag: "Correction",
         levels: A2B1,
+        perLevel: true,
         delf: {
           A2: "Repérer et corriger un homophone mal écrit",
           B1: "Appliquer le test de remplacement à des homophones que rien ne sépare à l’oreille.",
@@ -594,7 +647,7 @@ export const chapters: Chapter[] = [
         title: "Les terminaisons",
         subtitle: "Le verbe parler, aux cinq temps de la fiche",
         tag: "Tableau",
-        levels: A2,
+        levels: from("A2"),
         delf: "Écrire les terminaisons du 1er groupe aux cinq temps du programme A2",
         created: "2026-09-15",
       },
@@ -631,7 +684,7 @@ export const chapters: Chapter[] = [
         title: "Prendre rendez-vous",
         subtitle: "Chez le médecin",
         tag: "Jeu de rôle",
-        levels: A2,
+        levels: from("A2"),
         delf: "Demander un rendez-vous, proposer et accepter une heure.",
         created: "2026-09-06",
       },
@@ -641,7 +694,7 @@ export const chapters: Chapter[] = [
         title: "Demander son chemin",
         subtitle: "Dans une ville inconnue",
         tag: "Jeu de rôle",
-        levels: A2,
+        levels: from("A2"),
         delf: "Demander et suivre un itinéraire simple, faire répéter.",
         created: "2026-09-12",
       },
@@ -651,7 +704,7 @@ export const chapters: Chapter[] = [
         title: "Au restaurant",
         subtitle: "Commander, et régler l’addition",
         tag: "Jeu de rôle",
-        levels: A2,
+        levels: from("A2"),
         delf: "Commander un repas, poser une question sur un plat, payer.",
         created: "2026-09-12",
       },
@@ -661,7 +714,7 @@ export const chapters: Chapter[] = [
         title: "Parler de l’Espagne",
         subtitle: "À des enfants de dix ans",
         tag: "Jeu de rôle",
-        levels: A2,
+        levels: from("A2"),
         delf: "Décrire son pays et sa vie quotidienne, en réponse à des questions simples.",
         created: "2026-09-06",
       },
@@ -671,7 +724,7 @@ export const chapters: Chapter[] = [
         title: "Parler du travail",
         subtitle: "Avec un collègue français",
         tag: "Jeu de rôle",
-        levels: A2,
+        levels: from("A2"),
         delf: "Comparer ses horaires et ses habitudes de travail avec ceux d’un autre pays.",
         created: "2026-09-07",
       },
@@ -681,7 +734,7 @@ export const chapters: Chapter[] = [
         title: "Décrire sa ville",
         subtitle: "À une amie qui vient vous voir",
         tag: "Jeu de rôle",
-        levels: A2,
+        levels: from("A2"),
         delf: "Décrire son cadre de vie, situer un lieu et conseiller un visiteur.",
         created: "2026-09-15",
       },
@@ -701,7 +754,7 @@ export const chapters: Chapter[] = [
         title: "Une journée",
         subtitle: "Quatre phrases au passé",
         tag: "Traduction",
-        levels: A2,
+        levels: from("A2"),
         delf: "Écrire un court récit au passé à partir d’un texte source.",
         created: "2026-09-06",
       },
@@ -713,7 +766,7 @@ export const chapters: Chapter[] = [
         title: "Le résumé d’un film",
         subtitle: "Ratatouille, en quatre négations",
         tag: "Traduction",
-        levels: A2,
+        levels: from("A2"),
         delf: "Écrire un court résumé et dire ce qui ne se passe pas.",
         created: "2026-09-15",
       },
@@ -723,7 +776,7 @@ export const chapters: Chapter[] = [
         title: "Un week-end à la plage",
         subtitle: "a / à · et / est · on / ont · son / sont · où / ou",
         tag: "Traduction",
-        levels: A2,
+        levels: from("A2"),
         delf: "Écrire des phrases simples sans confondre les homophones.",
         created: "2026-09-06",
       },
@@ -733,7 +786,7 @@ export const chapters: Chapter[] = [
         title: "Hier, dans la rue",
         subtitle: "Les pronoms au passé composé",
         tag: "Traduction",
-        levels: A2,
+        levels: from("A2"),
         delf: "Raconter un échange en remplaçant les noms par des pronoms.",
         created: "2026-09-06",
       },
@@ -754,6 +807,7 @@ export const chapters: Chapter[] = [
         subtitle: "Dialogue écrit pour ce cours",
         tag: "Compréhension",
         levels: A2B1,
+        perLevel: true,
         delf: {
           A2: "Comprendre un échange professionnel simple et en retenir les faits.",
           B1: "Lire un entretien comme un genre : une réponse qui n’accuse personne, un fait transformé en argument, une objection devancée.",
@@ -767,6 +821,7 @@ export const chapters: Chapter[] = [
         subtitle: "Jean de La Fontaine, 1668",
         tag: "Compréhension",
         levels: A2B1,
+        perLevel: true,
         delf: {
           A2: "Comprendre un récit court en vers et en dégager la morale.",
           B1: "Lire une fable comme une forme : deux morales qui n’en font pas une, une question qui n’en est pas une, un titre déplacé.",
@@ -780,6 +835,7 @@ export const chapters: Chapter[] = [
         subtitle: "Charles Baudelaire, 1857",
         tag: "Compréhension",
         levels: A2B1,
+        perLevel: true,
         delf: {
           A2: "Lire un poème et retrouver ce qu’il nomme : à qui il parle, ce qu’il propose, ce que le refrain décrit.",
           B1: "Lire ce qu’un temps verbal engage : un conditionnel qui retire la chambre au réel, un « ne… que » pris pour un éloge, un compliment qui garde un mot de méfiance.",
@@ -793,6 +849,7 @@ export const chapters: Chapter[] = [
         subtitle: "Jules Verne, 1873",
         tag: "Compréhension",
         levels: A2B1,
+        perLevel: true,
         delf: {
           A2: "Comprendre la description d’une personne et de ses habitudes, et des heures précises.",
           B1: "Lire un portrait construit par soustraction, et le vocabulaire d’un tribunal posé sur une faute de deux degrés.",
@@ -806,6 +863,7 @@ export const chapters: Chapter[] = [
         subtitle: "Victor Hugo, 1862",
         tag: "Compréhension",
         levels: A2B1,
+        perLevel: true,
         delf: {
           A2: "Suivre un dialogue simple et en tirer qui parle, à qui, et de quoi.",
           B1: "Lire ce qu’un silence et un « donc » laissent entendre, et ce qu’un seul mot dit de la place d’une enfant.",
@@ -819,6 +877,7 @@ export const chapters: Chapter[] = [
         subtitle: "Edmond Rostand, 1897",
         tag: "Compréhension",
         levels: A2B1,
+        perLevel: true,
         delf: {
           A2: "Suivre une scène de théâtre et dire qui fait quoi, dans un lieu public.",
           B1: "Lire une scène de foule : deux registres dans une salle, un jeu de mots sur le nom du théâtre, un vers partagé entre deux voix.",
@@ -832,6 +891,7 @@ export const chapters: Chapter[] = [
         subtitle: "Marcel Proust, 1913",
         tag: "Compréhension",
         levels: A2B1,
+        perLevel: true,
         delf: {
           A2: "Comprendre le récit d’un souvenir et repérer ce qui est concret dans un texte difficile.",
           B1: "Suivre un texte difficile : un verbe qui avoue une erreur, une comparaison qui mesure l’espace, un dormeur qui se croit éveillé.",
@@ -849,6 +909,7 @@ export const chapters: Chapter[] = [
         subtitle: "Shakespeare, traduit par François-Victor Hugo",
         tag: "Compréhension",
         levels: A2B1,
+        perLevel: true,
         delf: {
           A2: "Comprendre le début d’une pièce traduite : le lieu, les personnages, le conflit.",
           B1: "Lire un prologue qui annonce le prix de la paix, une métaphore du destin, et un tutoiement qui sert d’arme.",
@@ -868,6 +929,7 @@ export const chapters: Chapter[] = [
            question asks her to see. `questions.ts` holds both sets and its keys
            must stay in step with this line. */
         levels: A2B1,
+        perLevel: true,
         delf: {
           A2: "Suivre un dialogue et repérer ce qu’un personnage veut vraiment, sans qu’il le dise.",
           B1: "Lire entre les lignes d’un dialogue : ce qu’un adverbe juge, ce qu’une phrase coupée laisse deviner.",

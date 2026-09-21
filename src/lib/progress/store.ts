@@ -18,30 +18,38 @@ export type Progress = Record<string, string>;
 /**
  * The key one tick is stored under, and the only place the rule lives.
  *
- * **A tick carries a level exactly when the lesson serves more than one.** One
- * level, or none, and the level is already carried by the page: storing it
- * would write a constant, and for a page tagged `[]` — a verb sheet, a culture
- * page — it would invent a distinction the content does not have. Two or more
- * and the page holds two or more bodies of work, which is the only case a
- * single tick cannot report: a learner who read a text at A2 and later moves to
- * B1 must not find the B1 questions already ticked.
+ * **A tick carries a level exactly when the lesson holds a body of work per
+ * level** — `perLevel` in the manifest, never `levels.length > 1` (#76). Since
+ * a page is listed from its floor upward, most multi-level pages are one lesson
+ * shown at several rungs: the imparfait is the same page at A2 and at B1, so it
+ * keeps **one** tick and a learner who ticked it at A2 finds it ticked when
+ * they climb. That is what makes widening a tag free, and it is the whole
+ * reason the two claims are separate fields.
+ *
+ * `perLevel` says the opposite thing about the few pages that set it: a
+ * `lecture` text with a question set per level, an `exercices` drill with an
+ * item bank per level (#68). There one tick cannot report both — a learner who
+ * read the text at A2 and moved to B1 would find the B1 questions already
+ * ticked — so the key names which variant was finished.
  *
  * **What is stored is the lesson's variant, never the learner's setting.** That
  * is what keeps `docs/decisions.md` #22 true — dropping a level and climbing
  * back still loses nothing, because no row ever named the level in force when
  * it was written.
  *
- * **A single-level lesson's key is the bare id, byte for byte what it was
- * before the level existed.** Every row already in Postgres, every record in
- * the IndexedDB cache and every queued offline operation stays valid, which is
- * the whole reason this is a function and not a new field on every caller.
+ * **An ordinary lesson's key is the bare id, byte for byte what it was before
+ * the level existed.** Every row already in Postgres, every record in the
+ * IndexedDB cache and every queued offline operation stays valid, which is the
+ * whole reason this is a function and not a new field on every caller.
  *
  * Callers pass the level they are looking at and never see this branch. A level
- * the lesson does not offer falls to its first, deterministically, rather than
+ * the lesson does not offer falls to its floor, deterministically, rather than
  * collapsing onto the global key and silently reading another variant's tick.
  */
 export function progressKey(lesson: Lesson, level: Level | null): string {
-  if (lesson.levels.length < 2) return lesson.id;
+  /* The length guard is defence, not the rule: a page claiming a set per level
+     while naming one level has no second variant to name. */
+  if (!lesson.perLevel || lesson.levels.length < 2) return lesson.id;
   const variant = level && lesson.levels.includes(level) ? level : lesson.levels[0];
   return joinKey(lesson.id, variant);
 }

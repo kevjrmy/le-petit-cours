@@ -14,14 +14,16 @@ doing academic or professional French, which is neither profile below. The scope
 with **A2 alone** — sized to the DELF A2 syllabus rather than to however many lessons exist —
 because the learners it was started for are at A2 (below). **A1 is now being written** into the same
 chapters, ahead of the A2 material. **A1 and B1 are both choosable while they are being written**
-(#74) and are marked « en cours » in the account, with a line saying what each actually holds —
-switching away from A2 today shows *fewer* lessons, not more, since no page belongs to A1 or B1
-alone. DELF coverage is still what "done" means (#15); it decides when a level stops being marked
-« en cours », not when it may be chosen. `docs/programme-a1.md` is the syllabus and the gap.
+(#74) and are marked « en cours » in the account, with a line saying what each actually holds.
+DELF coverage is still what "done" means (#15); it decides when a level stops being marked « en
+cours », not when it may be chosen. `docs/programme-a1.md` is the syllabus and the gap.
 
-B1's first content is the nine `lecture` texts and two `exercices` drills, which each carry a
-harder question set, reached by working at B1 — the level is set in the account and never on the
-page (#68, #73). B2 is declared and empty. That is a deliberate limit, not a gap to be quietly
+**A page is listed from the rung it was written at upward** (#76), so climbing never shows fewer
+lessons: B1 is offered everything A2 is, and A1 is the thin level, because a page is never widened
+downward — an A1 learner who needs a topic gets a simpler A1 page, not the A2 page's tag. What is
+written for B1 alone today is the harder question set on the nine `lecture` texts and two
+`exercices` drills, reached by working at B1 — the level is set in the account and never on the
+page (#68, #73). Its own lessons are being written. B2 is declared and empty. That is a deliberate limit, not a gap to be quietly
 filled: an unbounded project never finishes a level.
 
 Nothing announces what is unwritten: a lesson appears in the interface in the commit that creates
@@ -89,12 +91,16 @@ One library, several orderings. Every lesson carries a set of CEFR **level tags*
 is not being offered is a filter rather than a fork in the codebase, and adding a profile later
 means adding a parcours rather than an app.
 
-**A tag says who a page is written for, not who still needs it** (#72). A page serving two levels at
-once is the exception and not the shape to reach for: where a topic appears at two levels it
-normally appears with different exponents — A1 negates with `ne… pas`, A2 with `ne… plus / rien` —
-and that is a second, simpler page, not a second tag on the first. One page serves two levels only
-where the *stimulus* has no floor and the task scales, which is a reading's question set or a
-drill's item bank, never a prose explanation.
+**A tag is the rungs a page is listed at, and it runs from its floor upward** (#76). The levels are
+a ladder and a learner who climbs does not stop needing what they climbed on, so the A2 imparfait is
+listed at B1 too and keeps the one tick it already had. **Downward is not symmetric** (#72): where a
+topic appears at two levels it appears with different exponents — A1 negates with `ne… pas`, A2 with
+`ne… plus / rien` — and that is a second, simpler page, never a second tag on the first.
+
+A page holds **two bodies of work** only where the *stimulus* has no floor and the task scales,
+which is a reading's question set or a drill's item bank, never a prose explanation. That is a
+separate flag, and it is the one the tick keys on: listing a page at more rungs costs nothing, while
+giving it a second body of work moves every tick stored against it.
 
 ## What "done" means
 

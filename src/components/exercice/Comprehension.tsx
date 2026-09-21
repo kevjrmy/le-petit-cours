@@ -35,14 +35,15 @@ export interface Question {
 }
 
 /**
- * A set of questions per level, for a text that serves more than one.
+ * A set of questions per level, for a text whose task scales with the rung.
  *
- * **Its keys must be exactly the lesson's `levels` in the manifest**, which is
- * what the picker offers and what the tick is keyed by (`docs/decisions.md`
- * #68). A key the manifest does not list is a set nothing can reach; a level
- * the manifest lists with no set here falls back to the first, which is a page
- * quietly showing the wrong questions. Nothing in the toolchain catches either
- * yet — see `.claude/agents/nav-wiring.md`.
+ * **A page with these is `perLevel: true` in the manifest, and its keys must be
+ * exactly that lesson's `levels`** (`docs/decisions.md` #68, #76). The flag is
+ * what the tick is keyed by, so a second set arriving without it puts two
+ * bodies of work behind one circle; the keys are what the level resolves
+ * against, so a level listed with no set here falls back to the first and the
+ * page quietly shows the wrong questions. The `nav-wiring` audit checks both
+ * directions — nothing else does.
  */
 export type QuestionSets = Partial<Record<Level, Question[]>>;
 

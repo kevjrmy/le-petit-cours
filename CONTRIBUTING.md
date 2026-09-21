@@ -63,7 +63,7 @@ These come from the audience, and a change that breaks one will be asked to chan
   **A1 is being written now** and is welcome. B2 takes no content yet, and **C1 and C2 are out of
   scope** — they serve a different audience and the `Level` type stops at B2. A1 and B1 are choosable
   while unfinished and marked « en cours » in the account, so an A1 page is visible to an A1 learner
-  the day it lands. `docs/programme-a1.md` says what A1 still needs. Short sentences, everyday vocabulary, no literary tenses, no metalanguage
+  the day it lands. Climbing never shows fewer lessons: B1 is offered everything A2 is. `docs/programme-a1.md` says what A1 still needs. Short sentences, everyday vocabulary, no literary tenses, no metalanguage
   beyond *verbe, sujet, adjectif, accord* — the heritage track is the one place school grammar
   vocabulary is allowed.
 - **They type on a Spanish keyboard.** Prefer clicking to typing wherever an answer carries French
@@ -80,25 +80,28 @@ These come from the audience, and a change that breaks one will be asked to chan
 - **Every lesson declares its `levels`** in `src/data/navigation.ts`, and `[]` is how you say "no
   level, always visible". An omitted field is a type error on purpose: forgetting to tag a page
   and deciding it needs no tag must not look the same in a diff.
-- **`levels` is who the page is written for, not who still needs it.** A B2 learner uses the
-  imparfait every day and the imparfait lesson is still tagged `A2` alone. Tag generously and the
-  filter stops filtering; a page that looks right for four levels is `[]`, not four tags.
-- **Covering a topic at a second level is normally a second page, not a second tag.** The levels
-  share topics but differ in what they use — A1 negates with `ne… pas`, A2 with `ne… plus / rien` —
-  so an easier page is written beside the existing one rather than tagged onto it. And **adding a
-  level to a page that has one is a data migration**: the tick's key changes from `id` to
-  `id@LEVEL`, so every tick already stored stops being read unless a migration moves it.
-- **A lesson tagged for several levels owes one body of work per level**, in a module beside the
-  page — `questions.ts` exporting `SETS` for a reading quiz, `data.ts` exporting `BANKS` for a
-  drill. Its keys and the `levels` above must match: the manifest wins where they differ, so a
-  level tagged with nothing behind it quietly serves another level's material. The navigation
-  audit is the only thing that reports it.
+- **`levels` is the rungs a page is *listed* at, and it runs from its floor upward.** Write
+  `from("A2")`: a page written at A2 stays listed at B1 and B2, because a learner who climbs does
+  not stop needing what they climbed on. A written-out tag — `["A1"]` — is the exception and claims
+  something higher up supersedes the page.
+- **Never widen a tag downward.** The levels share topics but differ in what they use — A1 negates
+  with `ne… pas`, A2 with `ne… plus / rien` — so an A1 learner who needs the topic gets a simpler
+  A1 page written beside the existing one, never the A2 page's tag.
+- **`perLevel: true` is the separate claim: this page holds one body of work per level** — a
+  question set or an item bank per rung, in a module beside the page (`questions.ts` exporting
+  `SETS`, `data.ts` exporting `BANKS`). Its keys and the `levels` above must match exactly: the
+  manifest wins where they differ, so a level tagged with nothing behind it quietly serves another
+  level's material. The navigation audit is the only thing that reports it.
+- **Widening `levels` is free; adding `perLevel` is a data migration.** The tick keys on `perLevel`
+  alone, so listing a page at more rungs costs nothing and a learner who ticked it keeps the tick
+  when they climb — but giving a page a second body of work moves its key from `id` to `id@LEVEL`,
+  and every tick already stored stops being read unless a migration moves it too.
 - **Every lesson declares an `id`, and it is permanent.** It is the key a learner's « J'ai terminé »
   is stored under, so a page can be renamed, moved or given a better URL freely — but changing its
   `id` erases that lesson from everyone's history with nothing failing anywhere. Choose it once,
-  in the shape `chapitre-nom` (`gram-articles`, `ex-pluriel`), and leave it alone. A page serving
-  several levels keeps one tick **per level**, since it holds a level's work per level; every other
-  page keeps exactly one, under the bare `id`.
+  in the shape `chapitre-nom` (`gram-articles`, `ex-pluriel`), and leave it alone. A `perLevel` page
+  keeps one tick **per level**, since it holds a level's work per level; every other page keeps
+  exactly one, under the bare `id`, however many rungs it is listed at.
 - **No copyrighted text.** Reading pages use public-domain works or original writing. Song pages
   quote short excerpts for commentary and never a full lyric sheet. Images must be CC0, public
   domain, CC BY or CC BY-SA, credited individually with author, link and licence, and stored

@@ -76,14 +76,15 @@ than marking it superseded.
 | 65 | 2026-09-12 | The lesson's level rides in the trail, in front of the chapter | Binding |
 | 66 | 2026-09-12 | Sections are marked, not merely spaced; the in-page index is read from the page | Binding |
 | 67 | 2026-09-12 | « En résumé » is a titled block, and one line closes a lesson | Binding |
-| 68 | 2026-09-12 | A tick names its level only when the lesson serves more than one | Binding · narrowed by #73 |
+| 68 | 2026-09-12 | A tick names its level only when the page holds a body of work per level | Binding · narrowed by #73, #76 |
 | 69 | 2026-09-17 | A recurring mistake steers the course, and nobody gets a programme of their own | Binding |
 | 70 | 2026-09-21 | « La suite » is the dashboard; signing in returns you where you were | Binding |
 | 71 | 2026-09-21 | Signed out, `/` is a welcome; the search field is the signed-in home | Binding |
-| 72 | 2026-09-21 | A1 joins the course as pages, not as tags | Binding · narrowed by #74 |
+| 72 | 2026-09-21 | A1 joins the course as pages, not as tags | Binding · narrowed by #74, #76 |
 | 73 | 2026-09-21 | The level is chosen in the account, never on the page | Binding |
 | 74 | 2026-09-21 | A level is offered while it is being written, not once it is finished | Binding |
 | 75 | 2026-09-21 | The ladder stops at B2; C1 and C2 are out of scope | Binding |
+| 76 | 2026-09-21 | A page is listed from its floor upward; the tick follows the material | Binding · narrows #68, #72 |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -1307,12 +1308,16 @@ lessons shipped that way and were caught in a screenshot, not in review.
 apart with a button between them. It is on `LessonEnd` now, once, above the tick: the lesson ends
 where the shell's furniture begins (#49).
 
-## 68 · A tick names its level only when the lesson serves more than one
-**2026-09-12 · Binding · narrows #22**
+## 68 · A tick names its level only when the page holds a body of work per level
+**2026-09-12 · Binding · narrows #22 · narrowed by #73, #76**
 
 `public.progress` gained a `level` column, and the key a tick is stored under is
-`progressKey(lesson, level)` in `src/lib/progress/store.ts`: the bare `Lesson.id` for a page serving
-one level or none, `id@LEVEL` for a page serving several.
+`progressKey(lesson, level)` in `src/lib/progress/store.ts`: the bare `Lesson.id` for a page with
+one body of work, `id@LEVEL` for a page holding one per level.
+
+**The test for which is `perLevel` in the manifest, and #76 is why it is a field rather than
+`levels.length > 1`.** Everything below is about pages that genuinely change with the rung, and it
+all still holds; what changed is that being *listed* at several rungs stopped being evidence of it.
 
 **#22 is narrowed, not overturned, and the sentence that survives is the one that matters**: a
 learner must be able to drop a level and climb back without losing anything. What #22 rejects is
@@ -1322,14 +1327,14 @@ of the page was finished**, chosen from the lesson's own `levels`, so it is a pr
 exactly as `lesson_id` is, and never of the learner. A single-level page still keeps one tick, so
 changing level still costs nothing.
 
-**The rule is `levels.length > 1`, and it is derived rather than listed.** One level and the page
-already carries it — storing it would write a constant. `[]` and the page belongs to no level on
-purpose (a verb sheet, a culture page), so a per-level tick would invent a distinction the content
-does not have; this is what answers "conjugaison is the same at every level" without a hand-kept
-list of chapters to fall out of date. Two or more and the page holds two or more bodies of work — a
-`lecture` text with a question set per level, an `exercices` drill with an item bank per level — and
-one tick cannot report both: a learner who read a text at A2 and later moved to B1 would find the B1
-questions already ticked.
+**The rule was `levels.length > 1`, derived rather than listed, and #76 replaced it with an explicit
+`perLevel`.** The derivation was right about what it was testing — a page holding two bodies of work
+cannot report them with one tick: a learner who read a text at A2 and later moved to B1 would find
+the B1 questions already ticked. It was wrong that a wide tag is what such a page looks like. The
+`[]` half survives unchanged and is the same argument seen from below: a verb sheet or a culture
+page belongs to no level on purpose, so a per-level tick would invent a distinction the content does
+not have — which is what answers "conjugaison is the same at every level" without a hand-kept list
+of chapters to fall out of date.
 
 **Chosen against a second route per level.** `/lecture/le-lion-et-le-rat/b1` would duplicate the
 text, the id and the tick to vary the questions, which is the failure #14 rejects for parcours and
@@ -1386,7 +1391,7 @@ board scored against the other level's answers. The chapters that got nothing ar
 the same rule: a B1 `grammaire` lesson is a new page, a harder dictée is a different text, and a
 verb sheet has no level at all.
 
-**The two lists that must agree are checked.** A page's per-level sets and its manifest `levels` are
+**The two lists that must agree are checked.** A `perLevel` page's sets and its manifest `levels` are
 written in different files, and the manifest wins where they differ — so a level tagged with no set
 behind it would show another level's questions rather than fail. The sets therefore live in a module
 of type-only imports beside the page — `questions.ts` for a quiz, `data.ts` for a drill — which
@@ -1533,7 +1538,7 @@ prevent.
 
 
 ## 72 · A1 joins the course as pages, not as tags
-**2026-09-21 · Binding · extends #23, #52, #68**
+**2026-09-21 · Binding · extends #23, #52, #68 · narrowed by #74, #76**
 
 A1 is written into the chapters that already exist, ordered before the A2 material, and becomes
 choosable when it covers the DELF A1 syllabus. Everything below follows from those two sentences.
@@ -1549,11 +1554,12 @@ narrows it, which costs nothing new.
 it in the chooser instead, which names what each unfinished level holds. **What survives is #15 in
 its proper place**: the DELF functions define when A1 is *done*, not when it is *offered*.
 
-**`levels` says who a page is written for, not who still needs it.** This is the rule that decides
-what A1 costs, and it is silently violable in the generous direction: a B2 learner uses the
-imparfait every day, so tagging `gram-imparfait` for four levels feels like a kindness, and the
-effect is a filter that no longer filters. A page that looks right for four rungs is `ANY` (#23),
-not four tags. **The fourteen conjugation sheets were the standing violation** — tagged `A2` while
+**`levels` said who a page is written for, not who still needs it, and #76 reversed that half the
+same day.** The worry was real — tag generously in every direction and the filter stops filtering —
+but the cure hid the whole A2 course from anyone working at B1, and what replaced it keeps the part
+that belongs to *this* entry: a page is listed from its floor **upward**, and there is no downward
+widening, because an A1 learner handed the A2 imparfait is exactly the failure the second page
+exists to prevent. **The fourteen conjugation sheets were the standing violation** — tagged `A2` while
 #68's own prose names a verb sheet as the case a level cannot describe — and they are `ANY` from
 this entry. A conjugation table is the same table at every level, and leaving them at A2 would have
 given an A1 learner no verb sheet at all, with *le présent des verbes réguliers* as A1's central
@@ -1599,8 +1605,10 @@ and *les pronominaux* alike; they differ by exponent, not by topic — A1's nega
 jamais`, A2's is `ne… plus / rien / personne`. Bruner's name for this is the spiral curriculum, and
 its condition is that revisiting means *new material*. A topic on both lists earns a second page, no
 `["A1", "A2"]` tag. The six points that appear at A2 and nowhere below — l'imparfait, l'alternance
-avec le passé composé, les pronoms COD/COI, la comparaison, EN et Y, les relatifs — stay `A2`
-permanently, which is the answer to "what would it mean to tag l'imparfait C2".
+avec le passé composé, les pronoms COD/COI, la comparaison, EN et Y, les relatifs — have **A2 as
+their floor** and no A1 twin to write, which is the whole of what a level tag decides here. **They
+are not A2 alone**: #76 lists them at B1 and B2 as well, because a B1 learner who never sees the
+imparfait is being filtered away from the course rather than towards it.
 
 
 ## 73 · The level is chosen in the account, never on the page
@@ -1726,3 +1734,79 @@ exactly as `progress_lesson_id_shape` holds the shape of an id without holding a
 it to match this decision**; the constraint is not the place the scope lives, and narrowing it would
 make a future change to the syllabus a migration.
 
+
+
+## 76 · A page is listed from its floor upward; the tick follows the material
+**2026-09-21 · Binding · narrows #68, #72**
+
+`levels` is the set of rungs a page is **listed at**, and it runs from the rung the page was written
+at to the top of the ladder unless something higher supersedes it — `from("A2")` in the manifest,
+which slices `LADDER`. A separate `perLevel: true` says the page holds one body of work per level,
+and **that** is what `progressKey` branches on.
+
+**The failure this repairs was visible in the chooser's own apology.** #72 made `levels` mean "who
+the page is written for", which is true of writing and false of listing: choosing B1 hid the
+imparfait, the passé composé, les pronoms COD/COI and every other A2 lesson from a learner who had
+not stopped needing any of them. B1 showed eleven pages of harder questions and nothing else, and
+the interface had to say so in prose — « ce niveau ajoute des questions plus difficiles aux lectures
+et aux exercices, et masque les leçons écrites pour l'A2 ». A filter that has to explain that it
+hides the course is filtering the wrong way. **The levels are a ladder and a learner who climbs does
+not stop needing what they climbed on.**
+
+**The move that made it cost nothing was splitting two claims that `levels.length > 1` was
+carrying.** "Listed at several rungs" and "holds a body of work per rung" were the same bit, so
+widening a tag silently repointed the tick from `id` to `id@LEVEL` — the migration #68's own
+correction is about, which had already stranded eleven pages' ticks nine days earlier. They are two
+fields now: `levels` decides listing, `perLevel` decides the key, and neither can be inferred from
+the other.
+
+**Zero rows moved, and that is the test to keep applying.** The eleven pages that keyed per level
+before this entry are exactly the eleven carrying `perLevel` after it, so every key is byte
+identical; twenty-three pages widened from `A2` to A2–B2 and not one tick shifted. **If widening a
+tag ever costs a migration again, the two claims have been merged back** — that is what to check,
+not the diff.
+
+**Chosen against three alternatives.**
+
+*Leave #72 and write a B1 twin of every A2 page.* This is what the spiral argument licenses going
+downward, and it does not hold going up: A1 and A2 negate with different exponents, so the A1
+négation page has new material in it, while a B1 imparfait page would have none. There is nothing
+new to say about the imparfait at B1 — a B1 uses it, they do not relearn it — so the twin would be a
+copy, which is the duplication #14 rejects for parcours and #23 rejects for levels, arriving a
+fourth time.
+
+*A second field listing the rungs a page is "still useful at".* Two lists to keep in step, both
+editorial, both silently violable, and the same question answered twice on every entry. The floor
+plus a ladder answers it once.
+
+*Widen the tags and keep the per-level ticks.* A learner ticks the imparfait at A2, moves up, finds
+it unticked, and the only reading available to them is that the course lost it. The tick is a record
+of work done, and the same page is the same work whatever rung it is read at.
+
+**Downward is not symmetric, and #72 survives there intact.** `from()` has no downward twin on
+purpose: listing the A2 imparfait at A1 hands a beginner the harder explanation, and the answer to
+"A1 needs this too" is the simpler A1 page. A tag written out rather than sliced — `["A1"]` — is the
+exception and claims something above supersedes this page.
+
+**`ANY` is still a different thing from `from("A1")`.** `[]` says the page belongs to no rung at all
+— the verb sheets, the spelling pages, which answer to literacy rather than to CEFR (#23, #68).
+`from("A1")` would say a page is written at the bottom rung and climbs, which is a claim about a
+syllabus. Nothing conflates them and nothing should.
+
+**`from("A2")` includes B2, which nobody can choose** (#74, #75). Deliberate: it is a slice of the
+ladder rather than a hand-written list, so the day B2 opens it is already listed the course instead
+of needing twenty-three edits — and a level nobody can select cannot show anything wrong in the
+meantime.
+
+**A `perLevel` page writes its levels out and never uses `from()`.** There the tag *is* the list of
+sets, and the two must be equal: the manifest wins where they differ, so a rung listed with no set
+behind it would serve another rung's material rather than fail. The nine `lecture` texts and two
+`exercices` drills stay `["A2", "B1"]` for that reason — a B2 face for them is a B2 question set,
+not a wider tag. The `nav-wiring` audit checks it in both directions, and gained a third: several
+sets with no `perLevel` is two bodies of work behind one circle.
+
+**The interface now prints the floor, one badge.** `AppTopbar`'s trail (#65) and `PageRow` both
+mapped the whole tag into badges, which was three rungs wide on every row the moment this landed —
+« A2 B1 B2 » on every line of every listing separates nothing. The floor is the one thing the tag
+says that tells one row from the next, and it is still read from the manifest, so the chrome still
+reads no session (#35, #65).

@@ -45,11 +45,14 @@ export interface Bank {
  * « tous les verbes en -er se conjuguent ainsi, sauf aller », so these eighteen
  * endings are the endings of the largest group in the language.
  *
- * **The keys here must be exactly the manifest's `levels`** for this lesson.
- * A second bank belongs on this page rather than on a new one, the mechanic
- * being level-independent (`docs/decisions.md` #68) — *manger* or *commencer*
- * would make a good harder bank, since their stems soften before `a` and not
- * before `i`, and the board already reads that from the verb entry.
+ * **One bank, so this lesson is not `perLevel`** and its tick is the bare id
+ * (#76). A second bank belongs on this page rather than on a new one, the
+ * mechanic being level-independent (#68) — *manger* or *commencer* would make a
+ * good harder bank, since their stems soften before `a` and not before `i`, and
+ * the board already reads that from the verb entry. **Adding it costs three
+ * things in one commit**: `perLevel: true` in the manifest, `levels` written
+ * out as exactly the banks' keys, and a backfill moving every stored tick from
+ * `ex-les-terminaisons` to `ex-les-terminaisons@A2`.
  */
 export const BANKS: Record<string, Bank> = {
   A2: {

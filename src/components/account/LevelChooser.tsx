@@ -22,13 +22,19 @@ const BLURB: Record<Level, string> = {
  * tagged `[]` and show at every level — so the honest line is the one that says
  * so before they choose, not a sommaire that looks broken afterwards.
  *
+ * **B1 is unfinished in the other direction** (#76): it already lists every A2
+ * lesson, because a page is offered from its floor upward, so it is already a
+ * full course with nothing of its own in it yet. Saying so is what stops someone
+ * choosing B1, recognising the A2 sommaire and concluding the setting is
+ * broken.
+ *
  * A level in `COURSE_LEVELS` draws none of this. **Keep the two in step**: move
  * a level into `COURSE_LEVELS` and delete its line here in the same edit, or
  * the course goes on apologising for a level it has finished.
  */
 const IN_PROGRESS: Partial<Record<Level, string>> = {
   A1: "En cours d’écriture. Pour l’instant ce niveau ne montre que les tableaux de conjugaison, l’orthographe et la lecture libre.",
-  B1: "En cours d’écriture. Pour l’instant ce niveau ajoute des questions plus difficiles aux lectures et aux exercices, et masque les leçons écrites pour l’A2.",
+  B1: "En cours d’écriture. Pour l’instant ce niveau reprend tout le cours d’A2 et y ajoute des questions plus difficiles dans les lectures et les exercices. Ses propres leçons s’écrivent.",
 };
 
 const PROBLEM: Record<string, string> = {
@@ -104,8 +110,9 @@ export function LevelChooser({ current }: { current: Level | null }) {
 
       <p className={styles.aside}>
         L’A2 est le niveau écrit ; l’A1 et le B1 s’écrivent en ce moment et sont
-        proposés pour que vous puissiez les suivre. Un niveau marqué « en
-        cours » montre moins de leçons que l’A2, pas davantage. Le B2 s’ouvrira
+        proposés pour que vous puissiez les suivre. Une leçon reste proposée aux
+        niveaux au-dessus de celui où elle a été écrite : monter d’un niveau
+        n’enlève rien, et ce que vous avez terminé reste terminé. Le B2 s’ouvrira
         ici quand il aura des leçons.
       </p>
 
