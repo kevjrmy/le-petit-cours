@@ -120,7 +120,8 @@ what protects a learner's data.
 - Routes come from the filesystem: `src/app/{chapitre}/{lecon}/page.tsx`. **Chapter landing pages
   are one generated route** — `src/app/[chapitre]/page.tsx` renders all fifteen from the
   manifest, so adding a chapter means adding an entry and nothing else.
-- **The home page is a search field**; the course's table of contents is at `/sommaire`. Search reads
+- **The home page is a search field once you are signed in**, and a welcome with three doors when
+  you are not; the course's table of contents is at `/sommaire` either way. Search reads
   the manifest rather than an index — titles, subtitles, blurbs and DELF descriptors — so it works
   offline, and it folds accents, because both readers type on a Spanish keyboard and *passe compose*
   has to find « Le passé composé ». The query lives in the URL, so `/recherche?q=` is linkable and

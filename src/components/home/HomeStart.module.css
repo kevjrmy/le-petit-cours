@@ -1,0 +1,21 @@
+/* The page's own gap, reproduced: the slot is a wrapper the flex column above
+   it cannot see through, so without this the field, the line and the pills sit
+   flush against each other.
+
+   The floor is the signed-in view measured, not a round number: the field is
+   67px, « La suite » reserves 1.6rem, the pills take 84px, and two of the
+   page's 1.25rem gaps sit between them — 217px, so 13.6rem. The welcome is
+   108px (134 on a phone, where the blurb takes a third line) and sits at the
+   top of the box rather than centred in it: the blurb and the field then start
+   at the same line, so the swap has a fixed edge and the spare height falls
+   where nothing is drawn. **Measure again
+   if the field, the pills or « La suite » change height**: the point of the
+   floor is that a cold launch swaps the contents of this box without moving
+   the footer under it, and a floor that is too short does nothing at all. */
+.slot {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1.25rem;
+  min-block-size: 13.6rem;
+}

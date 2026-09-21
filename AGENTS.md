@@ -100,8 +100,8 @@ are all built. What no amount of reading the repo will reveal:
 
 ## 2. Stack and intended shape
 
-`src/app` (routes), `src/components` (`shell/ account/ sommaire/ search/ nav/ lesson/ progress/
-exercice/`), `src/data/navigation.ts` (the manifest), `src/hooks`, `src/lib`, `scripts/`,
+`src/app` (routes), `src/components` (`shell/ account/ home/ sommaire/ search/ nav/ lesson/
+progress/ exercice/`), `src/data/navigation.ts` (the manifest), `src/hooks`, `src/lib`, `scripts/`,
 `public/`. List the tree rather than trusting a copy of it here.
 
 - **TypeScript everywhere.** React Compiler is on (`reactCompiler: true`) — **do not hand-write
@@ -236,10 +236,17 @@ through lessons that already exist (#14).
   **The verb sheets are one route too** (#56), which costs the audit an extra line because the
   filesystem walk skips dynamic segments.
 
-**The way in** (#39, #40):
+**The way in** (#39, #40, #71):
 
 - **`/` is a search field, not the contents**; the sommaire is at `/sommaire`. Arriving at a table
   of contents is arriving at a list of things you have not read.
+- **Signed out, `/` is a welcome instead — and the prerendered HTML is that welcome** (#71): a
+  sentence, then « Tout le cours », « Rechercher », « Se connecter ». So a signed-in learner sees it
+  for one hydration on every cold launch, and `HomeStart`'s slot carries a **measured floor** so the
+  swap never moves the footer. **Re-measure it when the field, the pills or « La suite » change
+  height.** « Rechercher » is in that row because no annexe leads to `/recherche`, and the field on
+  `/` is search's only entrance. **Never pick the half on the server** — a cookie read makes `/`
+  dynamic and drops the `start_url` from the precache (§8).
 - **The sidebar is one level deep: a chapter is a link, not a disclosure.** **Do not put the
   lessons back in it** — the answer to "it should show more" is the chapter page, or search.
 - **Annexe position is a manifest property** (`where: top | tree | menu | footer`), never a list

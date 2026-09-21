@@ -1,0 +1,19 @@
+/* Wider than a heading's line would be: logo.svg is cropped to the glyph, so
+   the tail of « Cours » hangs into whatever sits under it. */
+.line {
+  margin-top: 1rem;
+  margin-inline: auto;
+  max-width: 30rem;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+/* Spectral is loaded at 400 and 600 only (`AGENTS.md` §5), so the weight is
+   named rather than left to <strong>'s 700, which would render 600 anyway and
+   read as a mistake the next time somebody checks. */
+.name {
+  font-weight: 600;
+  color: var(--text-1);
+}

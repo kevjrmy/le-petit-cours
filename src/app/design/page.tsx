@@ -207,9 +207,16 @@ export default function DesignPage() {
           <button type="button" className="button" disabled>
             Désactivé
           </button>
+          {/* The same pattern on a link, which is what the home page's welcome
+              row wears: no underline on hover, and it keeps the button's own
+              colours rather than the anchor's. */}
+          <Link href="/sommaire" className="button">
+            Tout le cours
+          </Link>
         </div>
         <p style={{ fontSize: "0.8rem", color: "var(--text-3)" }}>
           Un bouton désactivé le montre, et quelque chose à côté dit pourquoi.
+          Le dernier est un lien : même dessin, pas de soulignement.
         </p>
         <ul>
           <li>Une liste dans la colonne de lecture.</li>

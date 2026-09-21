@@ -27,14 +27,3 @@
   mask: url(/logo.svg) center / contain no-repeat;
 }
 
-.tagline {
-  /* Wider than it was under a text heading: logo.svg is cropped to the glyph,
-     so the tail of « Cours » hangs into whatever sits under it. */
-  margin-top: 1rem;
-  margin-inline: auto;
-  max-width: 30rem;
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  line-height: 1.5;
-  color: var(--text-2);
-}

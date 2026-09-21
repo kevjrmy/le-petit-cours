@@ -487,6 +487,12 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   color: var(--accent-text);
 }
 
+/* The pattern is worn by a link as often as by a button — the home page's
+   welcome row is three links — and `a:hover`'s underline would be the one thing
+   telling the two apart. Everything else about `.button` already overrides the
+   anchor. */
+a.button:hover { text-decoration: none; }
+
 .button-primary {
   border-color: transparent;
   background: var(--accent);

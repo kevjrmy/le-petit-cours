@@ -1,0 +1,26 @@
+.welcome {
+  display: flex;
+  flex-direction: column;
+  /* Tighter than the page's own 1.25rem: the sentence and the row it explains
+     are one block, and at the page's gap they read as two. */
+  gap: 1.1rem;
+  align-items: center;
+}
+
+.blurb {
+  max-width: 30rem;
+  /* Sans, not the serif the tagline above it uses: this is the explanation, and
+     the split is by role (`AGENTS.md` §5). Two serif lines stacked read as one
+     paragraph broken in half. */
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* The pills' own gap, because this row stands where they stand. */
+  gap: 0.4rem;
+}

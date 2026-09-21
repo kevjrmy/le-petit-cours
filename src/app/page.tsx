@@ -1,3 +1,6 @@
+import { Greeting } from "@/components/account/Greeting";
+import { HomeStart } from "@/components/home/HomeStart";
+import { Welcome } from "@/components/home/Welcome";
 import { NextLesson } from "@/components/progress/NextLesson";
 import { SearchBox } from "@/components/search/SearchBox";
 import { StartPills } from "@/components/search/StartPills";
@@ -6,25 +9,26 @@ import styles from "./page.module.css";
 /* The home page: what you came to look for, and where to start if you did not
    come to look for anything.
 
-   It is a Server Component with no client leaf of its own — `<Form>` is the
-   only interactive part and it lives inside `SearchBox`. The page ships as
-   static HTML and works offline with the service worker, which is the whole
-   reason search reads the manifest rather than a server (`src/lib/search.ts`).
+   **There are two of them, and the session picks** (#39, amended). Signed out
+   it is a welcome: what the course is, and three doors. Signed in it is the
+   search field, « La suite » and the pills. The field is what a returning
+   learner wants and the one thing a first visitor cannot use — you cannot
+   search a course you have not seen — and the returning learner is exactly the
+   one with an account. `HomeStart` owns that choice and says what it costs.
+
+   It is a Server Component, and everything interactive or session-reading
+   under it is a client leaf — `<Form>` inside `SearchBox`, `Greeting`,
+   `HomeStart`. The page ships as static HTML and works offline with the service
+   worker, which is the whole reason search reads the manifest rather than a
+   server (`src/lib/search.ts`).
 
    The course itself is at /sommaire. Putting it here made the first screen a
    fifteen-card grid: a table of contents is what you consult, not what you
-   arrive at.
+   arrive at. « Tout le cours » is a door to it, which is a different thing.
 
-   Nothing here explains the account. /compte says what one is for, at the only
-   moment anybody is asking — a first screen that answers a question nobody has
-   yet asked is a first screen with a paragraph on it.
-
-   `NextLesson` is the one exception, and only for somebody already signed in:
-   this page is the PWA's start_url, so it is what a student taps on their home
-   screen, and greeting them with an empty field every time wastes the one
-   screen that knows where they stopped. It is a client leaf, so the page stays
-   static (AGENTS.md §4); signed out it draws nothing and this is the search
-   field it has always been. */
+   Nothing here explains the account beyond naming it. /compte says what one is
+   for, at the only moment anybody is asking — a first screen that answers a
+   question nobody has yet asked is a first screen with a paragraph on it. */
 export default function Home() {
   return (
     <div className={styles.page}>
@@ -35,12 +39,22 @@ export default function Home() {
         <h1 className={styles.wordmark}>
           <span className="visually-hidden">Le Petit Cours</span>
         </h1>
-        <p className={styles.tagline}>Apprendre le français petit à petit</p>
+        {/* The tagline, until the session says who is reading — then their
+            name in its place. One slot either way, so the field below it does
+            not move. */}
+        <Greeting />
       </header>
 
-      <SearchBox hero />
-      <NextLesson as="line" />
-      <StartPills />
+      <HomeStart
+        welcome={<Welcome />}
+        app={
+          <>
+            <SearchBox hero />
+            <NextLesson as="line" />
+            <StartPills />
+          </>
+        }
+      />
     </div>
   );
 }

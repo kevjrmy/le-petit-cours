@@ -47,7 +47,7 @@ than marking it superseded.
 | 36 | 2026-09-06 | The learner's settings live in user metadata, not in a table of ours | Binding |
 | 37 | 2026-09-06 | Username and password; nothing on the server reads the session | Binding |
 | 38 | 2026-09-06 | The username is its own table — unique, mutable, mirrored | Binding |
-| 39 | 2026-09-06 | The home page is a search field; the sommaire is at `/sommaire` | Binding |
+| 39 | 2026-09-06 | The home page is a search field; the sommaire is at `/sommaire` | Binding · narrowed by #71 |
 | 40 | 2026-09-06 | The sidebar is one level deep: a chapter is a link, not a disclosure | Binding |
 | 41 | 2026-09-06 | The whole content is « le cours », never « le livre » | Binding |
 | 42 | 2026-09-06 | Three shells; chapter icons are required and compiler-checked | Binding |
@@ -79,6 +79,7 @@ than marking it superseded.
 | 68 | 2026-09-12 | A tick names its level only when the lesson serves more than one | Binding |
 | 69 | 2026-09-17 | A recurring mistake steers the course, and nobody gets a programme of their own | Binding |
 | 70 | 2026-09-21 | « La suite » is the dashboard; signing in returns you where you were | Binding |
+| 71 | 2026-09-21 | Signed out, `/` is a welcome; the search field is the signed-in home | Binding |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -619,10 +620,11 @@ there is no username field, so a trigger claims one from the email's local part 
 collision.
 
 ## 39 · The home page is a search field; the sommaire is at `/sommaire`
-**2026-09-06 · Binding**
+**2026-09-06 · Binding · narrowed by #71**
 
-`/` is the wordmark, one large search field and a short row of chapter pills. The chapter cards live
-at `/sommaire`.
+`/` is the wordmark, one large search field and a short row of chapter pills — **for a learner who
+is signed in**, which is what #71 narrowed this to; signed out the field is replaced by a welcome.
+The chapter cards live at `/sommaire` either way.
 
 **A table of contents is what you consult, not what you arrive at.** The sommaire answers *what is
 in this course?* — a question a returning learner has already answered. Arriving there means
@@ -1410,8 +1412,8 @@ stored, is predictable, and is the seam a parcours would feed when there is one 
 
 **The home page is the exception to "nothing here explains the account".** `/` is the PWA's
 `start_url`, so it is what a student taps on their home screen; greeting a signed-in one with an
-empty search field wastes the only screen that knows where they stopped. Signed out it draws
-nothing and `/` is the search field it has always been (#39).
+empty search field wastes the only screen that knows where they stopped. Signed out the line draws
+nothing, and the page around it is the welcome rather than the field (#71).
 
 **An offer filters by level; a record does not.** The head of `/ma-progression` obeys the chosen
 level like every other listing (#35); the tally under it still does not (#48). Two claims, one page.
@@ -1436,3 +1438,46 @@ resume line for the lesson they were going to open next.
 **Landing is a consequence of signing in, not of arriving.** `/compte` bouncing every signed-in
 visitor would make the settings unreachable from the popover that links them, so the redirect fires
 only when the session was read as empty first — which is what `useAccountReady` exists for.
+
+## 71 · Signed out, the home page is a welcome; the field is the signed-in home
+**2026-09-21 · Binding**
+
+`/` is two pages and the session picks between them. Signed in: the search field, « La suite » and
+the chapter pills, with the learner's name where the tagline was. Signed out: a sentence saying what
+the course is, then three links — « Tout le cours », « Rechercher », « Se connecter ». The wordmark,
+the line under it and the footer are the same in both.
+
+**The field is the weakest thing on this page for somebody who has not seen the course.** You cannot
+search a course you do not know the words for, and the learner who can is precisely the one with an
+account. Splitting by session sharpens both halves rather than compromising one.
+
+**« Tout le cours » is the primary action and « Se connecter » is not.** Public sign-up is off and
+there is no sign-up form anywhere (`AGENTS.md` §0) — accounts are made by hand — so for a first
+visitor the account is a door they cannot open, and emphasising it would sell the one thing the site
+does not offer. **Nor is there a call to create one**, for the same reason (#18: no interstitial, and
+here nothing to interstitially offer).
+
+**« Rechercher » is in the row because the field is not.** `annexes` holds no search row at any
+breakpoint, so the field on `/` is the only entrance search has; removing it signed out would take
+search out of the app entirely for anybody without a session. `/recherche` with no query is the
+field, empty, which makes it a real destination.
+
+**The sentence is a paragraph, not an `<h1>`.** The wordmark is this page's `<h1>` and the only
+place the wordmark belongs (#28, #61) — a second heading splits the document's name and replacing it
+drops it. It also names no chapter and no count: a prose list of chapters is a hand-kept list that
+drifts silently, and a number is the tally that disagrees with what exists (#51).
+
+**The cost, accepted deliberately: the prerendered `/` is the welcome.** `useAccount()` is `null` on
+the server and for the moment before the session is read, so one of the two views has to be the
+static HTML, and the welcome is the right one — most arrivals, what a search engine reads, what the
+offline cache serves a browser with no session. So the signed-in learner sees the welcome for the
+length of a hydration on every cold launch of the PWA, which is the wrong way round, and the reason
+it is tolerable is the floor: `HomeStart`'s slot reserves the taller view's measured height, so the
+swap changes the contents of a box and never moves the footer under it (#63).
+
+**Decided against three cheaper-looking answers.** Keeping the field in both states and swapping
+only the pills has no jolt at all, and leaves a first visitor a control they cannot use. Drawing
+neither view until `useAccountReady()` trades the swap for a blank first screen for everybody signed
+out, which is most people. Reading a cookie to pick the right half on the server makes `/` dynamic
+and takes the PWA's `start_url` out of the precache, which is the one thing `AGENTS.md` §8 exists to
+prevent.
