@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import type { Level } from "@/data/navigation";
 import styles from "./PageRow.module.css";
 
@@ -13,8 +14,19 @@ export interface PageRowProps {
   /** Where the page sits in the course. Shown only where the list is not already
    *  one chapter's — a search result needs it, a chapter's own list does not. */
   where?: string;
-  /** Ticked, not ticked, or `undefined` — no record to report, so no circle. */
+  /**
+   * Ticked, not ticked, or `undefined` — no record to report, so no tint and no
+   * control. It is the *row's* half of the state: the ground, the border and the
+   * separator. The control that changes it is `tick`, and the listing computes
+   * the state once for both so they cannot disagree.
+   */
   done?: boolean;
+  /**
+   * The trailing control, drawn beside the link rather than inside it — today
+   * `RowTick`, which marks the lesson done from the listing (#79). Omitted where
+   * there is nothing to report: signed out, or a list that is not the course's.
+   */
+  tick?: ReactNode;
 }
 
 /**
@@ -25,7 +37,17 @@ export interface PageRowProps {
  * both have to agree, and two stylesheets is how they stop agreeing.
  *
  * No hooks: it renders from the props it is handed, so it costs nothing when a
- * Client Component maps over it and stays usable from a Server one.
+ * Client Component maps over it and stays usable from a Server one. **That is
+ * why the tick arrives as a slot** rather than as a `done` boolean this row
+ * knows how to toggle — the control that writes needs the progress context, and
+ * this row must not.
+ *
+ * **The `<li>` is the card, not the link.** The tick is a `<button>` and cannot
+ * live inside an anchor, so the border, the ground and the hover moved out to
+ * the list item and the link became one of its two children (#79). Which is also
+ * what lets a finished lesson tint the whole row rather than one circle at the
+ * end of it, and lets the hairline between the two controls take the row's
+ * colour.
  *
  * **The level badge is the tag's floor, one badge** (#76). A page is listed
  * from the rung it was written at upward, so `levels` is three rungs wide on
@@ -33,9 +55,25 @@ export interface PageRowProps {
  * separates nothing — every row in the list would carry it. The floor is the
  * one thing it says that distinguishes one row from the next.
  */
-export function PageRow({ path, title, titleHtml, subtitle, tag, levels, where, done }: PageRowProps) {
+export function PageRow({
+  path,
+  title,
+  titleHtml,
+  subtitle,
+  tag,
+  levels,
+  where,
+  done,
+  tick,
+}: PageRowProps) {
+  /* Built rather than interpolated: three slots, two of them usually empty, and
+     the prerendered HTML of every listing in the course carries the gaps. */
+  const classes = [styles.item];
+  if (done) classes.push(styles.itemDone);
+  if (tick) classes.push(styles.withTick);
+
   return (
-    <li>
+    <li className={classes.join(" ")}>
       <Link href={path} className={styles.row}>
         <span className={styles.main}>
           <span className={styles.title}>
@@ -47,26 +85,9 @@ export function PageRow({ path, title, titleHtml, subtitle, tag, levels, where, 
           {where && <span className={styles.where}>{where}</span>}
           {tag && <span className={styles.tag}>{tag}</span>}
           {levels[0] && <span className={styles.level}>{levels[0]}</span>}
-          {done !== undefined && (
-            <>
-              {/* A mark as well as a fill (`AGENTS.md` §5). */}
-              <span
-                className={`${styles.state} ${done ? styles.stateDone : ""}`}
-                aria-hidden="true"
-              >
-                {done && (
-                  <svg className={styles.check} viewBox="0 0 24 24">
-                    <path d="M6.5 12.5l3.7 3.7 7.3-7.7" />
-                  </svg>
-                )}
-              </span>
-              <span className="visually-hidden">
-                {done ? ", terminée" : ", pas encore terminée"}
-              </span>
-            </>
-          )}
         </span>
       </Link>
+      {tick}
     </li>
   );
 }

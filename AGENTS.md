@@ -427,10 +427,12 @@ that has become dynamic is a regression, not a detail.**
 
 - **Marking is manual on every page type, drills included** (#2). A drill shows its score and
   stores nothing; finishing it never ticks it. **Do not auto-complete anything.**
-- **A tick needs an account** (#48). Signed out the control is still drawn — not hidden, not
-  disabled — and links to `/compte?suivant=<path>`, checked against the manifest rather than a
-  pattern. **Do not add an anonymous browser-local tick**: storage alone is evicted without
-  warning, and losing forty ticks silently is worse than saying what an account is for.
+- **A tick needs an account** (#48). Signed out the *lesson's* control is still drawn — not hidden,
+  not disabled — and links to `/compte?suivant=<path>`, checked against the manifest rather than a
+  pattern. **A listing's tick is absent instead** (#79): the invitation is worth making once under
+  the lesson, and forty of them down a chapter page is a column of asking. **Do not add an
+  anonymous browser-local tick**: storage alone is evicted without warning, and losing forty ticks
+  silently is worse than saying what an account is for.
 - **Keyed by `progressKey(lesson, level)`, never by a route path and never by an id typed at the
   call site** (#50, #68). It returns the bare `Lesson.id` — so only lessons can be ticked — except
   on a lesson marked **`perLevel`**, the one case where a page holds a body of work per level and
@@ -470,8 +472,20 @@ that has become dynamic is a regression, not a detail.**
   learner removed.
 - **The shell draws the end of a lesson** (#49): `LessonEnd` renders the tick then the cross-links,
   only when the path resolves to a lesson. **A lesson renders its prose and nothing else.**
-- **A chapter's listing shows the tick, it never sets it.** `PageRow`'s `done` prop; `undefined`
-  draws no circle, because signed out — and before the cache answers — there is nothing to report.
+- **A chapter's listing sets the tick as well as showing it** (#79) — `RowTick`, in `PageRow`'s
+  `tick` slot, **beside the row's link and never inside it**: a `<button>` in an `<a>` is invalid and
+  the press would navigate too. **The card is therefore the `<li>`** — give the link the border back
+  and the button is nested again. Two controls in one card look like two: the link ends in a
+  hairline, and **that rule is the link's** so it can follow the row's state.
+- **A finished row wears `--success-soft` with `--success-line`** (#79) — the pair « Leçon terminée »
+  wears under the lesson, because one claim gets one colour (§5), and the circle alone was invisible
+  down a chapter of fourteen. Hover firms the border and holds the ground; the accent must not take
+  over a row that is still done.
+- **The tick's state is read once, in the listing, and handed to both halves** (#79) — `PageRow`'s
+  `done` tints the row, `RowTick`'s changes it. Two reads compile and let one row hold two claims.
+  The slot is **omitted**, not disabled, when there is nothing to report: signed out, and before the
+  cache answers, an empty circle is a claim. **That gate is the listing's** — the row lays itself out
+  around a tick, so a control that returned `null` would leave the space for it.
 - **Counts use published lessons as the denominator.**
 - **`/ma-progression` is the one listing that does not filter by level** (#48): it shows what they
   *did*, and a tick hidden by a level change would read as a lost tick. **Its « La suite » head is

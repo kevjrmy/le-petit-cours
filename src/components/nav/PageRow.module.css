@@ -1,20 +1,62 @@
+/* The card is the list item, because the row holds two controls: the link, and
+   the tick that marks the lesson done (#79). The border, the ground and the
+   hover therefore sit out here, where they cover both. */
+.item {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.item:hover {
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
+}
+
+/* A finished lesson carries its state in the row's own ground, not only in the
+   1.3rem circle at the end of it: a chapter half done is then readable at a
+   glance, down the list, instead of one circle at a time. `--success-soft` and
+   `--success-line` are the same pair « Leçon terminée » wears at the foot of the
+   lesson — one claim, one colour (`AGENTS.md` §5). */
+.itemDone {
+  border-color: var(--success-line);
+  background: var(--success-soft);
+}
+
+/* Hover has to stay inside that claim rather than replace it with the accent:
+   the row is still done while the cursor is on it. The border firms up and the
+   ground holds, exactly as `DoneTick`'s button does. */
+.itemDone:hover {
+  border-color: var(--success);
+  background: var(--success-soft);
+}
+
 .row {
+  flex: 1 1 auto;
+  min-width: 0;
   display: flex;
   align-items: baseline;
   gap: 1rem;
   padding: 0.7rem 0.9rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface-1);
   color: inherit;
-  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
 }
 
-a.row:hover {
-  border-color: var(--accent-line);
-  background: var(--accent-subtle);
-  text-decoration: none;
+a.row:hover { text-decoration: none; }
+
+/* Two controls in one card have to look like two, so the link ends in a
+   hairline and the tick gets its own column past it — 0.75rem from the last
+   badge to the rule, 0.7rem from the rule to the circle, 0.7rem to the card's
+   edge. The rule is the link's rather than the tick's so that it can follow the
+   row's state: a done row's separator is the done row's green, and the tick's
+   own stylesheet cannot see that state. */
+.withTick .row {
+  padding-inline-end: 0.75rem;
+  border-inline-end: 1px solid var(--border);
 }
+
+.itemDone .row { border-inline-end-color: var(--success-line); }
 
 .main {
   flex: 1 1 auto;
@@ -44,38 +86,6 @@ a.row:hover {
   padding: 0.12rem 0.4rem;
   border-radius: var(--radius-pill);
   white-space: nowrap;
-}
-
-/* The tick, at the end of the row. Empty is a ring on the row's own ground —
-   an outline, not a grey fill, so it reads as "nothing here yet" rather than as
-   a state of its own. */
-.state {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  inline-size: 1.3rem;
-  block-size: 1.3rem;
-  margin-inline-start: 0.15rem;
-  border: 1px solid var(--border-strong);
-  border-radius: 50%;
-  background: transparent;
-  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
-}
-
-.state.stateDone {
-  border-color: var(--success);
-  background: var(--success);
-}
-
-.check {
-  inline-size: 0.8rem;
-  block-size: 0.8rem;
-  fill: none;
-  stroke: var(--text-on-success);
-  stroke-width: 2.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }
 
 .where { color: var(--text-3); padding-inline: 0; letter-spacing: 0.08em; }

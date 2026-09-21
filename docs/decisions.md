@@ -87,6 +87,7 @@ than marking it superseded.
 | 78 | 2026-09-21 | A `delf` chapter describes the exam and prints none of it | Binding |
 | 75 | 2026-09-21 | The ladder stops at B2; C1 and C2 are out of scope | Binding |
 | 76 | 2026-09-21 | A page is listed from its floor upward; the tick follows the material | Binding · narrows #68, #72 |
+| 79 | 2026-09-21 | The tick is settable from a chapter's listing, beside the row's link | Binding · extends #2, #48 |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -1903,3 +1904,81 @@ frame is identical at A1, A2 and B1, and only the durations and the tasks move, 
 **Compréhension de l'oral cannot be written yet**, and there is no row for it. It needs audio, which
 is the blocker `dictees` has had since #12.2 was opened. #51 forbids announcing it in the meantime:
 the chapter simply has three épreuves when it has three, and four when the speech hook exists.
+
+## 79 · The tick is settable from a chapter's listing, beside the row's link
+**2026-09-21 · Binding · extends #2, #48**
+
+A chapter's listing used to **show** each lesson's tick and refuse to set it: marking happened at the
+foot of the lesson and nowhere else. It now sets it — `RowTick`, one `<button>` per row, handed to
+`PageRow` as a slot.
+
+**Decided against keeping the row read-only.** The two ticks answer two different moments, and only
+one of them was served. « J'ai terminé » under the prose is for the learner who has just finished
+reading — it is where they are, and it stays. The listing is for the learner who did four lessons
+this afternoon, or who has come back to a chapter they worked through offline: with a read-only row,
+ticking those four was four navigations, four scrolls to the foot of a page already read, and four
+journeys back. The circle was already drawn at the end of the row, already the right shape, and
+already showed the state it would not let them change.
+
+**Marking is still manual, which is the whole of #2.** This is a second *place to press*, never a
+second way for the app to decide a lesson is finished. Nothing here is automatic and the tick still
+means only what the learner says it means.
+
+**The tick had to leave the link, and that is why the card is now the `<li>`.** A `<button>` inside
+an `<a>` is invalid HTML, and whatever a browser makes of it, one press would both toggle and
+navigate — the worst possible pairing, since the learner would land on the page they were trying not
+to open. Three ways out were on the table:
+
+- *The whole row a button, the title a link inside it* — the same nesting, the other way round.
+- *The tick positioned absolutely over the link's trailing padding* — the link still lies underneath,
+  so the target depends on paint order, and the space it needs is a magic number in a second
+  stylesheet: a longer title slides under the circle the day the reserved width is wrong.
+- *The tick a sibling, in a flex `<li>`* — chosen. The border, the ground and the hover moved from
+  the anchor to the list item, and the anchor became one of its two children. Nothing overlaps
+  anything, the target is the whole column past the row's hairline rather than the circle in it, and
+  it is a thumb wide and the row's full height on a phone.
+
+**Hovering the tick lights the whole row**, because the ground is the `<li>`'s and there is no
+`:has()` in this project's CSS to say « only when the link is hovered ». Accepted rather than worked
+around: the row is one object, and the tick has a hover of its own on top of it — the ring fills
+toward the accent, and a ticked one darkens rather than emptying, since an empty circle under the
+cursor would read as *already unticked*.
+
+**The row says it twice, and the second way is the ground.** A 1.3rem circle at the end of a row is
+a control, and it was doing double duty as the report — legible one row at a time, and invisible as a
+shape down a chapter of fourteen. So a finished lesson tints the whole `<li>`: `--success-soft` with
+`--success-line`, which is exactly what « Leçon terminée » wears at the foot of the lesson. **One
+claim, one colour** — a done row and a done button that differed would be two greens meaning the same
+thing, and `AGENTS.md` §5's rule about `--danger` cuts the same way for `--success`. Hover stays inside the
+claim: the border firms to `--success` and the ground holds, rather than the accent taking over a row
+that is still done.
+
+**And the two controls look like two.** The link ends in a hairline and the tick owns the column past
+it, because a bare circle sitting in the link's own ground invited a press that would navigate — the
+very confusion the sibling markup exists to prevent. The rule belongs to the link rather than to the
+tick, so that it can follow the row's state: on a done row it is `--success-line` like the border it
+meets, and the tick's own stylesheet cannot see whether the row is done.
+
+**The state is read once, in the listing, and handed to both halves.** `PageRow`'s `done` tints the
+row; `RowTick`'s `done` draws the circle and `toggle` changes it. Both could have read `isDone`
+themselves — same context, same answer, no bug today — and that is the arrangement #68 was written
+about: one row holding two claims about one lesson is one refactor away from holding two *different*
+claims.
+
+**Signed out the listing draws no tick at all**, which is not what #48 says about the lesson's
+control. The invitation to make an account is worth making once, under the lesson the learner has
+just read; forty of them down a chapter page is a column of asking. Before the cache answers the
+same silence holds, for the older reason: an empty circle is a claim, and claiming « rien de
+terminé » to someone with thirty ticks is worse than claiming nothing. **The gate lives in the
+listing**, not inside `RowTick`, because the row lays itself out around the presence of a tick — a
+control that renders `null` would leave its space behind it.
+
+**Not extended to the search results, and the reason is #76's.** A search groups matches by level
+instead of cutting them, deliberately: the rows under « À d'autres niveaux » are pages whose material
+is at a rung the learner has not chosen. A tick is keyed to the level of the material in view, so
+ticking from there would key it at the learner's own level and record work on a variant they were
+not looking at. The same row, in the same list, would mean two different things depending on which
+group it fell into.
+
+**`/ma-progression` is unchanged.** It is a record, not an offer; whether a learner may *untick* from
+it is a separate question about the record, and nothing forced it open.

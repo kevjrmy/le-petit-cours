@@ -2,6 +2,7 @@
 
 import { visibleLessons, type Chapter } from "@/data/navigation";
 import { PageRow } from "@/components/nav/PageRow";
+import { RowTick } from "@/components/progress/RowTick";
 import { useAccount } from "@/hooks/useAccount";
 import { useProgress } from "@/hooks/useProgress";
 import styles from "./ChapterLessons.module.css";
@@ -18,8 +19,10 @@ import styles from "./ChapterLessons.module.css";
  * one stylesheet, so the two listings cannot present the same lesson two ways.
  * No `where` label here: every row in this list is in the same chapter.
  *
- * Signed in, each row ends in the lesson's tick. Read-only: marking stays at
- * the foot of the lesson (`AGENTS.md` §8).
+ * Signed in, each row ends in the lesson's tick, and **the tick is the control**
+ * (#79): ticking eight lessons used to be eight visits to the foot of eight
+ * pages. Marking is still manual — a second place to press, not a second way to
+ * be ticked by the app (`AGENTS.md` §8).
  *
  * **No tally above the rows.** The rows are the count, and a number over a list
  * short enough to see is a number for its own sake — the same reason the
@@ -60,16 +63,34 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
 
   return (
     <ul className={styles.list}>
-      {lessons.map((lesson) => (
-        <PageRow
-          key={lesson.path}
-          {...lesson}
-          /* Asked at the level this list is filtered to, which is the whole
-             point of passing it: a B1 learner reading a text that also serves
-             A2 must see her B1 tick, not the one she left at A2. */
-          done={drawTicks ? isDone(lesson, level) : undefined}
-        />
-      ))}
+      {lessons.map((lesson) => {
+        /* Asked at the level this list is filtered to, which is the whole point
+           of passing it: a B1 learner reading a text that also serves A2 must
+           see her B1 tick, not the one she left at A2.
+
+           Asked **once**, and handed to both halves of the row — the tint the
+           lesson wears and the button that changes it. Two reads would compile
+           and could not disagree today, but the row would then hold two claims
+           about one lesson, which is the shape #68 was written about.
+
+           The gate is here rather than inside `RowTick`, so an absent tick is an
+           absent element: the row lays itself out differently around one, and a
+           control that renders nothing would leave the space for it. */
+        const done = drawTicks ? isDone(lesson, level) : undefined;
+
+        return (
+          <PageRow
+            key={lesson.path}
+            {...lesson}
+            done={done}
+            tick={
+              done === undefined ? undefined : (
+                <RowTick lesson={lesson} level={level} done={done} />
+              )
+            }
+          />
+        );
+      })}
     </ul>
   );
 }

@@ -309,7 +309,8 @@ them.
   those tallies is gone from the manifest with them.
 - Every chapter landing page and the rows on it.
 - Breadcrumbs and the document title.
-- Progress ticks, the per-chapter tally and `/ma-progression` — driven off the entry's `id`.
+- Progress ticks, the per-chapter tally and `/ma-progression` — driven off the entry's `id`, and
+  settable from the chapter's own row as well as from the foot of the lesson (#79).
   **Registering a lesson is all the wiring progress needs**; there is nothing to add to the page.
 - The « J'ai terminé » control and the « Pour aller plus loin » block, both drawn by the shell for
   any path that resolves to a lesson (#49).

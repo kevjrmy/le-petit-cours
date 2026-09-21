@@ -159,10 +159,11 @@ no auth wall, no sign-up interstitial, nothing gated behind an email address. Th
 and it is also what keeps the lessons statically prerendered and precacheable — which is what makes
 the app work offline at all.
 
-**An account is required to keep a learning path** — the « J'ai terminé » tick, the level you are
-working at, and the position in a parcours those imply, across devices. There is no anonymous
-progress: one storage path, one owner. Signed out the tick is still drawn at the foot of every
-lesson and offers the way in, returning to the lesson afterwards — the site says what an account is
+**An account is required to keep a learning path** — the « J'ai terminé » tick, pressed under the
+lesson or straight from its row on the chapter page, the level you are working at, and the position
+in a parcours those imply, across devices. There is no anonymous progress: one storage path, one
+owner. Signed out the tick is still drawn at the foot of every lesson and offers the way in,
+returning to the lesson afterwards — the site says what an account is
 for rather than pretending to remember (`decisions.md` #48).
 
 An account holds a **username, an email, a password, progress rows and settings, and nothing else**

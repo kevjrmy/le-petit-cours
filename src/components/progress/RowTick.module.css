@@ -1,0 +1,63 @@
+/* The whole column past the row's hairline is the target, not the 1.3rem circle
+   in it: stretched to the row's height and 2.7rem wide, which is where the thumb
+   lands on a phone. The divider and the spacing either side of it belong to the
+   row (`PageRow.module.css`), so that they can follow its state. */
+.tick {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.7rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* Inset, so the ring does not straddle the row's border. */
+.tick:focus-visible {
+  outline-offset: -3px;
+  border-radius: var(--radius);
+}
+
+/* Empty is a ring on the row's own ground — an outline, not a grey fill, so it
+   reads as "nothing here yet" rather than as a state of its own. */
+.state {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.3rem;
+  block-size: 1.3rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  background: transparent;
+  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+
+.state.stateDone {
+  border-color: var(--success);
+  background: var(--success);
+}
+
+/* Hover says the circle is a control, which nothing else on the row does: the
+   ring fills towards the accent, and a ticked one darkens rather than emptying
+   — an empty circle under the cursor would read as already unticked. */
+.tick:hover .state {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+}
+
+.tick:hover .state.stateDone {
+  border-color: var(--success-text);
+  background: var(--success-text);
+}
+
+.check {
+  inline-size: 0.8rem;
+  block-size: 0.8rem;
+  fill: none;
+  stroke: var(--text-on-success);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

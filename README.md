@@ -148,9 +148,10 @@ what protects a learner's data.
   can enforce neither, so it gets a column with a constraint behind it. Progress could never be
   metadata either: it is many rows per learner written from several devices, and held as a list on
   one row, two devices syncing after being offline would overwrite each other's ticks.
-- Progress is keyed by a permanent lesson id, ticked **manually** by the learner, and stored behind a
-  swappable adapter — an IndexedDB cache and the Supabase table are two implementations of one
-  interface. It requires an account; the content around it does not, and signed out the control
+- Progress is keyed by a permanent lesson id, ticked **manually** by the learner — at the foot of
+  the lesson, or straight from its row on the chapter's page — and stored behind a swappable
+  adapter: an IndexedDB cache and the Supabase table are two implementations of one interface. It
+  requires an account; the content around it does not, and signed out the control under the lesson
   links to the sign-in page and brings you back. The local copy stays the read path even when
   signed in — this is an offline app, so the server is a sync target and never something a render
   waits on. A tick made with no connection is queued as an *operation* rather than a snapshot, so

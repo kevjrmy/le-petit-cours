@@ -111,6 +111,9 @@ Any hit is a defect: it stays light-mode-coloured when the theme flips. Also fla
 - Icon-only controls without an accessible name.
 - A `<table>` with no caption.
 - Interactive elements built from `<div>`/`<span>` instead of `<button>`/`<a>`.
+- **A control nested inside a link** — a listing row carries two of them (`PageRow`'s link and
+  `RowTick`), and they are siblings for exactly this reason (#79). A `<button>` back inside the
+  `<a>` is invalid, and the press toggles *and* navigates.
 - Headings skipping a level, or a second `<h1>` on a page.
 - Text on tinted fills unlikely to reach 4.5:1 — check the token pair, not a guess.
 - A `<details>` used to hide a translation must stay keyboard-reachable.
