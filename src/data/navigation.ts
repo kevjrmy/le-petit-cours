@@ -1075,6 +1075,26 @@ export const chapters: Chapter[] = [
         delf: "Lire pour s’orienter et pour s’informer, en temps limité",
         created: "2026-09-21",
       },
+      {
+        id: "delf-a2-production-ecrite",
+        path: "/delf/a2-production-ecrite",
+        title: "Production écrite",
+        subtitle: "A2 · 25 points · 45 minutes",
+        tag: "Épreuve",
+        levels: ["A2"],
+        delf: "Raconter un événement, et répondre à une lettre amicale",
+        created: "2026-09-21",
+      },
+      {
+        id: "delf-a2-production-orale",
+        path: "/delf/a2-production-orale",
+        title: "Production orale",
+        subtitle: "A2 · 25 points · 6 à 8 minutes",
+        tag: "Épreuve",
+        levels: ["A2"],
+        delf: "Se présenter, tenir un monologue, et obtenir quelque chose",
+        created: "2026-09-21",
+      },
     ],
   },
 ];
@@ -1718,17 +1738,32 @@ const handWrittenLinks: Record<string, string[]> = {
      ce qui est exactement la situation des deux épreuves de production. */
   "/delf/comment-ca-se-passe": [
     "/delf/a2-comprehension-des-ecrits",
-    "/conversation/parler-du-travail",
-    "/traduction/une-journee",
+    "/delf/a2-production-ecrite",
+    "/delf/a2-production-orale",
     "/lecture/un-entretien-d-embauche",
   ],
   /* L'épreuve renvoie au barème, puis aux pages qui entraînent exactement ce
      qu'elle demande : lire un texte de presse et en tirer une information. */
   "/delf/a2-comprehension-des-ecrits": [
+    "/delf/a2-production-ecrite",
     "/delf/comment-ca-se-passe",
     "/lecture/un-entretien-d-embauche",
     "/vocabulaire/les-nombres",
-    "/grammaire/la-negation",
+  ],
+  /* Les deux épreuves de production se suivent, puis les pages qui entraînent
+     exactement ce qu'elles demandent : raconter au passé, et refuser poliment
+     en proposant autre chose. */
+  "/delf/a2-production-ecrite": [
+    "/delf/a2-production-orale",
+    "/grammaire/passe-compose-ou-imparfait",
+    "/traduction/une-journee",
+    "/grammaire/le-conditionnel-present",
+  ],
+  "/delf/a2-production-orale": [
+    "/delf/comment-ca-se-passe",
+    "/conversation/se-presenter",
+    "/conversation/parler-du-travail",
+    "/conversation/decrire-sa-ville",
   ],
   "/grammaire/le-conditionnel-present": [
     "/grammaire/l-imparfait",
