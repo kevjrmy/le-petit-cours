@@ -2,7 +2,6 @@
 
 import { usePathname } from "next/navigation";
 import { findLesson } from "@/data/navigation";
-import { LevelPicker } from "@/components/lesson/LevelPicker";
 import { useLessonVariant } from "@/hooks/useLessonVariant";
 import { Board } from "./board";
 
@@ -17,15 +16,9 @@ import { Board } from "./board";
  */
 export function LesTerminaisonsDrill() {
   const found = findLesson(usePathname() ?? "");
-  const { level } = useLessonVariant(found?.lesson ?? null);
+  const level = useLessonVariant(found?.lesson ?? null);
 
-  return (
-    <>
-      {/* Draws nothing unless the lesson serves more than one level. */}
-      <LevelPicker />
-      {/* Keyed by the level: a new bank is a new verb, and the answers typed
-          against the old one go with it (`docs/decisions.md` #68). */}
-      <Board key={level ?? ""} level={level} />
-    </>
-  );
+  /* Keyed by the level: a new bank is a new verb, and the answers typed against
+     the old one go with it (`docs/decisions.md` #68). */
+  return <Board key={level ?? ""} level={level} />;
 }

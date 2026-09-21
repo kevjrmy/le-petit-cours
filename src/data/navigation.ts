@@ -25,7 +25,23 @@
  * happened to say first.
  */
 
-export type Level = "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
+/**
+ * The rungs this course teaches. **It stops at B2** (#75).
+ *
+ * C1 and C2 are not deferred, they are out of scope: they serve someone doing
+ * academic or professional French, which is neither of the two profiles this
+ * course is written for (`docs/scope.md`). Declaring them would say the ladder
+ * continues, and a level declared and never written is the "coming soon" #51
+ * refuses everywhere else.
+ *
+ * **This is the course's ladder, not CEFR's**, and the difference is
+ * load-bearing. A heritage speaker is described as "orally C1 and written A2"
+ * in `AGENTS.md` §1 and in #13 — that is CEFR the framework describing a
+ * person, not a value this type could ever hold. **Do not "fix" that prose to
+ * say B2**: it would stop being true about the reader in order to agree with a
+ * union that is about the syllabus.
+ */
+export type Level = "A1" | "A2" | "B1" | "B2";
 
 /**
  * A lesson's permanent name, and the key every tick is stored under.
@@ -147,9 +163,6 @@ export interface Chapter {
   lessons: Lesson[];
 }
 
-/** Every level the course declares. B1 upward are empty on purpose (#52). */
-export const LEVELS: Level[] = ["A1", "A2", "B1", "B2", "C1", "C2"];
-
 /**
  * The levels a learner can actually choose.
  *
@@ -160,24 +173,60 @@ export const LEVELS: Level[] = ["A1", "A2", "B1", "B2", "C1", "C2"];
  * against this list before writing and `readLevel` checks against it on the way
  * back, and there is no third line of defence.
  *
- * Offering an empty level would hand someone an empty course, so a level belongs
- * here only once it has content — or, today, once it is the level being written.
- * **A2 alone** (#52): the rewrite's content starts there, so A1 comes back to
- * this line when an A1 page does. Opening a level is now this one edit, which is
- * less friction than #22 intended — worth remembering when B1 is written.
+ * **A level is offered while it is being written, not once it is finished**
+ * (#74). That reverses the older test — a level joined when choosing it handed
+ * someone a course — and the reversal is paid for in the chooser rather than
+ * here: `COURSE_LEVELS` below is what keeps the offer honest.
+ *
+ * **Closing a level is not free.** `readLevel` filters on this list too, so
+ * removing an entry makes anyone sitting on it read back as "no level chosen".
+ * Their stored value survives in metadata and is ignored, which is a silent
+ * reset rather than data loss — but it is silent.
  */
-export const CHOOSABLE_LEVELS: Level[] = ["A2"];
+export const CHOOSABLE_LEVELS: Level[] = ["A1", "A2", "B1"];
 
-/* Shorthands for the `levels` field, so a lesson entry reads as one line. `A2`
-   is the level being written (#52); `ANY` is "no level, always visible" — the
-   literacy pages, which answer to spelling rather than to a CEFR rung. */
+/**
+ * The levels that are a course rather than a work in progress.
+ *
+ * **Offered and finished are two different claims and both are editorial**, so
+ * this is a second hand-kept list rather than something derived. Nothing in the
+ * manifest can answer "is this a course yet" — a count of pages would say A1
+ * has twenty, which is true and misleading, since every one of them is a page
+ * tagged `[]` that belongs to no level at all (#62 refuses that tally for the
+ * same reason one chapter away).
+ *
+ * `LevelChooser` is the only reader: a level offered but absent here draws as
+ * « en cours d'écriture », with a line saying what is actually behind it. That
+ * line is the whole reason #74 could open A1 and B1 without #51 being broken —
+ * the interface still announces nothing it has not written, it just stops
+ * pretending the unwritten levels are not being worked on.
+ */
+export const COURSE_LEVELS: Level[] = ["A2"];
+
+/* Shorthands for the `levels` field, so a lesson entry reads as one line.
+
+   **`levels` says who a page is written for, not who still needs it** (#72). A
+   B2 learner uses the imparfait every day and the imparfait lesson is still A2
+   alone: it is tagged with the rung it teaches at, not with every rung that
+   goes on using it. Tagging generously feels helpful and quietly turns the
+   filter into a no-op — the honest alternatives are the level it was written
+   for, or `ANY`.
+
+   `A2` is the level being written (#52). `ANY` is "no level, always visible":
+   the literacy pages, which answer to spelling rather than to a CEFR rung, and
+   the verb sheets, which #68 names as the case a level cannot describe — a
+   conjugation table is the same table at every level, and tagging the fourteen
+   of them `A2` (as they were until 2026-09-21) would have left an A1 learner
+   with no verb sheet at all, since *le présent des verbes réguliers* is A1's
+   central point. */
 const A2: Level[] = ["A2"];
 /* A page serving two levels' worth of work from one text — the same reading
    with a question set per level (#68). It keeps **one** tick per level, not one
    page per level, which is what #23 chose a set of levels over duplication for.
    It does not make B1 choosable: `CHOOSABLE_LEVELS` is still A2 alone (#52), so
-   the B1 questions are reached from the picker on the page rather than by
-   working at B1. */
+   since #73 — when the on-page picker went and the level became the account's
+   alone — the B1 sets are written and unreachable until B1 is a level someone
+   can work at. */
 const A2B1: Level[] = ["A2", "B1"];
 const ANY: Level[] = [];
 
@@ -255,7 +304,7 @@ export const chapters: Chapter[] = [
         path: "/conjugaison/etre",
         title: "être",
         tag: "Auxiliaire",
-        levels: A2,
+        levels: ANY,
         delf: "Présent, imparfait, passé composé, futur simple, impératif.",
         created: "2026-09-06",
       },
@@ -264,7 +313,7 @@ export const chapters: Chapter[] = [
         path: "/conjugaison/avoir",
         title: "avoir",
         tag: "Auxiliaire",
-        levels: A2,
+        levels: ANY,
         delf: "Présent, imparfait, passé composé, futur simple, impératif.",
         created: "2026-09-06",
       },
@@ -273,7 +322,7 @@ export const chapters: Chapter[] = [
         path: "/conjugaison/parler",
         title: "parler",
         tag: "1er groupe",
-        levels: A2,
+        levels: ANY,
         delf: "Présent, imparfait, passé composé, futur simple, impératif.",
         created: "2026-09-06",
       },
@@ -282,7 +331,7 @@ export const chapters: Chapter[] = [
         path: "/conjugaison/finir",
         title: "finir",
         tag: "2e groupe",
-        levels: A2,
+        levels: ANY,
         delf: "Présent, imparfait, passé composé, futur simple, impératif.",
         created: "2026-09-06",
       },
@@ -291,7 +340,7 @@ export const chapters: Chapter[] = [
         path: "/conjugaison/manger",
         title: "manger",
         tag: "1er groupe",
-        levels: A2,
+        levels: ANY,
         delf: "Présent, imparfait, passé composé, futur simple, impératif.",
         created: "2026-09-06",
       },
@@ -300,7 +349,7 @@ export const chapters: Chapter[] = [
         path: "/conjugaison/commencer",
         title: "commencer",
         tag: "1er groupe",
-        levels: A2,
+        levels: ANY,
         delf: "Présent, imparfait, passé composé, futur simple, impératif.",
         created: "2026-09-06",
       },
@@ -309,7 +358,7 @@ export const chapters: Chapter[] = [
         path: "/conjugaison/aller",
         title: "aller",
         tag: "3e groupe",
-        levels: A2,
+        levels: ANY,
         delf: "Présent, imparfait, passé composé, futur simple, impératif.",
         created: "2026-09-06",
       },
@@ -318,7 +367,7 @@ export const chapters: Chapter[] = [
         path: "/conjugaison/faire",
         title: "faire",
         tag: "3e groupe",
-        levels: A2,
+        levels: ANY,
         delf: "Présent, imparfait, passé composé, futur simple, impératif.",
         created: "2026-09-06",
       },
@@ -327,7 +376,7 @@ export const chapters: Chapter[] = [
         path: "/conjugaison/prendre",
         title: "prendre",
         tag: "3e groupe",
-        levels: A2,
+        levels: ANY,
         delf: "Présent, imparfait, passé composé, futur simple, impératif.",
         created: "2026-09-06",
       },
@@ -336,7 +385,7 @@ export const chapters: Chapter[] = [
         path: "/conjugaison/venir",
         title: "venir",
         tag: "3e groupe",
-        levels: A2,
+        levels: ANY,
         delf: "Présent, imparfait, passé composé, futur simple, impératif.",
         created: "2026-09-06",
       },
@@ -345,7 +394,7 @@ export const chapters: Chapter[] = [
         path: "/conjugaison/partir",
         title: "partir",
         tag: "3e groupe",
-        levels: A2,
+        levels: ANY,
         delf: "Présent, imparfait, passé composé, futur simple, impératif.",
         created: "2026-09-12",
       },
@@ -354,7 +403,7 @@ export const chapters: Chapter[] = [
         path: "/conjugaison/pouvoir",
         title: "pouvoir",
         tag: "3e groupe",
-        levels: A2,
+        levels: ANY,
         delf: "Présent, imparfait, passé composé, futur simple, impératif.",
         created: "2026-09-06",
       },
@@ -363,7 +412,7 @@ export const chapters: Chapter[] = [
         path: "/conjugaison/vouloir",
         title: "vouloir",
         tag: "3e groupe",
-        levels: A2,
+        levels: ANY,
         delf: "Présent, imparfait, passé composé, futur simple, impératif.",
         created: "2026-09-06",
       },
@@ -372,7 +421,7 @@ export const chapters: Chapter[] = [
         path: "/conjugaison/devoir",
         title: "devoir",
         tag: "3e groupe",
-        levels: A2,
+        levels: ANY,
         delf: "Présent, imparfait, passé composé, futur simple, impératif.",
         created: "2026-09-12",
       },

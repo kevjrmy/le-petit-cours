@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { findLesson, type Level } from "@/data/navigation";
-import { LevelPicker } from "@/components/lesson/LevelPicker";
 import { useLessonVariant } from "@/hooks/useLessonVariant";
 import styles from "./Comprehension.module.css";
 
@@ -58,7 +57,7 @@ type ComprehensionProps =
 export function Comprehension(props: ComprehensionProps) {
   const pathname = usePathname() ?? "";
   const found = findLesson(pathname);
-  const { level } = useLessonVariant(found?.lesson ?? null);
+  const level = useLessonVariant(found?.lesson ?? null);
 
   /* The manifest decides which variant is in view; this only looks it up. A
      level with no set here falls back to the first one written rather than to
@@ -93,9 +92,6 @@ export function Comprehension(props: ComprehensionProps) {
 
   return (
     <>
-      {/* Draws nothing unless the lesson serves more than one level. */}
-      <LevelPicker />
-
       <ol className={styles.list}>
         {questions.map((item, index) => {
           const answer = answers[index];

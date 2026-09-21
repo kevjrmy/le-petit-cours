@@ -47,12 +47,16 @@ It serves **two kinds of reader**:
 They are not two levels of one thing. A heritage speaker can be orally C1 and written A2 at the
 same time. One library of lessons serves both, ordered differently for each.
 
-**Levels.** The goal is A1 → C2. The scope is **A1 and A2**, and the content being written now is
-**A2 alone** — that is the level the course's learner is at. A1 keeps its place in the plan and has
-no page yet. **B1 has its first material without being a level you can choose**: every reading text
-and both drills carry a harder set behind a picker on the page, so the same text and the same
-mechanic serve two levels and keep one tick each. C1 and C2 are declared and empty. A level counts
-as complete when it covers the published **DELF** syllabus for that level.
+**Levels.** The course goes **A1 → B2**; C1 and C2 are out of scope, for a different audience.
+The scope being written is **A1 and A2**. A2 is the level that is written —
+that is where the course's learner is — and **A1 is being written beside it** and has no page yet.
+**B1 has its first material**: every reading text and both drills carry a harder question set, so
+the same text and the same mechanic serve two levels and keep one tick each. Which set you see
+follows the level on your account; there is no control on the page. **A1 and B1 can be chosen while
+they are unfinished, and say so** — both are marked « en cours », with a line explaining that they
+currently show *fewer* lessons than A2 rather than more, since no page belongs to either alone.
+B2 is declared and empty. A level counts as complete when it covers the published
+**DELF** syllabus for that level.
 
 Chapters cover grammar, spelling, conjugation, pronunciation, vocabulary, translation, reading,
 culture, dialogues, dictations, graded exercises and replayable games. You can browse them by

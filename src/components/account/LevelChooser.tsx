@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CHOOSABLE_LEVELS, type Level } from "@/data/navigation";
+import { CHOOSABLE_LEVELS, COURSE_LEVELS, type Level } from "@/data/navigation";
 import { SaveSettingError, saveLevel } from "@/lib/account";
 import styles from "./AccountSettings.module.css";
 
@@ -9,10 +9,26 @@ import styles from "./AccountSettings.module.css";
 const BLURB: Record<Level, string> = {
   A1: "Vous commencez. Se présenter, compter, demander quelque chose, comprendre une phrase simple.",
   A2: "Vous vous débrouillez. Raconter au passé, donner un avis, tenir une conversation du quotidien.",
-  B1: "",
+  B1: "Vous suivez une conversation. Raconter en détail, expliquer un choix, donner un avis sur un texte.",
   B2: "",
-  C1: "",
-  C2: "",
+};
+
+/**
+ * What a level offered before it is written actually contains, today.
+ *
+ * **Without this the blurb above is a promise the course cannot keep** (#51,
+ * #74). A1 says « se présenter, compter, demander quelque chose » and would
+ * hand someone the conjugation tables and the spelling pages, because those are
+ * tagged `[]` and show at every level — so the honest line is the one that says
+ * so before they choose, not a sommaire that looks broken afterwards.
+ *
+ * A level in `COURSE_LEVELS` draws none of this. **Keep the two in step**: move
+ * a level into `COURSE_LEVELS` and delete its line here in the same edit, or
+ * the course goes on apologising for a level it has finished.
+ */
+const IN_PROGRESS: Partial<Record<Level, string>> = {
+  A1: "En cours d’écriture. Pour l’instant ce niveau ne montre que les tableaux de conjugaison, l’orthographe et la lecture libre.",
+  B1: "En cours d’écriture. Pour l’instant ce niveau ajoute des questions plus difficiles aux lectures et aux exercices, et masque les leçons écrites pour l’A2.",
 };
 
 const PROBLEM: Record<string, string> = {
@@ -65,6 +81,9 @@ export function LevelChooser({ current }: { current: Level | null }) {
             >
               <span className={styles.levelName}>
                 {level}
+                {!COURSE_LEVELS.includes(level) && (
+                  <span className={styles.levelTag}>en cours</span>
+                )}
                 {/* A tick as well as the fill, so the choice is not carried by
                     colour alone. */}
                 <svg className={styles.levelTick} viewBox="0 0 24 24" aria-hidden="true">
@@ -72,6 +91,9 @@ export function LevelChooser({ current }: { current: Level | null }) {
                 </svg>
               </span>
               <span className={styles.levelBlurb}>{BLURB[level]}</span>
+              {IN_PROGRESS[level] && (
+                <span className={styles.levelNote}>{IN_PROGRESS[level]}</span>
+              )}
               {saving === level && (
                 <span className="visually-hidden">Enregistrement en cours</span>
               )}
@@ -81,9 +103,10 @@ export function LevelChooser({ current }: { current: Level | null }) {
       </ul>
 
       <p className={styles.aside}>
-        Les autres niveaux ne sont pas proposables tant qu’ils sont vides : le
-        cours s’écrit en A2 d’abord, et chaque niveau s’ouvrira ici quand il
-        aura des leçons.
+        L’A2 est le niveau écrit ; l’A1 et le B1 s’écrivent en ce moment et sont
+        proposés pour que vous puissiez les suivre. Un niveau marqué « en
+        cours » montre moins de leçons que l’A2, pas davantage. Le B2 s’ouvrira
+        ici quand il aura des leçons.
       </p>
 
       {error && (

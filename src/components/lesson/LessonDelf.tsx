@@ -18,7 +18,7 @@ import { useLessonVariant } from "@/hooks/useLessonVariant";
  * something easier than she is.
  */
 export function LessonDelf({ lesson, className }: { lesson: Lesson; className?: string }) {
-  const { level } = useLessonVariant(lesson);
+  const level = useLessonVariant(lesson);
   const delf = delfFor(lesson, level);
   if (!delf) return null;
   return <p className={className}>{delf}</p>;

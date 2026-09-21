@@ -6,16 +6,23 @@ being built and for whom.
 
 ## Purpose
 
-**Help Spanish speakers reach French, from A1 to C2, for free.**
+**Help Spanish speakers reach French, from A1 to B2, for free.**
 
-The long-term ambition is the full CEFR ladder. The scope is **A1 and A2**, and the course starts
-with **A2 alone** — sized to the DELF A2 syllabus rather than to however many lessons exist.
-The learners the course was started for are at A2 (below), so A1 is the level with no reader waiting;
-it keeps its place in the plan and has no page. B1 is declared, **cannot be chosen**, and now has
-its first content: the nine `lecture` texts each carry a harder question set reached from a picker
-on the page, not from a level (`docs/decisions.md` #68). C1 and C2 are declared and empty. That is
-a deliberate limit, not a gap to be quietly filled — an unbounded A1→C2 project never finishes a
-level, and B1 joins `CHOOSABLE_LEVELS` when it has a course behind it rather than a chapter.
+**The ladder stops at B2** (#75) — C1 and C2 are out of scope, not deferred: they serve someone
+doing academic or professional French, which is neither profile below. The scope being written is
+**A1 and A2**. The course started
+with **A2 alone** — sized to the DELF A2 syllabus rather than to however many lessons exist —
+because the learners it was started for are at A2 (below). **A1 is now being written** into the same
+chapters, ahead of the A2 material. **A1 and B1 are both choosable while they are being written**
+(#74) and are marked « en cours » in the account, with a line saying what each actually holds —
+switching away from A2 today shows *fewer* lessons, not more, since no page belongs to A1 or B1
+alone. DELF coverage is still what "done" means (#15); it decides when a level stops being marked
+« en cours », not when it may be chosen. `docs/programme-a1.md` is the syllabus and the gap.
+
+B1's first content is the nine `lecture` texts and two `exercices` drills, which each carry a
+harder question set, reached by working at B1 — the level is set in the account and never on the
+page (#68, #73). B2 is declared and empty. That is a deliberate limit, not a gap to be quietly
+filled: an unbounded project never finishes a level.
 
 Nothing announces what is unwritten: a lesson appears in the interface in the commit that creates
 it, and until then its chapter is simply not offered (`docs/decisions.md` #51, #52).
@@ -78,9 +85,16 @@ same pages when the page suits them.
   and `Parcours A2` follow the DELF syllabus; a heritage parcours (« Écrire le français ») walks
   the orthography and conjugation pages in remediation order.
 
-One library, several orderings. Every lesson carries one or more CEFR **level tags** — a page can
-serve A1 and A2 at once — so a level that is not being offered is a filter rather than a fork in
-the codebase, and adding a profile later means adding a parcours rather than an app.
+One library, several orderings. Every lesson carries a set of CEFR **level tags**, so a level that
+is not being offered is a filter rather than a fork in the codebase, and adding a profile later
+means adding a parcours rather than an app.
+
+**A tag says who a page is written for, not who still needs it** (#72). A page serving two levels at
+once is the exception and not the shape to reach for: where a topic appears at two levels it
+normally appears with different exponents — A1 negates with `ne… pas`, A2 with `ne… plus / rien` —
+and that is a second, simpler page, not a second tag on the first. One page serves two levels only
+where the *stimulus* has no floor and the task scales, which is a reading's question set or a
+drill's item bank, never a prose explanation.
 
 ## What "done" means
 
@@ -93,6 +107,11 @@ taste.
 
 Concretely: map lessons to DELF A2 descriptors first, then A1, and track which descriptors have no
 lesson. A count of published pages is an inventory, never a claim of coverage.
+
+**The published syllabus is the *Inventaire linguistique des contenus clés des niveaux du CECRL***
+(CIEP / Eaquals, 2015), which France Éducation international distributes because no official DELF
+grammar programme exists. Its Annexe E lists fonctions, grammaire, socio-culturel and thèmes per
+level. **Coverage is measured on the fonctions**: the DELF tests communication, not grammar.
 
 ## Language of instruction
 

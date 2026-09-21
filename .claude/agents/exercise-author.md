@@ -76,7 +76,9 @@ level is a second bank on the same page, never a second page.
   `levels` in the manifest, and the `nav-wiring` audit's fifth line is what
   reports a disagreement — it reads `BANKS` from `data.ts` and `SETS` from a
   `questions.ts`, so keep the export named.
-- **`drill.tsx` renders `<LevelPicker />` and keys the board on the level.**
+- **`drill.tsx` keys the board on the level and draws no control for it.**
+  `useLessonVariant` reads the level from the account; a picker on the page was
+  removed in #73 and must not come back.
   `<Board key={level} level={level} />` remounts on a change, which is the whole
   reset: a deck, its placements, its score and its « vérifié » flag all belong
   together, and threading a reset through four setters loses whichever one you

@@ -31,15 +31,15 @@ export function LessonEnd() {
   const found = findLesson(path);
   /* Called before the early return, because a hook cannot be. It answers `null`
      for a path that is not a lesson, which is what that return is for. */
-  const { level } = useLessonVariant(found?.lesson ?? null);
+  const level = useLessonVariant(found?.lesson ?? null);
   if (!found) return null;
 
   return (
     <div className={styles.end}>
-      {/* The tick is for the variant she is looking at, not for the level she
-          is working at: she can read a text's B1 questions from A2, and what
-          she ticks is what she did (`docs/decisions.md` #68). Every lesson
-          serving one level resolves to it, and `progressKey` ignores it. */}
+      {/* The tick names the variant on screen, and since #73 that is the level
+          on the account — the questions above and the tick below read the same
+          hook, so they cannot disagree. Every lesson serving one level resolves
+          to it, and `progressKey` ignores it. */}
       <DoneTick lesson={found.lesson} level={level} path={path} />
       <RelatedLinks path={path} />
     </div>

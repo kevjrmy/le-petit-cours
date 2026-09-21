@@ -60,7 +60,7 @@ than marking it superseded.
 | 49 | 2026-09-06 | The shell draws the end of a lesson: the tick, then the links | Binding |
 | 50 | 2026-09-06 | Progress is keyed by a permanent lesson id, never by the route path | Binding |
 | 51 | 2026-09-06 | The course announces nothing it has not written | Binding |
-| 52 | 2026-09-06 | The content is A2 only, for now | Binding |
+| 52 | 2026-09-06 | The content is A2 only, for now | Binding · gate reversed by #74 |
 | 53 | 2026-09-06 | One language of instruction, and it is French | Binding |
 | 54 | 2026-09-06 | A conversation page is a guided role-play, graded nowhere | Binding |
 | 55 | 2026-09-06 | A `traduction` chapter — the one place Spanish is allowed back | Binding |
@@ -76,10 +76,14 @@ than marking it superseded.
 | 65 | 2026-09-12 | The lesson's level rides in the trail, in front of the chapter | Binding |
 | 66 | 2026-09-12 | Sections are marked, not merely spaced; the in-page index is read from the page | Binding |
 | 67 | 2026-09-12 | « En résumé » is a titled block, and one line closes a lesson | Binding |
-| 68 | 2026-09-12 | A tick names its level only when the lesson serves more than one | Binding |
+| 68 | 2026-09-12 | A tick names its level only when the lesson serves more than one | Binding · narrowed by #73 |
 | 69 | 2026-09-17 | A recurring mistake steers the course, and nobody gets a programme of their own | Binding |
 | 70 | 2026-09-21 | « La suite » is the dashboard; signing in returns you where you were | Binding |
 | 71 | 2026-09-21 | Signed out, `/` is a welcome; the search field is the signed-in home | Binding |
+| 72 | 2026-09-21 | A1 joins the course as pages, not as tags | Binding · narrowed by #74 |
+| 73 | 2026-09-21 | The level is chosen in the account, never on the page | Binding |
+| 74 | 2026-09-21 | A level is offered while it is being written, not once it is finished | Binding |
+| 75 | 2026-09-21 | The ladder stops at B2; C1 and C2 are out of scope | Binding |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -966,7 +970,10 @@ is honest; an empty chapter has nothing behind it.
 ## 52 · The content is A2 only, for now
 **2026-09-06 · Binding**
 
-`CHOOSABLE_LEVELS` holds `A2` alone. B1–C2 are declared, unchoosable and carry no page.
+`A2` is the level whose content is written. **The gate sentence this entry opened with — that
+`CHOOSABLE_LEVELS` holds `A2` alone — was reversed by #74**, which offers a level while it is being
+written rather than once it is finished; A1 and B1 are choosable and marked « en cours ». What
+survives here is why the *content* starts at A2, which is the half that still decides anything.
 
 **The reason is the learner, not the content.** The learners the course was started for are at A2. An
 earlier plan started at A1, sized to the DELF A1 syllabus — a defensible order for a course with an
@@ -1334,6 +1341,19 @@ data: every existing row takes the column's `''` default, and every record in th
 and every queued offline operation stays readable. Nothing was backfilled and `CACHE_VERSION` did
 not move.
 
+**That was true of every lesson which stayed single-level, and this change retagged eleven that did
+not.** The nine `lecture` texts and two `exercices` drills went from `A2` to `["A2", "B1"]` in the
+same commit, so `progressKey` started returning `lect-romeo-juliette@A2` where it had returned
+`lect-romeo-juliette`, against rows still holding the column default. Nothing was deleted and
+nothing failed; the ticks simply stopped being read and the circle went empty. One had been made.
+`20260921140000_progress_level_backfill.sql` moves them to `A2` — the variant that was actually
+finished, since the page served A2 alone when the tick was written — and skips any learner who has
+since re-ticked at A2, because `(user_id, lesson_id, level)` is the primary key and a blind update
+would collide. **The rule this leaves behind is that a page crossing from one level to two is a data
+migration, not a tag edit**, and it is the one thing to remember when a page grows an A1 face (#72).
+The cache needed nothing: `useProgress` rebuilds it from `applyPending(fetched, pending)` and
+`local.save` replaces it wholesale, so a stale key drops itself on the next signed-in load.
+
 **The ticks left `ProgressApi` in the same change, and that is the load-bearing half.** `state` was
 a plain `Record<string, string>` and two of its three consumers indexed it by hand — `lesson.id in
 state` in `Progression`, `lesson.id in ticks` in `ChapterLessons`. Both were correct only while the
@@ -1350,16 +1370,12 @@ what lets that constraint stand and keeps the table as ignorant of the course as
 of that lesson, so unticking a B1 reading would take the A2 tick with it, inside a background sync,
 with no error anywhere. `remote.ts` groups the removals by level and filters on both columns.
 
-**The variant in view is shell state, and `?niveau=b1` was tried first and dropped.** Two things
-have to agree about which set they are doing — the questions, and the tick beneath them — and the URL
-was the obvious shared source: one hook, shareable links, reset by navigation for free. It cannot be
-used. Reading it needs `useSearchParams`, and a component that calls it renders its nearest Suspense
-fallback into the **prerendered** HTML rather than its own output; with the boundary anywhere that
-covers both consumers, every lesson would ship a placeholder as its static page and fill itself in
-on the client. That is the offline story, traded for a shareable link. `LessonVariantProvider` holds
-the choice instead, tagged with the path it was made on so navigation drops it without an effect,
-and the picker sets it the way the theme toggle sets a theme the whole shell reads — nothing flows
-upward out of a page.
+**`?niveau=b1` was tried first and stays closed.** The URL was the obvious shared source for the two
+things that must agree — the questions and the tick beneath them — but reading it needs
+`useSearchParams`, and a component that calls it renders its nearest Suspense fallback into the
+**prerendered** HTML rather than its own output: every lesson would ship a placeholder as its static
+page. The offline story, traded for a shareable link. The shell state that replaced it lasted nine
+days — #73 removed the control that set it, and the variant now comes from the account.
 
 **`exercices` followed, and it is what proved the rule was about the mechanic.** A sorting board is
 a sorting board whether the chips read *aller* or *monter dans le train*, so both drills took a
@@ -1389,9 +1405,12 @@ client leaf rather than becoming a client component itself.
 **`lecture/le-comte-de-monte-cristo` was the first page to use it** — chosen because the extract
 already turns on what nobody says (Morrel asking after his cargo before his dead captain, Danglars
 handing a compliment back as an insult), so both levels read the same seven hundred words and only
-the question changes. **It does not make B1 choosable**: `CHOOSABLE_LEVELS` is still A2 alone (#52),
-so the B1 set is reached from the picker rather than by working at B1 — which is what lets the
-machinery be exercised before a B1 course exists to put behind it.
+the question changes. **It did not make B1 choosable, and #74 did** — nine days later and for a
+different reason. Between #73 and #74 these eleven sets had no reader at all: the picker that
+reached them was gone and B1 could not be worked at. They are now reached by choosing B1 in the
+account, which is the only way a variant is ever selected. Removing them was never the answer —
+it would drop each page back to one level and move its key from `id@A2` to `id`, which is the
+migration this entry's own correction is about.
 
 
 ## 69 · A recurring mistake steers the course, and nobody gets a programme of their own
@@ -1511,3 +1530,199 @@ neither view until `useAccountReady()` trades the swap for a blank first screen 
 out, which is most people. Reading a cookie to pick the right half on the server makes `/` dynamic
 and takes the PWA's `start_url` out of the precache, which is the one thing `AGENTS.md` §8 exists to
 prevent.
+
+
+## 72 · A1 joins the course as pages, not as tags
+**2026-09-21 · Binding · extends #23, #52, #68**
+
+A1 is written into the chapters that already exist, ordered before the A2 material, and becomes
+choosable when it covers the DELF A1 syllabus. Everything below follows from those two sentences.
+
+**One course that the level filters, not a second course beside A2.** Babbel and Busuu answer this
+by writing each level as its own course, which duplicates the chapter structure — the failure #14
+rejects for parcours and #23 rejects for levels, arriving a third time. Duolingo's rebuilt courses
+answer it by making the level a *section* of one ordered path, which is what `parcours` (#14) is for
+and what nothing yet implements. Until it does, a chapter is one ordered list and #35's filter
+narrows it, which costs nothing new.
+
+**A1 was to join `CHOOSABLE_LEVELS` only at coverage; #74 reversed that the same day**, paying for
+it in the chooser instead, which names what each unfinished level holds. **What survives is #15 in
+its proper place**: the DELF functions define when A1 is *done*, not when it is *offered*.
+
+**`levels` says who a page is written for, not who still needs it.** This is the rule that decides
+what A1 costs, and it is silently violable in the generous direction: a B2 learner uses the
+imparfait every day, so tagging `gram-imparfait` for four levels feels like a kindness, and the
+effect is a filter that no longer filters. A page that looks right for four rungs is `ANY` (#23),
+not four tags. **The fourteen conjugation sheets were the standing violation** — tagged `A2` while
+#68's own prose names a verb sheet as the case a level cannot describe — and they are `ANY` from
+this entry. A conjugation table is the same table at every level, and leaving them at A2 would have
+given an A1 learner no verb sheet at all, with *le présent des verbes réguliers* as A1's central
+point.
+
+**A second level is a new page, except where the stimulus has no floor.** #68 built the opposite
+shape — one page, a question set per level — and proved it across nine `lecture` texts, so the
+temptation is to reach for it again. It does not reach downward. A text sits at a floor and the
+*task* scales up from it: a B1 reads Cosette with harder questions, and an A1 cannot read Cosette at
+all. The same is true of a drill whose mechanic *is* the level — auxiliary choice in the passé
+composé is A2 material, and there is no A1 task hiding in that deck. So prose lessons, readings,
+dictées and most drills get a new A1 page reusing the existing components, and only a stimulus with
+no floor — a translation source, a level-free mechanic — takes a second set on one page.
+
+**`conversation` was the case that looked like an exception and is not.** « Prendre rendez-vous » is
+the same scene at A1 and A2, so the #68 shape seemed to hold downward one last time. It does not,
+and the reason names what a shared stimulus has to be: a `lecture` text shares seven hundred words,
+and a role-play shares a title. #57 makes the page its steps and its word cloud, and both change
+completely between the levels — the A1 learner greets, asks for an appointment, names a day and
+thanks; the A2 learner reschedules, explains a symptom and negotiates a time. When everything but
+the scene description differs, the stimulus is a sentence and the page is a different page wearing
+the same name. **So each level gets its own role-play**, which also costs nothing: the six that
+exist keep their ticks, where a retag would have migrated all six (§8).
+
+**A level's lessons are inserted in teaching order, never appended.** A chapter's order is the
+course's order, and the signed-out listing shows it unfiltered — so A1's *présent* sitting below
+A2's *passé composé* reads as a broken page rather than as a filter.
+
+**The syllabus is the Inventaire, and coverage is measured on the functions.** There is no official
+DELF A1 grammar programme; no regulatory text publishes a list of points, and the exam tests
+communication rather than grammar — there are no conjugation exercises in it. France Éducation
+international distributes the *Inventaire linguistique des contenus clés des niveaux du CECRL*
+(CIEP/Eaquals, 2015) instead, whose Annexe E gives a per-level page of fonctions, grammaire,
+socio-culturel and thèmes de vocabulaire. `docs/programme-a1.md` maps it against the manifest.
+**#15's finish line for A1 is that page's FONCTIONS list**, not its GRAMMAIRE list — which puts the
+weight on `conversation` and `vocabulaire` rather than on `grammaire`, and suits an audience that
+arrives with the Romance verb system already in their heads and needs the acts of speech, the
+pronunciation and the spelling.
+
+**The inventory is itself spiral, and that is why a shared topic is still two pages.** A1 and A2
+list *le présent*, *le futur proche*, *le passé composé*, *les modaux*, *l'impératif*, *je voudrais*
+and *les pronominaux* alike; they differ by exponent, not by topic — A1's negation is `ne… pas /
+jamais`, A2's is `ne… plus / rien / personne`. Bruner's name for this is the spiral curriculum, and
+its condition is that revisiting means *new material*. A topic on both lists earns a second page, no
+`["A1", "A2"]` tag. The six points that appear at A2 and nowhere below — l'imparfait, l'alternance
+avec le passé composé, les pronoms COD/COI, la comparaison, EN et Y, les relatifs — stay `A2`
+permanently, which is the answer to "what would it mean to tag l'imparfait C2".
+
+
+## 73 · The level is chosen in the account, never on the page
+**2026-09-21 · Binding · narrows #68**
+
+`LevelPicker` is deleted, and with it `LessonVariantProvider`, the context it fed and the per-path
+state it held. `useLessonVariant` is now a plain hook: the level the learner is working at, then the
+lesson's first, with the lesson's own `levels` as the authority at both steps. The only way to
+change level is `LevelChooser` in `/compte`.
+
+**A level is the course someone is following, not a view of the page in front of them.** That is
+the whole reason. #68 introduced the picker as a convenience and it quietly made a second claim: if
+a level can be flipped per page, it is a display option, like a theme. It is not — it decides what
+the sommaire offers, what the sidebar lists, what « La suite » proposes and which body of work the
+tick records. A control that repointed the last of those from inside the page, while the other three
+went on answering to the account, meant two answers to one question with nothing saying which was
+in force.
+
+**Progress is untouched, and keeps a tick per level exactly as #68 built it.** `progressKey`,
+the `level` column and the per-variant unmark all stand. Dropping to another level and climbing back
+still loses nothing — the guarantee #22 asked for — and that guarantee is what makes this decision
+cheap: nobody needs the picker to keep work they did at another level, because none of it was ever
+thrown away.
+
+**The cost was named rather than hidden, and it lasted about an hour.** Removing the picker stranded
+the eleven B1 sets, since B1 could not then be chosen. **#74 answered it the right way round** — the
+sets are reached by *working at* B1, which is what a level was always supposed to mean — and the
+stranding is what made that case concrete: prose written, paid for, and readable by nobody.
+
+**It strengthens the rule #72 had just written.** Without a picker, a page serving two levels shows
+one of them and hides the other behind a settings change, so the shape earns its place only where
+the *stimulus* genuinely carries both — which is what #72 already restricted it to. A multi-level
+page is now a narrower thing than it was, and a second page is the normal answer.
+
+**Chosen against two cheaper-looking answers.** Keeping the picker read-only, as a preview of the
+harder set, still puts a level control on the page and still leaves the tick asking which level it
+means. `?niveau=` was closed by #68 for a different reason that has not changed: `useSearchParams`
+renders the nearest Suspense fallback into the prerendered HTML, so every lesson would ship a
+placeholder and fill itself in on the client.
+
+**Nothing new was needed to make the level discoverable.** `LevelNotice` on the sommaire already
+names the programme being shown and links to `/compte` — #35 required that line the day the filter
+shipped, precisely so a filter could never be mistaken for an unwritten course.
+
+
+## 74 · A level is offered while it is being written, not once it is finished
+**2026-09-21 · Binding · reverses #52's gate, narrows #72**
+
+`CHOOSABLE_LEVELS` holds `A1, A2, B1`. A second list, `COURSE_LEVELS`, holds `A2` alone, and
+`LevelChooser` marks anything offered but absent from it « en cours » with a line saying what that
+level actually contains today.
+
+**The old gate answered the wrong question.** #52 said a level joins when choosing it hands someone
+a course, and it was right about the risk and wrong about the remedy: what makes an unfinished level
+dishonest is not that it can be chosen, it is that nothing tells you it is unfinished. Offering it
+silently and hiding it silently are the same failure — #51 forbids *announcing* what is not written,
+and a chooser that names what each level holds announces nothing false. The gate was doing the work
+a sentence could do.
+
+**The fact that decided it is counterintuitive and has to stay written down: switching away from A2
+shows fewer lessons, not more.** No page belongs to A1 or B1 alone, so the filter at A1 leaves 20
+lessons across 4 chapters and at B1 leaves 31 across 6, against 54 across 11 at A2 — a learner who
+picks B1 loses `grammaire`, `vocabulaire`, `astuces`, `conversation` and `traduction` outright. What
+B1 actually buys is the harder question set on the eleven pages that carry one (#68), which #73 had
+left unreachable. **That is why `IN_PROGRESS` exists rather than a bare badge**: « en cours » alone
+would read as "fewer lessons for now", and the truth is "a different, smaller selection".
+
+**Two hand-kept lists, because both claims are editorial.** Nothing in the manifest can answer "is
+this a course yet". A count of pages would say A1 has twenty, which is true and misleading, since
+every one is tagged `[]` and belongs to no level at all — the same reason #62 refuses a tally one
+chapter away. So `COURSE_LEVELS` is written by hand and `IN_PROGRESS` beside it, and **they move
+together**: a level entering `COURSE_LEVELS` loses its `IN_PROGRESS` line in the same edit, or the
+course goes on apologising for a level it has finished.
+
+**#15 keeps its job and loses one it had been given.** DELF coverage still defines when a level is
+*done*; it no longer decides when it may be *chosen*. #72 had bound the two together a few hours
+earlier and that clause is gone — what it was protecting is now protected by the chooser's own copy.
+
+**Closing a level is a silent reset.** `readLevel` filters against `CHOOSABLE_LEVELS` as well as
+`saveLevel`, so removing an entry makes anyone sitting on it read back as having chosen no level.
+The stored value survives in metadata and is ignored — not data loss, but nothing says it happened.
+Opening a level is cheap; closing one is not, which is the asymmetry to remember before offering
+B2 to see what it looks like.
+
+**Chosen against two alternatives.** Keeping the gate left the maintainer unable to see the level he
+is writing, and left #73's dormant B1 sets with no reader at all — material written, paid for, and
+unreachable by anyone. A separate preview control that set the level without offering it to learners
+would have been a second way to write one value, which is the shape #70 rejected for `?suivant=` and
+#73 rejected for the level itself: one writer, or two that agree by luck.
+
+
+## 75 · The ladder stops at B2; C1 and C2 are out of scope
+**2026-09-21 · Binding**
+
+`Level` is `A1 | A2 | B1 | B2`. C1 and C2 are gone from the union, and the unused `LEVELS` array
+went with them.
+
+**They are out of scope, not deferred, and the difference is the whole entry.** A level that is
+declared and never written is the "coming soon" #51 refuses everywhere else: it says the course
+intends something it does not intend. C1 and C2 serve someone doing academic or professional French
+— reading criticism, arguing a position, handling register — and that is neither of the two profiles
+this course exists for (#13). A native Spanish speaker acquiring French and a heritage speaker who
+needs literacy are both finished being served well before C1. Keeping the rungs declared cost
+nothing in code and made a promise in prose.
+
+**Removing them from the type is what makes it stick.** The union is the vocabulary (#42's pattern:
+a union in the manifest, checked in both directions), so a C1 page is now a compile error rather
+than a judgement call at review time. `LEVELS` had no consumer anywhere — it was already dead, and
+leaving it beside `CHOOSABLE_LEVELS` and `COURSE_LEVELS` (#74) would have left three level lists of
+which the first meant nothing.
+
+**`Level` is this course's ladder, not CEFR's, and the prose must not be "corrected" to match.**
+#13 describes the heritage speaker as plausibly **oral C1 and written A2 at once** — that is CEFR
+the framework describing a person, and it is the sentence that entry exists for. It is not a value
+this type could ever hold, and rewriting it to say B2 would make it false about the reader in order
+to agree with a union that is about the syllabus. The same goes for the proofreader brief's "no C1
+grammar vocabulary", which is about register rather than about a rung.
+
+**The database is untouched and should stay that way.** `progress_level_shape` allows
+`'' or ^[ABC][12]$`, which still admits `C1`. That is deliberate: #22 and #68 keep the table
+ignorant of this course, holding what a CEFR rung *looks like* rather than which ones we teach —
+exactly as `progress_lesson_id_shape` holds the shape of an id without holding any. **Do not tighten
+it to match this decision**; the constraint is not the place the scope lives, and narrowing it would
+make a future change to the syllabus a migration.
+

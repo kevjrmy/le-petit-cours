@@ -24,7 +24,9 @@ page is written in French, and the `metalanguage` field that used to say otherwi
 So the question is never "is this page in the right language", it is "does this French reach the
 reader it is for".
 
-**The learner track** is a native Spanish speaker, **A2 first and A2 only for now** (#52), reading
+**The learner track** is a native Spanish speaker. **A2 is the written level and A1 is being
+written beside it** (#52, #74) — so a page may be pitched at either, and the level it claims is in
+the manifest rather than in the prose. Reading
 French to learn French:
 
 - **A Spanish word on the page is a defect now.** No gloss, no translation column, no *(es: …)* in

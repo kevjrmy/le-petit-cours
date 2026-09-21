@@ -59,9 +59,11 @@ These come from the audience, and a change that breaks one will be asked to chan
   instead of translating them, and print the common wrong sentence beside the right one.
   **English is never used either** — no English glosses, no English mnemonics (no DR & MRS
   VANDERTRAMP). Never assume the reader knows English.
-- **Current scope is A1 and A2, and A2 is being written first** — the course's learner is at A2, so
-  that is where the content starts. A1 pages are welcome once A2 has substance; B1–C2 take no
-  content at all. Short sentences, everyday vocabulary, no literary tenses, no metalanguage
+- **Current scope is A1 and A2.** A2 was written first, because the course's learner is at A2;
+  **A1 is being written now** and is welcome. B2 takes no content yet, and **C1 and C2 are out of
+  scope** — they serve a different audience and the `Level` type stops at B2. A1 and B1 are choosable
+  while unfinished and marked « en cours » in the account, so an A1 page is visible to an A1 learner
+  the day it lands. `docs/programme-a1.md` says what A1 still needs. Short sentences, everyday vocabulary, no literary tenses, no metalanguage
   beyond *verbe, sujet, adjectif, accord* — the heritage track is the one place school grammar
   vocabulary is allowed.
 - **They type on a Spanish keyboard.** Prefer clicking to typing wherever an answer carries French
@@ -78,6 +80,14 @@ These come from the audience, and a change that breaks one will be asked to chan
 - **Every lesson declares its `levels`** in `src/data/navigation.ts`, and `[]` is how you say "no
   level, always visible". An omitted field is a type error on purpose: forgetting to tag a page
   and deciding it needs no tag must not look the same in a diff.
+- **`levels` is who the page is written for, not who still needs it.** A B2 learner uses the
+  imparfait every day and the imparfait lesson is still tagged `A2` alone. Tag generously and the
+  filter stops filtering; a page that looks right for four levels is `[]`, not four tags.
+- **Covering a topic at a second level is normally a second page, not a second tag.** The levels
+  share topics but differ in what they use — A1 negates with `ne… pas`, A2 with `ne… plus / rien` —
+  so an easier page is written beside the existing one rather than tagged onto it. And **adding a
+  level to a page that has one is a data migration**: the tick's key changes from `id` to
+  `id@LEVEL`, so every tick already stored stops being read unless a migration moves it.
 - **A lesson tagged for several levels owes one body of work per level**, in a module beside the
   page — `questions.ts` exporting `SETS` for a reading quiz, `data.ts` exporting `BANKS` for a
   drill. Its keys and the `levels` above must match: the manifest wins where they differ, so a

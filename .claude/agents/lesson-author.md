@@ -243,8 +243,8 @@ example.
 - **The page's prose around the quiz must not count the questions** — two sets will not agree on a
   number, and « Sept questions » over six is the trap §9 already records.
 - **`delf` takes a descriptor per level** — `{ A2: '…', B1: '…' }` — because it is a claim about
-  what the questions check. `LessonDelf`, a client leaf inside `PageHeader`, follows the picker;
-  `<meta name="description">` cannot, and publishes the first level's.
+  what the questions check. `LessonDelf`, a client leaf inside `PageHeader`, follows the account's
+  level (#73); `<meta name="description">` cannot, and publishes the first level's.
 
 #### Checking a set before you call it done
 
