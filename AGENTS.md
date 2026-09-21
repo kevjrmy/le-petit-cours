@@ -632,10 +632,12 @@ Recorded so nobody decides them by writing code. Closed ones are in `docs/decisi
 1. **The authoring format for lessons** (#10). Deferred, but no longer neutral: React Native
    eventually and contributing teachers eventually both push toward **content-as-data**. Build the
    primitives, hand-write a few lessons, decide with evidence. **Do not build a pipeline yet.**
-2. **Which chapters ship next.** Writing A2 first is settled (#52) and A1 is being written
-   alongside it (#72, #74); the order within either is not. Eleven chapters carry
-   pages and the sequencing is still meant to come from the DELF A2 syllabus rather
-   than from whichever chapter is most fun to write. **Four chapters are blocked on something other
+2. **Which chapters ship next.** Writing A2 first is settled (#52); A1 and B1 are being written
+   alongside it (#72, #74, #76), and the order within any of the three is not. A1's order is at
+   least mapped — `docs/programme-a1.md`, gated on the FONCTIONS list — and **B1's is not mapped at
+   all**: it has no syllabus document, so its pages are being chosen one at a time. Eleven chapters
+   carry pages and the sequencing is still meant to come from the DELF syllabus rather than from
+   whichever chapter is most fun to write. **Four chapters are blocked on something other
    than writing**: `prononciation` needs a decision before a page can exist at all, because §7 makes
    it data-driven; `dictees` needs the speech hook and the answer comparator; `jeux` needs a game
    that is not a second `exercices/`; `culture` needs photographs sourced and credited, which is

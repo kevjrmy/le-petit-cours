@@ -33,8 +33,8 @@ const BLURB: Record<Level, string> = {
  * the course goes on apologising for a level it has finished.
  */
 const IN_PROGRESS: Partial<Record<Level, string>> = {
-  A1: "En cours d’écriture. Pour l’instant ce niveau ne montre que les tableaux de conjugaison, l’orthographe et la lecture libre.",
-  B1: "En cours d’écriture. Pour l’instant ce niveau reprend tout le cours d’A2 et y ajoute des questions plus difficiles dans les lectures et les exercices. Ses propres leçons s’écrivent.",
+  A1: "En cours d’écriture. Pour l’instant ce niveau montre les premières leçons de vocabulaire et de conversation écrites pour lui, les tableaux de conjugaison et l’orthographe.",
+  B1: "En cours d’écriture. Ce niveau reprend tout le cours d’A2, y ajoute des questions plus difficiles dans les lectures et les exercices, et commence à avoir ses propres leçons de grammaire.",
 };
 
 const PROBLEM: Record<string, string> = {

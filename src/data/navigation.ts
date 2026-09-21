@@ -340,6 +340,26 @@ export const chapters: Chapter[] = [
         delf: "Reprendre un mot déjà dit sans le répéter",
         created: "2026-09-06",
       },
+      /* Les deux premières pages écrites pour le B1. Elles viennent après
+         l'A2 parce qu'un chapitre suit l'ordre du cours (#72) : le
+         plus-que-parfait se construit sur le passé composé et l'imparfait,
+         et le conditionnel sur les terminaisons de l'imparfait. */
+      {
+        id: "gram-plus-que-parfait",
+        path: "/grammaire/le-plus-que-parfait",
+        title: "Le plus-que-parfait",
+        levels: from("B1"),
+        delf: "Raconter en situant une action avant une autre",
+        created: "2026-09-21",
+      },
+      {
+        id: "gram-conditionnel-present",
+        path: "/grammaire/le-conditionnel-present",
+        title: "Le conditionnel présent",
+        levels: from("B1"),
+        delf: "Demander poliment, et dire ce qui arriverait",
+        created: "2026-09-21",
+      },
     ],
   },
   {
@@ -534,6 +554,27 @@ export const chapters: Chapter[] = [
     title: "Vocabulaire",
     blurb: "Les mots du quotidien, par thème, avec des exemples pour les employer.",
     lessons: [
+      /* L'A1 s'insère avant l'A2, jamais à la suite (#72) : la liste non
+         filtrée est celle que voit un visiteur déconnecté, et « l'heure »
+         au-dessus des nombres s'y lirait comme une page cassée. */
+      {
+        id: "voc-nombres",
+        path: "/vocabulaire/les-nombres",
+        title: "Les nombres",
+        subtitle: "Compter, un prix, un âge, un numéro",
+        levels: from("A1"),
+        delf: "Compter, dire un prix, un âge et un numéro",
+        created: "2026-09-21",
+      },
+      {
+        id: "voc-famille",
+        path: "/vocabulaire/la-famille",
+        title: "La famille",
+        subtitle: "Les liens, et la famille qui arrive après",
+        levels: from("A1"),
+        delf: "Nommer les membres de sa famille et dire qui ils sont",
+        created: "2026-09-21",
+      },
       {
         id: "voc-heure",
         path: "/vocabulaire/l-heure",
@@ -678,6 +719,30 @@ export const chapters: Chapter[] = [
     blurb:
       "Des situations de la vie quotidienne à jouer à deux, avec des aides à regarder ou à ignorer.",
     lessons: [
+      /* Les deux scènes A1, avant les six scènes A2 (#72). Chaque niveau a la
+         sienne : une scène ne se partage pas comme un texte de lecture, parce
+         que #57 fait la page de ses étapes et de son nuage de mots, et les
+         deux changent entièrement d'un niveau à l'autre. */
+      {
+        id: "conv-se-presenter",
+        path: "/conversation/se-presenter",
+        title: "Se présenter",
+        subtitle: "À quelqu’un que vous rencontrez",
+        tag: "Jeu de rôle",
+        levels: from("A1"),
+        delf: "Se présenter, s’informer sur l’identité, faire répéter.",
+        created: "2026-09-21",
+      },
+      {
+        id: "conv-faire-des-achats",
+        path: "/conversation/faire-des-achats",
+        title: "Faire des achats",
+        subtitle: "À la boulangerie, au marché",
+        tag: "Jeu de rôle",
+        levels: from("A1"),
+        delf: "Demander une quantité, comprendre un prix, payer.",
+        created: "2026-09-21",
+      },
       {
         id: "conv-rendez-vous-medecin",
         path: "/conversation/prendre-rendez-vous",
@@ -1370,6 +1435,7 @@ const handWrittenLinks: Record<string, string[]> = {
   "/orthographe/les-determinants-possessifs": [
     "/orthographe/les-homophones",
     "/orthographe/les-accents",
+    "/vocabulaire/la-famille",
   ],
   "/orthographe/les-terminaisons-verbales": [
     "/orthographe/les-homophones",
@@ -1378,6 +1444,7 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/le-passe-compose",
   ],
   "/vocabulaire/les-jours-et-la-date": [
+    "/vocabulaire/les-nombres",
     "/vocabulaire/l-heure",
     "/conversation/prendre-rendez-vous",
     "/lecture/un-entretien-d-embauche",
@@ -1433,6 +1500,7 @@ const handWrittenLinks: Record<string, string[]> = {
   "/grammaire/l-imparfait": [
     "/grammaire/le-passe-compose",
     "/grammaire/passe-compose-ou-imparfait",
+    "/grammaire/le-plus-que-parfait",
     "/conversation/parler-de-l-espagne",
   ],
   "/grammaire/passe-compose-ou-imparfait": [
@@ -1521,6 +1589,7 @@ const handWrittenLinks: Record<string, string[]> = {
     "/exercices/etre-ou-avoir",
   ],
   "/vocabulaire/la-recette-des-croissants": [
+    "/conversation/faire-des-achats",
     "/conversation/au-restaurant",
     "/traduction/le-resume-d-un-film",
     "/vocabulaire/l-heure",
@@ -1573,6 +1642,51 @@ const handWrittenLinks: Record<string, string[]> = {
   "/traduction/hier-dans-la-rue": [
     "/grammaire/les-pronoms-cod-coi",
     "/grammaire/le-passe-compose",
+  ],
+  /* Les deux scènes A1. Elles renvoient d'abord aux pages A1 qui les
+     alimentent en mots, puis à la scène A2 du même geste : un apprenant qui
+     tient la scène facile doit trouver la suivante sans passer par le
+     sommaire. */
+  "/conversation/se-presenter": [
+    "/vocabulaire/les-nombres",
+    "/vocabulaire/la-famille",
+    "/conversation/faire-des-achats",
+    "/conjugaison/etre",
+  ],
+  "/conversation/faire-des-achats": [
+    "/vocabulaire/les-nombres",
+    "/grammaire/le-conditionnel-present",
+    "/conversation/au-restaurant",
+    "/vocabulaire/la-recette-des-croissants",
+  ],
+  "/vocabulaire/les-nombres": [
+    "/vocabulaire/l-heure",
+    "/vocabulaire/les-jours-et-la-date",
+    "/conversation/faire-des-achats",
+    "/conversation/se-presenter",
+  ],
+  /* Les formes complètes des possessifs sont sur la page d'orthographe, qui
+     les possède : celle-ci n'en donne que l'emploi, et pointe. */
+  "/vocabulaire/la-famille": [
+    "/orthographe/les-determinants-possessifs",
+    "/conversation/se-presenter",
+    "/vocabulaire/les-nombres",
+    "/vocabulaire/le-travail",
+  ],
+  /* Les deux pages B1 : elles renvoient à l'A2 sur lequel elles se
+     construisent, et l'une à l'autre, parce qu'elles partagent leurs
+     terminaisons et sont pour l'instant tout ce que le B1 a en propre. */
+  "/grammaire/le-plus-que-parfait": [
+    "/grammaire/passe-compose-ou-imparfait",
+    "/grammaire/l-imparfait",
+    "/grammaire/le-passe-compose",
+    "/grammaire/le-conditionnel-present",
+  ],
+  "/grammaire/le-conditionnel-present": [
+    "/grammaire/l-imparfait",
+    "/grammaire/le-plus-que-parfait",
+    "/conjugaison/vouloir",
+    "/conversation/au-restaurant",
   ],
 };
 

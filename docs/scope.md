@@ -23,7 +23,8 @@ lessons: B1 is offered everything A2 is, and A1 is the thin level, because a pag
 downward — an A1 learner who needs a topic gets a simpler A1 page, not the A2 page's tag. What is
 written for B1 alone today is the harder question set on the nine `lecture` texts and two
 `exercices` drills, reached by working at B1 — the level is set in the account and never on the
-page (#68, #73). Its own lessons are being written. B2 is declared and empty. That is a deliberate limit, not a gap to be quietly
+page (#68, #73) — plus the first `grammaire` pages written at B1's own floor. B2 is declared and
+empty. That is a deliberate limit, not a gap to be quietly
 filled: an unbounded project never finishes a level.
 
 Nothing announces what is unwritten: a lesson appears in the interface in the commit that creates

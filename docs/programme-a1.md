@@ -36,17 +36,18 @@ that shape is decided. It is the A1 blocker worth clearing first.
 
 ## FONCTIONS — the twenty-four, and the gate
 
-Nothing below is covered *at A1* today; the right-hand column names the A2 page an A1 twin would be
-written beside, where one exists.
+Marked **·** where a page covers the function **at A1**; otherwise the right-hand column names the
+A2 page an A1 twin would be written beside, where one exists. Nine of the twenty-four are marked,
+two of them only in part.
 
-| # | Fonction | Nearest existing page |
+| # | Fonction | Page |
 |---|---|---|
-| 1 | Aborder quelqu'un et demander quelque chose | — |
-| 2 | Faire connaissance avec quelqu'un | — |
-| 3 | Se présenter / s'informer sur l'identité / présenter quelqu'un | — |
-| 4 | Saluer / prendre congé / remercier / s'excuser | — |
-| 5 | Demander de répéter, d'épeler, d'expliquer, de parler plus lentement | — |
-| 6 | Demander et donner des informations personnelles | — |
+| 1 | Aborder quelqu'un et demander quelque chose | **·** `conv-faire-des-achats` |
+| 2 | Faire connaissance avec quelqu'un | **·** `conv-se-presenter` |
+| 3 | Se présenter / s'informer sur l'identité / présenter quelqu'un | **·** `conv-se-presenter` |
+| 4 | Saluer / prendre congé / remercier / s'excuser | **·** `conv-se-presenter`, sauf *s'excuser* |
+| 5 | Demander de répéter, d'épeler, d'expliquer, de parler plus lentement | **·** `conv-se-presenter` |
+| 6 | Demander et donner des informations personnelles | **·** `conv-se-presenter` |
 | 7 | Prendre un rendez-vous (confirmer / reporter / annuler) | `conv-rendez-vous-medecin` |
 | 8 | Féliciter / souhaiter / faire des compliments | — |
 | 9 | Inviter, offrir : refuser, accepter, remercier | — |
@@ -59,9 +60,9 @@ written beside, where one exists.
 | 16 | S'informer sur les choses / décrire et caractériser des choses | — |
 | 17 | Demander / indiquer des instructions, un itinéraire | `conv-demander-son-chemin` |
 | 18 | Demander des renseignements, des informations | — |
-| 19 | Compter ; l'heure, les horaires, les prix, la date | `voc-heure`, `voc-jours-et-date` |
-| 20 | Exprimer des quantités et des mesures | — |
-| 21 | Faire des achats, des transactions simples, obtenir un service | — |
+| 19 | Compter ; l'heure, les horaires, les prix, la date | **·** `voc-nombres` ; `voc-heure`, `voc-jours-et-date` restent A2 |
+| 20 | Exprimer des quantités et des mesures | **·** `conv-faire-des-achats`, sauf les mesures |
+| 21 | Faire des achats, des transactions simples, obtenir un service | **·** `conv-faire-des-achats` |
 | 22 | Parler des modes de transport et savoir les utiliser | — |
 | 23 | Faire une réservation (au restaurant) | `conv-au-restaurant` |
 | 24 | Commander (au restaurant) | `conv-au-restaurant` |
@@ -119,15 +120,17 @@ already done: the A2 pages are listed at B1 and B2, and their ticks did not move
 
 ## THÈMES DE VOCABULAIRE — sixteen
 
-**·** la date, les jours, les mois, les saisons, les fêtes *(`voc-jours-et-date`)* · **·** le monde
-du travail, la vie professionnelle, le métier *(`voc-travail`)* · **·** l'alimentation, la cuisine
-*(`voc-recette-croissants`)*.
+Written **at A1**: les nombres *(`voc-nombres`, l'état civil reste à écrire)* · la famille et les
+relations sociales *(`voc-famille`)*.
 
-Missing entirely: les nombres et l'état civil · les pays et les nationalités · la famille et les
-relations sociales · les activités quotidiennes · les loisirs et les sports · les moyens de
-transport · les vacances et les voyages · le logement, ameublement et équipement · les lieux dans la
-ville, commerces et services · les vêtements et les accessoires · la météo · les poids, les mesures,
-les quantités · les objets personnels et quotidiens.
+Written at A2, so an A1 twin is still owed: la date, les jours, les mois, les saisons, les fêtes
+*(`voc-jours-et-date`)* · le monde du travail, la vie professionnelle, le métier *(`voc-travail`)* ·
+l'alimentation, la cuisine *(`voc-recette-croissants`)*.
+
+Missing entirely: les pays et les nationalités · les activités quotidiennes · les loisirs et les
+sports · les moyens de transport · les vacances et les voyages · le logement, ameublement et
+équipement · les lieux dans la ville, commerces et services · les vêtements et les accessoires · la
+météo · les poids, les mesures, les quantités · les objets personnels et quotidiens.
 
 **The false friends live here** (§1): a Spanish speaker reads most of this list for free, so an A1
 vocabulary page earns its place by the words that betray them — `robe`, `sol`, `carte`, `rester`,
@@ -149,15 +152,16 @@ inside another.
 | `conjugaison` | done — the fourteen sheets are `ANY` since #72 and carry le présent already |
 | `orthographe` | done — all four are `ANY`; accents and homophones are A1's entry point |
 | `grammaire` | ~13 new pages; `négation`, `passé composé`, `futur proche` get an A1 twin, not a tag |
-| `vocabulaire` | ~13 new themes; the three that exist get an A1 twin |
-| `conversation` | ~5 new scenes; the six that exist are untouched and keep their ticks |
+| `vocabulaire` | ~11 new themes; the four A2 pages get an A1 twin where the theme repeats |
+| `conversation` | ~3 new scenes; the six A2 ones are untouched and keep their ticks |
 | `astuces` | the socio-culturel four, plus what `mistake-triage` turns up |
 | `traduction` | new A1 source texts |
 | `lecture` | new A1 texts; none of the nine is reusable — a text has a floor |
 | `dictees`, `jeux`, `prononciation`, `culture` | blocked on §12.2 before level is the question |
 
-Roughly **thirty new pages**, and about ten existing pages that want a simpler twin rather than a
-second tag.
+Close to **thirty new pages** still, and about ten existing pages that want a simpler twin rather
+than a wider tag. The count moves slowly: four landed on 2026-09-21 and took nine functions with
+them, because a role-play answers several at once while a grammar page answers none.
 
 ## Order of work
 
