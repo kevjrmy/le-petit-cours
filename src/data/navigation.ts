@@ -1060,6 +1060,21 @@ export const chapters: Chapter[] = [
         delf: "Savoir ce que l’examen demande avant de s’y présenter",
         created: "2026-09-21",
       },
+      /* Les épreuves portent un niveau écrit en toutes lettres, jamais `from()`
+         (#76) : une épreuve de DELF A2 est *remplacée* au-dessus par l'épreuve
+         de DELF B1, pas prolongée par elle. Un candidat au B1 ne passe pas le
+         papier A2. C'est le premier usage dans le cours de l'exception que #76
+         garde ouverte, et la forme pour laquelle elle a été gardée. */
+      {
+        id: "delf-a2-comprehension-ecrits",
+        path: "/delf/a2-comprehension-des-ecrits",
+        title: "Compréhension des écrits",
+        subtitle: "A2 · 25 points · 30 minutes",
+        tag: "Épreuve",
+        levels: ["A2"],
+        delf: "Lire pour s’orienter et pour s’informer, en temps limité",
+        created: "2026-09-21",
+      },
     ],
   },
 ];
@@ -1702,10 +1717,18 @@ const handWrittenLinks: Record<string, string[]> = {
      seules pages du cours où l'on produit quelque chose sans être corrigé,
      ce qui est exactement la situation des deux épreuves de production. */
   "/delf/comment-ca-se-passe": [
-    "/conversation/se-presenter",
+    "/delf/a2-comprehension-des-ecrits",
     "/conversation/parler-du-travail",
     "/traduction/une-journee",
     "/lecture/un-entretien-d-embauche",
+  ],
+  /* L'épreuve renvoie au barème, puis aux pages qui entraînent exactement ce
+     qu'elle demande : lire un texte de presse et en tirer une information. */
+  "/delf/a2-comprehension-des-ecrits": [
+    "/delf/comment-ca-se-passe",
+    "/lecture/un-entretien-d-embauche",
+    "/vocabulaire/les-nombres",
+    "/grammaire/la-negation",
   ],
   "/grammaire/le-conditionnel-present": [
     "/grammaire/l-imparfait",

@@ -579,6 +579,237 @@ ul.mots li {
   padding: 0.25rem 0.8rem;
 }
 
+/* ---------------------------------------------------------------------------
+   L'épreuve de DELF (#78).
+
+   **Une épreuve est du HTML statique, et c'est le point.** Les champs sont des
+   `input` et des `textarea` non contrôlés : ils gardent ce qu'on tape sans une
+   ligne de JavaScript, la page reste préremplie hors ligne, et le seul îlot
+   client de la page est le bouton qui montre le corrigé (`AGENTS.md` §4). Rien
+   n'est corrigé automatiquement et rien n'est enregistré.
+
+   Les cases à cocher sont des `input` natifs visibles, jamais des radios
+   masqués derrière un label : c'est la panne silencieuse que §9 enregistre pour
+   les quiz de lecture, et ici le contrôle natif est en plus ce qui ressemble
+   le plus à la feuille d'examen.
+   --------------------------------------------------------------------------- */
+
+/* Le bandeau d'une épreuve : le barème et le temps, avant la première consigne. */
+.epreuve {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  border-top: 2px solid var(--accent);
+  border-bottom: 1px solid var(--border);
+  padding: 0.7rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+/* Un exercice. Le numéro et les points tiennent sur la même ligne que le titre,
+   comme sur le sujet papier, parce que le barème fait partie de la consigne. */
+.exercice {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+  padding: 1.25rem 1.5rem;
+}
+
+.exercice > h3 {
+  margin-top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.exercice .points {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+/* Les documents d'un exercice : panneaux, titres de presse, petites annonces.
+   Une grille qui se replie toute seule, parce qu'un panneau fait deux mots et
+   qu'un autre en fait quinze. */
+.documents {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+.documents > li {
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 5rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  font-family: var(--font-serif);
+}
+
+/* La lettre qui nomme le document, pour que la consigne puisse y renvoyer. */
+.documents .lettre {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-text);
+}
+
+/* Un document d'examen : un article de presse, un courriel, une annonce.
+   Proche de `.card`, mais avec le flux d'un texte plutôt que d'une carte — des
+   paragraphes qui respirent, un titre, un en-tête, et les notes de vocabulaire
+   détachées en bas. `.card` n'a pas d'espacement interne et ne doit pas en
+   gagner : les scènes de jeu de rôle et les textes de traduction l'utilisent
+   pour un bloc court, et le leur irait de travers. */
+.document {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+}
+
+.document > * + * { margin-top: 0.75rem; }
+
+.document > h4 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+/* L'en-tête d'un courriel : l'expéditeur et l'objet, en sans, détachés du
+   corps du message comme dans une vraie boîte de réception. */
+.document .entete {
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 0.7rem;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--text-2);
+}
+
+/* Les mots glosés sous un texte de presse. Le sujet officiel en donne trois ou
+   quatre ; c'est ce qui rend un article de journal lisible à l'A2 sans le
+   réécrire. */
+.document .notes {
+  border-top: 1px solid var(--border-soft);
+  padding-top: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--text-3);
+}
+
+/* Une question et ses propositions. `ol.questions` porte sa balise pour battre
+   `.prose ol`, qui indente et espace. */
+ol.questions {
+  margin-top: 1.1rem;
+  padding-left: 1.25rem;
+}
+
+ol.questions > li + li { margin-top: 1.1rem; }
+
+ol.questions .enonce {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+/* Les propositions d'un QCM. Case native, visible, cliquable avec son texte. */
+ul.choix {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.45rem;
+}
+
+ul.choix > li { margin-top: 0.15rem; }
+
+ul.choix label {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  padding: 0.25rem 0.4rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+ul.choix label:hover { background: var(--surface-3); }
+
+ul.choix input {
+  accent-color: var(--accent);
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  transform: translateY(0.15rem);
+}
+
+/* Ce qu'on écrit : un mot dans un tableau, une justification sur une ligne, un
+   texte de soixante mots. Trois tailles, une seule bordure. */
+.reponse,
+.redaction {
+  width: 100%;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--text-1);
+  background: var(--surface-1);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.55rem;
+}
+
+.reponse { max-width: 22rem; }
+.reponse-court { max-width: 5rem; text-align: center; }
+
+.redaction {
+  display: block;
+  margin-top: 0.7rem;
+  min-height: 11rem;
+  line-height: 1.8;
+  padding: 0.7rem 0.8rem;
+  resize: vertical;
+}
+
+.reponse:focus-visible,
+.redaction:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+
+/* Le corrigé, une fois demandé. Vert : c'est la réponse juste, et le rouge de
+   ce cours ne sert qu'à signaler une faute (AGENTS.md §5). */
+.corrige {
+  border: 1px solid var(--success-line);
+  border-left: 4px solid var(--success);
+  background: var(--success-soft);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1.1rem 1.35rem;
+}
+
+/* Le corrigé enchaîne quatre exercices : chaque titre doit se détacher de la
+   liste qui le précède, sauf le premier, qui touche le haut du bloc. */
+.corrige > * + * { margin-top: 0.7rem; }
+.corrige > h3 { margin-top: 1.6rem; }
+.corrige > h3:first-child { margin-top: 0; }
+.corrige ol { padding-left: 1.25rem; }
+.corrige li + li { margin-top: 0.3rem; }
+
 /* « À retenir ». The label is text, not colour, so the meaning survives for a
    learner who cannot tell the amber from the blue. */
 .attention {

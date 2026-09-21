@@ -193,6 +193,96 @@ export default function DesignPage() {
       </section>
 
       <section className={styles.section}>
+        <h2>L’épreuve de DELF</h2>
+        <p>
+          Les motifs du chapitre <code>delf</code> (#78). Toute l’épreuve est du
+          HTML statique&nbsp;: les champs sont natifs et non contrôlés, et le
+          seul îlot client est le bouton qui montre le corrigé.
+        </p>
+
+        <p className="epreuve">
+          <span>25 points</span>
+          <span>30 minutes</span>
+          <span>4 exercices</span>
+        </p>
+
+        <div className="exercice">
+          <h3>
+            Exercice 1 <span className="points">5 points</span>
+          </h3>
+          <p>Vous lisez ces panneaux.</p>
+          <ul className="documents">
+            <li>
+              <span>Ascenseur en panne</span>
+              <span className="lettre">A</span>
+            </li>
+            <li>
+              <span>Piscine — bonnet obligatoire</span>
+              <span className="lettre">B</span>
+            </li>
+            <li>
+              <span>Stationnement réservé aux livraisons</span>
+              <span className="lettre">C</span>
+            </li>
+          </ul>
+
+          <ol className="questions">
+            <li>
+              <span className="enonce">
+                <span>Ce texte vient&nbsp;:</span>
+                <span className="points">0,5 point</span>
+              </span>
+              <ul className="choix">
+                <li>
+                  <label>
+                    <input type="radio" name="specimen" defaultChecked />
+                    <span>d’un journal</span>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="radio" name="specimen" />
+                    <span>d’une publicité</span>
+                  </label>
+                </li>
+              </ul>
+              <input
+                type="text"
+                className="reponse"
+                placeholder="Justification"
+                aria-label="Justification, spécimen"
+              />
+            </li>
+          </ol>
+        </div>
+
+        <div className="document">
+          <h4>À Sainte-Colombe, le bus ne coûte plus rien</h4>
+          <p>
+            Depuis le mois de janvier, les quatre lignes de bus de
+            Sainte-Colombe sont gratuites.
+          </p>
+          <p className="notes">
+            *les impôts&nbsp;: l’argent que chacun donne à l’État
+          </p>
+        </div>
+
+        <textarea
+          className="redaction"
+          aria-label="Rédaction, spécimen"
+          placeholder="Écrivez entre 60 et 80 mots…"
+        />
+
+        <div className="corrige">
+          <h3>Exercice 1 · 5 points</h3>
+          <p>Un point par bonne lettre.</p>
+          <ol>
+            <li>A — l’ascenseur est en panne, donc on monte à pied.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section className={styles.section}>
         <h2>Boutons et listes</h2>
         <div className={styles.states}>
           <button type="button" className="button button-primary">
