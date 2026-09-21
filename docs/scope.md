@@ -83,6 +83,10 @@ same pages when the page suits them.
 
 ## Two ways in: the chapters and the parcours
 
+- **The exam.** `delf` holds whole épreuves to sit in real conditions, at the published format and
+  written for this course (#78). It is the last chapter because it teaches nothing: everything it
+  asks for is taught above it, and what it adds is the experience of being asked for all of it at
+  once, in thirty minutes, with the corrigé out of sight until you say so.
 - **The chapters.** Browse by chapter — grammaire, orthographe, conjugaison, vocabulaire… This is the
   reference view, and it is what exists today. A learner who wants *les articles* goes and reads
   *les articles*.

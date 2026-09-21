@@ -660,7 +660,7 @@ The chapter cards live at `/sommaire` either way.
 
 **A table of contents is what you consult, not what you arrive at.** The sommaire answers *what is
 in this course?* — a question a returning learner has already answered. Arriving there means
-scanning fifteen cards to reach the one page you wanted.
+scanning a card per chapter to reach the one page you wanted.
 
 **Decided against a search that filters in place.** Instant results would be faster by one
 navigation, and the query would live in component state instead of the URL: not linkable, not in the
@@ -679,8 +679,8 @@ page whose name was typed would say « ça n'existe pas » about a page that exi
 Out-of-level matches appear under « À d'autres niveaux ».
 
 **`featuredChapterSlugs` is the one hand-kept list**, and the `nav-wiring` audit has a line for it
-because it fails soft the way cross-links do. It is editorial and short on purpose — fifteen pills
-is the sommaire again — and an empty chapter named there simply does not draw.
+because it fails soft the way cross-links do. It is editorial and short on purpose — a pill per
+chapter is the sommaire again — and an empty chapter named there simply does not draw.
 
 **`/recherche` is static.** The query is read by `useSearchParams` in a client leaf inside
 `Suspense`; reading `searchParams` in the page would make the route dynamic.
@@ -724,7 +724,7 @@ says « le programme A2 », and one word for both a level's syllabus and the who
 collision this entry removes.
 
 **The parts are all named and all taken**, so a new one has to earn its word: **leçon** a page,
-**chapitre** one of fifteen, **sommaire** the contents page, **parcours** an ordered path,
+**chapitre** one of sixteen, **sommaire** the contents page, **parcours** an ordered path,
 **programme** a level's syllabus. In English prose, *the course*.
 
 ## 42 · Three shells; chapter icons are required and compiler-checked
@@ -960,7 +960,7 @@ maintainer reading counts that describe intentions rather than pages.
 **Chosen against keeping every chapter visible with an honest empty state.** That is the same
 experience under better manners: rows that lead to a page with nothing on it.
 
-**The chapters themselves stay declared.** All fifteen keep their slug, icon and blurb, every
+**The chapters themselves stay declared.** All sixteen keep their slug, icon and blurb, every
 landing page still builds, and every URL still answers. The structure is decided; only the offer is
 filtered.
 
@@ -1861,7 +1861,7 @@ note with it. A comment on `LevelChooser` says so at the place it would be rebui
 ## 78 · A `delf` chapter describes the exam and prints none of it
 **2026-09-21 · Binding · extends #15, #51, #9b's licence rule**
 
-A fifteenth chapter, `delf`, last in the manifest. It holds **whole épreuves to sit in real
+A sixteenth chapter, `delf`, last in the manifest. It holds **whole épreuves to sit in real
 conditions**, and nothing else. **Nothing in it is scored**: the two compréhension épreuves would be
 gradeable and are not, so the chapter has one mechanic rather than two, and a corrigé the learner
 reveals when they have finished.

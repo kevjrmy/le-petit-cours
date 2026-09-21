@@ -287,6 +287,37 @@ the text does not actually contradict, and a B1 question that only restates its 
 the A2 set before writing the B1 one, every time — three of the nine had to be rewritten because
 that step was skipped.
 
+### DELF — a whole épreuve, at the published format
+
+One page is one épreuve (`docs/decisions.md` #78). `delf/a2-comprehension-des-ecrits` is the
+worked example; `production-ecrite` and `production-orale` are the two that cannot be corrected.
+
+- **Reproduce the format, never the paper.** Four épreuves at 25 points, the exercise counts, the
+  point splits, the durations: that is the published shape of a public exam and it is a fact. The
+  documents, the questions, the consignes and the corrigés of any real sujet — official or from a
+  prep book, free to download or not — are someone's writing and cannot go in (§9b). **Read a real
+  sujet to calibrate, write everything yourself.**
+- **Match the point split exactly.** A2 compréhension des écrits is 5 + 6 + 9 + 5; production écrite
+  is 13 + 12. The corrigé states the total, so a split that does not add to 25 is the counting trap
+  §9 already records, on the page where a candidate is most likely to trust it.
+- **The page is static HTML.** Native `input` and `textarea`, uncontrolled, no handlers: answers
+  survive without JavaScript, the page prerenders and it works offline. The **only** client code is
+  `<Corrige>`, and it must stay that way.
+- **The corrigé is hidden and opens below the answers**, never above and never on load. An épreuve
+  is the one page type whose whole value is in being attempted first.
+- **A production épreuve's corrigé is a grille, not an answer** (#54). Give what the examiner looks
+  at, in the order they look at it — consigne, then acts of speech, then vocabulary, then grammar —
+  then *an* example worth full marks, labelled as an example. The order is the teaching: a faultless
+  text that misses one of the four acts scores worse than a clumsy one that does all four.
+- **The oral page needs a second person** and gives no model dialogue (#57), exactly like
+  `conversation`. It carries the subjects to draw, a place for notes, and what is listened for.
+- **No « En résumé »** — an épreuve is not a lesson and has nothing to restate.
+- **Tag it with the level written out**, `["A2"]`, never `from("A2")` (#76): a B1 candidate sits the
+  B1 paper, so the page is superseded above rather than prolonged.
+- The patterns are in `globals.css` and on `/design`: `.epreuve`, `.exercice`, `.documents`,
+  `ol.questions`, `ul.choix`, `.reponse`, `.redaction`, `.document`, `.corrige`. **Write no CSS** —
+  if an épreuve needs a shape none of these give, that is a request to `design-system`.
+
 ### Culture — the only pages with photographs
 
 Structurally an ordinary lesson; the images bring the rules.

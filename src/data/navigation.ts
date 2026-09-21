@@ -13,16 +13,16 @@
  * chapter with an empty `lessons` array is simply not offered anywhere until
  * one does.
  *
- * **Every chapter is in that state right now** (#52). The three A1 pages written
- * during the scaffold were deleted on 2026-09-06: the course serves an A2
- * learner, and three A1 lessons were a sample of a level nobody here is at. What
- * is left is the shape — fifteen chapters, their blurbs, their icons — and the
- * first real lesson will be A2.
+ * **Four chapters are in that state right now**, and that is the normal resting
+ * state of a chapter rather than a gap to be filled: `prononciation`, `jeux`,
+ * `dictees` and `culture` each wait on something other than writing
+ * (`AGENTS.md` §12). Sixteen chapters are declared; twelve carry pages.
  *
- * **Chapter order is inherited, not decided.** Which chapters
- * carry the A2 content and in what order is still open (`AGENTS.md` §12) and is
- * meant to be settled by the DELF A2 syllabus, not by whatever this file
- * happened to say first.
+ * **Chapter order is inherited, not decided.** Which chapters carry which
+ * content and in what order is still open (`AGENTS.md` §12) and is meant to be
+ * settled by the DELF syllabus, not by whatever this file happened to say
+ * first. `delf` is the exception and sits last on purpose: it is the exam
+ * rather than the language, and everything it asks for is taught above it.
  */
 
 /**
@@ -1124,7 +1124,7 @@ export type IconAnnexe = Extract<Annexe, { icon: IconName }>;
 export const annexes: Annexe[] = [
   /* Above the chapters, not below them with the other annexes: the sommaire is
      the way into the course rather than something beside it, and the foot of a
-     fifteen-row list is not where you look for the list's own overview. */
+     sixteen-row list is not where you look for the list's own overview. */
   { path: "/sommaire", title: "Sommaire", levels: ANY, where: "top", icon: "sommaire" },
   /* The marks are the ones the popover already shows elsewhere: the tick the
      listings record, and the glyph on the account control itself.
@@ -1170,7 +1170,7 @@ export const unlistedPages: string[] = ["/", "/recherche", "/design"];
 /**
  * The chapters offered as shortcuts under the search field on the home page.
  *
- * A deliberate short list, not everything: fifteen pills is a second sommaire,
+ * A deliberate short list, not everything: a pill per chapter is a second sommaire,
  * and the sommaire is one click away in the last pill. It is the one hand-kept
  * list in this file — which is why the `nav-wiring` audit checks it, so a slug
  * renamed or a chapter dropped is caught rather than silently costing a pill.
@@ -1350,8 +1350,8 @@ export function visibleLessons(chapter: Chapter, level: Level | null): Lesson[] 
 /**
  * The chapters a listing draws: those with at least one lesson to offer.
  *
- * **A chapter with nothing in it is not shown** (`docs/decisions.md` #51). The
- * fifteen are declared here because the course's shape is decided; what the
+ * **A chapter with nothing in it is not shown** (`docs/decisions.md` #51). All
+ * sixteen are declared here because the course's shape is decided; what the
  * interface offers is what is written, and a row leading to an empty page is
  * the « Bientôt » badge again with worse manners. A chapter reappears on its
  * own the moment its first lesson lands — there is no second list to update.

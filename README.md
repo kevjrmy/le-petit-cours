@@ -13,13 +13,13 @@ at home, a track that teaches them to write it.
 >
 > The project was restarted on Next.js on **2026-09-05**. The design system, the app shell, the navigation
 > manifest, search, the whole account flow — sign-in, the chosen level, the display name — and
-> progress, from the « J'ai terminé » tick to `/ma-progression`, are written. The fifteen chapters
-> are declared and **fifty-two lessons are published**, written in French: fourteen verb sheets in
-> `conjugaison`, nine texts in `lecture`, six in `grammaire`, five role-plays in `conversation`,
-> four each in `traduction` and `vocabulaire`, three each in `orthographe` and `exercices`, two in
-> `astuces`, and one each in `litterature` and `musique`. Nothing is announced before it is
-> written, so a chapter waits offstage until it has a page. Accounts work; offline caching is not
-> installed.
+> progress, from the « J'ai terminé » tick to `/ma-progression`, are written. Sixteen chapters
+> are declared and **sixty-three lessons are published**, written in French: fourteen verb sheets in
+> `conjugaison`, nine texts in `lecture`, eight each in `grammaire` and `conversation`, six in
+> `vocabulaire`, four each in `orthographe` and `traduction`, three each in `exercices` and `delf`,
+> two in `astuces`, and one each in `litterature` and `musique`. Nothing is announced before it is
+> written, so a chapter waits offstage until it has a page — four still do. Accounts work; offline
+> caching is not installed.
 >
 > [`docs/decisions.md`](docs/decisions.md) records why the project is shaped this way, including
 > what was carried over from the version before it and what was deliberately not.
@@ -59,7 +59,9 @@ claim about how finished each one is. B2 is declared and empty. A level counts a
 **DELF** syllabus for that level.
 
 Chapters cover grammar, spelling, conjugation, pronunciation, vocabulary, translation, reading,
-culture, dialogues, dictations, graded exercises and replayable games. You can browse them by
+culture, dialogues, dictations, graded exercises and replayable games — and `delf`, which holds
+whole exam papers to sit in real conditions, written for this course rather than reproduced from
+anyone's sujet. You can browse them by
 chapter, or follow a *parcours* — an ordered path through the same lessons for a given level or
 profile.
 
@@ -122,7 +124,7 @@ what protects a learner's data.
   cross-links. The sidebar, the home page and every chapter page read from it. Nothing
   auto-discovers pages, so a lesson missing from the manifest is reachable from nothing.
 - Routes come from the filesystem: `src/app/{chapitre}/{lecon}/page.tsx`. **Chapter landing pages
-  are one generated route** — `src/app/[chapitre]/page.tsx` renders all fifteen from the
+  are one generated route** — `src/app/[chapitre]/page.tsx` renders all sixteen from the
   manifest, so adding a chapter means adding an entry and nothing else.
 - **The home page is a search field once you are signed in**, and a welcome with three doors when
   you are not; the course's table of contents is at `/sommaire` either way. Search reads
@@ -131,7 +133,7 @@ what protects a learner's data.
   has to find « Le passé composé ». The query lives in the URL, so `/recherche?q=` is linkable and
   the page stays static.
 - **The shell lives in `src/app/layout.tsx`**, so the sidebar keeps its scroll position across
-  navigation. It is one level deep — fifteen chapter links; a chapter's lessons are on its own
+  navigation. It is one level deep — one link per chapter; a chapter's lessons are on its own
   landing page, because a tree that opens does not survive a course this size. It has three shapes:
   a drawer on a phone, an icons-only rail on a tablet, the open panel on a laptop — collapsible
   either way, and the choice is remembered. The chapter icons are drawn in the repo and inlined, so

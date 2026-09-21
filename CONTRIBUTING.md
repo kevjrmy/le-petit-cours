@@ -107,6 +107,11 @@ These come from the audience, and a change that breaks one will be asked to chan
   quote short excerpts for commentary and never a full lyric sheet. Images must be CC0, public
   domain, CC BY or CC BY-SA, credited individually with author, link and licence, and stored
   locally rather than hotlinked — the app has to work offline.
+- **An exam paper is copyrighted text too**, including the free official DELF sujets. The `delf`
+  chapter reproduces no sujet and no prep book: the *format* of a public exam is a fact and may be
+  described, but its documents, questions, consignes and corrigés belong to whoever wrote them, and
+  free to download is not free to relicense. Everything in `delf/` is written for this course. Read
+  a real sujet to calibrate difficulty; do not copy a line of one.
 
 [`docs/scope.md`](docs/scope.md) carries the goals, the profiles and the non-goals — read it
 before proposing anything larger than a correction. [`AGENTS.md`](AGENTS.md) carries the full
@@ -155,9 +160,9 @@ the project:
   [CC BY-SA 4.0](LICENSE-CONTENT).
 
 You must have the right to contribute what you submit. Do not paste in material from another
-course, textbook, website or app: quoted lyrics, copyrighted literary text and third-party
-photographs cannot be relicensed by us, and content contributed without the right to license it
-has to be removed later, along with anything built on it.
+course, textbook, website, app or exam paper: quoted lyrics, copyrighted literary text,
+third-party photographs and DELF sujets cannot be relicensed by us, and content contributed
+without the right to license it has to be removed later, along with anything built on it.
 
 ## Conduct
 

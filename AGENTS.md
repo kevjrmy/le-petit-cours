@@ -20,7 +20,7 @@ rule exists lives in `docs/decisions.md` as a numbered entry, and `#nn` below po
 
 | When you are… | Read |
 |---|---|
-| writing a prose lesson, a role-play, a reading or a dictée | `.claude/agents/lesson-author.md` |
+| writing a prose lesson, a role-play, a reading, a dictée or a DELF épreuve | `.claude/agents/lesson-author.md` |
 | writing a drill or a game | `.claude/agents/exercise-author.md` |
 | turning a mistake learners keep making into a page | `.claude/agents/mistake-triage.md` |
 | changing tokens, components or the shell's look | `.claude/agents/design-system.md` |
@@ -78,7 +78,7 @@ are all built. What no amount of reading the repo will reveal:
   CEFR badge (#13). They may be a teenager at a Spanish school, whose mistakes come
   from Spanish writing habits: a page for them suits a fifteen-year-old and an adult at once (#69).
 
-`grammaire`, `vocabulaire`, `conversation` lean to the learner; `orthographe`, `dictees`,
+`grammaire`, `vocabulaire`, `conversation`, `delf` lean to the learner; `orthographe`, `dictees`,
 `astuces`, `conjugaison` lean to the heritage speaker.
 
 - **Everything is written in French** (#53) — explanations, tables, callouts, drill instructions,
@@ -123,7 +123,7 @@ are all built. What no amount of reading the repo will reveal:
 - **A level is complete when it covers the published DELF syllabus** (#15), not when it feels
   thorough.
 - **The content is « le cours », never « le livre »** (#41). **leçon** a page, **chapitre** one of
-  fifteen, **sommaire** the contents page, **parcours** an ordered path, **programme** a level's
+  sixteen, **sommaire** the contents page, **parcours** an ordered path, **programme** a level's
   syllabus. In English prose, say *the course*.
 - **Both profiles type on a Spanish keyboard.** `é è ê` cost a dead-key detour; `œ` and `ç` cannot
   be typed at all. A design constraint, not a footnote — see §9.
@@ -131,7 +131,7 @@ are all built. What no amount of reading the repo will reveal:
 ## 2. Stack and intended shape
 
 `src/app` (routes), `src/components` (`shell/ account/ home/ sommaire/ search/ nav/ lesson/
-progress/ exercice/`), `src/data/navigation.ts` (the manifest), `src/hooks`, `src/lib`, `scripts/`,
+progress/ exercice/ delf/`), `src/data/navigation.ts` (the manifest), `src/hooks`, `src/lib`, `scripts/`,
 `public/`. List the tree rather than trusting a copy of it here.
 
 - **TypeScript everywhere.** React Compiler is on (`reactCompiler: true`) — **do not hand-write
@@ -648,9 +648,9 @@ Recorded so nobody decides them by writing code. Closed ones are in `docs/decisi
 2. **Which chapters ship next.** Writing A2 first is settled (#52); A1 and B1 are being written
    alongside it (#72, #74, #76), and the order within any of the three is not. A1's order is at
    least mapped — `docs/programme-a1.md`, gated on the FONCTIONS list — and **B1's is not mapped at
-   all**: it has no syllabus document, so its pages are being chosen one at a time. Eleven chapters
-   carry pages and the sequencing is still meant to come from the DELF syllabus rather than from
-   whichever chapter is most fun to write. **Four chapters are blocked on something other
+   all**: it has no syllabus document, so its pages are being chosen one at a time. Twelve of the
+   sixteen chapters carry pages and the sequencing is still meant to come from the DELF syllabus
+   rather than from whichever chapter is most fun to write. **Four chapters are blocked on something other
    than writing**: `prononciation` needs a decision before a page can exist at all, because §7 makes
    it data-driven; `dictees` needs the speech hook and the answer comparator; `jeux` needs a game
    that is not a second `exercices/`; `culture` needs photographs sourced and credited, which is
