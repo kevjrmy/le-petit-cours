@@ -64,13 +64,15 @@ export function SignInForm() {
   }
 
   return (
-    <section>
-      <h2>Se connecter</h2>
+    /* The page's `<h1>`, not an `<h2>` under one: this *is* the page for
+       somebody who came to sign in, and the accent bar an `<h2>` carries is for
+       one section among several. A fragment rather than a `<section>` for the
+       same reason — there is nothing here for a section to be one of. */
+    <>
+      <h1>Se connecter</h1>
       <p>
-        Tout le contenu du site est en accès libre, sans compte. Un compte sert
-        uniquement à garder vos leçons cochées et le niveau que vous avez choisi
-        d&rsquo;un appareil à l&rsquo;autre. Il garde aussi, si vous voulez, le
-        nom sous lequel le site vous appelle.
+        Un compte garde vos leçons cochées, votre niveau et le nom sous lequel
+        le site vous appelle, d&rsquo;un appareil à l&rsquo;autre.
       </p>
 
       <form className={styles.form} onSubmit={onSubmit} noValidate>
@@ -132,19 +134,32 @@ export function SignInForm() {
           role="status"
           className={`${styles.help} ${state.kind === "error" ? styles.helpBad : ""}`}
         >
-          {state.kind === "error" ? state.message : " "}
+          {/* A disabled button must say why it is disabled (`AGENTS.md` §5),
+              and « Se connecter » starts disabled because both fields are
+              empty — until now the page said so nowhere. The no-break space is
+              the idle placeholder: `.help` reserves 1.2em, and an empty <p>
+              would collapse the line the message appears on. */}
+          {state.kind === "error"
+            ? state.message
+            : username.trim() === "" || password === ""
+              ? "Saisissez votre identifiant et votre mot de passe."
+              : " "}
         </p>
       </form>
 
       {/* Said plainly rather than hidden behind a « Créer un compte » link that
           leads nowhere. Someone without an account is not stuck — the course
-          is the site, and it is open. */}
+          is the site, and it is open.
+
+          Once, though: the paragraph above used to open with « tout le contenu
+          du site est en accès libre » and this one closed with the same fact in
+          other words, which is the page telling a stranger twice that they do
+          not need what they are looking at. */}
       <p className={styles.aside}>
-        Les comptes ne se créent pas depuis le site : ils sont attribués. Si
-        vous n&rsquo;en avez pas, vous pouvez lire et faire tout le site sans en
-        avoir un : seule la progression d&rsquo;un appareil à l&rsquo;autre
-        demande un compte.
+        Les comptes ne se créent pas depuis le site&nbsp;: ils sont attribués.
+        Sans compte, tout le cours se lit et se fait quand même&nbsp;; seule la
+        progression d&rsquo;un appareil à l&rsquo;autre en demande un.
       </p>
-    </section>
+    </>
   );
 }

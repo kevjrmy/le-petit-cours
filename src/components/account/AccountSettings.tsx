@@ -13,7 +13,7 @@ import {
   USERNAME_MAX,
   type SaveProblem,
 } from "@/lib/account";
-import { displayName, useAccount } from "@/hooks/useAccount";
+import { useAccount } from "@/hooks/useAccount";
 import { LevelChooser } from "./LevelChooser";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { SignInForm } from "./SignInForm";
@@ -34,26 +34,20 @@ export function AccountSettings() {
 
   return (
     <>
-      <section>
-        <h2>Vous êtes connecté</h2>
-        {/* The name falls back to the username, so naming both when no name is
-            set would say the same word twice — which is what it did the day the
-            fallback stopped being the local part of an email address (#37). */}
-        {account.displayName === null ? (
-          <p>
-            Avec l&rsquo;identifiant <strong>{account.username}</strong>.
-          </p>
-        ) : (
-          <p>
-            Sous le nom de <strong>{displayName(account)}</strong>, avec
-            l&rsquo;identifiant <strong>{account.username}</strong>.
-          </p>
-        )}
-      </section>
-      {/* Both arrive with the session, so there is no loading state to show and
-          no ordering between them: the level no longer has to exist before a
-          name can be saved (#36). The level still comes first because it is the
-          one a learner is asked for once, on arrival (#23). */}
+      {/* The page names itself here rather than in `page.tsx`, because signed
+          out the same slot says « Se connecter » — see the note there. */}
+      <h1>Compte</h1>
+      {/* **No « Vous êtes connecté » section.** It restated the name and the
+          identifier in prose, and both are already in the fields below, in the
+          inputs that can change them — the account control at the foot of the
+          sidebar says the name too. A page that opens by telling you what you
+          can read two inches lower is a page whose first screen is spent.
+
+          The settings themselves all arrive with the session, so there is no
+          loading state to show and no ordering between them: the level no
+          longer has to exist before a name can be saved (#36). It still comes
+          first because it is the one a learner is asked for once, on arrival
+          (#23). */}
       <LevelChooser current={account.level} />
       <UsernameField initial={account.username} />
       <DisplayNameField initial={account.displayName} />

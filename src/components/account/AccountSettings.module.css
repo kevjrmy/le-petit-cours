@@ -1,9 +1,21 @@
-.form { margin-top: 1rem; }
+/* A form is not prose. The article around it is `--measure` wide, and a text
+   field that wide is a target the eye has to cross to reach its own button —
+   the reading column is sized for sentences, not for controls. */
+.form {
+  margin-top: 1rem;
+  max-width: 26rem;
+}
 
 /* A stacked label-over-input block, for a form with more than one field. The
    inline `.row` still serves the single-field forms, where a button beside the
    input reads as one gesture. */
 .field { margin-bottom: 0.75rem; }
+
+/* **`.input`'s `flex` only fires inside `.row`.** A stacked field is a block,
+   so the flex basis was inert there and the input fell back to the browser's
+   own width — 243px of a 393px column on a phone, which read as a field that
+   had failed to load rather than one sized on purpose. */
+.field > .input { width: 100%; }
 
 .label {
   display: block;

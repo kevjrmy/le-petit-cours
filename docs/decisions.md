@@ -401,6 +401,17 @@ but not its *path*, so one row would become two with one hidden each way (#47). 
 honest in both states: the `<h1>` names the route, the `<h2>` under it names what you came to do.
 The only thing one route cannot do is vary its `<title>`, since static metadata is per-route.
 
+**One heading, drawn by the leaf that knows who is asking.** « Se connecter » signed out, « Compte »
+signed in — the prerendered HTML carries the first, as on `/` (#71). « Compte » over « Se connecter »
+spent the first screen naming the route twice, and the form is not a `<section>` either: the accent
+bar is for one section among several.
+
+**The page does not restate what its own fields hold.** « Vous êtes connecté » named the display
+name and the identifier in prose directly above the two inputs that carry and change them, with the
+sidebar's account control saying the name a third time. Signed out, the intro and the closing aside
+both said the site is free without an account; it is said once now. The bar for a sentence here is
+that nothing else on the screen already says it.
+
 **`/connexion` is a redirect to it instead**, in `next.config.ts` — the typeable URL with one page
 to keep correct. It is an alias and not a rename, which is worth knowing because a redirect is
 matched before the filesystem: a `page.tsx` at `app/connexion/` would never render.

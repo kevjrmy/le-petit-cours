@@ -340,6 +340,9 @@ that has become dynamic is a regression, not a detail.**
   name the fallback and would bounce an already-signed-in visitor out of the settings.
 - **`/compte` never bounces a visitor who arrived already signed in** — that would put the settings
   behind a redirect and out of reach of the popover that links them.
+- **`/compte`'s `<h1>` is drawn by the client leaf, not the page** (#26) — « Se connecter » signed
+  out, « Compte » signed in. **Do not put one back in `page.tsx`**: the page would have two, and the
+  one in the static HTML would name the wrong state.
 - **Sign-in is a route, `/compte`** (#26) — not a modal, so auth UI stays out of the shell every
   lesson renders inside. Entry is the account control at the foot of the sidebar, a popover that
   links to `/compte` and **never holds a form**. Signed out it offers « Se connecter » and never

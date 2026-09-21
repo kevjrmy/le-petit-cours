@@ -18,7 +18,14 @@ export const metadata: Metadata = { title: "Compte" };
 export default function ComptePage() {
   return (
     <article className="prose">
-      <h1>Compte</h1>
+      {/* **No `<h1>` here.** The one heading this page has depends on who is
+          asking — « Se connecter » for somebody who came to sign in, « Compte »
+          for somebody changing their level — so it is drawn by the client leaf
+          that knows, and the prerendered HTML carries the signed-out one. Two
+          headings, « Compte » over « Se connecter », spent the page's first
+          screen naming the route twice (#26). The `<title>` stays « Compte »:
+          static metadata is per-route, which is the one thing one route cannot
+          do (#26). */}
       <Suspense fallback={null}>
         <ReturnTo />
       </Suspense>
