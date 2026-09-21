@@ -170,5 +170,7 @@ them, because a role-play answers several at once while a grammar page answers n
    for any other, and §7 means no page can exist until the shape is chosen.
 2. **`conversation` and `vocabulaire` first**, because the gate is the FONCTIONS list.
 3. **`grammaire` behind them**, as the support the functions need — not as the spine.
-4. **A1 leaves « en cours » last** — it is already choosable (#74); what the twenty-fourth function
-   closes is its move into `COURSE_LEVELS`, and the deletion of its `IN_PROGRESS` line.
+4. **Nothing in the app changes when A1 is done.** It is already choosable (#74), and since #77 the
+   interface makes no claim about how finished a level is — the « en cours » badge and
+   `COURSE_LEVELS` are gone. The twenty-fourth function closes a line in this file and nothing else,
+   which is the point: completeness is #15's, and it is editorial.

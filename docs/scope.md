@@ -14,7 +14,9 @@ doing academic or professional French, which is neither profile below. The scope
 with **A2 alone** — sized to the DELF A2 syllabus rather than to however many lessons exist —
 because the learners it was started for are at A2 (below). **A1 is now being written** into the same
 chapters, ahead of the A2 material. **A1 and B1 are both choosable while they are being written**
-(#74) and are marked « en cours » in the account, with a line saying what each actually holds.
+(#74). **Nothing in the interface rates them** (#77): the account offers the three levels and says
+nothing about how finished each is, because the audience is known and a warning addressed to nobody
+is chrome. That trade holds only while the site is unlisted and sign-up is closed.
 DELF coverage is still what "done" means (#15); it decides when a level stops being marked « en
 cours », not when it may be chosen. `docs/programme-a1.md` is the syllabus and the gap.
 

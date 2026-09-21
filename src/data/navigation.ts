@@ -213,8 +213,12 @@ export interface Chapter {
  *
  * **A level is offered while it is being written, not once it is finished**
  * (#74). That reverses the older test — a level joined when choosing it handed
- * someone a course — and the reversal is paid for in the chooser rather than
- * here: `COURSE_LEVELS` below is what keeps the offer honest.
+ * someone a course. #74 paid for it with a « en cours » badge in the chooser
+ * and a second list, `COURSE_LEVELS`, saying which levels had earned none;
+ * **#77 deleted both**, because they were addressed to a stranger and this
+ * course has none. **So this list is now the only one**, and an entry here is
+ * an offer with nothing qualifying it — which is why a level joins it when it
+ * has pages someone can work through, not when it looks ready.
  *
  * **Closing a level is not free.** `readLevel` filters on this list too, so
  * removing an entry makes anyone sitting on it read back as "no level chosen".
@@ -222,24 +226,6 @@ export interface Chapter {
  * reset rather than data loss — but it is silent.
  */
 export const CHOOSABLE_LEVELS: Level[] = ["A1", "A2", "B1"];
-
-/**
- * The levels that are a course rather than a work in progress.
- *
- * **Offered and finished are two different claims and both are editorial**, so
- * this is a second hand-kept list rather than something derived. Nothing in the
- * manifest can answer "is this a course yet" — a count of pages would say A1
- * has twenty, which is true and misleading, since every one of them is a page
- * tagged `[]` that belongs to no level at all (#62 refuses that tally for the
- * same reason one chapter away).
- *
- * `LevelChooser` is the only reader: a level offered but absent here draws as
- * « en cours d'écriture », with a line saying what is actually behind it. That
- * line is the whole reason #74 could open A1 and B1 without #51 being broken —
- * the interface still announces nothing it has not written, it just stops
- * pretending the unwritten levels are not being worked on.
- */
-export const COURSE_LEVELS: Level[] = ["A2"];
 
 /**
  * The rungs in order, low to high. **The ladder, not a set** — `from()` slices

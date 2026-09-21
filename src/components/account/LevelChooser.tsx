@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CHOOSABLE_LEVELS, COURSE_LEVELS, type Level } from "@/data/navigation";
+import { CHOOSABLE_LEVELS, type Level } from "@/data/navigation";
 import { SaveSettingError, saveLevel } from "@/lib/account";
 import styles from "./AccountSettings.module.css";
 
@@ -13,29 +13,22 @@ const BLURB: Record<Level, string> = {
   B2: "",
 };
 
-/**
- * What a level offered before it is written actually contains, today.
+/*
+ * **The chooser offers the levels and rates none of them** (#77). There was a
+ * « en cours » chip here, and a line under each unfinished level saying what it
+ * actually held; both are gone with `COURSE_LEVELS` and `IN_PROGRESS`. They
+ * were written for a stranger arriving at an unfinished course, and this course
+ * has none: it is unlisted, it has no sign-up form, and an account is made by
+ * hand for someone who was told what the course is when they were given it.
  *
- * **Without this the blurb above is a promise the course cannot keep** (#51,
- * #74). A1 says « se présenter, compter, demander quelque chose » and would
- * hand someone the conjugation tables and the spelling pages, because those are
- * tagged `[]` and show at every level — so the honest line is the one that says
- * so before they choose, not a sommaire that looks broken afterwards.
+ * **#51 is not reopened.** It forbids announcing a page that is not written,
+ * and nothing here announces one. What was dropped is a *rating* of the levels,
+ * which is a different claim. Completeness lives in `docs/programme-a1.md` and
+ * in #15, where it was before the chip existed.
  *
- * **B1 is unfinished in the other direction** (#76): it already lists every A2
- * lesson, because a page is offered from its floor upward, so it is already a
- * full course with nothing of its own in it yet. Saying so is what stops someone
- * choosing B1, recognising the A2 sommaire and concluding the setting is
- * broken.
- *
- * A level in `COURSE_LEVELS` draws none of this. **Keep the two in step**: move
- * a level into `COURSE_LEVELS` and delete its line here in the same edit, or
- * the course goes on apologising for a level it has finished.
+ * **This is the first thing to put back if the site is ever listed or opens
+ * sign-up.** The badge comes back before the door does.
  */
-const IN_PROGRESS: Partial<Record<Level, string>> = {
-  A1: "En cours d’écriture. Pour l’instant ce niveau montre les premières leçons de vocabulaire et de conversation écrites pour lui, les tableaux de conjugaison et l’orthographe.",
-  B1: "En cours d’écriture. Ce niveau reprend tout le cours d’A2, y ajoute des questions plus difficiles dans les lectures et les exercices, et commence à avoir ses propres leçons de grammaire.",
-};
 
 const PROBLEM: Record<string, string> = {
   unavailable: "L’enregistrement n’a pas abouti. Vérifiez votre connexion et réessayez.",
@@ -87,9 +80,6 @@ export function LevelChooser({ current }: { current: Level | null }) {
             >
               <span className={styles.levelName}>
                 {level}
-                {!COURSE_LEVELS.includes(level) && (
-                  <span className={styles.levelTag}>en cours</span>
-                )}
                 {/* A tick as well as the fill, so the choice is not carried by
                     colour alone. */}
                 <svg className={styles.levelTick} viewBox="0 0 24 24" aria-hidden="true">
@@ -97,9 +87,6 @@ export function LevelChooser({ current }: { current: Level | null }) {
                 </svg>
               </span>
               <span className={styles.levelBlurb}>{BLURB[level]}</span>
-              {IN_PROGRESS[level] && (
-                <span className={styles.levelNote}>{IN_PROGRESS[level]}</span>
-              )}
               {saving === level && (
                 <span className="visually-hidden">Enregistrement en cours</span>
               )}
@@ -109,11 +96,9 @@ export function LevelChooser({ current }: { current: Level | null }) {
       </ul>
 
       <p className={styles.aside}>
-        L’A2 est le niveau écrit ; l’A1 et le B1 s’écrivent en ce moment et sont
-        proposés pour que vous puissiez les suivre. Une leçon reste proposée aux
-        niveaux au-dessus de celui où elle a été écrite : monter d’un niveau
-        n’enlève rien, et ce que vous avez terminé reste terminé. Le B2 s’ouvrira
-        ici quand il aura des leçons.
+        Une leçon reste proposée aux niveaux au-dessus de celui où elle a été
+        écrite : monter d’un niveau n’enlève rien, et ce que vous avez terminé
+        reste terminé. Le B2 s’ouvrira ici quand il aura des leçons.
       </p>
 
       {error && (

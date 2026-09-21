@@ -82,7 +82,8 @@ than marking it superseded.
 | 71 | 2026-09-21 | Signed out, `/` is a welcome; the search field is the signed-in home | Binding |
 | 72 | 2026-09-21 | A1 joins the course as pages, not as tags | Binding · narrowed by #74, #76 |
 | 73 | 2026-09-21 | The level is chosen in the account, never on the page | Binding |
-| 74 | 2026-09-21 | A level is offered while it is being written, not once it is finished | Binding |
+| 74 | 2026-09-21 | A level is offered while it is being written, not once it is finished | Binding · narrowed by #76, #77 |
+| 77 | 2026-09-21 | The chooser offers the levels and rates none of them | Binding · narrows #74 |
 | 75 | 2026-09-21 | The ladder stops at B2; C1 and C2 are out of scope | Binding |
 | 76 | 2026-09-21 | A page is listed from its floor upward; the tick follows the material | Binding · narrows #68, #72 |
 
@@ -1655,11 +1656,16 @@ shipped, precisely so a filter could never be mistaken for an unwritten course.
 
 
 ## 74 · A level is offered while it is being written, not once it is finished
-**2026-09-21 · Binding · reverses #52's gate, narrows #72**
+**2026-09-21 · Binding · reverses #52's gate, narrows #72 · narrowed by #76, #77**
 
-`CHOOSABLE_LEVELS` holds `A1, A2, B1`. A second list, `COURSE_LEVELS`, holds `A2` alone, and
-`LevelChooser` marks anything offered but absent from it « en cours » with a line saying what that
-level actually contains today.
+`CHOOSABLE_LEVELS` holds `A1, A2, B1`, and a level joins it while it is being written rather than
+once it is done.
+
+**The mechanism this entry paid with is gone, and the claim above is what survives.** #74 offered an
+unfinished level and made it honest with a « en cours » badge and a second list, `COURSE_LEVELS`,
+naming which levels had not earned one; #77 deleted both, on the ground that they addressed a
+stranger this course does not have. The rest of this entry is why the gate moved at all, and it
+still binds.
 
 **The old gate answered the wrong question.** #52 said a level joins when choosing it hands someone
 a course, and it was right about the risk and wrong about the remedy: what makes an unfinished level
@@ -1668,24 +1674,18 @@ silently and hiding it silently are the same failure — #51 forbids *announcing
 and a chooser that names what each level holds announces nothing false. The gate was doing the work
 a sentence could do.
 
-**The fact that decided it is counterintuitive and has to stay written down: switching away from A2
-shows fewer lessons, not more.** No page belongs to A1 or B1 alone, so the filter at A1 leaves 20
-lessons across 4 chapters and at B1 leaves 31 across 6, against 54 across 11 at A2 — a learner who
-picks B1 loses `grammaire`, `vocabulaire`, `astuces`, `conversation` and `traduction` outright. What
-B1 actually buys is the harder question set on the eleven pages that carry one (#68), which #73 had
-left unreachable. **That is why `IN_PROGRESS` exists rather than a bare badge**: « en cours » alone
-would read as "fewer lessons for now", and the truth is "a different, smaller selection".
-
-**Two hand-kept lists, because both claims are editorial.** Nothing in the manifest can answer "is
-this a course yet". A count of pages would say A1 has twenty, which is true and misleading, since
-every one is tagged `[]` and belongs to no level at all — the same reason #62 refuses a tally one
-chapter away. So `COURSE_LEVELS` is written by hand and `IN_PROGRESS` beside it, and **they move
-together**: a level entering `COURSE_LEVELS` loses its `IN_PROGRESS` line in the same edit, or the
-course goes on apologising for a level it has finished.
+**The fact that decided it was that switching away from A2 showed *fewer* lessons, not more** — at
+the time no page belonged to A1 or B1 alone, so picking B1 lost `grammaire`, `vocabulaire`,
+`astuces`, `conversation` and `traduction` outright, and all B1 bought was the harder question set
+on eleven pages (#68). **#76 removed that fact rather than explaining it**: a page is now listed
+from its floor upward, so B1 is offered everything A2 is. A1 is still the thin rung, because no page
+is ever widened downward, and that asymmetry is the one this entry leaves behind.
 
 **#15 keeps its job and loses one it had been given.** DELF coverage still defines when a level is
 *done*; it no longer decides when it may be *chosen*. #72 had bound the two together a few hours
-earlier and that clause is gone — what it was protecting is now protected by the chooser's own copy.
+earlier and that clause is gone. It was the chooser's own copy that protected it for a day, and
+since #77 nothing in the interface does: completeness is an editorial fact, tracked in
+`docs/programme-a1.md`, and the interface simply offers the levels.
 
 **Closing a level is a silent reset.** `readLevel` filters against `CHOOSABLE_LEVELS` as well as
 `saveLevel`, so removing an entry makes anyone sitting on it read back as having chosen no level.
@@ -1717,8 +1717,9 @@ nothing in code and made a promise in prose.
 **Removing them from the type is what makes it stick.** The union is the vocabulary (#42's pattern:
 a union in the manifest, checked in both directions), so a C1 page is now a compile error rather
 than a judgement call at review time. `LEVELS` had no consumer anywhere — it was already dead, and
-leaving it beside `CHOOSABLE_LEVELS` and `COURSE_LEVELS` (#74) would have left three level lists of
-which the first meant nothing.
+leaving it beside `CHOOSABLE_LEVELS` and the since-deleted `COURSE_LEVELS` (#74, #77) would have
+left three level lists of which the first meant nothing. `CHOOSABLE_LEVELS` is now the only one, and
+`LADDER` (#76) beside it is derived from the union rather than maintained against it.
 
 **`Level` is this course's ladder, not CEFR's, and the prose must not be "corrected" to match.**
 #13 describes the heritage speaker as plausibly **oral C1 and written A2 at once** — that is CEFR
@@ -1810,3 +1811,47 @@ mapped the whole tag into badges, which was three rungs wide on every row the mo
 « A2 B1 B2 » on every line of every listing separates nothing. The floor is the one thing the tag
 says that tells one row from the next, and it is still read from the manifest, so the chrome still
 reads no session (#35, #65).
+
+
+## 77 · The chooser offers the levels and rates none of them
+**2026-09-21 · Binding · narrows #74**
+
+`COURSE_LEVELS` and `IN_PROGRESS` are deleted, and with them the « en cours » chip beside a level
+and the line under it saying what that level actually held. `LevelChooser` now offers three levels,
+a blurb each, and one note about the ladder. `CHOOSABLE_LEVELS` is the only level list left.
+
+**Both were written for a stranger, and this course has none.** #74's bargain was that an
+unfinished level may be offered provided the chooser says it is unfinished, which is the right trade
+for a course someone can find. This one cannot be found: it is unlisted, it has no sign-up form, and
+every account is made by hand for someone who was told what the course is at the moment they were
+given it. A warning addressed to nobody is chrome, and it was chrome in the one place a learner
+makes a decision.
+
+**#51 is not reopened, and the distinction is the whole entry.** #51 forbids the interface
+*announcing a page that is not written* — a `soon` flag, a dimmed row, a manifest entry with no
+folder. Nothing here announces one: every level in `CHOOSABLE_LEVELS` has pages behind it, a level
+with none would draw an empty sommaire rather than a promise, and `listedChapters` still drops a
+chapter with nothing to offer. What was dropped is a **rating** of the levels, which is a claim
+about how finished the course is rather than about what exists in it.
+
+**Where completeness went is where it came from.** #15 defines a level as done when it covers the
+published DELF syllabus, and `docs/programme-a1.md` tracks A1 against the FONCTIONS list. That was
+true before the chip existed and is true after it. For a day the chooser held a second copy of it,
+in French, which is exactly the duplication this file exists to prevent.
+
+**Chosen against two alternatives.**
+
+*Declare A1 and B1 finished* — move both into `COURSE_LEVELS`, which is what that field is built
+for, and delete their lines. It keeps the mechanism working for B2 later, and it records that A1 is
+a complete course while nine of the twenty-four functions are covered. The field would be lying, and
+a field that lies is worse than a field that is gone.
+
+*Keep the note, drop only the badge.* `COURSE_LEVELS` would lose its only reader and become a list
+maintained by hand that nothing reads — which is precisely what #75 deleted `LEVELS` for, and it
+would sit beside `CHOOSABLE_LEVELS` looking load-bearing.
+
+**The cost, stated rather than hidden.** Someone who chooses A1 today is shown twenty-four lessons,
+twenty of which are tagged `[]` and belong to no level at all, and nothing on screen tells them A1
+is thin. That is acceptable only while the audience is known. **This is the first thing to put back
+if the site is ever listed or opens sign-up** — the badge comes back before the door does, and the
+note with it. A comment on `LevelChooser` says so at the place it would be rebuilt.

@@ -62,8 +62,9 @@ These come from the audience, and a change that breaks one will be asked to chan
 - **Current scope is A1 and A2.** A2 was written first, because the course's learner is at A2;
   **A1 is being written now** and is welcome. B2 takes no content yet, and **C1 and C2 are out of
   scope** — they serve a different audience and the `Level` type stops at B2. A1 and B1 are choosable
-  while unfinished and marked « en cours » in the account, so an A1 page is visible to an A1 learner
-  the day it lands. Climbing never shows fewer lessons: B1 is offered everything A2 is. `docs/programme-a1.md` says what A1 still needs. Short sentences, everyday vocabulary, no literary tenses, no metalanguage
+  while unfinished, so an A1 page is visible to an A1 learner the day it lands. The account offers
+  the three levels and says nothing about how finished each is. Climbing never shows fewer lessons:
+  B1 is offered everything A2 is. `docs/programme-a1.md` says what A1 still needs. Short sentences, everyday vocabulary, no literary tenses, no metalanguage
   beyond *verbe, sujet, adjectif, accord* — the heritage track is the one place school grammar
   vocabulary is allowed.
 - **They type on a Spanish keyboard.** Prefer clicking to typing wherever an answer carries French

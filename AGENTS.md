@@ -87,8 +87,11 @@ are all built. What no amount of reading the repo will reveal:
   DR & MRS VANDERTRAMP).
 - **A2 is written; A1 and B1 are offered while being written** (#52, #74). `CHOOSABLE_LEVELS` holds
   `A1, A2, B1`; B2 is declared and unchoosable, and **the ladder stops there** — C1 and C2 are out
-  of scope (#75). A level offered but absent from `COURSE_LEVELS` draws « en cours »; **move it in
-  and delete its `IN_PROGRESS` line in the same edit.** **Climbing never shows fewer lessons** (#76):
+  of scope (#75). **The chooser offers the levels and rates none of them** (#77): the « en cours »
+  badge, its explanatory line and `COURSE_LEVELS` are all deleted, because they addressed a stranger
+  this course does not have. **Put them back before the site is listed or sign-up opens.**
+  Completeness is #15's, tracked in `docs/programme-a1.md`, and the interface says nothing about it.
+  **Climbing never shows fewer lessons** (#76):
   B1 lists everything A2 does, plus whatever is written for B1. A1 is the thin one, because a page
   is never widened downward.
 - **Closing a level is a silent reset** (#74). `readLevel` filters on `CHOOSABLE_LEVELS` too, so
