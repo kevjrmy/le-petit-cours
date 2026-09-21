@@ -1861,10 +1861,17 @@ note with it. A comment on `LevelChooser` says so at the place it would be rebui
 ## 78 · A `delf` chapter describes the exam and prints none of it
 **2026-09-21 · Binding · extends #15, #51, #9b's licence rule**
 
-A fifteenth chapter, `delf`, last in the manifest. It holds one page about how the exam works and,
-as they are written, whole épreuves to sit in real conditions. **Nothing in it is scored**: the two
-compréhension épreuves would be gradeable and are not, so the chapter has one mechanic rather than
-two, and a corrigé the learner reveals when they have finished.
+A fifteenth chapter, `delf`, last in the manifest. It holds **whole épreuves to sit in real
+conditions**, and nothing else. **Nothing in it is scored**: the two compréhension épreuves would be
+gradeable and are not, so the chapter has one mechanic rather than two, and a corrigé the learner
+reveals when they have finished.
+
+**A page explaining the format was written first and deleted the same day.** It stated the four
+épreuves, the barème and the shape of the day — all true, all useful, and all of it a page standing
+between the learner and the exam. What a candidate needs is to sit one; what they need to know about
+the barème is short enough to live in the corrigé of the épreuve it applies to, which is where it is
+now. The chapter is the épreuves. `/delf/comment-ca-se-passe` redirects to the chapter, and
+`delf-comment-ca-se-passe` is a retired id that is never reused (#50).
 
 **The line this chapter has to hold is a licence line, and it is the reason the entry exists.** The
 request arrived with a PDF: the *Transcriptions et corrigés* booklet from a Hachette DELF A2 prep

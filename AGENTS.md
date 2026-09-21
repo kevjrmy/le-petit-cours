@@ -341,7 +341,7 @@ sommaire card's mark stays the chapter's initial in the serif.
 | `conversation` | **guided role-play** — a scene, the steps it follows, ~20 words to play it out of; no model dialogue, graded nowhere (#54, #57) |
 | `traduction` | a short source text to write in French, three words uncoverable, then the model version; graded nowhere. The one chapter where Spanish appears (#55) |
 | `lecture`, `litterature` | reading + comprehension quiz |
-| `delf` | the exam's **format**, and whole épreuves to sit in real conditions; graded nowhere (#78) |
+| `delf` | a whole **épreuve** to sit in real conditions, with the corrigé hidden until asked for; graded nowhere (#78) |
 
 **An exercise is graded; a game is replayable.** That line is what stops `jeux/` becoming a second
 `exercices/`: a game has no fixed deck, no lesson to record against, and pulls from the whole

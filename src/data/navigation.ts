@@ -1051,15 +1051,6 @@ export const chapters: Chapter[] = [
     blurb:
       "La forme de l’examen, et des épreuves entières à faire en conditions réelles.",
     lessons: [
-      {
-        id: "delf-comment-ca-se-passe",
-        path: "/delf/comment-ca-se-passe",
-        title: "Comment se passe l’examen",
-        subtitle: "Les quatre épreuves, le barème, le jour J",
-        levels: ANY,
-        delf: "Savoir ce que l’examen demande avant de s’y présenter",
-        created: "2026-09-21",
-      },
       /* Les épreuves portent un niveau écrit en toutes lettres, jamais `from()`
          (#76) : une épreuve de DELF A2 est *remplacée* au-dessus par l'épreuve
          de DELF B1, pas prolongée par elle. Un candidat au B1 ne passe pas le
@@ -1732,21 +1723,11 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/le-passe-compose",
     "/grammaire/le-conditionnel-present",
   ],
-  /* La page qui dit comment se passe l'examen renvoie à ce que l'examen
-     demande de produire : les deux jeux de rôle et la traduction sont les
-     seules pages du cours où l'on produit quelque chose sans être corrigé,
-     ce qui est exactement la situation des deux épreuves de production. */
-  "/delf/comment-ca-se-passe": [
-    "/delf/a2-comprehension-des-ecrits",
-    "/delf/a2-production-ecrite",
-    "/delf/a2-production-orale",
-    "/lecture/un-entretien-d-embauche",
-  ],
   /* L'épreuve renvoie au barème, puis aux pages qui entraînent exactement ce
      qu'elle demande : lire un texte de presse et en tirer une information. */
   "/delf/a2-comprehension-des-ecrits": [
     "/delf/a2-production-ecrite",
-    "/delf/comment-ca-se-passe",
+    "/delf/a2-production-orale",
     "/lecture/un-entretien-d-embauche",
     "/vocabulaire/les-nombres",
   ],
@@ -1760,7 +1741,7 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/le-conditionnel-present",
   ],
   "/delf/a2-production-orale": [
-    "/delf/comment-ca-se-passe",
+    "/delf/a2-comprehension-des-ecrits",
     "/conversation/se-presenter",
     "/conversation/parler-du-travail",
     "/conversation/decrire-sa-ville",

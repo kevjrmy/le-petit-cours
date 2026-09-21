@@ -25,6 +25,20 @@ const nextConfig: NextConfig = {
         destination: "/traduction/le-resume-d-un-film",
         permanent: false,
       },
+      /* A page that was written and then dropped rather than replaced, so this
+         one lands on its chapter: three épreuves to sit are what the chapter is
+         for, and a page explaining the barème in front of them was a page
+         between the learner and the exam. Nothing took its slot, so there is no
+         successor to point at.
+
+         Its id, `delf-comment-ca-se-passe`, is retired and never reused (#50).
+         A tick stored against it is now unreadable, which is the honest cost of
+         deleting a lesson and the reason ids are not recycled. */
+      {
+        source: "/delf/comment-ca-se-passe",
+        destination: "/delf",
+        permanent: false,
+      },
       /* **Not a dead URL — an alias.** Signing in is one page and stays one
          page (#26): a second route could not read the session on the server
          either (AGENTS.md §8), so it would duplicate the signed-in/signed-out
