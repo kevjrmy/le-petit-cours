@@ -286,6 +286,8 @@ are checked.
 chapter look deliberate. The icons are drawn in the repo, inline SVG, so they work offline. The
 sommaire card's mark stays the chapter's initial in the serif.
 
+- **`/connexion` is an alias for `/compte`, not a route** (#26) — a redirect, matched before the
+  filesystem, so a `page.tsx` at `app/connexion/` would never render.
 - **A lesson's `id` is permanent; its path is not** (#50). Renaming needs a redirect in
   `next.config.ts`; **the id must not change in that commit or any other**, since changing one
   silently deletes every tick on that lesson. `navigation.ts` throws at import on a duplicate or
@@ -332,7 +334,8 @@ that has become dynamic is a regression, not a detail.**
 
 - **Signing in returns them to the page they were on** (#70): every way in carries `?suivant=` —
   the tick, `/ma-progression` signed out, and the popover's « Se connecter », which is the one that
-  reads the current path. **With nothing to return to it is `/`**, never the settings they came
+  reads the current path. **`signInHref` writes it and nothing else does** — two call sites
+  assembled their own for a while, agreeing with it by luck. **With nothing to return to it is `/`**, never the settings they came
   through — and a link from `/` or `/compte` carries no `?suivant=` at all, since it would only
   name the fallback and would bounce an already-signed-in visitor out of the settings.
 - **`/compte` never bounces a visitor who arrived already signed in** — that would put the settings

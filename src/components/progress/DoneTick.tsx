@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { signInHref } from "@/components/account/ReturnTo";
 import type { Lesson, Level } from "@/data/navigation";
 import { useProgress } from "@/hooks/useProgress";
 import styles from "./DoneTick.module.css";
@@ -46,7 +47,10 @@ export function DoneTick({
     return (
       <aside className={styles.tick}>
         <Link
-          href={`/compte?suivant=${encodeURIComponent(path)}`}
+          /* Through `signInHref`, never assembled here: the writer of this
+             param and its reader live in one file on purpose, and this call
+             site building its own was how they came to be three (#70). */
+          href={signInHref(path)}
           className={`button ${styles.control}`}
         >
           <Mark done={false} />

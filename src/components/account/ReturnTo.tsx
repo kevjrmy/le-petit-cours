@@ -72,9 +72,15 @@ const FALLBACK = "/";
 /**
  * The link into `/compte` that comes back here afterwards.
  *
- * It lives beside `safePath` on purpose: the two are the writer and the reader
- * of one query parameter, and a param written in one file and parsed in another
- * is a param that is eventually encoded twice in one of them.
+ * **Every link into `/compte` goes through this, with no exceptions.** It lives
+ * beside `safePath` on purpose: the two are the writer and the reader of one
+ * query parameter, and a param written in one file and parsed in another is a
+ * param that is eventually encoded twice in one of them. That is not
+ * hypothetical — the tick assembled its own and `/ma-progression` held the
+ * encoded literal, so for a while there were three writers of a param with one
+ * documented one, all agreeing by luck. Its three callers now are the popover
+ * (which reads the current path), the tick (#48) and the signed-out block on
+ * `/ma-progression`.
  *
  * **No parameter where it would only spell out the default** — from `/compte`
  * there is nowhere to return to, and from `/` the fallback already lands there.

@@ -391,6 +391,20 @@ the sidebar, which links there and **never holds a form** (#47).
 **There is no custom domain**, deliberately at this scope: a domain means setting the redirect URLs
 twice.
 
+**Decided against a second route for signing in.** `/connexion` for the form and `/compte` for the
+settings would read more honestly in the address bar, and that is all it would buy. Nothing on the
+server may read the session (`AGENTS.md` §8), so both routes would still have to render both states
+in the client: `ReturnTo`'s `useAccountReady` dance twice, in two files, where it is once now. Every
+way in already carries `/compte?suivant=` (#48, #70), so they would all have to move or pay a hop.
+And the manifest can switch an annexe's *title* by state — `signedOut: { title: "Se connecter" }` —
+but not its *path*, so one row would become two with one hidden each way (#47). The page is already
+honest in both states: the `<h1>` names the route, the `<h2>` under it names what you came to do.
+The only thing one route cannot do is vary its `<title>`, since static metadata is per-route.
+
+**`/connexion` is a redirect to it instead**, in `next.config.ts` — the typeable URL with one page
+to keep correct. It is an alias and not a rename, which is worth knowing because a redirect is
+matched before the filesystem: a `page.tsx` at `app/connexion/` would never render.
+
 ## 27 · The accent is the wordmark's blue; the serif carries the French
 **2026-09-05 · Binding**
 
@@ -1424,6 +1438,11 @@ level like every other listing (#35); the tally under it still does not (#48). T
 of a row the manifest cannot hold, because it is where the learner is rather than what the page is.
 A row earns that return by being the way in, which the manifest says (`signedOut` carrying a title)
 rather than the component guessing from a path.
+
+**One writer, `signInHref`, and one reader, `safePath`.** They sit in the same file because a param
+written in one place and parsed in another gets encoded twice in one of them — which is not a
+worry but a description: the tick built its own URL and `/ma-progression` carried the encoded
+literal, so a param with one documented writer had three, all correct by coincidence.
 
 **No `?suivant=` where it would only spell out the fallback** — from `/` and from `/compte` the link
 is bare. A redundant one is not just a longer URL: the return is honoured whether or not the learner

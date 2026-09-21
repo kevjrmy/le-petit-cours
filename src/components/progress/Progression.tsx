@@ -5,6 +5,7 @@ import { chapters, type Chapter, type Lesson } from "@/data/navigation";
 import { useAccount } from "@/hooks/useAccount";
 import { useProgress } from "@/hooks/useProgress";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
+import { signInHref } from "@/components/account/ReturnTo";
 import { NextLesson } from "./NextLesson";
 import styles from "./Progression.module.css";
 
@@ -179,7 +180,10 @@ function SignedOut() {
         l&rsquo;autre, ce qu&rsquo;un navigateur seul ne sait pas faire.
       </p>
       <p className={styles.actions}>
-        <Link href="/compte?suivant=%2Fma-progression" className="button button-primary">
+        {/* Not the literal `?suivant=%2Fma-progression` this used to hold:
+            one writer, so the encoding and the fallback rule cannot drift
+            (#70). */}
+        <Link href={signInHref("/ma-progression")} className="button button-primary">
           Se connecter
         </Link>
       </p>

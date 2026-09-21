@@ -25,6 +25,21 @@ const nextConfig: NextConfig = {
         destination: "/traduction/le-resume-d-un-film",
         permanent: false,
       },
+      /* **Not a dead URL — an alias.** Signing in is one page and stays one
+         page (#26): a second route could not read the session on the server
+         either (AGENTS.md §8), so it would duplicate the signed-in/signed-out
+         branch rather than remove it, and every `?suivant=` link would have to
+         move. This gives the honest URL anyway, and the query survives the hop,
+         so `/connexion?suivant=…` arrives intact.
+
+         **A `page.tsx` at `app/connexion/` would never render**: a redirect is
+         matched before the filesystem. If sign-in ever does earn its own route,
+         this entry comes out in the same commit. */
+      {
+        source: "/connexion",
+        destination: "/compte",
+        permanent: false,
+      },
     ];
   },
 };
