@@ -22,8 +22,12 @@ export default function Page() {
             <strong>de</strong>.
           </p>
           <p>
-            Un seul mot pour les six, et il ne s’accorde avec rien. Devant une
-            voyelle, il s’élide à son tour :{" "}
+            Un seul mot pour les six, et il ne s’accorde avec rien. Le mot de
+            négation n’y change rien non plus :{" "}
+            <span className="fr">pas</span>, <span className="fr">plus</span> et{" "}
+            <span className="fr">jamais</span> laissent le même{" "}
+            <span className="fr">de</span> derrière eux. Devant une voyelle, il
+            s’élide à son tour :{" "}
             <span className="fr">pas d’argent</span>,{" "}
             <span className="fr">pas d’amis</span>.
           </p>
@@ -32,11 +36,14 @@ export default function Page() {
         <div className="example">
           J’ai <strong>un</strong> vélo. → Je n’ai pas <strong>de</strong> vélo.
           <br />
-          Je bois <strong>du</strong> café. → Je ne bois pas{" "}
+          Je bois <strong>du</strong> café. → Je ne bois jamais{" "}
           <strong>de</strong> café.
           <br />
-          Il y a <strong>des</strong> places. → Il n’y a pas{" "}
-          <strong>de</strong> places.
+          Il y a <strong>du</strong> pain. → Il n’y a plus{" "}
+          <strong>de</strong> pain.
+          <br />
+          Elle mange <strong>des</strong> légumes. → Elle ne mange pas{" "}
+          <strong>de</strong> légumes.
         </div>
 
         <div className="exception">
@@ -101,7 +108,9 @@ export default function Page() {
             <span className="fr">une</span>, <span className="fr">des</span>,{" "}
             <span className="fr">du</span>, <span className="fr">de la</span> et{" "}
             <span className="fr">de l’</span> se réduisent tous à{" "}
-            <span className="fr">de</span>.
+            <span className="fr">de</span>, que la négation soit{" "}
+            <span className="fr">pas</span>, <span className="fr">plus</span> ou{" "}
+            <span className="fr">jamais</span>.
           </li>
           <li>
             Après un mot de quantité, exactement la même chose :{" "}

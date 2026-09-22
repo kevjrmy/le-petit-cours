@@ -73,7 +73,8 @@ export default function Page() {
         <div className="rule">
           <span className="fr">un</span>, <span className="fr">une</span>,{" "}
           <span className="fr">des</span>, <span className="fr">du</span>,{" "}
-          <span className="fr">de la</span> deviennent{" "}
+          <span className="fr">de la</span>, <span className="fr">de l’</span>{" "}
+          deviennent{" "}
           <strong>
             <span className="fr">de</span>
           </strong>{" "}
@@ -198,6 +199,29 @@ export default function Page() {
           </table>
         </div>
 
+        <p>
+          <span className="fr">plus</span> et{" "}
+          <span className="fr">jamais</span> gardent la règle de la section
+          précédente : l’article devient <span className="fr">de</span>{" "}
+          derrière eux exactement comme derrière{" "}
+          <span className="fr">pas</span>.
+        </p>
+
+        <div className="example">
+          J’ai <strong>du</strong> pain. → Je n’ai plus <strong>de</strong>{" "}
+          pain.
+          <br />
+          Je bois <strong>du</strong> café. → Je ne bois jamais{" "}
+          <strong>de</strong> café.
+        </div>
+
+        <p>
+          Avec <span className="fr">rien</span> et{" "}
+          <span className="fr">personne</span>, la question ne se pose pas :
+          ils prennent la place du nom au lieu de se mettre devant lui. Il n’y
+          a rien derrière eux, donc pas d’article à changer.
+        </p>
+
         <div className="attention">
           ces mots remplacent <span className="fr">pas</span>, ils ne
           s’ajoutent pas à lui. On dit{" "}
@@ -231,8 +255,12 @@ export default function Page() {
           <li>
             <span className="fr">un</span>, <span className="fr">une</span>,{" "}
             <span className="fr">des</span>, <span className="fr">du</span>,{" "}
-            <span className="fr">de la</span> deviennent{" "}
-            <span className="fr">de</span>. L’article défini, lui, ne change
+            <span className="fr">de la</span> et{" "}
+            <span className="fr">de l’</span> deviennent{" "}
+            <span className="fr">de</span>, après{" "}
+            <span className="fr">plus</span> et{" "}
+            <span className="fr">jamais</span> comme après{" "}
+            <span className="fr">pas</span>. L’article défini, lui, ne change
             pas.
           </li>
           <li>
