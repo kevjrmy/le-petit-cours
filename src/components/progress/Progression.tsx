@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { chapters, type Chapter, type Lesson } from "@/data/navigation";
+import { trackedChapters, type Chapter, type Lesson } from "@/data/navigation";
 import { useAccount } from "@/hooks/useAccount";
 import { useProgress } from "@/hooks/useProgress";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
@@ -23,6 +23,11 @@ import styles from "./Progression.module.css";
  * pages that exist: the manifest holds no announced-but-unwritten entries to
  * inflate it (#51). A chapter with none is left out of the list entirely rather
  * than shown as 0 / 0.
+ *
+ * **`trackedChapters()`, not `chapters`** (#80): a scratch chapter's pages
+ * carry no tick anywhere, so counting them would put the total permanently out
+ * of reach — and they are gone by next week, which would then move the
+ * denominator under a record that is supposed to only grow.
  */
 export function Progression() {
   const account = useAccount();
@@ -39,7 +44,7 @@ export function Progression() {
      the honest one to ask about is the learner's own. Which variants a page
      with several should count toward which tally is a separate question, and
      belongs with the per-level breakdown rather than here. */
-  const rows = chapters
+  const rows = trackedChapters()
     .map((chapter) => {
       const lessons = chapter.lessons;
       const done = lessons.filter((lesson) => isDone(lesson, level));

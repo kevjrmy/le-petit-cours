@@ -22,7 +22,7 @@ import styles from "./ChapterIcon.module.css";
  *
  * They are stroke drawings on the same 24-grid, stroke-width 2 and round caps,
  * because the rest of the chrome already is — the magnifier, the chevrons, the
- * account glyph. One hand, so fourteen marks read as one set.
+ * account glyph. One hand, so the whole set reads as one.
  */
 const PATHS: Record<IconName, React.ReactNode> = {
   /* An open book, spine in the middle. */
@@ -156,6 +156,22 @@ const PATHS: Record<IconName, React.ReactNode> = {
     <>
       <path d="M12 3.5c0 6.5 2 13 4 17.5M12 3.5c0 6.5-2 13-4 17.5" />
       <path d="M10.2 11h3.6M9 15.5h6" />
+    </>
+  ),
+  /* A board on an easel — the surface a class is given over a shared screen,
+     and the chapter that is wiped between sessions.
+
+     The legs are what carry it. Without them this is a sheet with two lines on
+     it, which is `delf` minus its seal and `lecture` turned on its side; with
+     them it is furniture, and furniture is not a document. They also pull the
+     mark's weight below the board's baseline, which is why the board sits high
+     on the grid rather than centred. */
+  atelier: (
+    <>
+      <rect x="3.5" y="4" width="17" height="11" rx="1.5" />
+      <path d="M7.5 8h7M7.5 11.2h4.5" />
+      <path d="M12 15v2.8" />
+      <path d="M8.8 20.5 12 17.8l3.2 2.7" />
     </>
   ),
   /* A diploma: a sheet with two lines of text and a sealed ribbon. The seal is

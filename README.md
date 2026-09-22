@@ -14,7 +14,8 @@ at home, a track that teaches them to write it.
 > The project was restarted on Next.js on **2026-09-05**. The design system, the app shell, the navigation
 > manifest, search, the whole account flow — sign-in, the chosen level, the display name — and
 > progress, from the « J'ai terminé » tick to `/ma-progression`, are written. Sixteen chapters
-> are declared and **eighty-three lessons are published**, written in French: sixteen in
+> are declared, plus a scratch chapter for a class in progress, and **eighty-three lessons are
+> published**, written in French: sixteen in
 > `grammaire`, fourteen verb sheets in `conjugaison`, ten scenes in `conversation`, nine texts in
 > `lecture`, seven in `exercices`, six each in `orthographe`, `vocabulaire` and `traduction`, four
 > in `astuces`, three in `delf`, and one each in `litterature` and `musique`. Nothing is announced before it is
@@ -118,13 +119,17 @@ the shell renders signed out, and the whole course still works, because every le
 static. They are not secrets — the publishable key is public by design and row-level security is
 what protects a learner's data.
 
+A third, `FRONTEND_PASSWORD`, is a secret and is the one thing in this project that must not be
+committed. It is the shared password in front of `/temp`, the scratch chapter used for a class in
+progress; without it that chapter is closed to everyone. Every other page works without it.
+
 ## How it is put together
 
 - **`src/data/navigation.ts` is the single source of truth** for chapters, lessons, order and
   cross-links. The sidebar, the home page and every chapter page read from it. Nothing
   auto-discovers pages, so a lesson missing from the manifest is reachable from nothing.
 - Routes come from the filesystem: `src/app/{chapitre}/{lecon}/page.tsx`. **Chapter landing pages
-  are one generated route** — `src/app/[chapitre]/page.tsx` renders all sixteen from the
+  are one generated route** — `src/app/[chapitre]/page.tsx` renders every one of them from the
   manifest, so adding a chapter means adding an entry and nothing else.
 - **The home page is a search field once you are signed in**, and a welcome with three doors when
   you are not; the course's table of contents is at `/sommaire` either way. Search reads

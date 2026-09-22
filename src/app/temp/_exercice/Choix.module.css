@@ -1,0 +1,90 @@
+/* Le plateau de « Laquelle des deux ? ». L'habillage — consigne, jauge, score —
+   est partagé avec les autres exercices (`src/components/exercice/Drill.tsx`),
+   pour qu'un exercice d'atelier ne présente pas un score autrement qu'un
+   exercice du cours.
+
+   Aucun token de couleur d'état ici : `.is-correct` et `.is-wrong` sont
+   globaux et doublés pour battre `.option` (`globals.css`). Les redéclarer
+   localement, c'est exactement ce que cette règle interdit. */
+
+.card {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.35rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+.sentence {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: var(--text-heading);
+}
+
+/* Le trou garde sa largeur quand la réponse s'y installe, sinon la phrase
+   bouge sous le curseur au moment du clic. */
+.gap {
+  display: inline-block;
+  min-width: 5.5rem;
+  padding: 0 0.2rem;
+  text-align: center;
+  border-bottom: 2px solid var(--accent-line);
+}
+
+.options {
+  margin-top: 1.1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.option {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  min-width: 7rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--text-1);
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.option:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+}
+
+.option:disabled {
+  cursor: default;
+}
+
+/* La marque garde sa place avant la réponse, pour que les deux boutons ne
+   changent pas de largeur au clic. */
+.mark {
+  display: inline-block;
+  min-width: 0.8rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+
+.pourquoi {
+  margin-top: 1.1rem;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+  color: var(--text-2);
+}
+
+.actions {
+  margin-top: 1.3rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}

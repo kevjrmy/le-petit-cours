@@ -1,0 +1,88 @@
+/* Le plateau de « Écrivez la forme ». L'habillage est partagé
+   (`src/components/exercice/Drill.tsx`), la barre d'accents aussi
+   (`src/components/exercice/AccentBar.tsx`), et les états de réponse sont
+   globaux et doublés (`globals.css`). */
+
+.card {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.35rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+.sentence {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: var(--text-heading);
+}
+
+.gap {
+  display: inline-block;
+  min-width: 5.5rem;
+  padding: 0 0.2rem;
+  text-align: center;
+  border-bottom: 2px solid var(--accent-line);
+}
+
+.indice {
+  margin-top: 0.7rem;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  color: var(--text-2);
+}
+
+.field {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.input {
+  flex: 1 1 12rem;
+  min-width: 0;
+  max-width: 20rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--text-1);
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.verdict {
+  margin-top: 1.2rem;
+}
+
+.corrected {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--text-heading);
+}
+
+.pourquoi {
+  margin-top: 0.6rem;
+  margin-bottom: 0;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--text-2);
+}
+
+.actions {
+  margin-top: 1.3rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}

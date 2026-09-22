@@ -1,0 +1,61 @@
+/* La porte de l'atelier. Rien de neuf côté couleurs : `is-wrong` est la classe
+   globale et doublée des exercices (`globals.css`), parce qu'un champ refusé et
+   une réponse fausse sont la même chose à l'écran et ne doivent pas être deux
+   rouges. */
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.blurb {
+  margin-top: 0.5rem;
+  color: var(--text-2);
+}
+
+.form {
+  max-width: 28rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.input {
+  flex: 1 1 12rem;
+  min-width: 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--text-1);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.erreur {
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+  color: var(--danger-text);
+}
+
+.sortie {
+  margin-top: 2.5rem;
+  font-size: 0.95rem;
+}

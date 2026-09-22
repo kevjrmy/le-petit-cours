@@ -34,8 +34,11 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
   const level = account?.level ?? null;
   const lessons = visibleLessons(chapter, level);
 
-  /* False until there are ticks to draw: an empty circle is a claim. */
-  const drawTicks = signedIn && ready;
+  /* False until there are ticks to draw: an empty circle is a claim. And never
+     in a scratch chapter (#80) — its pages carry no tick under them either, and
+     a row offering one here would be the only place in the app where a page can
+     be marked done and then deleted. */
+  const drawTicks = signedIn && ready && !chapter.scratch;
 
   /* Two different silences, and they must not be told the same way. The
      chapter is declared and empty — nothing is written yet, and no level would
@@ -43,6 +46,18 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
      page is reachable from a listing (#51); both are reachable by URL, which is
      why they still answer. */
   if (chapter.lessons.length === 0) {
+    /* Empty is this chapter's resting state rather than a chapter waiting to be
+       written (#80), so it cannot borrow the sentence below: « il en aura »
+       promises a course page, and what lands here is next week's séance. */
+    if (chapter.scratch) {
+      return (
+        <p className="message">
+          Rien ici pour l’instant. Les pages d’une séance arrivent dans ce
+          chapitre le jour du cours, et en repartent après.
+        </p>
+      );
+    }
+
     return (
       <p className="message">
         Ce chapitre n’a pas encore de leçon. Il en aura : c’est un chapitre du

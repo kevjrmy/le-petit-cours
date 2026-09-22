@@ -1,0 +1,70 @@
+/* Le plateau de « Trouvez la faute ». L'habillage est partagé
+   (`src/components/exercice/Drill.tsx`), et les trois états de réponse sont
+   globaux et doublés (`globals.css`) : rien de tout cela n'est redéclaré ici. */
+
+.card {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.35rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+.sentence {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem;
+}
+
+/* Chaque mot est un bouton, et au repos il ne ressemble pas à un bouton : s'il
+   en avait l'air, la phrase se lirait comme une liste de choix et le travail
+   de lecture disparaîtrait. */
+.mot {
+  padding: 0.1rem 0.3rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-heading);
+  font-family: var(--font-serif);
+  font-size: 1.08rem;
+  line-height: 1.7;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.mot:hover:not(:disabled) {
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
+}
+
+.mot:disabled {
+  cursor: default;
+}
+
+.verdict {
+  margin-top: 1.2rem;
+}
+
+.corrected {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--text-heading);
+}
+
+.pourquoi {
+  margin-top: 0.6rem;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+  color: var(--text-2);
+}
+
+.actions {
+  margin-top: 1.3rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}

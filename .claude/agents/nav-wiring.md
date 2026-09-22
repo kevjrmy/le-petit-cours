@@ -291,6 +291,48 @@ manifest entry gives a dead link; a stale cross-link quietly costs one. Removing
 its manifest entry: the landing page is generated, so there is no file to delete and no icon
 mapping to remember.
 
+## The atelier — adding and clearing scratch pages
+
+`temp` is the one chapter that is **emptied on purpose** (`docs/decisions.md` #80): its pages are
+written for a class in progress, shared on screen during the session, then promoted or deleted. It
+carries `scratch: true`, which is what keeps it out of every tick and every count — so the weekly
+reset is a manifest edit and a folder, with none of the migration a real lesson would need.
+
+**Adding a page** is `## Adding a lesson` above, with four differences:
+
+- **The id carries the date**: `temp-2026-09-22-terminaisons`. Ids are permanent and never reused,
+  and this is the one chapter where the same slug plausibly describes different material twice.
+- **`levels: ANY`**, never `from()`. A level filter that hides the page being shared mid-call is the
+  failure this avoids.
+- **No entry in `relatedPages` pointing *at* it.** The page may have a key of its **own**, linking
+  out to the lessons it works through — delete that key with the page, and the audit's first line
+  catches you if you forget, since a key whose source no longer resolves is reported. A course page
+  linking *in* is the one to refuse: it loses its link at the next reset and says so nowhere,
+  because cross-links fail soft.
+- **Nothing in `featuredChapterSlugs`.**
+
+**Clearing it** is the manifest entries and the folders, and that is all:
+
+```bash
+git rm -r src/app/temp/<slug>          # for each page being cleared
+# then delete its entry from the `temp` chapter's `lessons` array
+```
+
+… and its `relatedPages` key, if it had one, and `src/app/temp/_exercice/` once the last page
+using it is gone — the three shared mechanics (`Choix`, `Faute`, `Écrire`) left behind after a
+reset are code nothing calls. (It lives under
+`temp/` with an underscore precisely so it leaves with the chapter: the prefix hides it from Next's
+router **and** from the audit's walk for `page.tsx`.) No redirect — #50 asks for one when a lesson's URL
+dies, and these were never promised to anyone. No cross-link sweep beyond its own key, if the rule
+above was kept; `grep -rn "/temp/" src/` is the check that it was. The chapter itself stays in the manifest with `lessons: []` and simply stops drawing.
+
+**Keeping a page** means rewriting it into the chapter it belongs to, with a **new permanent id**
+and a real `levels` tag — a new page, not a move. There is no tick to carry across, which is
+exactly what makes this free.
+
+Run the audit either way: an entry left behind after the folder went is a link to a 404, and it is
+the first of the six lines.
+
 ## Cross-links — "Pour aller plus loin"
 
 Every lesson ends with the block, and **the shell draws it** — `LessonEnd`, from the current path,

@@ -25,6 +25,12 @@ import { usePathname } from "next/navigation";
  * It renders nothing at all unless the current path is a lesson, which is what
  * keeps it off chapter pages, the sommaire and the annexes with no allowlist to
  * keep in step.
+ *
+ * **A scratch chapter's pages end at the links** (#80): they are worked through
+ * live on a call and deleted at the end of the week, so there is nobody to tick
+ * one for themselves and nothing for the tick to still mean afterwards. The
+ * chapter comes back from `findLesson` already, so this costs a read and no
+ * second list.
  */
 export function LessonEnd() {
   const path = usePathname() ?? "";
@@ -40,7 +46,9 @@ export function LessonEnd() {
           on the account — the questions above and the tick below read the same
           hook, so they cannot disagree. Every lesson serving one level resolves
           to it, and `progressKey` ignores it. */}
-      <DoneTick lesson={found.lesson} level={level} path={path} />
+      {!found.chapter.scratch && (
+        <DoneTick lesson={found.lesson} level={level} path={path} />
+      )}
       <RelatedLinks path={path} />
     </div>
   );

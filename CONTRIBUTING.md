@@ -44,6 +44,12 @@ looks like it is working while it confirms a mistake.
   complete when it covers the DELF syllabus for that level, so a lesson that maps to nothing in it
   needs a reason. See the open questions in [`docs/decisions.md`](docs/decisions.md) — the authoring
   format for lessons is not settled yet, so large content contributions may be premature.
+- **« Atelier » (`temp`) is not a chapter to contribute to.** It is scratch space for a class in
+  progress: its pages are written for one session, shared on screen during it, then promoted into a
+  real chapter or deleted ([`docs/decisions.md`](docs/decisions.md) #80). Finding it empty is normal
+  and is not a bug; a lesson proposed for it belongs in one of the sixteen instead. On the deployed
+  site it also sits behind a shared password ([`docs/decisions.md`](docs/decisions.md) #81), so you
+  will not be able to open it — the pages themselves are in this repository like everything else.
 
 ## The constraints that are not negotiable
 

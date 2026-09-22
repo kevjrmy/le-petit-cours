@@ -16,7 +16,8 @@
  * **Four chapters are in that state right now**, and that is the normal resting
  * state of a chapter rather than a gap to be filled: `prononciation`, `jeux`,
  * `dictees` and `culture` each wait on something other than writing
- * (`AGENTS.md` §12). Sixteen chapters are declared; twelve carry pages.
+ * (`AGENTS.md` §12). Sixteen chapters of the course are declared and twelve
+ * carry pages; `temp` sits beside them and is counted with neither (#80).
  *
  * **Chapter order is inherited, not decided.** Which chapters carry which
  * content and in what order is still open (`AGENTS.md` §12) and is meant to be
@@ -179,6 +180,7 @@ export type IconName =
   | "litterature"
   | "musique"
   | "culture"
+  | "atelier"
   | "delf"
   | "sommaire"
   | "progression"
@@ -212,6 +214,36 @@ export interface Chapter {
    * dont une épreuve ait besoin : les trois épreuves sont entières sans lui.
    */
   outbound?: { href: string; label: string; note: string };
+  /**
+   * Set when the chapter is **scratch space**, emptied and refilled on a
+   * schedule rather than written once (#80). `temp` is the only one.
+   *
+   * It is listed exactly like the others — sidebar row, sommaire card, search
+   * results — because the point of it is to be one click away in the middle of
+   * a lesson given over a call. What it changes is **progress**, and it changes
+   * it in four places, because a page that will be deleted next week cannot be
+   * something a learner is working through:
+   *
+   * 1. `LessonEnd` draws no `DoneTick` under the page.
+   * 2. `ChapterLessons` passes no `RowTick` in the listing.
+   * 3. `trackedChapters()` drops it, so `/ma-progression` neither counts its
+   *    pages in a denominator nor lists them.
+   * 4. `nextUp` reads `trackedChapters()` too — **this one is not cosmetic**.
+   *    « La suite » is the first *unticked* lesson in manifest order, so a
+   *    lesson that can never be ticked is a permanent first hole: the home page
+   *    and `/ma-progression` would both offer last week's scratch page for ever
+   *    and nothing would fail.
+   *
+   * And one that is not about progress at all: `sitemap.ts` lists the chapter
+   * and not its lessons, because a sitemap is a claim that a URL is worth
+   * coming back to and these are gone by Monday.
+   *
+   * That is the whole contract, and **nothing checks that a sixth reader of
+   * `chapters` honours it**. Ask what a new one is for: counting or resuming
+   * wants `trackedChapters()`, offering wants `listedChapters()`, and the
+   * search index wants `chapters` exactly as it stands.
+   */
+  scratch?: true;
   lessons: Lesson[];
 }
 
@@ -1269,6 +1301,68 @@ export const chapters: Chapter[] = [
     blurb: "Le pays derrière la langue : ses régions, ses villes, ses habitudes.",
     lessons: [],
   },
+  /* L'atelier : le seul chapitre qui se vide (#80).
+
+     Ses pages sont écrites pour une séance en particulier, partagées à l'écran
+     pendant le cours, puis retirées — remontées dans un vrai chapitre si elles
+     valent mieux que leur semaine, supprimées sinon. C'est ce que `scratch`
+     dit au reste de l'application : ici rien ne se coche, rien ne compte dans
+     une progression, et « La suite » ne s'y arrête jamais.
+
+     Il est listé comme les autres, et c'est voulu : on y va d'un clic au
+     milieu d'un cours donné en visio. Ce qu'un visiteur y trouve est la séance
+     de la semaine, pas une page oubliée.
+
+     Trois règles que rien ne vérifie :
+
+     - **Un identifiant porte sa date** — `temp-2026-09-22-terminaisons` — et ne
+       ressert jamais. Un identifiant est permanent et une coche est rangée
+       dessous (#50) ; réutiliser un slug pour une autre matière ferait
+       réapparaître des coches sur la mauvaise page.
+     - **Aucune page permanente ne renvoie ici.** Les liens croisés échouent en
+       silence (`AGENTS.md` §6) : un lien du cours vers l'atelier disparaîtrait
+       à la remise à zéro sans que rien ne le dise. L'inverse est utile — une
+       page d'atelier renvoie vers les leçons qu'elle fait travailler.
+     - **Les leçons y sont taguées `ANY`**, jamais `from()`. Le filtre de niveau
+       ne doit pas cacher en plein cours la page qu'on est en train de partager.
+
+     Une page retirée d'ici ne laisse pas de redirection : son URL n'a jamais
+     été promise à personne, ce qui est exactement ce qui la distingue d'une
+     leçon renommée (#50). */
+  {
+    slug: "temp",
+    icon: "atelier",
+    path: "/temp",
+    title: "Atelier",
+    blurb:
+      "Les pages d’une séance : écrites pour un cours en particulier, remplacées chaque semaine.",
+    scratch: true,
+    lessons: [
+      /* Deux textes rendus cette semaine, repris tels quels : le texte, sa
+         correction, puis ce qui s'y répète. Publiés sans nom et sans rien qui
+         désigne qui les a écrits, ce qui est la condition pour qu'ils soient
+         ici (`AGENTS.md` §9b) : le contenu est anonyme, la page ne dit ni qui,
+         ni quel âge, ni où. */
+      {
+        id: "temp-2026-09-22-la-sorciere-mouffetard",
+        path: "/temp/la-sorciere-de-la-rue-mouffetard",
+        title: "La sorcière de la rue Mouffetard",
+        subtitle: "Le texte, sa correction et les règles",
+        levels: ANY,
+        delf: "Raconter une histoire au passé, à l'écrit",
+        created: "2026-09-22",
+      },
+      {
+        id: "temp-2026-09-22-un-resume-de-film",
+        path: "/temp/un-resume-de-film",
+        title: "Un résumé de film",
+        subtitle: "Le texte, sa correction et les règles",
+        levels: ANY,
+        delf: "Résumer par écrit un récit qu'on a vu",
+        created: "2026-09-22",
+      },
+    ],
+  },
   /* Le DELF, et pourquoi il est le dernier chapitre : il ne s'apprend pas, il
      se passe. Tout ce qu'il demande est écrit ailleurs dans le cours ; ici on
      ne montre que la forme de l'examen et des épreuves entières à faire en
@@ -1364,7 +1458,7 @@ export type IconAnnexe = Extract<Annexe, { icon: IconName }>;
 export const annexes: Annexe[] = [
   /* Above the chapters, not below them with the other annexes: the sommaire is
      the way into the course rather than something beside it, and the foot of a
-     sixteen-row list is not where you look for the list's own overview. */
+     long list is not where you look for the list's own overview. */
   { path: "/sommaire", title: "Sommaire", levels: ANY, where: "top", icon: "sommaire" },
   /* The marks are the ones the popover already shows elsewhere: the tick the
      listings record, and the glyph on the account control itself.
@@ -1397,15 +1491,17 @@ export const annexes: Annexe[] = [
 /**
  * Real routes that carry no manifest entry.
  *
- * Three pages are not part of the course: the home page, the results page and
- * the token specimen. Declaring them is what lets the `nav-wiring` audit report
- * a route that is in neither the manifest nor this list, instead of letting a
- * page exist that nothing links to and nothing notices.
+ * Four pages are not part of the course: the home page, the results page, the
+ * token specimen, and the atelier's door (#81) — which is a route precisely
+ * because it has to sit *outside* `/temp`, where the proxy cannot intercept the
+ * Server Function that opens it. Declaring them is what lets the `nav-wiring`
+ * audit report a route that is in neither the manifest nor this list, instead
+ * of letting a page exist that nothing links to and nothing notices.
  *
  * It used to map each one to a breadcrumb label. The topbar no longer names the
  * page you are on — the `<h1>` does — so the labels went with that (#45).
  */
-export const unlistedPages: string[] = ["/", "/recherche", "/design"];
+export const unlistedPages: string[] = ["/", "/recherche", "/design", "/entrer"];
 
 /**
  * The chapters offered as shortcuts under the search field on the home page.
@@ -1527,6 +1623,24 @@ export function iconAnnexes(where: "top" | "tree"): IconAnnexe[] {
 }
 
 /** The lesson a learner has not ticked yet, and the chapter it sits in. */
+/**
+ * The chapters progress is kept on: everything but the scratch chapters (#80).
+ *
+ * **Every reader of `chapters` that is about progress wants this instead.**
+ * There are two — `nextUp` below and `/ma-progression` — and the reason is the
+ * same in both: an `Atelier` page is deleted at the end of the week and cannot
+ * be ticked, so counting it puts a denominator out of reach, and looking for
+ * the first unticked lesson in course order finds it and stops there for ever.
+ *
+ * It is deliberately not the same list as `listedChapters()`. That one answers
+ * "what does the course offer this learner", and the atelier *is* offered — it
+ * is in the sidebar and on the sommaire like any other chapter. This one
+ * answers "what is the learner working through", which is not the same set.
+ */
+export function trackedChapters(): Chapter[] {
+  return chapters.filter((chapter) => !chapter.scratch);
+}
+
 export interface NextStep {
   chapter: Chapter;
   lesson: Lesson;
@@ -1561,8 +1675,11 @@ export function nextUp(
   let started = false;
 
   /* The whole course, not an early return: a learner who ticked lesson five and
-     skipped lesson one is still a learner who has started. */
-  for (const chapter of chapters) {
+     skipped lesson one is still a learner who has started.
+
+     `trackedChapters()`, not `chapters`: a scratch page can never be ticked, so
+     it would be the first hole in course order every time this ran (#80). */
+  for (const chapter of trackedChapters()) {
     for (const lesson of visibleLessons(chapter, level)) {
       if (isDone(lesson, level)) started = true;
       else if (!first) first = { chapter, lesson };
@@ -1590,8 +1707,8 @@ export function visibleLessons(chapter: Chapter, level: Level | null): Lesson[] 
 /**
  * The chapters a listing draws: those with at least one lesson to offer.
  *
- * **A chapter with nothing in it is not shown** (`docs/decisions.md` #51). All
- * sixteen are declared here because the course's shape is decided; what the
+ * **A chapter with nothing in it is not shown** (`docs/decisions.md` #51). The
+ * course's sixteen are all declared here because its shape is decided; what the
  * interface offers is what is written, and a row leading to an empty page is
  * the « Bientôt » badge again with worse manners. A chapter reappears on its
  * own the moment its first lesson lands — there is no second list to update.
@@ -2129,6 +2246,24 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/le-plus-que-parfait",
     "/conjugaison/vouloir",
     "/conversation/au-restaurant",
+  ],
+  /* Une page d'atelier renvoie vers les leçons qu'elle fait travailler, et
+     jamais l'inverse (#80) : ce sens-ci disparaît avec la page à la remise à
+     zéro, l'autre laisserait un lien mort dans une leçon permanente.
+
+     **Cette clé part avec la page.** Une clé dont la source n'existe plus est
+     la première chose que l'audit signale, ce qui est exactement le filet
+     qu'on veut ici. */
+  "/temp/la-sorciere-de-la-rue-mouffetard": [
+    "/orthographe/les-terminaisons-verbales",
+    "/astuces/etre-ou-avoir",
+    "/grammaire/la-negation",
+    "/orthographe/les-accents",
+  ],
+  "/temp/un-resume-de-film": [
+    "/grammaire/les-pronoms-cod-coi",
+    "/orthographe/les-accents",
+    "/grammaire/le-passe-compose",
   ],
 };
 

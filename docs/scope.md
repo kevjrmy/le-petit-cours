@@ -159,6 +159,13 @@ no auth wall, no sign-up interstitial, nothing gated behind an email address. Th
 and it is also what keeps the lessons statically prerendered and precacheable — which is what makes
 the app work offline at all.
 
+**One chapter is the exception, and it is not part of the course.** « Atelier » holds the pages of a
+class in progress — a learner's own text, corrected — and is emptied every week (`decisions.md`
+#80). It sits behind a single shared password (#81). That is not authorization and buys no secrecy:
+the same pages are in this public repository, anonymous, on purpose. It keeps a chapter written for
+one lesson out of the way of anyone who arrives at the deployed site expecting a course. No account
+is involved, nothing about a learner is behind it, and no page of the course itself is affected.
+
 **An account is required to keep a learning path** — the « J'ai terminé » tick, pressed under the
 lesson or straight from its row on the chapter page, the level you are working at, and the position
 in a parcours those imply, across devices. There is no anonymous progress: one storage path, one

@@ -44,7 +44,12 @@ are all built. What no amount of reading the repo will reveal:
 
 - **Deployed on Vercel** at <https://lepetitcours.vercel.app>, building from `main`. Supabase
   project `ephdtigxjccfauzgexpd`, RLS on, legacy JWT keys disabled, two public env vars, no
-  integration and no secret at rest (#20, #21).
+  integration and no Supabase secret at rest (#20, #21).
+- **One secret does exist now, and it is not Supabase's**: `FRONTEND_PASSWORD`, the shared password
+  in front of `/temp` (#81). It lives in the gitignored `.env` and is **set on Vercel by hand**
+  (`vercel env add FRONTEND_PASSWORD`) — done on 2026-09-22. **A deployment without it lets nobody
+  in, including you**, which is the failure chosen on purpose over an atelier that silently opens to
+  everyone. It is the one value in this project that must never be written down anywhere else.
 - **Three dashboard settings the repo cannot enforce**, all in the Email provider and all readable
   from the public `/auth/v1/settings` endpoint without opening the dashboard. The provider is
   **enabled** (`external.email`), public sign-up is **off** and must stay off (`disable_signup`; the
@@ -123,7 +128,7 @@ are all built. What no amount of reading the repo will reveal:
 - **A level is complete when it covers the published DELF syllabus** (#15), not when it feels
   thorough.
 - **The content is « le cours », never « le livre »** (#41). **leçon** a page, **chapitre** one of
-  sixteen, **sommaire** the contents page, **parcours** an ordered path, **programme** a level's
+  the sixteen the course is made of, **sommaire** the contents page, **parcours** an ordered path, **programme** a level's
   syllabus. In English prose, say *the course*.
 - **Both profiles type on a Spanish keyboard.** `é è ê` cost a dead-key detour; `œ` and `ç` cannot
   be typed at all. A design constraint, not a footnote — see §9.
@@ -143,9 +148,13 @@ progress/ exercice/ delf/`), `src/data/navigation.ts` (the manifest), `src/hooks
 - **Offline stays the point.** Serwist will provide the service worker and precaching —
   `vite-plugin-pwa` has no Next equivalent. **Not installed yet.**
 - **Supabase for accounts and progress sync only** (#8). Content lives in git, reviewed in diffs.
-  Exactly two env vars: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. **If a
-  `SUPABASE_*` or `POSTGRES_*` variable appears in the project env, an integration reconnected —
-  delete it** (#21).
+  Exactly two env vars for Supabase: `NEXT_PUBLIC_SUPABASE_URL`,
+  `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. **If a `SUPABASE_*` or `POSTGRES_*` variable appears in
+  the project env, an integration reconnected — delete it** (#21).
+- **`FRONTEND_PASSWORD` is the third variable, and the only secret** (#81). **No `NEXT_PUBLIC_`
+  prefix, ever**: a prefixed variable is copied verbatim into the browser bundle, and the password
+  would be readable by exactly the people it is meant to stop. It is read only by `src/lib/atelier.ts`,
+  which imports `node:crypto` so that importing it from a client component breaks the build.
 
 ## 3. Next.js 16 — what differs from your training data
 
@@ -270,6 +279,18 @@ through lessons that already exist (#14).
   without a folder. An empty chapter is dropped by `listedChapters(level)` and returns on its own
   with its first lesson. **Do not reintroduce a "coming soon" row in any form** — dimmed, disabled
   or counted.
+- **`temp` (« Atelier ») is scratch space, and the only chapter emptied on purpose** (#80). It is
+  listed like the other sixteen because its point is to be one click away in the middle of a class
+  given over a call. **Ids carry a date and never come back** (`temp-2026-09-22-…`; a reused slug
+  resurrects ticks onto new material), **nothing permanent links in** (cross-links fail soft, so the
+  link would vanish at the next reset), a removed page gets **no redirect** — its URL was never
+  promised — and its lessons are `ANY`, so no filter can hide the page being shared. The sitemap
+  lists the chapter and its pages nowhere at all. Promotion is a **new page with a new id**, not a
+  move. **The whole chapter sits behind a shared password** (#81): `src/proxy.ts` matches `/temp`
+  and sends anyone without the cookie to `/entrer`. The chapter's **row still draws** in the
+  sidebar, the sommaire and search — gating the listing too would mean the client knowing whether
+  you are in, which costs a readable cookie and a hydration flash for titles that are public in the
+  repo anyway.
 - **Chapter landing pages are one route** — `app/[chapitre]/page.tsx` with `generateStaticParams`
   and `dynamicParams = false`, which is also what stops the segment swallowing unmatched paths.
   **The verb sheets are one route too** (#56), which costs the audit an extra line because the
@@ -347,6 +368,7 @@ sommaire card's mark stays the chapter's initial in the serif.
 | `traduction` | a short source text to write in French, three words uncoverable, then the model version; graded nowhere. The one chapter where Spanish appears (#55) |
 | `lecture`, `litterature` | reading + comprehension quiz |
 | `delf` | a whole **épreuve** to sit in real conditions, with the corrigé hidden until asked for; graded nowhere (#78) |
+| `temp` | **scratch** — whatever a class in progress needs, in any of the forms above; emptied and refilled weekly, ticked nowhere (#80) |
 
 **An exercise is graded; a game is replayable.** That line is what stops `jeux/` becoming a second
 `exercices/`: a game has no fixed deck, no lesson to record against, and pulls from the whole
@@ -411,6 +433,10 @@ that has become dynamic is a regression, not a detail.**
 - **Nothing on the server reads the session, at all** (#37). There is no server Supabase
   client and this project needs **no session-refresh proxy**. **If a server client ever reappears,
   that is a new decision, not a restoration.**
+- **`src/proxy.ts` exists, and it is not that** (#81). It matches `/temp` alone and reads one
+  cookie: the atelier's shared password. **Do not widen its matcher and do not teach it about the
+  session** — a proxy that reads Supabase is the thing #37 refused, and it would arrive looking
+  like an edit to a file that is already there.
 - **RLS is the authorization model** — `auth.uid() = user_id`. Do not scatter permission checks
   through components.
 - **The schema lives in `supabase/migrations/`, in git** (#22). Change it by adding a migration,
@@ -433,6 +459,10 @@ that has become dynamic is a regression, not a detail.**
   the lesson, and forty of them down a chapter page is a column of asking. **Do not add an
   anonymous browser-local tick**: storage alone is evicted without warning, and losing forty ticks
   silently is worse than saying what an account is for.
+- **A scratch chapter carries no tick anywhere** (#80) — not under the page, not in its listing.
+  `nextUp` and `/ma-progression` walk **`trackedChapters()`, never `chapters`**: a lesson that can
+  never be ticked is a permanent first hole, so « La suite » would offer last week's atelier page
+  for ever and nothing would fail.
 - **Keyed by `progressKey(lesson, level)`, never by a route path and never by an id typed at the
   call site** (#50, #68). It returns the bare `Lesson.id` — so only lessons can be ticked — except
   on a lesson marked **`perLevel`**, the one case where a page holds a body of work per level and
@@ -562,9 +592,11 @@ Nothing in the toolchain catches it. Full how-to in `.claude/agents/exercise-aut
 `github.com/kevjrmy/le-petit-cours` — MIT (code), CC BY-SA 4.0 (content).
 
 - **Everything here is published**, including this file and the commit messages. Never commit a
-  key, a token or a connection string. As it stands **no secret exists to commit**: the Supabase URL
-  and publishable key are public by design, and the database password is stored nowhere. **No key
-  that bypasses RLS belongs in the deployment env either** (#21).
+  key, a token or a connection string. The Supabase URL and publishable key are public by design,
+  and the database password is stored nowhere. **The one secret is `FRONTEND_PASSWORD`** (#81),
+  which lives in `.env` — gitignored by `.env*` — and on Vercel, and **nowhere else**: not in this
+  file, not in a comment, not in a commit message, not in an issue. **No key that bypasses RLS
+  belongs in the deployment env either** (#21).
 - **You can only license what the project owns.** Anything copied from another course, textbook,
   app or website cannot go in — not as a lesson, not as an exercise item, not as a word list.
 
@@ -574,6 +606,7 @@ Nothing in the toolchain catches it. Full how-to in `.claude/agents/exercise-aut
 | Literary text | Public domain **in its country of origin**; name the work and the year. For a translation the **translator's** death date is what counts (#60). |
 | Song lyrics | Short excerpts for commentary only. **Never a full lyric sheet.** |
 | Photographs | CC0, PD, CC BY or CC BY-SA only, stored locally, credited per image. |
+| A learner's own text | **Anonymous, and only in the atelier** (#80). Reproducing what somebody wrote is what a correction page is; a name, an age, a school, a town or a class beside it is not — in the page, the manifest, a comment or a commit message. |
 | Anything else | Ask in an issue first. |
 
 **When a rule here changes, check whether `CONTRIBUTING.md` states it too** — it repeats the

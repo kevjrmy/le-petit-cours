@@ -88,6 +88,8 @@ than marking it superseded.
 | 75 | 2026-09-21 | The ladder stops at B2; C1 and C2 are out of scope | Binding |
 | 76 | 2026-09-21 | A page is listed from its floor upward; the tick follows the material | Binding · narrows #68, #72 |
 | 79 | 2026-09-21 | The tick is settable from a chapter's listing, beside the row's link | Binding · extends #2, #48 |
+| 80 | 2026-09-22 | A scratch chapter: listed like the others, counted like nothing | Binding · extends #18, #48, #51 |
+| 81 | 2026-09-22 | The atelier sits behind one shared password, in a proxy that knows nothing else | Binding · extends #37, #80 |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -1862,7 +1864,7 @@ note with it. A comment on `LevelChooser` says so at the place it would be rebui
 ## 78 · A `delf` chapter describes the exam and prints none of it
 **2026-09-21 · Binding · extends #15, #51, #9b's licence rule**
 
-A sixteenth chapter, `delf`, last in the manifest. It holds **whole épreuves to sit in real
+A sixteenth chapter, `delf`, and still the last of the course's own in the manifest. It holds **whole épreuves to sit in real
 conditions**, and nothing else. **Nothing in it is scored**: the two compréhension épreuves would be
 gradeable and are not, so the chapter has one mechanic rather than two, and a corrigé the learner
 reveals when they have finished.
@@ -1994,3 +1996,145 @@ group it fell into.
 
 **`/ma-progression` is unchanged.** It is a record, not an offer; whether a learner may *untick* from
 it is a separate question about the record, and nothing forced it open.
+
+
+## 80 · A scratch chapter: listed like the others, counted like nothing
+**2026-09-22 · Binding · extends #18, #48, #51**
+
+`temp` — « Atelier » on screen — holds the pages of a class in progress: written for one session,
+shared on a screen during an hour-long call, then removed. Promoted into a real chapter if they turn
+out to be worth more than their week, deleted otherwise. It is the only chapter in the manifest that
+is **emptied on purpose**, and `Chapter.scratch` is what the rest of the app reads to know it.
+
+**Decided against keeping it out of the repo.** The obvious alternative was a local folder, a
+scratch branch or a document outside the project — nothing public, nothing to explain. It fails on
+the thing the pages are for: they are shown in the app, in the shell, with the course's own
+typography and components, because the class is given by sharing that screen. A page built anywhere
+else is a page that looks like something else, and rebuilding the lesson patterns outside the app to
+avoid a chapter in it is the tail wagging the dog.
+
+**Decided against making it unlisted.** A `where`-style flag keeping the chapter out of the sidebar
+and the sommaire was drawn up and dropped. The manifest has no idea of a chapter that exists and is
+not offered — adding one means `listedChapters()`, the sommaire grid and the search index each
+learning about it, which is four readers that can drift, for a chapter whose whole value is being
+**one click away in the middle of a lesson**. And there is nothing to hide: all content is public
+here (#18), the level filter is on listings and never on access (#35), and a visitor who opens
+« Atelier » finds this week's session rather than a page someone forgot.
+
+**Decided against letting it carry ticks**, which is the substance of the entry.
+
+A tick is a claim that outlives the sitting — that is the whole of #48, and it is why an anonymous
+browser-local tick was refused there. A page deleted on Sunday cannot hold one. Three things go
+wrong if it tries:
+
+- **« La suite » jams.** `nextUp` returns the first *unticked* lesson in manifest order, so a lesson
+  that can never be ticked is a permanent first hole: the home page and `/ma-progression` would
+  offer last week's scratch page for ever, and nothing anywhere would fail. This is the one that
+  would have shipped silently.
+- **The denominator moves.** `/ma-progression` counts published lessons, and counting pages that
+  vanish makes a record that is supposed to only grow shrink on a Monday.
+- **The row outlives the page.** A tick is stored under a `LessonId`; an orphan row already shows
+  nowhere, which is right, but writing one at all is recording that somebody finished something that
+  no longer exists.
+
+So `trackedChapters()` is the list every counting or resuming reader walks, `LessonEnd` draws no
+`DoneTick` over a scratch chapter, and `ChapterLessons` passes no `RowTick`. Five readers of
+`chapters` in total behave differently, and **nothing checks a sixth** — the field's own comment in
+the manifest is the contract.
+
+**Three conventions nothing enforces**, all of them about the reset rather than the pages:
+
+- **An id carries its date and never comes back.** `temp-2026-09-22-terminaisons`. An id is
+  permanent and a tick is filed under it (#50); a weekly chapter is the one place where the same
+  slug plausibly describes different material twice, and reusing one would resurrect ticks onto the
+  wrong page. Dates make the collision impossible and make a reset readable in a diff.
+- **Nothing permanent links in.** Cross-links fail soft (`AGENTS.md` §6), so a course page pointing
+  at an atelier page loses its link at the next reset and says so nowhere. The other direction is
+  the useful one: an atelier page points at the lessons it makes the learner work through.
+- **A removed page gets no redirect.** #50 asks for one when a lesson's URL dies, because a lesson's
+  URL was a promise. These were never promised to anyone, which is also why `sitemap.ts` lists the
+  chapter and not its pages.
+
+**Promotion is a new page, not a move.** A scratch page worth keeping is rewritten into the chapter
+it belongs to, with a fresh permanent id and a real `levels` tag. There is nothing to migrate,
+because there was never a tick to carry: the absence of progress on these pages is exactly what
+makes the reset free.
+
+**Lessons here are tagged `ANY`**, never `from()`. The level filter must not hide, in the middle of
+a call, the page being shared.
+
+**A learner's own text may be reproduced here, anonymous.** Correcting what somebody actually wrote
+is the point of the weekly loop, and a page that invents the errors instead teaches a different
+lesson. The line is **personal information, not authorship**: the text goes in, and no name, age,
+school, town, class or date of birth goes anywhere near it, in the page, the manifest, the file
+comments or the commit message. Characters inside the text stay, because they belong to the book or
+the film being summarised. A page that cannot be written without saying whose it is does not go in
+the repo at all — the repository is public and permanent, and a commit that lands a name can be
+reverted out of the tree but not out of anyone's clone.
+
+**What would reopen this.** If the chapter stops being emptied — if pages pile up for months, or
+someone outside the class starts working through them on their own — then it is a chapter like any
+other and wants ticks, a real syllabus position and a place in `docs/programme-a1.md`. The tell is
+the reset: a scratch chapter that is never reset is misfiled, not scratch.
+
+
+## 81 · The atelier sits behind one shared password, in a proxy that knows nothing else
+**2026-09-22 · Binding · extends #37, #80**
+
+`/temp` and everything under it now ask for a password. `src/proxy.ts` matches that path alone,
+compares a cookie against a digest of `FRONTEND_PASSWORD`, and sends anyone without it to `/entrer`,
+a door outside the course that sets the cookie and bounces them back where they were going.
+
+**What this is for, and what it is not.** The atelier holds a class in progress — a learner's own
+text, corrected (#80). Those texts are anonymous and are in a public repository on purpose, so the
+password is not secrecy: it keeps a chapter that belongs to one lesson out of the way of anyone
+who wanders onto the deployed site. Calling it anything stronger would be a lie the next person
+builds on.
+
+**Decided against an account.** Supabase is already there, sign-in already works, and gating on it
+would have cost nothing new to install. It was refused because it says the wrong thing: an account
+is a learning path (#18) and this is a door. It would also mean the server reading a session, which
+is precisely what #37 threw out — no server Supabase client, no session in a layout, nothing above
+a lesson that reads cookies. A shared password knows about no user at all.
+
+**Decided against a layout that reads cookies.** `app/temp/layout.tsx` calling `cookies()` would
+have been five lines and no new file. It opts every page underneath out of static prerendering, and
+nothing fails when it does (`AGENTS.md` §8) — the pages still render, they just stop being static.
+A proxy runs *before* the cache, so the atelier's pages stay prerendered and the gate costs one
+redirect. Checked in the build output, where they are still `○`.
+
+**The door is deliberately outside the matcher.** Server Functions are not separate routes: they are
+POSTs to the route that contains them, so a matcher covering a path also covers its actions. An
+action under `/temp` would be intercepted by the proxy before it could check anything, and the door
+would never open. `/entrer` therefore sits outside, and **re-does the check itself** rather than
+trusting the proxy — which is Next's own advice for Server Functions and, here, the only way it
+works at all.
+
+**It fails closed.** No `FRONTEND_PASSWORD` on a deployment means nobody enters, including whoever
+knows the password, and `/entrer` says so in as many words. The alternative — open when
+unconfigured — is the silent failure this project keeps refusing: a misconfigured deployment would
+serve the atelier to everyone and nothing anywhere would complain.
+
+**The cookie carries a digest, never the password**, because the password is shared: one person
+opening the inspector on the machine where a class happened would otherwise have everyone's.
+Comparisons are constant-time on both sides, which costs four lines and removes a question nobody
+should have to think about again.
+
+**Two functions, and conflating them is the bug that already happened.** `atelierToken()` is what
+the *cookie* holds; `atelierPasswordOk()` is what a *visitor types*. Comparing the typed password
+against the token type-checks, builds, lints, and refuses everybody — correct password included.
+Nothing caught it but an end-to-end request. Both carry the warning in their own doc comment.
+
+**`?vers=`, not `?suivant=`.** #70 gives `signInHref` sole ownership of `suivant`, and two doors
+sharing a parameter name go wrong the day someone arrives at one holding the other's link. The
+value is validated against the `/temp` prefix, `//` included, so the door cannot be turned into an
+open redirect wearing the course's domain.
+
+**The chapter's row still shows to everyone.** Hiding it from the sidebar, the sommaire and search
+would mean the client knowing whether you are through the door, which costs a readable cookie and a
+hydration flash — for titles that sit in a public repository anyway. The row leads to the door,
+which is exactly what a door is for.
+
+**What would reopen this.** A second thing needing a gate. One shared password guarding one path is
+proportionate; a second path, a second password, or anyone needing their own means this has become
+authorization, and authorization here is an account and RLS (#37), not a growing proxy.
