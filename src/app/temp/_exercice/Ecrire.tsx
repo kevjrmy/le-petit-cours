@@ -96,7 +96,7 @@ export function Ecrire({ items }: { items: EcrireItem[] }) {
       <Meter
         value={index + (checked ? 1 : 0)}
         max={items.length}
-        label="Avancement de l’exercice"
+        label="Avancement : écrivez la forme"
       />
 
       <div className={styles.card}>

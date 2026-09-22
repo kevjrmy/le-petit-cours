@@ -1,5 +1,6 @@
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
+import { Copie } from "../_texte/Copie";
 import { Choix } from "../_exercice/Choix";
 import { Faute } from "../_exercice/Faute";
 import { Ecrire } from "../_exercice/Ecrire";
@@ -52,7 +53,7 @@ export default function Page() {
           justement ce qui les rend difficiles.
         </p>
 
-        <div className="example">
+        <Copie>
           <p>
             Les personage de cette histoire son : la sorcière, Nadia, le pere
             Saïd et Bachir.
@@ -89,7 +90,7 @@ export default function Page() {
             Nadia. La sorciere detestes la chanson, elle la detestes autan que
             le frere bat la sorciere domant sa soeur.
           </p>
-        </div>
+        </Copie>
       </section>
 
       <section>
@@ -100,7 +101,7 @@ export default function Page() {
           faire plus joli. Ce qui change est en gras.
         </p>
 
-        <div className="example">
+        <Copie>
           <p>
             Les <strong>personnages</strong> de cette histoire{" "}
             <strong>sont</strong> : la sorcière, Nadia, le{" "}
@@ -158,7 +159,7 @@ export default function Page() {
             <strong>battit</strong> la sorcière{" "}
             <strong>en réclamant</strong> sa <strong>sœur</strong>.
           </p>
-        </div>
+        </Copie>
 
         <div className="attention">
           la toute dernière phrase est la seule que la correction ne règle pas.{" "}

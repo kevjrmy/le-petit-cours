@@ -83,7 +83,7 @@ export function Faute({ items }: { items: FauteItem[] }) {
       <Meter
         value={index + (answered ? 1 : 0)}
         max={items.length}
-        label="Avancement de l’exercice"
+        label="Avancement : trouvez la faute"
       />
 
       <div className={styles.card}>

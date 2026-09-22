@@ -1,5 +1,6 @@
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
+import { Copie } from "../_texte/Copie";
 import { Choix } from "../_exercice/Choix";
 import { Faute } from "../_exercice/Faute";
 import { Ecrire } from "../_exercice/Ecrire";
@@ -46,7 +47,7 @@ export default function Page() {
           du résumé écrit.
         </p>
 
-        <div className="example">
+        <Copie>
           <p>
             l’histoire comence en nous presentant le personage principale Ray,
             qui est un paparazzi qui regrette son status photo reporter.
@@ -61,7 +62,7 @@ export default function Page() {
             après, en partant, on lui ataca en lui tapant a la et lui volant la
             camera.
           </p>
-        </div>
+        </Copie>
       </section>
 
       <section>
@@ -72,7 +73,7 @@ export default function Page() {
           est en gras.
         </p>
 
-        <div className="example">
+        <Copie>
           <p>
             <strong>L’</strong>histoire <strong>commence</strong> en nous{" "}
             <strong>présentant</strong> le <strong>personnage principal</strong>
@@ -95,7 +96,7 @@ export default function Page() {
             <strong>l’attaqua</strong>, en <strong>le frappant à la tête</strong>{" "}
             et en lui volant <strong>sa caméra</strong>.
           </p>
-        </div>
+        </Copie>
 
         <div className="attention">
           la dernière phrase s’arrête au milieu :{" "}

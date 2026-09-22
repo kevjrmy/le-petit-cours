@@ -318,10 +318,10 @@ git rm -r src/app/temp/<slug>          # for each page being cleared
 # then delete its entry from the `temp` chapter's `lessons` array
 ```
 
-… and its `relatedPages` key, if it had one, and `src/app/temp/_exercice/` once the last page
-using it is gone — the three shared mechanics (`Choix`, `Faute`, `Écrire`) left behind after a
-reset are code nothing calls. (It lives under
-`temp/` with an underscore precisely so it leaves with the chapter: the prefix hides it from Next's
+… and its `relatedPages` key, if it had one, and the `_`-prefixed folders under `src/app/temp/`
+once the last page using them is gone — `_exercice/` (the three drill mechanics) and `_texte/` (the
+copie block). Shared code left behind after a reset is code nothing calls. (They live under `temp/`
+with an underscore precisely so they leave with the chapter: the prefix hides them from Next's
 router **and** from the audit's walk for `page.tsx`.) No redirect — #50 asks for one when a lesson's URL
 dies, and these were never promised to anyone. No cross-link sweep beyond its own key, if the rule
 above was kept; `grep -rn "/temp/" src/` is the check that it was. The chapter itself stays in the manifest with `lessons: []` and simply stops drawing.

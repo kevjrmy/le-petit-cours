@@ -15,10 +15,11 @@ import type { EcrireItem } from "../_exercice/Ecrire";
  * qui manque. Les trois tirent du même texte, donc un item raté au troisième
  * renvoie à une phrase déjà lue deux fois.
  *
- * **Rien n'est inventé.** Chaque phrase vient du texte de la page, fautive ou
- * corrigée, ce qui est la différence entre cet exercice et ceux de
- * `exercices/` : là-bas on tire d'un vivier, ici on retravaille sa propre
- * copie.
+ * **Rien n'est inventé.** Chaque phrase est faite des mots et des faits du
+ * texte de la page — souvent telle quelle, parfois recomposée pour qu'une
+ * même phrase ne serve pas deux fois la même question. C'est la différence
+ * avec les exercices de `exercices/` : là-bas on tire d'un vivier, ici on
+ * retravaille sa propre copie.
  *
  * **Les deux formes de `ITEMS` sont celles qui s'écrivent vraiment** : la
  * fautive telle quelle, la juste telle quelle. Aucun distracteur fabriqué,
@@ -71,6 +72,33 @@ import type { EcrireItem } from "../_exercice/Ecrire";
  *     if (it.indice.includes(it.reponse)) console.log('   !! l indice donne la reponse')
  *   })
  *   console.log(FAUTES.length, 'fautes,', ECRITURES.length, 'ecritures')"
+ *
+ * **Et le contrôle qui a servi à quelque chose : les doublons.** Les trois
+ * exercices tirent du même texte, donc la même phrase finit par revenir. Une
+ * phrase revue avec une *autre* cible est un bon item — on la relit et on
+ * cherche autre chose. La même phrase avec la **même** cible n'en est pas un :
+ * au troisième passage on se souvient de la réponse au lieu d'appliquer la
+ * règle. Six de ces doublons stricts avaient survécu à la première écriture.
+ *
+ *   node --experimental-strip-types --input-type=module -e "
+ *   import { ITEMS, FAUTES, ECRITURES } from './src/app/temp/la-sorciere-de-la-rue-mouffetard/exercice.ts'
+ *   const vu = new Map()
+ *   const noter = (ex, n, phrase, cible) => {
+ *     const cle = phrase.replace(/\\s+/g, ' ').trim()
+ *     if (!vu.has(cle)) vu.set(cle, [])
+ *     vu.get(cle).push(ex + n + ':' + cible)
+ *   }
+ *   ITEMS.forEach((it, i) => noter('C', i + 1, it.avant + it.bonne + it.apres, it.bonne))
+ *   FAUTES.forEach((it, i) => noter('F', i + 1, it.mots.map((m, j) => (j === it.fautif ? it.correction : m)).join(' '), it.correction))
+ *   ECRITURES.forEach((it, i) => noter('E', i + 1, it.avant + it.reponse + it.apres, it.reponse))
+ *   let durs = 0
+ *   for (const [phrase, ou] of vu) {
+ *     if (ou.length === 1) continue
+ *     const cibles = new Set(ou.map(o => o.split(':')[1]))
+ *     if (cibles.size === 1) { durs++; console.log('  DOUBLON', ou.join(' '), '|', phrase) }
+ *     else console.log('  echo   ', ou.join(' '), '|', phrase)
+ *   }
+ *   console.log(vu.size, 'phrases distinctes,', durs, 'doublon(s) strict(s) — doit etre 0')"
  */
 
 /* Reconnaître : huit items, un par ligne du tableau « Ce qui revient ». */
@@ -148,7 +176,7 @@ export const FAUTES: FauteItem[] = [
     pourquoi: "Connaître prend deux n et deux s.",
   },
   {
-    mots: ["Son", "père", "lui", "avait", "demander", "où", "elle", "allait."],
+    mots: ["Le", "père", "lui", "avait", "demander", "de", "rentrer", "tôt."],
     fautif: 4,
     correction: "demandé",
     pourquoi: "Après « avait », le participe. « Il avait mordu », pas « mordre ».",
@@ -210,7 +238,7 @@ export const FAUTES: FauteItem[] = [
 export const ECRITURES: EcrireItem[] = [
   {
     avant: "Son père lui avait ",
-    apres: " où elle allait.",
+    apres: " de rentrer avant la nuit.",
     reponse: "demandé",
     indice: "demander, après « avait »",
     pourquoi: "Après avoir, le participe : il avait mordu, il avait demandé.",
@@ -231,7 +259,7 @@ export const ECRITURES: EcrireItem[] = [
       "Ici le participe suit un nom et s’accorde avec lui : une fille appelée, un garçon appelé.",
   },
   {
-    avant: "Si elle voulait de la sauce, elle ",
+    avant: "Son père lui dit qu’elle ",
     apres: " la chercher elle-même.",
     reponse: "devrait",
     indice: "devoir, au conditionnel, avec « elle »",
@@ -239,13 +267,13 @@ export const ECRITURES: EcrireItem[] = [
   },
   {
     avant: "La sorcière ",
-    apres: " la chanson du frère.",
+    apres: " la chanson dès la première note.",
     reponse: "détestait",
     indice: "détester, à l’imparfait, avec « la sorcière »",
     pourquoi: "Un sujet singulier, donc pas de s. L’accent, lui, se voit et s’entend.",
   },
   {
-    avant: "Le frère battit la sorcière en réclamant sa ",
+    avant: "Le petit frère partit chercher sa ",
     apres: ".",
     reponse: "sœur",
     indice: "le o et le e collés",

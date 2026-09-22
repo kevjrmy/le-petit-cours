@@ -14,8 +14,9 @@ import type { EcrireItem } from "../_exercice/Ecrire";
  * disait » et « lui volant la caméra » sans se tromper.
  *
  * Le reste suit les autres lignes du tableau : accents, consonnes doubles,
- * mot juste. Rien n'est inventé, toutes les phrases viennent du texte de la
- * page, fautives ou corrigées.
+ * mot juste. Rien n'est inventé : chaque phrase est faite des mots et des
+ * faits du texte, telle quelle ou recomposée pour qu'une même phrase ne
+ * serve pas deux fois la même question.
  *
  * Mêmes contraintes que l'autre page : deux formes qui s'écrivent vraiment,
  * bonne réponse qui alterne de côté puisque l'ordre est fixe, mot fautif
@@ -52,6 +53,33 @@ import type { EcrireItem } from "../_exercice/Ecrire";
  *     if (it.indice.includes(it.reponse)) console.log('   !! l indice donne la reponse')
  *   })
  *   console.log(FAUTES.length, 'fautes,', ECRITURES.length, 'ecritures')"
+ *
+ * **Et le contrôle qui a servi à quelque chose : les doublons.** Les trois
+ * exercices tirent du même texte, donc la même phrase finit par revenir. Une
+ * phrase revue avec une *autre* cible est un bon item — on la relit et on
+ * cherche autre chose. La même phrase avec la **même** cible n'en est pas un :
+ * au troisième passage on se souvient de la réponse au lieu d'appliquer la
+ * règle. Six de ces doublons stricts avaient survécu à la première écriture.
+ *
+ *   node --experimental-strip-types --input-type=module -e "
+ *   import { ITEMS, FAUTES, ECRITURES } from './src/app/temp/un-resume-de-film/exercice.ts'
+ *   const vu = new Map()
+ *   const noter = (ex, n, phrase, cible) => {
+ *     const cle = phrase.replace(/\\s+/g, ' ').trim()
+ *     if (!vu.has(cle)) vu.set(cle, [])
+ *     vu.get(cle).push(ex + n + ':' + cible)
+ *   }
+ *   ITEMS.forEach((it, i) => noter('C', i + 1, it.avant + it.bonne + it.apres, it.bonne))
+ *   FAUTES.forEach((it, i) => noter('F', i + 1, it.mots.map((m, j) => (j === it.fautif ? it.correction : m)).join(' '), it.correction))
+ *   ECRITURES.forEach((it, i) => noter('E', i + 1, it.avant + it.reponse + it.apres, it.reponse))
+ *   let durs = 0
+ *   for (const [phrase, ou] of vu) {
+ *     if (ou.length === 1) continue
+ *     const cibles = new Set(ou.map(o => o.split(':')[1]))
+ *     if (cibles.size === 1) { durs++; console.log('  DOUBLON', ou.join(' '), '|', phrase) }
+ *     else console.log('  echo   ', ou.join(' '), '|', phrase)
+ *   }
+ *   console.log(vu.size, 'phrases distinctes,', durs, 'doublon(s) strict(s) — doit etre 0')"
  */
 
 /* Reconnaître : six items, un par ligne du tableau « Ce qui revient ». */
@@ -112,7 +140,7 @@ export const FAUTES: FauteItem[] = [
     pourquoi: "Deux n : une personne, un personnage.",
   },
   {
-    mots: ["Il", "regrette", "son", "status", "de", "photoreporter."],
+    mots: ["Il", "regrette", "son", "status", "d’avant."],
     fautif: 3,
     correction: "statut",
     pourquoi: "Un statut, avec un t. L’autre mot vient d’une autre langue.",
@@ -168,8 +196,8 @@ export const FAUTES: FauteItem[] = [
 /* Produire : six formes à taper, accents compris. */
 export const ECRITURES: EcrireItem[] = [
   {
-    avant: "Il regrette son ",
-    apres: " de photoreporter.",
+    avant: "Ray ne supporte plus son ",
+    apres: " actuel.",
     reponse: "statut",
     indice: "le mot français, avec un t",
     pourquoi: "Un statut, un institut, un débat : le t est muet et il s’écrit.",
@@ -183,12 +211,12 @@ export const ECRITURES: EcrireItem[] = [
       "L’accent grave, parce que la syllabe suivante est muette : collège, mais collégien.",
   },
   {
-    avant: "Puis il retourna ",
+    avant: "Puis il revint ",
     apres: " la réalité.",
     reponse: "à",
     indice: "la préposition, pas le verbe",
     pourquoi:
-      "Remplacez par « avait » : « il retourna avait la réalité » ne se dit pas, donc c’est à.",
+      "Remplacez par « avait » : « il revint avait la réalité » ne se dit pas, donc c’est à.",
   },
   {
     avant: "On lui vola sa ",
@@ -199,7 +227,7 @@ export const ECRITURES: EcrireItem[] = [
   },
   {
     avant: "Pendant une ",
-    apres: " de paparazzi.",
+    apres: " de paparazzi, il pensa à sa jeunesse.",
     reponse: "séance",
     indice: "le rendez-vous de travail, avec un accent",
     pourquoi: "Une séance, une séparation : l’accent se voit et s’entend.",

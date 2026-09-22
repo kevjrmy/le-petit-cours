@@ -89,7 +89,7 @@ export function Choix({ items }: { items: ChoixItem[] }) {
       <Meter
         value={index + (answered ? 1 : 0)}
         max={items.length}
-        label="Avancement de l’exercice"
+        label="Avancement : laquelle des deux ?"
       />
 
       <div className={styles.card}>
