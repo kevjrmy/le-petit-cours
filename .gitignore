@@ -51,3 +51,7 @@ next-env.d.ts
 
 # Supabase CLI scratch
 supabase/.temp/
+
+# Référence locale, jamais publiée : les sujets officiels du DELF se
+# téléchargent librement et ne se relicencient pas (#78, AGENTS.md §9b).
+public/PDF/

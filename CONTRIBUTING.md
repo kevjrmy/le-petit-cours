@@ -111,7 +111,11 @@ These come from the audience, and a change that breaks one will be asked to chan
   chapter reproduces no sujet and no prep book: the *format* of a public exam is a fact and may be
   described, but its documents, questions, consignes and corrigés belong to whoever wrote them, and
   free to download is not free to relicense. Everything in `delf/` is written for this course. Read
-  a real sujet to calibrate difficulty; do not copy a line of one.
+  a real sujet to calibrate difficulty; do not copy a line of one, and **do not add one to
+  `public/`** — anything there is served, so hosting a copy is publishing it, and a credit line
+  beside it does not make the repo able to license it. The chapter links to France Éducation
+  international's own page instead; `public/PDF/` is gitignored so a local reference copy cannot be
+  committed by accident.
 
 [`docs/scope.md`](docs/scope.md) carries the goals, the profiles and the non-goals — read it
 before proposing anything larger than a correction. [`AGENTS.md`](AGENTS.md) carries the full

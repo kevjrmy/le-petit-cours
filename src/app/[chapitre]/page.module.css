@@ -11,3 +11,14 @@
   line-height: 1.55;
   color: var(--text-2);
 }
+
+/* Le lien sortant d'un chapitre (`Chapter.outbound`). Détaché des rangées par
+   une règle, pour qu'il ne se lise pas comme une leçon de plus. */
+.outbound {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-soft);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-2);
+}

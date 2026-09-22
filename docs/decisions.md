@@ -1890,7 +1890,19 @@ written for this course**, exactly as #4 requires of every other page.
 
 **An official sujet is still worth having, as a reference nobody publishes.** Reading one to
 calibrate difficulty and task shape is what a teacher does; it leaves no trace on a page. That is
-the only use this chapter has for one.
+the only use this chapter has for one, and `public/PDF/` is gitignored so a copy kept on disk for
+that purpose cannot be committed by accident — anything under `public/` is served, and serving it
+is the redistribution.
+
+**The chapter links to the sujets instead, and a link is the whole of what may be done.** France
+Éducation international publishes its own samples, so `Chapter.outbound` — a manifest property, not
+a line written into the chapter route (#42's reasoning, applied to a chapter) — points at their
+page. A learner who wants a real paper, with the compréhension de l'oral recordings this course
+cannot yet write, gets it from the people who own it. **Attribution is not the fix and never was**:
+the objection is not that the author goes unnamed, it is that this repo licenses its content under
+CC BY-SA 4.0 and cannot license someone else's work. A credit line beside a hosted copy changes
+nothing about what the download is. The link is the one thing in the chapter that does not work
+offline, which is why nothing an épreuve needs hangs off it.
 
 **The épreuves carry a written-out level, not `from()`** (#76). A DELF A2 épreuve is *superseded*
 above rather than prolonged: a B1 candidate sits the B1 exam, and the A2 paper is not a lesson they

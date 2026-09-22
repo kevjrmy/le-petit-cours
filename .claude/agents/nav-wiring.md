@@ -159,6 +159,12 @@ home pill is dropped rather than rendered, and a level with no question set behi
 level's questions — each costs something real and raises no error anywhere else. The inline link is
 the one that does not fail soft: it renders, it is clickable, and it lands on a 404.
 
+**A chapter's `outbound` link is checked by none of the six**, because it leaves the site: the audit
+walks `src/app` and the manifest, and neither knows whether someone else's page still exists. It is
+also the one link in the course that does nothing offline. Curl it when you touch it, and never
+hang anything a page needs on it — `delf`'s exists because #78 forbids hosting the file it points
+at, not because the chapter is incomplete without it.
+
 Then `npm run build`.
 
 ## Adding a lesson

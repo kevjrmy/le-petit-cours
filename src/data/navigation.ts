@@ -199,6 +199,19 @@ export interface Chapter {
   /** Used where the full title does not fit — the sidebar, a breadcrumb. */
   shortTitle?: string;
   blurb: string;
+  /**
+   * Un lien qui sort du cours, dessiné sous les leçons du chapitre.
+   *
+   * **Il existe pour ce que ce dépôt ne peut pas publier** (#78, `AGENTS.md`
+   * §9b) : les exemples de sujets de France Éducation international se
+   * téléchargent librement et ne se relicencient pas. Le chapitre renvoie donc
+   * vers leur page au lieu d'en servir une copie — un lien n'est pas une
+   * rediffusion, un fichier dans `public/` en est une.
+   *
+   * Ce lien ne marche pas hors ligne, et c'est pour cela qu'il ne porte rien
+   * dont une épreuve ait besoin : les trois épreuves sont entières sans lui.
+   */
+  outbound?: { href: string; label: string; note: string };
   lessons: Lesson[];
 }
 
@@ -1272,6 +1285,11 @@ export const chapters: Chapter[] = [
     title: "DELF",
     blurb:
       "La forme de l’examen, et des épreuves entières à faire en conditions réelles.",
+    outbound: {
+      href: "https://www.france-education-international.fr/diplome/delf-tout-public/niveau-a2/exemples-sujets",
+      label: "les exemples de sujets de France Éducation international",
+      note: "Les épreuves ci-dessus sont écrites pour ce cours. Pour lire un sujet officiel complet, avec les enregistrements de la compréhension de l’oral, téléchargez",
+    },
     lessons: [
       /* Les épreuves portent un niveau écrit en toutes lettres, jamais `from()`
          (#76) : une épreuve de DELF A2 est *remplacée* au-dessus par l'épreuve

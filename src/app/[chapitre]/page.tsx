@@ -39,6 +39,15 @@ export default async function ChapterPage({ params }: PageProps<"/[chapitre]">) 
       </header>
 
       <ChapterLessons chapter={chapter} />
+
+      {/* Rendu depuis le manifeste, jamais écrit ici : un chapitre qui renvoie
+          ailleurs le déclare, et cette route reste la même pour les seize. */}
+      {chapter.outbound ? (
+        <p className={styles.outbound}>
+          {chapter.outbound.note}{" "}
+          <a href={chapter.outbound.href}>{chapter.outbound.label}</a>.
+        </p>
+      ) : null}
     </div>
   );
 }
