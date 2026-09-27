@@ -2158,9 +2158,13 @@ never a tick** (#2) — the score lives in component state and a reload clears i
 add up to what it announces or the épreuve to 25, so a wrong split breaks `next build` instead of
 reaching a candidate as « 24 / 25 ».
 
-**The production épreuves stay unmarked by the page, and give the marker a grid.** A text of sixty
-words has hundreds of right versions and a spoken answer leaves nothing to compare (#54), so nothing
-here pretends to grade them. What changed is that the grille is now a set of half-point buttons that
+**Production écrite has no corrigé on the page at all.** It first shipped with the same grille as the
+oral and two model texts behind « Voir les corrections », and both went the same day: the tutor
+corrects a written copy by hand, pen on the text, and a model a click away is the text that gets
+copied. What the page keeps is the two subjects, the timer and the word count.
+
+**Production orale stays unmarked by the page, and gives the marker a grid.** A spoken answer
+leaves nothing to compare (#54), so nothing here pretends to grade it. What changed is that the grille is now a set of half-point buttons that
 adds itself up. **The points per line follow the published barème; the words on each line are this
 course's own** (§9b) — the numbers of a public exam are a fact, its descriptors are someone's text.
 Around them, the page counts words the way the exam does (whatever sits between two spaces), draws

@@ -298,8 +298,9 @@ that step was skipped.
 ### DELF — a whole épreuve, at the published format
 
 One page is one épreuve (`docs/decisions.md` #78, #82). `delf/a2-comprehension-des-ecrits` is the
-worked example of a marked épreuve; `production-ecrite` and `production-orale` are the two the page
-cannot mark; `comprehension-de-l-oral` is read aloud by a person.
+worked example of a marked épreuve; `production-orale` is the one the page cannot mark and gives a
+grille for; `production-ecrite` has **no corrigé on the page**, it is corrected by hand;
+`comprehension-de-l-oral` is read aloud by a person.
 
 - **Reproduce the format, never the paper.** Four épreuves at 25 points, the exercise counts, the
   point splits, the durations: that is the published shape of a public exam and it is a fact. The
@@ -320,7 +321,9 @@ cannot mark; `comprehension-de-l-oral` is read aloud by a person.
   load. An épreuve is the one page type whose whole value is in being attempted first. The listening
   épreuve hides its texts the same way, behind their own button, because on the candidate's screen
   they are the answers.
-- **A production épreuve's corrigé is a grille, not an answer** (#54). `<Grille>` takes the lines in
+- **Production écrite carries no corrigé** (#82): no grille, no model text. A model shown under the
+  task becomes the text that gets copied, and the tutor corrects the copy by hand.
+- **Production orale's corrigé is a grille, not an answer** (#54). `<Grille>` takes the lines in
   the order the examiner reads — consigne, then acts of speech, then vocabulary, then grammar — with
   the **published points per line and your own words on each** (§9b); it throws if a group misses
   its total. Then *an* example worth full marks, labelled as an example. The order is the teaching:
