@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Associer } from "@/components/delf/Associer";
 import { Copie, Correction, Questions } from "@/components/delf/Copie";
 import type { CopieEpreuve } from "@/components/delf/copie-data";
 import { Grille } from "@/components/delf/Grille";
@@ -49,6 +50,29 @@ const SPECIMEN_COPIE: CopieEpreuve = {
         },
       ],
       pourquoi: "A · l’ascenseur est en panne, donc on monte à pied.",
+    },
+  ],
+};
+
+/* Deux phrases à glisser sur deux panneaux, et un panneau qui ne sert pas. */
+const SPECIMEN_ASSOCIER: CopieEpreuve = {
+  exercices: [{ numero: 1, points: 2 }],
+  questions: [
+    {
+      id: "a1",
+      exercice: 1,
+      groupe: "associer",
+      enonce: "Ici, il faut monter à pied.",
+      parties: [{ options: ["A", "B", "C"], reponse: 0, points: 1 }],
+      pourquoi: "A · l’ascenseur est en panne.",
+    },
+    {
+      id: "a2",
+      exercice: 1,
+      groupe: "associer",
+      enonce: "Il faut se couvrir la tête pour entrer.",
+      parties: [{ options: ["A", "B", "C"], reponse: 1, points: 1 }],
+      pourquoi: "B · le bonnet est obligatoire à la piscine.",
     },
   ],
 };
@@ -231,7 +255,7 @@ export default function DesignPage() {
         <p>
           Les motifs du chapitre <code>delf</code> (#78, #82). Les documents
           sont du HTML statique&nbsp;; les réponses sont des îlots&nbsp;: une
-          copie qui se clique et se corrige d’un coup, un compteur de
+          copie qui se clique ou se glisse et se corrige d’un coup, un compteur de
           mots, un tirage et une grille.
         </p>
 
@@ -271,6 +295,18 @@ export default function DesignPage() {
             </p>
           </div>
 
+          <Correction />
+        </Copie>
+
+        <Copie copie={SPECIMEN_ASSOCIER}>
+          <Associer
+            groupe="associer"
+            documents={[
+              { lettre: "A", texte: "Ascenseur en panne" },
+              { lettre: "B", texte: "Piscine — bonnet obligatoire" },
+              { lettre: "C", texte: "Pelouse interdite aux chiens" },
+            ]}
+          />
           <Correction />
         </Copie>
 

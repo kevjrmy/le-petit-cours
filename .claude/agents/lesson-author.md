@@ -317,6 +317,9 @@ grille for; `production-ecrite` has **no corrigé on the page**, it is corrected
   asks, and ends with `<Correction>`. **Never mark as the candidate goes**, and never type-in: a
   justification is chosen among three sentences **all quoted from the document**, exactly one of
   which proves the answer (§9: two defensible answers is a broken item).
+  A matching exercise (sentences to documents) uses `<Associer groupe documents>` instead of
+  `<Questions>`: the sentences are pills dragged — or tapped, then placed — onto the documents, and
+  the answer is stored under the same key, so `<Correction>` counts it unchanged.
 - **The corrigé of a production is hidden and opens below the answers**, never above and never on
   load. An épreuve is the one page type whose whole value is in being attempted first. The listening
   épreuve hides its texts the same way, behind their own button, because on the candidate's screen

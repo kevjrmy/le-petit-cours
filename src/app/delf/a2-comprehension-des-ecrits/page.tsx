@@ -1,3 +1,4 @@
+import { Associer } from "@/components/delf/Associer";
 import { Copie, Correction, Questions } from "@/components/delf/Copie";
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
@@ -205,32 +206,35 @@ export default function Page() {
               Vous marchez dans une ville française et vous lisez ces panneaux.
             </p>
 
-            <ul className="documents illustres">
-              {PANNEAUX.map(({ lettre, texte, photo }) => (
-                <li key={lettre}>
-                  {photo ? (
-                    /* Une photo de Wikimedia Commons, liée et non copiée
-                       (#83) : `next/image` la ferait passer par le serveur, ce
-                       qui revient à l'héberger. Sans réseau elle disparaît, et
-                       le panneau reste lisible, parce que le texte est
-                       dessous. */
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      className="photo"
-                      src={photo.src}
-                      alt={photo.alt}
-                      width={500}
-                      height={375}
-                      loading="lazy"
-                    />
-                  ) : (
-                    <TelephoneInterdit />
-                  )}
-                  <span>{texte}</span>
-                  <span className="lettre">{lettre}</span>
-                </li>
-              ))}
-            </ul>
+            <p>
+              Glissez chaque phrase sur le panneau qui lui correspond, ou
+              touchez une phrase puis le panneau. Trois panneaux ne servent pas.
+            </p>
+
+            <Associer
+              groupe="1"
+              documents={PANNEAUX.map(({ lettre, texte, photo }) => ({
+                lettre,
+                texte,
+                image: photo ? (
+                  /* Une photo de Wikimedia Commons, liée et non copiée
+                     (#83) : `next/image` la ferait passer par le serveur, ce
+                     qui revient à l'héberger. Sans réseau elle disparaît, et
+                     le panneau reste lisible, parce que le texte est dessous. */
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    className="photo"
+                    src={photo.src}
+                    alt={photo.alt}
+                    width={500}
+                    height={375}
+                    loading="lazy"
+                  />
+                ) : (
+                  <TelephoneInterdit />
+                ),
+              }))}
+            />
 
             <p className="credits">
               Photos : Wikimedia Commons.{" "}
@@ -247,10 +251,6 @@ export default function Page() {
               ))}
               . F est dessiné pour ce cours.
             </p>
-
-            <p>Pour chaque phrase, choisissez la lettre du panneau.</p>
-
-            <Questions groupe="1" />
           </div>
 
           <div className="exercice">

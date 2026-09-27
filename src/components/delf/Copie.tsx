@@ -30,20 +30,23 @@ interface ContexteCopie {
   reponses: Reponses;
   corrigee: boolean;
   choisir: (cle: string, option: number) => void;
+  /** Pose une réponse, ou l'efface avec `null` : pour un exercice où l'on
+   *  déplace quelque chose plutôt que de cocher (`Associer`). */
+  poser: (cle: string, option: number | null) => void;
   corriger: () => void;
   recommencer: () => void;
 }
 
 const Contexte = createContext<ContexteCopie | null>(null);
 
-function useCopie() {
+export function useCopie() {
   const contexte = use(Contexte);
   if (!contexte)
     throw new Error("<Questions> et <Correction> vont dans une <Copie>");
   return contexte;
 }
 
-const cleDe = (id: string, partie: number) => `${id}/${partie}`;
+export const cleDe = (id: string, partie: number) => `${id}/${partie}`;
 
 export function Copie({
   copie,
@@ -66,6 +69,15 @@ export function Copie({
       setReponses((avant) => {
         const apres = { ...avant };
         if (apres[cle] === option) delete apres[cle];
+        else apres[cle] = option;
+        return apres;
+      });
+    },
+    poser: (cle, option) => {
+      if (corrigee) return;
+      setReponses((avant) => {
+        const apres = { ...avant };
+        if (option === null) delete apres[cle];
         else apres[cle] = option;
         return apres;
       });

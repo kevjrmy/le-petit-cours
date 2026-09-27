@@ -32,7 +32,8 @@ export const COPIE = verifierCopie({
     { numero: 4, points: 5 },
   ],
   questions: [
-    /* Exercice 1 — les panneaux. */
+    /* Exercice 1 — les panneaux. Les phrases se glissent sur les panneaux
+       (`Associer`) ; la réponse est l'indice du panneau, comme une lettre. */
     ...[
       [
         "Ici, il faut monter à pied.",
