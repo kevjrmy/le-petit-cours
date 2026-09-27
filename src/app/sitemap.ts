@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { annexes, trackedChapters } from "@/data/navigation";
+import { annexes, chapters } from "@/data/navigation";
 import { SITE_URL } from "@/lib/site";
 
 /* Derived from the manifest, so publishing a lesson lists it here with no
@@ -11,12 +11,17 @@ import { SITE_URL } from "@/lib/site";
    pages exist right now and are gone next week, and a sitemap is where a site
    says which of its URLs are worth coming back to. Since #81 put the chapter
    itself behind a password, its landing page went too — listing a URL that
-   answers with a redirect to a login form is an invitation to nothing. */
+   answers with a redirect to a login form is an invitation to nothing.
+
+   `scratch`, not `trackedChapters()`: the DELF épreuves carry no tick (#82)
+   and are still pages worth coming back to. */
+const kept = chapters.filter((chapter) => !chapter.scratch);
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages: { path: string; lastModified?: string }[] = [
     { path: "/" },
-    ...trackedChapters().map((chapter) => ({ path: chapter.path })),
-    ...trackedChapters().flatMap((chapter) =>
+    ...kept.map((chapter) => ({ path: chapter.path })),
+    ...kept.flatMap((chapter) =>
       chapter.lessons.map((lesson) => ({
         path: lesson.path,
         lastModified: lesson.created,

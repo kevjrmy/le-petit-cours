@@ -1,6 +1,6 @@
 "use client";
 
-import { visibleLessons, type Chapter } from "@/data/navigation";
+import { isTracked, visibleLessons, type Chapter } from "@/data/navigation";
 import { PageRow } from "@/components/nav/PageRow";
 import { RowTick } from "@/components/progress/RowTick";
 import { useAccount } from "@/hooks/useAccount";
@@ -37,8 +37,8 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
   /* False until there are ticks to draw: an empty circle is a claim. And never
      in a scratch chapter (#80) — its pages carry no tick under them either, and
      a row offering one here would be the only place in the app where a page can
-     be marked done and then deleted. */
-  const drawTicks = signedIn && ready && !chapter.scratch;
+     be marked done and then deleted. Nor on an épreuve (#82). */
+  const drawTicks = signedIn && ready && isTracked(chapter);
 
   /* Two different silences, and they must not be told the same way. The
      chapter is declared and empty — nothing is written yet, and no level would

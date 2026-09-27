@@ -2177,6 +2177,15 @@ three-option questions and 25 points, and no source that can be cited gives the 
 exercise. **If a synthetic voice or recordings arrive later**, they are an addition to this page,
 not a reason to remove the reader.
 
+**An épreuve carries no tick, and the chapter is `untracked`.** « J'ai terminé » under a mock exam
+says something false: it is taken again next month, and the score it gives is already the only
+record worth having. So `delf` takes the four progress readers of `scratch` (#80) — no tick under
+the page or in the listing, out of `/ma-progression`, out of « La suite » — and none of the rest:
+it is a permanent chapter, so it stays in the sitemap. **Decided against reusing `scratch`**, which
+would have dropped the épreuves from the sitemap and told the next reader they are deleted weekly.
+`isTracked()` answers for both flags; a tick stored on an épreuve before this is kept and no longer
+read.
+
 **What still holds from #78:** nothing printed in `delf/` comes from a sujet or a prep book, the
 épreuves carry a written-out level, and the chapter links to the official samples rather than
 serving them.

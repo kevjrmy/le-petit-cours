@@ -331,7 +331,8 @@ cannot mark; `comprehension-de-l-oral` is read aloud by a person.
   like `conversation`. Compréhension de l'oral is read aloud: write its texts to be *said* — short
   sentences, times and prices in words — and put the reader's notes in `cadre`, never on the
   candidate's side.
-- **No « En résumé »** — an épreuve is not a lesson and has nothing to restate.
+- **No « En résumé »**, and **no tick** — an épreuve is not a lesson: it has nothing to restate and
+  is never finished. The chapter carries `untracked` (#82); do not add a `DoneTick` by hand.
 - **Tag it with the level written out**, `["A2"]`, never `from("A2")` (#76): a B1 candidate sits the
   B1 paper, so the page is superseded above rather than prolonged.
 - The patterns are in `globals.css` and on `/design`: `.epreuve`, `.exercice`, `.documents`,

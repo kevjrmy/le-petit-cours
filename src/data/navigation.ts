@@ -244,6 +244,18 @@ export interface Chapter {
    * search index wants `chapters` exactly as it stands.
    */
   scratch?: true;
+  /**
+   * Set when the chapter's pages are **sat, not worked through** (#82): `delf`,
+   * whose épreuves are a mock exam taken as often as it is useful. A tick would
+   * say « terminé » about something that is never finished, and the score an
+   * épreuve gives is already the record that matters, on screen and nowhere else.
+   *
+   * It takes the four progress readers of `scratch` above and nothing else: no
+   * tick under the page or in the listing, out of `/ma-progression`, out of
+   * « La suite ». The chapter is permanent, so it keeps its sitemap entries.
+   * `isTracked()` is the one test; read that, never the two flags.
+   */
+  untracked?: true;
   lessons: Lesson[];
 }
 
@@ -1351,6 +1363,7 @@ export const chapters: Chapter[] = [
   {
     slug: "delf",
     icon: "delf",
+    untracked: true,
     path: "/delf",
     title: "DELF",
     blurb:
@@ -1612,7 +1625,8 @@ export function iconAnnexes(where: "top" | "tree"): IconAnnexe[] {
 
 /** The lesson a learner has not ticked yet, and the chapter it sits in. */
 /**
- * The chapters progress is kept on: everything but the scratch chapters (#80).
+ * The chapters progress is kept on: everything but the scratch chapters (#80)
+ * and the épreuves (#82).
  *
  * **Every reader of `chapters` that is about progress wants this instead.**
  * There are two — `nextUp` below and `/ma-progression` — and the reason is the
@@ -1626,7 +1640,12 @@ export function iconAnnexes(where: "top" | "tree"): IconAnnexe[] {
  * answers "what is the learner working through", which is not the same set.
  */
 export function trackedChapters(): Chapter[] {
-  return chapters.filter((chapter) => !chapter.scratch);
+  return chapters.filter(isTracked);
+}
+
+/** Whether a chapter's pages carry a tick: not scratch (#80), not an exam (#82). */
+export function isTracked(chapter: Chapter): boolean {
+  return !chapter.scratch && !chapter.untracked;
 }
 
 export interface NextStep {

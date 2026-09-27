@@ -1,6 +1,6 @@
 "use client";
 
-import { findLesson } from "@/data/navigation";
+import { findLesson, isTracked } from "@/data/navigation";
 import { useLessonVariant } from "@/hooks/useLessonVariant";
 import { DoneTick } from "@/components/progress/DoneTick";
 import { RelatedLinks } from "./RelatedLinks";
@@ -30,7 +30,7 @@ import { usePathname } from "next/navigation";
  * live on a call and deleted at the end of the week, so there is nobody to tick
  * one for themselves and nothing for the tick to still mean afterwards. The
  * chapter comes back from `findLesson` already, so this costs a read and no
- * second list.
+ * second list. So do the DELF épreuves (#82): they are sat, not finished.
  */
 export function LessonEnd() {
   const path = usePathname() ?? "";
@@ -46,7 +46,7 @@ export function LessonEnd() {
           on the account — the questions above and the tick below read the same
           hook, so they cannot disagree. Every lesson serving one level resolves
           to it, and `progressKey` ignores it. */}
-      {!found.chapter.scratch && (
+      {isTracked(found.chapter) && (
         <DoneTick lesson={found.lesson} level={level} path={path} />
       )}
       <RelatedLinks path={path} />

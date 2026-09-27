@@ -367,7 +367,7 @@ sommaire card's mark stays the chapter's initial in the serif.
 | `conversation` | **guided role-play** — a scene, the steps it follows, ~20 words to play it out of; no model dialogue, graded nowhere (#54, #57) |
 | `traduction` | a short source text to write in French, three words uncoverable, then the model version; graded nowhere. The one chapter where Spanish appears (#55) |
 | `lecture`, `litterature` | reading + comprehension quiz |
-| `delf` | a whole **épreuve** to sit in real conditions: a compréhension is clicked and marked once, at the end; a production gets a grille for the marker; stored nowhere (#78, #82) |
+| `delf` | a whole **épreuve** to sit in real conditions: a compréhension is clicked and marked once, at the end; a production gets a grille for the marker; stored nowhere, ticked nowhere (#78, #82) |
 | `temp` | **scratch** — whatever a class in progress needs, in any of the forms above; emptied and refilled weekly, ticked nowhere (#80) |
 
 **An exercise is graded; a game is replayable.** That line is what stops `jeux/` becoming a second
@@ -460,6 +460,8 @@ that has become dynamic is a regression, not a detail.**
   anonymous browser-local tick**: storage alone is evicted without warning, and losing forty ticks
   silently is worse than saying what an account is for.
 - **A scratch chapter carries no tick anywhere** (#80) — not under the page, not in its listing.
+  **Nor does `delf`** (`untracked`, #82): an épreuve is sat, not finished. `isTracked()` is the one
+  test, and it is not `scratch` — that flag also drops a chapter from the sitemap.
   `nextUp` and `/ma-progression` walk **`trackedChapters()`, never `chapters`**: a lesson that can
   never be ticked is a permanent first hole, so « La suite » would offer last week's atelier page
   for ever and nothing would fail.
