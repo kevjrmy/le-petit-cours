@@ -112,9 +112,8 @@ These come from the audience, and a change that breaks one will be asked to chan
 - **No copyrighted text.** Reading pages use public-domain works or original writing. Song pages
   quote short excerpts for commentary and never a full lyric sheet. Images must be CC0, public
   domain, CC BY or CC BY-SA, credited individually with author, link and licence, and stored
-  locally rather than hotlinked — the app has to work offline. (The one exception is a DELF
-  épreuve's decorative photo, linked from Wikimedia Commons and credited, where the text alone still
-  answers the question.)
+  locally rather than hotlinked — the app has to work offline. (The one exception: a DELF épreuve's
+  illustration, linked from Wikimedia Commons and credited, where the text alone still answers.)
 - **An exam paper is copyrighted text too**, including the free official DELF sujets. The `delf`
   chapter reproduces no sujet and no prep book: the *format* of a public exam is a fact and may be
   described, but its documents, questions, consignes and corrigés belong to whoever wrote them, and

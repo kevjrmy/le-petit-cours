@@ -298,49 +298,33 @@ that step was skipped.
 ### DELF — a whole épreuve, at the published format
 
 One page is one épreuve (`docs/decisions.md` #78, #82). `delf/a2-comprehension-des-ecrits` is the
-worked example of a marked épreuve; the two productions have **no corrigé on the page** and are
-corrected by the person running them; `comprehension-de-l-oral` is read aloud by a person.
+worked example.
 
-- **Reproduce the format, never the paper.** Four épreuves at 25 points, the exercise counts, the
-  point splits, the durations: that is the published shape of a public exam and it is a fact. The
-  documents, the questions, the consignes and the corrigés of any real sujet — official or from a
-  prep book, free to download or not — are someone's writing and cannot go in (§9b). **Read a real
-  sujet to calibrate, write everything yourself.**
-- **Match the point split exactly.** A2 compréhension des écrits is 5 + 6 + 9 + 5; production écrite
-  is 13 + 12. `<Correction>` states the total, so a split that does not add to 25 is the counting
-  trap §9 already records, on the page where a candidate is most likely to trust it.
-- **A compréhension épreuve is clicked, and marked once at the end** (#82). The questions and the
-  barème live in `copie.ts` beside the page, as `export const COPIE = verifierCopie({ … })` — the
-  check throws at build if a split does not add up. The page stays a Server Component: it renders the
-  documents, wraps the épreuve in `<Copie>`, places `<Questions groupe="…">` where each exercise
-  asks, and ends with `<Correction>`. **Never mark as the candidate goes**, and never type-in: a
-  justification is chosen among three sentences **all quoted from the document**, exactly one of
-  which proves the answer (§9: two defensible answers is a broken item).
-  A matching exercise (sentences to documents) uses `<Associer groupe documents>` instead of
-  `<Questions>`: the sentences are pills dragged — or tapped, then placed — onto the documents, and
-  the answer is stored under the same key, so `<Correction>` counts it unchanged.
-- **What an épreuve hides stays hidden until asked for** (`<Corrige>`). Today that is the listening
-  épreuve's texts, behind their own button, because on the candidate's screen they are the answers.
-- **Neither production carries a corrigé** (#82): no grille, no model text, no model dialogue. A
-  model shown under the task becomes what gets copied, and the tutor marks the copy or the speech
-  themselves. `<Redaction min max>` counts words as the exam does, `<Tirage>` draws an oral subject.
-  Production écrite is handed in by `<Rendre>` inside `<CopieEcrite>`, which **downloads** the
-  texts as a file the candidate sends on (#84). **Never add a server, a table or an upload for it**: that is a new
-  thing stored about an account (#31), and needs its own decision.
-- **No timer on an épreuve** (#82). The duration is stated in the `.epreuve` banner and nothing
-  counts it down: the person running the épreuve keeps time.
-- **The oral pages need a second person.** Production orale gives no model dialogue (#57), exactly
-  like `conversation`. Compréhension de l'oral is read aloud: write its texts to be *said* — short
-  sentences, times and prices in words — and put the reader's notes in `cadre`, never on the
+- **Reproduce the format, never the paper.** Épreuve counts, point splits, durations are published
+  facts. The documents, questions, consignes and corrigés of any real sujet — official or prep book,
+  free or not — are someone's writing (§9b). **Read a real sujet to calibrate, write the rest.**
+- **A compréhension is clicked, and marked once at the end** (#82). Questions and barème live in
+  `copie.ts` as `export const COPIE = verifierCopie({ … })`, which throws at build if a split misses
+  (écrits 5 + 6 + 9 + 5, oral 6 + 6 + 6 + 7). The page stays a Server Component: documents, then
+  `<Copie>` around the épreuve, `<Questions groupe>` where each exercise asks — or `<Associer groupe
+  documents>` to drag sentences onto documents — and `<Correction>` at the end. **Never mark as the
+  candidate goes, never type-in**: a justification is chosen among three sentences **all quoted from
+  the document**, exactly one of which proves it (§9).
+- **A production has no corrigé** (#82) — no grille, no model text, no model dialogue (#57): a model
+  a click away is what gets copied. `<Redaction min max>` counts words as the exam does, `<Tirage>`
+  draws an oral subject, and `<Rendre>` in `<CopieEcrite>` hands the écrite in as a **download**
+  (#84). **Never add a server, a table or an upload for it** — that is a new decision (#31).
+- **The listening épreuve is read aloud.** Write its texts to be *said* — short sentences, times and
+  prices in words — with the reader's notes in `cadre`, behind `<Corrige>`, never on the
   candidate's side.
-- **No « En résumé »**, and **no tick** — an épreuve is not a lesson: it has nothing to restate and
-  is never finished. The chapter carries `untracked` (#82); do not add a `DoneTick` by hand.
-- **Tag it with the level written out**, `["A2"]`, never `from("A2")` (#76): a B1 candidate sits the
-  B1 paper, so the page is superseded above rather than prolonged.
-- The patterns are in `globals.css` and on `/design`: `.epreuve`, `.exercice`, `.documents`,
-  `ol.questions`, `.redaction`, `.document`, `.corrige`, and the components in
-  `src/components/delf/`. **Write no CSS** — if an épreuve needs a shape none of these give, that is
-  a request to `design-system`.
+- **The duration is stated in the `.epreuve` banner, never counted down.** No timer.
+- **No « En résumé », no tick** (`untracked`, #82), and the level written out, `["A2"]`, never
+  `from()` (#76): a B1 candidate sits the B1 paper.
+- **A photo is illustration only** (#83): linked from Commons, credited in the same entry, and the
+  item answerable without it.
+- Patterns: `.epreuve`, `.exercice`, `.documents`, `ol.questions`, `.redaction`, `.document`,
+  `.corrige`, `.credits` in `globals.css`, and the components in `src/components/delf/`, all on
+  `/design`. **A page writes no CSS** — a missing shape is a request to `design-system`.
 
 ### Culture — the only pages with photographs
 

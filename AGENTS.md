@@ -367,7 +367,7 @@ sommaire card's mark stays the chapter's initial in the serif.
 | `conversation` | **guided role-play** — a scene, the steps it follows, ~20 words to play it out of; no model dialogue, graded nowhere (#54, #57) |
 | `traduction` | a short source text to write in French, three words uncoverable, then the model version; graded nowhere. The one chapter where Spanish appears (#55) |
 | `lecture`, `litterature` | reading + comprehension quiz |
-| `delf` | a whole **épreuve** to sit in real conditions: a compréhension is clicked and marked once, at the end; a production has no corrigé, and the écrite is handed in as a downloaded file; stored nowhere, ticked nowhere (#78, #82, #84) |
+| `delf` | a whole **épreuve**, sat not ticked: a compréhension is marked once, at the end; a production has no corrigé; nothing stored (#78, #82, #84) |
 | `temp` | **scratch** — whatever a class in progress needs, in any of the forms above; emptied and refilled weekly, ticked nowhere (#80) |
 
 **An exercise is graded; a game is replayable.** That line is what stops `jeux/` becoming a second
@@ -460,8 +460,8 @@ that has become dynamic is a regression, not a detail.**
   anonymous browser-local tick**: storage alone is evicted without warning, and losing forty ticks
   silently is worse than saying what an account is for.
 - **A scratch chapter carries no tick anywhere** (#80) — not under the page, not in its listing.
-  **Nor does `delf`** (`untracked`, #82): an épreuve is sat, not finished. `isTracked()` is the one
-  test, and it is not `scratch` — that flag also drops a chapter from the sitemap.
+  **Nor does `delf`** (`untracked`, #82). Test with `isTracked()`, never `scratch`, which also
+  drops a chapter from the sitemap.
   `nextUp` and `/ma-progression` walk **`trackedChapters()`, never `chapters`**: a lesson that can
   never be ticked is a permanent first hole, so « La suite » would offer last week's atelier page
   for ever and nothing would fail.
@@ -563,12 +563,11 @@ a lint, so the only thing standing between them and a learner is this list.
   is the authoring counterpart of `AccentBar` below: the learner gets a helper, the lesson text gets
   no excuse.
 
-**Images** (`culture/`, and the signs of the DELF écrits épreuve)
+**Images** (`culture/` and one DELF épreuve)
 
 - **Local files, never hotlinked** — a remote photograph is a lesson that goes blank in the métro.
-  **One exception, and it is narrow** (#83): an épreuve's *illustration* may be linked from
-  Wikimedia Commons, credited on the page, as long as the item is fully answerable from its text
-  with the picture gone. A photograph the learner needs to answer is a lesson, and stays local.
+  **Except an épreuve's illustration** (#83): linked from Commons and credited, but only where the
+  item is answerable with the picture gone. An image needed to answer stays local.
 - **Free licences only, credited** (CC0, PD, CC BY, CC BY-SA) with author, link and licence kept in
   the same data entry as the image, so the two cannot separate.
 - **Look at what you downloaded.** Of the first thirteen from Commons, one had "Mont Blanc"

@@ -1867,15 +1867,13 @@ note with it. A comment on `LevelChooser` says so at the place it would be rebui
 ## 78 · A `delf` chapter describes the exam and prints none of it
 **2026-09-21 · Binding · extends #15, #51, #9b's licence rule**
 
-A sixteenth chapter, `delf`, and still the last of the course's own in the manifest. It holds **whole épreuves to sit in real
-conditions**, and nothing else. How an épreuve is marked, and how the listening one is sat without
-a recording, is #82's.
+A sixteenth chapter, `delf`, last in the manifest. It holds **whole épreuves to sit in real
+conditions**, and nothing else. How they are marked and sat is #82's.
 
 **A page explaining the format was written first and deleted the same day.** It stated the four
 épreuves, the barème and the shape of the day — all true, all useful, and all of it a page standing
-between the learner and the exam. What a candidate needs is to sit one; what they need to know about
-the barème is short enough to live in the corrigé of the épreuve it applies to, which is where it is
-now. The chapter is the épreuves. `/delf/comment-ca-se-passe` redirects to the chapter, and
+between the learner and the exam. What a candidate needs is to sit one, and the barème is short
+enough to live on the épreuve it applies to. The chapter is the épreuves. `/delf/comment-ca-se-passe` redirects to the chapter, and
 `delf-comment-ca-se-passe` is a retired id that is never reused (#50).
 
 **The line this chapter has to hold is a licence line, and it is the reason the entry exists.** The
@@ -1901,8 +1899,7 @@ is the redistribution.
 **The chapter links to the sujets instead, and a link is the whole of what may be done.** France
 Éducation international publishes its own samples, so `Chapter.outbound` — a manifest property, not
 a line written into the chapter route (#42's reasoning, applied to a chapter) — points at their
-page. A learner who wants a real paper, with the compréhension de l'oral recordings this course
-cannot yet write, gets it from the people who own it. **Attribution is not the fix and never was**:
+page. A learner who wants a real paper, with its recordings, gets it from the people who own it. **Attribution is not the fix and never was**:
 the objection is not that the author goes unnamed, it is that this repo licenses its content under
 CC BY-SA 4.0 and cannot license someone else's work. A credit line beside a hosted copy changes
 nothing about what the download is. The link is the one thing in the chapter that does not work
@@ -1912,10 +1909,6 @@ offline, which is why nothing an épreuve needs hangs off it.
 above rather than prolonged: a B1 candidate sits the B1 exam, and the A2 paper is not a lesson they
 still need. This is the first page in the course to use #76's exception, and it is the shape that
 exception was kept open for.
-
-**The overview page is `ANY`.** Four épreuves, a hundred points, fifty to pass, five minimum: that
-frame is identical at A1, A2 and B1, and only the durations and the tasks move, which is what the
-épreuve pages carry. An A1 candidate needs it on the day they register.
 
 ## 79 · The tick is settable from a chapter's listing, beside the row's link
 **2026-09-21 · Binding · extends #2, #48**
@@ -2140,109 +2133,71 @@ authorization, and authorization here is an account and RLS (#37), not a growing
 ## 82 · An épreuve is marked once, at the end, and a person reads the listening one aloud
 **2026-09-27 · Binding · amends #78**
 
-#78 shipped the épreuves as static HTML: native fields nobody read, and a corrigé to compare by eye.
-They were meant for sitting a mock exam in class, and in class that shape was the wrong one. A
-candidate typing a justification on a Spanish keyboard lost time to `é` rather than to the text
-(§1), a tutor reading a copy aloud against a corrigé spent the hour on arithmetic, and the fourth
-épreuve did not exist. So the épreuves now do three things they refused to.
+#78's épreuves were static HTML: fields nobody read and a corrigé to compare by eye. Used to sit a
+mock exam in class, that cost the candidate time on a Spanish keyboard (§1) and the tutor the hour
+on arithmetic, and the fourth épreuve did not exist.
 
-**The compréhension épreuves are marked by the page — once, at the end.** Every answer is a click.
-Where the paper asks for a letter, a number or a justification copied from the text, the page offers
-the options instead, and a *vrai ou faux* is justified by choosing, among three sentences **all taken
-from the document**, the one that proves it. « Corriger ma copie » marks every answer at once with the
-three shared states (§5), shows the score per exercise and out of 25, and says whether the five-point
-floor is met. **Decided against marking each answer as it is given**, which is what a drill does and
-what `Comprehension` does under a reading: a ✓ on question one tells the candidate something about
-question two, and a mock exam that corrects as it goes is not the exam. **Still stored nowhere and
-never a tick** (#2) — the score lives in component state and a reload clears it. The barème is data
-(`copie.ts` beside the page), and `verifierCopie` throws at import if an exercise's questions do not
-add up to what it announces or the épreuve to 25, so a wrong split breaks `next build` instead of
-reaching a candidate as « 24 / 25 ».
+**A compréhension is clicked, and marked once, at the end.** Where the paper asks for a letter or a
+justification copied out, the page offers options; a *vrai ou faux* is justified by choosing, among
+three sentences **all taken from the document**, the one that proves it. « Corriger ma copie » marks
+everything at once with the three shared states (§5) and gives the score per exercise and out of 25.
+**Decided against marking as the candidate goes**, as a drill does: a ✓ on question one says
+something about question two. Stored nowhere and never a tick (#2). The barème is data (`copie.ts`),
+and `verifierCopie` throws at build if a split does not add up.
 
-**The productions have no corrigé on the page at all.** Both first shipped with a half-point
-grille that added itself up — points per line from the published barème, words our own — and the
-écrite with two model texts as well. All of it went the same day: the tutor marks a written copy
-with a pen and a spoken one by ear, and neither needs the page for it, while a model a click away
-is the text that gets copied. What the pages keep: the écrite counts words the way the exam does
-(whatever sits between two spaces), and the orale draws its subjects at random.
+**A production has no corrigé on the page.** A grille that added itself up, and model texts, were
+tried and removed: the tutor marks a written copy with a pen and a spoken one by ear, and a model a
+click away is what gets copied. The écrite counts words as the exam does (whatever sits between two
+spaces); the orale draws its subjects at random.
 
-**The time is stated, never counted down.** Each épreuve prints its duration in the banner at its
-head, and that is all. Timers on every épreuve and on each oral part shipped first and went the same
-day: in a class the tutor keeps time, a clock on the candidate's screen is one more thing to watch
-instead of the text, and none of them could close anything at zero anyway — the person running the
-épreuve decides when the pen goes down.
+**The time is stated, never counted down.** The duration is in each épreuve's banner. The tutor keeps
+time; a clock on screen is one more thing to watch instead of the text.
 
-**The listening épreuve exists, read aloud by a person.** #78 held it back until the course had a
-voice, the same wait `dictees` is in. It no longer waits, because in the class it is for, the tutor
-*is* the recording, and a better one than speech synthesis. The page carries the questions for the
-candidate and, behind their own button, the texts for the reader: hidden for the same reason as a
-corrigé, since on the candidate's screen they are the answers. The texts are written to be read —
-short sentences, times and prices in words. **Its split per exercise, 6 + 6 + 6 + 7, is the
-course's**: the published facts are four exercises, fourteen short documents each heard twice,
-three-option questions and 25 points, and no source that can be cited gives the split exercise by
-exercise. **If a synthetic voice or recordings arrive later**, they are an addition to this page,
-not a reason to remove the reader.
+**The listening épreuve is read aloud by a person**, rather than waiting for the voice `dictees`
+waits for: in the class it is for, the tutor *is* the recording. The texts sit behind their own
+button, hidden like a corrigé because on the candidate's screen they are the answers, and are
+written to be said. **The split 6 + 6 + 6 + 7 is the course's**: the published facts are four
+exercises, fourteen short documents heard twice, three-option questions and 25 points, and no
+citable source gives the split per exercise. A recording, if one arrives, is added, not substituted.
 
-**An épreuve carries no tick, and the chapter is `untracked`.** « J'ai terminé » under a mock exam
-says something false: it is taken again next month, and the score it gives is already the only
-record worth having. So `delf` takes the four progress readers of `scratch` (#80) — no tick under
-the page or in the listing, out of `/ma-progression`, out of « La suite » — and none of the rest:
-it is a permanent chapter, so it stays in the sitemap. **Decided against reusing `scratch`**, which
-would have dropped the épreuves from the sitemap and told the next reader they are deleted weekly.
-`isTracked()` answers for both flags; a tick stored on an épreuve before this is kept and no longer
-read.
-
-**What still holds from #78:** nothing printed in `delf/` comes from a sujet or a prep book, the
-épreuves carry a written-out level, and the chapter links to the official samples rather than
-serving them.
+**The chapter is `untracked`: an épreuve carries no tick.** « J'ai terminé » under a mock exam taken
+again next month says something false. `delf` takes the four progress readers of `scratch` (#80) —
+no tick under the page or in the listing, out of `/ma-progression` and « La suite » — but not the
+sitemap exclusion, since the chapter is permanent; that is why it is a second flag and not
+`scratch`. `isTracked()` answers for both. Ticks stored before this are kept and no longer read.
 
 ## 83 · An épreuve may link a Commons photo as illustration, never as the answer
 **2026-09-27 · Binding · narrows §9's image rule**
 
-The eight signs of the écrits épreuve's first exercise were text in grey boxes, where the real exam
-shows photographed signs. Seven of them now carry a photograph **linked from Wikimedia Commons, not
-copied into the repo**, and the eighth, which Commons had no usable photo for, is drawn inline.
+Seven signs of the écrits épreuve's first exercise carry a photograph **linked from Wikimedia
+Commons, not copied into the repo**; the eighth, with no usable photo, is drawn inline.
 
 **Why linked, against §9's « local files, never hotlinked ».** That rule exists because a remote
-photograph is a lesson that goes blank in the métro. Here the photograph is not the lesson: the
-exercise is reading, every sign keeps its French text under its picture, and the questions are
-answerable with every image gone. Offline, a card shows an empty frame and the épreuve still works.
-Linking was the maintainer's call, made to keep binary files out of the repository for what is
-illustration. **The condition is the whole exception**: the day an item needs its picture to be
-answered, that picture is content, and content is local.
+photograph is a lesson that goes blank in the métro. Here it is not the lesson: every sign keeps its
+text under its picture and every question is answerable with the images gone, so offline a card
+shows an empty frame and the épreuve still works. Linking was the maintainer's call, to keep binary
+files out of the repo for illustration. **The condition is the whole exception**: an image an item
+needs to be answered is content, and content is local.
 
-**Decided against `next/image`.** It would fetch the file through the deployment and serve it from
-there, which is hosting it with extra steps. A plain `<img>` with its size written out, `loading=
-"lazy"`, and a background on the frame so a missing photo reads as an empty box.
+**Decided against `next/image`**, which serves the file from the deployment — hosting it with extra
+steps. A plain `<img>` with its size written out and a background on the frame.
 
-**What did not change.** Free licences only (CC0, public domain, CC BY, CC BY-SA), and the credit —
-author, licence, link — lives in the same data entry as the image and is printed on the page under
-the grid, because linking does not lift a CC BY licence's attribution. Every candidate was looked at
-before it went in: one carried English (« Hands free only »), another a notice unrelated to the sign
-beside it, and both were refused, which is why F is drawn. A drawn sign never uses red, which in this
-course means a wrong answer (§5).
+**What did not change:** free licences only, and the credit (author, licence, link) lives in the
+same data entry as the image and is printed under the grid — linking does not lift attribution.
 
 ## 84 · A written copy is handed in by downloading it, never by storing it
 **2026-09-27 · Binding · extends #31, #82**
 
-To sit the production écrite like the exam, the candidate has to *hand in* a copy the tutor reads
-later. « Rendre ma copie » locks both fields and has the browser write a `.txt` file — the épreuve,
-the date and time, each exercise with its word count, in the subject's order, including one left
-blank. The candidate sends it on; the tutor deletes it once corrected.
+« Rendre ma copie » locks the production écrite and has the browser write a `.txt` file: the date
+and time, then each exercise with its word count, in the subject's order, blank ones included. The
+candidate sends it on; the tutor deletes it once corrected. Nothing leaves the device, it works
+offline and signed out, and a reload gives a blank copy.
 
 **Decided against a Supabase table.** It would reach the tutor with no step from the candidate, and
-RLS already fits it (insert own row, the tutor reads in the dashboard). It was not refused on
-security. It was refused because it is a new thing stored about an account, which #31 closes by
-default, and it asks the tutor to run a migration by hand for one class. It stays the answer if
-copies must ever arrive without the candidate sending anything — as a new decision, not a quiet
-addition.
+RLS already fits it. It lost because it is a new thing stored about an account, which #31 closes
+by default, and a hand-run migration for one class. It is the answer if copies must ever arrive
+unsent — as a new decision.
 
-**Decided against a file on the server.** Vercel's functions have a read-only disk apart from a
-`/tmp` that belongs to one instance and disappears with it, so a copy written there is lost at
-random and cannot be opened anyway. Vercel Blob would work, at the cost of a public write route, a
-second secret beside `FRONTEND_PASSWORD` (#81) and a second storage service beside Supabase (#8) —
-the table does the same job with less.
-
-**Nothing leaves the device.** The download works offline and signed out. A reload gives a blank
-copy, since nothing is kept, and a copy handed in can be downloaded again but not edited. The file
-carries no name: it goes straight from the candidate to the person correcting it.
+**Decided against a file on the server.** A Vercel function's `/tmp` belongs to one instance and
+dies with it. Vercel Blob would work, at the cost of a public write route, a second secret beside
+`FRONTEND_PASSWORD` (#81) and a second storage service beside Supabase (#8).
