@@ -92,6 +92,7 @@ than marking it superseded.
 | 81 | 2026-09-22 | The atelier sits behind one shared password, in a proxy that knows nothing else | Binding · extends #37, #80 |
 | 82 | 2026-09-27 | An épreuve is marked once, at the end, and a person reads the listening one aloud | Binding · amends #78 |
 | 83 | 2026-09-27 | An épreuve may link a Commons photo as illustration, never as the answer | Binding · narrows §9 |
+| 84 | 2026-09-27 | A written copy is handed in by downloading it, never by storing it | Binding · extends #31, #82 |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -2220,3 +2221,28 @@ the grid, because linking does not lift a CC BY licence's attribution. Every can
 before it went in: one carried English (« Hands free only »), another a notice unrelated to the sign
 beside it, and both were refused, which is why F is drawn. A drawn sign never uses red, which in this
 course means a wrong answer (§5).
+
+## 84 · A written copy is handed in by downloading it, never by storing it
+**2026-09-27 · Binding · extends #31, #82**
+
+To sit the production écrite like the exam, the candidate has to *hand in* a copy the tutor reads
+later. « Rendre ma copie » locks both fields and has the browser write a `.txt` file — the épreuve,
+the date and time, each exercise with its word count, in the subject's order, including one left
+blank. The candidate sends it on; the tutor deletes it once corrected.
+
+**Decided against a Supabase table.** It would reach the tutor with no step from the candidate, and
+RLS already fits it (insert own row, the tutor reads in the dashboard). It was not refused on
+security. It was refused because it is a new thing stored about an account, which #31 closes by
+default, and it asks the tutor to run a migration by hand for one class. It stays the answer if
+copies must ever arrive without the candidate sending anything — as a new decision, not a quiet
+addition.
+
+**Decided against a file on the server.** Vercel's functions have a read-only disk apart from a
+`/tmp` that belongs to one instance and disappears with it, so a copy written there is lost at
+random and cannot be opened anyway. Vercel Blob would work, at the cost of a public write route, a
+second secret beside `FRONTEND_PASSWORD` (#81) and a second storage service beside Supabase (#8) —
+the table does the same job with less.
+
+**Nothing leaves the device.** The download works offline and signed out. A reload gives a blank
+copy, since nothing is kept, and a copy handed in can be downloaded again but not edited. The file
+carries no name: it goes straight from the candidate to the person correcting it.

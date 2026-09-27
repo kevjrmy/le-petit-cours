@@ -4,3 +4,17 @@
   color: var(--text-2);
   font-variant-numeric: tabular-nums;
 }
+
+.rendre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-top: 1.5rem;
+}
+
+.aide {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--text-3);
+}

@@ -323,6 +323,9 @@ grille for; `production-ecrite` has **no corrigé on the page**, it is corrected
   they are the answers.
 - **Production écrite carries no corrigé** (#82): no grille, no model text. A model shown under the
   task becomes the text that gets copied, and the tutor corrects the copy by hand.
+  It is handed in by `<Rendre>` inside `<CopieEcrite>`, which **downloads** the texts as a file the
+  candidate sends on (#84). **Never add a server, a table or an upload for it**: that is a new
+  thing stored about an account (#31), and needs its own decision.
 - **Production orale's corrigé is a grille, not an answer** (#54). `<Grille>` takes the lines in
   the order the examiner reads — consigne, then acts of speech, then vocabulary, then grammar — with
   the **published points per line and your own words on each** (§9b); it throws if a group misses
