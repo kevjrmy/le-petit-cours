@@ -35,7 +35,7 @@
     /* Back into the flow: the sidebar is permanent up here, so the control does
        not have to stay within reach and a bar that pins itself for a link is a
        band (#45). The button stays against the panel it collapses; the crumb
-       does not stay with the button (#64). */
+       does not stay with the button. */
     position: static;
     background: none;
     padding-inline: calc(var(--shell-gutter) - 0.5rem);
@@ -44,7 +44,7 @@
   }
 
   /* The trail lines up with the `<h1>` under it rather than with the button
-     beside it (#64) — and it is the trail, not the crumb, that carries the
+     beside it — and it is the trail, not the crumb, that carries the
      offset, so the level pill in front of the chapter starts on the column
      too (#65). `.prose` is centred at `--measure` inside `.content`'s gutters,
      so the offset is computable rather than guessed: this bar's box is 1rem

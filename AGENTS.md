@@ -44,7 +44,7 @@ are all built. What no amount of reading the repo will reveal:
 
 - **Deployed on Vercel** at <https://lepetitcours.vercel.app>, building from `main`. Supabase
   project `ephdtigxjccfauzgexpd`, RLS on, legacy JWT keys disabled, two public env vars, no
-  integration and no Supabase secret at rest (#20, #21).
+  integration and no Supabase secret at rest (#21).
 - **One secret does exist now, and it is not Supabase's**: `FRONTEND_PASSWORD`, the shared password
   in front of `/temp` (#81). It lives in the gitignored `.env` and is **set on Vercel by hand**
   (`vercel env add FRONTEND_PASSWORD`) — done on 2026-09-22. **A deployment without it lets nobody
@@ -98,7 +98,7 @@ are all built. What no amount of reading the repo will reveal:
   definition and an example that makes the wrong reading impossible.
 - **English is never used, for either profile.** No English glosses, no English mnemonics (never
   DR & MRS VANDERTRAMP).
-- **A2 is written; A1 and B1 are offered while being written** (#52, #74). `CHOOSABLE_LEVELS` holds
+- **A2 is written; A1 and B1 are offered while being written** (#74). `CHOOSABLE_LEVELS` holds
   `A1, A2, B1`; B2 is declared and unchoosable, and **the ladder stops there** — C1 and C2 are out
   of scope (#75). **The chooser offers the levels and rates none of them** (#77): the « en cours »
   badge, its explanatory line and `COURSE_LEVELS` are all deleted, because they addressed a stranger
@@ -127,7 +127,7 @@ are all built. What no amount of reading the repo will reveal:
   is the one place that relaxes.
 - **A level is complete when it covers the published DELF syllabus** (#15), not when it feels
   thorough.
-- **The content is « le cours », never « le livre »** (#41). **leçon** a page, **chapitre** one of
+- **The content is « le cours », never « le livre »**. **leçon** a page, **chapitre** one of
   the sixteen the course is made of, **sommaire** the contents page, **parcours** an ordered path, **programme** a level's
   syllabus. In English prose, say *the course*.
 - **Both profiles type on a Spanish keyboard.** `é è ê` cost a dead-key detour; `œ` and `ç` cannot
@@ -236,7 +236,7 @@ Palette and typography are settled (#27): accent `#0044AA` — the wordmark's ow
   the drawer breakpoint, where it holds the only control that opens the sidebar, and painted in
   **`--surface-app`** so it occludes without reading as a band. **Do not give it a surface of its
   own** and do not pin it above the breakpoint.
-- **Brand assets take their colour from the page** (#28, #61). The glyph is always a CSS mask over a
+- **Brand assets take their colour from the page** The glyph is always a CSS mask over a
   token, never an inline fill, so it follows the theme. **The wordmark is not drawn in the chrome** —
   it cannot survive the rail; it is the home page's `<h1>` and belongs nowhere else. Icons come from
   `node scripts/make-icons.mjs` — **never hand-edit a generated icon**. An icon must be **opaque**,
@@ -271,7 +271,7 @@ through lessons that already exist (#14).
   listing obeys the level except search (which groups rather than cuts) and `/ma-progression`
   (a record, not an offer). A lesson reached by direct link always renders in full — gating it
   would mean reading the session and would drag every lesson out of prerendering (§8).
-- **Nothing counts what is in a chapter** (#62) — not the sidebar row, not the sommaire card, not
+- **Nothing counts what is in a chapter** — not the sidebar row, not the sommaire card, not
   the chapter page. The rows are the count, and a tally is a third thing to keep filtered by level.
   `Chapter.unit` is gone with them; the progress tallies on `/ma-progression` are a different claim
   (§8) and stay.
@@ -703,7 +703,7 @@ Recorded so nobody decides them by writing code. Closed ones are in `docs/decisi
 1. **The authoring format for lessons** (#10). Deferred, but no longer neutral: React Native
    eventually and contributing teachers eventually both push toward **content-as-data**. Build the
    primitives, hand-write a few lessons, decide with evidence. **Do not build a pipeline yet.**
-2. **Which chapters ship next.** Writing A2 first is settled (#52); A1 and B1 are being written
+2. **Which chapters ship next.** Writing A2 first is settled (#74); A1 and B1 are being written
    alongside it (#72, #74, #76), and the order within any of the three is not. A1's order is at
    least mapped — `docs/programme-a1.md`, gated on the FONCTIONS list — and **B1's is not mapped at
    all**: it has no syllabus document, so its pages are being chosen one at a time. Twelve of the

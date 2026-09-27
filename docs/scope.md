@@ -30,7 +30,7 @@ empty. That is a deliberate limit, not a gap to be quietly
 filled: an unbounded project never finishes a level.
 
 Nothing announces what is unwritten: a lesson appears in the interface in the commit that creates
-it, and until then its chapter is simply not offered (`docs/decisions.md` #51, #52).
+it, and until then its chapter is simply not offered (`docs/decisions.md` #51).
 
 ## Who it is for
 

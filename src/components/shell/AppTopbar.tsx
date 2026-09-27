@@ -27,7 +27,7 @@ import styles from "./AppTopbar.module.css";
  *
  * **The trail is aligned on the page, not on the button.** Above the drawer
  * breakpoint it starts where the `<h1>` beneath it starts, which is the reading
- * column and not the shell's edge (`docs/decisions.md` #64); the button keeps
+ * column and not the shell's edge; the button keeps
  * its place against the panel it collapses.
  *
  * **The lesson's level rides in front of the chapter** rather than beside the

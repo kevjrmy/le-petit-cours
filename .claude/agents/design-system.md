@@ -12,7 +12,7 @@ is not already in context.
 
 **The system exists now.** `globals.css` holds the two token layers, the reset, the base
 typography and the shared content patterns; the palette and typography are settled in
-`docs/decisions.md` #27. It was written from nothing rather than carried over from anywhere (#5),
+`docs/decisions.md` #27. It was written from nothing rather than carried over from anywhere,
 so there is no legacy stylesheet to stay compatible with and no token here that exists only because
 something older needed it.
 

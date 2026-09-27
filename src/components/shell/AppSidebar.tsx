@@ -32,7 +32,7 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
      carry a border. So each is drawn only if it has rows. */
   const topAnnexes = iconAnnexes("top");
   const tailAnnexes = iconAnnexes("tree");
-  /* Empty while the course is unwritten (#52), and the sommaire says why — a
+  /* Empty while the course is unwritten (#51), and the sommaire says why — a
      panel of nothing needs no caption of its own. */
   const listed = listedChapters(level);
 
@@ -81,7 +81,7 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
         {/* Above the chapters, because it is the way into them. */}
         {topAnnexes.length > 0 && (
           /* The rule under this list separates it from the chapters. With none
-             to separate it from, it is a line under nothing (#52). */
+             to separate it from, it is a line under nothing (#51). */
           <ul className={`${styles.top} ${listed.length === 0 ? styles.topAlone : ""}`}>
             {topAnnexes.map(annexeRow)}
           </ul>

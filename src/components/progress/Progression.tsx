@@ -55,7 +55,7 @@ export function Progression() {
   const total = rows.reduce((sum, row) => sum + row.lessons.length, 0);
   const finished = rows.reduce((sum, row) => sum + row.done.length, 0);
 
-  /* No lesson exists to have been ticked (#52). « 0 sur 0 » with an empty bar
+  /* No lesson exists to have been ticked (#51). « 0 sur 0 » with an empty bar
      under it reads as a broken page rather than as an unwritten course. */
   if (total === 0) {
     return (

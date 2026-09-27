@@ -25,7 +25,7 @@ export function ChapterGrid() {
   const level = account?.level ?? null;
   const listed = listedChapters(level);
 
-  /* The course is being written and nothing is published yet (#52). Said here,
+  /* The course is being written and nothing is published yet (#51). Said here,
      once, rather than by fourteen cards each announcing their own emptiness —
      which is the thing #51 removed. */
   if (listed.length === 0) {

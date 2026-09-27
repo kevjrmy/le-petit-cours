@@ -21,7 +21,6 @@ than marking it superseded.
 | 1 | 2026-08-26 | No PDF export, no print stylesheet | Binding |
 | 2 | 2026-08-26 | Progress is ticked manually, never automatically | Binding |
 | 4 | 2026-09-05 | Lessons are written from scratch, never adapted from an older page | Binding |
-| 5 | 2026-09-05 | The design system starts from nothing — no inherited tokens | Binding |
 | 6 | 2026-09-05 | Plain CSS (global tokens + CSS Modules), not Tailwind | Inferred |
 | 7 | 2026-09-05 | Vercel hosting, still an offline PWA — not a static export | Binding |
 | 8 | 2026-09-05 | Supabase, scoped to accounts and progress sync only | Binding |
@@ -30,18 +29,14 @@ than marking it superseded.
 | 13 | 2026-09-05 | Two learner profiles, and the heritage speaker is not a level | Binding |
 | 14 | 2026-09-05 | A parcours orders lessons without owning them | Binding |
 | 15 | 2026-09-05 | A level is complete when it covers the DELF syllabus for that level | Binding |
-| 17 | 2026-09-05 | Collaboration means curated content contribution, later — never student management | Directional |
 | 18 | 2026-09-05 | All content is public; an account buys only the learning path | Binding |
-| 20 | 2026-09-05 | Supabase is provisioned by hand; there is no Vercel integration | Binding |
 | 21 | 2026-09-05 | No key that bypasses RLS lives anywhere, and RLS is the authorization model | Binding |
 | 22 | 2026-09-05 | A progress row *is* the tick; the level never keys progress | Binding |
 | 23 | 2026-09-05 | A lesson carries a set of levels; `[]` means "always visible" | Binding |
 | 24 | 2026-09-05 | IndexedDB is the local store; `localStorage` is for pre-paint values only | Binding |
 | 26 | 2026-09-05 | Sign-in is a route, `/compte`, never a modal | Binding |
 | 27 | 2026-09-05 | The accent is the wordmark's blue; the serif carries the French | Binding |
-| 28 | 2026-09-05 | The app icon is one letter of the wordmark, generated, never hand-drawn | Binding |
 | 29 | 2026-09-05 | Chapter landing pages are one generated route, not fourteen files | Binding |
-| 30 | 2026-09-05 | The account sits at the foot of the sidebar, behind a popover; the theme is three-way | Binding |
 | 31 | 2026-09-05 | An account may hold an optional display name | Binding |
 | 35 | 2026-09-05 | The level filters every listing, and never access | Binding |
 | 36 | 2026-09-06 | The learner's settings live in user metadata, not in a table of ours | Binding |
@@ -49,18 +44,15 @@ than marking it superseded.
 | 38 | 2026-09-06 | The username is its own table — unique, mutable, mirrored | Binding |
 | 39 | 2026-09-06 | The home page is a search field; the sommaire is at `/sommaire` | Binding · narrowed by #71 |
 | 40 | 2026-09-06 | The sidebar is one level deep: a chapter is a link, not a disclosure | Binding |
-| 41 | 2026-09-06 | The whole content is « le cours », never « le livre » | Binding |
 | 42 | 2026-09-06 | Three shells; chapter icons are required and compiler-checked | Binding |
 | 43 | 2026-09-06 | The topbar is part of the page: no band, no blur | Binding |
 | 44 | 2026-09-06 | The topbar is sticky on mobile only, painted in the page's own ground | Binding |
 | 45 | 2026-09-06 | One sidebar control; the trail never names the page you are on | Binding |
-| 46 | 2026-09-06 | No copyright notice in the chrome; the reuse terms live on `/a-propos` | Binding |
 | 47 | 2026-09-06 | The account popover holds the account, and nothing else | Binding |
 | 48 | 2026-09-06 | A tick needs an account; offline is a queue of operations | Binding |
 | 49 | 2026-09-06 | The shell draws the end of a lesson: the tick, then the links | Binding |
 | 50 | 2026-09-06 | Progress is keyed by a permanent lesson id, never by the route path | Binding |
 | 51 | 2026-09-06 | The course announces nothing it has not written | Binding |
-| 52 | 2026-09-06 | The content is A2 only, for now | Binding · gate reversed by #74 |
 | 53 | 2026-09-06 | One language of instruction, and it is French | Binding |
 | 54 | 2026-09-06 | A conversation page is a guided role-play, graded nowhere | Binding |
 | 55 | 2026-09-06 | A `traduction` chapter — the one place Spanish is allowed back | Binding |
@@ -69,10 +61,7 @@ than marking it superseded.
 | 58 | 2026-09-07 | What a `lecture` text has to be, and how the public domain is tested | Binding |
 | 59 | 2026-09-07 | How hard a `lecture` text may be, and what to do when it is too hard | Binding |
 | 60 | 2026-09-07 | World literature in `lecture`; the translator's death date is the test | Binding |
-| 61 | 2026-09-12 | The badge is the chrome's brand; the wordmark is the home page's `<h1>` | Binding |
-| 62 | 2026-09-12 | Nothing counts what is in a chapter | Binding |
 | 63 | 2026-09-12 | The footer belongs to the home page; the shell's foot is one shared row | Binding |
-| 64 | 2026-09-12 | The crumb is aligned on the reading column, not on the button beside it | Binding |
 | 65 | 2026-09-12 | The lesson's level rides in the trail, in front of the chapter | Binding |
 | 66 | 2026-09-12 | Sections are marked, not merely spaced; the in-page index is read from the page | Binding |
 | 67 | 2026-09-12 | « En résumé » is a titled block, and one line closes a lesson | Binding |
@@ -115,21 +104,12 @@ Nothing is ported, translated or reshaped from an earlier version or from elsewh
 adapted page inherits the old compromises and, invisibly, the old mistakes — the last one arrived
 with four misquotes of a public-domain poem no check could catch.
 
-## 5 · The design system starts from nothing
-**2026-09-05 · Binding**
-
-No stylesheet or token is inherited. **What is kept is the discipline, not the values:** two token
-layers, no raw colours in components, every token defined for both themes, colour never the only
-carrier. **Why the tokens too:** the old `--clr-*` alias layer was its own bug class — `--clr-page`
-read like a text colour but was a *surface*, so text using it inverted in dark mode. Inherited
-tokens carry its shape.
-
 ## 6 · Plain CSS, not Tailwind
 **2026-09-05 · Inferred, not explicitly confirmed**
 
-Tokens and shared patterns in `globals.css`; component styles in co-located CSS Modules. Follows
-from #5, but Tailwind was offered and not taken rather than rejected. **Wanting Tailwind means a new
-entry replacing this one**, not one utility class at a time.
+Tokens and shared patterns in `globals.css`; component styles in co-located CSS Modules. Tailwind
+was offered and not taken rather than rejected. **Wanting Tailwind means a new entry replacing this
+one**, not one utility class at a time.
 
 ## 7 · Vercel hosting, still an offline PWA
 **2026-09-05 · Binding**
@@ -157,7 +137,7 @@ primitives settled would build a pipeline around guesses; **it closes on evidenc
 which now exists.** What has fought the writer: a table row costs twelve lines of TSX; a
 `traduction` page's source, model and JSX `note` live in the page file, out of a teacher's reach.
 
-**Do not** set up an MDX pipeline or block schema on your own initiative. Teachers (#17) and a
+**Do not** set up an MDX pipeline or block schema on your own initiative. Teachers and a
 possible React Native client point at content-as-data; it still needs deciding, not drifting.
 
 ## 11 · MIT for the code, CC BY-SA 4.0 for the content
@@ -198,15 +178,6 @@ coverage checkable and gives learners a target and teachers something besides ta
 published pages is an inventory, never evidence of coverage. **Not a decision to certify anyone:**
 the app does not examine.
 
-## 17 · Collaboration means curated content contribution, later
-**2026-09-05 · Directional**
-
-"Collaborative" means recognised teachers contributing content — **not** classes, assignments, grade
-books or teacher dashboards. **Out of scope for now**; it is a second argument for content-as-data
-(#10), and leaves #8 unchanged, so no schema work is owed. **Question the premise first:** GitHub is
-already a curated contribution system; an in-app flow serves only teachers who will not touch git —
-ask real teachers.
-
 ## 18 · All content is public; an account buys only the learning path
 **2026-09-05 · Binding**
 
@@ -218,21 +189,6 @@ and progress that silently belongs to nobody. **Public content is what keeps les
 precacheable** — hence offline — only while the session is never read where it would make a lesson
 dynamic (#37, `AGENTS.md` §8). **No analytics, no behavioural tracking:** near-zero breach surface,
 per `docs/scope.md`.
-
-## 20 · Supabase is provisioned by hand; there is no Vercel integration
-**2026-09-05 · Binding**
-
-Project `ephdtigxjccfauzgexpd` (EU), made in the dashboard, not the Marketplace. Automatic RLS is on
-— an event trigger enables it on every new `public` table — so #21's model is the default. **The
-cost, accepted:** the two `NEXT_PUBLIC_*` keys are set by hand in `.env` and all three Vercel
-environments; a new environment or rotated key means both.
-
-**The Vercel connection was tried and deleted:** it re-pushed its bundle, database password
-included, three times in half an hour, injecting nothing needed. **If `SUPABASE_*` or `POSTGRES_*`
-variables reappear, it was reconnected; delete them** (#21).
-
-**The database password reaches nothing.** No code reads it; `psql`, `supabase link` and migrations
-prompt for it. SSL is enforced, so a refused `psql` is `sslmode`, not a bad password.
 
 ## 21 · No key that bypasses RLS lives anywhere, and RLS is the authorization model
 **2026-09-05 · Binding**
@@ -327,26 +283,6 @@ as glyphs, not composites.
 glyphs no lesson can contain. Real serif italics are loaded, since a synthesised italic slants
 accents wrongly.
 
-## 28 · The app icon is one letter of the wordmark
-**2026-09-05 · Binding**
-
-The cursive **P** of "Petit", in `public/logo-mark.svg`, white on opaque `#0044AA`. **A wordmark is
-the wrong *format* for an icon** — hairline script smears at 48 px — so a crop, not a redraw.
-**Generated** by `scripts/make-icons.mjs` from the one SVG; **never hand-edit a generated icon.**
-Each of these was a bug first:
-
-- **Every icon is opaque**, or it vanishes on a dark home screen.
-- **Only the maskable pays for the safe zone.** Shrunk for Android's circle, a glyph is too small
-  everywhere else; the old maskable landed as a white disc.
-- **Favicon tiles are optically sized**, larger at 16 and 32 px: a tab has no mask.
-- **`favicon.ico` must embed RGBA PNGs.** Next's ICO decoder rejects RGB and Chrome drops alpha from
-  a fully opaque capture, so the script re-encodes.
-- **Do not set `metadata.icons` in `layout.tsx`:** it replaces the `src/app/` file conventions and
-  silently drops `icon.svg`.
-
-**The glyph is a CSS mask over a token**, never an inline fill; an `<img>` stays `#0044AA` and goes
-muddy on dark.
-
 ## 29 · Chapter landing pages are one generated route
 **2026-09-05 · Binding**
 
@@ -355,21 +291,6 @@ slug 404s — which also stops the segment swallowing every unmatched top-level 
 likewise (#56). **Chosen over fourteen near-identical files** that drift; the cost is a nav-audit
 line per chapter, since a filesystem walk skips dynamic segments. **Never hand-write a chapter
 landing page.**
-
-## 30 · The account sits at the foot of the sidebar, behind a popover
-**2026-09-05 · Binding**
-
-Shaped like claude.ai: a left rail with the tree, a near-empty top bar, the account at its foot. **A
-popover, not a modal:** on a phone the sidebar is already a drawer, and a modal inside it is two
-focus traps for one menu. It dismisses on Escape, outside pointer and navigation.
-
-**The theme submenu replaces the panel, not a flyout**, which would need edge-collision handling and
-get ~166 px in the mobile drawer. The current choice is printed on the row. **Three-way** — clair,
-sombre, système — because two-way cannot say "follow the OS", the first-visit default.
-
-**The theme toggle holds no React state:** `data-theme` on the root is the truth, set before paint.
-State would need a render-time `localStorage` read, impossible on the server, or an effect
-`setState`, which the React Compiler's lint rejects. **Do not add state to it.**
 
 ## 31 · An account may hold an optional display name
 **2026-09-05 · Binding**
@@ -493,18 +414,6 @@ chapter page already had levels, tags and ticks the sidebar had no room for, and
 have to agree. **Decided against showing only the current chapter's lessons**: the sidebar would
 change shape as you move. **Reopening needs a reason other than "there is room".**
 
-## 41 · The whole content is « le cours », not « le livre »
-**2026-09-06 · Binding**
-
-**« le livre » is A1 vocabulary this course teaches**, and a beginner cannot tell that sense from the
-chrome's. Nor was it ever a book: no PDF, no print stylesheet (#1). **« le cours »** is the brand's
-own word (*Le Petit Cours*, the same trick as #27) and a cognate of *el curso*.
-
-**Decided against « la méthode »**, institutional jargon to a beginner, and **« le programme »**,
-already taken by « le programme A2 ». **The parts are all named and taken**, so a new one must earn
-its word: **leçon** a page, **chapitre** one of sixteen, **sommaire** the contents page, **parcours**
-an ordered path, **programme** a level's syllabus. In English prose, *the course*.
-
 ## 42 · Three shells; chapter icons are required and compiler-checked
 **2026-09-06 · Binding**
 
@@ -557,17 +466,6 @@ follows the mode** — *ouvert* / *fermé* for a drawer, *réduit* / *développ�
 reading *Les articles*. It keeps **the chapter, as a link up**, the only place a lesson names it now
 that `PageHeader` does not; top-level pages show nothing. **It grows *upward*** (a parcours step, a
 level, #65); **putting the leaf back is not growth.**
-
-## 46 · No copyright notice; the reuse terms live on `/a-propos`
-**2026-09-06 · Binding**
-
-The footer has **no ©, no year, no name**. Copyright arises on creation (Berne); a notice only
-forecloses a US "innocent infringement" plea on damages. © reserves rights where `LICENSE` and
-`LICENSE-CONTENT` grant them. **A year** goes stale hardcoded, and `new Date().getFullYear()` on a
-prerendered page freezes at the last deploy.
-
-**What was missing was the attribution** CC BY-SA asks of reusers, in the form `LICENSE-CONTENT`
-fixes. `/a-propos` carries it **copied, not reworded**. **Change both in the same commit.**
 
 ## 47 · The account popover holds the account, and nothing else
 **2026-09-06 · Binding**
@@ -641,15 +539,6 @@ answers); only the offer is filtered. **Search hides an empty chapter rather tha
 level-filtered page still opens in full, an empty chapter has nothing behind it. **No "coming soon"
 row in any form** — dimmed, disabled or counted.
 
-## 52 · The content is A2 only, for now
-**2026-09-06 · Binding**
-
-`A2` is the written level. **The gate — `CHOOSABLE_LEVELS` holding `A2` alone — was reversed by
-#74**; what survives is why the content starts at A2. **The learners the course was started for are
-at A2.** An A1-first plan sized to the DELF A1 syllabus suits a course with an audience, not one with
-a reader; the three scaffold A1 pages were deleted. **An empty level hands someone an empty course**,
-so a level joins the list once it has content.
-
 ## 53 · One language of instruction, and it is French
 **2026-09-06 · Binding**
 
@@ -667,7 +556,7 @@ and an example (*« Elle porte une robe bleue »*); an interference error is pri
 — this decision's failure mode, which `content-proofreader` hunts first.
 
 **The cost:** a rule in a language not yet had is harder, survivable because content starts at A2
-(#52). Drills lengthen the sentence instead of glossing. The fourth table column holds an example
+(#74). Drills lengthen the sentence instead of glossing. The fourth table column holds an example
 sentence. **English stays forbidden.** Serif is the French studied, sans the explanation;
 `<html lang="fr">` covers spans, and `lang="fr"` stays only where an element is pronounced alone.
 
@@ -774,23 +663,6 @@ manifest** — the subtitle names the translator for the sommaire, chapter page,
 cross-links; the stamp gives both names and dates; the page says it is a translation. **No English,
 in any form** — no facing original or English title; §1 has no quotation exception.
 
-## 61 · The badge is the chrome's brand; the wordmark is the home page's `<h1>`
-**2026-09-12 · Binding**
-
-**The badge** — the cursive P reversed out of an `--accent` disc, as in `icon.svg` — is the chrome's
-brand at every width, inked `--text-on-accent`, never white, since `--accent` lightens in dark mode.
-**The wordmark is not in the chrome**: it cannot survive the rail, and a head that changes shape
-repeats the badge. It is the home page's `<h1>` only.
-
-## 62 · Nothing counts what is in a chapter
-**2026-09-12 · Binding**
-
-No tally on the sidebar row, sommaire card or chapter page. Picking a chapter is choosing a subject,
-not a workload, and on the chapter page the rows *are* the count. **The tallies were three chances
-to disagree**, each needing level filtering. **`Chapter.unit` goes** — a required field nothing reads
-makes every chapter invent a noun. **Progress tallies on `/ma-progression` stay**: what they did
-against published lessons is a different claim.
-
 ## 63 · The footer belongs to the home page; the shell's foot is one row
 **2026-09-12 · Binding**
 
@@ -801,17 +673,6 @@ annexe is reachable from `/` only** — put a page elsewhere if a lesson must re
 **The account control and the footer share `--shell-foot-h`**: one rule, one baseline. **Change the
 control's height and the token follows**; drift shows on the rail, where the avatar alone comes up
 short.
-
-## 64 · The crumb is aligned on the reading column, not on the button beside it
-**2026-09-12 · Binding**
-
-A 2.25rem button and 0.85rem of text 0.6rem apart read as a link crowded against a button, while the
-`<h1>` the crumb names the parent of starts a hundred pixels to the right. Above the drawer
-breakpoint the crumb sits on the reading column; the control stays against the panel it collapses.
-
-The offset is `(100% - var(--measure)) / 2 - 2.25rem`, so it follows `--measure` and
-`--shell-gutter`. **`max()` is load-bearing**: in the rail the column is barely wider than the
-measure, the offset falls to zero, and the crumb would land on the button.
 
 ## 65 · The lesson's level rides in the trail, in front of the chapter
 **2026-09-12 · Binding**
@@ -841,7 +702,7 @@ the promised address (#50).
 
 **It draws only where the margin holds it, and the reading column never shrinks for it** (93.75rem
 beside the full panel, 81.25rem beside the rail): shifting the column would move every lesson off
-the crumb's axis (#64) for something only wide screens see.
+the crumb's axis for something only wide screens see.
 
 **The scroll-spy reads rects on scroll, not an IntersectionObserver.** An observer watching a
 zero-height band never fires when the page jumps past every heading at once, which is exactly what
@@ -1006,7 +867,7 @@ breakpoint, so without it search would vanish for anyone without a session. `/re
 query is the empty field, a real destination.
 
 **The sentence is a paragraph, not an `<h1>`.** The wordmark is this page's `<h1>` and belongs
-nowhere else (#28, #61). It names no chapter and no count: a prose chapter list drifts silently, and
+nowhere else. It names no chapter and no count: a prose chapter list drifts silently, and
 a number is a tally that disagrees with what exists (#51).
 
 **The cost, accepted: the prerendered `/` is the welcome.** `useAccount()` is `null` on the server
@@ -1020,7 +881,7 @@ only the pills leaves a first visitor a control they cannot use. Drawing neither
 to pick on the server makes `/` dynamic and drops `start_url` from the precache (`AGENTS.md` §8).
 
 ## 72 · A1 joins the course as pages, not as tags
-**2026-09-21 · Binding · extends #23, #52, #68 · narrowed by #74, #76**
+**2026-09-21 · Binding · extends #23, #68 · narrowed by #74, #76**
 
 A1 is written into the existing chapters, ordered before the A2 material.
 
@@ -1095,15 +956,17 @@ closed for #68's reason: every lesson would ship a Suspense placeholder as its p
 links to `/compte` (#35).
 
 ## 74 · A level is offered while it is being written, not once it is finished
-**2026-09-21 · Binding · reverses #52's gate, narrows #72 · narrowed by #76, #77**
+**2026-09-21 · Binding · reverses the A2-only gate, narrows #72 · narrowed by #76, #77**
 
 `CHOOSABLE_LEVELS` holds `A1, A2, B1`, and a level joins it while it is being written rather than
 once it is done. (The « en cours » badge and `COURSE_LEVELS` this entry added were deleted by #77;
-the reasoning below still binds.)
+the reasoning below still binds.) **A2 was written first, and that order stands**: the learners the
+course was started for are at A2.
 
-**The old gate answered the wrong question.** #52 was right about the risk and wrong about the
-remedy: an unfinished level is dishonest not because it can be chosen but because nothing says it is
-unfinished. #51 forbids *announcing* what is not written; offering a level announces nothing false.
+**The old gate answered the wrong question.** The A2-only gate was right about the risk and wrong
+about the remedy: an unfinished level is dishonest not because it can be chosen but because nothing
+says it is unfinished. #51 forbids *announcing* what is not written; offering a level announces
+nothing false.
 
 **The deciding fact was that leaving A2 showed *fewer* lessons** — picking B1 lost `grammaire`,
 `vocabulaire`, `astuces`, `conversation` and `traduction` and bought only eleven harder question

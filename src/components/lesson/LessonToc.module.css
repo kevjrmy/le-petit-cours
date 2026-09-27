@@ -5,7 +5,7 @@
  * each side is `(main - measure) / 2`. The nav needs `--toc-w` of it plus the
  * gaps, and below that it does not draw at all rather than crowd the text: the
  * reading column does not shrink for a convenience, and shifting it left would
- * move every lesson off the axis the crumb above it is aligned on (#64).
+ * move every lesson off the axis the crumb above it is aligned on.
  *
  * The two thresholds are that sum, once per sidebar state — 16.5rem of panel
  * needs 93.75rem of viewport, the 3.75rem rail needs 81.25rem. Between them the
