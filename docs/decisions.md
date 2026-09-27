@@ -2159,17 +2159,12 @@ never a tick** (#2) — the score lives in component state and a reload clears i
 add up to what it announces or the épreuve to 25, so a wrong split breaks `next build` instead of
 reaching a candidate as « 24 / 25 ».
 
-**Production écrite has no corrigé on the page at all.** It first shipped with the same grille as the
-oral and two model texts behind « Voir les corrections », and both went the same day: the tutor
-corrects a written copy by hand, pen on the text, and a model a click away is the text that gets
-copied. What the page keeps is the two subjects and the word count.
-
-**Production orale stays unmarked by the page, and gives the marker a grid.** A spoken answer
-leaves nothing to compare (#54), so nothing here pretends to grade it. What changed is that the grille is now a set of half-point buttons that
-adds itself up. **The points per line follow the published barème; the words on each line are this
-course's own** (§9b) — the numbers of a public exam are a fact, its descriptors are someone's text.
-Around them, the page counts words the way the exam does (whatever sits between two spaces) and
-draws the oral subjects at random.
+**The productions have no corrigé on the page at all.** Both first shipped with a half-point
+grille that added itself up — points per line from the published barème, words our own — and the
+écrite with two model texts as well. All of it went the same day: the tutor marks a written copy
+with a pen and a spoken one by ear, and neither needs the page for it, while a model a click away
+is the text that gets copied. What the pages keep: the écrite counts words the way the exam does
+(whatever sits between two spaces), and the orale draws its subjects at random.
 
 **The time is stated, never counted down.** Each épreuve prints its duration in the banner at its
 head, and that is all. Timers on every épreuve and on each oral part shipped first and went the same

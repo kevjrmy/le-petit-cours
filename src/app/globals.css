@@ -584,7 +584,7 @@ ul.mots li {
 
    **Les documents sont du HTML statique ; les réponses sont des îlots.** Une
    compréhension se clique et se corrige d'un coup (`src/components/delf/Copie`),
-   une production a son compteur de mots ou sa grille. Chacun porte
+   une production écrite a son compteur de mots, une orale son tirage. Chacun porte
    son propre module CSS pour sa mise en page ; ce qui suit est le papier
    autour : le bandeau, l'exercice, les documents, le corrigé. Rien n'est
    enregistré.

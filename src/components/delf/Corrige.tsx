@@ -3,9 +3,11 @@
 import { useState, type ReactNode } from "react";
 
 /**
- * « Voir les corrections » : what an épreuve keeps hidden until it is asked
- * for (#78, #82) — the model texts and the grille of a production, and on the
- * listening épreuve the texts the reader reads aloud, under their own labels.
+ * What an épreuve keeps hidden until it is asked for (#78, #82). Today that is
+ * one thing: the texts of the listening épreuve, which the reader opens on
+ * their own screen under « Montrer les textes à lire ». No épreuve prints a
+ * corrigé any more — the compréhensions mark themselves (`<Correction>`) and
+ * the productions are corrected by the person running them.
  *
  * **A leaf, not a wrapper** (`AGENTS.md` §4): the épreuve around it stays
  * server-rendered, and so does whatever is passed in as `children`.

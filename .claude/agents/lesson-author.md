@@ -298,9 +298,8 @@ that step was skipped.
 ### DELF — a whole épreuve, at the published format
 
 One page is one épreuve (`docs/decisions.md` #78, #82). `delf/a2-comprehension-des-ecrits` is the
-worked example of a marked épreuve; `production-orale` is the one the page cannot mark and gives a
-grille for; `production-ecrite` has **no corrigé on the page**, it is corrected by hand;
-`comprehension-de-l-oral` is read aloud by a person.
+worked example of a marked épreuve; the two productions have **no corrigé on the page** and are
+corrected by the person running them; `comprehension-de-l-oral` is read aloud by a person.
 
 - **Reproduce the format, never the paper.** Four épreuves at 25 points, the exercise counts, the
   point splits, the durations: that is the published shape of a public exam and it is a fact. The
@@ -308,8 +307,8 @@ grille for; `production-ecrite` has **no corrigé on the page**, it is corrected
   prep book, free to download or not — are someone's writing and cannot go in (§9b). **Read a real
   sujet to calibrate, write everything yourself.**
 - **Match the point split exactly.** A2 compréhension des écrits is 5 + 6 + 9 + 5; production écrite
-  is 13 + 12. The corrigé states the total, so a split that does not add to 25 is the counting trap
-  §9 already records, on the page where a candidate is most likely to trust it.
+  is 13 + 12. `<Correction>` states the total, so a split that does not add to 25 is the counting
+  trap §9 already records, on the page where a candidate is most likely to trust it.
 - **A compréhension épreuve is clicked, and marked once at the end** (#82). The questions and the
   barème live in `copie.ts` beside the page, as `export const COPIE = verifierCopie({ … })` — the
   check throws at build if a split does not add up. The page stays a Server Component: it renders the
@@ -320,21 +319,14 @@ grille for; `production-ecrite` has **no corrigé on the page**, it is corrected
   A matching exercise (sentences to documents) uses `<Associer groupe documents>` instead of
   `<Questions>`: the sentences are pills dragged — or tapped, then placed — onto the documents, and
   the answer is stored under the same key, so `<Correction>` counts it unchanged.
-- **The corrigé of a production is hidden and opens below the answers**, never above and never on
-  load. An épreuve is the one page type whose whole value is in being attempted first. The listening
-  épreuve hides its texts the same way, behind their own button, because on the candidate's screen
-  they are the answers.
-- **Production écrite carries no corrigé** (#82): no grille, no model text. A model shown under the
-  task becomes the text that gets copied, and the tutor corrects the copy by hand.
-  It is handed in by `<Rendre>` inside `<CopieEcrite>`, which **downloads** the texts as a file the
-  candidate sends on (#84). **Never add a server, a table or an upload for it**: that is a new
+- **What an épreuve hides stays hidden until asked for** (`<Corrige>`). Today that is the listening
+  épreuve's texts, behind their own button, because on the candidate's screen they are the answers.
+- **Neither production carries a corrigé** (#82): no grille, no model text, no model dialogue. A
+  model shown under the task becomes what gets copied, and the tutor marks the copy or the speech
+  themselves. `<Redaction min max>` counts words as the exam does, `<Tirage>` draws an oral subject.
+  Production écrite is handed in by `<Rendre>` inside `<CopieEcrite>`, which **downloads** the
+  texts as a file the candidate sends on (#84). **Never add a server, a table or an upload for it**: that is a new
   thing stored about an account (#31), and needs its own decision.
-- **Production orale's corrigé is a grille, not an answer** (#54). `<Grille>` takes the lines in
-  the order the examiner reads — consigne, then acts of speech, then vocabulary, then grammar — with
-  the **published points per line and your own words on each** (§9b); it throws if a group misses
-  its total. Then *an* example worth full marks, labelled as an example. The order is the teaching:
-  a faultless text that misses one of the four acts scores worse than a clumsy one that does all
-  four. `<Redaction min max>` counts words as the exam does and `<Tirage>` draws a subject.
 - **No timer on an épreuve** (#82). The duration is stated in the `.epreuve` banner and nothing
   counts it down: the person running the épreuve keeps time.
 - **The oral pages need a second person.** Production orale gives no model dialogue (#57), exactly

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Associer } from "@/components/delf/Associer";
 import { Copie, Correction, Questions } from "@/components/delf/Copie";
 import type { CopieEpreuve } from "@/components/delf/copie-data";
-import { Grille } from "@/components/delf/Grille";
 import { Redaction } from "@/components/delf/Redaction";
 import { Tirage } from "@/components/delf/Tirage";
 import styles from "./page.module.css";
@@ -256,7 +255,7 @@ export default function DesignPage() {
           Les motifs du chapitre <code>delf</code> (#78, #82). Les documents
           sont du HTML statique&nbsp;; les réponses sont des îlots&nbsp;: une
           copie qui se clique ou se glisse et se corrige d’un coup, un compteur de
-          mots, un tirage et une grille.
+          mots et un tirage.
         </p>
 
         <p className="epreuve">
@@ -315,27 +314,11 @@ export default function DesignPage() {
         <Tirage sujets={["Décrivez votre logement.", "Parlez d’un voyage."]} />
 
         <div className="corrige">
-          <h3>La grille</h3>
-          <Grille
-            groupes={[
-              {
-                titre: "Exercice 1 · spécimen",
-                total: 3,
-                criteres: [
-                  {
-                    titre: "La consigne",
-                    detail: "Le texte fait ce qu’on demande.",
-                    max: 1,
-                  },
-                  {
-                    titre: "Les mots",
-                    detail: "Justes, et écrits juste.",
-                    max: 2,
-                  },
-                ],
-              },
-            ]}
-          />
+          <h3>Les textes à lire</h3>
+          <p>
+            Ce qu’une épreuve garde caché jusqu’à ce qu’on le demande : ici, les
+            textes de la compréhension de l’oral.
+          </p>
         </div>
       </section>
 
