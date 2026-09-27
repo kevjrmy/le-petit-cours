@@ -1337,31 +1337,7 @@ export const chapters: Chapter[] = [
     blurb:
       "Les pages d’une séance : écrites pour un cours en particulier, remplacées chaque semaine.",
     scratch: true,
-    lessons: [
-      /* Deux textes rendus cette semaine, repris tels quels : le texte, sa
-         correction, puis ce qui s'y répète. Publiés sans nom et sans rien qui
-         désigne qui les a écrits, ce qui est la condition pour qu'ils soient
-         ici (`AGENTS.md` §9b) : le contenu est anonyme, la page ne dit ni qui,
-         ni quel âge, ni où. */
-      {
-        id: "temp-2026-09-22-la-sorciere-mouffetard",
-        path: "/temp/la-sorciere-de-la-rue-mouffetard",
-        title: "La sorcière de la rue Mouffetard",
-        subtitle: "Le texte, sa correction et les règles",
-        levels: ANY,
-        delf: "Raconter une histoire au passé, à l'écrit",
-        created: "2026-09-22",
-      },
-      {
-        id: "temp-2026-09-22-un-resume-de-film",
-        path: "/temp/un-resume-de-film",
-        title: "Un résumé de film",
-        subtitle: "Le texte, sa correction et les règles",
-        levels: ANY,
-        delf: "Résumer par écrit un récit qu'on a vu",
-        created: "2026-09-22",
-      },
-    ],
+    lessons: [],
   },
   /* Le DELF, et pourquoi il est le dernier chapitre : il ne s'apprend pas, il
      se passe. Tout ce qu'il demande est écrit ailleurs dans le cours ; ici on
@@ -2254,17 +2230,6 @@ const handWrittenLinks: Record<string, string[]> = {
      **Cette clé part avec la page.** Une clé dont la source n'existe plus est
      la première chose que l'audit signale, ce qui est exactement le filet
      qu'on veut ici. */
-  "/temp/la-sorciere-de-la-rue-mouffetard": [
-    "/orthographe/les-terminaisons-verbales",
-    "/astuces/etre-ou-avoir",
-    "/grammaire/la-negation",
-    "/orthographe/les-accents",
-  ],
-  "/temp/un-resume-de-film": [
-    "/grammaire/les-pronoms-cod-coi",
-    "/orthographe/les-accents",
-    "/grammaire/le-passe-compose",
-  ],
 };
 
 export const relatedPages: Record<string, string[]> = {
