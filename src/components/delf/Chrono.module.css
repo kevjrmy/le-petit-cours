@@ -1,0 +1,32 @@
+/* Une ligne sous le bandeau de l'épreuve : ce qu'on chronomètre, le temps, et
+   les deux boutons. Elle se replie sur un téléphone. */
+.chrono {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+.libelle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+/* Les chiffres ne bougent pas en largeur à chaque seconde. */
+.temps {
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-heading);
+  min-width: 4.2ch;
+}
+
+.fini {
+  font-weight: 600;
+  color: var(--warn-text);
+}

@@ -1,4 +1,7 @@
+import { Chrono } from "@/components/delf/Chrono";
 import { Corrige } from "@/components/delf/Corrige";
+import { Grille, type GroupeCriteres } from "@/components/delf/Grille";
+import { Tirage } from "@/components/delf/Tirage";
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
 
@@ -14,9 +17,110 @@ export const metadata = lessonMetadata(PATH);
  *
  * **Cette page a besoin d'une deuxième personne, comme `conversation`** (#54).
  * Elle ne peut rien corriger : ce qu'elle donne, c'est la forme de l'épreuve,
- * les sujets à tirer, et ce que l'examinateur écoute. Elle ne donne **pas** de
- * dialogue modèle (#57) — produire son tour est exactement ce qui est noté.
+ * les sujets à tirer, le temps, et la grille que l'examinateur remplit en
+ * écoutant (#82). Elle ne donne **pas** de dialogue modèle (#57) — produire son
+ * tour est exactement ce qui est noté.
+ *
+ * Les points de la grille suivent le barème publié : 4, 5 et 6 pour les trois
+ * parties, puis 3 + 4 + 3 pour la langue sur l'ensemble. Les mots de chaque
+ * ligne sont écrits pour ce cours (§9b).
  */
+const MONOLOGUES = [
+  "Parlez d’un voyage que vous avez fait.",
+  "Décrivez votre logement.",
+  "Parlez d’une personne que vous admirez.",
+  "Qu’est-ce que vous faites pour rester en forme ?",
+  "Racontez une journée de travail ordinaire.",
+  "Quel est votre plat préféré, et pourquoi ?",
+];
+
+const SITUATIONS = [
+  "Vous achetez un cadeau dans un magasin. Vous hésitez entre deux objets et vous demandez conseil au vendeur.",
+  "Vous arrivez à l’hôtel et votre chambre ne correspond pas à votre réservation. Vous l’expliquez à la réception.",
+  "Vous voulez vous inscrire à un cours de sport. Vous demandez les horaires, le prix et ce qu’il faut apporter.",
+  "Un ami vous propose un film que vous avez déjà vu. Vous refusez et vous proposez autre chose.",
+];
+
+const GRILLE: GroupeCriteres[] = [
+  {
+    titre: "Partie 1 · l’entretien",
+    total: 4,
+    criteres: [
+      {
+        titre: "Se présenter",
+        detail:
+          "Saluer, dire qui l’on est, parler de soi et de ce qu’on fait, en phrases et avec un détail en plus.",
+        max: 3,
+      },
+      {
+        titre: "Répondre aux questions",
+        detail:
+          "Comprendre une question simple, y répondre, et faire répéter quand on n’a pas compris.",
+        max: 1,
+      },
+    ],
+  },
+  {
+    titre: "Partie 2 · le monologue",
+    total: 5,
+    criteres: [
+      {
+        titre: "Présenter le sujet",
+        detail:
+          "Parler du sujet tiré pendant environ deux minutes, avec des faits et au moins un avis.",
+        max: 3,
+      },
+      {
+        titre: "Relier ses idées",
+        detail:
+          "Les idées se suivent : d’abord, ensuite, mais, parce que, à la fin.",
+        max: 2,
+      },
+    ],
+  },
+  {
+    titre: "Partie 3 · l’interaction",
+    total: 6,
+    criteres: [
+      {
+        titre: "Obtenir ce qu’on demande",
+        detail:
+          "Poser les questions, donner les informations, accepter ou refuser, et arriver au bout de la situation.",
+        max: 4,
+      },
+      {
+        titre: "La politesse",
+        detail:
+          "Saluer, remercier, s’excuser, prendre congé, et vouvoyer quand la situation le demande.",
+        max: 2,
+      },
+    ],
+  },
+  {
+    titre: "La langue, sur toute l’épreuve",
+    total: 10,
+    criteres: [
+      {
+        titre: "Les mots",
+        detail:
+          "Le vocabulaire des sujets courants : la famille, le travail, le logement, les achats, les loisirs.",
+        max: 3,
+      },
+      {
+        titre: "La grammaire",
+        detail:
+          "Présent, passé composé, futur proche, accords courants : les formes simples sont correctes.",
+        max: 4,
+      },
+      {
+        titre: "La prononciation",
+        detail:
+          "On comprend sans effort, même avec un accent. Faire répéter de temps en temps ne coûte presque rien.",
+        max: 3,
+      },
+    ],
+  },
+];
 export default function Page() {
   return (
     <article className="prose">
@@ -37,8 +141,10 @@ export default function Page() {
           autre personne de jouer l’examinateur : elle lit les consignes,
           chronomètre, et pose les questions de la troisième partie. Les dix
           minutes de préparation servent aux parties 2 et 3 ; la première ne se
-          prépare pas.
+          prépare pas. Tirez les deux sujets, puis lancez la préparation.
         </p>
+
+        <Chrono minutes={10} libelle="Préparation" />
 
         <div className="exercice">
           <h3>
@@ -63,8 +169,7 @@ export default function Page() {
 
         <div className="exercice">
           <h3>
-            Partie 2 · Monologue suivi{" "}
-            <span className="points">2 minutes</span>
+            Partie 2 · Monologue suivi <span className="points">2 minutes</span>
           </h3>
 
           <p>
@@ -72,32 +177,9 @@ export default function Page() {
             interrompe. Tirez-en un au hasard et préparez-le.
           </p>
 
-          <ul className="documents">
-            <li>
-              <span>Parlez d’un voyage que vous avez fait.</span>
-              <span className="lettre">1</span>
-            </li>
-            <li>
-              <span>Décrivez votre logement.</span>
-              <span className="lettre">2</span>
-            </li>
-            <li>
-              <span>Parlez d’une personne que vous admirez.</span>
-              <span className="lettre">3</span>
-            </li>
-            <li>
-              <span>Qu’est-ce que vous faites pour rester en forme ?</span>
-              <span className="lettre">4</span>
-            </li>
-            <li>
-              <span>Racontez une journée de travail ordinaire.</span>
-              <span className="lettre">5</span>
-            </li>
-            <li>
-              <span>Quel est votre plat préféré, et pourquoi ?</span>
-              <span className="lettre">6</span>
-            </li>
-          </ul>
+          <Tirage sujets={MONOLOGUES} />
+
+          <Chrono minutes={2} libelle="Monologue" />
 
           <p>
             Notes de préparation. Des mots, pas des phrases : un texte écrit à
@@ -122,36 +204,9 @@ export default function Page() {
             quelque chose de lui, ou vous mettre d’accord. Tirez un sujet.
           </p>
 
-          <ul className="documents">
-            <li>
-              <span>
-                Vous achetez un cadeau dans un magasin. Vous hésitez entre deux
-                objets et vous demandez conseil au vendeur.
-              </span>
-              <span className="lettre">1</span>
-            </li>
-            <li>
-              <span>
-                Vous arrivez à l’hôtel et votre chambre ne correspond pas à
-                votre réservation. Vous l’expliquez à la réception.
-              </span>
-              <span className="lettre">2</span>
-            </li>
-            <li>
-              <span>
-                Vous voulez vous inscrire à un cours de sport. Vous demandez les
-                horaires, le prix et ce qu’il faut apporter.
-              </span>
-              <span className="lettre">3</span>
-            </li>
-            <li>
-              <span>
-                Un ami vous propose un film que vous avez déjà vu. Vous refusez
-                et vous proposez autre chose.
-              </span>
-              <span className="lettre">4</span>
-            </li>
-          </ul>
+          <Tirage sujets={SITUATIONS} />
+
+          <Chrono minutes={4} libelle="Interaction" />
 
           <div className="attention">
             l’examinateur n’est pas là pour vous aider. Il attend que{" "}
@@ -173,49 +228,13 @@ export default function Page() {
         </p>
 
         <Corrige>
-          <h3>Ce que l’examinateur écoute</h3>
+          <h3>La grille</h3>
           <p>
-            Une grille par partie, puis quatre points sur la langue qui comptent
-            pour l’ensemble de l’épreuve.
+            À remplir par la personne qui a joué l’examinateur, pendant
+            l’épreuve ou juste après. Une ligne par partie, puis trois lignes
+            sur la langue qui comptent pour l’ensemble.
           </p>
-          <ol>
-            <li>
-              <strong>Partie 1.</strong> Vous répondez par des phrases, vous
-              donnez un détail sans qu’on vous le demande, et vous savez épeler
-              votre nom.
-            </li>
-            <li>
-              <strong>Partie 2.</strong> Vous parlez deux minutes sans vous
-              arrêter, vous enchaînez vos idées, et vous donnez au moins une
-              opinion, pas seulement des faits.
-            </li>
-            <li>
-              <strong>Partie 3.</strong> Vous posez des questions, vous obtenez
-              ce que la situation demande, et vous réagissez à ce qu’on vous
-              répond au lieu de dérouler ce que vous aviez préparé.
-            </li>
-          </ol>
-
-          <h3>La langue, sur l’ensemble</h3>
-          <ol>
-            <li>
-              Vous avez le vocabulaire des sujets courants : la famille, le
-              travail, le logement, les achats, les loisirs.
-            </li>
-            <li>
-              Les formes simples sont correctes : le présent, le passé composé,
-              le futur proche, les accords courants.
-            </li>
-            <li>
-              On vous comprend sans effort, même avec un accent. L’accent ne
-              coûte aucun point.
-            </li>
-            <li>
-              Vous vous reprenez quand vous vous trompez, au lieu de vous
-              arrêter. Se corriger à voix haute rapporte des points ; le silence
-              n’en rapporte aucun.
-            </li>
-          </ol>
+          <Grille groupes={GRILLE} />
 
           <div className="attention">
             ne rendez pas la copie parfaite au prix du silence. Un candidat qui
@@ -227,8 +246,8 @@ export default function Page() {
           <h3>Votre note</h3>
           <p>
             L’épreuve vaut 25 points en tout, et il en faut au moins 5. Faites
-            noter les trois parties par la personne qui a joué l’examinateur :
-            elle a entendu ce que vous ne pouvez pas entendre vous-même.
+            remplir la grille par la personne qui a joué l’examinateur : elle a
+            entendu ce que vous ne pouvez pas entendre vous-même.
           </p>
         </Corrige>
       </section>

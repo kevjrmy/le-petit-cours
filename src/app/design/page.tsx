@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Chrono } from "@/components/delf/Chrono";
+import { Copie, Correction, Questions } from "@/components/delf/Copie";
+import type { CopieEpreuve } from "@/components/delf/copie-data";
+import { Grille } from "@/components/delf/Grille";
+import { Redaction } from "@/components/delf/Redaction";
+import { Tirage } from "@/components/delf/Tirage";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -23,6 +29,30 @@ const SURFACES = [
   ["--danger-soft", "var(--danger-soft)"],
   ["--success-soft", "var(--success-soft)"],
 ] as const;
+
+/* Une copie d'une question, pour voir les trois états une fois corrigée.
+   Elle ne passe pas par `verifierCopie`, qui exige 25 points. */
+const SPECIMEN_COPIE: CopieEpreuve = {
+  exercices: [{ numero: 1, points: 1.5 }],
+  questions: [
+    {
+      id: "s",
+      exercice: 1,
+      groupe: "specimen",
+      enonce: "Ici, il faut monter à pied.",
+      parties: [
+        { options: ["A", "B"], reponse: 0, points: 0.5 },
+        {
+          consigne: "La phrase qui le montre :",
+          options: ["« Ascenseur en panne »", "« bonnet obligatoire »"],
+          reponse: 0,
+          points: 1,
+        },
+      ],
+      pourquoi: "A · l’ascenseur est en panne, donc on monte à pied.",
+    },
+  ],
+};
 
 export default function DesignPage() {
   return (
@@ -200,9 +230,10 @@ export default function DesignPage() {
       <section className={styles.section}>
         <h2>L’épreuve de DELF</h2>
         <p>
-          Les motifs du chapitre <code>delf</code> (#78). Toute l’épreuve est du
-          HTML statique&nbsp;: les champs sont natifs et non contrôlés, et le
-          seul îlot client est le bouton qui montre le corrigé.
+          Les motifs du chapitre <code>delf</code> (#78, #82). Les documents
+          sont du HTML statique&nbsp;; les réponses sont des îlots&nbsp;: une
+          copie qui se clique et se corrige d’un coup, un chrono, un compteur de
+          mots, un tirage et une grille.
         </p>
 
         <p className="epreuve">
@@ -211,79 +242,67 @@ export default function DesignPage() {
           <span>4 exercices</span>
         </p>
 
-        <div className="exercice">
-          <h3>
-            Exercice 1 <span className="points">5 points</span>
-          </h3>
-          <p>Vous lisez ces panneaux.</p>
-          <ul className="documents">
-            <li>
-              <span>Ascenseur en panne</span>
-              <span className="lettre">A</span>
-            </li>
-            <li>
-              <span>Piscine — bonnet obligatoire</span>
-              <span className="lettre">B</span>
-            </li>
-            <li>
-              <span>Stationnement réservé aux livraisons</span>
-              <span className="lettre">C</span>
-            </li>
-          </ul>
+        <Chrono minutes={30} libelle="Temps de l’épreuve" />
 
-          <ol className="questions">
-            <li>
-              <span className="enonce">
-                <span>Ce texte vient&nbsp;:</span>
-                <span className="points">0,5 point</span>
-              </span>
-              <ul className="choix">
-                <li>
-                  <label>
-                    <input type="radio" name="specimen" defaultChecked />
-                    <span>d’un journal</span>
-                  </label>
-                </li>
-                <li>
-                  <label>
-                    <input type="radio" name="specimen" />
-                    <span>d’une publicité</span>
-                  </label>
-                </li>
-              </ul>
-              <input
-                type="text"
-                className="reponse"
-                placeholder="Justification"
-                aria-label="Justification, spécimen"
-              />
-            </li>
-          </ol>
-        </div>
+        <Copie copie={SPECIMEN_COPIE}>
+          <div className="exercice">
+            <h3>
+              Exercice 1 <span className="points">1,5 point</span>
+            </h3>
+            <p>Vous lisez ces panneaux.</p>
+            <ul className="documents">
+              <li>
+                <span>Ascenseur en panne</span>
+                <span className="lettre">A</span>
+              </li>
+              <li>
+                <span>Piscine — bonnet obligatoire</span>
+                <span className="lettre">B</span>
+              </li>
+            </ul>
+            <Questions groupe="specimen" />
+          </div>
 
-        <div className="document">
-          <h4>À Sainte-Colombe, le bus ne coûte plus rien</h4>
-          <p>
-            Depuis le mois de janvier, les quatre lignes de bus de
-            Sainte-Colombe sont gratuites.
-          </p>
-          <p className="notes">
-            *les impôts&nbsp;: l’argent que chacun donne à l’État
-          </p>
-        </div>
+          <div className="document">
+            <h4>À Sainte-Colombe, le bus ne coûte plus rien</h4>
+            <p>
+              Depuis le mois de janvier, les quatre lignes de bus de
+              Sainte-Colombe sont gratuites.
+            </p>
+            <p className="notes">
+              *les impôts&nbsp;: l’argent que chacun donne à l’État
+            </p>
+          </div>
 
-        <textarea
-          className="redaction"
-          aria-label="Rédaction, spécimen"
-          placeholder="Écrivez entre 60 et 80 mots…"
-        />
+          <Correction />
+        </Copie>
+
+        <Redaction min={60} max={80} libelle="Rédaction, spécimen" />
+
+        <Tirage sujets={["Décrivez votre logement.", "Parlez d’un voyage."]} />
 
         <div className="corrige">
-          <h3>Exercice 1 · 5 points</h3>
-          <p>Un point par bonne lettre.</p>
-          <ol>
-            <li>A — l’ascenseur est en panne, donc on monte à pied.</li>
-          </ol>
+          <h3>La grille</h3>
+          <Grille
+            groupes={[
+              {
+                titre: "Exercice 1 · spécimen",
+                total: 3,
+                criteres: [
+                  {
+                    titre: "La consigne",
+                    detail: "Le texte fait ce qu’on demande.",
+                    max: 1,
+                  },
+                  {
+                    titre: "Les mots",
+                    detail: "Justes, et écrits juste.",
+                    max: 2,
+                  },
+                ],
+              },
+            ]}
+          />
         </div>
       </section>
 

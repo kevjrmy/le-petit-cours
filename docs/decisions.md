@@ -90,6 +90,7 @@ than marking it superseded.
 | 79 | 2026-09-21 | The tick is settable from a chapter's listing, beside the row's link | Binding · extends #2, #48 |
 | 80 | 2026-09-22 | A scratch chapter: listed like the others, counted like nothing | Binding · extends #18, #48, #51 |
 | 81 | 2026-09-22 | The atelier sits behind one shared password, in a proxy that knows nothing else | Binding · extends #37, #80 |
+| 82 | 2026-09-27 | An épreuve is marked once, at the end, and a person reads the listening one aloud | Binding · amends #78 |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -1865,9 +1866,8 @@ note with it. A comment on `LevelChooser` says so at the place it would be rebui
 **2026-09-21 · Binding · extends #15, #51, #9b's licence rule**
 
 A sixteenth chapter, `delf`, and still the last of the course's own in the manifest. It holds **whole épreuves to sit in real
-conditions**, and nothing else. **Nothing in it is scored**: the two compréhension épreuves would be
-gradeable and are not, so the chapter has one mechanic rather than two, and a corrigé the learner
-reveals when they have finished.
+conditions**, and nothing else. How an épreuve is marked, and how the listening one is sat without
+a recording, is #82's.
 
 **A page explaining the format was written first and deleted the same day.** It stated the four
 épreuves, the barème and the shape of the day — all true, all useful, and all of it a page standing
@@ -1914,10 +1914,6 @@ exception was kept open for.
 **The overview page is `ANY`.** Four épreuves, a hundred points, fifty to pass, five minimum: that
 frame is identical at A1, A2 and B1, and only the durations and the tasks move, which is what the
 épreuve pages carry. An A1 candidate needs it on the day they register.
-
-**Compréhension de l'oral cannot be written yet**, and there is no row for it. It needs audio, which
-is the blocker `dictees` has had since #12.2 was opened. #51 forbids announcing it in the meantime:
-the chapter simply has three épreuves when it has three, and four when the speech hook exists.
 
 ## 79 · The tick is settable from a chapter's listing, beside the row's link
 **2026-09-21 · Binding · extends #2, #48**
@@ -2138,3 +2134,49 @@ which is exactly what a door is for.
 **What would reopen this.** A second thing needing a gate. One shared password guarding one path is
 proportionate; a second path, a second password, or anyone needing their own means this has become
 authorization, and authorization here is an account and RLS (#37), not a growing proxy.
+
+## 82 · An épreuve is marked once, at the end, and a person reads the listening one aloud
+**2026-09-27 · Binding · amends #78**
+
+#78 shipped the épreuves as static HTML: native fields nobody read, and a corrigé to compare by eye.
+They were meant for sitting a mock exam in class, and in class that shape was the wrong one. A
+candidate typing a justification on a Spanish keyboard lost time to `é` rather than to the text
+(§1), a tutor reading a copy aloud against a corrigé spent the hour on arithmetic, and the fourth
+épreuve did not exist. So the épreuves now do three things they refused to.
+
+**The compréhension épreuves are marked by the page — once, at the end.** Every answer is a click.
+Where the paper asks for a letter, a number or a justification copied from the text, the page offers
+the options instead, and a *vrai ou faux* is justified by choosing, among three sentences **all taken
+from the document**, the one that proves it. « Corriger ma copie » marks every answer at once with the
+three shared states (§5), shows the score per exercise and out of 25, and says whether the five-point
+floor is met. **Decided against marking each answer as it is given**, which is what a drill does and
+what `Comprehension` does under a reading: a ✓ on question one tells the candidate something about
+question two, and a mock exam that corrects as it goes is not the exam. **Still stored nowhere and
+never a tick** (#2) — the score lives in component state and a reload clears it. The barème is data
+(`copie.ts` beside the page), and `verifierCopie` throws at import if an exercise's questions do not
+add up to what it announces or the épreuve to 25, so a wrong split breaks `next build` instead of
+reaching a candidate as « 24 / 25 ».
+
+**The production épreuves stay unmarked by the page, and give the marker a grid.** A text of sixty
+words has hundreds of right versions and a spoken answer leaves nothing to compare (#54), so nothing
+here pretends to grade them. What changed is that the grille is now a set of half-point buttons that
+adds itself up. **The points per line follow the published barème; the words on each line are this
+course's own** (§9b) — the numbers of a public exam are a fact, its descriptors are someone's text.
+Around them, the page counts words the way the exam does (whatever sits between two spaces), draws
+the oral subjects at random, and times the preparation. None of those close anything at zero: the
+person running the épreuve decides when the pen goes down.
+
+**The listening épreuve exists, read aloud by a person.** #78 held it back until the course had a
+voice, the same wait `dictees` is in. It no longer waits, because in the class it is for, the tutor
+*is* the recording, and a better one than speech synthesis. The page carries the questions for the
+candidate and, behind their own button, the texts for the reader: hidden for the same reason as a
+corrigé, since on the candidate's screen they are the answers. The texts are written to be read —
+short sentences, times and prices in words. **Its split per exercise, 6 + 6 + 6 + 7, is the
+course's**: the published facts are four exercises, fourteen short documents each heard twice,
+three-option questions and 25 points, and no source that can be cited gives the split exercise by
+exercise. **If a synthetic voice or recordings arrive later**, they are an addition to this page,
+not a reason to remove the reader.
+
+**What still holds from #78:** nothing printed in `delf/` comes from a sujet or a prep book, the
+épreuves carry a written-out level, and the chapter links to the official samples rather than
+serving them.

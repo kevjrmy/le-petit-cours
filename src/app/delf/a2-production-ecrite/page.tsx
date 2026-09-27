@@ -1,4 +1,7 @@
+import { Chrono } from "@/components/delf/Chrono";
 import { Corrige } from "@/components/delf/Corrige";
+import { Grille, type GroupeCriteres } from "@/components/delf/Grille";
+import { Redaction } from "@/components/delf/Redaction";
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
 
@@ -15,10 +18,98 @@ export const metadata = lessonMetadata(PATH);
  *
  * **Le corrigé d'une production n'est pas une réponse, c'est une grille.** Un
  * texte de soixante mots a des centaines de versions justes, alors le bloc du
- * bas donne ce que l'examinateur regarde, dans l'ordre où il le regarde, puis
- * un exemple de texte qui vaudrait tous les points — présenté comme un exemple
- * et non comme *la* réponse (#54).
+ * bas donne la grille à cliquer par la personne qui corrige (#82), dans l'ordre
+ * où l'examinateur regarde, puis un exemple de texte qui vaudrait tous les
+ * points — présenté comme un exemple et non comme *la* réponse (#54).
+ *
+ * Les points de chaque ligne suivent le barème publié (1 + 4 + 2 + 2 + 2,5 +
+ * 1,5 et 1 + 1 + 4 + 2 + 2,5 + 1,5) ; les mots de chaque ligne sont écrits pour
+ * ce cours (§9b).
  */
+const GRILLE: GroupeCriteres[] = [
+  {
+    titre: "Exercice 1 · le journal",
+    total: 13,
+    criteres: [
+      {
+        titre: "La consigne",
+        detail:
+          "Le texte raconte un week-end dans une ville inconnue, et il fait au moins 60 mots.",
+        max: 1,
+      },
+      {
+        titre: "Raconter et décrire",
+        detail:
+          "On suit ce qui s’est passé, dans l’ordre, avec des détails : où, quand, avec qui, ce qu’on a vu.",
+        max: 4,
+      },
+      {
+        titre: "Dire ce qu’on en pense",
+        detail:
+          "Ce qui a plu et ce qui a déplu, avec une raison au moins une fois.",
+        max: 2,
+      },
+      {
+        titre: "Les mots",
+        detail: "Les mots du sujet, employés juste et écrits juste.",
+        max: 2,
+      },
+      {
+        titre: "La grammaire",
+        detail:
+          "Passé composé et imparfait, accords, articles : les formes courantes sont correctes.",
+        max: 2.5,
+      },
+      {
+        titre: "L’enchaînement",
+        detail:
+          "Les phrases sont reliées : d’abord, ensuite, mais, parce que, le soir.",
+        max: 1.5,
+      },
+    ],
+  },
+  {
+    titre: "Exercice 2 · la réponse à Claire",
+    total: 12,
+    criteres: [
+      {
+        titre: "La consigne",
+        detail:
+          "C’est bien une réponse à Claire, et elle fait au moins 60 mots.",
+        max: 1,
+      },
+      {
+        titre: "Le ton d’une lettre à une amie",
+        detail:
+          "Une formule pour commencer, une pour finir, et le tutoiement tenu du début à la fin.",
+        max: 1,
+      },
+      {
+        titre: "Les quatre choses demandées",
+        detail:
+          "Remercier, refuser, expliquer pourquoi, proposer autre chose. Il en manque une et ce critère tombe.",
+        max: 4,
+      },
+      {
+        titre: "Les mots",
+        detail:
+          "Les mots de l’invitation et de l’excuse, employés juste et écrits juste.",
+        max: 2,
+      },
+      {
+        titre: "La grammaire",
+        detail:
+          "Présent, passé composé, futur proche, accords : les formes courantes sont correctes.",
+        max: 2.5,
+      },
+      {
+        titre: "L’enchaînement",
+        detail: "Les idées sont reliées : mais, parce que, alors, est-ce que.",
+        max: 1.5,
+      },
+    ],
+  },
+];
 export default function Page() {
   return (
     <article className="prose">
@@ -34,10 +125,12 @@ export default function Page() {
         </p>
 
         <p>
-          Deux textes courts à écrire. Vous pouvez écrire directement dans la
-          page. Comptez vos mots : la longueur demandée fait partie de la
-          consigne, et c’est le point le plus facile à perdre.
+          Deux textes courts à écrire, directement dans la page. Le nombre de
+          mots s’affiche sous chaque texte : la longueur demandée fait partie de
+          la consigne, et c’est le point le plus facile à perdre.
         </p>
+
+        <Chrono minutes={45} libelle="Temps de l’épreuve" />
 
         <div className="exercice">
           <h3>
@@ -51,9 +144,10 @@ export default function Page() {
             vous a déplu. <strong>Écrivez un texte de 60 à 80 mots.</strong>
           </p>
 
-          <textarea
-            className="redaction"
-            aria-label="Votre journal personnel, 60 à 80 mots"
+          <Redaction
+            min={60}
+            max={80}
+            libelle="Votre journal personnel, 60 à 80 mots"
             placeholder="Samedi matin…"
           />
         </div>
@@ -90,9 +184,10 @@ export default function Page() {
             autre chose. <strong>Écrivez un texte de 60 à 80 mots.</strong>
           </p>
 
-          <textarea
-            className="redaction"
-            aria-label="Votre réponse à Claire, 60 à 80 mots"
+          <Redaction
+            min={60}
+            max={80}
+            libelle="Votre réponse à Claire, 60 à 80 mots"
             placeholder="Chère Claire,"
           />
         </div>
@@ -108,40 +203,15 @@ export default function Page() {
         </p>
 
         <Corrige>
-          <h3>Ce que l’examinateur regarde</h3>
+          <h3>La grille</h3>
           <p>
-            Dans cet ordre. Les premiers points sont les plus faciles à avoir et
-            les plus faciles à perdre.
+            À remplir par la personne qui corrige, texte sous les yeux. Dans cet
+            ordre : les premiers points sont les plus faciles à avoir et les
+            plus faciles à perdre. Un texte sans faute qui oublie une des quatre
+            choses de l’exercice 2 est moins bien noté qu’un texte maladroit qui
+            les fait toutes.
           </p>
-          <ol>
-            <li>
-              <strong>La consigne est respectée.</strong> Les quatre choses
-              demandées à l’exercice 2 sont là : remercier, refuser, expliquer,
-              proposer. Il en manque une et les points partent, même si le
-              français est bon.
-            </li>
-            <li>
-              <strong>La longueur y est.</strong> 60 à 80 mots. Nettement moins
-              coûte des points ; trois mots de moins, non.
-            </li>
-            <li>
-              <strong>Le texte se tient.</strong> Une formule pour commencer,
-              une pour finir, et des mots qui relient :{" "}
-              <span className="fr">d’abord</span>,{" "}
-              <span className="fr">ensuite</span>,{" "}
-              <span className="fr">mais</span>,{" "}
-              <span className="fr">parce que</span>.
-            </li>
-            <li>
-              <strong>Le vocabulaire est celui du sujet</strong>, même simple,
-              et employé juste.
-            </li>
-            <li>
-              <strong>La grammaire courante est correcte</strong> : accords,
-              passé composé, déterminants. C’est le dernier critère, pas le
-              premier.
-            </li>
-          </ol>
+          <Grille groupes={GRILLE} />
 
           <h3>Exercice 1 · un exemple à 13 points</h3>
           <p>
@@ -158,18 +228,18 @@ export default function Page() {
             revenir au printemps.
           </div>
           <p>
-            Soixante-dix-sept mots. Le passé composé raconte, l’imparfait
-            décrit, et la dernière phrase donne l’avis que la consigne demande.
+            Soixante-douze mots. Le passé composé raconte, l’imparfait décrit,
+            et la dernière phrase donne l’avis que la consigne demande.
           </p>
 
           <h3>Exercice 2 · un exemple à 12 points</h3>
           <div className="example">
             Chère Claire,
             <br />
-            Merci beaucoup pour ton invitation, ça me touche vraiment. Malheureusement
-            je ne peux pas venir samedi 14 : je travaille tout le week-end,
-            parce qu’une collègue est malade et que je la remplace. Je suis
-            désolée, j’aurais vraiment aimé être là pour tes trente ans.
+            Merci beaucoup pour ton invitation, ça me touche vraiment.
+            Malheureusement je ne peux pas venir samedi 14 : je travaille tout
+            le week-end, parce qu’une collègue est malade et que je la remplace.
+            Je suis désolée, j’aurais vraiment aimé être là pour tes trente ans.
             Est-ce que tu es libre le week-end suivant ? Je t’invite au
             restaurant, tous les deux, et on fête ça tranquillement.
             <br />
@@ -186,8 +256,9 @@ export default function Page() {
 
           <h3>Votre note</h3>
           <p>
-            13 et 12 font 25. Comptez large sur la consigne et sévère sur la
-            longueur : c’est ce que fait le correcteur.
+            13 et 12 font 25, et la grille fait l’addition. Comptez large sur la
+            consigne et sévère sur la longueur : c’est ce que fait le
+            correcteur. Il faut au moins 5 points sur 25 dans chaque épreuve.
           </p>
         </Corrige>
       </section>

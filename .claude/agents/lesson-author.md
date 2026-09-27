@@ -297,8 +297,9 @@ that step was skipped.
 
 ### DELF — a whole épreuve, at the published format
 
-One page is one épreuve (`docs/decisions.md` #78). `delf/a2-comprehension-des-ecrits` is the
-worked example; `production-ecrite` and `production-orale` are the two that cannot be corrected.
+One page is one épreuve (`docs/decisions.md` #78, #82). `delf/a2-comprehension-des-ecrits` is the
+worked example of a marked épreuve; `production-ecrite` and `production-orale` are the two the page
+cannot mark; `comprehension-de-l-oral` is read aloud by a person.
 
 - **Reproduce the format, never the paper.** Four épreuves at 25 points, the exercise counts, the
   point splits, the durations: that is the published shape of a public exam and it is a fact. The
@@ -308,23 +309,35 @@ worked example; `production-ecrite` and `production-orale` are the two that cann
 - **Match the point split exactly.** A2 compréhension des écrits is 5 + 6 + 9 + 5; production écrite
   is 13 + 12. The corrigé states the total, so a split that does not add to 25 is the counting trap
   §9 already records, on the page where a candidate is most likely to trust it.
-- **The page is static HTML.** Native `input` and `textarea`, uncontrolled, no handlers: answers
-  survive without JavaScript, the page prerenders and it works offline. The **only** client code is
-  `<Corrige>`, and it must stay that way.
-- **The corrigé is hidden and opens below the answers**, never above and never on load. An épreuve
-  is the one page type whose whole value is in being attempted first.
-- **A production épreuve's corrigé is a grille, not an answer** (#54). Give what the examiner looks
-  at, in the order they look at it — consigne, then acts of speech, then vocabulary, then grammar —
-  then *an* example worth full marks, labelled as an example. The order is the teaching: a faultless
-  text that misses one of the four acts scores worse than a clumsy one that does all four.
-- **The oral page needs a second person** and gives no model dialogue (#57), exactly like
-  `conversation`. It carries the subjects to draw, a place for notes, and what is listened for.
+- **A compréhension épreuve is clicked, and marked once at the end** (#82). The questions and the
+  barème live in `copie.ts` beside the page, as `export const COPIE = verifierCopie({ … })` — the
+  check throws at build if a split does not add up. The page stays a Server Component: it renders the
+  documents, wraps the épreuve in `<Copie>`, places `<Questions groupe="…">` where each exercise
+  asks, and ends with `<Correction>`. **Never mark as the candidate goes**, and never type-in: a
+  justification is chosen among three sentences **all quoted from the document**, exactly one of
+  which proves the answer (§9: two defensible answers is a broken item).
+- **The corrigé of a production is hidden and opens below the answers**, never above and never on
+  load. An épreuve is the one page type whose whole value is in being attempted first. The listening
+  épreuve hides its texts the same way, behind their own button, because on the candidate's screen
+  they are the answers.
+- **A production épreuve's corrigé is a grille, not an answer** (#54). `<Grille>` takes the lines in
+  the order the examiner reads — consigne, then acts of speech, then vocabulary, then grammar — with
+  the **published points per line and your own words on each** (§9b); it throws if a group misses
+  its total. Then *an* example worth full marks, labelled as an example. The order is the teaching:
+  a faultless text that misses one of the four acts scores worse than a clumsy one that does all
+  four. `<Redaction min max>` counts words as the exam does, `<Chrono>` times, `<Tirage>` draws a
+  subject; none of them closes anything at zero.
+- **The oral pages need a second person.** Production orale gives no model dialogue (#57), exactly
+  like `conversation`. Compréhension de l'oral is read aloud: write its texts to be *said* — short
+  sentences, times and prices in words — and put the reader's notes in `cadre`, never on the
+  candidate's side.
 - **No « En résumé »** — an épreuve is not a lesson and has nothing to restate.
 - **Tag it with the level written out**, `["A2"]`, never `from("A2")` (#76): a B1 candidate sits the
   B1 paper, so the page is superseded above rather than prolonged.
 - The patterns are in `globals.css` and on `/design`: `.epreuve`, `.exercice`, `.documents`,
-  `ol.questions`, `ul.choix`, `.reponse`, `.redaction`, `.document`, `.corrige`. **Write no CSS** —
-  if an épreuve needs a shape none of these give, that is a request to `design-system`.
+  `ol.questions`, `.redaction`, `.document`, `.corrige`, and the components in
+  `src/components/delf/`. **Write no CSS** — if an épreuve needs a shape none of these give, that is
+  a request to `design-system`.
 
 ### Culture — the only pages with photographs
 

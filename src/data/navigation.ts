@@ -1366,6 +1366,18 @@ export const chapters: Chapter[] = [
          de DELF B1, pas prolongée par elle. Un candidat au B1 ne passe pas le
          papier A2. C'est le premier usage dans le cours de l'exception que #76
          garde ouverte, et la forme pour laquelle elle a été gardée. */
+      /* L'ordre du jour de l'examen : l'oral collectif d'abord, puis les
+         écrits, puis l'oral individuel. */
+      {
+        id: "delf-a2-comprehension-oral",
+        path: "/delf/a2-comprehension-de-l-oral",
+        title: "Compréhension de l’oral",
+        subtitle: "A2 · 25 points · 25 minutes",
+        tag: "Épreuve",
+        levels: ["A2"],
+        delf: "Comprendre des annonces, des messages et des conversations courtes",
+        created: "2026-09-27",
+      },
       {
         id: "delf-a2-comprehension-ecrits",
         path: "/delf/a2-comprehension-des-ecrits",
@@ -2057,6 +2069,14 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/le-passe-compose",
     "/grammaire/le-conditionnel-present",
   ],
+  /* L'épreuve lue à voix haute renvoie à l'épreuve suivante, puis à ce
+     qu'elle fait entendre le plus : des heures, des prix, un chemin. */
+  "/delf/a2-comprehension-de-l-oral": [
+    "/delf/a2-comprehension-des-ecrits",
+    "/vocabulaire/l-heure",
+    "/vocabulaire/les-nombres",
+    "/conversation/demander-son-chemin",
+  ],
   /* L'épreuve renvoie au barème, puis aux pages qui entraînent exactement ce
      qu'elle demande : lire un texte de presse et en tirer une information. */
   "/delf/a2-comprehension-des-ecrits": [
@@ -2075,7 +2095,7 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/le-conditionnel-present",
   ],
   "/delf/a2-production-orale": [
-    "/delf/a2-comprehension-des-ecrits",
+    "/delf/a2-comprehension-de-l-oral",
     "/conversation/se-presenter",
     "/conversation/parler-du-travail",
     "/conversation/decrire-sa-ville",

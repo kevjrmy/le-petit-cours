@@ -580,18 +580,14 @@ ul.mots li {
 }
 
 /* ---------------------------------------------------------------------------
-   L'épreuve de DELF (#78).
+   L'épreuve de DELF (#78, #82).
 
-   **Une épreuve est du HTML statique, et c'est le point.** Les champs sont des
-   `input` et des `textarea` non contrôlés : ils gardent ce qu'on tape sans une
-   ligne de JavaScript, la page reste préremplie hors ligne, et le seul îlot
-   client de la page est le bouton qui montre le corrigé (`AGENTS.md` §4). Rien
-   n'est corrigé automatiquement et rien n'est enregistré.
-
-   Les cases à cocher sont des `input` natifs visibles, jamais des radios
-   masqués derrière un label : c'est la panne silencieuse que §9 enregistre pour
-   les quiz de lecture, et ici le contrôle natif est en plus ce qui ressemble
-   le plus à la feuille d'examen.
+   **Les documents sont du HTML statique ; les réponses sont des îlots.** Une
+   compréhension se clique et se corrige d'un coup (`src/components/delf/Copie`),
+   une production a son compteur de mots, son chrono et sa grille. Chacun porte
+   son propre module CSS pour sa mise en page ; ce qui suit est le papier
+   autour : le bandeau, l'exercice, les documents, le corrigé. Rien n'est
+   enregistré.
    --------------------------------------------------------------------------- */
 
 /* Le bandeau d'une épreuve : le barème et le temps, avant la première consigne. */
@@ -731,37 +727,7 @@ ol.questions .enonce {
   gap: 1rem;
 }
 
-/* Les propositions d'un QCM. Case native, visible, cliquable avec son texte. */
-ul.choix {
-  list-style: none;
-  padding-left: 0;
-  margin-top: 0.45rem;
-}
-
-ul.choix > li { margin-top: 0.15rem; }
-
-ul.choix label {
-  display: flex;
-  align-items: baseline;
-  gap: 0.55rem;
-  padding: 0.25rem 0.4rem;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-}
-
-ul.choix label:hover { background: var(--surface-3); }
-
-ul.choix input {
-  accent-color: var(--accent);
-  width: 1rem;
-  height: 1rem;
-  flex: none;
-  transform: translateY(0.15rem);
-}
-
-/* Ce qu'on écrit : un mot dans un tableau, une justification sur une ligne, un
-   texte de soixante mots. Trois tailles, une seule bordure. */
-.reponse,
+/* Ce qu'on écrit : un texte de soixante mots. */
 .redaction {
   width: 100%;
   font-family: var(--font-serif);
@@ -773,9 +739,6 @@ ul.choix input {
   padding: 0.35rem 0.55rem;
 }
 
-.reponse { max-width: 22rem; }
-.reponse-court { max-width: 5rem; text-align: center; }
-
 .redaction {
   display: block;
   margin-top: 0.7rem;
@@ -785,7 +748,6 @@ ul.choix input {
   resize: vertical;
 }
 
-.reponse:focus-visible,
 .redaction:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;

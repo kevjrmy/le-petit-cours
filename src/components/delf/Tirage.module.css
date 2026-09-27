@@ -1,0 +1,21 @@
+/* Le sujet tiré. Doublé pour battre `.documents > li` (une classe et un
+   élément) quel que soit l'ordre des feuilles. L'accent et non le vert : un
+   sujet tiré n'est pas une bonne réponse. */
+.tire.tire {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.ligne {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-top: 0.9rem;
+}
+
+.ligne > span {
+  font-size: 0.9rem;
+  color: var(--text-2);
+}

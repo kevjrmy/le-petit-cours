@@ -1,0 +1,65 @@
+/* La mise en page de la copie. Les propositions sont le `.button` global et les
+   trois états corrigés sont `.is-correct` / `.is-wrong` / `.is-missed`, doublés
+   pour battre ce fichier (`AGENTS.md` §5) : rien ici ne redéfinit une couleur
+   de réponse. */
+
+.partie { margin-top: 0.5rem; }
+
+.consigne {
+  margin: 0.6rem 0 0.3rem;
+  font-size: 0.88rem;
+  color: var(--text-2);
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.4rem;
+}
+
+/* Le texte d'une proposition est du français lu dans le document : sérif,
+   comme partout où le cours montre la langue (`AGENTS.md` §5). */
+.option {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 0.98rem;
+  text-align: left;
+}
+
+.option[aria-disabled="true"] { cursor: default; }
+
+/* La croix posée, avant correction. Triplé : il doit battre `.button:hover`,
+   qui a deux classes et vit dans une autre feuille, sans dépendre de l'ordre
+   où les deux arrivent. Il n'est jamais posé après correction, donc il ne
+   dispute rien aux trois états. */
+.choisie.choisie.choisie {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+  color: var(--accent-text);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.pourquoi {
+  margin-top: 0.55rem;
+  padding-left: 0.8rem;
+  border-left: 2px solid var(--border-strong);
+  font-size: 0.9rem;
+  color: var(--text-2);
+}
+
+.corriger {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+.reste {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--text-3);
+}
+
+.detail { padding-left: 1.25rem; }
