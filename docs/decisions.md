@@ -91,6 +91,7 @@ than marking it superseded.
 | 80 | 2026-09-22 | A scratch chapter: listed like the others, counted like nothing | Binding · extends #18, #48, #51 |
 | 81 | 2026-09-22 | The atelier sits behind one shared password, in a proxy that knows nothing else | Binding · extends #37, #80 |
 | 82 | 2026-09-27 | An épreuve is marked once, at the end, and a person reads the listening one aloud | Binding · amends #78 |
+| 83 | 2026-09-27 | An épreuve may link a Commons photo as illustration, never as the answer | Binding · narrows §9 |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -2189,3 +2190,29 @@ read.
 **What still holds from #78:** nothing printed in `delf/` comes from a sujet or a prep book, the
 épreuves carry a written-out level, and the chapter links to the official samples rather than
 serving them.
+
+## 83 · An épreuve may link a Commons photo as illustration, never as the answer
+**2026-09-27 · Binding · narrows §9's image rule**
+
+The eight signs of the écrits épreuve's first exercise were text in grey boxes, where the real exam
+shows photographed signs. Seven of them now carry a photograph **linked from Wikimedia Commons, not
+copied into the repo**, and the eighth, which Commons had no usable photo for, is drawn inline.
+
+**Why linked, against §9's « local files, never hotlinked ».** That rule exists because a remote
+photograph is a lesson that goes blank in the métro. Here the photograph is not the lesson: the
+exercise is reading, every sign keeps its French text under its picture, and the questions are
+answerable with every image gone. Offline, a card shows an empty frame and the épreuve still works.
+Linking was the maintainer's call, made to keep binary files out of the repository for what is
+illustration. **The condition is the whole exception**: the day an item needs its picture to be
+answered, that picture is content, and content is local.
+
+**Decided against `next/image`.** It would fetch the file through the deployment and serve it from
+there, which is hosting it with extra steps. A plain `<img>` with its size written out, `loading=
+"lazy"`, and a background on the frame so a missing photo reads as an empty box.
+
+**What did not change.** Free licences only (CC0, public domain, CC BY, CC BY-SA), and the credit —
+author, licence, link — lives in the same data entry as the image and is printed on the page under
+the grid, because linking does not lift a CC BY licence's attribution. Every candidate was looked at
+before it went in: one carried English (« Hands free only »), another a notice unrelated to the sign
+beside it, and both were refused, which is why F is drawn. A drawn sign never uses red, which in this
+course means a wrong answer (§5).

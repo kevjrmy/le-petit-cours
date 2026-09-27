@@ -668,6 +668,31 @@ ul.mots li {
   color: var(--accent-text);
 }
 
+/* L'image d'un panneau : une photo liée depuis Wikimedia Commons, ou un
+   pictogramme dessiné. Même cadre pour les deux, et un fond pour qu'une photo
+   absente (hors ligne) laisse une case vide plutôt qu'un trou (#83). Une grille
+   `.illustres` aligne ses cartes en haut, pour que les images soient sur une
+   ligne malgré des textes de longueurs différentes. */
+.documents.illustres > li { justify-content: flex-start; }
+
+.documents .photo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background: var(--surface-3);
+  color: var(--text-1);
+}
+
+/* Qui a pris les photos, et sous quelle licence. Petit, mais sur la page :
+   une licence CC BY se respecte en nommant l'auteur là où l'image paraît. */
+.credits {
+  margin: 0.6rem 0 1.1rem;
+  font-size: 0.78rem;
+  color: var(--text-3);
+}
+
 /* Un document d'examen : un article de presse, un courriel, une annonce.
    Proche de `.card`, mais avec le flux d'un texte plutôt que d'une carte — des
    paragraphes qui respirent, un titre, un en-tête, et les notes de vocabulaire

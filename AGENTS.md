@@ -563,9 +563,12 @@ a lint, so the only thing standing between them and a learner is this list.
   is the authoring counterpart of `AccentBar` below: the learner gets a helper, the lesson text gets
   no excuse.
 
-**Images** (only `culture/` has them)
+**Images** (`culture/`, and the signs of the DELF écrits épreuve)
 
 - **Local files, never hotlinked** — a remote photograph is a lesson that goes blank in the métro.
+  **One exception, and it is narrow** (#83): an épreuve's *illustration* may be linked from
+  Wikimedia Commons, credited on the page, as long as the item is fully answerable from its text
+  with the picture gone. A photograph the learner needs to answer is a lesson, and stays local.
 - **Free licences only, credited** (CC0, PD, CC BY, CC BY-SA) with author, link and licence kept in
   the same data entry as the image, so the two cannot separate.
 - **Look at what you downloaded.** Of the first thirteen from Commons, one had "Mont Blanc"

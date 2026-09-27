@@ -22,6 +22,160 @@ export const metadata = lessonMetadata(PATH);
  * attend. `<Copie>` tient les réponses autour de l'épreuve entière, parce que la
  * note du bas doit voir les quatre exercices (`AGENTS.md` §4).
  */
+interface Photo {
+  src: string;
+  alt: string;
+  auteur: string;
+  licence: string;
+  licenceUrl?: string;
+  page: string;
+}
+
+const COMMONS = "https://upload.wikimedia.org/wikipedia/commons/thumb/";
+
+/* Les panneaux de l'exercice 1, et leur photo quand Commons en a une qui montre
+   la chose sans écrire autre chose dessus. Le crédit est dans la même entrée
+   que l'image, pour que les deux ne se séparent pas (`AGENTS.md` §9). Aucune
+   photo ne donne la réponse à la place du texte : c'est l'écrit qui est
+   évalué, l'image situe. */
+const PANNEAUX: { lettre: string; texte: string; photo?: Photo }[] = [
+  {
+    lettre: "A",
+    texte: "Ascenseur en panne — prenez l’escalier",
+    photo: {
+      src: `${COMMONS}e/e7/Ascenseur%2C_entr%C3%A9e_Est%2C_gare_de_Vichy.jpg/500px-Ascenseur%2C_entr%C3%A9e_Est%2C_gare_de_Vichy.jpg`,
+      alt: "L’entrée d’un ascenseur dans une gare.",
+      auteur: "TCY",
+      licence: "CC BY-SA 4.0",
+      licenceUrl: "https://creativecommons.org/licenses/by-sa/4.0",
+      page: "https://commons.wikimedia.org/wiki/File:Ascenseur,_entr%C3%A9e_Est,_gare_de_Vichy.jpg",
+    },
+  },
+  {
+    lettre: "B",
+    texte: "Boulangerie — fermée le lundi",
+    photo: {
+      src: `${COMMONS}1/16/Devanture_Boulangerie_159_rue_Ordener.jpg/500px-Devanture_Boulangerie_159_rue_Ordener.jpg`,
+      alt: "La devanture d’une boulangerie parisienne.",
+      auteur: "KoS",
+      licence: "CC BY-SA 3.0",
+      licenceUrl: "https://creativecommons.org/licenses/by-sa/3.0",
+      page: "https://commons.wikimedia.org/wiki/File:Devanture_Boulangerie_159_rue_Ordener.jpg",
+    },
+  },
+  {
+    lettre: "C",
+    texte: "Pelouse interdite aux chiens",
+    photo: {
+      src: `${COMMONS}e/e6/No_dogs_sign_%2823403406570%29.jpg/500px-No_dogs_sign_%2823403406570%29.jpg`,
+      alt: "Un panneau rond barré d’un chien, au bord d’une pelouse.",
+      auteur: "StockyPics",
+      licence: "CC0",
+      page: "https://commons.wikimedia.org/wiki/File:No_dogs_sign_(23403406570).jpg",
+    },
+  },
+  {
+    lettre: "D",
+    texte: "Soldes — deux pulls achetés, le troisième offert",
+    photo: {
+      src: `${COMMONS}0/02/Soldes_%287689974286%29.jpg/500px-Soldes_%287689974286%29.jpg`,
+      alt: "Une vitrine de magasin couverte d’affiches « Soldes ».",
+      auteur: "istolethetv",
+      licence: "CC BY 2.0",
+      licenceUrl: "https://creativecommons.org/licenses/by/2.0",
+      page: "https://commons.wikimedia.org/wiki/File:Soldes_(7689974286).jpg",
+    },
+  },
+  {
+    lettre: "E",
+    texte: "Piscine — bonnet obligatoire",
+    photo: {
+      src: `${COMMONS}7/7f/Bonnet_de_bain_silicone.JPG/500px-Bonnet_de_bain_silicone.JPG`,
+      alt: "Un bonnet de bain bleu et blanc.",
+      auteur: "Floriano",
+      licence: "CC BY 3.0",
+      licenceUrl: "https://creativecommons.org/licenses/by/3.0",
+      page: "https://commons.wikimedia.org/wiki/File:Bonnet_de_bain_silicone.JPG",
+    },
+  },
+  /* Pas de photo : celles de Commons portent de l'anglais, ou une affiche
+     sans rapport à côté du pictogramme. Dessiné, donc. */
+  { lettre: "F", texte: "Salle d’attente — éteignez votre téléphone" },
+  {
+    lettre: "G",
+    texte: "Marché tous les samedis matin, place de la Mairie",
+    photo: {
+      src: `${COMMONS}a/a6/March%C3%A9_hebdomadaire_%C3%A0_Malauc%C3%A8ne.jpg/500px-March%C3%A9_hebdomadaire_%C3%A0_Malauc%C3%A8ne.jpg`,
+      alt: "Les étals d’un marché sur une place de village.",
+      auteur: "erikorama",
+      licence: "CC BY 2.0",
+      licenceUrl: "https://creativecommons.org/licenses/by/2.0",
+      page: "https://commons.wikimedia.org/wiki/File:March%C3%A9_hebdomadaire_%C3%A0_Malauc%C3%A8ne.jpg",
+    },
+  },
+  {
+    lettre: "H",
+    texte: "Stationnement réservé aux livraisons",
+    photo: {
+      src: `${COMMONS}6/61/Place_stationnement_interdit_sauf_livraisons_%28d%C3%A9but_de_la_rue_de_la_Source-de-l%27H%C3%B4pital%2C_Vichy%29_2024-12-29.JPG/500px-Place_stationnement_interdit_sauf_livraisons_%28d%C3%A9but_de_la_rue_de_la_Source-de-l%27H%C3%B4pital%2C_Vichy%29_2024-12-29.JPG`,
+      alt: "Une place peinte en jaune sur le trottoir, sous un panneau de stationnement interdit.",
+      auteur: "Tabl-trai",
+      licence: "CC BY-SA 4.0",
+      licenceUrl: "https://creativecommons.org/licenses/by-sa/4.0",
+      page: "https://commons.wikimedia.org/wiki/File:Place_stationnement_interdit_sauf_livraisons_(d%C3%A9but_de_la_rue_de_la_Source-de-l%27H%C3%B4pital,_Vichy)_2024-12-29.JPG",
+    },
+  },
+];
+
+/* Le panneau F, dessiné : un téléphone barré. En couleur de texte et non en
+   rouge, parce que le rouge de ce cours veut dire « faux » (`AGENTS.md` §5). */
+function TelephoneInterdit() {
+  return (
+    <svg
+      className="photo"
+      viewBox="0 0 160 120"
+      role="img"
+      aria-label="Un téléphone portable barré."
+    >
+      <rect
+        x="62"
+        y="22"
+        width="36"
+        height="64"
+        rx="6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="5"
+      />
+      <line
+        x1="74"
+        y1="76"
+        x2="86"
+        y2="76"
+        stroke="currentColor"
+        strokeWidth="5"
+        strokeLinecap="round"
+      />
+      <circle
+        cx="80"
+        cy="54"
+        r="44"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="7"
+      />
+      <line
+        x1="49"
+        y1="23"
+        x2="111"
+        y2="85"
+        stroke="currentColor"
+        strokeWidth="7"
+      />
+    </svg>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
@@ -54,40 +208,48 @@ export default function Page() {
               Vous marchez dans une ville française et vous lisez ces panneaux.
             </p>
 
-            <ul className="documents">
-              <li>
-                <span>Ascenseur en panne — prenez l’escalier</span>
-                <span className="lettre">A</span>
-              </li>
-              <li>
-                <span>Boulangerie — fermée le lundi</span>
-                <span className="lettre">B</span>
-              </li>
-              <li>
-                <span>Pelouse interdite aux chiens</span>
-                <span className="lettre">C</span>
-              </li>
-              <li>
-                <span>Soldes — deux pulls achetés, le troisième offert</span>
-                <span className="lettre">D</span>
-              </li>
-              <li>
-                <span>Piscine — bonnet obligatoire</span>
-                <span className="lettre">E</span>
-              </li>
-              <li>
-                <span>Salle d’attente — éteignez votre téléphone</span>
-                <span className="lettre">F</span>
-              </li>
-              <li>
-                <span>Marché tous les samedis matin, place de la Mairie</span>
-                <span className="lettre">G</span>
-              </li>
-              <li>
-                <span>Stationnement réservé aux livraisons</span>
-                <span className="lettre">H</span>
-              </li>
+            <ul className="documents illustres">
+              {PANNEAUX.map(({ lettre, texte, photo }) => (
+                <li key={lettre}>
+                  {photo ? (
+                    /* Une photo de Wikimedia Commons, liée et non copiée
+                       (#83) : `next/image` la ferait passer par le serveur, ce
+                       qui revient à l'héberger. Sans réseau elle disparaît, et
+                       le panneau reste lisible, parce que le texte est
+                       dessous. */
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      className="photo"
+                      src={photo.src}
+                      alt={photo.alt}
+                      width={500}
+                      height={375}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <TelephoneInterdit />
+                  )}
+                  <span>{texte}</span>
+                  <span className="lettre">{lettre}</span>
+                </li>
+              ))}
             </ul>
+
+            <p className="credits">
+              Photos : Wikimedia Commons.{" "}
+              {PANNEAUX.filter((p) => p.photo).map(({ lettre, photo }, i) => (
+                <span key={lettre}>
+                  {i > 0 && " · "}
+                  {lettre} <a href={photo!.page}>{photo!.auteur}</a>,{" "}
+                  {photo!.licenceUrl ? (
+                    <a href={photo!.licenceUrl}>{photo!.licence}</a>
+                  ) : (
+                    photo!.licence
+                  )}
+                </span>
+              ))}
+              . F est dessiné pour ce cours.
+            </p>
 
             <p>Pour chaque phrase, choisissez la lettre du panneau.</p>
 
