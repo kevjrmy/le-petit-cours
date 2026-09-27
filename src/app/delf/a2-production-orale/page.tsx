@@ -1,4 +1,3 @@
-import { Chrono } from "@/components/delf/Chrono";
 import { Corrige } from "@/components/delf/Corrige";
 import { Grille, type GroupeCriteres } from "@/components/delf/Grille";
 import { Tirage } from "@/components/delf/Tirage";
@@ -141,10 +140,8 @@ export default function Page() {
           autre personne de jouer l’examinateur : elle lit les consignes,
           chronomètre, et pose les questions de la troisième partie. Les dix
           minutes de préparation servent aux parties 2 et 3 ; la première ne se
-          prépare pas. Tirez les deux sujets, puis lancez la préparation.
+          prépare pas. Tirez les deux sujets avant de commencer à préparer.
         </p>
-
-        <Chrono minutes={10} libelle="Préparation" />
 
         <div className="exercice">
           <h3>
@@ -179,8 +176,6 @@ export default function Page() {
 
           <Tirage sujets={MONOLOGUES} />
 
-          <Chrono minutes={2} libelle="Monologue" />
-
           <p>
             Notes de préparation. Des mots, pas des phrases : un texte écrit à
             l’avance s’entend, et il tombe à la première question.
@@ -205,8 +200,6 @@ export default function Page() {
           </p>
 
           <Tirage sujets={SITUATIONS} />
-
-          <Chrono minutes={4} libelle="Interaction" />
 
           <div className="attention">
             l’examinateur n’est pas là pour vous aider. Il attend que{" "}

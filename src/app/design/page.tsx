@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Chrono } from "@/components/delf/Chrono";
 import { Copie, Correction, Questions } from "@/components/delf/Copie";
 import type { CopieEpreuve } from "@/components/delf/copie-data";
 import { Grille } from "@/components/delf/Grille";
@@ -232,7 +231,7 @@ export default function DesignPage() {
         <p>
           Les motifs du chapitre <code>delf</code> (#78, #82). Les documents
           sont du HTML statique&nbsp;; les réponses sont des îlots&nbsp;: une
-          copie qui se clique et se corrige d’un coup, un chrono, un compteur de
+          copie qui se clique et se corrige d’un coup, un compteur de
           mots, un tirage et une grille.
         </p>
 
@@ -241,8 +240,6 @@ export default function DesignPage() {
           <span>30 minutes</span>
           <span>4 exercices</span>
         </p>
-
-        <Chrono minutes={30} libelle="Temps de l’épreuve" />
 
         <Copie copie={SPECIMEN_COPIE}>
           <div className="exercice">

@@ -331,8 +331,9 @@ grille for; `production-ecrite` has **no corrigé on the page**, it is corrected
   the **published points per line and your own words on each** (§9b); it throws if a group misses
   its total. Then *an* example worth full marks, labelled as an example. The order is the teaching:
   a faultless text that misses one of the four acts scores worse than a clumsy one that does all
-  four. `<Redaction min max>` counts words as the exam does, `<Chrono>` times, `<Tirage>` draws a
-  subject; none of them closes anything at zero.
+  four. `<Redaction min max>` counts words as the exam does and `<Tirage>` draws a subject.
+- **No timer on an épreuve** (#82). The duration is stated in the `.epreuve` banner and nothing
+  counts it down: the person running the épreuve keeps time.
 - **The oral pages need a second person.** Production orale gives no model dialogue (#57), exactly
   like `conversation`. Compréhension de l'oral is read aloud: write its texts to be *said* — short
   sentences, times and prices in words — and put the reader's notes in `cadre`, never on the

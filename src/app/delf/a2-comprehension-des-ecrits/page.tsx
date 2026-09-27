@@ -1,4 +1,3 @@
-import { Chrono } from "@/components/delf/Chrono";
 import { Copie, Correction, Questions } from "@/components/delf/Copie";
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
@@ -196,8 +195,6 @@ export default function Page() {
             pour l’effacer. Rien n’est corrigé pendant que vous répondez : à la
             fin, « Corriger ma copie » donne votre note sur 25.
           </p>
-
-          <Chrono minutes={30} libelle="Temps de l’épreuve" />
 
           <div className="exercice">
             <h3>

@@ -1,4 +1,3 @@
-import { Chrono } from "@/components/delf/Chrono";
 import { CopieEcrite, Redaction, Rendre } from "@/components/delf/Redaction";
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
@@ -48,8 +47,6 @@ export default function Page() {
             rendez votre copie : elle est enregistrée dans un fichier, à envoyer
             à la personne qui corrige.
           </p>
-
-          <Chrono minutes={45} libelle="Temps de l’épreuve" />
 
           <div className="exercice">
             <h3>

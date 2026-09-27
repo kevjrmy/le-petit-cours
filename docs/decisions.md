@@ -2162,15 +2162,20 @@ reaching a candidate as « 24 / 25 ».
 **Production écrite has no corrigé on the page at all.** It first shipped with the same grille as the
 oral and two model texts behind « Voir les corrections », and both went the same day: the tutor
 corrects a written copy by hand, pen on the text, and a model a click away is the text that gets
-copied. What the page keeps is the two subjects, the timer and the word count.
+copied. What the page keeps is the two subjects and the word count.
 
 **Production orale stays unmarked by the page, and gives the marker a grid.** A spoken answer
 leaves nothing to compare (#54), so nothing here pretends to grade it. What changed is that the grille is now a set of half-point buttons that
 adds itself up. **The points per line follow the published barème; the words on each line are this
 course's own** (§9b) — the numbers of a public exam are a fact, its descriptors are someone's text.
-Around them, the page counts words the way the exam does (whatever sits between two spaces), draws
-the oral subjects at random, and times the preparation. None of those close anything at zero: the
-person running the épreuve decides when the pen goes down.
+Around them, the page counts words the way the exam does (whatever sits between two spaces) and
+draws the oral subjects at random.
+
+**The time is stated, never counted down.** Each épreuve prints its duration in the banner at its
+head, and that is all. Timers on every épreuve and on each oral part shipped first and went the same
+day: in a class the tutor keeps time, a clock on the candidate's screen is one more thing to watch
+instead of the text, and none of them could close anything at zero anyway — the person running the
+épreuve decides when the pen goes down.
 
 **The listening épreuve exists, read aloud by a person.** #78 held it back until the course had a
 voice, the same wait `dictees` is in. It no longer waits, because in the class it is for, the tutor
