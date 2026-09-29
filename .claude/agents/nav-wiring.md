@@ -56,12 +56,12 @@ if (existsSync('src/app/[chapitre]/page.tsx')) for (const c of chapters) routes.
 
 // So does every verb sheet (#56). A chapter whose pages are generated from a
 // data file needs a line here, or its lessons read as missing on every run —
-// the walk above skips `[verbe]` along with every other dynamic segment.
+// the walk above skips [verbe] along with every other dynamic segment.
 if (existsSync('src/app/conjugaison/[verbe]/page.tsx'))
   for (const l of chapters.find(c => c.slug === 'conjugaison').lessons) routes.add(l.path)
 
 // Real routes with no manifest entry, by design — the home page, the results
-// page and the specimen. The list is `unlistedPages` in the manifest rather
+// page and the specimen. The list is unlistedPages in the manifest rather
 // than a copy here, so adding such a route is a manifest edit like any other.
 // (The sommaire *is* in the manifest, as an annexe, because the sidebar links
 // it.)
@@ -318,13 +318,13 @@ git rm -r src/app/temp/<slug>          # for each page being cleared
 # then delete its entry from the `temp` chapter's `lessons` array
 ```
 
-… and its `relatedPages` key, if it had one, and the `_`-prefixed folders under `src/app/temp/`
-once the last page using them is gone — `_exercice/` (the drill mechanics and their « tu » score)
-and `_texte/` (the copie block, the hidden corrigé, the atelier's scoped styles). Shared code left behind after a reset is code nothing calls. (They live under `temp/`
-with an underscore precisely so they leave with the chapter: the prefix hides them from Next's
-router **and** from the audit's walk for `page.tsx`.) No redirect — #50 asks for one when a lesson's URL
-dies, and these were never promised to anyone. No cross-link sweep beyond its own key, if the rule
-above was kept; `grep -rn "/temp/" src/` is the check that it was. The chapter itself stays in the manifest with `lessons: []` and simply stops drawing.
+… and its `relatedPages` key, if it had one. The `_`-prefixed folders go too once the last page
+using them is gone: `_exercice/` (`Choix`, `Faute`, `Trous` and their « tu » `Bilan`) and `_texte/`
+(`Copie`, `Corrige`, the atelier's scoped styles). The underscore hides them from Next's router
+**and** from the audit's walk, which is why they can live under `temp/` and leave with it; left
+behind, they are code nothing calls. No redirect: #50 asks for one when a promised URL dies, and
+these never were. `grep -rn "/temp/" src/` checks that nothing permanent linked in. The chapter
+itself stays in the manifest with `lessons: []` and simply stops drawing.
 
 **Keeping a page** means rewriting it into the chapter it belongs to, with a **new permanent id**
 and a real `levels` tag — a new page, not a move. There is no tick to carry across, which is

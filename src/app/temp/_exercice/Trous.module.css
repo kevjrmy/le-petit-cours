@@ -1,0 +1,120 @@
+/* Le texte à trous d'atelier. Les états de réponse sont `.is-correct`,
+   `.is-wrong`, `.is-missed`, doublés en global pour passer par-dessus `.trou` :
+   rien de ces couleurs n'est redéclaré ici (§5). */
+
+/* Le texte : la taille et l'interlignage d'une copie, avec de la place entre
+   les lignes pour des trous plus hauts que le texte. */
+.texte {
+  margin-top: 1.25rem;
+  padding: 1.35rem 1.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+  font-family: var(--font-serif);
+  font-size: 1.12rem;
+  line-height: 2.3;
+  color: var(--text-heading);
+}
+
+.texte > p + p {
+  margin-top: 1.15rem;
+}
+
+/* Le trou et son menu : le menu se place sous le trou qui l'a ouvert. */
+.place {
+  position: relative;
+}
+
+/* Un trou. Vide, un pointillé à toucher ; rempli, une pastille. */
+.trou {
+  display: inline-block;
+  min-width: 5.5rem;
+  margin: 0 0.1rem;
+  padding: 0 0.6rem;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text-3);
+  font: inherit;
+  line-height: 1.7;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.trou:hover:not([aria-disabled="true"]) {
+  border-color: var(--accent);
+}
+
+.rempli {
+  border-style: solid;
+  border-color: var(--accent-line);
+  border-radius: var(--radius-pill);
+  background: var(--accent-subtle);
+  color: var(--text-heading);
+}
+
+/* Le trou dont le menu est ouvert. Doublé pour battre `.rempli`. */
+.actif.actif {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.trou[aria-disabled="true"] {
+  cursor: default;
+}
+
+/* Le menu des deux formes, sous le trou. */
+.menu {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 100%;
+  max-width: min(16rem, 75vw);
+  width: max-content;
+  padding: 0.5rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+  box-shadow: var(--shadow-lg);
+  line-height: 1.4;
+}
+
+.option {
+  padding: 0.35rem 0.85rem;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-pill);
+  background: var(--accent-subtle);
+  color: var(--text-heading);
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.option:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* La forme déjà choisie, quand on rouvre le menu pour changer d'avis. */
+.pris.pris {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  color: var(--accent-text);
+}
+
+/* La bonne forme, après la correction, à côté d'un trou raté. */
+.attendu {
+  margin-left: 0.35rem;
+  font-weight: 600;
+  color: var(--success-text);
+}
+
+.actions {
+  margin-top: 1.2rem;
+}

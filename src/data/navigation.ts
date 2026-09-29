@@ -1361,6 +1361,15 @@ export const chapters: Chapter[] = [
         delf: "Raconter une histoire au passé, à l'écrit",
         created: "2026-09-29",
       },
+      {
+        id: "temp-2026-09-29-un-resume-de-roman",
+        path: "/temp/un-resume-de-roman",
+        title: "Un résumé de roman",
+        subtitle: "Ta copie à corriger toi-même, puis tes fautes en quatre familles",
+        levels: ANY,
+        delf: "Résumer par écrit un récit qu'on a lu",
+        created: "2026-09-29",
+      },
     ],
   },
   /* Le DELF, et pourquoi il est le dernier chapitre : il ne s'apprend pas, il
@@ -2286,6 +2295,11 @@ const handWrittenLinks: Record<string, string[]> = {
     "/astuces/etre-ou-avoir",
     "/orthographe/les-terminaisons-verbales",
     "/exercices/etre-ou-avoir",
+  ],
+  "/temp/un-resume-de-roman": [
+    "/grammaire/les-pronoms-cod-coi",
+    "/orthographe/les-homophones-du-demonstratif",
+    "/grammaire/le-passe-compose",
   ],
 };
 
