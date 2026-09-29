@@ -1349,7 +1349,19 @@ export const chapters: Chapter[] = [
     blurb:
       "Les pages d’une séance : écrites pour un cours en particulier, remplacées chaque semaine.",
     scratch: true,
-    lessons: [],
+    lessons: [
+      /* Un texte rendu cette semaine et la séance construite dessus. Publié
+         sans nom et sans rien qui désigne qui l'a écrit (`AGENTS.md` §9b). */
+      {
+        id: "temp-2026-09-29-les-trois-voeux",
+        path: "/temp/les-trois-voeux",
+        title: "Les trois vœux",
+        subtitle: "Ton texte, son corrigé, et trois trucs pour ce qui suit « avait »",
+        levels: ANY,
+        delf: "Raconter une histoire au passé, à l'écrit",
+        created: "2026-09-29",
+      },
+    ],
   },
   /* Le DELF, et pourquoi il est le dernier chapitre : il ne s'apprend pas, il
      se passe. Tout ce qu'il demande est écrit ailleurs dans le cours ; ici on
@@ -2269,6 +2281,12 @@ const handWrittenLinks: Record<string, string[]> = {
      **Cette clé part avec la page.** Une clé dont la source n'existe plus est
      la première chose que l'audit signale, ce qui est exactement le filet
      qu'on veut ici. */
+  "/temp/les-trois-voeux": [
+    "/grammaire/le-passe-compose",
+    "/astuces/etre-ou-avoir",
+    "/orthographe/les-terminaisons-verbales",
+    "/exercices/etre-ou-avoir",
+  ],
 };
 
 export const relatedPages: Record<string, string[]> = {

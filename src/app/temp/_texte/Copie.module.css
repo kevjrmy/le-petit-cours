@@ -1,0 +1,32 @@
+/* Le bloc « copie » : `.example` avec du corps et de l'air.
+ *
+ * **Le sélecteur est doublé, et il le faut.** Il atterrit sur un élément qui
+ * porte déjà `.example`, et les deux classes ont la même spécificité : à
+ * égalité, c'est l'ordre d'arrivée des feuilles qui tranche, et cet ordre n'est
+ * pas le même en dev et dans un build de production (`AGENTS.md` §5). Avec une
+ * seule classe, ce fichier gagnerait ici et perdrait en ligne, sans que rien
+ * n'échoue. C'est la règle qui existe déjà pour `.is-correct` et `.is-wrong`,
+ * appliquée à un bloc au lieu d'un état.
+ *
+ * Aucune couleur : le fond, la bordure et la serif restent ceux d'`.example`.
+ * Ce qui change est la lisibilité d'un texte long, lu à voix haute, à l'écran
+ * partagé, souvent sur le projecteur de quelqu'un d'autre. */
+
+.copie.copie {
+  /* 1,02rem pour un exemple d'une ligne, 1,12 pour un paragraphe de quinze :
+     la copie se lit en entier, pas en diagonale. */
+  font-size: 1.12rem;
+  /* 1,7 est l'interlignage du corps du cours. Une copie porte des fautes qu'on
+     cherche à l'œil, et un œil qui cherche a besoin de retrouver le début de la
+     ligne suivante du premier coup. */
+  line-height: 1.85;
+  padding: 1.35rem 1.6rem;
+}
+
+/* Le reset met toutes les marges à zéro, donc sans cette règle les trois
+   paragraphes d'une copie se touchent et se lisent comme un seul bloc. C'est
+   supportable pour les répliques d'un dialogue, qui est ce pour quoi `.example`
+   a été écrit ; ça ne l'est pas pour un récit. */
+.copie.copie > p + p {
+  margin-top: 1.15rem;
+}

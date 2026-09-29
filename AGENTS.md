@@ -610,7 +610,7 @@ Nothing in the toolchain catches it. Full how-to in `.claude/agents/exercise-aut
 | Literary text | Public domain **in its country of origin**; name the work and the year. For a translation the **translator's** death date is what counts (#60). |
 | Song lyrics | Short excerpts for commentary only. **Never a full lyric sheet.** |
 | Photographs | CC0, PD, CC BY or CC BY-SA only, stored locally, credited per image. |
-| A learner's own text | **Anonymous, and only in the atelier** (#80). Reproducing what somebody wrote is what a correction page is; a name, an age, a school, a town or a class beside it is not — in the page, the manifest, a comment or a commit message. |
+| A learner's own text | **Anonymous, and only in the atelier** (#80). Reproducing what somebody wrote is what a correction page is; a name, an age, a school, a town or a class beside it is not — in the page, the manifest, a comment or a commit message. The original and its transcript stay in `.private/`, which is gitignored. |
 | Anything else | Ask in an issue first. |
 
 **When a rule here changes, check whether `CONTRIBUTING.md` states it too** — it repeats the

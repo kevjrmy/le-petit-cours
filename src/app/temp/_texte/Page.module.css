@@ -1,0 +1,33 @@
+/* Le français cité dans les explications d'une page d'atelier : en bleu et
+   plus appuyé, pour qu'un élève le repère d'un coup d'œil sur l'écran partagé.
+   Limité à l'atelier ; `.fr` reste tel quel dans le reste du cours.
+
+   600, pas 500 : Spectral n'est chargé qu'en 400 et 600 (`AGENTS.md` §5), et
+   un 500 retomberait sur 400 sans rien dire. */
+.page :global(.fr) {
+  font-weight: 600;
+  color: var(--accent-text);
+}
+
+/* « En résumé », mis en avant. Dans le cours, `.resume` n'est volontairement
+   pas une boîte (#67) : une conclusion discrète sous une page de leçon. Ici
+   c'est ce que l'élève doit emporter à la fin de la séance, alors il devient
+   une carte teintée, avec un titre plus grand, pour qu'on s'arrête dessus.
+   Rien ne change hors de l'atelier. */
+.page :global(.resume) {
+  background: var(--accent-subtle);
+  border: 1px solid var(--accent-line);
+  border-top: 4px solid var(--accent);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.75rem 1.6rem;
+}
+
+.page :global(.resume) > h2 {
+  font-size: 1.5rem;
+  color: var(--accent-text);
+  margin-bottom: 0.9rem;
+}
+
+.page :global(.resume) li + li {
+  margin-top: 0.55rem;
+}

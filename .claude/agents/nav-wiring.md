@@ -319,8 +319,8 @@ git rm -r src/app/temp/<slug>          # for each page being cleared
 ```
 
 … and its `relatedPages` key, if it had one, and the `_`-prefixed folders under `src/app/temp/`
-once the last page using them is gone — `_exercice/` (the three drill mechanics) and `_texte/` (the
-copie block). Shared code left behind after a reset is code nothing calls. (They live under `temp/`
+once the last page using them is gone — `_exercice/` (the drill mechanics and their « tu » score)
+and `_texte/` (the copie block, the hidden corrigé, the atelier's scoped styles). Shared code left behind after a reset is code nothing calls. (They live under `temp/`
 with an underscore precisely so they leave with the chapter: the prefix hides them from Next's
 router **and** from the audit's walk for `page.tsx`.) No redirect — #50 asks for one when a lesson's URL
 dies, and these were never promised to anyone. No cross-link sweep beyond its own key, if the rule

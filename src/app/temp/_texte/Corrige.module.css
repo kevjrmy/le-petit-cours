@@ -1,0 +1,23 @@
+/* Le bouton est `.button-primary` ; ce module ne fait que retirer le triangle
+   natif de `<summary>` et changer le libellé selon l'état. Aucune couleur. */
+
+.toggle {
+  list-style: none;
+}
+
+.toggle::-webkit-details-marker {
+  display: none;
+}
+
+.open,
+.corrige[open] .closed {
+  display: none;
+}
+
+.corrige[open] .open {
+  display: inline;
+}
+
+.body {
+  margin-top: 1rem;
+}

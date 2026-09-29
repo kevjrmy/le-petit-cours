@@ -1225,6 +1225,12 @@ authorship**: no name, age, school, town, class or date of birth in the page, th
 comments or the commit message. Characters from the book or film summarised stay. A page that cannot
 be written without saying whose it is stays out — a commit that lands a name can be reverted out of
 the tree but not out of anyone's clone.
+The photo, the transcript and any notes stay in `.private/`, gitignored; only the anonymous copy
+reaches `src/app/temp/`.
+
+**A page is written for the learner in front of it**, so it may break the course's voice where that
+serves the class: it may say « tu », and it may restyle a shared pattern (`.fr`, `.resume`) through
+`_texte/Page.module.css`, scoped to the atelier. The course's own patterns never change for it.
 
 **What would reopen this.** Pages piling up for months, or someone outside the class working through
 them: then it is an ordinary chapter wanting ticks, a syllabus position and a place in

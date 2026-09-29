@@ -1,0 +1,72 @@
+/* Le plateau de « Trouvez la faute ». L'habillage est partagé
+   (`src/components/exercice/Drill.tsx`), et les trois états de réponse sont
+   globaux et doublés (`globals.css`) : rien de tout cela n'est redéclaré ici. */
+
+.card {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.35rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+.sentence {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.45rem 0.4rem;
+}
+
+/* Chaque mot est une pastille teintée : une cible large et visible, que le
+   doigt ou la souris d'un enfant trouve du premier coup. Le prix est que la
+   phrase se lit un peu comme une liste de choix ; en séance, à voix haute,
+   c'est le bon échange. Les trois états de réponse (`.is-wrong`,
+   `.is-missed`) sont doublés dans `globals.css` et passent par-dessus. */
+.mot {
+  padding: 0.2rem 0.75rem;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-pill);
+  background: var(--accent-subtle);
+  color: var(--text-heading);
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 1.6;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.mot:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.mot:disabled {
+  cursor: default;
+}
+
+.verdict {
+  margin-top: 1.2rem;
+}
+
+.corrected {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--text-heading);
+}
+
+.pourquoi {
+  margin-top: 0.6rem;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+  color: var(--text-2);
+}
+
+.actions {
+  margin-top: 1.3rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
