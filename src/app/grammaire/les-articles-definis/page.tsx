@@ -11,247 +11,285 @@ export default function Page() {
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
-        <h2>Quatre formes, décidées par le nom</h2>
+      <section lang="es">
+        <h2>Cuatro formas, y las decide el nombre</h2>
 
         <div className="rule">
-          L’article défini est le petit mot placé devant un nom. Il annonce une
-          chose déjà connue, ou une chose unique. Quatre formes :{" "}
-          <span className="fr">le</span>, <span className="fr">la</span>,{" "}
-          <span className="fr">l’</span>, <span className="fr">les</span>.
+          El artículo definido va delante del nombre. Es el «el, la, los, las»
+          del español. En francés tiene cuatro formas:{" "}
+          <span className="fr" lang="fr">le</span>,{" "}
+          <span className="fr" lang="fr">la</span>,{" "}
+          <span className="fr" lang="fr">l’</span> y{" "}
+          <span className="fr" lang="fr">les</span>.
         </div>
 
         <div className="table-wrap">
           <table>
-            <caption>Les quatre formes, et le nom qui décide de chacune</caption>
+            <caption>Las cuatro formas y el nombre que decide cada una</caption>
             <thead>
               <tr>
-                <th scope="col">Le nom</th>
-                <th scope="col">La forme</th>
-                <th scope="col">Exemple</th>
+                <th scope="col">El nombre</th>
+                <th scope="col">La forma</th>
+                <th scope="col">Ejemplo</th>
+                <th scope="col">En español</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th scope="row">masculin</th>
-                <td className="fr">le</td>
-                <td className="fr">Le train part à huit heures.</td>
+                <th scope="row">masculino</th>
+                <td className="fr" lang="fr">le</td>
+                <td className="fr" lang="fr">Le train part à huit heures.</td>
+                <td>El tren sale a las ocho.</td>
               </tr>
               <tr>
-                <th scope="row">féminin</th>
-                <td className="fr">la</td>
-                <td className="fr">La porte est fermée.</td>
+                <th scope="row">femenino</th>
+                <td className="fr" lang="fr">la</td>
+                <td className="fr" lang="fr">La porte est fermée.</td>
+                <td>La puerta está cerrada.</td>
               </tr>
               <tr>
-                <th scope="row">
-                  devant une voyelle ou un <span className="fr">h</span> muet
-                </th>
-                <td className="fr">l’</td>
-                <td className="fr">L’école ouvre à neuf heures.</td>
+                <th scope="row">delante de vocal o h muda</th>
+                <td className="fr" lang="fr">l’</td>
+                <td className="fr" lang="fr">L’école ouvre à neuf heures.</td>
+                <td>La escuela abre a las nueve.</td>
               </tr>
               <tr>
-                <th scope="row">pluriel</th>
-                <td className="fr">les</td>
-                <td className="fr">Les enfants jouent dehors.</td>
+                <th scope="row">plural</th>
+                <td className="fr" lang="fr">les</td>
+                <td className="fr" lang="fr">Les enfants jouent dehors.</td>
+                <td>Los niños juegan fuera.</td>
               </tr>
             </tbody>
           </table>
         </div>
 
+        <p>
+          Delante de una vocal (a, e, i, o, u), <span className="fr" lang="fr">le</span> y{" "}
+          <span className="fr" lang="fr">la</span> pierden la vocal y ponen un
+          apóstrofo. <span className="fr" lang="fr">la école</span> no existe:
+          se escribe <span className="fr" lang="fr">l’école</span>. Se pronuncia
+          todo junto, como una sola palabra. <span className="fr" lang="fr">les</span> no cambia al escribirlo: es igual
+          para masculino y femenino.
+        </p>
+
         <div className="attention">
-          <span className="fr">l’</span> cache le genre du nom.{" "}
-          <span className="fr">l’école</span> est féminin,{" "}
-          <span className="fr">l’hôtel</span> est masculin, et l’article ne le
-          dit pas. Apprenez le nom avec son article complet, comme{" "}
-          <span className="fr">une école</span> ou{" "}
-          <span className="fr">un hôtel</span> : c’est la seule façon de
-          retrouver le genre quand l’apostrophe l’efface.
+          <span className="fr" lang="fr">l’</span> esconde el género.{" "}
+          <span className="fr" lang="fr">l’école</span> es femenino y{" "}
+          <span className="fr" lang="fr">l’hôtel</span> es masculino, pero el
+          artículo no lo dice. Aprende el nombre con su artículo completo:{" "}
+          <span className="fr" lang="fr">une école</span> (una escuela),{" "}
+          <span className="fr" lang="fr">un hôtel</span> (un hotel). Y el género
+          no siempre es el del español: <em>la leche</em> se dice{" "}
+          <span className="fr" lang="fr">le lait</span> (masculino).
         </div>
 
         <div className="exception">
-          devant un <span className="fr">h</span> aspiré, il n’y a pas
-          d’apostrophe : <span className="fr">le héros</span>,{" "}
-          <span className="fr">la hauteur</span>,{" "}
-          <span className="fr">le haricot</span>. Ces mots sont peu nombreux et
-          s’apprennent un par un.
+          delante de unas pocas palabras con h no hay apóstrofo:{" "}
+          <span className="fr" lang="fr">le héros</span> (héroe),{" "}
+          <span className="fr" lang="fr">la hauteur</span> (altura),{" "}
+          <span className="fr" lang="fr">le haricot</span> (judía). Son pocas
+          y se aprenden una por una.
         </div>
       </section>
 
-      <section>
-        <h2>Après « à » et « de », l’article se soude</h2>
+      <section lang="es">
+        <h2>
+          Después de <span className="fr" lang="fr">à</span> y{" "}
+          <span className="fr" lang="fr">de</span>, el artículo se junta
+        </h2>
 
         <div className="rule">
-          Devant <span className="fr">le</span> et{" "}
-          <span className="fr">les</span>, les deux prépositions{" "}
-          <span className="fr">à</span> et <span className="fr">de</span> se
-          collent à l’article et donnent un seul mot :{" "}
-          <strong>au</strong>, <strong>aux</strong>, <strong>du</strong>,{" "}
-          <strong>des</strong>. Devant <span className="fr">la</span> et{" "}
-          <span className="fr">l’</span>, rien ne bouge.
+          En español pasa lo mismo: a + el = <em>al</em>, de + el = <em>del</em>.
+          En francés, <span className="fr" lang="fr">à</span> y{" "}
+          <span className="fr" lang="fr">de</span> se juntan con{" "}
+          <span className="fr" lang="fr">le</span> y con{" "}
+          <span className="fr" lang="fr">les</span> y forman una sola palabra:{" "}
+          <strong lang="fr">au</strong>, <strong lang="fr">aux</strong>,{" "}
+          <strong lang="fr">du</strong>, <strong lang="fr">des</strong>. Con{" "}
+          <span className="fr" lang="fr">la</span> y{" "}
+          <span className="fr" lang="fr">l’</span> no cambia nada.
         </div>
 
         <div className="table-wrap">
           <table>
             <caption>
-              Ce que « à » et « de » deviennent devant chaque article
+              Lo que pasa con <span className="fr" lang="fr">à</span> y{" "}
+              <span className="fr" lang="fr">de</span> delante de cada artículo
             </caption>
             <thead>
               <tr>
-                <th scope="col">L’article</th>
-                <th scope="col">Avec « à »</th>
-                <th scope="col">Avec « de »</th>
+                <th scope="col">El artículo</th>
+                <th scope="col">
+                  Con <span className="fr" lang="fr">à</span> (a)
+                </th>
+                <th scope="col">
+                  Con <span className="fr" lang="fr">de</span> (de)
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th scope="row" className="fr">
-                  le
-                </th>
-                <td className="fr">au cinéma</td>
-                <td className="fr">du cinéma</td>
+                <th scope="row" className="fr" lang="fr">le</th>
+                <td>
+                  <span className="fr" lang="fr">au cinéma</span> (al cine)
+                </td>
+                <td>
+                  <span className="fr" lang="fr">du cinéma</span> (del cine)
+                </td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
-                  la
-                </th>
-                <td className="fr">à la gare</td>
-                <td className="fr">de la gare</td>
+                <th scope="row" className="fr" lang="fr">la</th>
+                <td>
+                  <span className="fr" lang="fr">à la gare</span> (a la estación)
+                </td>
+                <td>
+                  <span className="fr" lang="fr">de la gare</span> (de la estación)
+                </td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
-                  l’
-                </th>
-                <td className="fr">à l’école</td>
-                <td className="fr">de l’école</td>
+                <th scope="row" className="fr" lang="fr">l’</th>
+                <td>
+                  <span className="fr" lang="fr">à l’école</span> (a la escuela)
+                </td>
+                <td>
+                  <span className="fr" lang="fr">de l’école</span> (de la escuela)
+                </td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
-                  les
-                </th>
-                <td className="fr">aux enfants</td>
-                <td className="fr">des enfants</td>
+                <th scope="row" className="fr" lang="fr">les</th>
+                <td>
+                  <span className="fr" lang="fr">aux enfants</span> (a los niños)
+                </td>
+                <td>
+                  <span className="fr" lang="fr">des enfants</span> (de los niños)
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div className="attention">
-          devant un nom, <span className="fr">à le</span> et{" "}
-          <span className="fr">de le</span> ne s’écrivent jamais. La forme
-          soudée est obligatoire : <span className="fr">je vais au marché</span>
-          , <span className="fr">la voiture du voisin</span>.
+          <span className="fr" lang="fr">à le</span> y{" "}
+          <span className="fr" lang="fr">de le</span> no se escriben nunca. La
+          forma junta es obligatoria:{" "}
+          <span className="fr" lang="fr">je vais au marché</span> (voy al
+          mercado), <span className="fr" lang="fr">la voiture du voisin</span> (el
+          coche del vecino).
         </div>
 
         <p>
-          Les prépositions elles-mêmes, et le cas particulier des villes et des
-          pays, sont dans{" "}
-          <Link href="/astuces/a-en-au-aux">à, en, au ou aux ?</Link>.
+          Para las preposiciones con países y ciudades, mira{" "}
+          <Link href="/astuces/a-en-au-aux" lang="fr">à, en, au ou aux ?</Link>.
         </p>
 
         <div className="astuce">
           <p className="astuce-hook">
-            <strong>du</strong> et <strong>des</strong> ont chacun deux vies.
+            <strong lang="fr">du</strong> y <strong lang="fr">des</strong> tienen
+            dos vidas.
           </p>
           <p>
-            <span className="fr">la porte du garage</span>, c’est{" "}
-            <span className="fr">de</span> plus{" "}
-            <span className="fr">le</span>. <span className="fr">je bois du
-            café</span>, c’est autre chose : un article à part entière, expliqué
-            dans{" "}
-            <Link href="/grammaire/les-articles-partitifs">
+            <span className="fr" lang="fr">la porte du garage</span> (la puerta
+            del garaje) es <span className="fr" lang="fr">de</span> +{" "}
+            <span className="fr" lang="fr">le</span>. Pero{" "}
+            <span className="fr" lang="fr">je bois du café</span> (bebo café) es
+            otra cosa: es un artículo distinto, que se explica en{" "}
+            <Link href="/grammaire/les-articles-partitifs" lang="fr">
               Les articles partitifs
             </Link>
-            . Les deux s’écrivent pareil, et rien ne les sépare que la phrase
-            autour.
+            . Se escriben igual, y solo la frase te dice cuál es.
           </p>
         </div>
       </section>
 
-      <section>
-        <h2>Le français met l’article là où on l’oublie</h2>
+      <section lang="es">
+        <h2>Tres casos en que conviene fijarse</h2>
 
         <div className="rule">
-          Un nom tout seul, sans rien devant, ne se dit presque jamais en
-          français. L’article défini est obligatoire devant une chose prise en
-          général, devant un nom de pays, et devant un jour qui revient toutes
-          les semaines.
+          El artículo definido es obligatorio en tres casos: delante de una
+          cosa en general, delante del nombre de un país y delante de un día que
+          se repite cada semana. En español a veces no lo pones (<em>Francia es
+          grande</em>): por eso se olvida.
         </div>
 
         <div className="table-wrap">
           <table>
-            <caption>Trois emplois où l’article ne se devine pas</caption>
+            <caption>Tres casos en los que el artículo no se adivina</caption>
             <thead>
               <tr>
-                <th scope="col">Le cas</th>
-                <th scope="col">Exemple</th>
-                <th scope="col">Ce que ça dit</th>
+                <th scope="col">El caso</th>
+                <th scope="col">Ejemplo</th>
+                <th scope="col">En español</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th scope="row">une chose en général</th>
-                <td className="fr">J’aime le chocolat.</td>
-                <td>le chocolat tout entier, pas un morceau</td>
+                <th scope="row">una cosa en general</th>
+                <td className="fr" lang="fr">J’aime le chocolat.</td>
+                <td>Me gusta el chocolate.</td>
               </tr>
               <tr>
-                <th scope="row">un pays</th>
-                <td className="fr">La France est grande.</td>
-                <td>le nom du pays porte son article</td>
+                <th scope="row">un país</th>
+                <td className="fr" lang="fr">La France est grande.</td>
+                <td>Francia es grande. (sin artículo)</td>
               </tr>
               <tr>
-                <th scope="row">un jour qui revient</th>
-                <td className="fr">Le lundi, je travaille chez moi.</td>
-                <td>tous les lundis, pas un seul</td>
+                <th scope="row">un día que se repite</th>
+                <td className="fr" lang="fr">Le lundi, je travaille chez moi.</td>
+                <td>Los lunes trabajo en casa.</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div className="attention">
-          <span className="fr">j’aime chocolat</span> n’existe pas. Devant un
-          nom, il faut un article. Dans le doute, mettez-en un plutôt que
-          rien.
+          <span className="fr" lang="fr">j’aime chocolat</span> no existe.
+          En estos tres casos hace falta un artículo.
         </div>
 
         <div className="exception">
-          <span className="fr">lundi</span> sans article désigne un seul jour,
-          celui qui arrive : <span className="fr">lundi, je pars à Paris</span>{" "}
-          parle du lundi prochain, <span className="fr">le lundi, je pars à
-          Paris</span> parle de toutes les semaines. Et après{" "}
-          <span className="fr">en</span>, le pays perd son article :{" "}
-          <span className="fr">en France</span>,{" "}
-          <span className="fr">au Japon</span>.
+          <span className="fr" lang="fr">lundi</span> sin artículo es un lunes
+          concreto:{" "}
+          <span className="fr" lang="fr">lundi, je pars à Paris</span> (el lunes
+          me voy a París). <span className="fr" lang="fr">le lundi, je pars à Paris</span>{" "}
+          es todos los lunes. Y después de <span className="fr" lang="fr">en</span>,
+          el país no lleva artículo:{" "}
+          <span className="fr" lang="fr">en France</span> (en Francia).
         </div>
       </section>
 
-      <div className="resume">
-        <h2>En résumé</h2>
+      <div className="resume" lang="es">
+        <h2>En resumen</h2>
         <ul>
           <li>
-            Quatre formes : <span className="fr">le</span>,{" "}
-            <span className="fr">la</span>, <span className="fr">l’</span>{" "}
-            devant une voyelle, <span className="fr">les</span> au pluriel.
+            Cuatro formas: <span className="fr" lang="fr">le</span>,{" "}
+            <span className="fr" lang="fr">la</span>,{" "}
+            <span className="fr" lang="fr">l’</span> delante de vocal y{" "}
+            <span className="fr" lang="fr">les</span> en plural.
           </li>
           <li>
-            <span className="fr">l’</span> cache le genre : apprenez le nom avec{" "}
-            <span className="fr">un</span> ou <span className="fr">une</span>.
+            <span className="fr" lang="fr">l’</span> esconde el género: aprende
+            el nombre con <span className="fr" lang="fr">un</span> o{" "}
+            <span className="fr" lang="fr">une</span>.
           </li>
           <li>
-            <span className="fr">à</span> et <span className="fr">de</span> se
-            soudent à <span className="fr">le</span> et{" "}
-            <span className="fr">les</span> :{" "}
-            <span className="fr">au</span>, <span className="fr">aux</span>,{" "}
-            <span className="fr">du</span>, <span className="fr">des</span>.
+            <span className="fr" lang="fr">à</span> y{" "}
+            <span className="fr" lang="fr">de</span> se juntan con{" "}
+            <span className="fr" lang="fr">le</span> y{" "}
+            <span className="fr" lang="fr">les</span>:{" "}
+            <span className="fr" lang="fr">au</span>,{" "}
+            <span className="fr" lang="fr">aux</span>,{" "}
+            <span className="fr" lang="fr">du</span>,{" "}
+            <span className="fr" lang="fr">des</span>.
           </li>
           <li>
-            Devant <span className="fr">la</span> et{" "}
-            <span className="fr">l’</span>, rien ne se soude :{" "}
-            <span className="fr">à la gare</span>,{" "}
-            <span className="fr">de l’école</span>.
+            Con <span className="fr" lang="fr">la</span> y{" "}
+            <span className="fr" lang="fr">l’</span> no se junta nada:{" "}
+            <span className="fr" lang="fr">à la gare</span>,{" "}
+            <span className="fr" lang="fr">de l’école</span>.
           </li>
           <li>
-            Une chose en général, un pays, un jour qui revient : l’article est
-            obligatoire, et un nom seul ne se dit presque jamais.
+            Una cosa en general, un país, un día que se repite: el artículo es
+            obligatorio.
           </li>
         </ul>
       </div>
