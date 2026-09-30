@@ -713,6 +713,15 @@ export const chapters: Chapter[] = [
         created: "2026-09-30",
       },
       {
+        id: "voc-transports",
+        path: "/vocabulaire/les-transports",
+        title: "Les transports",
+        subtitle: "En bus, à pied, et les mots de la gare",
+        level: "A1",
+        delf: "Dire comment on se déplace et se repérer à la gare",
+        created: "2026-09-30",
+      },
+      {
         id: "voc-heure",
         path: "/vocabulaire/l-heure",
         title: "L’heure",
@@ -2088,6 +2097,12 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/les-articles-indefinis",
     "/grammaire/le-singulier-et-le-pluriel",
     "/vocabulaire/la-famille",
+  ],
+  "/vocabulaire/les-transports": [
+    "/vocabulaire/la-maison",
+    "/grammaire/les-articles-definis",
+    "/conjugaison/aller",
+    "/conjugaison/prendre",
   ],
   "/vocabulaire/la-famille": [
     "/orthographe/les-determinants-possessifs",
