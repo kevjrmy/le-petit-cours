@@ -133,7 +133,8 @@ A scene to play with someone else (#54). Grades nothing, stores nothing. Three s
 The cloud: **walked against the constraint card**, so every situation on it is answerable out of the
 chips — that is the test, not the count. **An entry is a word or a small fixed piece** (`les congés`,
 `ça me convient`, `vous pouvez répéter ?`), never a sentence about the scene. **Ordered the way the
-conversation runs.** No glosses, except at A1 (#85), where a chip may carry a short Spanish gloss.
+conversation runs.** No glosses, except at A1 (#85), where a chip may carry a short Spanish gloss,
+outside its `<span className="fr" lang="fr">` (model: `conv-se-presenter`).
 
 **Two callouts at most.** One that grows a paradigm table has become a lesson. **Write the scene so
 the grammar just learnt is unavoidable**, not merely mentioned.

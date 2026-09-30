@@ -132,7 +132,8 @@ takes `lang="fr"` back:
 There the attribute stops a screen reader reading French with a Spanish accent, and is what the
 speech hook will pick a voice from. The callouts' printed labels (`.attention`, `.exception`,
 `.astuce`) switch under `:lang(es)` — **a new printed label needs its Spanish twin** in the same
-change. `.fr` is redundant inside `.example`.
+change. `.fr` is redundant inside `.example`. A role-play chip (`ul.mots li`) is serif, except under
+`:lang(es)`, where it carries a Spanish gloss and goes sans — the French in it keeps `.fr`.
 
 `.fr` carries `font-size: 1.06em` because Spectral's x-height is below Inter's. Change either face
 and re-check that number first.

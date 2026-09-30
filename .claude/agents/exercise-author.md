@@ -61,7 +61,9 @@ Never mark the page client to make the drill work.
 
 **A drill whose floor is A1 gives its instructions in Spanish** (#85): `Instructions`, a per-item
 hint, a gloss beside a French cue, marked `lang="es"`. Items, answers and every French word stay
-French with `lang="fr"`; the furniture's labels (`Score`, buttons) stay French.
+French with `lang="fr"`; the furniture's labels (`Score`, buttons) stay French. **French quoted
+inside a Spanish correction needs its own `lang="fr"`** — `le-la-ou-un` writes it `*between
+asterisks*` in `data.ts` and its board wraps the runs; nothing checks a plain string.
 
 ## One drill, an item bank per level
 
