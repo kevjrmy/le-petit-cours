@@ -1,12 +1,12 @@
 import type { Parcours } from "./index";
 
-/* Every A1 page, in three gestures: say who you are, talk about your people,
-   count and buy. The verb sheets open it because the scene asks for « je suis »
-   and « j'ai » before any article does. */
+/* Every A1 page, in four gestures: say who you are, talk about your people,
+   count and buy, describe where you live. The verb sheets open it because the
+   scene asks for « je suis » and « j'ai » before any article does. */
 export const A1: Parcours = {
   id: "a1",
   title: "Parcours A1",
-  blurb: "Vous commencez. Se présenter, parler des siens, compter et acheter.",
+  blurb: "Vous commencez. Se présenter, parler des siens, compter et acheter, décrire où l'on habite.",
   level: "A1",
   etapes: [
     {
@@ -25,6 +25,10 @@ export const A1: Parcours = {
     {
       title: "Compter et acheter",
       lessons: ["voc-nombres", "conv-faire-des-achats"],
+    },
+    {
+      title: "Chez soi",
+      lessons: ["voc-maison"],
     },
   ],
 };

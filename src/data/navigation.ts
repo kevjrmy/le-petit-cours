@@ -704,6 +704,15 @@ export const chapters: Chapter[] = [
         created: "2026-09-21",
       },
       {
+        id: "voc-maison",
+        path: "/vocabulaire/la-maison",
+        title: "La maison",
+        subtitle: "Les pièces, les meubles et les faux amis",
+        level: "A1",
+        delf: "Nommer les pièces et les meubles d’un logement",
+        created: "2026-09-30",
+      },
+      {
         id: "voc-heure",
         path: "/vocabulaire/l-heure",
         title: "L’heure",
@@ -2074,6 +2083,12 @@ const handWrittenLinks: Record<string, string[]> = {
   ],
   /* Les formes complètes des possessifs sont sur la page d'orthographe, qui
      les possède : celle-ci n'en donne que l'emploi, et pointe. */
+  "/vocabulaire/la-maison": [
+    "/grammaire/les-articles-definis",
+    "/grammaire/les-articles-indefinis",
+    "/grammaire/le-singulier-et-le-pluriel",
+    "/vocabulaire/la-famille",
+  ],
   "/vocabulaire/la-famille": [
     "/orthographe/les-determinants-possessifs",
     "/conversation/se-presenter",
