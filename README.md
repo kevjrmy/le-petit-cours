@@ -42,7 +42,7 @@ upward, so choosing a higher level never shows you less. A level counts as compl
 the published **DELF** exam syllabus for that level.
 
 Chapters cover grammar, spelling, conjugation, pronunciation, vocabulary, translation, reading,
-culture, role-plays, dictations, graded exercises, replayable games, and `delf` — whole practice
+literature, culture, role-plays, dictations, graded exercises, replayable games, and `delf` — whole practice
 exam papers, written for this course rather than copied from a real one.
 
 **Accounts.** Everything is free and public — no account is needed to read a lesson or play a

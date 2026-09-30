@@ -154,7 +154,10 @@ data — `lines`, `model`, `note`. No component, no CSS.
 - **Written here, never fetched.** Summarising a plot in your own four sentences is fine; a poster,
   back-cover or streaming synopsis is someone else's text (§9b).
 
-### Lecture
+### Lecture and Littérature
+
+**What the text is picks the chapter** (#58): an original dialogue written for the course goes in
+`lecture`; a public-domain literary work goes in `litterature`. Same page shape, same quiz.
 
 Public-domain French text, or an original A2 dialogue for a practical scenario. Never
 machine-generated filler, never in-copyright text. A screen or so.

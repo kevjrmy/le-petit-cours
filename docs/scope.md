@@ -114,9 +114,9 @@ material out of the way of someone expecting a course. See `docs/atelier.md`.
 **An account is required to keep a learning path** — the « J'ai terminé » tick, the level you work
 at, and a position in a parcours, across devices. There is no anonymous progress (#48).
 
-An account holds a **username, an email, a password, progress rows and settings** (a level and an
-optional display name), **and nothing else**. The address is fake (`@lepetitcours.test`), so
-accounts are made by hand (#37). No analytics on learners, no behavioural tracking.
+An account holds a **username, an email, a password, progress rows and settings** (the view, the
+parcours, the language of the account screens and an optional display name), **and nothing
+else**. The address is fake (`@lepetitcours.test`), so accounts are made by hand (#37). No analytics on learners, no behavioural tracking.
 
 ## Platform
 

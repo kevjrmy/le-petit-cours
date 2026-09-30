@@ -77,7 +77,8 @@ Language:
   no translation column. **Exceptions**: a `traduction` source text (#55), **a page whose floor
   is A1, which explains in Spanish and teaches in French** (#85, `docs/levels/a1.md`), and
   the account screens in the account's language, `fr` or `es` (#91: `/bienvenue`, `/compte`, the
-  account menu's own words). Chrome and manifest titles are French at every level.
+  account menu's own words and rows, « Mi progresión », « Cuenta »). Chrome and manifest titles are
+  French at every level.
 - **On an A1 page `lang` is not optional**: `lang="es"` on each `<section>` and `.resume` (never
   `<article>`), `lang="fr"` back on every piece of French. Peninsular Spanish, `tú`.
 - **The explanation is easier than the French it teaches.** Short sentences; wrong-then-right
@@ -235,7 +236,8 @@ folder is a 404, a folder without an entry is unreachable — `nav-wiring` audit
 | `dictees` | listen, type, compare |
 | `conversation` | **role-play** for two: scene, steps, ~20 words; no model dialogue, graded nowhere (#54, #57) |
 | `traduction` | a Spanish source to write in French, three hints, then the model (#55) |
-| `lecture`, `litterature` | reading + comprehension quiz |
+| `lecture` | a text written for the course + comprehension quiz |
+| `litterature` | a literary work (public domain, #58, #60) + comprehension quiz; what the text is picks the chapter |
 | `delf` | a whole **épreuve**, marked once at the end; a production has no corrigé; nothing stored (#78, #82, #84) |
 | `temp` | scratch for a class in progress, any form above, ticked nowhere (#80) |
 
