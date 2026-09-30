@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
 
@@ -10,271 +11,327 @@ export default function Page() {
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
-        <h2>Les personnes de la famille</h2>
+      <section lang="es">
+        <h2>
+          Las personas de la familia:{" "}
+          <span className="fr" lang="fr">
+            les personnes de la famille
+          </span>
+        </h2>
 
         <div className="rule">
-          Presque tous les noms de la famille vont par deux, un masculin et un
-          féminin. Le pluriel mélangé prend la forme masculine :{" "}
-          <span className="fr">mes parents</span>,{" "}
-          <span className="fr">mes grands-parents</span>,{" "}
-          <span className="fr">mes cousins</span>.
+          Casi todos los nombres de la familia van por parejas, un masculino y
+          un femenino. Como en español, el plural mixto usa la forma masculina:{" "}
+          <span className="fr" lang="fr">mes cousins</span> (mis primos),{" "}
+          <span className="fr" lang="fr">mes voisins</span> (mis vecinos).
+          Cuando <span className="fr" lang="fr">l’</span> esconde el
+          género, lo marco con (m.).
         </div>
 
         <div className="table-wrap">
           <table>
-            <caption>Les noms de la famille, au masculin et au féminin</caption>
+            <caption>Los nombres de la familia, en masculino y en femenino</caption>
             <thead>
               <tr>
-                <th scope="col">Masculin</th>
-                <th scope="col">Féminin</th>
-                <th scope="col">Exemple</th>
+                <th scope="col">Masculino</th>
+                <th scope="col">Femenino</th>
+                <th scope="col">En español</th>
+                <th scope="col">Ejemplo</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th scope="row" className="fr">
-                  le père
-                </th>
-                <td className="fr">la mère</td>
-                <td className="fr">Mon père travaille à Lyon.</td>
+                <th scope="row" className="fr" lang="fr">le père</th>
+                <td className="fr" lang="fr">la mère</td>
+                <td>el padre, la madre</td>
+                <td className="fr" lang="fr">Mon père travaille à Lyon.</td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
-                  le fils
-                </th>
-                <td className="fr">la fille</td>
-                <td className="fr">Ils ont deux fils et une fille.</td>
+                <th scope="row" className="fr" lang="fr">le fils</th>
+                <td className="fr" lang="fr">la fille</td>
+                <td>el hijo, la hija</td>
+                <td className="fr" lang="fr">Ils ont deux fils et une fille.</td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
-                  le frère
-                </th>
-                <td className="fr">la sœur</td>
-                <td className="fr">Ma sœur habite à Madrid.</td>
+                <th scope="row" className="fr" lang="fr">le frère</th>
+                <td className="fr" lang="fr">la sœur</td>
+                <td>el hermano, la hermana</td>
+                <td className="fr" lang="fr">Ma sœur habite à Madrid.</td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
-                  le grand-père
-                </th>
-                <td className="fr">la grand-mère</td>
-                <td className="fr">Je déjeune chez ma grand-mère.</td>
+                <th scope="row" className="fr" lang="fr">le grand-père</th>
+                <td className="fr" lang="fr">la grand-mère</td>
+                <td>el abuelo, la abuela</td>
+                <td className="fr" lang="fr">Je déjeune chez ma grand-mère.</td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
-                  l’oncle
-                </th>
-                <td className="fr">la tante</td>
-                <td className="fr">Mon oncle vient dimanche.</td>
+                <th scope="row" className="fr" lang="fr">l’oncle (m.)</th>
+                <td className="fr" lang="fr">la tante</td>
+                <td>el tío, la tía</td>
+                <td className="fr" lang="fr">Mon oncle vient dimanche.</td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
-                  le cousin
-                </th>
-                <td className="fr">la cousine</td>
-                <td className="fr">J’ai quatre cousines.</td>
+                <th scope="row" className="fr" lang="fr">le cousin</th>
+                <td className="fr" lang="fr">la cousine</td>
+                <td>el primo, la prima</td>
+                <td className="fr" lang="fr">J’ai quatre cousines.</td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
-                  le neveu
-                </th>
-                <td className="fr">la nièce</td>
-                <td className="fr">Mon neveu a huit ans.</td>
+                <th scope="row" className="fr" lang="fr">le neveu</th>
+                <td className="fr" lang="fr">la nièce</td>
+                <td>el sobrino, la sobrina</td>
+                <td className="fr" lang="fr">Mon neveu a huit ans.</td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
-                  le mari
-                </th>
-                <td className="fr">la femme</td>
-                <td className="fr">Sa femme s’appelle Claire.</td>
+                <th scope="row" className="fr" lang="fr">le mari</th>
+                <td className="fr" lang="fr">la femme</td>
+                <td>el marido, la mujer (la esposa)</td>
+                <td className="fr" lang="fr">Sa femme s’appelle Claire.</td>
               </tr>
             </tbody>
           </table>
         </div>
 
+        <p>
+          Los verbos de los ejemplos:{" "}
+          <span className="fr" lang="fr">travaille</span> (trabaja),{" "}
+          <span className="fr" lang="fr">ont</span> (tienen),{" "}
+          <span className="fr" lang="fr">habite</span> (vive),{" "}
+          <span className="fr" lang="fr">déjeune</span> (almuerzo),{" "}
+          <span className="fr" lang="fr">vient</span> (viene),{" "}
+          <span className="fr" lang="fr">s’appelle</span> (se llama),{" "}
+          <span className="fr" lang="fr">dimanche</span> (domingo). Y{" "}
+          <span className="fr" lang="fr">a … ans</span> es «tiene … años». Y{" "}
+          <span className="fr" lang="fr">chez ma grand-mère</span> es «en casa
+          de mi abuela».
+        </p>
+
         <div className="attention">
-          <span className="fr">la fille</span> a deux sens : l’enfant de
-          quelqu’un, et une personne jeune de sexe féminin. Ce qui distingue les
-          deux, c’est le mot qui précède.{" "}
-          <span className="fr">ma fille</span> est mon enfant ;{" "}
-          <span className="fr">une fille</span> dans une phrase comme{" "}
-          <span className="fr">une fille attend devant la porte</span> est
-          quelqu’un qu’on ne connaît pas. <span className="fr">la femme</span>{" "}
-          fonctionne pareil : <span className="fr">sa femme</span> est son
-          épouse, <span className="fr">une femme</span> est une personne
-          adulte.
+          <span className="fr" lang="fr">la fille</span> tiene dos sentidos: la
+          hija y la chica. <span className="fr" lang="fr">la femme</span>
+          también: la esposa y la mujer. Lo que decide es la palabra que va
+          delante. <span className="fr" lang="fr">ma fille</span> es mi hija;{" "}
+          <span className="fr" lang="fr">une fille attend devant la porte</span>{" "}
+          (una chica espera delante de la puerta) es una persona que no
+          conoces. Igual: <span className="fr" lang="fr">sa femme</span> es su
+          esposa, <span className="fr" lang="fr">une femme</span> es una mujer
+          adulta.
+        </div>
+
+        <div className="exception">
+          en español, «mis hermanos» y «mis hijos» incluyen chicos y chicas. En
+          francés, <span className="fr" lang="fr">mes fils</span> son solo
+          chicos: para todos los hijos se dice{" "}
+          <span className="fr" lang="fr">mes enfants</span>, y para los
+          hermanos <span className="fr" lang="fr">mes frères et sœurs</span>.
+          Lo mismo con los tíos:{" "}
+          <span className="fr" lang="fr">mon oncle et ma tante</span>.
         </div>
       </section>
 
-      <section>
-        <h2>Dire à qui ils sont</h2>
+      <section lang="es">
+        <h2>
+          Decir de quién es:{" "}
+          <span className="fr" lang="fr">de</span>
+        </h2>
 
         <div className="rule">
-          Pour relier deux personnes, le français emploie{" "}
-          <span className="fr">de</span> :{" "}
-          <span className="fr">le frère de Marie</span>,{" "}
-          <span className="fr">la mère de mon ami</span>. L’ordre est toujours
-          le même : d’abord la personne dont on parle, ensuite celle à qui elle
-          est liée.
+          Para unir dos personas, el francés usa{" "}
+          <span className="fr" lang="fr">de</span>, como el español:{" "}
+          <span className="fr" lang="fr">le frère de Marie</span> (el hermano de
+          Marie), <span className="fr" lang="fr">la mère de mon ami</span> (la
+          madre de mi amigo). El orden es siempre el mismo: primero la persona
+          de la que hablas, después aquella con quien está unida.
         </div>
 
-        <div className="example">
+        <div className="example" lang="fr">
           C’est la sœur <strong>de</strong> Paul.
           <br />
           Voici la voiture <strong>de</strong> mes parents.
           <br />
           Le fils <strong>du</strong> voisin a quinze ans.
+          <br />
+          La voiture <strong>des</strong> voisins est bleue.
         </div>
 
         <p>
-          <span className="fr">de</span> se colle à l’article qui suit :{" "}
-          <span className="fr">de + le</span> donne{" "}
-          <span className="fr">du</span>, et{" "}
-          <span className="fr">de + les</span> donne{" "}
-          <span className="fr">des</span>. Devant une voyelle,{" "}
-          <span className="fr">de</span> devient{" "}
-          <span className="fr">d’</span> : <span className="fr">la fille d’Anne</span>.
+          <span className="fr" lang="fr">voici</span> es «aquí está»,{" "}
+          <span className="fr" lang="fr">la voiture</span> es el coche y{" "}
+          <span className="fr" lang="fr">le voisin</span> es el vecino. Como
+          «del» en español, <span className="fr" lang="fr">de</span> se une al
+          artículo que sigue: <span className="fr" lang="fr">de + le</span>{" "}
+          da <span className="fr" lang="fr">du</span>, y{" "}
+          <span className="fr" lang="fr">de + les</span> da{" "}
+          <span className="fr" lang="fr">des</span>. Delante de vocal,{" "}
+          <span className="fr" lang="fr">de</span> pasa a{" "}
+          <span className="fr" lang="fr">d’</span>:{" "}
+          <span className="fr" lang="fr">la fille d’Anne</span>. Mira{" "}
+          <Link href="/grammaire/les-articles-definis" lang="fr">
+            Les articles définis
+          </Link>
+          .
         </p>
 
         <div className="attention">
-          <span className="fr">mon</span>, <span className="fr">ton</span>,{" "}
-          <span className="fr">son</span> reviennent devant un nom féminin qui
-          commence par une voyelle. On écrit{" "}
-          <span className="fr">mon amie</span> et{" "}
-          <span className="fr">son école</span>, jamais{" "}
-          <span className="fr">ma amie</span>. Le nom reste féminin : c’est{" "}
-          <span className="fr">mon amie est espagnole</span>. Les formes
-          complètes sont sur la leçon des déterminants possessifs.
+          <span className="fr" lang="fr">mon</span>,{" "}
+          <span className="fr" lang="fr">ton</span> y{" "}
+          <span className="fr" lang="fr">son</span> se usan delante de un nombre
+          femenino que empieza por vocal. Se escribe{" "}
+          <span className="fr" lang="fr">mon amie</span> y{" "}
+          <span className="fr" lang="fr">son école</span>, nunca{" "}
+          <span className="fr" lang="fr">ma amie</span>. El nombre sigue siendo
+          femenino: <span className="fr" lang="fr">mon amie est espagnole</span>{" "}
+          (mi amiga es española). Las formas completas están en{" "}
+          <Link href="/orthographe/les-determinants-possessifs" lang="fr">
+            Les déterminants possessifs
+          </Link>
+          .
         </div>
       </section>
 
-      <section>
-        <h2>La famille qui arrive après</h2>
+      <section lang="es">
+        <h2>
+          La familia política:{" "}
+          <span className="fr" lang="fr">beau-</span> y{" "}
+          <span className="fr" lang="fr">belle-</span>
+        </h2>
 
         <div className="rule">
-          <span className="fr">beau-</span> et{" "}
-          <span className="fr">belle-</span> servent deux fois : pour la
-          famille de votre mari ou de votre femme, et pour la personne qui vit
-          avec votre père ou votre mère.
+          <span className="fr" lang="fr">beau-</span> y{" "}
+          <span className="fr" lang="fr">belle-</span> sirven para dos cosas: la
+          familia de tu marido o de tu mujer (suegro, cuñado) y la pareja de tu
+          padre o de tu madre (padrastro, madrastra). En francés hay una sola
+          palabra para las dos.
         </div>
 
         <div className="table-wrap">
           <table>
             <caption>
-              Les noms en « beau » et « belle », et ce qu’ils désignent
+              Los nombres con <span className="fr" lang="fr">beau</span> y{" "}
+              <span className="fr" lang="fr">belle</span>, y a quién designan
             </caption>
             <thead>
               <tr>
-                <th scope="col">Le nom</th>
-                <th scope="col">Qui c’est</th>
-                <th scope="col">Exemple</th>
+                <th scope="col">La palabra</th>
+                <th scope="col">Quién es</th>
+                <th scope="col">Ejemplo</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th scope="row" className="fr">
-                  le beau-père
-                </th>
+                <th scope="row" className="fr" lang="fr">le beau-père</th>
                 <td>
-                  le père de votre mari ou de votre femme, ou le compagnon de
-                  votre mère
+                  el suegro (el padre de tu marido o de tu mujer) o el padrastro
+                  (la pareja de tu madre)
                 </td>
-                <td className="fr">Mon beau-père est très gentil.</td>
+                <td>
+                  <span className="fr" lang="fr">Mon beau-père est très gentil.</span>{" "}
+                  (<span className="fr" lang="fr">gentil</span>: amable)
+                </td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
-                  la belle-mère
-                </th>
+                <th scope="row" className="fr" lang="fr">la belle-mère</th>
                 <td>
-                  la mère de votre mari ou de votre femme, ou la compagne de
-                  votre père
+                  la suegra (la madre de tu marido o de tu mujer) o la madrastra
+                  (la pareja de tu padre)
                 </td>
-                <td className="fr">Nous dînons chez ma belle-mère.</td>
+                <td>
+                  <span className="fr" lang="fr">Nous dînons chez ma belle-mère.</span>{" "}
+                  (<span className="fr" lang="fr">dînons</span>: cenamos)
+                </td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
-                  le beau-frère
-                </th>
+                <th scope="row" className="fr" lang="fr">le beau-frère</th>
                 <td>
-                  le frère de votre mari ou de votre femme, ou le mari de votre
-                  sœur
+                  el cuñado (el hermano de tu marido o de tu mujer, o el marido
+                  de tu hermana)
                 </td>
-                <td className="fr">Mon beau-frère habite au Portugal.</td>
+                <td className="fr" lang="fr">Mon beau-frère habite au Portugal.</td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
-                  la belle-sœur
-                </th>
+                <th scope="row" className="fr" lang="fr">la belle-sœur</th>
                 <td>
-                  la sœur de votre mari ou de votre femme, ou la femme de votre
-                  frère
+                  la cuñada (la hermana de tu marido o de tu mujer, o la mujer
+                  de tu hermano)
                 </td>
-                <td className="fr">Ma belle-sœur est médecin.</td>
+                <td>
+                  <span className="fr" lang="fr">Ma belle-sœur est médecin.</span>{" "}
+                  (<span className="fr" lang="fr">médecin</span>: médico)
+                </td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
-                  le demi-frère
-                </th>
-                <td>un frère avec qui vous avez un seul parent commun</td>
-                <td className="fr">J’ai un demi-frère plus jeune.</td>
+                <th scope="row" className="fr" lang="fr">le demi-frère</th>
+                <td>
+                  el medio hermano: un hermano con quien solo compartes padre o
+                  madre
+                </td>
+                <td>
+                  <span className="fr" lang="fr">J’ai un demi-frère plus jeune.</span>{" "}
+                  (<span className="fr" lang="fr">plus jeune</span>: más joven)
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div className="exception">
-          <span className="fr">beau-père</span> et{" "}
-          <span className="fr">belle-mère</span> sont ambigus, et le français
-          n’a pas d’autre mot. Quand la phrase doit être claire, on précise :{" "}
-          <span className="fr">le père de mon mari</span>, ou{" "}
-          <span className="fr">le compagnon de ma mère</span>.
+          <span className="fr" lang="fr">beau-père</span> y{" "}
+          <span className="fr" lang="fr">belle-mère</span> son ambiguos, y el
+          francés no tiene otra palabra. Para ser claro, se precisa:{" "}
+          <span className="fr" lang="fr">le père de mon mari</span> (el padre de
+          mi marido) o <span className="fr" lang="fr">le compagnon de ma mère</span>{" "}
+          (la pareja de mi madre).
         </div>
 
         <div className="astuce">
           <p className="astuce-hook">
-            <span className="fr">les parents</span>, ce sont deux personnes :
-            le père et la mère.
+            <span className="fr" lang="fr">mes parents</span> son, por defecto,
+            tu padre y tu madre.
           </p>
           <p>
-            Pour les oncles, les cousins et les grands-parents, on ne dit pas{" "}
-            <span className="fr">les parents</span>. On dit{" "}
-            <span className="fr">la famille</span>, ou{" "}
-            <span className="fr">les proches</span> :{" "}
-            <span className="fr">toute la famille était là</span>,{" "}
-            <span className="fr">j’ai de la famille en France</span>.
+            <span className="fr" lang="fr">Mes parents habitent à Lyon</span>{" "}
+            (mis padres viven en Lyon). Para la familia en general se dice{" "}
+            <span className="fr" lang="fr">la famille</span>:{" "}
+            <span className="fr" lang="fr">J’ai de la famille en France</span>{" "}
+            (tengo familia en Francia). Un{" "}
+            <span className="fr" lang="fr">parent</span>, en singular, también
+            puede ser un pariente, pero es raro al principio.
           </p>
         </div>
       </section>
 
-      <div className="resume">
-        <h2>En résumé</h2>
+      <div className="resume" lang="es">
+        <h2>En resumen</h2>
         <ul>
           <li>
-            Les noms de la famille vont par deux, et le pluriel mélangé prend le
-            masculin : <span className="fr">mes parents</span>,{" "}
-            <span className="fr">mes cousins</span>.
+            Los nombres de la familia van por parejas, y el plural mixto usa el
+            masculino: <span className="fr" lang="fr">mes cousins</span>,{" "}
+            <span className="fr" lang="fr">mes voisins</span>.
           </li>
           <li>
-            <span className="fr">la fille</span> et{" "}
-            <span className="fr">la femme</span> ont deux sens ; le mot qui
-            précède les sépare.
+            <span className="fr" lang="fr">la fille</span> y{" "}
+            <span className="fr" lang="fr">la femme</span> tienen dos sentidos;
+            la palabra de delante los separa.
           </li>
           <li>
-            On relie deux personnes avec <span className="fr">de</span>, qui
-            donne <span className="fr">du</span> devant{" "}
-            <span className="fr">le</span> et{" "}
-            <span className="fr">d’</span> devant une voyelle.
+            Se une con <span className="fr" lang="fr">de</span>, que da{" "}
+            <span className="fr" lang="fr">du</span> delante de{" "}
+            <span className="fr" lang="fr">le</span> y{" "}
+            <span className="fr" lang="fr">d’</span> delante de vocal.
           </li>
           <li>
-            <span className="fr">mon</span> remplace{" "}
-            <span className="fr">ma</span> devant un nom féminin qui commence
-            par une voyelle.
+            <span className="fr" lang="fr">mon</span> sustituye a{" "}
+            <span className="fr" lang="fr">ma</span> delante de un femenino que
+            empieza por vocal.
           </li>
           <li>
-            <span className="fr">beau-</span> et{" "}
-            <span className="fr">belle-</span> désignent la famille du mari ou
-            de la femme, ou le nouveau couple d’un parent, et se précisent avec{" "}
-            <span className="fr">de</span> quand c’est ambigu.
+            <span className="fr" lang="fr">beau-</span> y{" "}
+            <span className="fr" lang="fr">belle-</span> valen para suegros y
+            cuñados, y también para padrastros.
+          </li>
+          <li>
+            <span className="fr" lang="fr">les parents</span> son los padres;
+            la familia en general es <span className="fr" lang="fr">la famille</span>.
           </li>
         </ul>
       </div>

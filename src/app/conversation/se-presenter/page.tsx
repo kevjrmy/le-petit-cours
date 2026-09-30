@@ -11,95 +11,289 @@ export default function Page() {
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
-        <h2>La situation</h2>
+      <section lang="es">
+        <h2>La situación</h2>
 
         <p>
-          Vous rencontrez quelqu’un pour la première fois : en cours, chez un
-          voisin, ou au travail le premier jour. Quelqu’un d’autre joue cette
-          personne. Vous devez dire qui vous êtes, comprendre qui elle est, et
-          demander de l’aide quand vous ne comprenez pas. C’est la première
-          conversation qu’on a en français, et c’est celle qu’on a le plus
-          souvent.
+          Conoces a alguien por primera vez: en clase, en casa de un vecino o en
+          tu primer día de trabajo. Otra persona hace ese papel. Tienes que
+          decir quién eres, entender quién es y pedir ayuda cuando no entiendas.
+          Es la primera conversación que se tiene en francés, y la más
+          frecuente.
         </p>
 
         <Situations />
       </section>
 
-      <section>
-        <h2>Les étapes</h2>
+      <section lang="es">
+        <h2>Los pasos</h2>
 
         <p>
-          Une présentation suit presque toujours le même ordre. Chaque étape
-          demande une phrase que vous seul pouvez produire.
+          Una presentación sigue casi siempre el mismo orden. En cada paso
+          tienes que decir una frase que solo tú puedes producir.
         </p>
 
         <ol>
-          <li>Saluer, et dire votre nom.</li>
+          <li>Saluda y di tu nombre.</li>
           <li>
-            Demander le nom de l’autre personne. Demander de répéter, ou
-            d’épeler.
+            Pregunta cómo se llama la otra persona. Pide que repita o que
+            deletree.
           </li>
-          <li>Dire d’où vous venez, et où vous habitez.</li>
-          <li>Dire votre âge, votre métier ou ce que vous étudiez.</li>
-          <li>Remercier, et prendre congé.</li>
+          <li>Di de dónde eres y dónde vives.</li>
+          <li>Di tu edad y tu profesión, o lo que estudias.</li>
+          <li>Da las gracias y despídete.</li>
         </ol>
 
         <div className="attention">
-          l’âge se dit avec le verbe <span className="fr">avoir</span>, et le
-          mot <span className="fr">ans</span> ne se supprime jamais. On dit{" "}
-          <span className="fr">j’ai vingt-cinq ans</span>. On ne dit pas{" "}
-          <span className="fr">je suis vingt-cinq</span>, ni{" "}
-          <span className="fr">j’ai vingt-cinq</span>.
+          <p>
+            Para dar tu nombre se dice{" "}
+            <span className="fr" lang="fr">
+              je m’appelle
+            </span>
+            . No se dice{" "}
+            <span className="fr" lang="fr">
+              je suis appelle
+            </span>
+            . Para la edad se usa el verbo{" "}
+            <span className="fr" lang="fr">
+              avoir
+            </span>{" "}
+            (tener):{" "}
+            <span className="fr" lang="fr">
+              j’ai vingt-cinq ans
+            </span>{" "}
+            (tengo veinticinco años). La palabra{" "}
+            <span className="fr" lang="fr">
+              ans
+            </span>{" "}
+            no se omite nunca. No se dice{" "}
+            <span className="fr" lang="fr">
+              je suis vingt-cinq
+            </span>{" "}
+            ni{" "}
+            <span className="fr" lang="fr">
+              j’ai vingt-cinq
+            </span>
+            .
+          </p>
         </div>
 
         <div className="astuce">
-          <p className="astuce-hook">
-            La question courte est celle que vous entendez.
+          <p className="astuce-hook">La pregunta corta es la que oirás.</p>
+          <p>
+            En un libro, la pregunta se escribe{" "}
+            <span className="fr" lang="fr">
+              D’où venez-vous ?
+            </span>
+            . En la calle te dirán{" "}
+            <span className="fr" lang="fr">
+              Vous êtes d’où ?
+            </span>
+            , y a alguien de tu edad{" "}
+            <span className="fr" lang="fr">
+              Tu es d’où ?
+            </span>
+            . Las tres preguntan lo mismo. Aprende la corta para entender y la
+            larga para escribir.
           </p>
           <p>
-            Dans un livre, la question s’écrit{" "}
-            <span className="fr">D’où venez-vous ?</span>. Dans la rue, on vous
-            dit <span className="fr">Vous êtes d’où ?</span>, et à quelqu’un
-            de votre âge <span className="fr">Tu es d’où ?</span>. Les trois
-            demandent la même chose. Apprenez la courte pour comprendre, la
-            longue pour écrire.
+            Usa{" "}
+            <span className="fr" lang="fr">
+              vous
+            </span>{" "}
+            con alguien que no conoces, con una persona mayor o con quien te
+            atiende (en una tienda, un profesor). Usa{" "}
+            <span className="fr" lang="fr">
+              tu
+            </span>{" "}
+            con amigos, familia, niños y con quien te habla de{" "}
+            <span className="fr" lang="fr">
+              tu
+            </span>
+            . Y{" "}
+            <span className="fr" lang="fr">
+              vous
+            </span>{" "}
+            es también el plural: «vosotros», «ustedes».
           </p>
         </div>
       </section>
 
-      <section>
-        <h2>Les mots pour le dire</h2>
+      <section lang="es">
+        <h2>Las palabras para decirlo</h2>
 
         <p>
-          De quoi tenir la conversation du début à la fin. Prenez ce qui vous
-          sert, laissez le reste.
+          Con esto puedes sostener la conversación de principio a fin. Coge lo
+          que te sirva y deja el resto.
         </p>
 
         <ul className="mots">
-          <li>bonjour</li>
-          <li>bonsoir</li>
-          <li>salut</li>
-          <li>je m’appelle</li>
-          <li>comment vous appelez-vous ?</li>
-          <li>enchanté</li>
-          <li>vous pouvez répéter ?</li>
-          <li>vous pouvez épeler ?</li>
-          <li>plus lentement</li>
-          <li>je ne comprends pas</li>
-          <li>je viens de</li>
-          <li>j’habite à</li>
-          <li>je suis espagnol</li>
-          <li>je parle un peu français</li>
-          <li>j’ai vingt ans</li>
-          <li>je suis étudiant</li>
-          <li>je travaille dans</li>
-          <li>voici</li>
-          <li>et vous ?</li>
-          <li>merci beaucoup</li>
-          <li>au revoir</li>
-          <li>à bientôt</li>
-          <li>bonne journée</li>
+          <li>
+            <span className="fr" lang="fr">
+              bonjour
+            </span>{" "}
+            (hola)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              bonsoir
+            </span>{" "}
+            (buenas tardes, buenas noches)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              salut
+            </span>{" "}
+            (hola, entre amigos)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              je m’appelle
+            </span>{" "}
+            (me llamo)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              il s’appelle
+            </span>{" "}
+            /{" "}
+            <span className="fr" lang="fr">
+              elle s’appelle
+            </span>{" "}
+            (se llama)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              comment vous appelez-vous ?
+            </span>{" "}
+            (¿cómo se llama?)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              enchanté
+            </span>{" "}
+            (encantado; una mujer dice{" "}
+            <span className="fr" lang="fr">
+              enchantée
+            </span>
+            )
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              vous pouvez répéter ?
+            </span>{" "}
+            (¿puede repetir?)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              vous pouvez épeler ?
+            </span>{" "}
+            (¿puede deletrear?)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              plus lentement
+            </span>{" "}
+            (más despacio)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              je ne comprends pas
+            </span>{" "}
+            (no entiendo)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              je viens de
+            </span>{" "}
+            (vengo de)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              j’habite à
+            </span>{" "}
+            (vivo en)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              je suis espagnol
+            </span>{" "}
+            (soy español;{" "}
+            <span className="fr" lang="fr">
+              espagnole
+            </span>{" "}
+            si eres mujer)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              je parle un peu français
+            </span>{" "}
+            (hablo un poco de francés)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              j’ai vingt ans
+            </span>{" "}
+            (tengo veinte años)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              je suis étudiant
+            </span>{" "}
+            (soy estudiante;{" "}
+            <span className="fr" lang="fr">
+              étudiante
+            </span>{" "}
+            si eres mujer)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              je suis professeur
+            </span>{" "}
+            (soy profesor o profesora)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              je travaille dans
+            </span>{" "}
+            (trabajo en)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              voici
+            </span>{" "}
+            (este es, esta es)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              et vous ?
+            </span>{" "}
+            (¿y usted?)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              merci beaucoup
+            </span>{" "}
+            (muchas gracias)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              au revoir
+            </span>{" "}
+            (adiós)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              à bientôt
+            </span>{" "}
+            (hasta pronto)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              bonne journée
+            </span>{" "}
+            (que tengas un buen día)
+          </li>
         </ul>
       </section>
     </article>

@@ -191,6 +191,14 @@ export default function DesignPage() {
             <li>tutoyer</li>
             <li>vouvoyer</li>
           </ul>
+          <ul className="mots" lang="es">
+            <li>
+              <span className="fr" lang="fr">bonjour</span> (hola)
+            </li>
+            <li>
+              <span className="fr" lang="fr">je voudrais</span> (quisiera)
+            </li>
+          </ul>
           <div className="message">
             Un message de l&rsquo;interface, neutre. Rien n&rsquo;est ajouté
             devant, contrairement aux blocs de leçon ci-dessus.

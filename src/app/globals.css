@@ -585,6 +585,12 @@ ul.mots li {
   padding: 0.25rem 0.8rem;
 }
 
+/* At A1 a chip carries its Spanish gloss (#85): the chip is sans, and the
+   French inside keeps its serif through `.fr`. */
+ul.mots li:lang(es) {
+  font-family: var(--font-sans);
+}
+
 /* ---------------------------------------------------------------------------
    L'épreuve de DELF (#78, #82).
 

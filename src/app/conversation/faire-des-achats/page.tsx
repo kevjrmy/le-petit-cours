@@ -11,89 +11,240 @@ export default function Page() {
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
-        <h2>La situation</h2>
+      <section lang="es">
+        <h2>La situación</h2>
 
         <p>
-          Vous entrez dans une boulangerie, ou vous arrivez devant un étal au
-          marché. Quelqu’un d’autre joue le vendeur : il salue, il sert, il
-          propose autre chose, il annonce le prix. Vous devez demander ce que
-          vous voulez avec la bonne quantité, comprendre le prix, et payer.
+          Entras en una panadería o llegas a un puesto del mercado. Otra persona
+          hace de vendedor: saluda, te sirve, te ofrece algo más y te dice el
+          precio. Tú tienes que pedir lo que quieres con la cantidad justa,
+          entender el precio y pagar.
         </p>
 
         <Situations />
       </section>
 
-      <section>
-        <h2>Les étapes</h2>
+      <section lang="es">
+        <h2>Los pasos</h2>
 
         <p>
-          Un achat suit toujours le même ordre, et il est court. Cinq phrases
-          suffisent.
+          Una compra sigue siempre el mismo orden y es breve. Bastan cinco
+          frases.
         </p>
 
         <ol>
-          <li>Saluer en entrant, et attendre votre tour.</li>
-          <li>Demander ce que vous voulez, avec la quantité.</li>
-          <li>Demander le prix, et demander de répéter si besoin.</li>
-          <li>Ajouter quelque chose, ou dire que c’est tout.</li>
-          <li>Payer, et saluer en sortant.</li>
+          <li>Saluda al entrar y espera tu turno.</li>
+          <li>Pide lo que quieres, con la cantidad.</li>
+          <li>Pregunta el precio y pide que lo repitan si hace falta.</li>
+          <li>Añade algo más o di que eso es todo.</li>
+          <li>Paga y despídete al salir.</li>
         </ol>
 
         <div className="attention">
-          on n’achète pas avec <span className="fr">je veux</span>.{" "}
-          <span className="fr">je veux une baguette</span> s’entend comme un
-          ordre. La forme polie est{" "}
-          <span className="fr">je voudrais une baguette</span>, et c’est celle
-          qu’on emploie partout, dans un magasin comme au restaurant.
+          No se compra con{" "}
+          <span className="fr" lang="fr">
+            je veux
+          </span>
+          :{" "}
+          <span className="fr" lang="fr">
+            je veux une baguette
+          </span>{" "}
+          suena como una orden. La forma educada es{" "}
+          <span className="fr" lang="fr">
+            je voudrais
+          </span>
+          , y se usa en todas partes, en una tienda igual que en un restaurante.
+          Después de una cantidad, el nombre va con{" "}
+          <span className="fr" lang="fr">
+            de
+          </span>{" "}
+          y sin artículo:{" "}
+          <span className="fr" lang="fr">
+            un kilo de pommes
+          </span>
+          , no{" "}
+          <span className="fr" lang="fr">
+            un kilo des pommes
+          </span>
+          .
         </div>
 
         <div className="astuce">
           <p className="astuce-hook">
-            En France, on dit bonjour avant de dire ce qu’on veut.
+            En Francia se dice{" "}
+            <span className="fr" lang="fr">
+              bonjour
+            </span>{" "}
+            antes de pedir.
           </p>
           <p>
-            Entrer dans un petit commerce et demander quelque chose sans avoir
-            salué est mal reçu, même si la phrase est parfaite. Le{" "}
-            <span className="fr">bonjour</span> vient en premier, et le{" "}
-            <span className="fr">au revoir</span> en sortant, même si vous
-            n’avez rien acheté.
+            Entrar en un comercio pequeño y pedir sin saludar sienta mal, aunque
+            la frase sea perfecta. Primero va{" "}
+            <span className="fr" lang="fr">
+              bonjour
+            </span>
+            , y al salir{" "}
+            <span className="fr" lang="fr">
+              au revoir
+            </span>
+            , incluso si no has comprado nada.
           </p>
         </div>
       </section>
 
-      <section>
-        <h2>Les mots pour le dire</h2>
+      <section lang="es">
+        <h2>Las palabras para decirlo</h2>
 
         <p>
-          De quoi acheter et payer. Prenez ce qui vous sert, laissez le reste.
+          Lo necesario para comprar y pagar. Coge lo que te sirva y deja el
+          resto.
         </p>
 
         <ul className="mots">
-          <li>bonjour</li>
-          <li>je voudrais</li>
-          <li>s’il vous plaît</li>
-          <li>une baguette</li>
-          <li>un croissant</li>
-          <li>un kilo de</li>
-          <li>une tranche de</li>
-          <li>un morceau de</li>
-          <li>une bouteille de</li>
-          <li>six œufs</li>
-          <li>celui-ci</li>
-          <li>le grand</li>
-          <li>le petit</li>
-          <li>autre chose</li>
-          <li>c’est tout</li>
-          <li>ça fait combien ?</li>
-          <li>c’est combien ?</li>
-          <li>vous pouvez répéter ?</li>
-          <li>par carte</li>
-          <li>en espèces</li>
-          <li>la monnaie</li>
-          <li>un sac</li>
-          <li>merci</li>
-          <li>au revoir</li>
+          <li>
+            <span className="fr" lang="fr">
+              bonjour
+            </span>{" "}
+            (hola)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              je voudrais
+            </span>{" "}
+            (quisiera)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              s’il vous plaît
+            </span>{" "}
+            (por favor)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              une baguette
+            </span>{" "}
+            (una barra de pan)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              un croissant
+            </span>{" "}
+            (un cruasán)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              un kilo de
+            </span>{" "}
+            (un kilo de)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              une tranche de
+            </span>{" "}
+            (una loncha, una rebanada de)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              un morceau de
+            </span>{" "}
+            (un trozo de)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              une bouteille de
+            </span>{" "}
+            (una botella de)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              six œufs
+            </span>{" "}
+            (seis huevos)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              celui-ci
+            </span>{" "}
+            (este, de aquí)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              le grand
+            </span>{" "}
+            (el grande)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              le petit
+            </span>{" "}
+            (el pequeño)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              autre chose
+            </span>{" "}
+            (algo más)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              c’est tout
+            </span>{" "}
+            (eso es todo)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              ça fait combien ?
+            </span>{" "}
+            (¿cuánto es?)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              c’est combien ?
+            </span>{" "}
+            (¿cuánto cuesta?)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              vous pouvez répéter ?
+            </span>{" "}
+            (¿puede repetir?)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              je peux payer par carte ?
+            </span>{" "}
+            (¿puedo pagar con tarjeta?)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              en espèces
+            </span>{" "}
+            (en efectivo)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              la monnaie
+            </span>{" "}
+            (el cambio, las monedas)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              un sac
+            </span>{" "}
+            (una bolsa)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              merci
+            </span>{" "}
+            (gracias)
+          </li>
+          <li>
+            <span className="fr" lang="fr">
+              au revoir
+            </span>{" "}
+            (adiós)
+          </li>
         </ul>
       </section>
     </article>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
 /**
  * The constraint card, same contract as the other role-plays: cycles in order,
@@ -16,13 +16,35 @@ import { useState } from "react";
  * paying. The last one carries the only number the learner has to *understand*
  * rather than produce, which is why it is written as a price said out loud.
  */
-const SITUATIONS = [
-  "Vous êtes à la boulangerie. Demandez deux baguettes et trois croissants.",
-  "Au marché, vous voulez des pommes. Demandez un kilo de pommes, puis demandez le prix.",
-  "Le vendeur vous propose deux tailles, une grande et une petite. Choisissez, et dites pourquoi en trois mots.",
-  "On vous demande si vous voulez autre chose. Ajoutez une bouteille d’eau, puis dites que c’est tout.",
-  "Le vendeur annonce un prix, et vous ne l’avez pas compris. Demandez-lui de répéter, puis payez.",
-  "Vous n’avez pas de monnaie. Demandez si vous pouvez payer par carte.",
+const SITUATIONS: ReactNode[] = [
+  <>Estás en la panadería. Pide dos baguettes y tres cruasanes.</>,
+  <>
+    En el mercado quieres manzanas. Pide un kilo de manzanas y pregunta el
+    precio.
+  </>,
+  <>
+    El vendedor te enseña dos tamaños de{" "}
+    <span className="fr" lang="fr">
+      un gâteau
+    </span>
+    , uno grande y uno pequeño. Elige uno con{" "}
+    <span className="fr" lang="fr">
+      celui-ci
+    </span>{" "}
+    o{" "}
+    <span className="fr" lang="fr">
+      le grand
+    </span>
+    .
+  </>,
+  <>
+    Te preguntan si quieres algo más. Añade seis huevos y di que eso es todo.
+  </>,
+  <>
+    El vendedor dice un precio y no lo has entendido. Pídele que lo repita y
+    paga.
+  </>,
+  <>No tienes monedas. Pregunta si puedes pagar con tarjeta.</>,
 ];
 
 export function Situations() {
@@ -32,11 +54,13 @@ export function Situations() {
     <div className="card">
       <p>
         <strong>
-          Situation {index + 1} sur {SITUATIONS.length}
+          Situación {index + 1} de {SITUATIONS.length}
         </strong>
       </p>
 
-      <p aria-live="polite">{SITUATIONS[index]}</p>
+      <p aria-live="polite" lang="es">
+        {SITUATIONS[index]}
+      </p>
 
       <p>
         <button
@@ -44,7 +68,7 @@ export function Situations() {
           className="button"
           onClick={() => setIndex((i) => (i + 1) % SITUATIONS.length)}
         >
-          Autre situation
+          Otra situación
         </button>
       </p>
     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
 /**
  * The constraint card, same contract as the other role-plays: cycles in order,
@@ -18,14 +18,29 @@ import { useState } from "react";
  * scene for — asking someone to repeat, to spell, to speak more slowly — and
  * they are the two that keep a real conversation alive.
  */
-const SITUATIONS = [
-  "C’est le premier cours. Présentez-vous au groupe en quatre phrases : votre nom, votre pays, votre ville, votre métier.",
-  "Vous n’avez pas compris le nom de la personne. Demandez-lui de répéter, puis d’épeler son nom.",
-  "La personne parle trop vite pour vous. Demandez-lui de parler plus lentement, et reprenez la conversation.",
-  "On vous demande d’où vous venez. Répondez, puis posez la même question.",
-  "Quelqu’un arrive. Présentez-le à la personne : son nom, son pays, son métier.",
-  "On vous demande votre âge et ce que vous faites. Répondez, et demandez la même chose.",
-  "La conversation est finie. Remerciez et prenez congé.",
+const SITUATIONS: ReactNode[] = [
+  <>
+    Es la primera clase. Preséntate al grupo con cuatro frases: tu nombre, tu
+    país, tu ciudad y tu trabajo.
+  </>,
+  <>
+    No has entendido el nombre de la persona. Pídele que lo repita y después que
+    lo deletree.
+  </>,
+  <>
+    La persona habla demasiado deprisa. Pídele que hable más despacio y sigue
+    con la conversación.
+  </>,
+  <>Te preguntan de dónde eres. Responde y haz tú la misma pregunta.</>,
+  <>
+    Llega otra persona. Preséntasela a tu interlocutor: di{" "}
+    <span className="fr" lang="fr">
+      voici
+    </span>{" "}
+    y su nombre, y di cómo se llama.
+  </>,
+  <>Te preguntan tu edad y a qué te dedicas. Responde y pregunta lo mismo.</>,
+  <>La conversación ha terminado. Da las gracias y despídete.</>,
 ];
 
 export function Situations() {
@@ -35,11 +50,13 @@ export function Situations() {
     <div className="card">
       <p>
         <strong>
-          Situation {index + 1} sur {SITUATIONS.length}
+          Situación {index + 1} de {SITUATIONS.length}
         </strong>
       </p>
 
-      <p aria-live="polite">{SITUATIONS[index]}</p>
+      <p aria-live="polite" lang="es">
+        {SITUATIONS[index]}
+      </p>
 
       <p>
         <button
@@ -47,7 +64,7 @@ export function Situations() {
           className="button"
           onClick={() => setIndex((i) => (i + 1) % SITUATIONS.length)}
         >
-          Autre situation
+          Otra situación
         </button>
       </p>
     </div>

@@ -10,194 +10,251 @@ export default function Page() {
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
-        <h2>Nommer une chose, présenter une personne</h2>
+      <section lang="es">
+        <h2>
+          Nombrar una cosa, presentar a una persona con{" "}
+          <span className="fr" lang="fr">c’est</span>
+        </h2>
 
         <div className="rule">
-          Pour dire ce qu’est une chose, ou qui est une personne, la phrase
-          commence par <strong>c’est</strong>. Le nom qui suit garde le petit
-          mot placé devant lui : <span className="fr">un</span>,{" "}
-          <span className="fr">une</span>, <span className="fr">le</span>,{" "}
-          <span className="fr">ma</span>.
+          Para decir qué es una cosa o quién es una persona, la frase empieza
+          por <strong lang="fr">c’est</strong>. Es el «es» del español. El
+          nombre que sigue conserva su palabra pequeña (el artículo):{" "}
+          <span className="fr" lang="fr">un</span>,{" "}
+          <span className="fr" lang="fr">une</span>,{" "}
+          <span className="fr" lang="fr">le</span>,{" "}
+          <span className="fr" lang="fr">ma</span>.
         </div>
 
-        <div className="example">
+        <div className="example" lang="fr">
           <strong>C’est</strong> un stylo. · <strong>C’est</strong> la gare. ·{" "}
           <strong>C’est</strong> ma sœur. · <strong>C’est</strong> Paul.
         </div>
 
         <p>
-          <span className="fr">c’est</span> s’écrit toujours avec une
-          apostrophe. <span className="fr">ce</span> perd son{" "}
-          <span className="fr">e</span> devant le verbe{" "}
-          <span className="fr">est</span>, et la forme{" "}
-          <span className="fr">ce est</span> n’existe pas.
+          Es «un bolígrafo», «la estación», «mi hermana» y «Paul». En español
+          puedes callar el sujeto: <em>es un libro</em>. En francés no:{" "}
+          <span className="fr" lang="fr">c’est un livre</span>.{" "}
+          <span className="fr" lang="fr">est un livre</span> no existe.
         </p>
 
         <p>
-          La même phrase répond aux deux questions qu’on pose le plus souvent
-          en arrivant quelque part.
+          <span className="fr" lang="fr">c’est</span> se escribe siempre con
+          apóstrofo: <span className="fr" lang="fr">ce</span> pierde la{" "}
+          <em>e</em> delante de <span className="fr" lang="fr">est</span>, y{" "}
+          <span className="fr" lang="fr">ce est</span> no existe.
         </p>
 
-        <div className="example">
+        <p>
+          La misma frase responde a las dos preguntas que más se hacen al
+          llegar a un sitio.
+        </p>
+
+        <div className="example" lang="fr">
           Qu’est-ce que c’est ? – <strong>C’est</strong> une clé.
           <br />
           Qui est-ce ? – <strong>C’est</strong> mon voisin.
         </div>
 
+        <p>
+          «¿Qué es esto? – Es una llave.» «¿Quién es? – Es mi vecino.»
+        </p>
+
         <div className="attention">
-          <span className="fr">c’est</span> ne change pas selon le genre du nom
-          qui suit. On écrit <span className="fr">c’est un livre</span> et{" "}
-          <span className="fr">c’est une table</span> : le mot qui bouge est
-          celui du nom, jamais <span className="fr">c’est</span>.
+          <span className="fr" lang="fr">c’est</span> no cambia con el género
+          del nombre. Se escribe{" "}
+          <span className="fr" lang="fr">c’est un livre</span> (es un libro) y{" "}
+          <span className="fr" lang="fr">c’est une table</span> (es una mesa):
+          la palabra que cambia es la del nombre, nunca{" "}
+          <span className="fr" lang="fr">c’est</span>.
         </div>
       </section>
 
-      <section>
-        <h2>Au pluriel, et quand la réponse est non</h2>
+      <section lang="es">
+        <h2>
+          En plural, y cuando la respuesta es no:{" "}
+          <span className="fr" lang="fr">ce sont</span>
+        </h2>
 
         <div className="rule">
-          Devant un nom au pluriel, on écrit <strong>ce sont</strong>. Pour dire
-          le contraire, la négation entoure le verbe :{" "}
-          <strong>ce n’est pas</strong>, <strong>ce ne sont pas</strong>.
+          Delante de un nombre en plural se escribe{" "}
+          <strong lang="fr">ce sont</strong>. Es el «son» del español. Para
+          decir lo contrario, la negación rodea al verbo:{" "}
+          <strong lang="fr">ce n’est pas</strong>,{" "}
+          <strong lang="fr">ce ne sont pas</strong>.
         </div>
 
         <div className="table-wrap">
           <table>
-            <caption>
-              Les quatre formes de la phrase qui présente quelque chose
-            </caption>
+            <caption>Las cuatro formas de la frase que presenta algo</caption>
             <thead>
               <tr>
-                <th scope="col">Le nom qui suit</th>
-                <th scope="col">On dit oui</th>
-                <th scope="col">On dit non</th>
+                <th scope="col">El nombre que sigue</th>
+                <th scope="col">Se dice que sí</th>
+                <th scope="col">Se dice que no</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th scope="row">un seul</th>
-                <td className="fr">C’est une clé.</td>
-                <td className="fr">Ce n’est pas une clé.</td>
+                <th scope="row">uno solo</th>
+                <td className="fr" lang="fr">C’est une clé.</td>
+                <td className="fr" lang="fr">Ce n’est pas une clé.</td>
               </tr>
               <tr>
-                <th scope="row">plusieurs</th>
-                <td className="fr">Ce sont des clés.</td>
-                <td className="fr">Ce ne sont pas des clés.</td>
+                <th scope="row">varios</th>
+                <td className="fr" lang="fr">Ce sont des clés.</td>
+                <td className="fr" lang="fr">Ce ne sont pas des clés.</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <p>
-          Le verbe est <span className="fr">être</span>, et il s’accorde avec ce
-          qui suit : un nom au singulier appelle{" "}
-          <span className="fr">est</span>, un nom au pluriel appelle{" "}
-          <span className="fr">sont</span>.
+          En español: «es una llave», «no es una llave», «son llaves» y «no son
+          llaves». El verbo es <span className="fr" lang="fr">être</span> (ser) y
+          concuerda con lo que sigue: un nombre en singular pide{" "}
+          <span className="fr" lang="fr">est</span>, un nombre en plural pide{" "}
+          <span className="fr" lang="fr">sont</span>.
         </p>
 
         <div className="attention">
-          à l’oral, on entend très souvent{" "}
-          <span className="fr">c’est des clés</span>. À l’écrit, le pluriel
-          demande <span className="fr">ce sont des clés</span>.
+          En la conversación se oye mucho{" "}
+          <span className="fr" lang="fr">c’est des clés</span>; en un texto
+          cuidado se escribe{" "}
+          <span className="fr" lang="fr">ce sont des clés</span>.
         </div>
       </section>
 
-      <section>
-        <h2>« c’est » ou « il est » ?</h2>
+      <section lang="es">
+        <h2>
+          ¿<span className="fr" lang="fr">c’est</span> o{" "}
+          <span className="fr" lang="fr">il est</span>?
+        </h2>
 
         <div className="rule">
-          Ce qui vient après décide. S’il y a un petit mot devant le nom
-          (<span className="fr">un</span>, <span className="fr">une</span>,{" "}
-          <span className="fr">mon</span>, <span className="fr">le</span>), la
-          phrase commence par <strong>c’est</strong>. S’il n’y en a pas, on dit{" "}
-          <strong>il est</strong> ou <strong>elle est</strong>.
+          Lo que viene después decide. Tres casos. Un nombre con su artículo
+          (<span className="fr" lang="fr">un</span>,{" "}
+          <span className="fr" lang="fr">une</span>,{" "}
+          <span className="fr" lang="fr">mon</span>,{" "}
+          <span className="fr" lang="fr">le</span>): <strong lang="fr">c’est</strong>.
+          Una profesión sola, o un adjetivo que describe a una persona o cosa
+          ya nombrada: <strong lang="fr">il est</strong> o{" "}
+          <strong lang="fr">elle est</strong>. Un nombre propio o una opinión
+          sobre la situación: <strong lang="fr">c’est</strong>.
         </div>
 
         <div className="table-wrap">
           <table>
-            <caption>Ce qui suit le verbe décide de la forme à écrire</caption>
+            <caption>Lo que sigue al verbo decide la forma que se escribe</caption>
             <thead>
               <tr>
-                <th scope="col">La forme</th>
-                <th scope="col">Ce qui suit</th>
-                <th scope="col">Exemple</th>
+                <th scope="col">La forma</th>
+                <th scope="col">Lo que sigue</th>
+                <th scope="col">Ejemplo</th>
+                <th scope="col">En español</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th scope="row" className="fr">
+                <th scope="row" className="fr" lang="fr">
                   c’est
                 </th>
-                <td>un petit mot, puis un nom</td>
-                <td className="fr">C’est un médecin. C’est ma voisine.</td>
+                <td>una palabra pequeña y un nombre</td>
+                <td className="fr" lang="fr">
+                  C’est un médecin. C’est ma voisine.
+                </td>
+                <td>Es un médico. Es mi vecina.</td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
+                <th scope="row" className="fr" lang="fr">
                   il est / elle est
                 </th>
-                <td>un métier, sans rien devant</td>
-                <td className="fr">Il est médecin. Elle est étudiante.</td>
+                <td>una profesión, sin nada delante</td>
+                <td className="fr" lang="fr">
+                  Il est médecin. Elle est étudiante.
+                </td>
+                <td>Es médico. Es estudiante.</td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
+                <th scope="row" className="fr" lang="fr">
                   il est / elle est
                 </th>
-                <td>un adjectif, accordé avec la personne</td>
-                <td className="fr">Il est grand. Elle est grande.</td>
+                <td>un adjetivo que concuerda con la persona</td>
+                <td className="fr" lang="fr">
+                  Il est grand. Elle est grande.
+                </td>
+                <td>Es alto. Es alta.</td>
               </tr>
               <tr>
-                <th scope="row" className="fr">
+                <th scope="row" className="fr" lang="fr">
                   c’est
                 </th>
-                <td>un adjectif, pour dire ce qu’on en pense</td>
-                <td className="fr">C’est bon. C’est difficile.</td>
+                <td>un adjetivo, para dar una opinión</td>
+                <td className="fr" lang="fr">C’est bon. C’est difficile.</td>
+                <td>Está bien / es bueno. Es difícil.</td>
+              </tr>
+              <tr>
+                <th scope="row" className="fr" lang="fr">
+                  ils sont / elles sont
+                </th>
+                <td>el plural de una profesión</td>
+                <td className="fr" lang="fr">
+                  Ils sont médecins. Elles sont étudiantes.
+                </td>
+                <td>Son médicos. Son estudiantes.</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div className="attention">
-          on ne dit pas <span className="fr">il est un médecin</span>. Dès qu’un
-          petit mot arrive devant le nom, la phrase commence par{" "}
-          <span className="fr">c’est</span>.
+          En español dices «es médico» y también «es un médico». En francés la
+          frase cambia de forma: sin palabra pequeña, se dice{" "}
+          <span className="fr" lang="fr">il est médecin</span>; con ella,{" "}
+          <span className="fr" lang="fr">c’est un médecin</span>.{" "}
+          <span className="fr" lang="fr">il est un médecin</span> no existe, y
+          tampoco <span className="fr" lang="fr">c’est médecin</span>.
         </div>
 
         <div className="exception">
-          après <span className="fr">c’est</span>, l’adjectif ne s’accorde
-          jamais. On écrit <span className="fr">c’est bon</span> même en parlant
-          d’une tarte, parce que l’adjectif ne décrit pas la tarte : il dit ce
-          qu’on pense. Pour décrire la tarte elle-même, on dit{" "}
-          <span className="fr">elle est bonne</span>.
+          después de <span className="fr" lang="fr">c’est</span>, el adjetivo
+          no concuerda nunca. Se escribe{" "}
+          <span className="fr" lang="fr">c’est bon</span> incluso hablando de
+          una tarta, porque el adjetivo no describe la tarta: da tu opinión.
+          Para describir la tarta misma, se dice{" "}
+          <span className="fr" lang="fr">elle est bonne</span> (la tarta está
+          buena).
         </div>
       </section>
 
-      <div className="resume">
-        <h2>En résumé</h2>
+      <div className="resume" lang="es">
+        <h2>En resumen</h2>
         <ul>
           <li>
-            <span className="fr">c’est</span> sert à nommer une chose et à
-            présenter une personne, et s’écrit toujours avec une apostrophe.
+            <span className="fr" lang="fr">c’est</span> sirve para nombrar una
+            cosa y presentar a una persona, y se escribe siempre con apóstrofo.
           </li>
           <li>
-            Devant un nom au pluriel, on écrit{" "}
-            <span className="fr">ce sont</span>, jamais{" "}
-            <span className="fr">c’est</span>.
+            Delante de un nombre en plural, al escribir, se usa{" "}
+            <span className="fr" lang="fr">ce sont</span> y no{" "}
+            <span className="fr" lang="fr">c’est</span>.
           </li>
           <li>
-            La négation entoure le verbe :{" "}
-            <span className="fr">ce n’est pas</span>,{" "}
-            <span className="fr">ce ne sont pas</span>.
+            La negación rodea al verbo:{" "}
+            <span className="fr" lang="fr">ce n’est pas</span>,{" "}
+            <span className="fr" lang="fr">ce ne sont pas</span>.
           </li>
           <li>
-            Un petit mot devant le nom appelle{" "}
-            <span className="fr">c’est</span> ; un métier ou un adjectif
-            accordé appelle <span className="fr">il est</span> ou{" "}
-            <span className="fr">elle est</span>.
+            Un artículo delante del nombre, un nombre propio o una opinión
+            piden <span className="fr" lang="fr">c’est</span>; una profesión
+            sola o un adjetivo que describe a alguien piden{" "}
+            <span className="fr" lang="fr">il est</span> o{" "}
+            <span className="fr" lang="fr">elle est</span>.
           </li>
           <li>
-            Après <span className="fr">c’est</span>, l’adjectif reste au
-            masculin : <span className="fr">c’est bon</span>.
+            Después de <span className="fr" lang="fr">c’est</span>, el
+            adjetivo se queda en masculino:{" "}
+            <span className="fr" lang="fr">c’est bon</span>.
           </li>
         </ul>
       </div>
