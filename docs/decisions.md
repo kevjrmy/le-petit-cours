@@ -78,11 +78,12 @@ than marking it superseded.
 | 84 | 2026-09-27 | A written copy is handed in by downloading it, never by storing it | Binding · extends #31, #82 |
 | 85 | 2026-09-30 | An A1 page explains in Spanish; the French it teaches stays French | Binding · narrows #53 |
 | 86 | 2026-09-30 | A page has one level, and the learner chooses which levels they see | Binding · narrows #72, #85 |
-| 87 | 2026-09-30 | A page holding one set per level shows them as tabs | Binding · tabs not built · narrows #68 |
+| 87 | 2026-09-30 | A page holding sets shows the learner's default one, with no tabs | Binding · amended 2026-09-30 · narrows #68 |
 | 88 | 2026-09-30 | A parcours is a file of étapes, chosen in the account; « La suite » walks it | Binding · builds #14, amends #70 |
 | 89 | 2026-09-30 | The syllabus is data, and a parcours ends on its épreuves | Binding · syllabus not built · builds #15, extends #88 |
 | 90 | 2026-09-30 | A first sign-in passes through `/bienvenue`, in French or Spanish | Binding · amends #88, narrows #53, amended by #91 |
 | 91 | 2026-09-30 | The account screens speak the account's language, French or Spanish | Binding · amends #90, #31 · narrows #53 |
+| 92 | 2026-09-30 | A literary work is one page whose body follows the level; at A1 the Spanish sits under each line | Binding · narrows #72, #86, #87, #53 |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -967,8 +968,13 @@ its listing (#68). **Chosen against keeping `from()` beside a view**: two filter
 view showing A1 pages would be the course overruling the learner again. **Chosen against a B1 twin of every
 A2 page**: a copy, when the A2 page is one tick of the view away.
 
-## 87 · A page holding one set per level shows them as tabs
-**2026-09-30 · Binding · tabs not built yet · narrows #68**
+## 87 · A page holding sets shows the learner's default one, with no tabs
+**2026-09-30 · Binding · amended 2026-09-30 (tabs dropped) · narrows #68**
+
+**Amended the same day: no tabs.** Built, then removed at the maintainer's word: a « A2 | B1 » pill
+above the questions put a level choice on the page, when the page should simply show its level's
+work. A page with sets shows **the learner's default set** and nothing to switch it; a learner
+reaches another set through their parcours. The original text follows; read « tab » as « set ».
 
 `perLevel: true` becomes **`sets: Level[]`**, the question sets or item banks the page holds, written
 out; its `level` is `sets[0]`, checked at import. **The sets are drawn as tabs above the work**
@@ -1084,3 +1090,29 @@ default and the fallback**: anything but `"es"` reads as French (`readLang`).
 would flip on every page load unless the language were cached before paint — a third
 `localStorage` key (#24) for a site whose chrome a learner meets in French from the first lesson
 on.
+
+## 92 · A literary work is one page whose body follows the level; at A1 the Spanish sits under each line
+**2026-09-30 · Binding · narrows #72, #86, #87, #53**
+
+**One page per work, a body per level.** A `litterature` page holds `sets` (A1, A2, B1 where
+written), and each set is a whole body: its own text, its own word table, its own questions, in
+`a1.tsx`, `a2.tsx`, `b1.tsx` beside `page.tsx`. `ByLevel` shows the body for the learner's default
+set (#87), the same one the quiz, the DELF line and the tick read. **Nothing on the page switches
+it.** A page with no parcours shows A2 when it has it (#74), so a visitor reads French first.
+
+- **A2** quotes the extract; **B1** the same passage without cuts, roughly 600 to 900 words, or the
+  companion text when the A2 one is whole (the second fable La Fontaine announces, Baudelaire's
+  prose version).
+- **A1 reads the same work with the Spanish under each French line** (`.bilingue`): the course's own
+  translation, one pair per verse or sentence, the explanation in Spanish (#85). This narrows #53's
+  "no translation column" for A1 literary texts only, and #72's "a text has a floor": the
+  translation is the floor.
+
+**Why**: the maintainer wants one address per work, not `…` and `…-b1` side by side, and the tabs
+of #87 put a level choice on the page. A set of harder questions on the same cut text asked more of
+less text; a body per level lets B1 read more and A1 read at all.
+
+**Chosen against a page per level** (built, then folded back the same day, never shipped): two
+rows and two ticks for one work, and a B1 page a learner must find. **Ticks did not move**: the keys
+stay `id@A2` and `id@B1`, and A1 adds `id@A1` (#68). `lect-chaperon-rouge` is a work with an A1 body
+only, for now.

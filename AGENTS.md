@@ -38,9 +38,9 @@ renumber; add inside a section.
 
 Count content in `src/data/navigation.ts`, never in prose.
 
-- **Decided, not built**: #87's tabs on a page holding sets (the default set is built); #89's
-  syllabus as data (its épreuves are built); #86's manifest split, one file per chapter. Until
-  they land, a page with sets opens on the parcours's level and nothing measures coverage.
+- **Decided, not built**: #89's syllabus as data (its épreuves are built); #86's manifest split,
+  one file per chapter. Until they land, nothing measures coverage. **A page with sets shows the
+  parcours's level, and no tabs** (#87 amended).
 - **The four parcours are first drafts** from the pages that existed on 2026-09-30; the teaching
   order awaits the maintainer's review.
 - **Vercel** at <https://lepetitcours.vercel.app>, from `main`. Supabase project
@@ -75,7 +75,8 @@ Language:
 
 - **French only, from A2 up** (#53): explanations, tables, callouts, instructions, chrome. No gloss,
   no translation column. **Exceptions**: a `traduction` source text (#55), **a page whose floor
-  is A1, which explains in Spanish and teaches in French** (#85, `docs/levels/a1.md`), and
+  is A1, which explains in Spanish and teaches in French** (#85, `docs/levels/a1.md`), the A1
+  body of a literary work, Spanish under each French line (#92), and
   the account screens in the account's language, `fr` or `es` (#91: `/bienvenue`, `/compte`, the
   account menu's own words and rows, « Mi progresión », « Cuenta »). Chrome and manifest titles are
   French at every level.
@@ -244,6 +245,9 @@ folder is a 404, a folder without an entry is unreachable — `nav-wiring` audit
 - **Another level of a page**: lower = a new page (#72); higher = usually nothing — a learner
   who wants it keeps its level in view (#86). **`sets` is only for a stimulus with no floor** (a
   reading, a level-free drill), and scales up only. **Each level gets its own role-play.**
+- **A `litterature` page is one work with a body per level** (#92): `a1.tsx`, `a2.tsx`, `b1.tsx`,
+  each its own text, table and questions, chosen by `ByLevel`; the keys match `sets` and `SETS`.
+  At A1 the text is `.bilingue`, the course's Spanish under each French line.
 
 ## 8. Accounts, access and progress
 

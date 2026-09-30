@@ -3,7 +3,7 @@
 import {
   isTracked,
   LADDER,
-  listedAt,
+  shownAt,
   visibleLessons,
   type Chapter,
   type Lesson,
@@ -109,7 +109,7 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
       <PageRow
         key={lesson.path}
         {...lesson}
-        level={badge ? lesson.level : null}
+        level={badge ? shownAt(lesson, view, level) : null}
         done={done}
         tick={
           done === undefined ? undefined : (
@@ -120,7 +120,7 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
     );
   };
 
-  const groups = groupByLevel(lessons, view);
+  const groups = groupByLevel(lessons, view, level);
 
   if (groups.length < 2) {
     return <ul className={styles.list}>{lessons.map((lesson) => row(lesson, true))}</ul>;
@@ -157,17 +157,18 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
 /**
  * The rows by level, in ladder order, the unlevelled last.
  *
- * A page holding sets goes under the first of its sets in view — under B1 for
- * someone who sees B1 only, rather than under an A2 group they did not ask for.
+ * A page holding sets goes under the set it opens on, when that set is in view,
+ * else its first in view (`shownAt`) — under B1 for someone who sees B1 only,
+ * and under A2 for a visitor on a work that also has an A1 body (#92).
  */
 function groupByLevel(
   lessons: Lesson[],
   view: View,
+  parcoursLevel: Level | null,
 ): { level: Level | null; lessons: Lesson[] }[] {
   const byLevel = new Map<Level | null, Lesson[]>();
   for (const lesson of lessons) {
-    const at = listedAt(lesson);
-    const level = (view === "all" ? at[0] : at.find((l) => view.includes(l))) ?? null;
+    const level = shownAt(lesson, view, parcoursLevel);
     byLevel.set(level, [...(byLevel.get(level) ?? []), lesson]);
   }
   return [...LADDER, null]

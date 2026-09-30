@@ -560,6 +560,25 @@ a.button:hover { text-decoration: none; }
   font-size: 1.02rem;
 }
 
+/* At A1 a literary text is read with its Spanish under each line (#92). One
+   `<p class="bilingue">` per pair, `lang` on both halves: the French keeps the
+   block's serif, the Spanish is sans and quieter, so the eye can follow the
+   French alone and drop down only when it is lost. */
+.bilingue > span {
+  display: block;
+}
+
+.bilingue > span:lang(es) {
+  margin-top: 0.1rem;
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  color: var(--text-2);
+}
+
+.example .bilingue + .bilingue {
+  margin-top: 0.75rem;
+}
+
 /* The words a role-play needs, and nothing built out of them (#57).
  *
  * A conversation page carries no model dialogue: sentences on the page are

@@ -193,10 +193,17 @@ are `<button>`s, never hidden radios (§9).
 - **No markdown** in a question, option or `because` — plain text, so `*mot*` prints its asterisks.
   Emphasis is guillemets.
 
-#### One text, a question set per level
+**A literary work is one page with a body per level** (#92): `a1.tsx`, `a2.tsx`, `b1.tsx`, each
+a whole body (text, word table, « Avez-vous compris ? »), shown by `<ByLevel levels={{ … }} />` in
+`page.tsx`; `questions.ts` holds `SETS` with the same keys, and the manifest's `sets` too. A2 quotes
+the extract; B1 the passage uncut, ~600 to 900 words, or its companion text; **A1 is `.bilingue`**:
+each French line, then the course's own Spanish, explanation and questions in Spanish (#85), French
+in the quiz inside « » and `quotes="fr"`. `litterature/le-comte-de-monte-cristo` is the pattern.
+
+#### One text, a question set per level (`lecture`)
 
 Same reading, same vocabulary table, same tick, harder questions (#59, #68).
-`litterature/le-comte-de-monte-cristo` is the worked example.
+`lecture/un-entretien-d-embauche` is the worked example.
 
 - **`questions.ts` exports `SETS`, imports types only**, and `quiz.tsx` is `<Comprehension
   sets={SETS} />`. Its keys must match the manifest's `sets` (§8; the `nav-wiring` audit's fifth

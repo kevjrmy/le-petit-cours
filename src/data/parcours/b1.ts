@@ -1,8 +1,9 @@
 import type { Parcours } from "./index";
 
-/* What B1 has of its own: four grammar pages, and the B1 sets of the drills and
-   readings (#87). Short, because B1 has no syllabus map yet (§12.2) — the
-   order will come from it. No épreuve: there is no B1 paper. */
+/* What B1 has of its own: four grammar pages, and the B1 sets of the drills
+   and readings (#87); a literary page's B1 set carries its own, fuller text
+   (#92). Short, because B1 has no syllabus map yet (§12.2) — the order will
+   come from it. No épreuve: there is no B1 paper. */
 export const B1: Parcours = {
   id: "b1",
   title: "Parcours B1",

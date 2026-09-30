@@ -1,14 +1,78 @@
 import type { Question, QuestionSets } from "@/components/exercice/Comprehension";
 
 /**
- * The questions for this text, one set per level (`docs/decisions.md` #68).
+ * The questions for this work, one set per level. Each level has its own
+ * text as well (`a2.tsx`, `b1.tsx`), so a set asks about its own body (#92).
  *
  * **Data, not a component, and in its own file** so the `nav-wiring` audit can
- * import it and check its keys against the manifest's `sets`. Every import
- * here is `import type`, which type stripping erases, so plain `node` reads it.
- *
- * Same text, same vocabulary table, same tick: only the question changes (#59).
+ * import it. Every import here is `import type`, which type stripping erases,
+ * so plain `node` reads it.
  */
+
+/**
+ * A1: asked in Spanish, answered from the French (#85); every piece of French
+ * sits in « » so `quotes="fr"` marks it. Who pays, the time, what they all do.
+ */
+const A1: Question[] = [
+  {
+    question: "¿Dónde pasa la escena?",
+    options: ["En un teatro", "En una iglesia", "En un mercado"],
+    answer: 0,
+    because:
+      "Es el « Hôtel de Bourgogne », un teatro: « On ne commence qu’à deux heures. Le parterre est vide. »",
+  },
+  {
+    question: "¿Cuánto cuesta la entrada?",
+    options: ["« quinze sols »", "« deux sols »", "« cinq sols »"],
+    answer: 0,
+    because: "El portero se lo pide al primer caballero: « Holà ! vos quinze sols ! »",
+  },
+  {
+    question: "¿Qué hace el primer caballero?",
+    options: ["Paga la entrada", "Entra sin pagar", "Se va del teatro"],
+    answer: 1,
+    because:
+      "« J’entre gratis ! » Y da su razón: « Je suis chevau-léger de la maison du Roi ! »",
+  },
+  {
+    question: "¿Por qué no paga el segundo caballero?",
+    options: [
+      "Porque no tiene dinero",
+      "Porque es amigo del portero",
+      "Porque es mosquetero",
+    ],
+    answer: 2,
+    because: "« Je ne paye pas ! », y luego: « Je suis mousquetaire. »",
+  },
+  {
+    question: "¿A qué hora empieza la obra?",
+    options: ["A mediodía", "A las dos", "A las ocho"],
+    answer: 1,
+    because: "« On ne commence qu’à deux heures. » No empiezan hasta las dos.",
+  },
+  {
+    question: "¿Qué hacen los dos caballeros mientras esperan?",
+    options: [
+      "Juegan a las cartas",
+      "Comen en el suelo",
+      "Practican esgrima con el florete",
+    ],
+    answer: 2,
+    because:
+      "« Exerçons-nous au fleuret. » Luego: « Ils font des armes avec des fleurets qu’ils ont apportés. »",
+  },
+  {
+    question: "¿Y los dos lacayos?",
+    options: [
+      "Juegan a las cartas y a los dados",
+      "Practican esgrima",
+      "Cobran la entrada",
+    ],
+    answer: 0,
+    because:
+      "Uno saca los juegos de su jubón: « Cartes. Dés. » Se sienta en el suelo y dice: « Jouons. »",
+  },
+];
 
 /**
  * A2: where, how much, who refuses to pay, and what everyone does while the
@@ -78,9 +142,15 @@ const A2: Question[] = [
 ];
 
 /**
- * B1: the same crowd read for how Rostand assembles it. Two men producing a
- * rank instead of a coin, a pun built on the theatre's own name, two registers
- * sitting in one room, and a line of verse shared between two voices.
+ * The questions for this text: one set, at B1.
+ *
+ * **Data, not a component, and in its own file** so the `nav-wiring` audit can
+ * import it and check its keys against the manifest's `sets`. Every import
+ * here is `import type`, which type stripping erases, so plain `node` reads it.
+ *
+ * The whole scene, read for how Rostand assembles a crowd: a rank instead of a
+ * coin, a pun on the theatre's name, two worlds in one room, speeches cut into
+ * each other so that one line answers another across the hall.
  */
 const B1: Question[] = [
   {
@@ -93,79 +163,115 @@ const B1: Question[] = [
     ],
     answer: 1,
     because:
-      "« Je suis chevau-léger de la maison du Roi ! », « Je suis mousquetaire. » Le rang tient lieu de billet, et le portier n’a rien à répondre à cela.",
+      "« Je suis chevau-léger de la maison du Roi ! », « Je suis mousquetaire. » Le rang tient lieu de billet, et le portier n’a rien à répondre.",
   },
   {
     question:
       "« Un ivrogne doit boire son bourgogne… à l’hôtel de Bourgogne ! » Sur quoi repose la plaisanterie ?",
     options: [
-      "Sur une erreur de l’ivrogne, qui s’est trompé d’adresse",
-      "Sur le fait qu’il boit du vin blanc dans un théâtre",
+      "Sur une erreur de l’ivrogne, qui se croit dans une auberge",
       "Sur deux sens du mot Bourgogne : le vin, et le nom du théâtre",
-    ],
-    answer: 2,
-    because:
-      "Le vin de Bourgogne et l’hôtel de Bourgogne portent le même nom. L’homme boit le premier dans le second, et le dit en vers.",
-  },
-  {
-    question: "Pendant tout cet extrait, qui regarde la scène ?",
-    options: [
-      "Personne : on se bat, on joue aux cartes, on mange et on boit",
-      "Toute la salle, qui attend le lever du rideau en silence",
-      "Seuls le bourgeois et son fils, assis devant",
-    ],
-    answer: 0,
-    because:
-      "Fleurets, cartes, dés, provisions de bouche, bouteille sous le manteau : la salle s’occupe d’elle-même. Rostand ouvre sa pièce sur un public qui ne regarde rien.",
-  },
-  {
-    question:
-      "« Lorsqu’on vient en avance, on est bien pour manger. » Qu’apprend-on du théâtre de 1640 ?",
-    options: [
-      "Qu’un repas était servi aux spectateurs avant la pièce",
-      "Qu’on y venait longtemps à l’avance, et qu’on y mangeait",
-      "Que les spectateurs avaient faim parce qu’ils étaient pauvres",
+      "Sur le prix du vin, que le portier vend à l’entrée",
     ],
     answer: 1,
     because:
-      "Des « porteurs de provisions de bouche » s’assoient par terre. On n’allait pas au théâtre pour deux heures : on y passait l’après-midi, et on apportait de quoi.",
+      "Il sort sa propre bouteille « de sous son manteau » : le vin de Bourgogne et l’hôtel de Bourgogne portent le même nom, et il boit l’un dans l’autre.",
+  },
+  {
+    question: "Avant l’arrivée des marquis, qui regarde la scène ?",
+    options: [
+      "Toute la salle, qui attend le lever du rideau en silence",
+      "Personne : on se bat, on joue, on mange, on boit, on vole",
+      "Les pages, sagement assis aux galeries",
+    ],
+    answer: 1,
+    because:
+      "Fleurets, cartes, dés, provisions, bouteille, et les pages entrent « en farandole » puis lancent des pois à la sarbacane : la salle s’occupe d’elle-même.",
   },
   {
     question:
-      "« Oui, mon coquin », dit un laquais ; « Plaçons-nous là, mon fils », dit un bourgeois. Que fait Rostand en les mettant côte à côte ?",
+      "« Oui, mon coquin », dit un laquais ; « Plaçons-nous là, mon fils », dit un bourgeois. Que fait Rostand en mettant ces deux répliques dans la même scène ?",
     options: [
-      "Il montre que tout le monde y parlait de la même façon",
+      "Il montre que tout le monde parlait alors de la même façon",
       "Il indique que le bourgeois est le père du laquais",
       "Il fait entendre deux mondes dans la même salle",
     ],
     answer: 2,
     because:
-      "L’un tutoie son camarade et l’appelle « coquin », l’autre conduit son fils et parle en père de famille. La salle contient les deux : c’est le portrait d’un public, pas d’un homme.",
+      "L’un appelle son camarade « coquin », l’autre « conduit son fils », qui est « le jeune homme » de la scène. La salle contient les deux mondes.",
   },
   {
     question:
-      "Dans cet extrait, où lit-on le plus de choses : dans les répliques, ou dans les indications de mise en scène ?",
+      "« Et penser que c’est dans une salle pareille qu’on joua du Rotrou, mon fils ! » Que ressent le bourgeois ?",
     options: [
-      "Dans les répliques, où les personnages expliquent ce qu’ils font",
-      "Dans les indications : elles disent qui s’assoit, qui se bat, qui sort des cartes",
-      "Les deux en disent exactement autant",
+      "Il est choqué que ce public occupe un lieu où l’on a joué de grands auteurs",
+      "Il est fier de montrer à son fils un public si joyeux",
+      "Il regrette d’être venu et ramène son fils à la maison",
     ],
-    answer: 1,
+    answer: 0,
     because:
-      "« Il s’assied par terre », « tirant de sa poche un bout de chandelle », « tirant une bouteille de sous son manteau ». Les répliques tiennent en trois mots ; c’est autour d’elles que la scène se fait.",
+      "« Ne se croirait-on pas en quelque mauvais lieu ? Buveurs… Bretteurs ! Joueurs ! » Et il ne part pas : « Vous verrez des acteurs très illustres… »",
   },
   {
     question:
-      "« Holà ! vos quinze sols ! » « J’entre gratis ! » Pourquoi ces répliques sont-elles si courtes ?",
+      "« Oh ! Monsieur ! ce soupçon !… », dit le premier page au portier. Est-il sincère ?",
     options: [
-      "Parce que les personnages sont pressés d’entrer",
-      "Parce que le texte a été coupé pour cette page",
-      "Parce que la pièce est en vers et qu’une ligne se partage entre deux voix",
+      "Oui : il ne fait que chanter avec les autres pages",
+      "Oui : c’est le portier qui lui a demandé de la ficelle",
+      "Non : dès que le portier a le dos tourné, il prépare sa farce",
     ],
     answer: 2,
     because:
-      "Un vers de douze syllabes peut se dire à deux, six et six. La réplique s’arrête où le vers l’exige, et non où le personnage aurait fini de parler.",
+      "« dès que le portier a tourné le dos » : « As-tu de la ficelle ? », puis « On pourra de là-haut pêcher quelque perruque. »",
+  },
+  {
+    question:
+      "Les répliques du bourgeois et celles du tire-laine alternent. Qu’est-ce qui rend ce montage comique ?",
+    options: [
+      "Le bourgeois admire des acteurs pendant que le voleur énumère ce qu’on peut prendre aux gens comme lui",
+      "Le bourgeois et le tire-laine se parlent et se disputent une place",
+      "Le tire-laine nomme les mêmes acteurs que le bourgeois, mais se trompe de noms",
+    ],
+    answer: 0,
+    because:
+      "« Les montres… », « Vous verrez des acteurs très illustres… », « Les mouchoirs… », « Montfleury… » : l’un regarde la scène, l’autre les poches.",
+  },
+  {
+    question:
+      "« Hé quoi ! Nous arrivons ainsi que les drapiers, sans déranger les gens ? » De quoi se plaint le marquis ?",
+    options: [
+      "D’être arrivé en retard, après le début de la pièce",
+      "D’entrer dans une salle presque vide, où personne ne le remarque",
+      "D’une salle trop pleine, où il ne trouve pas de place",
+    ],
+    answer: 1,
+    because:
+      "Il parle « voyant la salle à moitié vide » et regrette de ne pas « marcher sur les pieds » : un noble veut qu’on le voie entrer.",
+  },
+  {
+    question:
+      "Comment sait-on que le bourgeois tombe au milieu des joueurs ?",
+    options: [
+      "Parce qu’il le raconte lui-même à son fils",
+      "Par une indication entre parenthèses, au milieu de sa réplique",
+      "Parce que les joueurs se plaignent de lui",
+    ],
+    answer: 1,
+    because:
+      "« (En rompant, un des cavaliers le bouscule.) », « (Il tombe au milieu des joueurs.) » : lui ne dit que « Buveurs… Bretteurs ! Joueurs ! »",
+  },
+  {
+    question:
+      "« Vous ? » « Je ne paye pas ! » « Mais… » « Je suis mousquetaire. » Pourquoi ces répliques sont-elles si courtes ?",
+    options: [
+      "Parce que le texte a été coupé pour cette page",
+      "Parce que la pièce est en vers et qu’une ligne se partage entre plusieurs voix",
+      "Parce que les cavaliers veulent ressortir aussitôt du théâtre",
+    ],
+    answer: 1,
+    because:
+      "Ensemble, elles font un seul vers de douze syllabes. La réplique s’arrête où le vers l’exige, et la scène est donnée ici en entier.",
   },
 ];
 
-export const SETS: QuestionSets = { A2, B1 };
+export const SETS: QuestionSets = { A1, A2, B1 };

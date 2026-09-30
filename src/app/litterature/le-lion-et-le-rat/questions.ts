@@ -1,14 +1,80 @@
 import type { Question, QuestionSets } from "@/components/exercice/Comprehension";
 
 /**
- * The questions for this text, one set per level (`docs/decisions.md` #68).
+ * The questions for this work, one set per level. Each level has its own
+ * text as well (`a2.tsx`, `b1.tsx`), so a set asks about its own body (#92).
  *
  * **Data, not a component, and in its own file** so the `nav-wiring` audit can
- * import it and check its keys against the manifest's `sets`. Every import
- * here is `import type`, which type stripping erases, so plain `node` reads it.
- *
- * Same text, same vocabulary table, same tick: only the question changes (#59).
+ * import it. Every import here is `import type`, which type stripping erases,
+ * so plain `node` reads it.
  */
+
+/** A1: asked in Spanish, answered from the French (#85); French sits in « ». */
+const A1: Question[] = [
+  {
+    question: "¿Dónde sale de la tierra el ratón?",
+    options: [
+      "Dentro de una red",
+      "Entre las patas de un león",
+      "Lejos del león",
+    ],
+    answer: 1,
+    because: "« Entre les pattes d’un lion / Un rat sortit de terre. »",
+  },
+  {
+    question: "¿Quién es « le roi des animaux »?",
+    options: ["El ratón", "El león", "Un cazador"],
+    answer: 1,
+    because:
+      "El rey de los animales es el león: es él quien tiene al ratón entre sus patas.",
+  },
+  {
+    question: "¿Qué hace el león con el ratón?",
+    options: ["Se lo come", "No lo ve", "Le perdona la vida"],
+    answer: 2,
+    because:
+      "« et lui donna la vie »: el león podía comérselo, y lo deja vivir.",
+  },
+  {
+    question: "¿Qué le pasa al león después?",
+    options: [
+      "Se pone enfermo",
+      "Cae en una red",
+      "Se come al ratón",
+    ],
+    answer: 1,
+    because: "« Ce lion fut pris dans des rets »: « des rets » es una red.",
+  },
+  {
+    question: "¿Cómo libera el ratón al león?",
+    options: [
+      "Con los dientes: roe la red",
+      "Llama a los otros animales",
+      "Ruge muy fuerte",
+    ],
+    answer: 0,
+    because:
+      "« fit tant par ses dents / Qu’une maille rongée emporta tout l’ouvrage »: trabaja solo, con los dientes.",
+  },
+  {
+    question: "En el primer verso, ¿qué quiere decir « obliger »?",
+    options: ["Obligar", "Ayudar, hacer un favor", "Castigar"],
+    answer: 1,
+    because:
+      "« Il faut, autant qu’on peut, obliger tout le monde »: hay que ayudar a todo el mundo. Hoy « obliger » es obligar, pero aquí no.",
+  },
+  {
+    question: "Según los dos últimos versos, ¿qué puede más?",
+    options: [
+      "La fuerza",
+      "La rabia",
+      "La paciencia y el tiempo",
+    ],
+    answer: 2,
+    because:
+      "« Patience et longueur de temps / Font plus que force ni que rage. »",
+  },
+];
 
 /**
  * A2: seven questions on eighteen lines. The fable is short enough that a merely
@@ -90,47 +156,42 @@ const A2: Question[] = [
 ];
 
 /**
- * B1: the fable read as a fable. Two morals that are not one, a rhetorical
- * question that prepares its own reversal, a verb whose old sense the Spanish
- * cognate hides, lines that shorten where the lesson tightens, and the title
- * the rat is given at the moment he earns it.
+ * The questions for this text: one set, at B1. The A2 reading of the first
+ * fable alone is `litterature/le-lion-et-le-rat`; this page is the pair.
+ *
+ * **Data, not a component, and in its own file** so the `nav-wiring` audit can
+ * import it and check its keys against the manifest's `sets`. Every import
+ * here is `import type`, which type stripping erases, so plain `node` reads it.
+ *
+ * The two fables read as one argument: the promise of « deux fables », the
+ * moral that serves both, the same pattern told twice, a verb whose old sense
+ * the Spanish cognate hides, a rhetorical question, the switch to the present,
+ * a scene seen at an ant's size, and the names each fable gives its characters.
  */
 const B1: Question[] = [
   {
     question:
-      "La fable porte une leçon au début et une autre à la fin. Disent-elles la même chose ?",
+      "La première fable s’ouvre sur une leçon et se ferme sur une autre. Laquelle vaut aussi pour la seconde fable ?",
     options: [
-      "Oui, c’est la même phrase dite deux fois autrement",
-      "Non : la première parle du service rendu, la seconde de la patience contre la force",
-      "Non : la seconde contredit la première",
+      "« On a souvent besoin d’un plus petit que soi »",
+      "« Patience et longueur de temps / Font plus que force ni que rage »",
+      "Aucune des deux : la seconde fable finit sur sa propre morale",
     ],
-    answer: 1,
+    answer: 0,
     because:
-      "« On a souvent besoin d’un plus petit que soi » ouvre la fable ; « Patience et longueur de temps / Font plus que force ni que rage » la ferme. Une seule histoire, deux leçons tirées d’elle.",
+      "La fourmi, plus petite que la colombe, la sauve d’un seul coup, sans patience ni longueur de temps ; et « Point de pigeon pour une obole » est une plaisanterie, pas une morale.",
   },
   {
     question:
-      "« De cette vérité deux fables feront foi. » Que promet ce vers, et qu’en lisez-vous ici ?",
+      "« L’autre exemple est tiré d’animaux plus petits. » De quel exemple parle ce vers ?",
     options: [
-      "Deux morales, que vous venez toutes deux de lire",
-      "Deux personnages, le lion et le rat",
-      "Deux histoires, et vous n’en lisez qu’une",
-    ],
-    answer: 2,
-    because:
-      "La Fontaine annonce deux récits pour prouver une seule vérité. Celui du rat est le premier ; l’autre n’est pas sur cette page.",
-  },
-  {
-    question:
-      "« Quelqu’un aurait-il jamais cru / Qu’un lion d’un rat eût affaire ? » Que fait cette question ?",
-    options: [
-      "Elle demande au lecteur de répondre avant de continuer",
-      "Elle dit que personne n’y aurait cru, et prépare le retournement",
-      "Elle annonce que le lion va finir par manger le rat",
+      "Du rat, plus petit que le lion",
+      "De la seconde preuve promise au début de la fable précédente",
+      "D’un exemple que le lecteur doit trouver lui-même",
     ],
     answer: 1,
     because:
-      "La question n’attend pas de réponse : elle pose l’invraisemblance juste avant de la démentir. Deux vers plus loin, le lion est pris dans les rets.",
+      "« De cette vérité deux fables feront foi » : le lion et le rat sont la première preuve, la colombe et la fourmi la seconde.",
   },
   {
     question:
@@ -142,44 +203,92 @@ const B1: Question[] = [
     ],
     answer: 2,
     because:
-      "C’est un sens ancien, encore vivant dans « je vous serais obligé ». Le sens de forcer, qui vient le premier à l’esprit, rendrait la morale incompréhensible.",
+      "C’est un sens ancien : « On a souvent besoin d’un plus petit que soi » ; il faut donc rendre service à tous. Le sens de forcer rendrait la morale incompréhensible.",
   },
   {
     question:
-      "« Patience et longueur de temps / Font plus que force ni que rage. » Pourquoi ces deux vers sont-ils plus courts que le reste ?",
+      "« Quelqu’un aurait-il jamais cru / Qu’un lion d’un rat eût affaire ? » Que fait cette question ?",
     options: [
-      "Parce que la morale se resserre pour être retenue",
-      "Parce que La Fontaine manquait de place à la fin",
-      "Parce que ce sont les paroles du rat",
-    ],
-    answer: 0,
-    because:
-      "Le vers s’allonge quand l’action se déroule et se raccourcit quand elle se resserre. Ces deux-là sont la phrase que tout le monde en France connaît par cœur.",
-  },
-  {
-    question:
-      "La morale est au présent, l’histoire au passé simple. Pourquoi deux temps ?",
-    options: [
-      "Le présent se lit plus facilement que le passé simple",
-      "La morale vaut pour toujours, l’histoire n’est arrivée qu’une fois",
-      "La Fontaine change de temps pour varier les sons",
+      "Elle demande au lecteur de répondre avant de continuer",
+      "Elle dit que personne n’y aurait cru, et prépare le retournement",
+      "Elle annonce que le lion va finir par manger le rat",
     ],
     answer: 1,
     because:
-      "Une vérité générale se dit au présent ; un récit se raconte au passé. La fable met les deux bout à bout, et c’est la forme même du genre.",
+      "La question n’attend pas de réponse : deux vers plus loin, « Ce lion fut pris dans des rets », et c’est le rat qui le délivre.",
   },
   {
     question:
       "Le rat, appelé « un rat » au début, devient « Sire rat » quand il accourt. Que fait ce changement ?",
     options: [
       "Il indique qu’un second rat entre dans l’histoire",
-      "Il annonce que le rat va devenir roi de la forêt",
-      "Il donne au rat le titre qu’on réservait au lion",
+      "Il montre que le rat se moque du lion",
+      "Il donne au rat le titre d’un roi",
     ],
     answer: 2,
     because:
-      "Le lion était « le roi des animaux ». C’est le rat qui reçoit le titre à l’instant où il sauve, et tout le renversement de la fable tient dans ce mot.",
+      "« Sire » est le titre d’un roi, et le lion était « le roi des animaux » : le rat le reçoit quand il accourt pour le sauver, pas pour se moquer de lui.",
+  },
+  {
+    question:
+      "Le ruisseau devient « cet océan » et le brin d’herbe « un promontoire ». Pourquoi ?",
+    options: [
+      "Parce que la scène est vue à la taille de la fourmi",
+      "Parce que le ruisseau déborde et devient une mer",
+      "Parce que la colombe emporte la fourmi jusqu’à la mer",
+    ],
+    answer: 0,
+    because:
+      "C’est « un clair ruisseau » où boit une colombe, et « un brin d’herbe dans l’eau » : pour une fourmi, c’est un océan et un promontoire.",
+  },
+  {
+    question:
+      "La seconde fable passe au présent au milieu du récit : « y tombe », « arrive », « la fourmi le pique ». Pourquoi ?",
+    options: [
+      "Parce que l’histoire se passe aujourd’hui",
+      "Parce que le présent accélère l’action, qu’on voit se dérouler",
+      "Parce que ce sont les paroles de la colombe",
+    ],
+    answer: 1,
+    because:
+      "Le récit commence au passé, « buvait une colombe », puis passe au présent : l’histoire n’est pas d’aujourd’hui, et personne ne parle dans cette fable.",
+  },
+  {
+    question:
+      "« Un certain croquant », « mon villageois », « le vilain » : qui désignent ces trois noms ?",
+    options: [
+      "Trois hommes qui passent l’un après l’autre",
+      "Trois titres de plus en plus nobles pour le chasseur",
+      "Le même paysan, nommé de trois façons",
+    ],
+    answer: 2,
+    because:
+      "« Ce croquant » s’apprête à tuer la colombe, « mon villageois » aussi, et « le vilain » retourne la tête quand la fourmi le pique : un seul homme, trois noms.",
+  },
+  {
+    question:
+      "« Dès qu’il voit l’oiseau de Vénus, / Il le croit en son pot. » Que pense le croquant ?",
+    options: [
+      "Qu’il va manger la colombe ce soir",
+      "Que la colombe appartient à quelqu’un d’autre",
+      "Qu’il doit offrir la colombe à Vénus",
+    ],
+    answer: 0,
+    because:
+      "Il voit déjà l’oiseau cuit dans sa marmite, et le texte le confirme : « Le souper du croquant avec elle s’envole ».",
+  },
+  {
+    question:
+      "La fourmi ne peut pas se battre contre un homme armé. Comment sauve-t-elle la colombe ?",
+    options: [
+      "Elle ronge la corde de l’arbalète, comme le rat le filet",
+      "Elle pique l’homme, qui se retourne, et la colombe l’entend",
+      "Elle crie pour avertir la colombe du danger",
+    ],
+    answer: 1,
+    because:
+      "« La fourmi le pique au talon. / Le vilain retourne la tête : / La colombe l’entend, part, et tire de long. »",
   },
 ];
 
-export const SETS: QuestionSets = { A2, B1 };
+export const SETS: QuestionSets = { A1, A2, B1 };

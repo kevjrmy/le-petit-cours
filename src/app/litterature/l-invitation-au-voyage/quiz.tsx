@@ -4,5 +4,5 @@ import { Comprehension } from "@/components/exercice/Comprehension";
 import { SETS } from "./questions";
 
 export function Quiz() {
-  return <Comprehension sets={SETS} />;
+  return <Comprehension sets={SETS} quotes="fr" />;
 }

@@ -1,14 +1,84 @@
 import type { Question, QuestionSets } from "@/components/exercice/Comprehension";
 
 /**
- * The questions for this text, one set per level (`docs/decisions.md` #68).
+ * The questions for this work, one set per level. Each level has its own
+ * text as well (`a2.tsx`, `b1.tsx`), so a set asks about its own body (#92).
  *
  * **Data, not a component, and in its own file** so the `nav-wiring` audit can
- * import it and check its keys against the manifest's `sets`. Every import
- * here is `import type`, which type stripping erases, so plain `node` reads it.
- *
- * Same text, same vocabulary table, same tick: only the question changes (#59).
+ * import it. Every import here is `import type`, which type stripping erases,
+ * so plain `node` reads it.
  */
+
+/**
+ * A1: asked in Spanish, answered from the French (#85); only what happens —
+ * the bed, the candle, the book, falling asleep and waking.
+ */
+const A1: Question[] = [
+  {
+    question: "¿Cuándo se acostaba el narrador?",
+    options: ["Muy tarde, por la noche", "Temprano", "A mediodía"],
+    answer: 1,
+    because:
+      "« Longtemps, je me suis couché de bonne heure. » « De bonne heure » quiere decir temprano.",
+  },
+  {
+    question: "¿Cuándo se le cierran los ojos?",
+    options: [
+      "Nada más apagar la vela",
+      "Media hora después de apagar la vela",
+      "Nunca: deja la vela encendida y no duerme",
+    ],
+    answer: 0,
+    because:
+      "« à peine ma bougie éteinte, mes yeux se fermaient »: « la bougie » es la vela, y los ojos se le cierran en cuanto la apaga.",
+  },
+  {
+    question: "¿Qué hacía en la cama antes de dormirse?",
+    options: ["Visitaba una iglesia", "Leía un libro", "Escuchaba un cuarteto"],
+    answer: 1,
+    because:
+      "Quiere dejar « le volume que je croyais avoir encore dans les mains »: leía. La iglesia y el cuarteto son « ce dont parlait l’ouvrage », lo que cuenta el libro.",
+  },
+  {
+    question: "¿Cómo se duerme?",
+    options: [
+      "Despacio, poco a poco",
+      "Diciéndose « Je m’endors »",
+      "Muy deprisa",
+    ],
+    answer: 2,
+    because:
+      "« mes yeux se fermaient si vite que je n’avais pas le temps de me dire : Je m’endors »: se duerme tan deprisa que no tiene tiempo de decirse « Je m’endors », me duermo.",
+  },
+  {
+    question: "¿Cuándo se despierta?",
+    options: ["Por la mañana", "Dos horas después", "Media hora después"],
+    answer: 2,
+    because: "« Et, une demi-heure après, la pensée qu’il était temps de chercher le sommeil m’éveillait »",
+  },
+  {
+    question: "Al despertarse, ¿qué quiere hacer?",
+    options: [
+      "Dejar el libro y apagar la vela",
+      "Encender la vela y seguir leyendo",
+      "Coger el libro para empezar a leer",
+    ],
+    answer: 0,
+    because:
+      "« je voulais poser le volume […] et souffler ma lumière »: quiere dejar el libro, no cogerlo, y apagar la vela, no encenderla.",
+  },
+  {
+    question: "Dormido, ¿qué cree ser?",
+    options: [
+      "Solo un niño en su cama",
+      "Lo que cuenta el libro que leía",
+      "El que ha escrito el libro",
+    ],
+    answer: 1,
+    because:
+      "« Il me semblait que j’étais moi-même ce dont parlait l’ouvrage : une église, un quatuor »: cree ser aquello de lo que habla el libro, una iglesia, un cuarteto.",
+  },
+];
 
 /**
  * A2: seven questions, all on what actually happens — a candle, a book, half
@@ -75,9 +145,16 @@ const A2: Question[] = [
 ];
 
 /**
- * B1: the same lines, read for how they work — a verb that confesses an error,
- * a comparison used as a measuring instrument, an elliptical construction, and
- * the two tenses that cut the memory into a period and its evenings.
+ * The questions for this text (`docs/decisions.md` #59, #68).
+ *
+ * **Data, not a component, and in its own file** so the `nav-wiring` audit can
+ * import it and check its keys against the manifest's `sets`. Every import
+ * here is `import type`, which type stripping erases, so plain `node` reads it.
+ *
+ * B1: the whole passage, read for how it works — a verb that confesses an
+ * error, a comparison used as a measuring instrument, a word with two senses,
+ * a pillow given a face, a hope that turns out to be a mistake, and one
+ * literary tense to put back into speech.
  */
 const B1: Question[] = [
   {
@@ -90,75 +167,114 @@ const B1: Question[] = [
     ],
     answer: 2,
     because:
-      "Se dire « je m’endors » demande d’être encore éveillé. Le narrateur cherche un instant que personne ne peut voir passer, et c’est de là que part tout le livre.",
+      "Se dire « je m’endors » demande d’être encore éveillé : le narrateur cherche un instant que personne ne peut voir passer.",
   },
   {
     question:
       "« Le volume que je croyais avoir encore dans les mains » : que dit ce « je croyais » ?",
     options: [
-      "Qu’il tient bien son livre",
-      "Qu’il ne se rappelle plus le titre du livre",
-      "Qu’il se trompait : le livre n’était plus là",
+      "Qu’il n’a rien lu ce soir-là",
+      "Qu’il a oublié ce qu’il lisait",
+      "Qu’il se trompe : il pense lire encore, alors qu’il dort",
     ],
     answer: 2,
     because:
-      "« Croire » marque ici l’écart entre ce qu’il pense et ce qui est. Toute la page raconte des choses dont le dormeur se trompe.",
+      "« Je n’avais pas cessé en dormant de faire des réflexions sur ce que je venais de lire » : il lisait, il s’en souvient, mais il dormait déjà.",
+  },
+  {
+    question:
+      "Au réveil, qu’est-ce qui l’empêche de voir que le bougeoir n’est pas allumé ?",
+    options: [
+      "La croyance qu’il est lui-même ce dont parlait le livre",
+      "La lumière de la bougie, qui l’éblouit",
+      "La lumière du jour qui entre dans la chambre",
+    ],
+    answer: 0,
+    because:
+      "« Cette croyance […] pesait comme des écailles sur mes yeux et les empêchait de se rendre compte que le bougeoir n’était pas allumé. »",
+  },
+  {
+    question:
+      "L’obscurité lui apparaît « comme une chose vraiment obscure ». Quels sont les deux sens du mot ici ?",
+    options: [
+      "Noire, et impossible à comprendre",
+      "Noire, et dangereuse",
+      "Claire, et facile à comprendre",
+    ],
+    answer: 0,
+    because:
+      "Juste avant, l’obscurité est « une chose sans cause, incompréhensible » : obscure veut dire à la fois sans lumière et sans explication.",
   },
   {
     question:
       "Le sifflement des trains est comparé au « chant d’un oiseau dans une forêt ». Que fait cette comparaison ?",
     options: [
       "Elle donne la distance, et l’espace autour de lui",
-      "Elle dit que le train est une sorte d’animal",
+      "Elle dit que le narrateur se promène dans une forêt",
       "Elle dit que le narrateur aime écouter les oiseaux",
     ],
     answer: 0,
     because:
-      "« Plus ou moins éloigné […] relevant les distances, me décrivait l’étendue de la campagne déserte. » Le bruit sert à mesurer : c’est l’oreille qui dessine le paysage, la nuit, sans les yeux.",
+      "« Plus ou moins éloigné […] relevant les distances, me décrivait l’étendue de la campagne déserte » : l’oreille dessine le paysage, sans les yeux.",
   },
   {
     question:
-      "« À peine ma bougie éteinte, mes yeux se fermaient. » Que veut dire « à peine » ici ?",
-    options: ["Difficilement, avec effort", "Tout de suite après", "Presque jamais"],
-    answer: 1,
-    because:
-      "« À peine » suivi d’un participe marque le temps, pas la difficulté : la bougie éteinte, le sommeil vient aussitôt. Même construction que « à peine arrivé, il repart ».",
-  },
-  {
-    question: "Pourquoi le narrateur ne sait-il pas quelle heure il est ?",
+      "« J’appuyais tendrement mes joues contre les belles joues de l’oreiller. » Que fait Proust avec cette image ?",
     options: [
-      "Parce que la pendule de la maison est arrêtée",
-      "Parce qu’il s’est endormi sans s’en apercevoir et se réveille dans le noir",
-      "Parce qu’il n’a jamais eu de montre",
-    ],
-    answer: 1,
-    because:
-      "Il n’a « pas le temps de se dire : je m’endors », et se réveille une demi-heure après. C’est le bruit des trains, et non une horloge, qui lui rend le monde.",
-  },
-  {
-    question:
-      "« Une demi-heure après, la pensée qu’il était temps de chercher le sommeil m’éveillait. » Qu’y a-t-il d’étrange ici ?",
-    options: [
-      "Il se réveille en pensant qu’il doit encore s’endormir, alors qu’il dormait déjà",
-      "Il ne parvient pas à dormir de toute la nuit",
-      "Un bruit venu du dehors l’a tiré de son lit",
+      "Il donne à l’oreiller un visage, comme à une personne qu’on aime",
+      "Il décrit un vieil oreiller abîmé",
+      "Il parle d’une autre personne couchée près de lui",
     ],
     answer: 0,
     because:
-      "Il dormait sans le savoir. La pensée qui le tire du sommeil est celle d’un homme convaincu de n’y être pas encore entré, et c’est elle qui le réveille.",
+      "Les joues sont celles de l’oreiller, « pleines et fraîches », et elles « sont comme les joues de notre enfance ».",
+  },
+  {
+    question: "Pourquoi la joie du malade, à l’hôtel, ne dure-t-elle pas ?",
+    options: [
+      "La raie sous la porte n’était pas le jour : on vient d’éteindre le gaz",
+      "Le domestique arrive, mais ne peut rien faire pour lui",
+      "Le soleil se lève, mais personne ne vient",
+    ],
+    answer: 0,
+    because:
+      "« Et la raie de jour qui était sous sa porte a disparu. C’est minuit ; on vient d’éteindre le gaz. »",
+  },
+  {
+    question: "Quelle peur d’enfant le sommeil lui fait-il retrouver ?",
+    options: [
+      "Que son grand-oncle lui tire les cheveux",
+      "Que la bougie mette le feu à sa chambre",
+      "Que les trains passent sous sa fenêtre",
+    ],
+    answer: 0,
+    because:
+      "Il retrouve « telle de mes terreurs enfantines comme celle que mon grand-oncle me tirât par mes boucles ».",
   },
   {
     question:
-      "C’est le début d’un livre de trois mille pages. Sur quoi ce livre commence-t-il, au juste ?",
+      "La coupe de ses boucles avait fait disparaître cette peur. Revient-elle encore ?",
     options: [
-      "Sur un voyage en train à travers la campagne",
-      "Sur la rivalité de François Ier et de Charles-Quint",
-      "Sur un homme qui se réveille sans savoir où il est",
+      "Non, plus jamais, ni le jour ni la nuit",
+      "Oui, en rêve : il protège sa tête avec son oreiller avant de se rendormir",
+      "Oui, chaque fois qu’il se coiffe le matin",
     ],
-    answer: 2,
+    answer: 1,
     because:
-      "Rien n’arrive dans ces lignes : un homme lit, s’endort, se réveille et écoute. L’église et le quatuor sont ce dont parlait son livre à lui, pas ce dont parle celui-ci.",
+      "« Par mesure de précaution j’entourais complètement ma tête de mon oreiller avant de retourner dans le monde des rêves. »",
+  },
+  {
+    question:
+      "« Celle que mon grand-oncle me tirât par mes boucles » : comment le dirait-on à l’oral ?",
+    options: [
+      "La peur que mon grand-oncle me tire par les cheveux",
+      "La peur que mon grand-oncle m’a tiré par les cheveux",
+      "La peur que mon grand-oncle me tirera par les cheveux",
+    ],
+    answer: 0,
+    because:
+      "« Tirât » est un subjonctif imparfait, qui ne vit plus que dans les livres ; après « la peur que », l’oral met le subjonctif présent, « tire ».",
   },
 ];
 
-export const SETS: QuestionSets = { A2, B1 };
+export const SETS: QuestionSets = { A1, A2, B1 };

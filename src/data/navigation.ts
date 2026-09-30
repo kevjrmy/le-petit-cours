@@ -1281,16 +1281,31 @@ export const chapters: Chapter[] = [
       "De grands textes de la littérature, en français, avec des questions pour vérifier ce que vous avez compris.",
     lessons: [
       {
+        /* The chapter's A1 page: a new text, not an A1 set on an A2 one, since a
+           text has a floor (#72). Explained in Spanish (#85); the extract is
+           the closing dialogue, present tense and the body, with the three
+           passé simple verbs around it named in one callout. */
+        id: "lect-chaperon-rouge",
+        path: "/litterature/le-petit-chaperon-rouge",
+        title: "Le Petit Chaperon rouge",
+        subtitle: "Charles Perrault, 1697",
+        tag: "Compréhension",
+        level: "A1",
+        delf: "Comprendre un dialogue très court et nommer les parties du corps.",
+        created: "2026-09-30",
+      },
+      {
         id: "lect-lion-et-rat",
         path: "/litterature/le-lion-et-le-rat",
         title: "Le Lion et le Rat",
         subtitle: "Jean de La Fontaine, 1668",
         tag: "Compréhension",
-        level: "A2",
-        sets: ["A2", "B1"],
+        level: "A1",
+        sets: ["A1", "A2", "B1"],
         delf: {
+          A1: "Suivre une fable courte avec sa traduction : les personnages, ce qui leur arrive, la morale.",
           A2: "Comprendre un récit court en vers et en dégager la morale.",
-          B1: "Lire une fable comme une forme : deux morales qui n’en font pas une, une question qui n’en est pas une, un titre déplacé.",
+          B1: "Relier deux récits en vers à la morale qu’ils prouvent, et lire ce que changent un temps ou un nom.",
         },
         created: "2026-09-12",
       },
@@ -1300,11 +1315,12 @@ export const chapters: Chapter[] = [
         title: "L’Invitation au voyage",
         subtitle: "Charles Baudelaire, 1857",
         tag: "Compréhension",
-        level: "A2",
-        sets: ["A2", "B1"],
+        level: "A1",
+        sets: ["A1", "A2", "B1"],
         delf: {
+          A1: "Comprendre, avec la traduction, à qui parle le poète, ce qu’il propose et le pays qu’il décrit.",
           A2: "Lire un poème et retrouver ce qu’il nomme : à qui il parle, ce qu’il propose, ce que le refrain décrit.",
-          B1: "Lire ce qu’un temps verbal engage : un conditionnel qui retire la chambre au réel, un « ne… que » pris pour un éloge, un compliment qui garde un mot de méfiance.",
+          B1: "Suivre un texte long et dense, reconnaître ce que chaque image représente et séparer le rêve du possible.",
         },
         created: "2026-09-15",
       },
@@ -1314,11 +1330,12 @@ export const chapters: Chapter[] = [
         title: "Phileas Fogg",
         subtitle: "Jules Verne, 1873",
         tag: "Compréhension",
-        level: "A2",
-        sets: ["A2", "B1"],
+        level: "A1",
+        sets: ["A1", "A2", "B1"],
         delf: {
+          A1: "Comprendre, avec la traduction, les habitudes et les heures d’un personnage, et retrouver une heure dans un dialogue.",
           A2: "Comprendre la description d’une personne et de ses habitudes, et des heures précises.",
-          B1: "Lire un portrait construit par soustraction, et le vocabulaire d’un tribunal posé sur une faute de deux degrés.",
+          B1: "Comprendre un portrait et la relation d’un maître et de son domestique : l’ironie du narrateur, la politesse, la valeur des temps.",
         },
         created: "2026-09-07",
       },
@@ -1328,11 +1345,12 @@ export const chapters: Chapter[] = [
         title: "Cosette dans le bois",
         subtitle: "Victor Hugo, 1862",
         tag: "Compréhension",
-        level: "A2",
-        sets: ["A2", "B1"],
+        level: "A1",
+        sets: ["A1", "A2", "B1"],
         delf: {
+          A1: "Comprendre, avec la traduction, l’âge, le nom, le lieu de vie et la situation d’une personne dans un dialogue.",
           A2: "Suivre un dialogue simple et en tirer qui parle, à qui, et de quoi.",
-          B1: "Lire ce qu’un silence et un « donc » laissent entendre, et ce qu’un seul mot dit de la place d’une enfant.",
+          B1: "Lire un chapitre entier et comprendre ce que les personnages ne disent pas : un silence, un geste, un mot qui trahit une condition.",
         },
         created: "2026-09-07",
       },
@@ -1342,11 +1360,12 @@ export const chapters: Chapter[] = [
         title: "Cyrano de Bergerac",
         subtitle: "Edmond Rostand, 1897",
         tag: "Compréhension",
-        level: "A2",
-        sets: ["A2", "B1"],
+        level: "A1",
+        sets: ["A1", "A2", "B1"],
         delf: {
+          A1: "Suivre une courte scène de théâtre avec sa traduction : qui paye, à quelle heure, ce que font les personnages.",
           A2: "Suivre une scène de théâtre et dire qui fait quoi, dans un lieu public.",
-          B1: "Lire une scène de foule : deux registres dans une salle, un jeu de mots sur le nom du théâtre, un vers partagé entre deux voix.",
+          B1: "Lire une scène de foule entière : deux mondes dans une salle, un jeu de mots, des répliques qui se répondent, un vers partagé entre plusieurs voix.",
         },
         created: "2026-09-07",
       },
@@ -1356,11 +1375,12 @@ export const chapters: Chapter[] = [
         title: "Du côté de chez Swann",
         subtitle: "Marcel Proust, 1913",
         tag: "Compréhension",
-        level: "A2",
-        sets: ["A2", "B1"],
+        level: "A1",
+        sets: ["A1", "A2", "B1"],
         delf: {
+          A1: "Suivre, avec la traduction, les faits concrets d’un texte littéraire : se coucher, lire, s’endormir, se réveiller.",
           A2: "Comprendre le récit d’un souvenir et repérer ce qui est concret dans un texte difficile.",
-          B1: "Suivre un texte difficile : un verbe qui avoue une erreur, une comparaison qui mesure l’espace, un dormeur qui se croit éveillé.",
+          B1: "Suivre un texte long et difficile : un verbe qui avoue une erreur, une comparaison qui mesure l’espace, un mot à deux sens.",
         },
         created: "2026-09-07",
       },
@@ -1374,11 +1394,12 @@ export const chapters: Chapter[] = [
         title: "Roméo et Juliette",
         subtitle: "Shakespeare, traduit par François-Victor Hugo",
         tag: "Compréhension",
-        level: "A2",
-        sets: ["A2", "B1"],
+        level: "A1",
+        sets: ["A1", "A2", "B1"],
         delf: {
+          A1: "Comprendre, avec la traduction, qui s’oppose, où et pourquoi dans un prologue de théâtre.",
           A2: "Comprendre le début d’une pièce traduite : le lieu, les personnages, le conflit.",
-          B1: "Lire un prologue qui annonce le prix de la paix, une métaphore du destin, et un tutoiement qui sert d’arme.",
+          B1: "Suivre une scène traduite en entier : un prologue qui annonce le prix de la paix, une provocation calculée, une menace dite comme une dette.",
         },
         created: "2026-09-07",
       },
@@ -1388,17 +1409,14 @@ export const chapters: Chapter[] = [
         title: "Le Comte de Monte-Cristo",
         subtitle: "Alexandre Dumas, 1844",
         tag: "Compréhension",
-        /* The first page to carry a question set per level (#68). The extract
-           was chosen for it: Morrel asking after his cargo before his dead
-           captain, and Danglars giving a compliment back as an insult, are
-           there to be read at either level — what changes is how much of it the
-           question asks her to see. `questions.ts` holds both sets and its keys
-           must stay in step with this line. */
-        level: "A2",
-        sets: ["A2", "B1"],
+        /* The first page to hold a question set per level (#68); since #92
+           each level also has its own text (`a2.tsx`, `b1.tsx`). */
+        level: "A1",
+        sets: ["A1", "A2", "B1"],
         delf: {
+          A1: "Comprendre un court dialogue avec sa traduction : qui parle, quelle nouvelle est annoncée, ce qui intéresse l’armateur.",
           A2: "Suivre un dialogue et repérer ce qu’un personnage veut vraiment, sans qu’il le dise.",
-          B1: "Lire entre les lignes d’un dialogue : ce qu’un adverbe juge, ce qu’une phrase coupée laisse deviner.",
+          B1: "Lire entre les lignes d’un dialogue : ce qu’un adverbe ou un pronom juge, et à quelle phrase une réplique répond.",
         },
         created: "2026-09-08",
       },
@@ -1853,17 +1871,36 @@ export function listedChapters(view: View): Chapter[] {
   return chapters.filter((chapter) => visibleLessons(chapter, view).length > 0);
 }
 
+/** The set shown when the learner's level says nothing (#74, #92). */
+const DEFAULT_SET: Level = "A2";
+
 /**
  * The set a page holding several is in, asked at `level` (#87).
  *
- * `level` when the page has that set, else its first — deterministic, so the
- * questions, the line under the title and the tick beneath the page cannot
- * disagree. A page with no sets answers with its own level: it has one body of
- * work, and `progressKey` ignores the answer.
+ * `level` when the page has that set; else A2, the course's first level
+ * (#74), when the page has it; else its first. Deterministic, so the questions,
+ * the line under the title and the tick beneath the page cannot disagree. The
+ * A2 step is for a page whose sets start at A1 (#92): a visitor with no
+ * parcours reads the French page, not the one explained in Spanish. A page
+ * with no sets answers with its own level: it has one body of work, and
+ * `progressKey` ignores the answer.
  */
 export function variantOf(lesson: Lesson, level: Level | null): Level | null {
   if (!lesson.sets) return lesson.level;
-  return level && lesson.sets.includes(level) ? level : lesson.sets[0];
+  if (level && lesson.sets.includes(level)) return level;
+  return lesson.sets.includes(DEFAULT_SET) ? DEFAULT_SET : lesson.sets[0];
+}
+
+/**
+ * The rung a chapter listing files a page under, and the badge it draws: the
+ * set the page opens on (`variantOf`) when that set is in view, else its first
+ * set in view (#86, #92). A literary work whose floor is A1 opens on A2 for a
+ * visitor, so it is listed under A2, not under a level it will not show.
+ */
+export function shownAt(lesson: Lesson, view: View, level: Level | null): Level | null {
+  const at = listedAt(lesson).filter((l) => view === "all" || view.includes(l));
+  const opens = variantOf(lesson, level);
+  return opens && at.includes(opens) ? opens : (at[0] ?? null);
 }
 
 /**
@@ -2216,6 +2253,11 @@ const handWrittenLinks: Record<string, string[]> = {
     "/litterature/le-lion-et-le-rat",
     "/litterature/cyrano-de-bergerac",
   ],
+  "/litterature/le-petit-chaperon-rouge": [
+    "/grammaire/le-singulier-et-le-pluriel",
+    "/astuces/tu-ou-vous",
+    "/vocabulaire/la-famille",
+  ],
   "/litterature/cosette-dans-le-bois": [
     "/grammaire/les-pronoms-cod-coi",
     "/litterature/phileas-fogg",
@@ -2355,6 +2397,7 @@ const handWrittenLinks: Record<string, string[]> = {
   "/grammaire/le-singulier-et-le-pluriel": [
     "/grammaire/les-articles-definis",
     "/grammaire/les-articles-indefinis",
+    "/litterature/le-petit-chaperon-rouge",
   ],
   "/grammaire/les-articles-partitifs": [
     "/exercices/le-un-ou-du",

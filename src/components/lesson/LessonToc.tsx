@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useLessonVariant } from "@/hooks/useLessonVariant";
 import { findLesson } from "@/data/navigation";
 import { fold } from "@/lib/search";
 import styles from "./LessonToc.module.css";
@@ -40,7 +41,11 @@ interface Entry {
  */
 export function LessonToc() {
   const path = usePathname() ?? "";
-  const isLesson = Boolean(findLesson(path));
+  const found = findLesson(path);
+  const isLesson = Boolean(found);
+  /* A page with a body per level (#92) swaps its headings once the account
+     answers, so the outline is read again when the level in view changes. */
+  const variant = useLessonVariant(found?.lesson ?? null);
   /* The outline carries the path it was read from, so a lesson never shows the
      previous one's sections for the frame between navigation and the effect.
      Stale is derived away here rather than cleared in the effect — clearing
@@ -126,7 +131,7 @@ export function LessonToc() {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };
-  }, [path, isLesson]);
+  }, [path, isLesson, variant]);
 
   if (items.length < 2) return null;
   /* Before the first mark there is still a section being read: the first one. */

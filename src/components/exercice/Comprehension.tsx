@@ -51,9 +51,44 @@ export type QuestionSets = Partial<Record<Level, Question[]>>;
  * One set, or one per level — never both. A page with a single set passes
  * `questions` and draws no picker, which is every `lecture` page today.
  */
-type ComprehensionProps =
+type ComprehensionProps = (
   | { questions: Question[]; sets?: never }
-  | { sets: QuestionSets; questions?: never };
+  | { sets: QuestionSets; questions?: never }
+) & {
+  /**
+   * `"fr"` on an A1 page, whose quiz is asked in Spanish (#85): every « … » in
+   * a question, option or `because` is French and gets `lang="fr"` back, so a
+   * screen reader does not read the quoted text with a Spanish voice. French
+   * outside guillemets is not detected; the data keeps it inside them.
+   */
+  quotes?: "fr";
+};
+
+/** Wrap each « … » in `lang="fr"`; a plain string when `quotes` is unset. */
+function inLang(text: string, quotes: "fr" | undefined) {
+  if (!quotes) return text;
+  return text
+    .split(/(«[^»]*»)/)
+    .map((part, i) => (part.startsWith("«") ? <span key={i} lang={quotes}>{part}</span> : part));
+}
+
+/**
+ * « ✓ Juste. » or « ✗ Non : » and the right option.
+ *
+ * On a French quiz the option is quoted back in guillemets. On an A1 quiz
+ * (`quotes`) the label is the shared furniture and stays French, so it is
+ * marked `lang="fr"`; a Spanish option is given back as it is, never wrapped
+ * in guillemets that `inLang` would then read as French, and a French one keeps
+ * the guillemets it already carries.
+ */
+function verdict(right: boolean, option: string, quotes: "fr" | undefined) {
+  if (!quotes) {
+    if (right) return "✓ Juste. ";
+    return `✗ Non : ${option.startsWith("«") ? option : `« ${option} »`}. `;
+  }
+  if (right) return <><span lang={quotes}>✓ Juste.</span> </>;
+  return <><span lang={quotes}>✗ Non :</span> {inLang(option, quotes)}. </>;
+}
 
 export function Comprehension(props: ComprehensionProps) {
   const pathname = usePathname() ?? "";
@@ -101,7 +136,7 @@ export function Comprehension(props: ComprehensionProps) {
 
           return (
             <li key={item.question} className={styles.item}>
-              <p className={styles.question}>{item.question}</p>
+              <p className={styles.question}>{inLang(item.question, props.quotes)}</p>
 
               <div className={styles.options}>
                 {item.options.map((option, position) => (
@@ -116,7 +151,7 @@ export function Comprehension(props: ComprehensionProps) {
                       )
                     }
                   >
-                    {option}
+                    {inLang(option, props.quotes)}
                   </button>
                 ))}
               </div>
@@ -133,10 +168,8 @@ export function Comprehension(props: ComprehensionProps) {
               >
                 {answered && (
                   <>
-                    {right
-                      ? "✓ Juste. "
-                      : `✗ Non : « ${item.options[item.answer]} ». `}
-                    {item.because}
+                    {verdict(right, item.options[item.answer], props.quotes)}
+                    {inLang(item.because, props.quotes)}
                   </>
                 )}
               </p>

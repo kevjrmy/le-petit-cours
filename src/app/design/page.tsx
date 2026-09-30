@@ -135,6 +135,21 @@ export default function DesignPage() {
           le livre · la table · l’école · les sœurs · un garçon
         </div>
         <p>
+          À l’A1, un texte littéraire se lit avec l’espagnol sous chaque ligne
+          (#92) : le français garde le serif, l’espagnol passe en sans, plus
+          discret.
+        </p>
+        <div className="example">
+          <p className="bilingue">
+            <span lang="fr">Ma mère-grand, que vous avez de grands bras !</span>
+            <span lang="es">Abuela, ¡qué brazos tan grandes tienes!</span>
+          </p>
+          <p className="bilingue">
+            <span lang="fr">C’est pour mieux t’embrasser, ma fille !</span>
+            <span lang="es">¡Son para abrazarte mejor, hija mía!</span>
+          </p>
+        </div>
+        <p>
           Sans cette séparation, une forme citée au milieu d’un paragraphe se
           confond avec le paragraphe : <span className="fr">une sœur</span>{" "}
           prend un <em>e</em> au féminin.

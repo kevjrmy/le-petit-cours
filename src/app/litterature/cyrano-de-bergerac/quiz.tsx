@@ -3,7 +3,7 @@
 import { Comprehension } from "@/components/exercice/Comprehension";
 import { SETS } from "./questions";
 
-/** Two levels from one text (`docs/decisions.md` #68). The sets are in `questions.ts`. */
+/** The set for the level in view, like the body above it (#92). */
 export function Quiz() {
-  return <Comprehension sets={SETS} />;
+  return <Comprehension sets={SETS} quotes="fr" />;
 }

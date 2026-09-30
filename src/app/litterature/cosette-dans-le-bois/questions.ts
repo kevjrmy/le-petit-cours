@@ -1,14 +1,63 @@
 import type { Question, QuestionSets } from "@/components/exercice/Comprehension";
 
 /**
- * The questions for this text, one set per level (`docs/decisions.md` #68).
+ * The questions for this work, one set per level. Each level has its own
+ * text as well (`a2.tsx`, `b1.tsx`), so a set asks about its own body (#92).
  *
  * **Data, not a component, and in its own file** so the `nav-wiring` audit can
- * import it and check its keys against the manifest's `sets`. Every import
- * here is `import type`, which type stripping erases, so plain `node` reads it.
- *
- * Same text, same vocabulary table, same tick: only the question changes (#59).
+ * import it. Every import here is `import type`, which type stripping erases,
+ * so plain `node` reads it.
  */
+
+/** A1, asked in Spanish, French in « » (#85): who, how old, from where, where she lives, who sent her. */
+const A1: Question[] = [
+  {
+    question: "¿Qué lleva Cosette cuando el hombre le habla?",
+    options: ["Una cesta de pan", "Un cubo de agua", "Una muñeca"],
+    answer: 1,
+    because: "« Cosette lâcha le seau. »: « le seau » es el cubo, y el hombre lo lleva por ella.",
+  },
+  {
+    question: "¿Cuántos años tiene Cosette?",
+    options: ["Seis años", "Ocho años", "Doce años"],
+    answer: 1,
+    because: "« Petite, quel âge as-tu ? » « Huit ans, monsieur. »: « huit » es ocho.",
+  },
+  {
+    question: "¿De dónde viene Cosette con el agua?",
+    options: ["De la posada", "Del manantial del bosque", "De París"],
+    answer: 1,
+    because: "« De la source qui est dans le bois. » La posada es adonde va, no de donde viene.",
+  },
+  {
+    question: "¿Dónde vive Cosette?",
+    options: ["En el bosque", "En París", "En Montfermeil"],
+    answer: 2,
+    because: "« Petite, où demeures-tu ? » « À Montfermeil, si vous connaissez. »",
+  },
+  {
+    question: "¿Qué dice Cosette de su madre?",
+    options: [
+      "Que su madre la espera en la posada",
+      "Que cree que no tiene madre",
+      "Que su madre es la señora Thénardier",
+    ],
+    answer: 1,
+    because: "« Je ne crois pas. Les autres en ont. Moi, je n’en ai pas. » La señora Thénardier es su patrona.",
+  },
+  {
+    question: "¿Quién ha mandado a Cosette a buscar agua de noche?",
+    options: ["Su madre", "El hombre", "La señora Thénardier"],
+    answer: 2,
+    because: "« Qui est-ce donc qui t’a envoyée à cette heure chercher de l’eau dans le bois ? » « C’est madame Thénardier. »",
+  },
+  {
+    question: "¿Qué va a hacer el hombre esta noche?",
+    options: ["Dormir en la posada", "Volver solo al bosque", "Irse a París"],
+    answer: 0,
+    because: "« Elle tient l’auberge. » « Eh bien, je vais aller y loger cette nuit. Conduis-moi. »",
+  },
+];
 
 /**
  * A2: the facts of the scene — the bucket, her age, where she comes from, who
@@ -71,96 +120,139 @@ const A2: Question[] = [
 ];
 
 /**
- * B1: the same dialogue read for what nobody says. A child who lets go of a
+ * The questions for this text (`docs/decisions.md` #68).
+ *
+ * **Data, not a component, and in its own file** so the `nav-wiring` audit can
+ * import it and check its keys against the manifest. Every import here is
+ * `import type`, which type stripping erases, so plain `node` reads it.
+ */
+
+/**
+ * B1: the whole chapter read for what nobody says. A child who lets go of a
  * bucket without asking who is taking it, who reasons her way to an answer
- * about her own mother because no one ever gave her one, and a man whose
- * silence before a question is what makes the question grave.
+ * about her own mother, a man whose body answers a name before he does, and
+ * a tear the narrator shows the reader and nobody in the scene can see.
  */
 const B1: Question[] = [
   {
     question:
       "« Donnez, reprit l’homme, je vais vous le porter. » « Cosette lâcha le seau. » Que dit cette obéissance immédiate ?",
     options: [
-      "Qu’elle a compris qu’il voulait lui prendre son eau",
-      "Qu’elle connaît cet homme et lui fait confiance",
+      "Qu’elle refuse d’abord, puis finit par céder",
+      "Qu’elle demande à l’homme qui il est avant de lâcher",
       "Qu’elle obéit sans discuter à l’adulte qui ordonne",
     ],
     answer: 2,
     because:
-      "« Donnez » est un ordre, et elle lâche. Elle ne demande pas qui il est ni ce qu’il veut : une enfant qu’on envoie chercher de l’eau la nuit a appris à faire ce qu’on lui dit.",
+      "« Donnez » est un ordre, et la phrase suivante est « Cosette lâcha le seau. » : pas un mot, pas une question.",
   },
   {
     question:
-      "Sur sa mère, Cosette dit d’abord « Je ne sais pas », puis « Les autres en ont. Moi, je n’en ai pas. » Que fait-elle entre les deux ?",
+      "Sur sa mère, Cosette dit d’abord « Je ne sais pas », puis « Je ne crois pas. Les autres en ont. Moi, je n’en ai pas. » Que fait-elle entre les deux ?",
     options: [
-      "Elle raisonne à voix haute, faute qu’on lui ait jamais répondu",
+      "Elle raisonne à voix haute, parce que personne ne le lui a jamais dit",
       "Elle se souvient brusquement de sa mère",
-      "Elle ment pour faire pitié à l’inconnu",
+      "Elle change de sujet pour ne pas répondre à l’inconnu",
     ],
     answer: 0,
     because:
-      "Personne ne lui a rien dit. Elle se compare aux autres enfants et en tire une conclusion, ce qui est le travail d’une enfant laissée sans réponse.",
+      "Elle se compare aux autres enfants et en tire une conclusion, puis la corrige : « Je crois que je n’en ai jamais eu. » Personne ne lui a rien dit.",
   },
   {
     question:
-      "« L’homme resta un moment sans parler, puis il dit brusquement : Tu n’as donc pas de mère ? » Que marque ce silence ?",
+      "« L’homme resta un moment sans parler, puis il dit brusquement : Tu n’as donc pas de mère ? » D’où vient ce « donc » ? Qu’a-t-il appris juste avant ?",
     options: [
-      "Qu’il cherche son chemin dans le bois",
-      "Qu’il a compris quelque chose et hésite à le demander",
-      "Qu’il ne souhaite plus parler à l’enfant",
+      "Qu’elle s’appelle Cosette",
+      "Qu’une enfant de huit ans porte seule ce seau, de la source du bois, loin de chez elle",
+      "Qu’elle travaille pour madame Thénardier",
     ],
     answer: 1,
     because:
-      "Le narrateur ne dit jamais ce que l’homme pense. Il met un silence devant la question, et c’est le silence qui la rend grave.",
+      "« Huit ans, monsieur. » « De la source qui est dans le bois. » « À un bon quart d’heure d’ici. » Le prénom et madame Thénardier ne viennent qu’après.",
   },
   {
     question:
-      "L’homme commence par « vous » et passe à « tu ». Et Cosette, comment lui parle-t-elle ?",
+      "« Comment t’appelles-tu ? » « Cosette. » « L’homme eut comme une secousse électrique. » Que montre cette réaction ?",
+    options: [
+      "Que ce prénom signifie quelque chose pour lui",
+      "Qu’il a froid, seul dans le bois la nuit",
+      "Que la réponse de l’enfant le met en colère",
+    ],
+    answer: 0,
+    because:
+      "La secousse vient au prénom, pas avant : « Il la regarda encore, puis il ôta ses mains de dessus les épaules de Cosette, saisit le seau, et se remit à marcher. »",
+  },
+  {
+    question:
+      "L’homme passe du « vous » au « tu ». Et Cosette, comment lui parle-t-elle, du bois jusqu’à l’auberge ?",
     options: [
       "Elle passe au « tu » elle aussi",
-      "Elle cesse peu à peu de répondre",
-      "Elle dit « monsieur » du début à la fin",
+      "Elle dit « monsieur » et « vous » jusqu’au bout",
+      "Elle cesse peu à peu de lui répondre",
     ],
-    answer: 2,
+    answer: 1,
     because:
-      "« Oui, monsieur. » « Huit ans, monsieur. » « À Montfermeil, si vous connaissez. » Le rapprochement ne va que dans un sens : lui descend vers elle, elle reste à sa place.",
+      "« Oui, monsieur. » « À Montfermeil, si vous connaissez. » « Voulez-vous me laisser reprendre le seau à présent ? » Lui descend vers elle, elle reste à sa place.",
   },
   {
     question:
       "« C’est ma bourgeoise », dit Cosette de madame Thénardier. Que dit ce mot dans la bouche d’une enfant de huit ans ?",
     options: [
       "Que c’est une dame riche du village",
+      "Que c’est une parente qui l’élève comme sa fille",
       "Que c’est sa patronne, et qu’elle parle d’elle en domestique",
-      "Que c’est une parente éloignée qui l’a recueillie",
-    ],
-    answer: 1,
-    because:
-      "« Bourgeoise » est le mot d’un employé pour celle qui l’emploie. À huit ans, Cosette n’a pas une famille chez les Thénardier : elle y a une place.",
-  },
-  {
-    question:
-      "« L’auberge ? dit l’homme. Eh bien, je vais aller y loger cette nuit. » Pourquoi cette décision tombe-t-elle maintenant ?",
-    options: [
-      "Parce qu’il cherchait une auberge depuis le début du chemin",
-      "Parce qu’il est trop fatigué pour aller plus loin",
-      "Parce qu’il vient d’apprendre où vit l’enfant et veut voir",
     ],
     answer: 2,
     because:
-      "Elle tombe juste après « Elle tient l’auberge ». Rien ne l’annonçait : c’est ce qu’il vient d’entendre sur Cosette qui décide de sa nuit.",
+      "« Est-ce qu’il n’y a pas de servante chez madame Thénardier ? » « Non, monsieur. » « Est-ce que tu es seule ? » « Oui, monsieur. » La servante, c’est elle.",
   },
   {
     question:
-      "« Tu n’as donc pas de mère ? », « Qui est-ce donc qui t’a envoyée… ? » Que fait ce « donc » ?",
+      "L’homme demande deux fois « Toute la journée ? », une fois pour Ponine et Zelma, une fois pour Cosette. Que fait voir cette question répétée ?",
     options: [
-      "Il marque que la question suit de ce qu’il vient de comprendre",
-      "Il rend la question plus polie",
-      "Il indique que l’homme répète une question déjà posée",
+      "Que Cosette joue avec Ponine et Zelma toute la journée",
+      "Que les deux filles jouent toute la journée et que Cosette travaille toute la journée",
+      "Que l’homme n’a pas entendu la première réponse",
+    ],
+    answer: 1,
+    because:
+      "« Elles jouent, elles s’amusent. » « Moi, je travaille. » La même question, la même réponse « Oui, monsieur », et deux vies opposées.",
+  },
+  {
+    question:
+      "« L’enfant leva ses grands yeux où il y avait une larme qu’on ne voyait pas à cause de la nuit. » Qui voit cette larme ?",
+    options: [
+      "L’homme, qui la regarde de près",
+      "Madame Thénardier, qui l’attend à l’auberge",
+      "Personne dans la scène : le narrateur la montre au lecteur",
+    ],
+    answer: 2,
+    because:
+      "« qu’on ne voyait pas à cause de la nuit » : l’homme ne peut pas la voir, et Cosette répond « doucement ». Seul le lecteur sait qu’elle pleure.",
+  },
+  {
+    question:
+      "Près de l’auberge, Cosette demande : « Voulez-vous me laisser reprendre le seau à présent ? » Pourquoi ?",
+    options: [
+      "Parce que madame la battra si elle voit qu’on l’a aidée",
+      "Parce qu’elle veut montrer à l’homme qu’elle est forte",
+      "Parce que l’homme est trop fatigué pour le porter",
     ],
     answer: 0,
+    because: "« C’est que si madame voit qu’on me l’a porté, elle me battra. »",
+  },
+  {
+    question:
+      "« Et qui ne coupe pas ? » « Si, monsieur, dit l’enfant, ça coupe la salade et les têtes de mouches. » Pourquoi « si » et pas « oui » ?",
+    options: [
+      "Parce que « si » est plus poli que « oui »",
+      "Parce qu’elle parle à un adulte qu’elle ne connaît pas",
+      "Parce qu’elle contredit une question posée à la forme négative",
+    ],
+    answer: 2,
     because:
-      "« Donc » enchaîne sur ce qui précède. Il a vu le seau, l’heure et le bois ; la question sort de là. Ce n’est pas de la curiosité, c’est une conclusion.",
+      "« Et qui ne coupe pas ? » est négative : pour dire le contraire, on répond « si ». Ailleurs, au même inconnu, elle dit « Oui, monsieur ».",
   },
 ];
 
-export const SETS: QuestionSets = { A2, B1 };
+export const SETS: QuestionSets = { A1, A2, B1 };
