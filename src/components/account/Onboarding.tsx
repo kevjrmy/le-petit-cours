@@ -3,28 +3,31 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { CHOOSABLE_LEVELS, type Level, type View } from "@/data/navigation";
-import { etapesOf, findParcours, PARCOURS, type Parcours } from "@/data/parcours";
+import { CHOOSABLE_LEVELS, type View } from "@/data/navigation";
+import { findParcours, PARCOURS, type Parcours } from "@/data/parcours";
 import { displayName, useAccount, useAccountReady, type Account } from "@/hooks/useAccount";
-import { saveChoices, SaveSettingError, type SaveProblem } from "@/lib/account";
+import { saveChoices, SaveSettingError, type Lang, type SaveProblem } from "@/lib/account";
+import { Flag, LANG_NAME } from "./Flag";
 import { FALLBACK, safePath } from "./ReturnTo";
-import { BLURB, Choice, toggleLevel } from "./ViewChooser";
+import { Choice, toggleLevel } from "./ViewChooser";
+import { Fr, LEVEL_BLURB, parcoursBlurb, parcoursSize, WORDS } from "./words";
 import settings from "./AccountSettings.module.css";
 import styles from "./Onboarding.module.css";
 
 /**
- * The onboarding a first sign-in passes through (`ReturnTo`): what the course
- * is, how it works, then the parcours and the view — four slides, one page.
+ * The onboarding a first sign-in passes through (`ReturnTo`): the language,
+ * what the course is, how it works, then the parcours and the view — five
+ * slides, one page.
  *
- * **Nothing is saved until « Terminer »**, and both answers go in one write
+ * **Nothing is saved until « Terminer »**, and the answers go in one write
  * (`saveChoices`). « Plus tard » saves nothing, so the next sign-in asks again.
  * **The parcours pre-selects the view** until the learner touches it (#88);
  * in `/compte` the two stay independent.
  *
- * **French or Spanish, the learner's pick, not remembered** (§4 keeps
- * `localStorage` for the theme and the sidebar). The level is not known yet, so
- * an A1 learner needs the Spanish (#85). **Names stay French** — parcours,
- * levels, « La suite » — because that is what the rest of the site calls them.
+ * **The language comes first** (#91), French pre-selected: the level is not
+ * known yet, so an A1 learner needs the Spanish (#85). It is saved with the
+ * rest, as the account's language. **Names stay French** — parcours, levels,
+ * « La suite » — because that is what the rest of the site calls them.
  */
 export function Onboarding() {
   const account = useAccount();
@@ -53,14 +56,9 @@ function SignedOut() {
   );
 }
 
-type Lang = "fr" | "es";
+const STEPS = 5;
 
-const STEPS = 4;
-
-/** French inside Spanish text: a name the site uses everywhere. */
-function Fr({ children }: { children: ReactNode }) {
-  return <span lang="fr">{children}</span>;
-}
+const LANGS: Lang[] = ["fr", "es"];
 
 const UI = {
   fr: {
@@ -68,17 +66,12 @@ const UI = {
     back: "Précédent",
     forward: "Suivant",
     finish: "Terminer",
-    saving: "Enregistrement…",
     later: "Plus tard",
     pickParcours: "Choisissez un parcours, ou « Aucun parcours ».",
     suggested: "Choisi d’après votre parcours. Changez-le si vous voulez.",
-    size: (lessons: number, etapes: number) =>
-      `${lessons} leçons en ${etapes} étape${etapes === 1 ? "" : "s"}`,
-    none: "Vous choisissez vos leçons vous-même, sans « La suite ».",
-    all: "Toutes les leçons, rangées par niveau.",
     problem: {
-      unavailable: "L’enregistrement n’a pas abouti. Vérifiez votre connexion et réessayez.",
-      "no-session": "Votre session a expiré. Reconnectez-vous pour enregistrer.",
+      unavailable: WORDS.fr.unavailable,
+      "no-session": WORDS.fr.noSession,
       rejected: "Ce choix n’est plus proposé. Choisissez-en un autre.",
     } as Partial<Record<SaveProblem, string>>,
   },
@@ -87,36 +80,15 @@ const UI = {
     back: "Anterior",
     forward: "Siguiente",
     finish: "Terminar",
-    saving: "Guardando…",
     later: "Más tarde",
     pickParcours: "Elige un parcours, o « Aucun parcours ».",
     suggested: "Elegido según tu parcours. Cámbialo si quieres.",
-    size: (lessons: number, etapes: number) =>
-      `${lessons} lecciones en ${etapes} etapa${etapes === 1 ? "" : "s"}`,
-    none: "Eliges tú las lecciones, sin « La suite ».",
-    all: "Todas las lecciones, ordenadas por nivel.",
     problem: {
-      unavailable: "No se ha podido guardar. Comprueba tu conexión y vuelve a intentarlo.",
-      "no-session": "Tu sesión ha caducado. Vuelve a iniciar sesión para guardar.",
+      unavailable: WORDS.es.unavailable,
+      "no-session": WORDS.es.noSession,
       rejected: "Esta opción ya no existe. Elige otra.",
     } as Partial<Record<SaveProblem, string>>,
   },
-};
-
-/** The parcours blurbs in Spanish, by id; a missing one falls back to French. */
-const PARCOURS_ES: Record<string, string> = {
-  a1: "Empiezas. Presentarte, hablar de los tuyos, contar y comprar.",
-  a2: "Te defiendes. La vida diaria, contar en pasado, hablar de tus planes.",
-  b1: "Sigues una conversación. Contar con detalle, imaginar, leer de cerca.",
-  "ecrire-le-francais":
-    "Ya lo hablas. Escribir lo que sabes decir: acentos, homófonos, terminaciones.",
-};
-
-const LEVEL_ES: Record<Level, string> = {
-  A1: "Los primeros pasos. Explicado en español, enseñado en francés.",
-  A2: "La vida diaria, contar en pasado, hablar de tus planes.",
-  B1: "Contar con detalle, imaginar, leer de cerca.",
-  B2: "",
 };
 
 /** The view a parcours suggests: its level, or « Tout » for none. */
@@ -128,7 +100,8 @@ function suggestedView(parcours: Parcours | null): View {
 
 function Slides({ account, next }: { account: Account; next: string }) {
   const router = useRouter();
-  const [lang, setLang] = useState<Lang>("fr");
+  /* The account's language, French until chosen (#91). */
+  const [lang, setLang] = useState<Lang>(account.lang);
   const [step, setStep] = useState(0);
   /* `undefined` until picked: « Aucun parcours » is an answer, not a default.
      Someone re-running the onboarding starts from what they have. */
@@ -164,7 +137,7 @@ function Slides({ account, next }: { account: Account; next: string }) {
     setSaving(true);
     setProblem(null);
     try {
-      await saveChoices(view, parcoursId);
+      await saveChoices(lang, view, parcoursId);
       router.replace(next);
     } catch (caught) {
       setProblem(caught instanceof SaveSettingError ? caught.problem : "unavailable");
@@ -172,13 +145,44 @@ function Slides({ account, next }: { account: Account; next: string }) {
     }
   }
 
-  const blocked = step === 2 && parcoursId === undefined;
+  const blocked = step === 3 && parcoursId === undefined;
   const last = step === STEPS - 1;
 
   let title: ReactNode;
   let body: ReactNode;
 
   if (step === 0) {
+    /* Asked before anything else, so the title says it in both languages. */
+    title = (
+      <>
+        <span lang="fr">Langue</span> · <span lang="es">Idioma</span>
+      </>
+    );
+    body = (
+      <>
+        <p>
+          {lang === "fr"
+            ? "Dans quelle langue voulez-vous ces questions et votre compte ? Les leçons restent en français."
+            : "¿En qué idioma quieres estas preguntas y tu cuenta? Las lecciones siguen en francés."}
+        </p>
+        <ul className={settings.choices}>
+          {LANGS.map((option) => (
+            <li key={option}>
+              <Choice
+                name={LANG_NAME[option]}
+                nameLang={option}
+                icon={<Flag lang={option} />}
+                blurb=""
+                pressed={lang === option}
+                disabled={saving}
+                onPress={() => setLang(option)}
+              />
+            </li>
+          ))}
+        </ul>
+      </>
+    );
+  } else if (step === 1) {
     const name = displayName(account);
     title = lang === "fr" ? `Bienvenue, ${name}` : `Te damos la bienvenida, ${name}`;
     body =
@@ -200,7 +204,7 @@ function Slides({ account, next }: { account: Account; next: string }) {
           <p>Antes de empezar, dos preguntas.</p>
         </>
       );
-  } else if (step === 1) {
+  } else if (step === 2) {
     title = lang === "fr" ? "Comment ça marche" : "Cómo funciona";
     body =
       lang === "fr" ? (
@@ -224,7 +228,7 @@ function Slides({ account, next }: { account: Account; next: string }) {
         <ul className={styles.points}>
           <li>
             ¿Has terminado una lección? Pulsa <Fr>«&nbsp;J’ai terminé&nbsp;»</Fr>,
-            al final de la página. <Fr>«&nbsp;Ma progression&nbsp;»</Fr> guarda
+            al final de la página. «&nbsp;Mi progresión&nbsp;» guarda
             la lista, en todos tus dispositivos.
           </li>
           <li>
@@ -233,11 +237,11 @@ function Slides({ account, next }: { account: Account; next: string }) {
           </li>
           <li>Las explicaciones están en francés. En el nivel A1, están en español.</li>
           <li>
-            Todo se puede cambiar después, en <Fr>«&nbsp;Compte&nbsp;»</Fr>.
+            Todo se puede cambiar después, en «&nbsp;Cuenta&nbsp;».
           </li>
         </ul>
       );
-  } else if (step === 2) {
+  } else if (step === 3) {
     title = lang === "fr" ? "Votre parcours" : "Tu parcours";
     body = (
       <>
@@ -252,16 +256,15 @@ function Slides({ account, next }: { account: Account; next: string }) {
         </p>
         <ul className={settings.choices}>
           {PARCOURS.map((p) => {
-            const es = lang === "es" ? PARCOURS_ES[p.id] : undefined;
-            const lessons = etapesOf(p).reduce((sum, e) => sum + e.steps.length, 0);
+            const blurb = parcoursBlurb(p, lang);
             return (
               <li key={p.id}>
                 <Choice
                   name={p.title}
                   nameLang="fr"
-                  blurb={es ?? p.blurb}
-                  blurbLang={es ? undefined : "fr"}
-                  meta={t.size(lessons, p.etapes.length)}
+                  blurb={blurb.text}
+                  blurbLang={blurb.lang}
+                  meta={parcoursSize(p, lang)}
                   pressed={parcoursId === p.id}
                   disabled={saving}
                   onPress={() => setParcoursId(p.id)}
@@ -273,7 +276,7 @@ function Slides({ account, next }: { account: Account; next: string }) {
             <Choice
               name="Aucun parcours"
               nameLang="fr"
-              blurb={t.none}
+              blurb={WORDS[lang].noParcours}
               pressed={parcoursId === null}
               disabled={saving}
               onPress={() => setParcoursId(null)}
@@ -301,7 +304,7 @@ function Slides({ account, next }: { account: Account; next: string }) {
             <Choice
               name="Tout"
               nameLang="fr"
-              blurb={t.all}
+              blurb={WORDS[lang].allLevels}
               pressed={view === "all"}
               disabled={saving}
               onPress={() => setPicked("all")}
@@ -311,7 +314,7 @@ function Slides({ account, next }: { account: Account; next: string }) {
             <li key={level}>
               <Choice
                 name={level}
-                blurb={lang === "fr" ? BLURB[level] : LEVEL_ES[level]}
+                blurb={LEVEL_BLURB[lang][level]}
                 pressed={view !== "all" && view.includes(level)}
                 disabled={saving}
                 onPress={() => setPicked(toggleLevel(view, level))}
@@ -344,15 +347,6 @@ function Slides({ account, next }: { account: Account; next: string }) {
           </span>
           {t.count(step + 1)}
         </p>
-        <button
-          type="button"
-          className={styles.lang}
-          aria-pressed={lang === "es"}
-          onClick={() => setLang(lang === "fr" ? "es" : "fr")}
-        >
-          <FlagEs />
-          <span lang="es">Español</span>
-        </button>
       </div>
 
       <div key={step} className={styles.slide}>
@@ -378,7 +372,7 @@ function Slides({ account, next }: { account: Account; next: string }) {
             disabled={saving || blocked}
             onClick={() => (last ? finish() : go(step + 1))}
           >
-            {last ? (saving ? t.saving : t.finish) : t.forward}
+            {last ? (saving ? WORDS[lang].saving : t.finish) : t.forward}
           </button>
         </span>
       </div>
@@ -386,16 +380,5 @@ function Slides({ account, next }: { account: Account; next: string }) {
         {help}
       </p>
     </div>
-  );
-}
-
-/* The civil flag, 3:2, stripes 1:2:1 — no arms at this size. Its colours are
-   palette tokens kept for this one use (`globals.css`). */
-function FlagEs() {
-  return (
-    <svg className={styles.flag} viewBox="0 0 3 2" aria-hidden="true">
-      <rect width="3" height="2" fill="var(--flag-es-red)" />
-      <rect y="0.5" width="3" height="1" fill="var(--flag-es-yellow)" />
-    </svg>
   );
 }

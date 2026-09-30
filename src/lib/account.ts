@@ -150,13 +150,26 @@ export function readParcours(raw: unknown): Parcours | null {
 }
 
 /**
+ * The language of the account's own screens (#91): `/bienvenue`, `/compte` and
+ * the account menu. **Never the lessons, the sidebar or a title** — those are
+ * French for everyone (#53). French is the default and the fallback, so
+ * anything but `"es"` reads as French.
+ */
+export type Lang = "fr" | "es";
+
+export function readLang(raw: unknown): Lang {
+  return raw === "es" ? "es" : "fr";
+}
+
+/**
  * Whether the learner has ever answered the onboarding's two questions.
  *
  * **Absent keys are the only signal**: `readView` and `readParcours` read
  * nothing as « Tout » and « aucun », which are also answers. Any saved view,
  * any parcours, or a pre-#86 `level` counts as having chosen. `parcours: null`
  * cannot count — Supabase deletes a key written as `null` — which is why
- * `saveChoices` always writes the view.
+ * `saveChoices` always writes the view. **The language does not count**: it
+ * can be set in `/compte` without the two answers.
  */
 export function readChosen(meta: Record<string, unknown>): boolean {
   return meta.view != null || meta.parcours != null || meta.level != null;
@@ -223,19 +236,30 @@ export async function saveParcours(id: string | null): Promise<void> {
   return saveSettings({ parcours: id });
 }
 
+/** Record the language of the account's screens (#91). */
+export async function saveLang(lang: Lang): Promise<void> {
+  if (lang !== "fr" && lang !== "es") throw new SaveSettingError("rejected");
+  return saveSettings({ lang });
+}
+
 /**
- * Both answers of the onboarding (`/bienvenue`), in one write.
+ * The onboarding's answers (`/bienvenue`), in one write.
  *
  * **The one place the two settings are written together** (#88): the parcours
  * only pre-selects the view on screen, and the learner confirms both. In
  * `/compte` each keeps its own writer.
  */
-export async function saveChoices(view: View, parcours: string | null): Promise<void> {
+export async function saveChoices(
+  lang: Lang,
+  view: View,
+  parcours: string | null,
+): Promise<void> {
+  if (lang !== "fr" && lang !== "es") throw new SaveSettingError("rejected");
   if (view !== "all" && (view.length === 0 || !view.every(isChoosable))) {
     throw new SaveSettingError("rejected");
   }
   if (parcours !== null && !findParcours(parcours)) throw new SaveSettingError("rejected");
-  return saveSettings({ view, level: null, parcours });
+  return saveSettings({ lang, view, level: null, parcours });
 }
 
 /**

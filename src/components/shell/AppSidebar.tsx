@@ -67,12 +67,14 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
       className={`${styles.sidebar} ${open ? styles.open : ""}`}
     >
       <div className={styles.head}>
-        {/* One mark at every width, so the head does not change shape at a
-            breakpoint. It is decoration to a screen reader; the link's name is
-            the text beside it (`AGENTS.md` §5). */}
+        {/* Open, the drawn wordmark; in the rail, the badge. One or the
+            other, never both. Both are decoration to a screen reader: the
+            link's name is the hidden text, there at every width
+            (`AGENTS.md` §5). */}
         <Link href="/" className={styles.brand} onClick={onNavigate}>
           <span className={styles.mark} aria-hidden="true" />
-          <span className="visually-hidden">Le Petit Cours, accueil</span>
+          <span className={styles.wordmark} aria-hidden="true" />
+          <span className="visually-hidden">Le Petit Cours</span>
         </Link>
       </div>
 

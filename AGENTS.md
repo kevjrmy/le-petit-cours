@@ -76,7 +76,8 @@ Language:
 - **French only, from A2 up** (#53): explanations, tables, callouts, instructions, chrome. No gloss,
   no translation column. **Exceptions**: a `traduction` source text (#55), **a page whose floor
   is A1, which explains in Spanish and teaches in French** (#85, `docs/levels/a1.md`), and
-  `/bienvenue`'s Spanish toggle (#90). Chrome and manifest titles are French at every level.
+  the account screens in the account's language, `fr` or `es` (#91: `/bienvenue`, `/compte`, the
+  account menu's own words). Chrome and manifest titles are French at every level.
 - **On an A1 page `lang` is not optional**: `lang="es"` on each `<section>` and `.resume` (never
   `<article>`), `lang="fr"` back on every piece of French. Peninsular Spanish, `tú`.
 - **The explanation is easier than the French it teaches.** Short sentences; wrong-then-right
@@ -169,8 +170,10 @@ Accent `#0044AA`, **Spectral** + **Inter** (#27).
   buttons, `<caption>` on every table.
 - **The topbar is in the page** (#43, #44): no border, no blur, no surface of its own; sticky only
   below the drawer breakpoint, in `--surface-app`.
-- **Brand glyph = CSS mask over a token.** The wordmark is the home page's `<h1>` only. Icons come
-  from `node scripts/make-icons.mjs` — never hand-edit; opaque; only the maskable pays the safe zone.
+- **Brand glyph = CSS mask over a token.** The drawn wordmark is the home page's `<h1>` and the
+  open sidebar's head; the rail shows the P badge instead. The link's name is
+  hidden text, never the drawing. Icons come from `node scripts/make-icons.mjs` — never
+  hand-edit; opaque; only the maskable pays the safe zone.
 - **The shell's foot is one row** (#63): account control and footer share `--shell-foot-h`.
 - **Never set `metadata.icons`** — it drops `icon.svg`.
 
@@ -266,9 +269,10 @@ page underneath dynamic and breaks offline. `AccountProvider` holds it once, ins
   teach it the session.
 - **RLS (`auth.uid() = user_id`) is the authorization model.** No permission checks in components.
 - **Schema changes are migration files in `supabase/migrations/`**, never dashboard edits.
-- **An account holds username, email, password, progress, a level and an optional display name —
-  nothing else** (#31). Settings are in metadata with rules in `src/lib/account.ts` (#36); **a
-  setting that grants something or that others see needs a table with a constraint.**
+- **An account holds username, email, password, progress, a view, a parcours, a language and an
+  optional display name — nothing else** (#31). Settings are in metadata with rules in
+  `src/lib/account.ts` (#36); **a setting that grants something or that others see needs a table
+  with a constraint.**
 
 ### Progress
 

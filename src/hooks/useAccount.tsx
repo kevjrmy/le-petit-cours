@@ -4,9 +4,11 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import {
   readChosen,
   readDisplayName,
+  readLang,
   readParcours,
   readUsername,
   readView,
+  type Lang,
 } from "@/lib/account";
 import { getSupabaseClient, SUPABASE_CONFIGURED } from "@/lib/supabase/client";
 import type { View } from "@/data/navigation";
@@ -41,6 +43,11 @@ export interface Account {
   displayName: string | null;
   /** The levels they chose to see listed, or `"all"` (#86). */
   view: View;
+  /**
+   * The language of the account's own screens, French unless they chose
+   * Spanish (#91). Lessons and chrome ignore it (#53).
+   */
+  lang: Lang;
   /** The path they follow, or `null` for none (#88). Never set by the view. */
   parcours: Parcours | null;
   /**
@@ -120,6 +127,7 @@ export function AccountProvider({ children }: { children: ReactNode }) {
         username: readUsername(meta.username, user.email),
         email: user.email,
         displayName: readDisplayName(meta.display_name),
+        lang: readLang(meta.lang),
         view: readView(meta.view, meta.level),
         parcours: readParcours(meta.parcours),
         chosen: readChosen(meta),

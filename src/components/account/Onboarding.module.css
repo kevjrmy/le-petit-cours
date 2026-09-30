@@ -1,4 +1,4 @@
-/* The onboarding's four slides. One column, the reading column's width: the
+/* The onboarding's five slides. One column, the reading column's width: the
    slides are sentences and choices, not a stage. */
 .deck {
   max-width: 34rem;
@@ -31,38 +31,6 @@
 }
 
 .dotOn { background: var(--accent); }
-
-/* The language toggle: the flag and the word, so it is never the flag alone.
-   Pressed is drawn as the choices draw it — border and fill. */
-.lang {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.3rem 0.65rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  background: var(--surface-1);
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.82rem;
-  cursor: pointer;
-  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
-}
-
-.lang:hover { border-color: var(--accent-line); background: var(--accent-subtle); }
-
-.lang[aria-pressed="true"] {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-  color: var(--accent-text);
-}
-
-.flag {
-  width: 1.2rem;
-  height: 0.8rem;
-  border-radius: 2px;
-  box-shadow: 0 0 0 1px var(--border);
-}
 
 .slide { animation: slide-in var(--dur) var(--ease); }
 

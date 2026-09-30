@@ -24,7 +24,9 @@
   text-decoration: none;
 }
 
-.initial {
+/* The tile keeps its size; the icon is sized by `font-size`, as
+   `ChapterIcon` asks of whatever holds it. */
+.mark {
   flex: 0 0 auto;
   width: 2.4rem;
   height: 2.4rem;
@@ -34,9 +36,7 @@
   border-radius: var(--radius-sm);
   background: var(--accent-soft);
   color: var(--accent-text);
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  line-height: 1;
+  font-size: 1.05rem;
 }
 
 .body {

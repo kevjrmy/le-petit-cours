@@ -178,7 +178,7 @@ a.item:hover {
   border-top: 1px solid var(--border-soft);
 }
 
-/* ── the theme submenu ──────────────────────────────────────────────────── */
+/* ── the submenus ──────────────────────────────────────────────────── */
 
 /* The current value and the chevron on the row that leads into it. */
 .value {
@@ -247,6 +247,17 @@ a.item:hover {
 
 .choice[aria-checked="true"] { color: var(--accent-text); font-weight: 600; }
 .choice[aria-checked="true"] .tick { visibility: visible; }
+.choice:disabled { cursor: progress; }
+
+/* The language submenu's one line of news: a save that failed. Not in
+   `--danger` — nothing the learner did was wrong (`AGENTS.md` §5). */
+.status {
+  padding: 0 0.85rem;
+  font-size: 0.78rem;
+  color: var(--text-2);
+}
+
+.status:empty { display: none; }
 
 /* ── the rail ────────────────────────────────────────────────────────────────
    Same container as the sidebar's own rail rules — the panel names itself

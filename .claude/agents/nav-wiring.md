@@ -192,8 +192,8 @@ everywhere until its first lesson lands. **No placeholder entry, dimmed row or "
    **and `icon`** — add the glyph to `src/components/nav/ChapterIcon.tsx` in the same change, and
    **never give that map a `default` entry** (#42). Three optional keys: `untracked` for pages sat,
    not ticked (`delf`, #82), `scratch` for the atelier alone (#80), `outbound` for its one link off
-   the site. Test tracking with `isTracked()`, never either flag. The sommaire card's mark is the
-   chapter's initial in the serif; nothing to keep in step.
+   the site. Test tracking with `isTracked()`, never either flag. The sommaire card draws the same
+   icon; nothing else to keep in step.
 2. **Nothing else.** `src/app/[chapitre]/page.tsx` renders every landing page from the manifest
    (#29); never add a `src/app/{chapitre}/page.tsx` beside it. A chapter with no lessons is invisible
    until its first page exists (#51) — expected, not a fault.

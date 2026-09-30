@@ -1,23 +1,40 @@
 "use client";
 
-import { useState } from "react";
-import { etapesOf, PARCOURS, type Parcours } from "@/data/parcours";
-import { SaveSettingError, saveParcours } from "@/lib/account";
+import { useState, type ReactNode } from "react";
+import { PARCOURS, type Parcours } from "@/data/parcours";
+import { SaveSettingError, saveParcours, type Lang } from "@/lib/account";
 import { Choice } from "./ViewChooser";
+import { Fr, parcoursBlurb, parcoursSize, WORDS } from "./words";
 import styles from "./AccountSettings.module.css";
 
-const PROBLEM: Record<string, string> = {
-  unavailable: "L’enregistrement n’a pas abouti. Vérifiez votre connexion et réessayez.",
-  "no-session": "Votre session a expiré. Reconnectez-vous pour enregistrer.",
-  rejected: "Ce parcours n’existe plus.",
-};
-
-/** « 38 leçons en 9 étapes » — what choosing the path signs up for. */
-function size(parcours: Parcours): string {
-  const lessons = etapesOf(parcours).reduce((sum, etape) => sum + etape.steps.length, 0);
-  const etapes = parcours.etapes.length;
-  return `${lessons} leçons en ${etapes} étape${etapes === 1 ? "" : "s"}`;
-}
+const UI = {
+  fr: {
+    current: "Votre parcours",
+    choose: "Choisissez un parcours",
+    intro: (
+      <>
+        Un parcours range des leçons de tous les chapitres en étapes, dans
+        l’ordre où les faire, et «&nbsp;La suite&nbsp;» vous donne la prochaine.
+        Une leçon cochée l’est dans tous les parcours : en changer ne fait rien
+        perdre.
+      </>
+    ),
+    rejected: "Ce parcours n’existe plus.",
+  },
+  es: {
+    current: "Tu parcours",
+    choose: "Elige un parcours",
+    intro: (
+      <>
+        Un <Fr>parcours</Fr> ordena en etapas lecciones de todos los capítulos,
+        en el orden en que hacerlas, y <Fr>«&nbsp;La suite&nbsp;»</Fr> te da la
+        siguiente. Una lección marcada lo está en todos los <Fr>parcours</Fr>:
+        cambiar no te hace perder nada.
+      </>
+    ),
+    rejected: "Esta opción ya no existe. Elige otra.",
+  },
+} satisfies Record<Lang, Record<string, ReactNode>>;
 
 /**
  * The path « La suite » walks (#88): one parcours, or none.
@@ -26,7 +43,13 @@ function size(parcours: Parcours): string {
  * the A2 path who sees only A1 is still offered A2 lessons by « La suite »: the
  * view filters what the listings offer, never what the path asks for.
  */
-export function ParcoursChooser({ current }: { current: Parcours | null }) {
+export function ParcoursChooser({
+  current,
+  lang,
+}: {
+  current: Parcours | null;
+  lang: Lang;
+}) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,10 +60,13 @@ export function ParcoursChooser({ current }: { current: Parcours | null }) {
     try {
       await saveParcours(id);
     } catch (caught) {
+      const problem = caught instanceof SaveSettingError ? caught.problem : null;
       setError(
-        caught instanceof SaveSettingError
-          ? (PROBLEM[caught.problem] ?? PROBLEM.unavailable)
-          : PROBLEM.unavailable,
+        problem === "rejected"
+          ? UI[lang].rejected
+          : problem === "no-session"
+            ? WORDS[lang].noSession
+            : WORDS[lang].unavailable,
       );
     } finally {
       setSaving(false);
@@ -48,32 +74,33 @@ export function ParcoursChooser({ current }: { current: Parcours | null }) {
   }
 
   return (
-    <section>
-      <h2 id="parcours">{current ? "Votre parcours" : "Choisissez un parcours"}</h2>
-      <p>
-        Un parcours range des leçons de tous les chapitres en étapes, dans
-        l’ordre où les faire, et «&nbsp;La suite&nbsp;» vous donne la prochaine.
-        Une leçon cochée l’est dans tous les parcours : en changer ne fait rien
-        perdre.
-      </p>
+    <section lang={lang}>
+      <h2 id="parcours">{current ? UI[lang].current : UI[lang].choose}</h2>
+      <p>{UI[lang].intro}</p>
 
       <ul className={styles.choices}>
-        {PARCOURS.map((parcours) => (
-          <li key={parcours.id}>
-            <Choice
-              name={parcours.title}
-              blurb={parcours.blurb}
-              meta={size(parcours)}
-              pressed={current?.id === parcours.id}
-              disabled={saving}
-              onPress={() => choose(parcours.id)}
-            />
-          </li>
-        ))}
+        {PARCOURS.map((parcours) => {
+          const blurb = parcoursBlurb(parcours, lang);
+          return (
+            <li key={parcours.id}>
+              <Choice
+                name={parcours.title}
+                nameLang={lang === "es" ? "fr" : undefined}
+                blurb={blurb.text}
+                blurbLang={blurb.lang}
+                meta={parcoursSize(parcours, lang)}
+                pressed={current?.id === parcours.id}
+                disabled={saving}
+                onPress={() => choose(parcours.id)}
+              />
+            </li>
+          );
+        })}
         <li>
           <Choice
             name="Aucun parcours"
-            blurb="Vous choisissez vos leçons vous-même, sans « La suite »."
+            nameLang={lang === "es" ? "fr" : undefined}
+            blurb={WORDS[lang].noParcours}
             pressed={current === null}
             disabled={saving}
             onPress={() => choose(null)}

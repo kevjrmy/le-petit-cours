@@ -1,17 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { CHOOSABLE_LEVELS, LADDER, type Level, type View } from "@/data/navigation";
-import { SaveSettingError, saveView } from "@/lib/account";
+import { SaveSettingError, saveView, type Lang } from "@/lib/account";
+import { Fr, LEVEL_BLURB, WORDS } from "./words";
 import styles from "./AccountSettings.module.css";
-
-/** What each level is for, in the learner's own terms rather than in CEFR's. */
-export const BLURB: Record<Level, string> = {
-  A1: "Les premiers pas. Expliqué en espagnol, enseigné en français.",
-  A2: "Le quotidien, raconter au passé, parler de ses projets.",
-  B1: "Raconter en détail, imaginer, lire de près.",
-  B2: "",
-};
 
 /*
  * **The chooser offers the levels and rates none of them** (#77): no « en
@@ -21,11 +14,32 @@ export const BLURB: Record<Level, string> = {
  * opens sign-up.**
  */
 
-const PROBLEM: Record<string, string> = {
-  unavailable: "L’enregistrement n’a pas abouti. Vérifiez votre connexion et réessayez.",
-  "no-session": "Votre session a expiré. Reconnectez-vous pour enregistrer.",
-  rejected: "Ce niveau n’est pas encore ouvert.",
-};
+const UI = {
+  fr: {
+    title: "Ce que vous voyez",
+    intro: (
+      <>
+        Le sommaire, les chapitres et le menu ne proposent que les niveaux choisis
+        ici. Les pages sans niveau, comme les tableaux de conjugaison, sont
+        toujours là. Rien n’est verrouillé : une leçon reste lisible si vous
+        tombez dessus.
+      </>
+    ),
+    rejected: "Ce niveau n’est pas encore ouvert.",
+  },
+  es: {
+    title: "Lo que ves",
+    intro: (
+      <>
+        El <Fr>«&nbsp;Sommaire&nbsp;»</Fr>, los capítulos y el menú solo muestran los
+        niveles elegidos aquí. Las páginas sin nivel, como las tablas de
+        conjugación, siempre están. Nada está bloqueado: una lección se puede
+        leer si llegas a ella.
+      </>
+    ),
+    rejected: "Este nivel todavía no está abierto.",
+  },
+} satisfies Record<Lang, { title: string; intro: ReactNode; rejected: string }>;
 
 /**
  * Which levels the listings show (#86): « Tout », or any of the levels.
@@ -35,7 +49,7 @@ const PROBLEM: Record<string, string> = {
  * leaving puts « Tout » back — no stored value can hide the whole course.
  * The parcours is chosen above and is untouched by this (#88).
  */
-export function ViewChooser({ current }: { current: View }) {
+export function ViewChooser({ current, lang }: { current: View; lang: Lang }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -47,32 +61,30 @@ export function ViewChooser({ current }: { current: View }) {
          subscribed, and every listing re-renders with the new view. */
       await saveView(next);
     } catch (caught) {
+      const problem = caught instanceof SaveSettingError ? caught.problem : null;
       setError(
-        caught instanceof SaveSettingError
-          ? (PROBLEM[caught.problem] ?? PROBLEM.unavailable)
-          : PROBLEM.unavailable,
+        problem === "rejected"
+          ? UI[lang].rejected
+          : problem === "no-session"
+            ? WORDS[lang].noSession
+            : WORDS[lang].unavailable,
       );
     } finally {
       setSaving(false);
     }
   }
 
-
   return (
-    <section>
-      <h2 id="vue">Ce que vous voyez</h2>
-      <p>
-        Le sommaire, les chapitres et le menu ne proposent que les niveaux choisis
-        ici. Les pages sans niveau, comme les tableaux de conjugaison, sont
-        toujours là. Rien n’est verrouillé : une leçon reste lisible si vous
-        tombez dessus.
-      </p>
+    <section lang={lang}>
+      <h2 id="vue">{UI[lang].title}</h2>
+      <p>{UI[lang].intro}</p>
 
       <ul className={styles.choices}>
         <li>
           <Choice
             name="Tout"
-            blurb="Toutes les leçons, rangées par niveau."
+            nameLang={lang === "es" ? "fr" : undefined}
+            blurb={WORDS[lang].allLevels}
             pressed={current === "all"}
             disabled={saving}
             onPress={() => current !== "all" && save("all")}
@@ -82,7 +94,7 @@ export function ViewChooser({ current }: { current: View }) {
           <li key={level}>
             <Choice
               name={level}
-              blurb={BLURB[level]}
+              blurb={LEVEL_BLURB[lang][level]}
               pressed={current !== "all" && current.includes(level)}
               disabled={saving}
               onPress={() => save(toggleLevel(current, level))}
@@ -121,6 +133,7 @@ export function toggleLevel(current: View, level: Level): View {
 export function Choice({
   name,
   blurb,
+  icon,
   meta,
   pressed,
   disabled,
@@ -130,6 +143,8 @@ export function Choice({
 }: {
   name: string;
   blurb: string;
+  /** Drawn before the name — the language chooser's flags. */
+  icon?: ReactNode;
   meta?: string;
   pressed: boolean;
   disabled: boolean;
@@ -148,6 +163,7 @@ export function Choice({
       onClick={onPress}
     >
       <span className={styles.choiceName}>
+        {icon}
         <span lang={nameLang}>{name}</span>
         <svg className={styles.choiceTick} viewBox="0 0 24 24" aria-hidden="true">
           <path d="M5 12.5l4.5 4.5L19 7.5" />

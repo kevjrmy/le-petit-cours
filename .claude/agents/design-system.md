@@ -28,8 +28,8 @@ grep -rn "#[0-9a-fA-F]\{3,8\}\b\|: *white\b\|: *black\b" src --include=*.css --i
 
 The only legitimate hits are `viewport.themeColor` in `layout.tsx` and prose inside comments. A
 missing shade goes into the palette **and** the semantic layer; use the semantic name. **One
-exception**: `--flag-es-*`, the Spanish flag on `/bienvenue`'s language toggle (#90) — palette only,
-fixed in both themes, never reused (its red is not `--danger`). Keep the two
+exception**: `--flag-es-*` and `--flag-fr-*`, the two flags of the language chooser (`Flag.tsx`,
+#91) — palette only, fixed in both themes, never reused (their reds are not `--danger`). Keep the two
 `themeColor` values in step with `--surface-app` in each theme.
 
 ## Two token layers, not three

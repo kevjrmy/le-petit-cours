@@ -1,0 +1,8 @@
+/* The ring keeps the French white stripe visible on a light surface. */
+.flag {
+  flex: none;
+  width: 1.5rem;
+  height: 1rem;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px var(--border);
+}

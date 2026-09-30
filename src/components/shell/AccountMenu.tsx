@@ -2,27 +2,56 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from "react";
 import { menuAnnexes } from "@/data/navigation";
+import { Flag, LANG_NAME } from "@/components/account/Flag";
 import { signInHref } from "@/components/account/ReturnTo";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
 import { displayName, useAccount } from "@/hooks/useAccount";
+import { saveLang, type Lang } from "@/lib/account";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import styles from "./AccountMenu.module.css";
 
 type ThemeChoice = "light" | "dark" | "system";
 
-const THEMES: { value: ThemeChoice; label: string }[] = [
-  { value: "light", label: "Clair" },
-  { value: "dark", label: "Sombre" },
-  { value: "system", label: "Système" },
-];
+const THEMES: ThemeChoice[] = ["light", "dark", "system"];
 
-const THEME_LABEL: Record<ThemeChoice, string> = {
-  light: "Clair",
-  dark: "Sombre",
-  system: "Système",
-};
+const LANGS: Lang[] = ["fr", "es"];
+
+type Panel = "root" | "theme" | "lang";
+
+/* The menu's own words, in the account's language (#91); signed out, French.
+   The rows that are pages keep their manifest titles, French for everyone. */
+const UI = {
+  fr: {
+    theme: "Thème",
+    themes: { light: "Clair", dark: "Sombre", system: "Système" },
+    lang: "Langue",
+    langFailed: "Non enregistré. Vérifiez votre connexion.",
+    signOut: "Se déconnecter",
+    rows: {} as Record<string, string>,
+  },
+  es: {
+    theme: "Tema",
+    themes: { light: "Claro", dark: "Oscuro", system: "Sistema" },
+    lang: "Idioma",
+    langFailed: "No se ha guardado. Comprueba tu conexión.",
+    signOut: "Cerrar sesión",
+    /* The menu's page rows, by path. The manifest's titles are French for
+       everyone (§1); a row missing here keeps its French title, marked. */
+    rows: { "/ma-progression": "Mi progresión", "/compte": "Cuenta" } as Record<string, string>,
+  },
+} satisfies Record<
+  Lang,
+  {
+    theme: string;
+    themes: Record<ThemeChoice, string>;
+    lang: string;
+    langFailed: string;
+    rows: Record<string, string>;
+    signOut: string;
+  }
+>;
 
 /**
  * `system` is the **absence** of `data-theme`, not a third value stored in it —
@@ -57,7 +86,8 @@ function applyTheme(choice: ThemeChoice) {
  * The account control at the foot of the sidebar, and the popover it opens.
  *
  * It holds what belongs to the account and nothing else: the annexes marked
- * `where: "menu"`, the theme, and — signed in — signing out. « À propos » and
+ * `where: "menu"`, the theme, and — signed in — the language (#91) and signing
+ * out. « À propos » and
  * the link to the source are about the site rather than the account, and both
  * are reachable from the footer under every page.
  *
@@ -78,11 +108,12 @@ function applyTheme(choice: ThemeChoice) {
  * on a phone the sidebar is already a drawer — a modal inside a drawer is two
  * layers of trap for one list of links.
  *
- * The theme is a **submenu that replaces the panel** rather than a flyout to the
- * side. The panel is as wide as the sidebar and anchored to its bottom corner,
- * so a flyout would need collision handling at the viewport edge and would have
- * ~166px to live in inside the mobile drawer. Swapping the contents behaves
- * identically at both breakpoints, which is worth more here than the animation.
+ * The theme and the language are **submenus that replace the panel** rather
+ * than a flyout to the side. The panel is as wide as the sidebar and anchored
+ * to its bottom corner, so a flyout would need collision handling at the
+ * viewport edge and would have ~166px to live in inside the mobile drawer.
+ * Swapping the contents behaves identically at both breakpoints, which is worth
+ * more here than the animation.
  *
  * Sign-in itself lives at `/compte`, a real route rather than a dialog
  * (`docs/decisions.md` #26). This menu links there; it never holds a form.
@@ -96,9 +127,11 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
      the line beneath: once a display name has replaced the username, it is the
      one field that still tells two accounts apart. */
   const name = account ? displayName(account) : null;
+  const lang = account?.lang ?? "fr";
+  const t = UI[lang];
 
   const [open, setOpen] = useState(false);
-  const [view, setView] = useState<"root" | "theme">("root");
+  const [view, setView] = useState<Panel>("root");
   /* Read when the menu opens — an event, not an effect. Reading during render
      would need localStorage on the server, and reading in an effect would be
      the cascading setState the compiler rejects. */
@@ -107,9 +140,12 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const backRef = useRef<HTMLButtonElement>(null);
   const themeRowRef = useRef<HTMLButtonElement>(null);
-  /* Set when leaving the submenu, so the effect below knows to put focus back
+  const langRowRef = useRef<HTMLButtonElement>(null);
+  /* Set to the submenu being left, so the effect below knows to put focus back
      on the row that opened it rather than leaving it on the panel. */
-  const returning = useRef(false);
+  const returning = useRef<Exclude<Panel, "root"> | null>(null);
+  const [langSaving, setLangSaving] = useState(false);
+  const [langFailed, setLangFailed] = useState(false);
 
   /* Re-apply after React's Strict Mode remount in `next dev`, which resets
      <html> to the attributes it manages from JSX and so clears the one the
@@ -126,8 +162,8 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
       if (event.key !== "Escape") return;
       /* Escape leaves the submenu before it leaves the menu — one level at a
          time, which is what a nested menu is expected to do. */
-      if (view === "theme") {
-        returning.current = true;
+      if (view !== "root") {
+        returning.current = view;
         setView("root");
       } else setOpen(false);
     };
@@ -150,17 +186,39 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
      effect, not a state update. */
   useEffect(() => {
     if (!open) return;
-    if (view === "theme") {
+    if (view !== "root") {
       backRef.current?.focus();
     } else if (returning.current) {
-      returning.current = false;
-      themeRowRef.current?.focus();
+      const row: RefObject<HTMLButtonElement | null> =
+        returning.current === "lang" ? langRowRef : themeRowRef;
+      returning.current = null;
+      row.current?.focus();
     }
   }, [open, view]);
 
   function close() {
     setOpen(false);
     setView("root");
+  }
+
+  function back() {
+    returning.current = view === "root" ? null : view;
+    setView("root");
+  }
+
+  /* Saved on the account (#91); the menu relabels itself when USER_UPDATED
+     comes back through the provider. */
+  async function chooseLang(next: Lang) {
+    if (next === lang) return;
+    setLangSaving(true);
+    setLangFailed(false);
+    try {
+      await saveLang(next);
+    } catch {
+      setLangFailed(true);
+    } finally {
+      setLangSaving(false);
+    }
   }
 
   /* Signed out this is one row, « Se connecter » — with the theme under it,
@@ -171,7 +229,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
   return (
     <div className={styles.account} ref={root}>
       {open && (
-        <div className={styles.menu}>
+        <div className={styles.menu} lang={lang}>
           {view === "root" ? (
             <div role="menu" aria-label="Compte">
               {/* No header: the trigger directly beneath the panel already
@@ -190,7 +248,9 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
                       }}
                     >
                       <ChapterIcon name={page.icon} />
-                      {page.title}
+                      {t.rows[page.path] ?? (
+                        <span lang={lang === "es" ? "fr" : undefined}>{page.title}</span>
+                      )}
                     </Link>
                   </li>
                 ))}
@@ -213,13 +273,45 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
                       <circle cx="12" cy="12" r="8.5" />
                       <path className={styles.half} d="M12 3.5a8.5 8.5 0 0 1 0 17Z" />
                     </svg>
-                    Thème
-                    <span className={styles.value}>{THEME_LABEL[theme]}</span>
+                    {t.theme}
+                    <span className={styles.value}>{t.themes[theme]}</span>
                     <svg className={styles.into} viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M9 5l7 7-7 7" />
                     </svg>
                   </button>
                 </li>
+                {/* The language lives on the account, so signed out there is
+                    nowhere to keep it: the row is not drawn. */}
+                {account && (
+                  <li role="none">
+                    <button
+                      type="button"
+                      ref={langRowRef}
+                      className={`${styles.item} ${styles.submenuRow}`}
+                      role="menuitem"
+                      aria-haspopup="menu"
+                      aria-expanded={false}
+                      onClick={() => {
+                        setLangFailed(false);
+                        setView("lang");
+                      }}
+                    >
+                      {/* A globe: the language, not one of the two flags. */}
+                      <svg className={styles.mark} viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="12" r="8.5" />
+                        <path d="M3.5 12h17" />
+                        <path d="M12 3.5c2.4 2.4 3.6 5.2 3.6 8.5s-1.2 6.1-3.6 8.5c-2.4-2.4-3.6-5.2-3.6-8.5s1.2-6.1 3.6-8.5Z" />
+                      </svg>
+                      {t.lang}
+                      <span className={styles.value} lang={lang}>
+                        {LANG_NAME[lang]}
+                      </span>
+                      <svg className={styles.into} viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </li>
+                )}
                 {/* Signed out there is nothing to sign out of, and the row
                     would read as the way *in* — « Compte » above is that. */}
                 {account && (
@@ -247,40 +339,69 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
                         <path d="M13.5 12h7" />
                         <path d="M17.6 9l3 3-3 3" />
                       </svg>
-                      Se déconnecter
+                      {t.signOut}
                     </button>
                   </li>
                 )}
               </ul>
             </div>
+          ) : view === "lang" ? (
+            <>
+              <div role="menu" aria-label={t.lang}>
+                <button type="button" ref={backRef} className={styles.back} onClick={back}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M15 5l-7 7 7 7" />
+                  </svg>
+                  {t.lang}
+                </button>
+
+                <ul className={styles.links}>
+                  {LANGS.map((option) => (
+                    <li key={option} role="none">
+                      <button
+                        type="button"
+                        className={`${styles.item} ${styles.choice}`}
+                        role="menuitemradio"
+                        aria-checked={lang === option}
+                        disabled={langSaving}
+                        onClick={() => void chooseLang(option)}
+                      >
+                        <svg className={styles.tick} viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M5 12.5l4.5 4.5L19 7.5" />
+                        </svg>
+                        <Flag lang={option} />
+                        {/* Each named in itself, whatever the menu speaks. */}
+                        <span lang={option}>{LANG_NAME[option]}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              {/* Outside the menu, which may hold menu items only. */}
+              <p role="status" className={styles.status}>
+                {langFailed ? t.langFailed : ""}
+              </p>
+            </>
           ) : (
-            <div role="menu" aria-label="Thème">
-              <button
-                type="button"
-                ref={backRef}
-                className={styles.back}
-                onClick={() => {
-                  returning.current = true;
-                  setView("root");
-                }}
-              >
+            <div role="menu" aria-label={t.theme}>
+              <button type="button" ref={backRef} className={styles.back} onClick={back}>
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M15 5l-7 7 7 7" />
                 </svg>
-                Thème
+                {t.theme}
               </button>
 
               <ul className={styles.links}>
                 {THEMES.map((option) => (
-                  <li key={option.value} role="none">
+                  <li key={option} role="none">
                     <button
                       type="button"
                       className={`${styles.item} ${styles.choice}`}
                       role="menuitemradio"
-                      aria-checked={theme === option.value}
+                      aria-checked={theme === option}
                       onClick={() => {
-                        applyTheme(option.value);
-                        setTheme(option.value);
+                        applyTheme(option);
+                        setTheme(option);
                       }}
                     >
                       {/* A tick, not just a highlight: the chosen one is not
@@ -288,7 +409,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
                       <svg className={styles.tick} viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M5 12.5l4.5 4.5L19 7.5" />
                       </svg>
-                      {option.label}
+                      {t.themes[option]}
                     </button>
                   </li>
                 ))}

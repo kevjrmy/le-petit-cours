@@ -53,11 +53,14 @@
   --amber-100: #FBEFD9;
   --amber-50:  #FEF9EF;
 
-  /* Drapeau — the Spanish flag on the onboarding's language toggle, and
-     nothing else. Its red is the flag's, never --danger's: it names a
-     language, not a wrong answer (AGENTS.md §5). Fixed in both themes. */
+  /* Drapeaux — the two flags of the language chooser (#91), and nothing
+     else. Their reds are the flags', never --danger's: they name a language,
+     not a wrong answer (AGENTS.md §5). Fixed in both themes. */
   --flag-es-red:    #AA151B;
   --flag-es-yellow: #F1BF00;
+  --flag-fr-blue:   #000091;
+  --flag-fr-white:  #FFFFFF;
+  --flag-fr-red:    #E1000F;
 
   /* Vert — correct answers. */
   --green-800: #17542A;

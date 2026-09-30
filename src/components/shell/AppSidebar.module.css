@@ -45,19 +45,26 @@
 }
 
 .brand {
-  display: block;
+  display: flex;
+  align-items: center;
+  min-width: 0;
   padding: 0.35rem 0.15rem;
   border-radius: var(--radius-sm);
+  color: inherit;
+  text-decoration: none;
 }
 
-/* The brand, and the whole of it at every width: the cursive P reversed out of
-   a filled accent disc, drawn as the app icon is. The eleven-letter wordmark
-   was here too and is gone — it could not survive the rail, so the head changed
-   shape at a breakpoint to say a thing the badge already says. The letter is a
-   mask over --text-on-accent rather than white, because --accent lightens in
-   dark mode and white on it fails AA (globals.css, --text-on-accent). */
+/* Beats the global `a:hover` underline: the brand is a mark, not a link in
+   running text. */
+.brand:hover { color: inherit; text-decoration: none; }
+
+/* The badge: the cursive P reversed out of a filled accent disc, drawn as the
+   app icon is — the rail's brand only (below). The letter is a mask over --text-on-accent rather than white,
+   because --accent lightens in dark mode and white on it fails AA (globals.css,
+   --text-on-accent). */
 .mark {
-  display: block;
+  flex: 0 0 auto;
+  display: none;
   width: 1.75rem;
   aspect-ratio: 1;
   border-radius: 50%;
@@ -73,6 +80,17 @@
      and narrow, and `contain` would let it touch the disc top and bottom. */
   -webkit-mask: url(/logo-mark.svg) center / auto 58% no-repeat;
   mask: url(/logo-mark.svg) center / auto 58% no-repeat;
+}
+
+/* The wordmark, drawn as the home page draws it: a mask over the accent, so it
+   follows the theme (`AGENTS.md` §5). Gone in the rail, below. */
+.wordmark {
+  flex: 0 0 auto;
+  width: 9.5rem;
+  aspect-ratio: 113.85 / 20.38;
+  background-color: var(--accent);
+  -webkit-mask: url(/logo.svg) center / contain no-repeat;
+  mask: url(/logo.svg) center / contain no-repeat;
 }
 
 .tree {
@@ -170,6 +188,12 @@ a.activeLesson:hover {
    render. */
 @container sidebar (max-width: 8rem) {
   .head { justify-content: center; padding: 0; }
+
+  /* The badge in place of the wordmark; the link's name is the hidden text,
+     still there. */
+  .wordmark { display: none; }
+  .mark { display: block; }
+
 
   /* The label is removed, not hidden: `aria-label` on the row already carries
      the name, so clipping the text as well would announce it twice. */

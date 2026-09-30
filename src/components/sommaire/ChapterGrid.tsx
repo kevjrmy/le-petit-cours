@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { listedChapters } from "@/data/navigation";
+import { ChapterIcon } from "@/components/nav/ChapterIcon";
 import { useAccount } from "@/hooks/useAccount";
 import styles from "./ChapterGrid.module.css";
 
@@ -42,12 +43,10 @@ export function ChapterGrid() {
       {listed.map((chapter) => (
         <li key={chapter.slug}>
           <Link href={chapter.path} className={styles.card}>
-            {/* The mark is a letter, not a pictogram: the identity of this
-                project is lettering, so the chapter initial in the serif does
-                the job an icon set would — and cannot drift out of step with
-                the manifest the way an icon mapping does. */}
-            <span className={styles.initial} aria-hidden="true">
-              {chapter.title.charAt(0)}
+            {/* The chapter's icon, the one the sidebar draws, so a chapter
+                looks the same wherever it is listed (#42). */}
+            <span className={styles.mark} aria-hidden="true">
+              <ChapterIcon name={chapter.icon} />
             </span>
             <span className={styles.body}>
               <span className={styles.cardTitle}>{chapter.title}</span>

@@ -49,7 +49,7 @@ than marking it superseded.
 | 49 | 2026-09-06 | The shell draws the end of a lesson: the tick, then the links | Binding |
 | 50 | 2026-09-06 | Progress is keyed by a permanent lesson id, never by the route path | Binding |
 | 51 | 2026-09-06 | The course announces nothing it has not written | Binding |
-| 53 | 2026-09-06 | One language of instruction, and it is French | Binding · narrowed by #85 |
+| 53 | 2026-09-06 | One language of instruction, and it is French | Binding · narrowed by #85, #91 |
 | 54 | 2026-09-06 | A conversation page is a guided role-play, graded nowhere | Binding |
 | 55 | 2026-09-06 | A `traduction` chapter — Spanish as material, never as explanation | Binding |
 | 56 | 2026-09-06 | The conjugation sheets: one data file, one route, the imparfait included | Binding |
@@ -81,7 +81,8 @@ than marking it superseded.
 | 87 | 2026-09-30 | A page holding one set per level shows them as tabs | Binding · tabs not built · narrows #68 |
 | 88 | 2026-09-30 | A parcours is a file of étapes, chosen in the account; « La suite » walks it | Binding · builds #14, amends #70 |
 | 89 | 2026-09-30 | The syllabus is data, and a parcours ends on its épreuves | Binding · syllabus not built · builds #15, extends #88 |
-| 90 | 2026-09-30 | A first sign-in passes through `/bienvenue`, in French or Spanish | Binding · amends #88, narrows #53 |
+| 90 | 2026-09-30 | A first sign-in passes through `/bienvenue`, in French or Spanish | Binding · amends #88, narrows #53, amended by #91 |
+| 91 | 2026-09-30 | The account screens speak the account's language, French or Spanish | Binding · amends #90, #31 · narrows #53 |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -261,8 +262,8 @@ page.**
 **2026-09-05 · Binding**
 
 Optional; nothing depends on it. **The bar for anything further:** a learner would notice its
-absence. An account holds a username, an email, a password, progress rows, a level and an optional
-display name. Nothing else.
+absence. An account holds a username, an email, a password, progress rows, a view, a parcours, a
+language (#91) and an optional display name. Nothing else.
 
 ## 36 · The learner's settings live in user metadata, not in a table of ours
 **2026-09-06 · Binding**
@@ -356,7 +357,8 @@ query on the panel, not a third breakpoint to keep in step.
 **A missing chapter icon does not compile** (`IconName` union, `Record<IconName, …>` map). **No
 `default` entry, ever** — a generic glyph makes a forgotten chapter look deliberate. **Icons are
 inline SVG in the repo**, so they work offline and carry no attribution duty. **The sommaire card
-keeps the serif initial**: a card has room for lettering, a 3.75rem rail does not.
+draws the same icon** as the sidebar, so a chapter looks the same wherever it is listed; it once
+held the serif initial.
 
 ## 43 · The topbar is part of the page, not a band over it
 **2026-09-06 · Binding**
@@ -447,10 +449,10 @@ state** — the same experience, better mannered.
 an empty chapter rather than grouping it**: it has nothing behind it.
 
 ## 53 · One language of instruction, and it is French
-**2026-09-06 · Binding · narrowed by #85**
+**2026-09-06 · Binding · narrowed by #85, #91**
 
-Everything is French (`AGENTS.md` §1), **except a `traduction` page's source text** (#55) **and an A1
-page's explanation** (#85).
+Everything is French (`AGENTS.md` §1), **except a `traduction` page's source text** (#55), **an A1
+page's explanation** (#85) **and the account screens, in the account's language** (#91).
 
 **Decided against splitting by reader** (Spanish for the learner, French for the heritage speaker):
 a Spanish gloss is dead weight for any other reader, and shared pages cannot be Spanish-first and
@@ -1051,9 +1053,33 @@ the course is, how it works, the parcours, the view — then on to `?suivant=` o
 - **The parcours pre-selects the view** until the learner presses a level, and both are saved in
   one write (`saveChoices`). **This is the one place they are written together** (#88); `/compte`
   keeps one writer each.
-- **French or Spanish, by a toggle with the Spanish flag**, because the level is not known yet and
-  an A1 learner cannot read the French (#85). Not remembered (#24). **Names stay French** —
-  parcours, levels, « La suite », « Compte » — as the rest of the site calls them.
+- **French or Spanish, asked on the first slide** (#91), because the level is not known yet and
+  an A1 learner cannot read the French (#85). Saved with the other answers, as the account's
+  language. **Names stay French** — parcours, levels, « La suite », « Compte » — as the rest of
+  the site calls them.
 
 **Chosen against** a gate in the shell, which would interrupt direct links and open sessions, and
 against a stored `onboarded` flag, a new thing an account holds for no gain over absent keys.
+
+## 91 · The account screens speak the account's language, French or Spanish
+**2026-09-30 · Binding · amends #90, #31 · narrows #53**
+
+An account holds a **language**, `fr` or `es`, in user metadata (`lang`, #36). **French is the
+default and the fallback**: anything but `"es"` reads as French (`readLang`).
+
+- **It reaches the account screens only**: `/bienvenue`, `/compte` signed in, and the account
+  menu's own words. Lessons, the sidebar, the topbar, ticks, search and every manifest title stay
+  French for everyone (#53). Signed out there is no account to ask, so the sign-in form is French.
+- **Asked first in `/bienvenue`**, before anything else, as two cards with their flags, each
+  language named in itself; saved with the view and the parcours at « Terminer » (#90). In
+  `/compte` it is the first section, and in the account menu a « Langue » submenu beside the
+  theme, signed in only; both share one writer (`saveLang`), saved on the press.
+- **Names stay French in Spanish text**, marked `lang="fr"` — parcours, levels, « La suite »,
+  « Sommaire » (#90) — **except the account menu's own rows**, « Mi progresión » and « Cuenta »,
+  which the onboarding and `/compte`'s heading then call by the same names. A Spanish screen carries `lang="es"` on each `<section>`.
+- **It does not count as having answered** (`readChosen`): it can be set in `/compte` alone.
+
+**Chosen against** translating the chrome: the lessons prerender in French, so a Spanish shell
+would flip on every page load unless the language were cached before paint — a third
+`localStorage` key (#24) for a site whose chrome a learner meets in French from the first lesson
+on.
