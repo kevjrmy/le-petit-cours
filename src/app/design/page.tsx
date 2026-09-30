@@ -141,12 +141,12 @@ export default function DesignPage() {
         </p>
         <div className="example">
           <p className="bilingue">
-            <span lang="fr">Ma mère-grand, que vous avez de grands bras !</span>
-            <span lang="es">Abuela, ¡qué brazos tan grandes tienes!</span>
+            <span lang="fr">Il faut, autant qu’on peut, obliger tout le monde :</span>
+            <span lang="es">Hay que ayudar a todo el mundo, siempre que se pueda:</span>
           </p>
           <p className="bilingue">
-            <span lang="fr">C’est pour mieux t’embrasser, ma fille !</span>
-            <span lang="es">¡Son para abrazarte mejor, hija mía!</span>
+            <span lang="fr">On a souvent besoin d’un plus petit que soi.</span>
+            <span lang="es">a menudo necesitamos a alguien más pequeño que nosotros.</span>
           </p>
         </div>
         <p>

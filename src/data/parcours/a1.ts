@@ -29,7 +29,6 @@ export const A1: Parcours = {
         "gram-articles-indefinis",
         "gram-singulier-pluriel",
         "voc-famille",
-        "lect-chaperon-rouge",
       ],
     },
     {

@@ -1281,20 +1281,6 @@ export const chapters: Chapter[] = [
       "De grands textes de la littérature, en français, avec des questions pour vérifier ce que vous avez compris.",
     lessons: [
       {
-        /* The chapter's A1 page: a new text, not an A1 set on an A2 one, since a
-           text has a floor (#72). Explained in Spanish (#85); the extract is
-           the closing dialogue, present tense and the body, with the three
-           passé simple verbs around it named in one callout. */
-        id: "lect-chaperon-rouge",
-        path: "/litterature/le-petit-chaperon-rouge",
-        title: "Le Petit Chaperon rouge",
-        subtitle: "Charles Perrault, 1697",
-        tag: "Compréhension",
-        level: "A1",
-        delf: "Comprendre un dialogue très court et nommer les parties du corps.",
-        created: "2026-09-30",
-      },
-      {
         id: "lect-lion-et-rat",
         path: "/litterature/le-lion-et-le-rat",
         title: "Le Lion et le Rat",
@@ -2253,11 +2239,6 @@ const handWrittenLinks: Record<string, string[]> = {
     "/litterature/le-lion-et-le-rat",
     "/litterature/cyrano-de-bergerac",
   ],
-  "/litterature/le-petit-chaperon-rouge": [
-    "/grammaire/le-singulier-et-le-pluriel",
-    "/astuces/tu-ou-vous",
-    "/vocabulaire/la-famille",
-  ],
   "/litterature/cosette-dans-le-bois": [
     "/grammaire/les-pronoms-cod-coi",
     "/litterature/phileas-fogg",
@@ -2397,7 +2378,6 @@ const handWrittenLinks: Record<string, string[]> = {
   "/grammaire/le-singulier-et-le-pluriel": [
     "/grammaire/les-articles-definis",
     "/grammaire/les-articles-indefinis",
-    "/litterature/le-petit-chaperon-rouge",
   ],
   "/grammaire/les-articles-partitifs": [
     "/exercices/le-un-ou-du",

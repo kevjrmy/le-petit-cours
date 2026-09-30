@@ -1114,5 +1114,4 @@ less text; a body per level lets B1 read more and A1 read at all.
 
 **Chosen against a page per level** (built, then folded back the same day, never shipped): two
 rows and two ticks for one work, and a B1 page a learner must find. **Ticks did not move**: the keys
-stay `id@A2` and `id@B1`, and A1 adds `id@A1` (#68). `lect-chaperon-rouge` is a work with an A1 body
-only, for now.
+stay `id@A2` and `id@B1`, and A1 adds `id@A1` (#68).
