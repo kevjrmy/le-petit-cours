@@ -36,7 +36,7 @@ export const LEVEL_BLURB: Record<Lang, Record<Level, string>> = {
 
 /** The parcours blurbs in Spanish, by id; a missing one falls back to French. */
 const PARCOURS_ES: Record<string, string> = {
-  a1: "Empiezas. Presentarte, hablar de los tuyos, contar y comprar.",
+  a1: "Empiezas. Presentarte, hablar de los tuyos y de tus gustos, contar, comprar, decir la fecha, describir dónde vives y cómo te mueves.",
   a2: "Te defiendes. La vida diaria, contar en pasado, hablar de tus planes.",
   b1: "Sigues una conversación. Contar con detalle, imaginar, leer de cerca.",
   "ecrire-le-francais":

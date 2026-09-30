@@ -1,0 +1,75 @@
+/* Le plateau : la situation, puis les formules en colonne. Le reste de
+   l'habillage est partagé (`src/components/exercice/Drill.tsx`). */
+
+.card {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.35rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+}
+
+/* La situation est de l'explication : sans-sérif (`AGENTS.md` §5). */
+.situation {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--text-1);
+}
+
+
+/* Les formules sont du français enseigné : sérif, en colonne pour les phrases longues. */
+.pool {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+
+.chip {
+  padding: 0.55rem 0.9rem;
+  text-align: left;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--text-1);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.chip:hover:not(:disabled) {
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
+}
+
+.chip:disabled { cursor: default; opacity: 0.55; }
+
+.chosen {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  opacity: 1;
+}
+
+.verdict {
+  margin-top: 1.2rem;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+}
+
+.corrected {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--text-heading);
+}
+
+.actions {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
