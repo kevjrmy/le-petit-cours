@@ -886,6 +886,16 @@ export const chapters: Chapter[] = [
         created: "2026-09-21",
       },
       {
+        id: "ex-articles-a1",
+        path: "/exercices/le-la-ou-un",
+        title: "Le, la ou un ?",
+        subtitle: "Choisir l’article, avec les mots de la maison et des transports",
+        tag: "Choix",
+        level: "A1",
+        delf: "Choisir l’article qui convient devant un nom connu",
+        created: "2026-09-30",
+      },
+      {
         id: "ex-le-un-ou-du",
         path: "/exercices/le-un-ou-du",
         title: "Le, un ou du ?",
@@ -2158,14 +2168,14 @@ const handWrittenLinks: Record<string, string[]> = {
   "/grammaire/les-articles-definis": [
     "/grammaire/les-articles-indefinis",
     "/grammaire/les-articles-partitifs",
-    "/exercices/le-un-ou-du",
+    "/exercices/le-la-ou-un",
     "/astuces/a-en-au-aux",
   ],
   "/grammaire/les-articles-indefinis": [
     "/grammaire/les-articles-definis",
     "/grammaire/le-singulier-et-le-pluriel",
     "/grammaire/les-articles-partitifs",
-    "/exercices/le-un-ou-du",
+    "/exercices/le-la-ou-un",
   ],
   "/grammaire/le-singulier-et-le-pluriel": [
     "/grammaire/les-articles-definis",
@@ -2197,6 +2207,12 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/les-articles-partitifs",
     "/exercices/le-un-ou-du",
     "/conversation/preparer-un-repas",
+  ],
+  "/exercices/le-la-ou-un": [
+    "/grammaire/les-articles-definis",
+    "/grammaire/les-articles-indefinis",
+    "/vocabulaire/la-maison",
+    "/vocabulaire/les-transports",
   ],
   "/exercices/le-un-ou-du": [
     "/grammaire/les-articles-definis",

@@ -28,7 +28,7 @@ export const A1: Parcours = {
     },
     {
       title: "Chez soi et en ville",
-      lessons: ["voc-maison", "voc-transports"],
+      lessons: ["voc-maison", "voc-transports", "ex-articles-a1"],
     },
   ],
 };
