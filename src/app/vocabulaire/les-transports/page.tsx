@@ -547,14 +547,10 @@ export default function Page() {
           <span className="fr" lang="fr">
             l’arrêt de bus
           </span>
-          . No es el arresto de la policía.{" "}
-          <span className="fr" lang="fr">
-            le billet
-          </span>{" "}
-          y{" "}
-          <span className="fr" lang="fr">
-            le ticket
-          </span>{" "}
+          . No es el arresto de la policía.
+        </div>
+
+        <div className="attention">
           <span className="fr" lang="fr">
             le billet
           </span>{" "}

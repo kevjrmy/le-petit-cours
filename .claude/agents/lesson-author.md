@@ -79,7 +79,8 @@ The serif carries the French being taught, the sans the instruction (#27, #53).
 - **`lang` does not travel with `.fr`** — `<html lang="fr">` covers it. Keep it only where an
   element is pronounced on its own (and on A1 pages, per `docs/levels/a1.md`).
 - **A liaison is marked `‿`** (U+203F), no spaces: *les‿amis*, *en‿avion* — only an obligatory
-  one, and every obligatory one in the same block, or an unmarked one reads as silent. Introduced by
+  one. A page may mark none; **a block that marks one marks every obligatory one**, or an unmarked
+  one reads as silent. Introduced by
   `gram-singulier-pluriel`; link there rather than re-explain. **No IPA or `/slashes/`** until
   `prononciation` has its shape (AGENTS.md §12.2); the sound is described in words.
 

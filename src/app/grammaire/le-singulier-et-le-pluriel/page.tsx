@@ -16,7 +16,7 @@ export default function Page() {
 
         <div className="rule">
           En español oyes el plural: <em>casa</em>, <em>casas</em>. En francés,
-          casi nunca. <span className="fr" lang="fr">le chat</span> y <span className="fr" lang="fr">les chats</span> se dicen igual en el
+          casi nunca. <span className="fr" lang="fr">le chat</span> (el gato) y <span className="fr" lang="fr">les chats</span> se dicen igual en el
           nombre: la <em>s</em> final no suena. El plural se oye en el
           artículo. Por eso, escucha siempre la palabra pequeña: <span className="fr" lang="fr">le</span>
           o <span className="fr" lang="fr">les</span>, <span className="fr" lang="fr">un</span> o <span className="fr" lang="fr">des</span>.
@@ -27,6 +27,12 @@ export default function Page() {
           <br />
           Une maison. / Des maisons.
         </div>
+
+        <p>
+          Los verbos del ejemplo:{" "}
+          <span className="fr" lang="fr">dort</span> (duerme),{" "}
+          <span className="fr" lang="fr">dorment</span> (duermen).
+        </p>
 
         <p>
           Al escribir, el plural casi siempre es el nombre con una{" "}
@@ -76,13 +82,13 @@ export default function Page() {
         <div className="attention">
           <span className="fr" lang="fr">-al</span> es el único caso en que el propio nombre cambia de sonido.{" "}
           <span className="fr" lang="fr">journal</span> acaba en «al» y <span className="fr" lang="fr">journaux</span> acaba en «o». Lo mismo con{" "}
-          <span className="fr" lang="fr">un cheval</span> y <span className="fr" lang="fr">des chevaux</span>. En los demás casos, la <em>s</em> y
+          <span className="fr" lang="fr">un cheval</span> (un caballo) y<span className="fr" lang="fr">des chevaux</span>. En los demás casos, la <em>s</em> y
           la <em>x</em> son mudas.
         </div>
 
         <div className="exception">
           en el plural de <span className="fr" lang="fr">-eau</span>, la <em>x</em> también es muda:{" "}
-          <span className="fr" lang="fr">un gâteau</span> y <span className="fr" lang="fr">des gâteaux</span> suenan igual al final. Solo cambia
+          <span className="fr" lang="fr">un gâteau</span> (un pastel) y<span className="fr" lang="fr">des gâteaux</span> suenan igual al final. Solo cambia
           el artículo, como en <span className="fr" lang="fr">le chat</span> y <span className="fr" lang="fr">les chats</span>.
         </div>
       </section>
@@ -137,9 +143,9 @@ export default function Page() {
         </div>
 
         <p>
-          La escritura no cambia nunca: <span className="fr" lang="fr">les amis</span> se escribe igual que{" "}
-          <span className="fr" lang="fr">les garçons</span>. La liaison solo se oye.{" "}
-          Y así el plural vuelve a oírse: <span className="fr" lang="fr">un ami</span> y <span className="fr" lang="fr">des amis</span> tienen el mismo nombre, pero solo en el segundo se oye la <em>z</em> de <span className="fr" lang="fr">des‿amis</span>.
+          La escritura no cambia nunca: se escribe siempre <span className="fr" lang="fr">les amis</span>, <span className="fr" lang="fr">des amis</span>, igual que{" "}
+          <span className="fr" lang="fr">les garçons</span>. La liaison solo se oye. Y así el plural vuelve a oírse:
+          <span className="fr" lang="fr"> un ami</span> y <span className="fr" lang="fr">des‿amis</span> tienen el mismo nombre, pero solo en el segundo se oye la <em>z</em>.
         </p>
 
         <div className="example" lang="fr">
@@ -147,6 +153,11 @@ export default function Page() {
           <br />
           Les‿enfants lisent des‿histoires.
         </div>
+
+        <p>
+          <span className="fr" lang="fr">lisent</span> es «leen» y{" "}
+          <span className="fr" lang="fr">des histoires</span> son «unas historias» o «unos cuentos».
+        </p>
 
         <div className="exception">
           delante de unas pocas palabras con h no hay liaison, igual que no
@@ -187,7 +198,7 @@ export default function Page() {
             <span className="fr" lang="fr">les‿amis</span>. Delante de consonante, no: <span className="fr" lang="fr">les garçons</span>.
           </li>
           <li>
-            Con h aspirada no hay liaison: <span className="fr" lang="fr">les héros</span>. La escritura no
+            Delante de unas pocas palabras con h no hay liaison:<span className="fr" lang="fr">les héros</span>. La escritura no
             cambia nunca.
           </li>
         </ul>

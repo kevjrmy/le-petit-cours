@@ -13,7 +13,7 @@ export default function Page() {
 
       <section lang="es">
         <h2>
-          Las habitaciones:{" "}
+          Los lugares de la casa:{" "}
           <span className="fr" lang="fr">
             les pièces
           </span>
@@ -38,7 +38,7 @@ export default function Page() {
 
         <div className="table-wrap">
           <table>
-            <caption>Diez habitaciones de la casa, con su artículo</caption>
+            <caption>Diez lugares de la casa, con su artículo</caption>
             <thead>
               <tr>
                 <th scope="col">Palabra</th>
@@ -106,8 +106,11 @@ export default function Page() {
                   l’entrée (f.)
                 </th>
                 <td>el recibidor</td>
-                <td className="fr" lang="fr">
-                  Mon manteau est dans l’entrée.
+                <td>
+                  <span className="fr" lang="fr">
+                    Mon manteau est dans l’entrée.
+                  </span>{" "}
+                  (<span className="fr" lang="fr">manteau</span>: abrigo)
                 </td>
               </tr>
               <tr>
@@ -251,8 +254,11 @@ export default function Page() {
                   la chaise
                 </th>
                 <td>la silla</td>
-                <td className="fr" lang="fr">
-                  La chaise est devant la fenêtre.
+                <td>
+                  <span className="fr" lang="fr">
+                    La chaise est devant la fenêtre.
+                  </span>{" "}
+                  (<span className="fr" lang="fr">fenêtre</span>: ventana)
                 </td>
               </tr>
               <tr>
@@ -268,7 +274,7 @@ export default function Page() {
                 <th scope="row" className="fr" lang="fr">
                   l’armoire (f.)
                 </th>
-                <td>el armario</td>
+                <td>el armario (para la ropa)</td>
                 <td className="fr" lang="fr">
                   Mes vêtements sont dans l’armoire.
                 </td>
@@ -296,8 +302,11 @@ export default function Page() {
                   le placard
                 </th>
                 <td>el armario (de cocina o empotrado)</td>
-                <td className="fr" lang="fr">
-                  Les assiettes sont dans le placard.
+                <td>
+                  <span className="fr" lang="fr">
+                    Les assiettes sont dans le placard.
+                  </span>{" "}
+                  (<span className="fr" lang="fr">assiettes</span>: platos)
                 </td>
               </tr>
               <tr>
@@ -384,8 +393,7 @@ export default function Page() {
                   le bureau
                 </th>
                 <td>
-                  el escritorio, el despacho o la oficina: las dos cosas, la
-                  mesa y la habitación
+                  el escritorio (la mesa) o el despacho, la oficina (el lugar)
                 </td>
                 <td className="fr" lang="fr">
                   Le bureau de ma mère est au premier étage.
