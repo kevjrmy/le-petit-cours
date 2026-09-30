@@ -15,7 +15,12 @@ export const A1: Parcours = {
     },
     {
       title: "Parler des siens",
-      lessons: ["gram-articles-definis", "gram-articles-indefinis", "voc-famille"],
+      lessons: [
+        "gram-articles-definis",
+        "gram-articles-indefinis",
+        "gram-singulier-pluriel",
+        "voc-famille",
+      ],
     },
     {
       title: "Compter et acheter",

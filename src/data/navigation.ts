@@ -330,6 +330,14 @@ export const chapters: Chapter[] = [
         created: "2026-09-21",
       },
       {
+        id: "gram-singulier-pluriel",
+        path: "/grammaire/le-singulier-et-le-pluriel",
+        title: "Le singulier et le pluriel",
+        subtitle: "Le -s muet, les, des et la liaison",
+        level: "A1",
+        created: "2026-09-30",
+      },
+      {
         id: "gram-c-est-ce-sont",
         path: "/grammaire/c-est-ce-sont",
         title: "C’est, ce sont",
@@ -2125,9 +2133,13 @@ const handWrittenLinks: Record<string, string[]> = {
   ],
   "/grammaire/les-articles-indefinis": [
     "/grammaire/les-articles-definis",
+    "/grammaire/le-singulier-et-le-pluriel",
     "/grammaire/les-articles-partitifs",
     "/exercices/le-un-ou-du",
-    "/grammaire/c-est-ce-sont",
+  ],
+  "/grammaire/le-singulier-et-le-pluriel": [
+    "/grammaire/les-articles-definis",
+    "/grammaire/les-articles-indefinis",
   ],
   "/grammaire/les-articles-partitifs": [
     "/exercices/le-un-ou-du",
