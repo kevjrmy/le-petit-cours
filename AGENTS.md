@@ -38,6 +38,10 @@ renumber; add inside a section.
 
 Count content in `src/data/navigation.ts`, never in prose.
 
+- **#86–#88 are decided, not built**: one `level` per page and a learner-chosen view, tabs on a
+  page holding sets, and parcours with « La suite » walking them. **Until each lands, §1, §6 and §8
+  still describe the code**; the commit that builds one folds the entries it replaces and rewrites
+  those lines.
 - **Vercel** at <https://lepetitcours.vercel.app>, from `main`. Supabase project
   `ephdtigxjccfauzgexpd`: RLS on, legacy JWT keys off, two public env vars, no integration, no
   Supabase secret at rest (#21).
@@ -393,7 +397,8 @@ Recorded so nobody decides them by writing code.
    data shape, §7), `dictees` (the speech hook and a comparator), `jeux` (a game that is not a drill),
    `culture` (sourced photographs, §9).
 3. **Where « Index » goes on a phone** (#66). Decide before building one.
-4. **Whether the heritage parcours gets its own front door.**
+4. **Whether the heritage parcours gets its own front door.** Answered by #88 (a parcours beside
+   the levels); leaves this list when it lands.
 5. **Kids mode** (`docs/scope.md`). **A mode beside the level — never an entry in `Level`.** Open:
    what a parent may see (RLS is own-rows only; #18, #36; parental consent), what a game is (point 2,
    the speech hook, the language rule of #85), and where it lives (a client-side filter like the

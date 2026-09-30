@@ -30,13 +30,13 @@ than marking it superseded.
 | 18 | 2026-09-05 | All content is public; an account buys only the learning path | Binding |
 | 21 | 2026-09-05 | No key that bypasses RLS lives anywhere, and RLS is the authorization model | Binding |
 | 22 | 2026-09-05 | A progress row *is* the tick; the level never keys progress | Binding · narrowed by #68 |
-| 23 | 2026-09-05 | A lesson carries a set of levels; `[]` means "always visible" | Binding |
+| 23 | 2026-09-05 | A lesson carries a set of levels; `[]` means "always visible" | Binding · until #86 lands |
 | 24 | 2026-09-05 | IndexedDB is the local store; `localStorage` is for pre-paint values only | Binding |
 | 26 | 2026-09-05 | Sign-in is a route, `/compte`, never a modal | Binding |
 | 27 | 2026-09-05 | The accent is the wordmark's blue; the serif carries the French | Binding |
 | 29 | 2026-09-05 | Chapter landing pages are one generated route, not one file per chapter | Binding |
 | 31 | 2026-09-05 | An account may hold an optional display name | Binding |
-| 35 | 2026-09-05 | The level filters every listing, and never access | Binding |
+| 35 | 2026-09-05 | The level filters every listing, and never access | Binding · until #86 lands |
 | 36 | 2026-09-06 | The learner's settings live in user metadata, not in a table of ours | Binding |
 | 37 | 2026-09-06 | Username and password; nothing on the server reads the session | Binding |
 | 38 | 2026-09-06 | The username is its own table — unique, mutable, mirrored | Binding |
@@ -68,10 +68,10 @@ than marking it superseded.
 | 70 | 2026-09-21 | « La suite » is the dashboard; signing in returns you where you were | Binding |
 | 71 | 2026-09-21 | Signed out, `/` is a welcome; the search field is the signed-in home | Binding |
 | 72 | 2026-09-21 | A1 joins the course as pages, not as tags | Binding · narrowed by #74, #76 |
-| 73 | 2026-09-21 | The level is chosen in the account, never on the page | Binding · narrows #68 |
+| 73 | 2026-09-21 | The level is chosen in the account, never on the page | Binding · narrows #68 · until #87 lands |
 | 74 | 2026-09-21 | A level is offered while it is being written, not once it is finished | Binding · narrowed by #76, #77 |
 | 75 | 2026-09-21 | The ladder stops at B2; C1 and C2 are out of scope | Binding |
-| 76 | 2026-09-21 | A page is listed from its floor upward; the tick follows the material | Binding · narrows #68, #72 |
+| 76 | 2026-09-21 | A page is listed from its floor upward; the tick follows the material | Binding · narrows #68, #72 · until #86 lands |
 | 77 | 2026-09-21 | The chooser offers the levels and rates none of them | Binding · narrows #74 |
 | 78 | 2026-09-21 | A `delf` chapter describes the exam and prints none of it | Binding · amended by #82 |
 | 79 | 2026-09-21 | The tick is settable from a chapter's listing, beside the row's link | Binding · extends #2, #48 |
@@ -81,6 +81,9 @@ than marking it superseded.
 | 83 | 2026-09-27 | An épreuve may link a Commons photo as illustration, never as the answer | Binding · narrows §9 |
 | 84 | 2026-09-27 | A written copy is handed in by downloading it, never by storing it | Binding · extends #31, #82 |
 | 85 | 2026-09-30 | An A1 page explains in Spanish; the French it teaches stays French | Binding · narrows #53 |
+| 86 | 2026-09-30 | A page has one level, and the learner chooses which levels they see | Binding · not built · replaces #23, #35, #76 |
+| 87 | 2026-09-30 | A page holding one set per level shows them as tabs | Binding · not built · replaces #73 |
+| 88 | 2026-09-30 | A parcours is a file of étapes, chosen in the account; « La suite » walks it | Binding · not built · builds #14, amends #70 |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -979,3 +982,90 @@ four-column limit stands. **The Spanish is peninsular and says `tú`**: the lear
 **Every piece of French inside `lang="es"` takes `lang="fr"` back** — forgetting one has a screen
 reader read French with a Spanish voice, and fails nothing. **The A1 pages written in French before
 this are to be retrofitted.**
+
+## 86 · A page has one level, and the learner chooses which levels they see
+**2026-09-30 · Binding · not built yet · replaces #23, #35, #76 on landing · narrows #72, #85**
+
+`levels: Level[]` becomes **`level: Level | null`**: the rung the page is written at, or none. It
+stays **required, and `null` is a statement** — forgetting to tag a page and a page that needs no tag
+must not look the same in a diff. `from()`, `ANY`, `A2B1` and the written-out "superseded above" tag
+go. The manifest is split **one file per chapter**, `navigation.ts` assembling them and keeping the
+helpers.
+
+**Who decides what is listed:**
+
+- **Signed out, everything**, each row with its level badge. The course is public (#18) and a visitor
+  has nowhere to store a preference.
+- **Signed in, the learner**: `view` in the account's metadata (#36) is a non-empty subset of
+  `CHOOSABLE_LEVELS`, or `"all"`. **`"all"` is not the list of today's levels**: a learner on « Tout »
+  sees B2 the day it opens.
+- **A page is listed when its level is in the view.** **A page with no level is listed under every
+  view.** A page holding sets (#87) is listed when any of its sets is.
+
+**The filter still never gates** (#35 folded here): every path resolves, the unfiltered course
+prerenders and hydration narrows it, and the sommaire, chapter pages and sidebar filter together — a
+chapter with nothing in view drops out. Search still groups rather than cuts; `/ma-progression`
+still does not filter.
+
+**A listing holding more than one level groups its rows**, a `<details>` per level in ladder order,
+then « Tous niveaux » for the unlevelled rows when the chapter mixes both. **One level in the
+listing, no groups.** Rows keep manifest order inside a group.
+
+- **The group head counts its rows** (« A2 · 9 leçons »): **the one exception to "nothing counts a
+  chapter's lessons"** (AGENTS.md §6), because a closed group's count is all that says what it holds.
+- **One group opens by default**: the parcours's level (#88) when it is in the listing, else the
+  lowest. All closed makes a visitor's first chapter a page of shut boxes.
+- **The open state is not remembered**: `localStorage` stays the theme and the sidebar (#24, #42).
+
+**Why**: #76 listed a page from its floor upward because the course chose for the learner, so a B1
+saw everything and the level organised nothing above A1. **The learner who chose A2 wants the pages
+written at A2**, and one who still wants A1 ticks A1. It also settles #85's cost: the Spanish of an
+A1 page reaches only someone who asked for A1, or a visitor who sees everything.
+
+**Ticks do not move**: `progressKey` still returns `id` or `id@LEVEL`, keyed on the page's sets, never
+its listing (#68). **Chosen against keeping `from()` beside a view**: two filters stacked, and a B1
+view showing A1 pages would be the course overruling the learner again.
+
+## 87 · A page holding one set per level shows them as tabs
+**2026-09-30 · Binding · not built yet · replaces #73 on landing · narrows #68**
+
+`perLevel: true` becomes **`sets: Level[]`**, the question sets or item banks the page holds, written
+out; its `level` is `sets[0]`, checked at import. **The sets are drawn as tabs above the work**
+(« A2 | B1 »), each with its own tick under `id@LEVEL`.
+
+**Which tab opens: the learner's default set** — the parcours's level (#88) if the page has it, else
+the lowest set. **One rule, three readers**: the tab the page opens on, the row's `RowTick` in a
+listing, and the set « La suite » means. `LessonEnd` ticks the tab in view.
+
+**Why #73 fell**: it assumed one level per learner. With a view of several levels and a visitor who
+sees everything, there is no single level to follow, and a B1 set reachable only through a settings
+change hid the page's best half from everyone signed out.
+
+**Still closed**: `?niveau=` (#68) — the tab is component state, not a URL, and is not remembered.
+**The remount is still the reset**: the board is keyed on the tab.
+
+## 88 · A parcours is a file of étapes, chosen in the account; « La suite » walks it
+**2026-09-30 · Binding · not built yet · builds #14 · amends #70 · answers AGENTS.md §12.4**
+
+A parcours is **`src/data/parcours/<slug>.ts`**: a permanent `id`, a title, a `level` (`null` for a
+path that answers to no rung) and an ordered list of **étapes**, each a title and the lessons it
+walks, **by id** — a path is renamed (#50), an id never is. **It orders lessons and owns none**
+(#14): a lesson in two parcours has one tick, done in both.
+
+- **Only tracked lessons**: nothing from `temp` or `delf`, which can never be ticked and would be a
+  permanent first hole (#80, #82). The `nav-wiring` audit checks every id resolves.
+- **Chosen in `/compte`, one at a time, or none**: `parcours` in metadata beside `view`. **Unknown
+  ids read back as none**, so removing a parcours is the same silent reset as closing a level (#74).
+  **Choosing one does not touch the view**: two settings, one writer each.
+- **« La suite » is the first unticked lesson of the chosen parcours**, a `sets` page counting its
+  default set (#87). **No parcours, no « La suite »**: a line offering one takes its place. #70 is
+  otherwise unchanged — still one derived fact, nothing stored.
+- **The heritage speaker gets a door without becoming a level** (#13): « Écrire le français » is a
+  parcours with `level: null`, beside A1, A2 and B1.
+
+**Chosen against ordering chapters**: `nextUp` walked the manifest chapter by chapter, so A2 meant
+sixteen grammaire pages, then fourteen verb sheets, before a first role-play. **A chapter's order is
+now for browsing**; teaching order is the parcours's.
+
+**The existing accounts' `level` becomes `view: [level]`** and no parcours, in the commit that ships
+the setting.
