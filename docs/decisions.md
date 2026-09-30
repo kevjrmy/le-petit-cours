@@ -54,9 +54,9 @@ than marking it superseded.
 | 55 | 2026-09-06 | A `traduction` chapter — Spanish as material, never as explanation | Binding |
 | 56 | 2026-09-06 | The conjugation sheets: one data file, one route, the imparfait included | Binding |
 | 57 | 2026-09-07 | A role-play offers words, never a model dialogue | Binding |
-| 58 | 2026-09-07 | What a `lecture` text has to be, and how the public domain is tested | Binding |
-| 59 | 2026-09-07 | How hard a `lecture` text may be, and what to do when it is too hard | Binding |
-| 60 | 2026-09-07 | World literature in `lecture`; the translator's death date is the test | Binding |
+| 58 | 2026-09-07 | What a reading text has to be, and how the public domain is tested | Binding · amended 2026-09-30 |
+| 59 | 2026-09-07 | How hard a reading text may be, and what to do when it is too hard | Binding |
+| 60 | 2026-09-07 | World literature in `litterature`; the translator's death date is the test | Binding |
 | 63 | 2026-09-12 | The footer belongs to the home page; the shell's foot is one shared row | Binding |
 | 65 | 2026-09-12 | The lesson's level rides in the trail, in front of the chapter | Binding |
 | 66 | 2026-09-12 | Sections are marked, not merely spaced; the in-page index is read from the page | Binding |
@@ -507,12 +507,13 @@ dialogue put everything on the page twice, to be read instead of played.
 fixed pieces**, never sentences (the dialogue returning a chip at a time), **with no glosses** (an A1
 chip may carry a short Spanish one, #85).
 
-## 58 · What a `lecture` text has to be
-**2026-09-07 · Binding**
+## 58 · What a reading text has to be
+**2026-09-07 · Binding · amended 2026-09-30**
 
 Real **public-domain** French text or an original A2 dialogue; never generated filler or copyrighted
-text; an « Avez-vous compris ? » quiz graded on screen, stored nowhere. **`lecture` promises
-questions, `litterature` commentary**: what the page does with a classic picks its chapter.
+text; an « Avez-vous compris ? » quiz graded on screen, stored nowhere. **What the text is picks its
+chapter** (amended 2026-09-30): a text written for this course is `lecture`, a literary work is
+`litterature`; both carry the quiz, and the rules on this page apply to both.
 
 **Choose for tenses, not fame**: nineteenth-century narrative is in the passé simple, not taught
 here. Surviving passé simple in a quotation stays, with one `.attention`.
@@ -523,7 +524,7 @@ into the 2030s.
 
 **Quote exactly, against the scan.** Every distractor is wrong *on the page*.
 
-## 59 · How hard a `lecture` text may be, and what to do when it is too hard
+## 59 · How hard a reading text may be, and what to do when it is too hard
 **2026-09-07 · Binding · narrows #58**
 
 **A text is chosen for what the learner can answer, not what they can construe.** Rostand's crowd
@@ -533,7 +534,7 @@ scene is alexandrins and 1640 vocabulary, yet who pays, refuses or plays cards i
 A2 teaches a learner they cannot read. **An edge-of-level page gets two cross-links, not four**, back
 to the reading that prepares it.
 
-## 60 · World literature in `lecture`; the translator's death date is the test
+## 60 · World literature in `litterature`; the translator's death date is the test
 **2026-09-07 · Binding · widens #58**
 
 Translations are allowed and **labelled**: the job is reading French, not French authors. **The

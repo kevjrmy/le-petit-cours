@@ -1254,7 +1254,7 @@ export const chapters: Chapter[] = [
     path: "/lecture",
     title: "Lecture",
     blurb:
-      "De courts textes à lire, avec des questions pour vérifier ce que vous avez compris.",
+      "Un dialogue écrit pour ce cours, avec des questions pour vérifier ce que vous avez compris.",
     lessons: [
       {
         id: "lect-entretien-embauche",
@@ -1270,9 +1270,19 @@ export const chapters: Chapter[] = [
         },
         created: "2026-09-12",
       },
+    ],
+  },
+  {
+    slug: "litterature",
+    icon: "litterature",
+    path: "/litterature",
+    title: "Littérature",
+    blurb:
+      "De grands textes de la littérature, en français, avec des questions pour vérifier ce que vous avez compris.",
+    lessons: [
       {
         id: "lect-lion-et-rat",
-        path: "/lecture/le-lion-et-le-rat",
+        path: "/litterature/le-lion-et-le-rat",
         title: "Le Lion et le Rat",
         subtitle: "Jean de La Fontaine, 1668",
         tag: "Compréhension",
@@ -1286,7 +1296,7 @@ export const chapters: Chapter[] = [
       },
       {
         id: "lect-invitation-voyage",
-        path: "/lecture/l-invitation-au-voyage",
+        path: "/litterature/l-invitation-au-voyage",
         title: "L’Invitation au voyage",
         subtitle: "Charles Baudelaire, 1857",
         tag: "Compréhension",
@@ -1300,7 +1310,7 @@ export const chapters: Chapter[] = [
       },
       {
         id: "lect-phileas-fogg",
-        path: "/lecture/phileas-fogg",
+        path: "/litterature/phileas-fogg",
         title: "Phileas Fogg",
         subtitle: "Jules Verne, 1873",
         tag: "Compréhension",
@@ -1314,7 +1324,7 @@ export const chapters: Chapter[] = [
       },
       {
         id: "lect-cosette-bois",
-        path: "/lecture/cosette-dans-le-bois",
+        path: "/litterature/cosette-dans-le-bois",
         title: "Cosette dans le bois",
         subtitle: "Victor Hugo, 1862",
         tag: "Compréhension",
@@ -1328,7 +1338,7 @@ export const chapters: Chapter[] = [
       },
       {
         id: "lect-cyrano",
-        path: "/lecture/cyrano-de-bergerac",
+        path: "/litterature/cyrano-de-bergerac",
         title: "Cyrano de Bergerac",
         subtitle: "Edmond Rostand, 1897",
         tag: "Compréhension",
@@ -1342,7 +1352,7 @@ export const chapters: Chapter[] = [
       },
       {
         id: "lect-swann",
-        path: "/lecture/du-cote-de-chez-swann",
+        path: "/litterature/du-cote-de-chez-swann",
         title: "Du côté de chez Swann",
         subtitle: "Marcel Proust, 1913",
         tag: "Compréhension",
@@ -1360,7 +1370,7 @@ export const chapters: Chapter[] = [
            subtitle names the translator rather than only the author, because
            that is the labelling: what she reads is F.-V. Hugo's French, and a
            translation is somebody's work (#60). */
-        path: "/lecture/romeo-et-juliette",
+        path: "/litterature/romeo-et-juliette",
         title: "Roméo et Juliette",
         subtitle: "Shakespeare, traduit par François-Victor Hugo",
         tag: "Compréhension",
@@ -1374,7 +1384,7 @@ export const chapters: Chapter[] = [
       },
       {
         id: "lect-monte-cristo",
-        path: "/lecture/le-comte-de-monte-cristo",
+        path: "/litterature/le-comte-de-monte-cristo",
         title: "Le Comte de Monte-Cristo",
         subtitle: "Alexandre Dumas, 1844",
         tag: "Compréhension",
@@ -1391,24 +1401,6 @@ export const chapters: Chapter[] = [
           B1: "Lire entre les lignes d’un dialogue : ce qu’un adverbe juge, ce qu’une phrase coupée laisse deviner.",
         },
         created: "2026-09-08",
-      },
-    ],
-  },
-  {
-    slug: "litterature",
-    icon: "litterature",
-    path: "/litterature",
-    title: "Littérature",
-    blurb:
-      "Les classiques français : par où commencer, et ce qu’on trouve dans chacun.",
-    lessons: [
-      {
-        id: "litt-par-ou-commencer",
-        path: "/litterature/par-ou-commencer",
-        title: "Par où commencer",
-        subtitle: "Quatorze classiques, et lequel ouvrir en premier",
-        level: null,
-        created: "2026-09-12",
       },
     ],
   },
@@ -2101,22 +2093,12 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/le-futur-proche",
     "/grammaire/le-passe-compose",
   ],
-  "/lecture/le-lion-et-le-rat": [
-    "/litterature/par-ou-commencer",
-    "/lecture/l-invitation-au-voyage",
+  "/litterature/le-lion-et-le-rat": [
+    "/litterature/l-invitation-au-voyage",
     "/grammaire/le-passe-compose",
   ],
   "/musique/la-vie-en-rose": [
     "/grammaire/les-pronoms-cod-coi",
-    "/litterature/par-ou-commencer",
-  ],
-  /* La liste de lectures pointe vers les textes du cours qui en sont tirés :
-     c'est ce qui empêche la page de rester une bibliographie. */
-  "/litterature/par-ou-commencer": [
-    "/lecture/le-lion-et-le-rat",
-    "/lecture/le-comte-de-monte-cristo",
-    "/lecture/cyrano-de-bergerac",
-    "/lecture/du-cote-de-chez-swann",
   ],
   /* The auxiliaries come first: a learner stuck mid-lesson wants the forms, and
      `les-pronoms-cod-coi` still links back the other way. Four is the cap. */
@@ -2156,7 +2138,7 @@ const handWrittenLinks: Record<string, string[]> = {
   "/grammaire/les-pronoms-cod-coi": [
     "/grammaire/le-passe-compose",
     "/traduction/hier-dans-la-rue",
-    "/lecture/cosette-dans-le-bois",
+    "/litterature/cosette-dans-le-bois",
     "/musique/la-vie-en-rose",
   ],
   "/orthographe/les-homophones": [
@@ -2169,7 +2151,7 @@ const handWrittenLinks: Record<string, string[]> = {
     "/vocabulaire/les-jours-et-la-date",
     "/conversation/prendre-rendez-vous",
     "/conversation/parler-du-travail",
-    "/lecture/phileas-fogg",
+    "/litterature/phileas-fogg",
   ],
   "/conversation/prendre-rendez-vous": [
     "/vocabulaire/l-heure",
@@ -2223,49 +2205,48 @@ const handWrittenLinks: Record<string, string[]> = {
     "/traduction/le-resume-d-un-film",
     "/vocabulaire/l-heure",
   ],
-  "/lecture/l-invitation-au-voyage": [
+  "/litterature/l-invitation-au-voyage": [
     "/grammaire/la-negation",
-    "/lecture/le-lion-et-le-rat",
-    "/lecture/cyrano-de-bergerac",
-    "/litterature/par-ou-commencer",
+    "/litterature/le-lion-et-le-rat",
+    "/litterature/cyrano-de-bergerac",
   ],
-  "/lecture/phileas-fogg": [
+  "/litterature/phileas-fogg": [
     "/vocabulaire/l-heure",
     "/grammaire/l-imparfait",
-    "/lecture/le-lion-et-le-rat",
-    "/lecture/cyrano-de-bergerac",
+    "/litterature/le-lion-et-le-rat",
+    "/litterature/cyrano-de-bergerac",
   ],
-  "/lecture/cosette-dans-le-bois": [
+  "/litterature/cosette-dans-le-bois": [
     "/grammaire/les-pronoms-cod-coi",
-    "/lecture/phileas-fogg",
+    "/litterature/phileas-fogg",
     "/conversation/parler-du-travail",
-    "/lecture/du-cote-de-chez-swann",
+    "/litterature/du-cote-de-chez-swann",
   ],
   /* The two theatre texts are harder than the rest of the chapter, so they
      point at the reading that prepares them rather than at four more places to
      go. Cyrano keeps a fourth, to Monte-Cristo: it is the other crowded scene
      where the interest is who says what to whom. */
-  "/lecture/cyrano-de-bergerac": [
-    "/lecture/cosette-dans-le-bois",
-    "/lecture/phileas-fogg",
-    "/lecture/romeo-et-juliette",
-    "/lecture/le-comte-de-monte-cristo",
+  "/litterature/cyrano-de-bergerac": [
+    "/litterature/cosette-dans-le-bois",
+    "/litterature/phileas-fogg",
+    "/litterature/romeo-et-juliette",
+    "/litterature/le-comte-de-monte-cristo",
   ],
-  "/lecture/romeo-et-juliette": [
-    "/lecture/cyrano-de-bergerac",
-    "/lecture/cosette-dans-le-bois",
+  "/litterature/romeo-et-juliette": [
+    "/litterature/cyrano-de-bergerac",
+    "/litterature/cosette-dans-le-bois",
   ],
   /* The one lecture text that carries both passé composé auxiliaries in the
      same speech, which is why the grammar page leads. */
-  "/lecture/le-comte-de-monte-cristo": [
+  "/litterature/le-comte-de-monte-cristo": [
     "/grammaire/le-passe-compose",
     "/grammaire/passe-compose-ou-imparfait",
-    "/lecture/cosette-dans-le-bois",
-    "/lecture/cyrano-de-bergerac",
+    "/litterature/cosette-dans-le-bois",
+    "/litterature/cyrano-de-bergerac",
   ],
-  "/lecture/du-cote-de-chez-swann": [
+  "/litterature/du-cote-de-chez-swann": [
     "/grammaire/passe-compose-ou-imparfait",
-    "/lecture/cosette-dans-le-bois",
+    "/litterature/cosette-dans-le-bois",
   ],
   "/traduction/un-week-end-a-la-plage": ["/orthographe/les-homophones"],
   "/traduction/hier-dans-la-rue": [

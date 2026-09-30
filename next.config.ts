@@ -15,7 +15,54 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/lecture/la-chevre-de-monsieur-seguin",
-        destination: "/lecture/l-invitation-au-voyage",
+        destination: "/litterature/l-invitation-au-voyage",
+        permanent: false,
+      },
+      /* The eight classics moved from `lecture` to `litterature`; ids kept (#50). */
+      {
+        source: "/lecture/cosette-dans-le-bois",
+        destination: "/litterature/cosette-dans-le-bois",
+        permanent: false,
+      },
+      {
+        source: "/lecture/cyrano-de-bergerac",
+        destination: "/litterature/cyrano-de-bergerac",
+        permanent: false,
+      },
+      {
+        source: "/lecture/du-cote-de-chez-swann",
+        destination: "/litterature/du-cote-de-chez-swann",
+        permanent: false,
+      },
+      {
+        source: "/lecture/le-comte-de-monte-cristo",
+        destination: "/litterature/le-comte-de-monte-cristo",
+        permanent: false,
+      },
+      {
+        source: "/lecture/le-lion-et-le-rat",
+        destination: "/litterature/le-lion-et-le-rat",
+        permanent: false,
+      },
+      {
+        source: "/lecture/l-invitation-au-voyage",
+        destination: "/litterature/l-invitation-au-voyage",
+        permanent: false,
+      },
+      {
+        source: "/lecture/phileas-fogg",
+        destination: "/litterature/phileas-fogg",
+        permanent: false,
+      },
+      {
+        source: "/lecture/romeo-et-juliette",
+        destination: "/litterature/romeo-et-juliette",
+        permanent: false,
+      },
+      /* The reading list was dropped, not replaced: its chapter is what is left. */
+      {
+        source: "/litterature/par-ou-commencer",
+        destination: "/litterature",
         permanent: false,
       },
       /* Same slot, new text: the imparfait souvenir was replaced by the film

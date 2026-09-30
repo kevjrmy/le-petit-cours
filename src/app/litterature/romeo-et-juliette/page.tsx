@@ -2,7 +2,7 @@ import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
 import { Quiz } from "./quiz";
 
-const PATH = "/lecture/romeo-et-juliette";
+const PATH = "/litterature/romeo-et-juliette";
 
 export const metadata = lessonMetadata(PATH);
 

@@ -2,7 +2,7 @@ import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
 import { Quiz } from "./quiz";
 
-const PATH = "/lecture/le-comte-de-monte-cristo";
+const PATH = "/litterature/le-comte-de-monte-cristo";
 
 export const metadata = lessonMetadata(PATH);
 

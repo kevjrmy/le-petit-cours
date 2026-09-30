@@ -49,7 +49,7 @@ rows.
 
 **Read the closest shipped lesson first and match it**: `orthographe/les-accents` for literacy,
 `grammaire/la-negation` for a rule with an exception that matters, `vocabulaire/le-travail` for a
-page that is mostly tables, `conversation/au-restaurant` for a role-play, `lecture/le-lion-et-le-rat`
+page that is mostly tables, `conversation/au-restaurant` for a role-play, `litterature/le-lion-et-le-rat`
 for a text and its quiz. A page that invents its own shape is the one that looks wrong in six
 months. **Count in `src/data/navigation.ts`, never here.**
 
@@ -193,7 +193,7 @@ are `<button>`s, never hidden radios (§9).
 #### One text, a question set per level
 
 Same reading, same vocabulary table, same tick, harder questions (#59, #68).
-`lecture/le-comte-de-monte-cristo` is the worked example.
+`litterature/le-comte-de-monte-cristo` is the worked example.
 
 - **`questions.ts` exports `SETS`, imports types only**, and `quiz.tsx` is `<Comprehension
   sets={SETS} />`. Its keys must match the manifest's `sets` (§8; the `nav-wiring` audit's fifth
@@ -216,8 +216,8 @@ node --experimental-strip-types --input-type=module -e "
 import { readdirSync, existsSync } from 'node:fs'
 let files = 0, items = 0
 const bad = []
-for (const d of readdirSync('src/app/lecture')) {
-  const f = './src/app/lecture/' + d + '/questions.ts'
+for (const d of ['lecture', 'litterature'].flatMap(c => readdirSync('src/app/' + c).map(n => c + '/' + n))) {
+  const f = './src/app/' + d + '/questions.ts'
   if (!existsSync(f)) { bad.push(d + ': no questions.ts'); continue }
   files++
   const { SETS } = await import(f)
