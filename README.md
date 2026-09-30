@@ -37,9 +37,10 @@ They are not two levels of one thing: a heritage speaker can speak like a C1 and
 One library of lessons serves both, ordered differently for each.
 
 **Levels** follow the European framework (CEFR). The course goes **A1 → B2**; A2 was written first,
-and A1 and B1 are being written beside it. A page is listed from the level it was written at
-upward, so choosing a higher level never shows you less. A level counts as complete when it covers
-the published **DELF** exam syllabus for that level.
+and A1 and B1 are being written beside it. Each page is written at one level, and signed-in
+learners choose which levels are listed; a literary work is one page whose text and questions
+follow the learner's level, with the Spanish under each line at A1. A level counts as complete
+when it covers the published **DELF** exam syllabus for that level.
 
 Chapters cover grammar, spelling, conjugation, pronunciation, vocabulary, translation, reading,
 literature, culture, role-plays, dictations, graded exercises, replayable games, and `delf` — whole practice

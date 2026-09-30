@@ -19,7 +19,10 @@ and the bug classes to hunt; the passes below are how.
 ## Who the text is for
 
 Two profiles (§1, #13), and **French only from A2 up** (#53). **A page whose floor is A1 explains in
-Spanish** (#85); check the manifest's `level` before judging — `"A1"` is an A1 page.
+Spanish** (#85); check the manifest's `level` before judging — `"A1"` is an A1 page. **A literary
+work is the exception** (#92): its `level` is A1 because it holds an A1 body, but only `a1.tsx` is
+A1 (Spanish explanation, the course's Spanish under each French line); `a2.tsx` and `b1.tsx` are
+French only. In `a1.tsx`, check each Spanish line against its French line: faithful, nothing added.
 
 **The learner** reads French to learn French (`docs/levels/a2.md`):
 
@@ -46,7 +49,8 @@ printing the Spanish word (#69).
 Seconds each; run them across `src/app` before reading.
 
 **A Spanish word left on a page above A1.** `lang="es"` is legitimate in exactly three places —
-`Traduction.tsx`, `src/app/design/page.tsx`, and a page whose `level` is A1 (#85):
+`Traduction.tsx`, `src/app/design/page.tsx`, a page whose `level` is A1 (#85), and a literary
+work's `a1.tsx` (#92), never its `a2.tsx` or `b1.tsx`:
 
 ```bash
 grep -rln 'lang="es"' src/app src/components    # each file: Traduction.tsx, /design, or an A1 page in the manifest

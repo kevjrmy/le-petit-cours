@@ -49,8 +49,9 @@ are in [`AGENTS.md`](AGENTS.md); the `#nn` numbers point into
   zero, and a heritage speaker who speaks French and needs to learn to *write* it — not a higher
   level (#13).
 - **French only from A2 up** (#53): no Spanish gloss, no translation column, no bilingual page.
-  Spanish appears only as a `traduction` page's source text (#55) and as an A1 page's explanation
-  (#85); anywhere else it is a bug.
+  Spanish appears only as a `traduction` page's source text (#55), as an A1 page's explanation
+  (#85), and in the A1 body of a literary work, the course's Spanish under each French line
+  (`a1.tsx`, #92); anywhere else it is a bug.
 - **The explanation's French is simpler than the French taught**: define false friends rather than
   translate them, and print the common wrong sentence beside the right one.
 - **English is never used** — no English glosses, no English mnemonics (no DR & MRS VANDERTRAMP).
@@ -68,7 +69,9 @@ are in [`AGENTS.md`](AGENTS.md); the `#nn` numbers point into
   `lang="es"` and every piece of French takes `lang="fr"` back (#85).
 - **Every lesson declares one `level`**, or `null` for a page that answers to no rung (#86). A
   lower level gets a new, simpler page, never a second tag (#72).
-- **`sets` means one body of work per level**, and its material must match it exactly (#87).
+- **`sets` means one body of work per level**, and its material must match it exactly (#87). A
+  literary work is one page with a body per level (`a1.tsx`, `a2.tsx`, `b1.tsx`), never a page
+  per level and never tabs (#92).
 - **Changing `level` is free; adding or removing `sets` is a data migration** (#68).
 - **A parcours names lessons by id** (`src/data/parcours/`, #88): a lesson removed or re-id'd
   leaves every parcours first, or the build fails.

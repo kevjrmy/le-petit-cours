@@ -192,7 +192,8 @@ folder is a 404, a folder without an entry is unreachable — `nav-wiring` audit
   Exceptions: search groups rather than cuts; `/ma-progression` is a record. A direct link always
   renders the lesson.
 - **A listing holding several levels groups them** (#86): a `<details>` per level, « Tous niveaux »
-  last; the parcours's level opens, else the lowest; not remembered.
+  last; the parcours's level opens, else the lowest; not remembered. **A page with sets goes under
+  the set it opens on** (`shownAt`, #92), not under its floor.
 - **Nothing counts a chapter's lessons**; the rows are the count — **except a level group's head**
   (#86).
 - **Nothing announces an unwritten page** (#51) — no « bientôt » row in any form; an empty chapter
@@ -295,7 +296,9 @@ page underneath dynamic and breaks offline. `AccountProvider` holds it once, ins
 - **Ticks stay off `ProgressApi`**; `isDone`/`doneAt`/`toggle` take a required level (#68). **An
   unmark filters on the level too.**
 - **The set in view is the learner's default set** (#87): the parcours's level if the page has it,
-  else the first — one rule for the page, the row's tick and « La suite ». No `?niveau=`.
+  else A2 if it has it (#92), else the first — one rule for the body (`ByLevel`), the quiz, the
+  row's tick and « La suite ». Read it through `useLessonVariant`/`variantOf`, never `sets[0]`.
+  No `?niveau=`, no tabs.
 - **Per-level material matches the manifest's `sets`**; it lives in `questions.ts` (`SETS`) or
   `data.ts` (`BANKS`), type-only imports, **export names kept** — the audit reads them.
 - **Storage goes through `load()`/`save()`**; IndexedDB keyed by account (#24) is the read path;

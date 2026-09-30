@@ -115,6 +115,11 @@ for (const l of declared) {
   }
   const want = [...levels].sort().join(',')
   if (keys.join(',') !== want) sets.push(l.path + ' -> module [' + keys + '] vs manifest [' + want + ']')
+  // A literary work draws a body per set through ByLevel (#92): a1.tsx,
+  // a2.tsx, b1.tsx beside its page. A set with no body shows the first one,
+  // silently, so the files must say what the manifest says.
+  const bodies = ['A1', 'A2', 'B1', 'B2'].filter(v => existsSync('./src/app' + l.path + '/' + v.toLowerCase() + '.tsx'))
+  if (bodies.length && bodies.join(',') !== want) sets.push(l.path + ' -> bodies [' + bodies + '] vs manifest [' + want + ']')
 }
 
 // Cross-links are declared in the manifest and checked above. An inline
