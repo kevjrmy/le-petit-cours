@@ -39,8 +39,10 @@ renumber; add inside a section.
 Count content in `src/data/navigation.ts`, never in prose.
 
 - **Decided, not built**: #87's tabs on a page holding sets (the default set is built); #89's
-  syllabus as data (its épreuves are built). Until they land, a page with sets opens on the
-  parcours's level and nothing measures coverage.
+  syllabus as data (its épreuves are built); #86's manifest split, one file per chapter. Until
+  they land, a page with sets opens on the parcours's level and nothing measures coverage.
+- **The four parcours are first drafts** from the pages that existed on 2026-09-30; the teaching
+  order awaits the maintainer's review.
 - **Vercel** at <https://lepetitcours.vercel.app>, from `main`. Supabase project
   `ephdtigxjccfauzgexpd`: RLS on, legacy JWT keys off, two public env vars, no integration, no
   Supabase secret at rest (#21).
