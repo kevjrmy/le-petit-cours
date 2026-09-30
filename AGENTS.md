@@ -74,9 +74,9 @@ Two profiles needing opposite things (`docs/scope.md`, #13):
 Language:
 
 - **French only, from A2 up** (#53): explanations, tables, callouts, instructions, chrome. No gloss,
-  no translation column. **Exceptions**: a `traduction` source text (#55), and **a page whose floor
-  is A1, which explains in Spanish and teaches in French** (#85, `docs/levels/a1.md`). Chrome and
-  manifest titles are French at every level.
+  no translation column. **Exceptions**: a `traduction` source text (#55), **a page whose floor
+  is A1, which explains in Spanish and teaches in French** (#85, `docs/levels/a1.md`), and
+  `/bienvenue`'s Spanish toggle (#90). Chrome and manifest titles are French at every level.
 - **On an A1 page `lang` is not optional**: `lang="es"` on each `<section>` and `.resume` (never
   `<article>`), `lang="fr"` back on every piece of French. Peninsular Spanish, `tú`.
 - **The explanation is easier than the French it teaches.** Short sentences; wrong-then-right
@@ -252,6 +252,8 @@ page underneath dynamic and breaks offline. `AccountProvider` holds it once, ins
 
 - **`?suivant=` is written by `signInHref` alone** (#70); no suivant from `/` or `/compte`.
 - **`/compte` never bounces a signed-in visitor**, and **its `<h1>` is the client leaf's** (#26).
+- **A first sign-in passes through `/bienvenue`** (#90): only when `readChosen` is false, only from
+  `ReturnTo`; it always writes the view, since a `null` key is deleted.
 - **Sign-in is the route `/compte`**, never a modal; the account popover links there and never holds
   a form or says « Non connecté ».
 - **Username or email, one field** (#37): `@` goes straight to Supabase, otherwise

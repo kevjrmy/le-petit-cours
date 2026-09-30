@@ -57,7 +57,7 @@ if (existsSync('src/app/conjugaison/[verbe]/page.tsx'))
   for (const l of chapters.find(c => c.slug === 'conjugaison').lessons) routes.add(l.path)
 
 // Real routes with no manifest entry, by design — the home page, the results
-// page and the specimen. The list is unlistedPages in the manifest rather
+// page, the specimen, the atelier's door and the onboarding (/bienvenue). The list is unlistedPages in the manifest rather
 // than a copy here, so adding such a route is a manifest edit like any other.
 // (The sommaire *is* in the manifest, as an annexe, because the sidebar links
 // it.)

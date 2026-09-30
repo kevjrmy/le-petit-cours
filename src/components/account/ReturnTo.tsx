@@ -25,6 +25,11 @@ import { useAccount, useAccountReady } from "@/hooks/useAccount";
  * two apart needs `useAccountReady` — before the session is read, an account
  * that is about to appear and one that never will look exactly alike.
  *
+ * **A first sign-in goes through `/bienvenue` first** — an account that never
+ * answered the view and parcours questions (`account.chosen`), signed in on
+ * this visit. It carries `?suivant=` on, so the lesson is not lost. An account
+ * that was already signed in is never sent there: the settings stay reachable.
+ *
  * **It does not tick anything on arrival.** Marking is the learner's own act,
  * on every page type (`AGENTS.md` §8); coming back to a lesson already ticked
  * would be the site finishing it for them.
@@ -52,6 +57,11 @@ export function ReturnTo() {
       if (ready) signedOutHere.current = true;
       return;
     }
+    if (signedOutHere.current && !account.chosen) {
+      signedOutHere.current = false;
+      router.replace(welcomeHref(next));
+      return;
+    }
     /* A destination asked for by the link that sent them here is honoured
        whether or not they signed in on this visit. */
     if (next) {
@@ -67,7 +77,7 @@ export function ReturnTo() {
 }
 
 /** Where signing in goes when there is nothing to return to. */
-const FALLBACK = "/";
+export const FALLBACK = "/";
 
 /**
  * The link into `/compte` that comes back here afterwards.
@@ -94,8 +104,14 @@ export function signInHref(from: string): string {
     : `/compte?suivant=${encodeURIComponent(from)}`;
 }
 
+/** The onboarding, carrying on to wherever the sign-in was going. */
+function welcomeHref(next: string | null): string {
+  return next ? `/bienvenue?suivant=${encodeURIComponent(next)}` : "/bienvenue";
+}
+
 /**
- * A destination is only ever a page this site declares.
+ * A destination is only ever a page this site declares. Exported for
+ * `/bienvenue`, the other reader of the `?suivant=` it carries on.
  *
  * Checked against the manifest rather than pattern-matched, because "starts
  * with a slash" is not a safe test — `//evil.example` starts with a slash and
@@ -103,7 +119,7 @@ export function signInHref(from: string): string {
  * leaving the site, and this is a value that arrives in a URL a stranger can
  * write.
  */
-function safePath(raw: string | null): string | null {
+export function safePath(raw: string | null): string | null {
   if (!raw) return null;
   const known = new Set<string>([
     ...unlistedPages,

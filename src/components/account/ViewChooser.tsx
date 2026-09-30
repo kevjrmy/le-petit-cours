@@ -6,7 +6,7 @@ import { SaveSettingError, saveView } from "@/lib/account";
 import styles from "./AccountSettings.module.css";
 
 /** What each level is for, in the learner's own terms rather than in CEFR's. */
-const BLURB: Record<Level, string> = {
+export const BLURB: Record<Level, string> = {
   A1: "Les premiers pas. Expliqué en espagnol, enseigné en français.",
   A2: "Le quotidien, raconter au passé, parler de ses projets.",
   B1: "Raconter en détail, imaginer, lire de près.",
@@ -57,13 +57,6 @@ export function ViewChooser({ current }: { current: View }) {
     }
   }
 
-  function toggle(level: Level) {
-    if (current === "all") return save([level]);
-    const next = current.includes(level)
-      ? current.filter((l) => l !== level)
-      : LADDER.filter((l) => l === level || current.includes(l));
-    return save(next.length > 0 ? next : "all");
-  }
 
   return (
     <section>
@@ -92,7 +85,7 @@ export function ViewChooser({ current }: { current: View }) {
               blurb={BLURB[level]}
               pressed={current !== "all" && current.includes(level)}
               disabled={saving}
-              onPress={() => toggle(level)}
+              onPress={() => save(toggleLevel(current, level))}
             />
           </li>
         ))}
@@ -108,6 +101,19 @@ export function ViewChooser({ current }: { current: View }) {
 }
 
 /**
+ * The view after pressing one level: from « Tout », that level alone; a level
+ * pressed again leaves; the last one leaving puts « Tout » back. Shared with
+ * the onboarding, which applies it without saving.
+ */
+export function toggleLevel(current: View, level: Level): View {
+  if (current === "all") return [level];
+  const next = current.includes(level)
+    ? current.filter((l) => l !== level)
+    : LADDER.filter((l) => l === level || current.includes(l));
+  return next.length > 0 ? next : "all";
+}
+
+/**
  * One card of a chooser: a toggle button whose pressed state is drawn twice, as
  * a fill and as a tick, so it is not carried by colour alone. Shared with the
  * parcours chooser.
@@ -119,6 +125,8 @@ export function Choice({
   pressed,
   disabled,
   onPress,
+  nameLang,
+  blurbLang,
 }: {
   name: string;
   blurb: string;
@@ -126,6 +134,10 @@ export function Choice({
   pressed: boolean;
   disabled: boolean;
   onPress: () => void;
+  /** `"fr"` when the card sits in Spanish text: the names are French (§1). */
+  nameLang?: string;
+  /** Likewise for a blurb left in French. */
+  blurbLang?: string;
 }) {
   return (
     <button
@@ -136,13 +148,17 @@ export function Choice({
       onClick={onPress}
     >
       <span className={styles.choiceName}>
-        {name}
+        <span lang={nameLang}>{name}</span>
         <svg className={styles.choiceTick} viewBox="0 0 24 24" aria-hidden="true">
           <path d="M5 12.5l4.5 4.5L19 7.5" />
         </svg>
         {meta && <span className={styles.choiceMeta}>{meta}</span>}
       </span>
-      {blurb && <span className={styles.choiceBlurb}>{blurb}</span>}
+      {blurb && (
+        <span className={styles.choiceBlurb} lang={blurbLang}>
+          {blurb}
+        </span>
+      )}
     </button>
   );
 }

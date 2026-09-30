@@ -81,6 +81,7 @@ than marking it superseded.
 | 87 | 2026-09-30 | A page holding one set per level shows them as tabs | Binding · tabs not built · narrows #68 |
 | 88 | 2026-09-30 | A parcours is a file of étapes, chosen in the account; « La suite » walks it | Binding · builds #14, amends #70 |
 | 89 | 2026-09-30 | The syllabus is data, and a parcours ends on its épreuves | Binding · syllabus not built · builds #15, extends #88 |
+| 90 | 2026-09-30 | A first sign-in passes through `/bienvenue`, in French or Spanish | Binding · amends #88, narrows #53 |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -1034,3 +1035,25 @@ the parcours's tally, never « La suite ». **When every étape is ticked, « La
 pages is an inventory (#15). And nothing led from a path to the exam it prepares for — `delf` was
 only the last chapter. **Chosen against a coverage gate in the build**, which would fail every
 commit of a level being written.
+
+## 90 · A first sign-in passes through `/bienvenue`, in French or Spanish
+**2026-09-30 · Binding · amends #88 · narrows #53**
+
+An account that never answered is sent, **at sign-in only**, to `/bienvenue`: four slides — what
+the course is, how it works, the parcours, the view — then on to `?suivant=` or `/`.
+
+- **"Never answered" is absent keys**: no `view`, no `parcours`, no legacy `level` (`readChosen`).
+  No flag is stored (#31). Supabase deletes a key written `null`, so « Aucun parcours » alone would
+  not count — **the onboarding always writes the view**.
+- **Only a sign-in on `/compte` redirects** (`ReturnTo`), never a lesson link or an open session: a
+  direct link always renders its page (#86). « Plus tard » saves nothing, so the next sign-in asks
+  again.
+- **The parcours pre-selects the view** until the learner presses a level, and both are saved in
+  one write (`saveChoices`). **This is the one place they are written together** (#88); `/compte`
+  keeps one writer each.
+- **French or Spanish, by a toggle with the Spanish flag**, because the level is not known yet and
+  an A1 learner cannot read the French (#85). Not remembered (#24). **Names stay French** —
+  parcours, levels, « La suite », « Compte » — as the rest of the site calls them.
+
+**Chosen against** a gate in the shell, which would interrupt direct links and open sessions, and
+against a stored `onboarded` flag, a new thing an account holds for no gain over absent keys.

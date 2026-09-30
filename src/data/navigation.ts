@@ -1473,17 +1473,18 @@ export const annexes: Annexe[] = [
 /**
  * Real routes that carry no manifest entry.
  *
- * Four pages are not part of the course: the home page, the results page, the
- * token specimen, and the atelier's door (#81) — which is a route precisely
+ * Five pages are not part of the course: the home page, the results page, the
+ * token specimen, the atelier's door (#81) — which is a route precisely
  * because it has to sit *outside* `/temp`, where the proxy cannot intercept the
- * Server Function that opens it. Declaring them is what lets the `nav-wiring`
+ * Server Function that opens it — and the onboarding a first sign-in passes
+ * through (`/bienvenue`). Declaring them is what lets the `nav-wiring`
  * audit report a route that is in neither the manifest nor this list, instead
  * of letting a page exist that nothing links to and nothing notices.
  *
  * It used to map each one to a breadcrumb label. The topbar no longer names the
  * page you are on — the `<h1>` does — so the labels went with that (#45).
  */
-export const unlistedPages: string[] = ["/", "/recherche", "/design", "/entrer"];
+export const unlistedPages: string[] = ["/", "/recherche", "/design", "/entrer", "/bienvenue"];
 
 /**
  * The chapters offered as shortcuts under the search field on the home page.

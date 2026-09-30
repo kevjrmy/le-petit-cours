@@ -1,7 +1,13 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { readDisplayName, readParcours, readUsername, readView } from "@/lib/account";
+import {
+  readChosen,
+  readDisplayName,
+  readParcours,
+  readUsername,
+  readView,
+} from "@/lib/account";
 import { getSupabaseClient, SUPABASE_CONFIGURED } from "@/lib/supabase/client";
 import type { View } from "@/data/navigation";
 import type { Parcours } from "@/data/parcours";
@@ -37,6 +43,11 @@ export interface Account {
   view: View;
   /** The path they follow, or `null` for none (#88). Never set by the view. */
   parcours: Parcours | null;
+  /**
+   * Whether they ever answered the view and parcours questions. `false` sends
+   * a fresh sign-in through `/bienvenue` first.
+   */
+  chosen: boolean;
 }
 
 /** What to call this learner: their chosen name, else their username. */
@@ -111,6 +122,7 @@ export function AccountProvider({ children }: { children: ReactNode }) {
         displayName: readDisplayName(meta.display_name),
         view: readView(meta.view, meta.level),
         parcours: readParcours(meta.parcours),
+        chosen: readChosen(meta),
       });
     });
 

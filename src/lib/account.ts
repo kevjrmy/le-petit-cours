@@ -149,6 +149,19 @@ export function readParcours(raw: unknown): Parcours | null {
   return typeof raw === "string" ? findParcours(raw) : null;
 }
 
+/**
+ * Whether the learner has ever answered the onboarding's two questions.
+ *
+ * **Absent keys are the only signal**: `readView` and `readParcours` read
+ * nothing as « Tout » and « aucun », which are also answers. Any saved view,
+ * any parcours, or a pre-#86 `level` counts as having chosen. `parcours: null`
+ * cannot count — Supabase deletes a key written as `null` — which is why
+ * `saveChoices` always writes the view.
+ */
+export function readChosen(meta: Record<string, unknown>): boolean {
+  return meta.view != null || meta.parcours != null || meta.level != null;
+}
+
 export type SaveProblem =
   | "unavailable"
   | "no-session"
@@ -208,6 +221,21 @@ export async function saveView(view: View): Promise<void> {
 export async function saveParcours(id: string | null): Promise<void> {
   if (id !== null && !findParcours(id)) throw new SaveSettingError("rejected");
   return saveSettings({ parcours: id });
+}
+
+/**
+ * Both answers of the onboarding (`/bienvenue`), in one write.
+ *
+ * **The one place the two settings are written together** (#88): the parcours
+ * only pre-selects the view on screen, and the learner confirms both. In
+ * `/compte` each keeps its own writer.
+ */
+export async function saveChoices(view: View, parcours: string | null): Promise<void> {
+  if (view !== "all" && (view.length === 0 || !view.every(isChoosable))) {
+    throw new SaveSettingError("rejected");
+  }
+  if (parcours !== null && !findParcours(parcours)) throw new SaveSettingError("rejected");
+  return saveSettings({ view, level: null, parcours });
 }
 
 /**

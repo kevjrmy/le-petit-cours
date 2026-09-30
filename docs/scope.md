@@ -73,8 +73,8 @@ student-management system » below and with an account that holds nothing about 
 - **The exam.** `delf` holds whole épreuves to sit in real conditions, written for this course
   (#78). It is the last chapter because it teaches nothing: it asks for everything above it at
   once, in the exam's own time.
-- **A parcours** — an ordered path through the same lessons, in étapes (#14, #88), chosen in the
-  account; « La suite » walks it. `Parcours A1`, `A2` and `B1` follow the DELF syllabus, A2 ending
+- **A parcours** — an ordered path through the same lessons, in étapes (#14, #88), chosen at
+  first sign-in (`/bienvenue`, #90) and changed in the account; « La suite » walks it. `Parcours A1`, `A2` and `B1` follow the DELF syllabus, A2 ending
   on its épreuves (#89); « Écrire le français » walks the orthography and conjugation pages in
   remediation order — the heritage speaker's door, with no level.
 
