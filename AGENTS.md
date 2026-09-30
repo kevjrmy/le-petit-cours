@@ -11,12 +11,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 # le-petit-cours
 
 A PWA teaching **French to native Spanish speakers**, A2 first. Next.js 16 (App Router), React 19,
-TypeScript, plain CSS, deployed on Vercel; Supabase behind accounts and progress sync only.
+TypeScript, plain CSS, Vercel; Supabase for accounts and progress sync only.
 
-**This file is the traps** — the rules a change breaks *silently*, one line each, with the
-reasoning cited rather than retold. It is resident in every session, so it stays short. Anything
-you only need while doing a particular job lives in the brief for that job; anything about *why* a
-rule exists lives in `docs/decisions.md` as a numbered entry, and `#nn` below points at one.
+**This file is the traps**: the rules a change breaks *silently*, one line each. The *why* is in
+`docs/decisions.md` (`#nn`); the how-to is in the file for the job:
 
 | When you are… | Read |
 |---|---|
@@ -29,707 +27,374 @@ rule exists lives in `docs/decisions.md` as a numbered entry, and `#nn` below po
 | checking the French itself | `.claude/agents/content-proofreader.md` |
 | writing at a level, or asking what it still needs | `docs/levels/a1.md`, `a2.md`, `b1.md`, `b2.md` |
 | building a class in the atelier | `docs/atelier.md` |
-| asking *why* a rule is what it is | `docs/decisions.md` (numbered, dated, curated) |
+| asking *why* a rule is what it is | `docs/decisions.md` |
 | asking what is being built and for whom | `docs/scope.md` |
 | arriving from GitHub, or contributing from outside | `README.md`, `CONTRIBUTING.md` |
 
-**Section numbers here are load-bearing.** Source comments and every brief cite `AGENTS.md §n`.
-Renumber a section and you break those pointers; change what a section is *about* and you break
-them more quietly. Add inside a section instead.
+**Section numbers are load-bearing** — source comments and briefs cite `AGENTS.md §n`. Never
+renumber; add inside a section.
 
 ## 0. Status — only what the repo cannot tell you
 
-The manifest (`src/data/navigation.ts`) is the truth about what content exists; count it there
-rather than trusting a number written in prose. The shell, the design system, auth and progress
-are all built. What no amount of reading the repo will reveal:
+Count content in `src/data/navigation.ts`, never in prose.
 
-- **Deployed on Vercel** at <https://lepetitcours.vercel.app>, building from `main`. Supabase
-  project `ephdtigxjccfauzgexpd`, RLS on, legacy JWT keys disabled, two public env vars, no
-  integration and no Supabase secret at rest (#21).
-- **One secret does exist now, and it is not Supabase's**: `FRONTEND_PASSWORD`, the shared password
-  in front of `/temp` (#81). It lives in the gitignored `.env` and is **set on Vercel by hand**
-  (`vercel env add FRONTEND_PASSWORD`) — done on 2026-09-22. **A deployment without it lets nobody
-  in, including you**, which is the failure chosen on purpose over an atelier that silently opens to
-  everyone. It is the one value in this project that must never be written down anywhere else.
-- **Three dashboard settings the repo cannot enforce**, all in the Email provider and all readable
-  from the public `/auth/v1/settings` endpoint without opening the dashboard. The provider is
-  **enabled** (`external.email`), public sign-up is **off** and must stay off (`disable_signup`; the
-  site has no sign-up form), and confirmation is **on** (`mailer_autoconfirm` false) with every
-  account created by hand ticking **« Auto Confirm User »**, because no mail can reach a `.test`
-  address. **The first one is the master toggle above the other two, and turning it off takes the
-  whole site down** — nobody signs in, including you, and `/auth/v1/token` answers
-  `email_provider_disabled`. It has been switched off by accident once, while closing sign-up.
-- **Check them with the endpoint, not the dashboard, and probe as well as read.** Settings say what
-  is configured; a `POST /auth/v1/signup` with a throwaway address says what actually happens, and
-  must answer `signup_disabled`. A `POST /auth/v1/token?grant_type=password` with a fake account
-  must answer `invalid_credentials` — anything else means sign-in is broken for everyone.
-- **The schema is applied by hand in the dashboard editor**, not by a migration runner. Whether a
-  *column* landed is checkable without the dashboard, because Postgres resolves names before it
-  checks grants: `select=<column>` on `progress` answers `42501` (permission denied — the column is
-  there) or `42703` (no such column), and never a row. Everything else a migration does — a primary
-  key, a constraint, a backfill — is invisible from outside, so confirming one means the dashboard,
-  or a signed-in tick that survives on a second device. If a probe ever returns rows, someone has
-  run Supabase's suggested `GRANT SELECT … TO anon`; do not.
+- **Vercel** at <https://lepetitcours.vercel.app>, from `main`. Supabase project
+  `ephdtigxjccfauzgexpd`: RLS on, legacy JWT keys off, two public env vars, no integration, no
+  Supabase secret at rest (#21).
+- **`FRONTEND_PASSWORD`** (#81) is in the gitignored `.env` and set on Vercel by hand
+  (`vercel env add`). **Without it nobody enters `/temp`, you included** — on purpose. Never write
+  it anywhere else.
+- **Supabase Email provider, three settings the repo cannot enforce**, readable at the public
+  `/auth/v1/settings`: provider **enabled** (`external.email` — the master toggle; off takes the
+  whole site down, and it has happened once), sign-up **off** (`disable_signup`), confirmation
+  **on** (`mailer_autoconfirm` false; tick « Auto Confirm User » on every hand-made account).
+  **Probe, don't just read**: `POST /auth/v1/signup` must answer `signup_disabled`;
+  `POST /auth/v1/token?grant_type=password` with a fake account must answer `invalid_credentials`.
+- **The schema is applied by hand in the dashboard editor.** A column is checkable from outside:
+  `select=<column>` on `progress` answers `42501` (exists) or `42703` (missing), never rows. Keys,
+  constraints and backfills are not — check the dashboard or a tick on a second device. If a probe
+  returns rows, someone ran `GRANT SELECT … TO anon`; undo it.
 
 ## 1. Audience — this drives every content decision
 
-`docs/scope.md` has the full picture. **There are two profiles and they need opposite things.**
+Two profiles needing opposite things (`docs/scope.md`, #13):
 
-- **The learner** — native Spanish speaker acquiring French from zero. Fails at producing a
-  sentence.
-- **The heritage speaker** — French family, raised in Spain, fluent at home, never schooled in
-  French. Needs **literacy**: accents, accord, homophones, the written form of conjugations they
-  say correctly without thinking. Fails at writing down a sentence they can say perfectly. They are
-  **not a level** — plausibly oral C1 and written A2 at once, so never reason about them with one
-  CEFR badge (#13). They may be a teenager at a Spanish school, whose mistakes come
-  from Spanish writing habits: a page for them suits a fifteen-year-old and an adult at once (#69).
+- **The learner** — Spanish speaker starting from zero. Fails at producing a sentence.
+  `grammaire`, `vocabulaire`, `conversation`, `delf` lean here.
+- **The heritage speaker** — fluent at home, never schooled in French; needs **literacy**. Fails at
+  writing a sentence they can say. **Not a level** (oral C1 and written A2 at once); may be a
+  teenager, so a page suits fifteen and adult alike (#69). `orthographe`, `dictees`, `astuces`,
+  `conjugaison` lean here.
 
-`grammaire`, `vocabulaire`, `conversation`, `delf` lean to the learner; `orthographe`, `dictees`,
-`astuces`, `conjugaison` lean to the heritage speaker.
+Language:
 
-- **Everything is written in French** (#53) — explanations, tables, callouts, drill instructions,
-  chrome. No Spanish gloss, no translation column, no bilingual page. **Two exceptions**: a
-  `traduction` page's source text (#55), as *material to be translated*; and **a page whose floor
-  is A1** (#85), whose explanation, glosses and instructions are Spanish while the French it teaches
-  stays French. The chrome and the manifest's titles stay French at every level.
-- **On an A1 page, `lang` is not optional** (#85): `lang="es"` on each `<section>` and the
-  `.resume`, never the `<article>` (the French title is in it), and `lang="fr"` back on every
-  `.fr`, `.example` and French cell inside. Peninsular Spanish, `tú`. English stays forbidden.
-- **From A2, the reader is still a Spanish speaker, and that shapes the French you write, not the
-  language you write it in.** Short sentences, everyday words, a rule stated before it is qualified. Print
-  the wrong version beside the right one — « il est trois » is corrected on the page; *son las
-  tres* is never printed on it.
-- **A false friend is defined, not translated** — `robe`, `sol`, `carte`, `rester` earn a French
-  definition and an example that makes the wrong reading impossible. At A1 the definition is in
-  Spanish and may be a gloss (#85); the example stays.
-- **English is never used, for either profile.** No English glosses, no English mnemonics (never
-  DR & MRS VANDERTRAMP).
-- **A2 is written; A1 and B1 are offered while being written** (#74). `CHOOSABLE_LEVELS` holds
-  `A1, A2, B1`; B2 is declared and unchoosable, and **the ladder stops there** — C1 and C2 are out
-  of scope (#75). **The chooser offers the levels and rates none of them** (#77): the « en cours »
-  badge, its explanatory line and `COURSE_LEVELS` are all deleted, because they addressed a stranger
-  this course does not have. **Put them back before the site is listed or sign-up opens.**
-  Completeness is #15's, tracked in `docs/levels/`, and the interface says nothing about it.
-  **Climbing never shows fewer lessons** (#76):
-  B1 lists everything A2 does, plus whatever is written for B1. A1 is the thin one, because a page
-  is never widened downward.
-- **Closing a level is a silent reset** (#74). `readLevel` filters on `CHOOSABLE_LEVELS` too, so
-  removing an entry makes anyone sitting on it read back as having chosen nothing.
-- **`levels` is the rungs a page is *listed* at, and it runs from its floor upward** (#76). Write
-  `from("A2")` — written at A2, still listed at B1 and B2, because a learner who climbs does not
-  stop needing what they climbed on. **Never widen downward**: an A1 learner needing the topic gets
-  the simpler A1 page (#72), never the A2 page's tag. A written-out tag — `["A1"]` — is the
-  exception and claims something above supersedes the page. `ANY` is still the different claim: no
-  rung at all (#23).
-- **`perLevel: true` is the separate claim** (#76) — this page holds one body of work per level, a
-  question set or an item bank per rung. It is what the tick keys on, and **only** it; a page marked
-  it lists exactly the levels it has material for, so `from()` is wrong there.
-- **A1 is being written and is choosable, so an A1 page is visible the moment it lands** (#74).
-- No literary tenses, no metalanguage beyond *verbe, sujet, adjectif, accord* — the heritage track
-  is the one place that relaxes.
-- **A level is complete when it covers the published DELF syllabus** (#15), not when it feels
-  thorough.
-- **The content is « le cours », never « le livre »**. **leçon** a page, **chapitre** one of
-  the sixteen the course is made of, **sommaire** the contents page, **parcours** an ordered path, **programme** a level's
-  syllabus. In English prose, say *the course*.
-- **Both profiles type on a Spanish keyboard.** `é è ê` cost a dead-key detour; `œ` and `ç` cannot
-  be typed at all. A design constraint, not a footnote — see §9.
+- **French only, from A2 up** (#53): explanations, tables, callouts, instructions, chrome. No gloss,
+  no translation column. **Exceptions**: a `traduction` source text (#55), and **a page whose floor
+  is A1, which explains in Spanish and teaches in French** (#85, `docs/levels/a1.md`). Chrome and
+  manifest titles are French at every level.
+- **On an A1 page `lang` is not optional**: `lang="es"` on each `<section>` and `.resume` (never
+  `<article>`), `lang="fr"` back on every piece of French. Peninsular Spanish, `tú`.
+- **The explanation is easier than the French it teaches.** Short sentences; wrong-then-right
+  (« il est trois » is corrected; *son las tres* is printed only at A1). No literary tenses; no
+  metalanguage beyond *verbe, sujet, adjectif, accord* except on heritage pages.
+- **A false friend gets a definition and an example**, never just a translation.
+- **English, never** — no gloss, no mnemonic (never DR & MRS VANDERTRAMP).
+- **Both profiles type on a Spanish keyboard**: `é è ê` cost a detour, `œ ç` cannot be typed (§9).
+- **Words**: « le cours », never « le livre »; **leçon** a page, **chapitre**, **sommaire**,
+  **parcours** an ordered path, **programme** a level's syllabus. In English, *the course*.
+
+Levels (per-level detail: `docs/levels/`):
+
+- **`CHOOSABLE_LEVELS` is `A1, A2, B1`**, offered while being written (#74); B2 declared,
+  unchoosable; C1/C2 out of scope (#75). **Removing a level is a silent reset** for anyone on it.
+- **The chooser rates nothing** (#77) — no « en cours », no `COURSE_LEVELS`. **Put them back
+  before the site is listed or sign-up opens.** "Done" is DELF coverage (#15), tracked in
+  `docs/levels/`.
+- **`levels` = the rungs a page is listed at, floor upward** (#76): `from("A2")`. **Never widen
+  downward** — a lower level gets a new, simpler page (#72). `["A1"]` claims something above
+  supersedes the page; `ANY` (`[]`) means no rung (#23).
+- **`perLevel: true` is a separate claim** (#76): one body of work per level; it alone keys the
+  tick, and its `levels` list exactly the sets it has — never `from()`.
 
 ## 2. Stack and intended shape
 
-`src/app` (routes), `src/components` (`shell/ account/ home/ sommaire/ search/ nav/ lesson/
-progress/ exercice/ conjugaison/ delf/`), `src/data/navigation.ts` (the manifest), `src/hooks`, `src/lib`, `scripts/`,
-`public/`. List the tree rather than trusting a copy of it here.
+`src/app`, `src/components/*`, `src/data/navigation.ts` (the manifest), `src/hooks`, `src/lib`,
+`scripts/`, `public/` — list the tree rather than trust a copy.
 
-- **TypeScript everywhere.** React Compiler is on (`reactCompiler: true`) — **do not hand-write
-  `useMemo`/`useCallback`** it would add for you.
-- **Plain CSS** (#6, *inferred* rather than decided): tokens and shared content patterns in
-  `globals.css`, component styles in co-located CSS Modules. No Tailwind, no utility libraries, no
-  CSS-in-JS. A request for Tailwind reopens #6; it does not contradict this file.
-- **Hosted on Vercel, not a static export** (#7). Lessons prerender; the server exists for auth.
-- **Offline stays the point.** Serwist will provide the service worker and precaching —
-  `vite-plugin-pwa` has no Next equivalent. **Not installed yet.**
-- **Supabase for accounts and progress sync only** (#8). Content lives in git, reviewed in diffs.
-  Exactly two env vars for Supabase: `NEXT_PUBLIC_SUPABASE_URL`,
-  `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. **If a `SUPABASE_*` or `POSTGRES_*` variable appears in
-  the project env, an integration reconnected — delete it** (#21).
-- **`FRONTEND_PASSWORD` is the third variable, and the only secret** (#81). **No `NEXT_PUBLIC_`
-  prefix, ever**: a prefixed variable is copied verbatim into the browser bundle, and the password
-  would be readable by exactly the people it is meant to stop. It is read only by `src/lib/atelier.ts`,
-  which imports `node:crypto` so that importing it from a client component breaks the build.
+- **React Compiler is on** — never hand-write `useMemo`/`useCallback`.
+- **Plain CSS** (#6): tokens and patterns in `globals.css`, CSS Modules per component. No Tailwind,
+  utility library or CSS-in-JS; asking for Tailwind reopens #6.
+- **Vercel, not a static export** (#7); lessons prerender. **Offline** will be Serwist — **not
+  installed yet**.
+- **Supabase for accounts and progress only** (#8); content is in git. Env: exactly
+  `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. **A `SUPABASE_*` or
+  `POSTGRES_*` var means an integration reconnected — delete it** (#21).
+- **`FRONTEND_PASSWORD`** (#81): **never `NEXT_PUBLIC_`** (it would ship to the browser). Read only
+  by `src/lib/atelier.ts`, whose `node:crypto` import breaks a client import at build.
 
 ## 3. Next.js 16 — what differs from your training data
 
-Read `node_modules/next/dist/docs/` before writing code. The traps that bite hardest here:
+Read `node_modules/next/dist/docs/` first. The traps:
 
-- **`params` and `searchParams` are Promises.** So are `cookies()`, `headers()`, `draftMode()`.
-  Synchronous access is gone, not deprecated. `npx next typegen` generates `PageProps<'/route'>`.
-- **Middleware is called Proxy** — `proxy.ts` beside `app/`, not `middleware.ts`.
-- **`revalidateTag` takes a second argument** (a `cacheLife` profile); the one-argument form is a
-  type error. For immediate expiry in a Server Action use `updateTag`.
-- **Turbopack is the default bundler** for `next dev` and `next build`.
-- **`next build` no longer prints `size` / `First Load JS`** — measure with Lighthouse rather than
-  hunting numbers that were removed on purpose.
-- **Next no longer overrides `scroll-behavior` during navigation.** With `scroll-behavior: smooth`
-  in `globals.css`, `<html>` needs `data-scroll-behavior="smooth"` or every route change animates a
-  long scroll to the top.
-- **`next/image` changed** — read `01-getting-started/12-images.md` before using it.
+- **`params`, `searchParams`, `cookies()`, `headers()`, `draftMode()` are Promises**; sync access is
+  gone. `npx next typegen` gives `PageProps<'/route'>`.
+- **Middleware is Proxy** — `proxy.ts`, not `middleware.ts`.
+- **`revalidateTag(tag, profile)`** takes two arguments; `updateTag` for immediate expiry.
+- **Turbopack** is the default bundler. **`next build` prints no sizes** — use Lighthouse.
+- **`scroll-behavior: smooth` needs `data-scroll-behavior="smooth"` on `<html>`**, or every route
+  change scrolls visibly to the top.
+- **`next/image` changed** — read `01-getting-started/12-images.md`.
 
 ## 4. Server and Client Components — where the line falls
 
-**A lesson is a Server Component.** No `'use client'`, no hooks, no state. `'use client'` at the
-top of a lesson means something is wrong with it.
-
-**Interactivity is a leaf, not a wrapper.** A drill, a game, the theme toggle, the sidebar, the
-tick — each as small as the interaction requires. Never mark a page client to get one button
-working; lift the button out.
-
-- **Browser storage does not exist on the server.** Reading it during render throws a hydration
-  error. Fixes in order: a lazy `useState` initialiser inside a client leaf; or, only when the
-  value must be right *before first paint*, an inline script in `<head>` plus
-  `suppressHydrationWarning` on `<html>`. Progress and the level live in **IndexedDB**, which is
-  async and so unavailable to a pre-paint script at all. **`localStorage` has exactly two jobs —
-  the theme and the collapsed sidebar — and the list is closed** (#24, #42).
-- **The theme must not flash.** Inline script, before paint, `data-theme` on `<html>`.
-- **`window`, `document`, `speechSynthesis`, `navigator` are undefined during render**, in client
-  components too. Touch them in an effect or an event handler.
-- **The shell keeps its state across navigation** because it lives in the root layout and layouts
-  do not re-render. That is why the sidebar is mounted in `app/layout.tsx`, never per-page.
+- **A lesson is a Server Component**: no `'use client'`, hooks or state.
+- **Interactivity is a leaf** — a drill, the toggle, the tick. Never mark a page client for one
+  button.
+- **No browser storage during render** (hydration error). Use a lazy `useState` in a leaf, or — only
+  for a pre-paint value — an inline `<head>` script + `suppressHydrationWarning`. Progress and level
+  are in IndexedDB. **`localStorage` holds the theme and the collapsed sidebar, and nothing else**
+  (#24, #42).
+- **The theme must not flash**: inline script sets `data-theme` before paint.
+- **`window`, `document`, `navigator`, `speechSynthesis`** exist only in effects and handlers.
+- **The shell lives in the root layout** so its state survives navigation; never mount it per page.
 
 ## 5. Design system
 
-`src/app/globals.css` owns the tokens, the reset, the base typography and every content pattern.
-Palette and typography are settled (#27): accent `#0044AA` — the wordmark's own blue — with
-**Spectral** and **Inter**. `/design` renders every pattern on one page.
+`globals.css` owns tokens, reset, typography and every content pattern; `/design` renders them all.
+Accent `#0044AA`, **Spectral** + **Inter** (#27).
 
-- **A raw colour in a component is a bug.** Every colour comes from a token. The exceptions are
-  `viewport.themeColor` in `layout.tsx` and `theme_color` / `background_color` in `manifest.ts`,
-  browser APIs that take literal colours; keep them in step with `--surface-app`.
-- **Two layers, not three**: palette (never referenced from a component) and semantic
-  (`--surface-*`, `--text-*`, `--border*`, `--accent*`, `--danger*`, `--warn*`, `--success*`). **Do
-  not recreate the old `--clr-*` alias layer.**
-- **One definition per token.** Both themes in a single `light-dark(light, dark)` value on
-  `:root`; the toggle only flips `color-scheme`. **Never add a per-theme block to define a token** —
-  that is how a token works in one mode and breaks in the other.
-- **Spectral is loaded at 400 and 600 only** (`layout.tsx`), so `font-weight: 700` in anything
-  serif — a heading, `.fr`, `.example` — silently renders 600. Headings name 600 themselves; add a
-  weight to the loader and every heading in the course changes. Inter is variable and has 700.
-- **The serif carries the French being taught, the sans carries the explanation.** `.fr` and
-  `.example` are Spectral; the prose around them is Inter. The split is by *role* (#53).
-  `lang="fr"` is inherited from `<html>` — keep it only where an element is pronounced in isolation,
-  **except inside an A1 page's `lang="es"` sections, where every piece of French takes it back** (§1).
-- **Red means "you got it wrong", so red is never decoration.** `--danger` is for a wrong answer
-  and for `.exception`. Nothing else.
-- **Colour is never the only carrier.** `.attention` prints « À retenir : », `.exception` prints
-  « Sauf : » (in Spanish under `:lang(es)`, #85), a drill's feedback carries a mark as well as a fill.
-- **`.is-correct` / `.is-wrong` / `.is-missed` are doubled selectors** so they beat the `.chip` or
-  `.word` a drill styles them onto. A single class only ties, and which one wins then depends on the
-  order the sheets land in — the first drill shipped showing ✓ and ✗ with no colour at all.
-- **There are three feedback states, not two, and the third is amber.** `.is-missed` is for a
-  question answered by ticking several things: failing to tick one is a different mistake from
-  ticking the wrong one, and red would say they are the same. It is the shared vocabulary like the
-  other two — **a drill must not grow its own** — and it carries a dashed border and a `+` as well
-  as its colour.
-- **A `<section>` inside a lesson's section is a section**: it takes the accent bar, the 4.75rem
-  break and a line in the page's Index (#66). Column heads, cards and boards are `div` + `h3`.
-- **Dark mode is not optional** — check it every time (§11). Accessibility is part of the system,
-  not a later pass: semantic HTML, `focus-visible` rings, `aria-label` on icon-only controls, a
-  `<caption>` on every table.
-- **The topbar is in the page, not over it** (#43, #44). No border, no blur. Sticky *only* below
-  the drawer breakpoint, where it holds the only control that opens the sidebar, and painted in
-  **`--surface-app`** so it occludes without reading as a band. **Do not give it a surface of its
-  own** and do not pin it above the breakpoint.
-- **Brand assets take their colour from the page** The glyph is always a CSS mask over a
-  token, never an inline fill, so it follows the theme. **The wordmark is not drawn in the chrome** —
-  it cannot survive the rail; it is the home page's `<h1>` and belongs nowhere else. Icons come from
-  `node scripts/make-icons.mjs` — **never hand-edit a generated icon**. An icon must be **opaque**,
-  and only the *maskable* pays for the safe zone.
-- **The foot of the shell is one row across the sidebar's edge** (#63): the account control and
-  the footer share `--shell-foot-h`, so the rule over them is one line and the type sits on one
-  baseline. **Change the account control's height and that token follows** — two numbers drift, and
-  the rail is where it shows, because there the label is hidden and the avatar alone comes up short.
-- **Do not set `metadata.icons` in `layout.tsx`** — it replaces the `src/app/` file conventions
-  rather than adding to them, and silently drops `icon.svg`.
+- **A raw colour in a component is a bug.** Exceptions: `viewport.themeColor` (`layout.tsx`) and
+  `theme_color`/`background_color` (`manifest.ts`) — keep them equal to `--surface-app`.
+- **Two token layers**, palette and semantic (`--surface-*`, `--text-*`, `--border*`, `--accent*`,
+  `--danger*`, `--warn*`, `--success*`). No `--clr-*` alias layer.
+- **One definition per token**: `light-dark(light, dark)` on `:root`. **Never a per-theme block.**
+- **Spectral is loaded at 400 and 600 only** — serif `700` silently renders 600.
+- **Serif = the French taught** (`.fr`, `.example`), **sans = the explanation** (#53). `lang="fr"`
+  is inherited — repeat it only for an element pronounced alone, and on A1 pages (§1).
+- **Red means wrong**: `--danger` is for a wrong answer and `.exception`, nothing else.
+- **Colour is never the only carrier**: `.attention` prints « À retenir : », `.exception`
+  « Sauf : » (Spanish under `:lang(es)`), feedback carries a mark.
+- **`.is-correct` / `.is-wrong` / `.is-missed` are doubled selectors** so they beat `.chip`/`.word`.
+  **`.is-missed` (amber, dashed, `+`)** is the third state — a drill never grows its own.
+- **A `<section>` inside a lesson is a section** (accent bar, Index line, #66); cards and column
+  heads are `div` + `h3`.
+- **Dark mode and accessibility every time**: semantic HTML, `focus-visible`, `aria-label` on icon
+  buttons, `<caption>` on every table.
+- **The topbar is in the page** (#43, #44): no border, no blur, no surface of its own; sticky only
+  below the drawer breakpoint, in `--surface-app`.
+- **Brand glyph = CSS mask over a token.** The wordmark is the home page's `<h1>` only. Icons come
+  from `node scripts/make-icons.mjs` — never hand-edit; opaque; only the maskable pays the safe zone.
+- **The shell's foot is one row** (#63): account control and footer share `--shell-foot-h`.
+- **Never set `metadata.icons`** — it drops `icon.svg`.
 
 ## 6. Navigation
 
-`src/data/navigation.ts` is the **single source of truth** for chapters, lessons, order, titles and
-cross-links. **There is no auto-discovery**: a manifest entry with no `app/` folder is a link to a
-404, and a `page.tsx` with no entry is a page nothing links to. `nav-wiring` owns that check.
+`src/data/navigation.ts` is the single source of truth. **No auto-discovery**: an entry without a
+folder is a 404, a folder without an entry is unreachable — `nav-wiring` audits both.
 
-**Levels and parcours.** Every lesson carries a set of CEFR tags; a **parcours** is an ordered path
-through lessons that already exist (#14).
-
-- **A parcours orders lessons, it never owns them.** Duplicating a lesson so two paths can each
-  "have" it is the mistake this design prevents.
-- **`levels` is required and `[]` means "always visible"** (#23) — an omitted field and a
-  deliberate `[]` must not look the same in a diff. It is the rungs the page is **listed** at,
-  floor upward (#76, §1); `perLevel` is the other claim and keys the tick (§8).
-- **A listing draws the tag's floor, one badge** (#76) — `PageRow` and the topbar's trail. Most tags
-  are three rungs wide now, and « A2 B1 B2 » on every row separates nothing.
-- **A level's lessons are inserted in teaching order, never appended** (#72). A chapter's order is
-  the course's order and the signed-out listing shows it unfiltered, so A1's *présent* below A2's
-  *passé composé* reads as a broken page rather than as a filter.
-- **The filter is on the listings, never on access** (#35). Signed out, everything shows. **Every**
-  listing obeys the level except search (which groups rather than cuts) and `/ma-progression`
-  (a record, not an offer). A lesson reached by direct link always renders in full — gating it
-  would mean reading the session and would drag every lesson out of prerendering (§8).
-- **Nothing counts what is in a chapter** — not the sidebar row, not the sommaire card, not
-  the chapter page. The rows are the count, and a tally is a third thing to keep filtered by level.
-  `Chapter.unit` is gone with them; the progress tallies on `/ma-progression` are a different claim
-  (§8) and stay.
-- **Nothing in the interface announces a page that is not written** (#51). No `soon` flag, no entry
-  without a folder. An empty chapter is dropped by `listedChapters(level)` and returns on its own
-  with its first lesson. **Do not reintroduce a "coming soon" row in any form** — dimmed, disabled
-  or counted.
-- **`temp` (« Atelier ») is scratch space, and the only chapter emptied on purpose** (#80). It is
-  listed like the other sixteen because its point is to be one click away in the middle of a class
-  given over a call. **Ids carry a date and never come back** (`temp-2026-09-22-…`; a reused slug
-  resurrects ticks onto new material), **nothing permanent links in** (cross-links fail soft, so the
-  link would vanish at the next reset), a removed page gets **no redirect** — its URL was never
-  promised — and its lessons are `ANY`, so no filter can hide the page being shared. The sitemap
-  lists the chapter and its pages nowhere at all. Promotion is a **new page with a new id**, not a
-  move. **The whole chapter sits behind a shared password** (#81): `src/proxy.ts` matches `/temp`
-  and sends anyone without the cookie to `/entrer`. The chapter's **row still draws** in the
-  sidebar, the sommaire and search (#81).
-- **Chapter landing pages are one route** (#29) — `app/[chapitre]/page.tsx` with `generateStaticParams`
-  and `dynamicParams = false`, which is also what stops the segment swallowing unmatched paths.
-  **The verb sheets are one route too** (#56), which costs the audit an extra line because the
-  filesystem walk skips dynamic segments.
-
-**The way in** (#39, #40, #71):
-
-- **`/` is a search field, not the contents**; the sommaire is at `/sommaire`. Arriving at a table
-  of contents is arriving at a list of things you have not read.
-- **Signed out, `/` is a welcome instead — and the prerendered HTML is that welcome** (#71). A
-  signed-in learner therefore sees it for one hydration on every cold launch, so `HomeStart`'s slot
-  carries a **measured floor**: **re-measure it when the field, the pills or « La suite » change
-  height.** **Never pick the half on the server** — a cookie read makes `/` dynamic and drops
-  `start_url` from the precache (§8).
-- **The sidebar is one level deep: a chapter is a link, not a disclosure.** **Do not put the
-  lessons back in it** — the answer to "it should show more" is the chapter page, or search.
-- **Annexe position is a manifest property** (`where: top | tree | menu | footer`), never a list
-  hand-copied into the components that render them. The footer holds pages *about the site*; the
-  account popover holds only the account (#47).
-- **The footer draws on `/` and on the pages it points to, nowhere else** (#63), and `Footer`
-  decides that itself rather than the shell. It never links to the page you are reading: on `/` it
-  points out, on a footer annexe it points back to « Accueil ». So a `where: "footer"` annexe is
-  reachable from the home page only — **put a page anywhere else in the manifest if it has to be
-  reachable from a lesson.**
-- **`featuredChapterSlugs` is the one hand-kept list.** Fails soft; an empty chapter named there
-  simply does not draw.
-- **Search reads the manifest and nothing else** and **folds accents**, so *passe compose* finds
-  « Le passé composé ». Searching lesson *prose* is a different feature.
-- **`/recherche` is static** — the query is read by `useSearchParams` in a client leaf inside
-  `Suspense`. Reading `searchParams` in the page would make the route dynamic.
-- **Results are grouped by level, never cut by it.**
-- **A route outside the course goes in `unlistedPages`**, which the audit reads.
-- **The topbar never names the page you are on** (#45) — the `<h1>` is directly beneath it, and the
-  crumb is now the only place a lesson names its chapter. **A fuller breadcrumb grows upward, never
-  by putting the leaf back.**
-- **The trail carries the lesson's level, in front of the chapter** (#65) — the **floor** of
-  `Lesson.levels` (#76), from the manifest, outside the `<nav>`. **Never the learner's chosen
-  level**: that is a filter on listings (#35), and reading it here puts an async session read in the
-  chrome above every lesson.
+- **A parcours orders lessons, never owns them** (#14). None is built yet.
+- **`levels` is required; `[]` is deliberate** (#23). Listings draw the **floor, one badge** (#76).
+- **Insert a level's lessons in teaching order, never append** (#72).
+- **Levels filter listings, never access** (#35). Exceptions: search groups rather than cuts;
+  `/ma-progression` is a record. A direct link always renders the lesson.
+- **Nothing counts a chapter's lessons**; the rows are the count.
+- **Nothing announces an unwritten page** (#51) — no « bientôt » row in any form; an empty chapter
+  simply drops out (`listedChapters`).
+- **`temp` (« Atelier ») is scratch** (#80, `docs/atelier.md`): ids carry the date and never return;
+  nothing permanent links in; no redirect on removal; lessons `ANY`; out of the sitemap; promotion is
+  a new page with a new id. **Behind a shared password** (#81) via `src/proxy.ts` → `/entrer`; its
+  row still draws everywhere.
+- **Chapter landing pages and verb sheets are one dynamic route each** (#29, #56), with
+  `dynamicParams = false`.
+- **`/` is a search field** (#39); the sommaire is `/sommaire`. **Signed out, the prerendered `/` is
+  the welcome** (#71): `HomeStart`'s slot has a **measured floor — re-measure when its content
+  changes height**. **Never choose the half on the server.**
+- **The sidebar is one level deep** (#40): a chapter is a link. Never put the lessons back.
+- **Annexe position is a manifest field** (`where: top | tree | menu | footer`, #47). The footer
+  draws only on `/` and on its own pages (#63), so a `footer` annexe is unreachable from a lesson.
+- **`featuredChapterSlugs` is the one hand-kept list**; fails soft.
+- **Search reads the manifest only, folds accents, groups by level.** `/recherche` stays static:
+  `useSearchParams` in a leaf inside `Suspense`.
+- **A route outside the course goes in `unlistedPages`** (the audit reads it).
+- **The topbar never names the current page** (#45); **its trail carries the lesson's floor level
+  from the manifest, never the learner's level** (#65).
 - **One sidebar control, in the topbar, at every breakpoint.**
-
-- **« Index » is read from the page, not the manifest** (#66) — `LessonToc` walks every `h2` in the
-  article after paint and assigns the ids. A lesson declares no outline, so the anchors are **not
-  permanent**: renaming a section changes its fragment. Lessons only, and only where the margin has
-  room — **the reading column never shrinks for it**.
-
-**Chapters, and every annexe drawn as a row, carry an icon; a missing one does not compile**
-(#42, #47) — `where: "footer"` is the one position that is text, and the union says so. `IconName`
-is a union in the manifest and `ChapterIcon`'s map is a `Record<IconName, …>`, so both directions
-are checked.
-**There is no `default` entry and there must never be one** — a generic glyph makes a forgotten
-chapter look deliberate. The icons are drawn in the repo, inline SVG, so they work offline. The
-sommaire card's mark stays the chapter's initial in the serif.
-
-- **`/connexion` is an alias for `/compte`, not a route** (#26) — a redirect, matched before the
-  filesystem, so a `page.tsx` at `app/connexion/` would never render.
-- **A lesson's `id` is permanent; its path is not** (#50). Renaming needs a redirect in
-  `next.config.ts`; **the id must not change in that commit or any other**, since changing one
-  silently deletes every tick on that lesson. `navigation.ts` throws at import on a duplicate or
-  malformed id.
-- **Cross-links fail soft**, and so do the pills — a stale entry costs a link silently. **Four
-  maximum.** The verb sheets' are derived, not typed (#56). The block is placed by `LessonEnd`, not
-  by the lesson (#49).
+- **« Index » is read from the page's `h2`s after paint** (#66) — anchors are not permanent; the
+  reading column never shrinks for it.
+- **Every chapter and row-drawn annexe has an icon, compiler-checked** (#42) — **no `default`
+  icon, ever.**
+- **`/connexion` is a redirect to `/compte`** (#26); a page there never renders.
+- **A lesson's `id` is permanent; its path is not** (#50): rename = redirect in `next.config.ts`,
+  same id. A changed id silently deletes its ticks.
+- **Cross-links and pills fail soft; four maximum**; verb sheets' are derived (#56); `LessonEnd`
+  places them (#49).
 
 ## 7. Page types
 
 | Chapter | Kind |
 |---|---|
 | `grammaire`, `orthographe`, `vocabulaire`, `astuces`, `musique`, `culture` | prose lesson |
-| `conjugaison`, `prononciation` | **data-driven** — one component renders every page from a data file; never hand-write a table |
-| `exercices` | graded drill, walked once, scored on screen and stored nowhere |
-| `jeux` | replayable game, redraws every round, records nothing |
+| `conjugaison`, `prononciation` | **data-driven** — one component, one data file; never a hand-written table |
+| `exercices` | graded drill, scored on screen, stored nowhere |
+| `jeux` | replayable game, records nothing; not a second `exercices/` |
 | `dictees` | listen, type, compare |
-| `conversation` | **guided role-play** — a scene, the steps it follows, ~20 words to play it out of; no model dialogue, graded nowhere (#54, #57) |
-| `traduction` | a short source text to write in French, three words uncoverable, then the model version; graded nowhere. The one chapter where Spanish is the material rather than the explanation (#55, #85) |
+| `conversation` | **role-play** for two: scene, steps, ~20 words; no model dialogue, graded nowhere (#54, #57) |
+| `traduction` | a Spanish source to write in French, three hints, then the model (#55) |
 | `lecture`, `litterature` | reading + comprehension quiz |
-| `delf` | a whole **épreuve**, sat not ticked: a compréhension is marked once, at the end; a production has no corrigé; nothing stored (#78, #82, #84) |
-| `temp` | **scratch** — whatever a class in progress needs, in any of the forms above; emptied and refilled weekly, ticked nowhere (#80) |
+| `delf` | a whole **épreuve**, marked once at the end; a production has no corrigé; nothing stored (#78, #82, #84) |
+| `temp` | scratch for a class in progress, any form above, ticked nowhere (#80) |
 
-**An exercise is graded; a game is replayable.** That line is what stops `jeux/` becoming a second
-`exercices/`: a game has no fixed deck, no lesson to record against, and pulls from the whole
-course.
-
-**A conversation page is neither — it needs a second person.** Producing your own turn cannot be
-scored by a page (#54), and **the support stops at words** (#57): steps name the moves, a cloud
-carries the vocabulary, nothing carries a sentence they could say instead of building their own.
-
-**Writing a page for a *lower* level is a new page; a higher one usually needs nothing** (#72, #76).
-A page is already listed from its floor upward, so a B1 who needs the imparfait has it — there is
-nothing new to say about the imparfait at B1, and a twin would be a copy. Downward is the opposite:
-A1 and A2 negate with different exponents, so the A1 page has new material in it, and handing an A1
-learner the A2 explanation is the failure the twin exists to prevent.
-
-**A second *body of work* on one page — `perLevel` — is for a stimulus with no floor**, and it
-scales *up* only: a B1 reads Cosette with harder questions, an A1 cannot read Cosette at all, and a
-drill whose mechanic *is* the level (auxiliary choice is A2 material) hides no easier task. So
-prose, readings, dictées and most drills get a new page reusing the components, and only a floorless
-stimulus — a `traduction` source, a level-free mechanic — takes a second set. **`conversation` is
-not the exception it looks like** (#72): a reading shares seven hundred words, a role-play shares a
-title, and #57 makes the page its steps and its cloud — both of which change completely. Each level
-gets its own scene.
+- **Another level of a page**: lower = a new page; higher = usually nothing, it is already listed
+  (#72, #76). **`perLevel` is only for a stimulus with no floor** (a reading, a level-free drill),
+  and scales up only. **Each level gets its own role-play.**
 
 ## 8. Accounts, access and progress
 
-**All content is public; an account is required only to keep a learning path** (#18). No auth wall,
-no sign-up interstitial. Signing in buys the tick and the chosen level.
+**All content is public; an account buys the tick and the chosen level** (#18).
 
-### The rule that protects the architecture
-
-**Never read the session in the root layout, or in any layout above a lesson.** Reading cookies
-there opts every route underneath out of static prerendering and destroys the offline story — and
-**nothing fails loudly**: the pages still render, they just stop being static. Auth lives at the
-leaves. `AccountProvider` holds the session once, inside `AppShell`. **Check `next build`: a lesson
-that has become dynamic is a regression, not a detail.**
+**Never read the session in the root layout or any layout above a lesson.** It silently turns every
+page underneath dynamic and breaks offline. `AccountProvider` holds it once, inside `AppShell`.
+**Check `next build`: a dynamic lesson is a regression.** (Only `/entrer` is dynamic.)
 
 ### Auth
 
-- **Signing in returns them to the page they were on** (#70): every way in carries `?suivant=`, and
-  **`signInHref` writes it and nothing else does**. **With nothing to return to it is `/`**, and a link from `/` or `/compte`
-  carries none at all: it would only name the fallback and bounce a signed-in visitor out.
-- **`/compte` never bounces a visitor who arrived already signed in** — that would put the settings
-  behind a redirect and out of reach of the popover that links them.
-- **`/compte`'s `<h1>` is drawn by the client leaf, not the page** (#26) — « Se connecter » signed
-  out, « Compte » signed in. **Do not put one back in `page.tsx`**: the page would have two, and the
-  one in the static HTML would name the wrong state.
-- **Sign-in is a route, `/compte`** (#26) — not a modal, so auth UI stays out of the shell every
-  lesson renders inside. Entry is the account control at the foot of the sidebar, a popover that
-  links to `/compte` and **never holds a form**. Signed out it offers « Se connecter » and never
-  reports « Non connecté ». It learns who is signed in from `useAccount`, a **client** hook.
-- **Supabase Auth, username and password** (#37). The `@` decides: an address goes straight to
-  Supabase, a username resolves through `email_for_username()`. **That function is an enumeration
-  oracle**, tolerable only while every address is fake and the site is unlisted; the day a real
-  address goes on an account, resolution must move server-side.
-- **The username lives in `public.usernames`, unique and mutable** (#38), and **the app builds no
-  email address anywhere**. `set_username()` mirrors it into user metadata in the same transaction;
-  only those two functions write the mirror. **Never check whether a name is free before writing
-  it** — that is both a race and a second oracle.
-- Accounts are made by hand in the dashboard, which is why public sign-up must be off (§0).
-- **Nothing on the server reads the session, at all** (#37). There is no server Supabase
-  client and this project needs **no session-refresh proxy**. **If a server client ever reappears,
-  that is a new decision, not a restoration.**
-- **`src/proxy.ts` exists, and it is not that** (#81). It matches `/temp` alone and reads one
-  cookie: the atelier's shared password. **Do not widen its matcher and do not teach it about the
-  session** — a proxy that reads Supabase is the thing #37 refused, and it would arrive looking
-  like an edit to a file that is already there.
-- **RLS is the authorization model** — `auth.uid() = user_id`. Do not scatter permission checks
-  through components.
-- **The schema lives in `supabase/migrations/`, in git**. Change it by adding a migration,
-  never by editing a table in the dashboard. Running a *migration file's* SQL in the editor is
-  fine; the file in git is the change.
-- **An account holds a username, an email, a password, progress rows, a level and an optional
-  display name. Nothing else.** No analytics, no behavioural tracking. The two settings live in
-  user metadata (#36), so **no database constraint stands behind either** — the rules are in
-  `src/lib/account.ts`, applied on read as well as write. **A setting that grants something, or
-  that anyone else can see, belongs in a table with a constraint instead.** The bar for storing
-  anything new is that a learner would notice its absence (#31).
+- **`?suivant=` is written by `signInHref` alone** (#70); no suivant from `/` or `/compte`.
+- **`/compte` never bounces a signed-in visitor**, and **its `<h1>` is the client leaf's** (#26).
+- **Sign-in is the route `/compte`**, never a modal; the account popover links there and never holds
+  a form or says « Non connecté ».
+- **Username or email, one field** (#37): `@` goes straight to Supabase, otherwise
+  `email_for_username()` — **an enumeration oracle**, tolerable only while addresses are fake and
+  the site unlisted.
+- **Usernames live in `public.usernames`** (#38); `set_username()` mirrors them to metadata. **Never
+  pre-check availability.** The app builds no email address.
+- **Nothing on the server reads the session** (#37); a server Supabase client would be a new
+  decision. **`src/proxy.ts` matches `/temp` alone and reads one cookie** (#81) — never widen it or
+  teach it the session.
+- **RLS (`auth.uid() = user_id`) is the authorization model.** No permission checks in components.
+- **Schema changes are migration files in `supabase/migrations/`**, never dashboard edits.
+- **An account holds username, email, password, progress, a level and an optional display name —
+  nothing else** (#31). Settings are in metadata with rules in `src/lib/account.ts` (#36); **a
+  setting that grants something or that others see needs a table with a constraint.**
 
 ### Progress
 
-- **Marking is manual on every page type, drills included** (#2). A drill shows its score and
-  stores nothing; finishing it never ticks it. **Do not auto-complete anything.**
-- **A tick needs an account** (#48). Signed out the *lesson's* control is still drawn — not hidden,
-  not disabled — and links to `/compte?suivant=<path>`, checked against the manifest rather than a
-  pattern. **A listing's tick is absent instead** (#79): the invitation is worth making once under
-  the lesson, and forty of them down a chapter page is a column of asking. **Do not add an
-  anonymous browser-local tick**: storage alone is evicted without warning, and losing forty ticks
-  silently is worse than saying what an account is for.
-- **A scratch chapter carries no tick anywhere** (#80) — not under the page, not in its listing.
-  **Nor does `delf`** (`untracked`, #82). Test with `isTracked()`, never `scratch`, which also
-  drops a chapter from the sitemap.
-  `nextUp` and `/ma-progression` walk **`trackedChapters()`, never `chapters`**: a lesson that can
-  never be ticked is a permanent first hole, so « La suite » would offer last week's atelier page
-  for ever and nothing would fail.
-- **Keyed by `progressKey(lesson, level)`, never by a route path and never by an id typed at the
-  call site** (#50, #68). It returns the bare `Lesson.id` — so only lessons can be ticked — except
-  on a lesson marked **`perLevel`**, the one case where a page holds a body of work per level and
-  one tick cannot report both. **That rule lives in `progressKey` and nowhere else**, and it is
-  `perLevel`, never `levels.length > 1` (#76): widening a tag must stay free, or a learner loses a
-  tick by climbing.
-- **Adding or removing `perLevel` is a data migration, not a tag edit** (#68, #76). The key moves
-  between `id` and `id@LEVEL` while rows keep `level = ''`, so stored ticks stop being read with
-  nothing failing — eleven pages shipped that way on 2026-09-12. **Ship the backfill in the same
-  commit**, guarded: `(user_id, lesson_id, level)` is the primary key. The cache rebuilds itself.
-  **Widening `levels` is not a migration and must never become one** — that is the property #76
-  bought, and the way to check it is that the pages marked `perLevel` are the only keys with an `@`.
-  **Count them in the manifest, never here**: that list grows whenever a drill earns a second bank.
-- **The ticks are not on `ProgressApi` and must not go back on it** (#68). `isDone` / `doneAt` /
-  `toggle` each take the lesson **and a required level**; exposing the record again lets a caller
-  index it by a bare id, which compiles, and reads another variant's tick.
-- **An unmark filters on the level as well as the id** — deleting on `lesson_id` alone takes every
-  variant of the lesson with it, in a background sync, with nothing failing.
-- **The variant in view comes from the account and nowhere else** (#73). **No picker on the page,
-  and never again**: a level is the course someone follows, not a view of a page, so it changes in
-  `/compte` — which is also why the questions and the tick beneath them cannot disagree. `?niveau=`
-  stays closed on its own grounds (#68): it would ship every lesson's `Suspense` fallback (§8).
-- **A page's per-level material and its manifest `levels` must say the same thing.** The manifest
-  wins, so a level listed with nothing behind it serves another level's material silently. The
-  material lives in a module of **type-only imports** beside the page — `questions.ts` exporting
-  `SETS`, `data.ts` exporting `BANKS` — which is what lets the `nav-wiring` audit read it. **Keep
-  the export named**: rename it and the audit stops looking without saying so.
-- **Nothing touches storage directly** — every read and write goes through a `load()` / `save()`
-  adapter, so the cache and the sync are two implementations of one interface.
-- **The local store is IndexedDB** (#24), keyed by account id so two people on one browser never
-  see each other's ticks. **The local copy stays the read path** — the server is a sync target,
-  never something a render waits on.
-- **Offline is a queue of operations, not a snapshot** (#48) — otherwise an offline unmark is
-  indistinguishable from a device that never saw the tick, and replaying it puts back what the
-  learner removed.
-- **The shell draws the end of a lesson** (#49): `LessonEnd` renders the tick then the cross-links,
-  only when the path resolves to a lesson. **A lesson renders its prose and nothing else.**
-- **A chapter's listing sets the tick as well as showing it** (#79) — `RowTick`, in `PageRow`'s
-  `tick` slot, **beside the row's link and never inside it**: a `<button>` in an `<a>` is invalid and
-  the press would navigate too. **The card is therefore the `<li>`** — give the link the border back
-  and the button is nested again. Two controls in one card look like two: the link ends in a
-  hairline, and **that rule is the link's** so it can follow the row's state.
-- **A finished row wears `--success-soft` with `--success-line`** (#79) — the pair « Leçon terminée »
-  wears under the lesson, because one claim gets one colour (§5), and the circle alone was invisible
-  down a chapter of fourteen. Hover firms the border and holds the ground; the accent must not take
-  over a row that is still done.
-- **The tick's state is read once, in the listing, and handed to both halves** (#79) — `PageRow`'s
-  `done` tints the row, `RowTick`'s changes it. Two reads compile and let one row hold two claims.
-  The slot is **omitted**, not disabled, when there is nothing to report: signed out, and before the
-  cache answers, an empty circle is a claim. **That gate is the listing's** — the row lays itself out
-  around a tick, so a control that returned `null` would leave the space for it.
-- **Counts use published lessons as the denominator.**
-- **`/ma-progression` is the one listing that does not filter by level** (#48): it shows what they
-  *did*, and a tick hidden by a level change would read as a lost tick. **Its « La suite » head is
-  the exception** (#70) — an offer, so it filters like every other listing.
-- **« La suite » is defined once, by `nextUp`** (#70): the first unticked lesson at the level, in
-  manifest order. The home page and `/ma-progression` both draw it; a second definition compiles
-  and disagrees in front of the learner. **Never make it "where you left off"** — that is a stored
-  position, which is a new field on the account and behavioural tracking (#31, #70).
+- **Ticking is manual everywhere** (#2); a drill's score is never stored and never ticks.
+- **A tick needs an account** (#48). Signed out, the lesson's control is still drawn and links to
+  `/compte?suivant=…`; a listing shows no tick (#79). **No anonymous local tick.**
+- **No tick in `temp` or `delf`** (#80, #82): test `isTracked()`, never `scratch`. `nextUp` and
+  `/ma-progression` walk **`trackedChapters()`**.
+- **Keys come from `progressKey(lesson, level)` only** (#50, #68): the bare id, or `id@LEVEL` on a
+  `perLevel` page — **never `levels.length > 1`** (#76).
+- **Adding or removing `perLevel` is a data migration**: ship the guarded backfill in the same
+  commit (#68). **Widening `levels` must never become one.**
+- **Ticks stay off `ProgressApi`**; `isDone`/`doneAt`/`toggle` take a required level (#68). **An
+  unmark filters on the level too.**
+- **The variant in view comes from the account only** (#73) — no picker on the page, no `?niveau=`.
+- **Per-level material matches the manifest's `levels`**; it lives in `questions.ts` (`SETS`) or
+  `data.ts` (`BANKS`), type-only imports, **export names kept** — the audit reads them.
+- **Storage goes through `load()`/`save()`**; IndexedDB keyed by account (#24) is the read path;
+  offline is **a queue of operations** (#48).
+- **`LessonEnd` draws the tick and cross-links** (#49); a lesson renders its prose only.
+- **A listing's `RowTick` sits beside the row's link, never inside it**; the card is the `<li>`
+  (#79). **Read the state once and hand it to both halves**; omit the slot when there is nothing to
+  report. A done row wears `--success-soft`/`--success-line`.
+- **`/ma-progression` does not filter by level** (#48) — except its « La suite » head. Counts divide
+  by published lessons.
+- **« La suite » is `nextUp` alone** (#70): first unticked lesson at the level. **Never "where you
+  left off."**
 
 ## 9. Traps that have actually shipped
 
-Every rule below is here because the mistake it forbids reached a published page. Numbers like
-"twenty-one shipped" are the evidence, not decoration: none of these fail a build, a type check or
-a lint, so the only thing standing between them and a learner is this list.
+None of these fail a build; each reached a published page.
 
 **Content**
 
-- A lesson is **two or three sections**. A topic that needs more is two lessons.
-- **A prose lesson closes with « En résumé »** — `.resume`, holding an `<h2>En résumé</h2>` and four
-  or five bullets that restate the sections and add nothing, as the last child of the `<article>`.
-  Prose chapters only — « En resumen » on an A1 page (#85). **The heading is written, not printed
-  by the CSS** (#67): it is what tells
-  the block from the callouts and what « Index » points at.
-  **A prose lesson gets no quiz of its own**; « Avez-vous compris ? » belongs to `lecture/`, where
-  it checks a text. Practice is `exercices/`. `lesson-author.md` carries the page-type list.
-- Tables: a `<caption>`, **four columns maximum**, and where a Spanish column once sat, an
-  **example sentence** (#53). A table of forms with nothing anchoring them is a paradigm. An A1
-  table may add a gloss column (#85), but the example sentence stays and the four-column limit
-  holds.
-- **There is no PDF export and no print stylesheet** (#1). No `window.print()`, no `@media print`,
-  no `.no-print`.
-- **Lecture quizzes use `<button>` options, not hidden radios** — the click targets overlap and it
-  breaks silently.
-- **An astuce that has exceptions must state them.** "Pays en -e → en" is wrong for *au Mexique*.
-- **A mnemonic must not invent a structure the content does not have.** *rester* and *tomber* were
-  taught as a pair of opposites; they are not opposites, and the device was covering for two verbs
-  the page had simply left out. Five real pairs plus four verbs with no contrary is the honest
-  shape.
-- **Every count in a sentence must match the rows under it.** A caption said "les trois emplois"
-  over four rows, a heading "cinq adjectifs irréguliers" over three, and two pages disagreed on how
-  many verbs take *être* (twelve on one, fourteen on the other). Count the table, then write the
-  number — and when two pages state the same count, changing one means changing both.
-- **Never restate a paradigm table in a second place.** Link to the lesson that owns the rule.
-- **Write the real characters, not the ones the keyboard offers.** `soeur` for `sœur` and `francais`
-  for `français` are spelling errors on a page that teaches spelling, and they shipped twice. This
-  is the authoring counterpart of `AccentBar` below: the learner gets a helper, the lesson text gets
-  no excuse.
+- **Two or three sections** per lesson; more is two lessons.
+- **A prose lesson ends with `.resume`**: a written `<h2>En résumé</h2>` (« En resumen » at A1) and
+  four or five restating bullets, last in the `<article>` (#67). **No quiz on a prose lesson.**
+- **Tables**: `<caption>`, **four columns max**, an example-sentence column (#53); at A1 a gloss
+  column may be added within the four.
+- **No PDF export, no print stylesheet** (#1).
+- **Lecture quizzes use `<button>` options**, never hidden radios.
+- **An astuce states its exceptions** (*au Mexique*).
+- **A mnemonic never invents structure** (*rester*/*tomber* are not opposites).
+- **Every count matches the rows under it**, and two pages stating one count change together.
+- **Never restate a paradigm table** — link to its lesson.
+- **Write real characters**: `sœur`, `français`, never the keyboard's substitutes.
 
-**Images** (a DELF épreuve now; `culture/` when it is written)
+**Images** (a DELF épreuve now; `culture/` later)
 
-- **Local files, never hotlinked** — a remote photograph is a lesson that goes blank in the métro.
-  **Except an épreuve's illustration** (#83): linked from Commons and credited, but only where the
-  item is answerable with the picture gone. An image needed to answer stays local.
-- **Free licences only, credited** (CC0, PD, CC BY, CC BY-SA) with author, link and licence kept in
-  the same data entry as the image, so the two cannot separate.
-- **Look at what you downloaded.** Of the first thirteen from Commons, one had "Mont Blanc"
-  scrawled across it in biro and one was sheep where the filename promised a volcano.
+- **Local, never hotlinked** — except an épreuve's illustration, only where the item is answerable
+  without it (#83).
+- **Free licences only** (CC0, PD, CC BY, CC BY-SA), credit in the same data entry.
+- **Look at what you downloaded.**
 
-**Exercise data** — the failure mode is a drill that runs perfectly and teaches the wrong thing.
-Nothing in the toolchain catches it. Full how-to in `.claude/agents/exercise-author.md`.
+**Exercise data** — a drill can run perfectly and teach the wrong thing (`exercise-author.md`).
 
-- **An `accept` list may hold case and accent variants, never a different number or gender.**
-  `answer: 'croissants', accept: ['croissant']` marks *deux croissant* correct. Twenty-one shipped.
-- **An item with two defensible answers is broken.** Disambiguate in French, inside the item.
-- **Minimal-pair listening sets must contain no homophones** — `cent/sang/sans`, `vert/verre`.
-- **Prefer clicking to typing when the answer carries French accents** (§1). Where type-in earns
-  its place the field gets **`AccentBar`** — without it the drill marks a learner wrong for their
-  keyboard, since `ç` and `œ` cannot be typed on a Spanish one.
-- **Never `sort(() => Math.random() - 0.5)`** — biased; it served the already-correct sentence 9.5 %
-  of the time. One shuffle implementation, imported.
-- **A mass noun cannot carry an indefinite article, anywhere.** A un/une game built on one has a
-  question with no answer (twenty shipped), and a lesson that says "note the article: *un lait*" is
-  teaching a form nobody writes. Pick a countable noun: *un nez*, *une table*.
-- **A validation check must count what it matched.** A regex that silently skips rows reports clean
-  and grants false confidence.
+- **`accept` holds case/accent variants, never another number or gender.** Twenty-one shipped.
+- **Two defensible answers = a broken item**; disambiguate in French inside it.
+- **No homophones in minimal-pair sets** (`cent/sang/sans`).
+- **Click rather than type where accents are involved**; a type-in field gets **`AccentBar`**.
+- **Never `sort(() => Math.random() - 0.5)`** — use the one `shuffle()`.
+- **No indefinite article on a mass noun**, anywhere (*un lait*).
+- **A validation check prints what it counted.**
 
 ## 9b. This is a public, open source repository
 
-`github.com/kevjrmy/le-petit-cours` — MIT (code), CC BY-SA 4.0 (content).
+`github.com/kevjrmy/le-petit-cours` — MIT (code), CC BY-SA 4.0 (content). Everything is published,
+commit messages included.
 
-- **Everything here is published**, including this file and the commit messages. Never commit a
-  key, a token or a connection string. The Supabase URL and publishable key are public by design,
-  and the database password is stored nowhere. **The one secret is `FRONTEND_PASSWORD`** (#81),
-  which lives in `.env` — gitignored by `.env*` — and on Vercel, and **nowhere else**: not in this
-  file, not in a comment, not in a commit message, not in an issue. **No key that bypasses RLS
-  belongs in the deployment env either** (#21).
-- **You can only license what the project owns.** Anything copied from another course, textbook,
-  app or website cannot go in — not as a lesson, not as an exercise item, not as a word list.
+- **No key, token or connection string.** The one secret is `FRONTEND_PASSWORD` (#81) — `.env` and
+  Vercel only. No RLS-bypassing key in the deployment env (#21).
+- **License only what the project owns.**
 
 | Material | Rule |
 |---|---|
-| A DELF sujet, or a prep book | **Never**, including the free official samples (#78). A published exam's *format* is a fact and may be described; its texts, items, consignes and corrigés are someone's work. Everything in `delf/` is written for this course. |
-| Literary text | Public domain **in its country of origin**; name the work and the year. For a translation the **translator's** death date is what counts (#60). |
-| Song lyrics | Short excerpts for commentary only. **Never a full lyric sheet.** |
-| Photographs | CC0, PD, CC BY or CC BY-SA only, stored locally, credited per image. |
-| A learner's own text | **Anonymous, and only in the atelier** (#80). Reproducing what somebody wrote is what a correction page is; a name, an age, a school, a town or a class beside it is not — in the page, the manifest, a comment or a commit message. The original and its transcript stay in `.private/`, which is gitignored. |
+| A DELF sujet or prep book | **Never**, free samples included (#78); the format may be described. |
+| Literary text | Public domain in its country of origin; for a translation, the translator's death date (#60). |
+| Song lyrics | Short excerpts for commentary; never a full lyric. |
+| Photographs | CC0, PD, CC BY, CC BY-SA; local; credited per image. |
+| A learner's own text | **Anonymous, atelier only** (#80): no name, age, school, town or class anywhere, commit messages included; originals stay in `.private/`. |
 | Anything else | Ask in an issue first. |
 
-**When a rule here changes, check whether `CONTRIBUTING.md` states it too** — it repeats the
-non-negotiable ones on purpose, and a contributor following a stale copy is a review you have twice.
+**`CONTRIBUTING.md` repeats these rules on purpose** — change both together.
 
 ## 10. Keeping the context files in sync
 
-Treat them as part of the deliverable. **If behaviour and docs disagree, the change is not done.**
+**If behaviour and docs disagree, the change is not done.**
 
 | File | Carries |
 |---|---|
-| `AGENTS.md` | the traps — what any change must not break, one line each |
-| `.claude/agents/*.md` | the how-to for each recurring job |
-| `docs/scope.md` | what is being built and for whom |
-| `docs/levels/*.md` | one per rung: who reads it, the page's language, its tags, its syllabus and gap — the maps stale by design |
-| `docs/atelier.md` | how a class page in `temp` is built, and what the chapter is not |
-| `docs/decisions.md` | what each rule was chosen *against* — curated, not a log; numbers are permanent |
-| `README.md` | what the project is, for a stranger |
-| `CONTRIBUTING.md` | how an outsider proposes a change |
+| `AGENTS.md` | the traps, one line each |
+| `.claude/agents/*.md` | the how-to per job |
+| `docs/levels/*.md`, `docs/atelier.md` | per-level context and syllabus; the atelier |
+| `docs/scope.md` | what is built and for whom |
+| `docs/decisions.md` | what each rule was chosen *against* |
+| `README.md`, `CONTRIBUTING.md` | for strangers and contributors |
 
-**This file says what is true now; `decisions.md` says what the alternative was and why it lost.**
-If you find yourself writing "we used to…" here, it belongs there — and a dated sentence here will
-be wrong within the month. Keep this file short enough to stay resident: a rule earns its place by
-being **silently violable**, not by being interesting.
-
-**`decisions.md` is curated, not append-only.** An entry stays while something still depends on it;
-when a later decision replaces one, fold what still matters into the new entry and **delete the old
-one** rather than marking it superseded. The numbers are permanent and never reused, because
-`AGENTS.md`, the briefs and source comments all cite `#nn` — so **gaps in the sequence are
-deliberate, and nothing is renumbered to close them**. Deleting an entry means fixing every
-citation to it first; `grep -rn '#nn'` is the check.
-
-In the **same change**:
-
-- Added / renamed / moved / removed a page → `navigation.ts`, the cross-links, and the redirect if
-  a URL died.
-- Changed how a page type is written → the owning brief, not just this file.
-- Changed a shared pattern → the prose **and** every snippet demonstrating it, **and `/design`**.
-- Closed an open decision → `docs/decisions.md`, with what it was decided against, and drop it
-  from §12.
-- Replaced an earlier decision → fold its surviving reasoning into the new entry, delete the old
-  entry, and repoint every `#nn` citation to it.
-- Hit a bug worth not hitting twice → §9.
+- **Here: what is true now, one line, cited.** History and reasons go to `decisions.md`; how-to to
+  the brief. A rule earns a line by being **silently violable**.
+- **`decisions.md` is curated**: a replaced entry is folded into its successor and deleted. **Numbers
+  are permanent, gaps deliberate**; deleting one means repointing every `#nn` first.
+- **In the same change**: a page moved → manifest, cross-links, redirect · a page type's shape → its
+  brief · a shared pattern → every snippet and `/design` · an open decision closed → `decisions.md`
+  and out of §12 · a bug worth not repeating → §9.
 
 ## 11. Verifying a change
 
 ```bash
-npm run dev      # http://localhost:3000
-npm run build    # must pass before you call a change done
+npm run build    # must pass
 npm run lint
 ```
 
-**A dev server is usually already running in the maintainer's terminal.** Check before starting one
-(`curl -sf -o /dev/null -w '%{http_code}' http://localhost:3000/`) and **never pattern-kill node**.
-
-Touched navigation? Run the audit in `nav-wiring.md` — **all six lines must read `none`.** Nothing
-else detects manifest/filesystem drift, cross-links fail soft, and an inline `<Link>` written inside
-a lesson's prose is checked by nothing else at all.
-
-Check every visual change in **both themes** and at **all three shells** — open sidebar (≥ 75rem),
-icons-only rail (56.25–75rem), mobile drawer (< 56.25rem). Most of this app's bugs live in exactly
-one of those six combinations, and **the rail is the one nobody remembers**, because no default
-window width lands in it.
-
-**A lesson has a fourth width**: « Index » appears at ≥ 93.75rem beside the full panel and
-at ≥ 81.25rem beside the rail (#66). Neither is a shell mode, and no default window lands on the
-second — force it with `--width=1400 --eval="document.documentElement.setAttribute('data-rail','1')"`.
+- **The maintainer's dev server is usually running** — check
+  (`curl -sf -o /dev/null -w '%{http_code}' http://localhost:3000/`); **never pattern-kill node.**
+- **Navigation touched → the `nav-wiring.md` audit, all six lines `none`.**
+- **Visual change → both themes × three shells**: sidebar (≥ 75rem), **rail (56.25–75rem, the one
+  forgotten)**, drawer (< 56.25rem). « Index » adds ≥ 93.75rem (sidebar) and ≥ 81.25rem (rail).
+- **Screenshots with `scripts/shot.mjs` only** (Chrome flags lie about dark mode):
 
 ```bash
 node scripts/shot.mjs http://localhost:3000/<route> out.png --full            # light, sidebar
 node scripts/shot.mjs http://localhost:3000/<route> out.png --full --dark     # dark
 node scripts/shot.mjs http://localhost:3000/<route> out.png --width=1000      # the rail
 node scripts/shot.mjs http://localhost:3000/<route> out.png --full --mobile   # the drawer
+# rail + Index: --width=1400 --eval="document.documentElement.setAttribute('data-rail','1')"
+# signed in: --seed (runs before the app decides nobody is signed in; --eval is too late)
 ```
-
-**Use the script, not Chrome flags** — `--blink-settings=preferredColorScheme=0` is ignored by
-current Chrome and hands you a light screenshot in a file named `dark.png`. The script also strips
-Next's dev-tools badge, which sits exactly where the sidebar's account control lives.
-
-**A signed-in screenshot needs `--seed`**, which runs an expression on a first visit and reloads;
-`--eval` runs too late, after the app has decided nobody is signed in. Without it the account menu,
-`/compte`, `/ma-progression` and the done-tick can only be photographed signed out. `--eval` is
-still how you force a chosen rail (`--width=1400
---eval="document.documentElement.setAttribute('data-rail','1')"`). `/design` is the specimen page
-for a token change.
 
 ## 12. Open decisions
 
-Recorded so nobody decides them by writing code. Closed ones are in `docs/decisions.md`.
+Recorded so nobody decides them by writing code.
 
-1. **The authoring format for lessons** (#10). Deferred, but no longer neutral: React Native
-   eventually and contributing teachers eventually both push toward **content-as-data**. Build the
-   primitives, hand-write a few lessons, decide with evidence. **Do not build a pipeline yet.**
-2. **Which chapters ship next.** Writing A2 first is settled (#74); A1 and B1 are being written
-   alongside it (#72, #74, #76), and the order within any of the three is not. A1's order is at
-   least mapped — `docs/levels/a1.md`, gated on the FONCTIONS list — and **B1's is not mapped at
-   all**: `docs/levels/b1.md` holds no syllabus map yet, so its pages are being chosen one at a time. Twelve of the
-   sixteen chapters carry pages and the sequencing is still meant to come from the DELF syllabus
-   rather than from whichever chapter is most fun to write. **Four chapters are blocked on something other
-   than writing**: `prononciation` needs a decision before a page can exist at all, because §7 makes
-   it data-driven; `dictees` needs the speech hook and the answer comparator; `jeux` needs a game
-   that is not a second `exercices/`; `culture` needs photographs sourced and credited, which is
-   §9's own job.
-3. **Where « Index » goes below the breakpoint** (#66). The margin does not exist on a phone, and a
-   disclosure at the top of every lesson is chrome in front of the prose. Decide before writing one.
+1. **The lesson authoring format** (#10). Leaning content-as-data; **do not build a pipeline yet.**
+2. **Which chapters ship next.** A2 first (#74); A1 is mapped (`docs/levels/a1.md`), **B1 is not**.
+   Order should come from the DELF syllabus. **Four chapters are blocked**: `prononciation` (its
+   data shape, §7), `dictees` (the speech hook and a comparator), `jeux` (a game that is not a drill),
+   `culture` (sourced photographs, §9).
+3. **Where « Index » goes on a phone** (#66). Decide before building one.
 4. **Whether the heritage parcours gets its own front door.**
-5. **The Kids mode** (`docs/scope.md`, « The child »). Wanted, and nothing is written for it yet.
-   It is a **mode beside the level, not a level and not a chapter**: a child still has a rung, and
-   the mode spans chapters. **Never add it to `Level`** — `from()` would list every A1 page in it
-   and every level reader would meet a rung that is not one. Three questions close it, each
-   against a rule already here:
-   - **Parental monitoring** — an account reads only its own rows (§8, RLS `auth.uid() = user_id`),
-     #18 refuses behavioural tracking and #36 puts anything another person sees in a table with a
-     constraint. A parent seeing a child's ticks is a parent–child link, a new policy, a scope for
-     « monitor », and parental consent for a minor (GDPR; 14 in Spain).
-   - **Games** — `jeux` is still blocked on a game that is not a second `exercices/` (point 2),
-     and a child who reads little needs the speech hook `dictees` is waiting on. Its language of
-     explanation follows #85 or needs its own rule.
-   - **Where the mode lives** — the shell may not read the session above a lesson (§8), so it is
-     either a client-side filter and restyle like the level (a flash on first paint) or its own
-     prerendered routes (`/enfants/…`), which is also how YouTube Kids does it.
+5. **Kids mode** (`docs/scope.md`). **A mode beside the level — never an entry in `Level`.** Open:
+   what a parent may see (RLS is own-rows only; #18, #36; parental consent), what a game is (point 2,
+   the speech hook, the language rule of #85), and where it lives (a client-side filter like the
+   level, or its own prerendered `/enfants/…` routes — never a session read, §8).

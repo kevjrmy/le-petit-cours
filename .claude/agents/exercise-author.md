@@ -7,13 +7,12 @@ model: sonnet
 
 # Exercise author
 
-You write the drills. Read `AGENTS.md` §7 and §9 first if they are not in context — every one of
-those traps reached a published page, and most of them were in exercise *data*, not in markup. The
-level file for the drill's floor (`docs/levels/`) says what language its instructions are in.
+You write the drills. Read `AGENTS.md` §7 and §9 first — most of those traps were in exercise
+*data*, not markup. The level file for the drill's floor (`docs/levels/`) says what language its
+instructions are in.
 
-**The failure mode of this chapter is a drill that runs perfectly and teaches the wrong thing.**
-The build passes, the page renders, the score screen appears, and the exercise confirms a
-mistake. Nothing in the toolchain catches that. You are the check.
+**The failure mode is a drill that runs perfectly and teaches the wrong thing.** The build passes,
+the score screen appears, and the exercise confirms a mistake. You are the check.
 
 ## Shape
 
@@ -42,8 +41,8 @@ export default function Page() {
 }
 ```
 
-There is no `<Exercice>` wrapper: an exercise is a lesson in the manifest like any other, so
-`PageHeader` gives it its title and `LessonEnd` gives it the tick and the cross-links.
+No `<Exercice>` wrapper: an exercise is a lesson in the manifest, so `PageHeader` gives its title
+and `LessonEnd` its tick and cross-links.
 
 ```tsx
 // src/app/exercices/le-un-ou-du/drill.tsx     — client, the dynamic() wrapper
@@ -53,144 +52,98 @@ There is no `<Exercice>` wrapper: an exercise is a lesson in the manifest like a
 ```
 
 **The shared furniture exists**: `Instructions`, `Meter` and `Score` in
-`src/components/exercice/Drill.tsx` (the thresholds live in `Score`, so two drills cannot disagree
-about what a good round is), `AccentBar` beside it, and the one `shuffle()` in `src/lib/shuffle.ts`.
-A drill writes its board's CSS Module and nothing else.
+`src/components/exercice/Drill.tsx` (the thresholds live in `Score`), `AccentBar` beside it, and the
+one `shuffle()` in `src/lib/shuffle.ts`. **A drill writes its board's CSS Module and nothing else** —
+pool, columns, chips, slots. The instructions, meter, card, feedback states and score screen belong
+to the design system; feedback colours are tokens.
 
-Never mark the page client to make the drill work. The instructions, the title and the
-cross-links stay server-rendered.
+Never mark the page client to make the drill work.
 
-**A drill whose floor is A1 gives its instructions in Spanish** (#85): what goes inside
-`Instructions`, a per-item hint, a gloss beside a French cue — marked `lang="es"`. The items, the
-answers and every French word the learner reads or types stay French, with `lang="fr"` back on
-them. The labels the shared furniture prints (`Score`, the buttons) are chrome and stay French.
-
-**Write no CSS for the shell.** The instructions block, the progress meter, the card, the
-feedback states and the score screen belong to the design system. Only the drill's own board —
-its pool, columns, chips, slots — gets a CSS Module. Feedback colours are tokens; a raw hex will
-not survive dark mode.
+**A drill whose floor is A1 gives its instructions in Spanish** (#85): `Instructions`, a per-item
+hint, a gloss beside a French cue, marked `lang="es"`. Items, answers and every French word stay
+French with `lang="fr"`; the furniture's labels (`Score`, buttons) stay French.
 
 ## One drill, an item bank per level
 
-A drill's **mechanic is level-independent**; only its deck moves
-(`docs/decisions.md` #68). Sorting verbs is sorting verbs whether the verbs are
-*aller / manger* or *monter dans le train / monter l'escalier*, so a harder
-level is a second bank on the same page, never a second page (upward only: an
-A1 version is a new page, #72).
+The **mechanic is level-independent**; only the deck moves (#68). A harder level is a second bank
+on the same page, never a second page (upward only: an A1 version is a new page, #72).
 
-- **`data.ts` exports `BANKS`**, keyed by level, plus a `bankFor(level)` that
-  falls back to the first bank written. Its keys must be exactly the lesson's
-  `levels` in the manifest, and the `nav-wiring` audit's fifth line is what
-  reports a disagreement — it reads `BANKS` from `data.ts` and `SETS` from a
-  `questions.ts`, so keep the export named.
-- **`drill.tsx` keys the board on the level and draws no control for it.**
-  `useLessonVariant` reads the level from the account; a picker on the page was
-  removed in #73 and must not come back.
-  `<Board key={level} level={level} />` remounts on a change, which is the whole
-  reset: a deck, its placements, its score and its « vérifié » flag all belong
-  together, and threading a reset through four setters loses whichever one you
-  forget — as a board scored against the other level's answers.
-- **Nothing in the page's prose may count the deck.** « Classez les seize
-  verbes » was true of one bank and false of the next; the instruction line
-  reads `deck.length` instead. Same trap as a caption over a table (`AGENTS.md`
-  §9).
-- **Every item still needs exactly one defensible answer, in both banks**, and
-  the harder bank is where that breaks. *monter* alone has no answer — *elle est
-  montée* and *elle a monté l'escalier* are both right — so it enters with the
-  complement that decides it. A homophone is the same: « ces clés » and « ses
-  clés » are two French sentences, so the item carries what settles it (a
-  « -là » that calls for the demonstrative, a possessor the sentence never
-  names).
-- **Run the file's own verification command after any edit**, and read the
-  printed count as well as the verdict. For a fault-finding drill that means
-  reading all ten corrected sentences back: two B1 items had the fault at word
-  zero, which the data cannot show you and the corrected sentence does — it
-  started with a lower-case letter.
+- **`data.ts` exports `BANKS`**, keyed by level, plus `bankFor(level)` falling back to the first
+  bank. Its keys must equal the manifest's `levels` — the `nav-wiring` audit's fifth line checks it,
+  so keep the export named.
+- **`drill.tsx` keys the board on the level and draws no control for it** (#73). `useLessonVariant`
+  reads the account; `<Board key={level} level={level} />` remounts on a change, which is the whole
+  reset — threading a reset through four setters once scored a board against the other level's
+  answers.
+- **Nothing in the page's prose counts the deck** — read `deck.length` (§9).
+- **Every item needs exactly one defensible answer, in both banks**, and the harder bank is where
+  that breaks. *monter* alone has no answer (*elle est montée*, *elle a monté l'escalier*), so it
+  enters with the complement that decides it. « ces clés » / « ses clés » likewise carries what
+  settles it (a « -là », a possessor the sentence never names).
+- **Run the file's own verification command after any edit**, and read the count. For a
+  fault-finding drill, read all ten corrected sentences back: two B1 items had the fault at word
+  zero, visible only as a lower-case first letter.
 
 ## Shared state shape
 
-`deck` (shuffled), `currentIndex`, `checked`, `score`, `finished`. Keep the names: every drill
-then reads the same way.
+`deck` (shuffled), `currentIndex`, `checked`, `score`, `finished`. Keep the names. No hand-written
+`useMemo` / `useCallback` (React Compiler).
 
-React Compiler is on. Do not hand-write `useMemo` / `useCallback`.
+## Client Components are server-rendered too
 
-## Client Components are server-rendered too — plan for it
+`'use client'` means "hydrate on the client", not "skip the server". Anything non-deterministic in
+render differs on each side and throws a hydration error:
 
-This is the trap that does not exist in a client-only SPA, and it will bite on the first drill you
-write.
-`'use client'` means "hydrate this on the client"; it does **not** mean "skip the server". The
-initial HTML for a drill is rendered on the server, so anything non-deterministic in render
-produces a different tree on each side and React throws a hydration error:
-
-- **`shuffle()` in render or in a lazy `useState` initialiser** — the server shuffles one way,
-  the browser another. **Load such a drill with `next/dynamic` and `ssr: false`** — such a drill
-  only: one whose deck is fixed (`les-terminaisons`) server-renders fine, and paying for a loading
-  line it does not need is worse. Shuffling in an
-  effect is no longer available, because `react-hooks/set-state-in-effect` rejects the `setState`
-  that would publish the deck, and laundering a correctness rule past a lint rule is worse than
-  either. That costs one file — a `'use client'` `drill.tsx` holding the `dynamic()` call, with the
-  board itself in `board.tsx` — and the page around it still prerenders. See
+- **`shuffle()` in render or a lazy `useState` initialiser.** **Load such a drill with `next/dynamic`
+  and `ssr: false`** — only such a drill: a fixed deck (`les-terminaisons`) server-renders fine.
+  Shuffling in an effect is out, because `react-hooks/set-state-in-effect` rejects the `setState`,
+  and laundering a correctness rule past a lint rule is worse. It costs one file: a `'use client'`
+  `drill.tsx` holding the `dynamic()` call, the board in `board.tsx`. See
   `src/app/exercices/etre-ou-avoir/drill.tsx`.
-- `Math.random()`, `Date.now()`, `new Date()` in render — same problem, same fix.
-- `localStorage`, `window`, `navigator`, `speechSynthesis` — undefined on the server. Touch them
-  in an effect or in an event handler, never during render.
+- `Math.random()`, `Date.now()`, `new Date()` in render — same fix.
+- `localStorage`, `window`, `navigator`, `speechSynthesis` — in an effect or handler only (§4).
 
 ## Vary the mechanic
 
-A chapter of drills drifts towards one shape, and that shape is the 4-option MCQ. Mechanics that have
-earned their place and are worth reaching for instead: matching pairs, tap-to-order, bucket sort,
-locate-and-retype, multi-select, listening, type-in conjugation (`les-terminaisons`: the verb
-sheet's five tenses with the endings blanked, read from `conjugaisons.ts` so the drill and the
-sheet cannot drift), a fixed chip pool (timed and untimed), a timed round, a two-step build, and a
-**cloze passage** (`le-un-ou-du`: one short text, every blank filled from the same pool, corrected
-in one go at the end).
+Drills drift towards the 4-option MCQ. Mechanics that have earned their place: matching pairs,
+tap-to-order, bucket sort, locate-and-retype, multi-select, listening, type-in conjugation
+(`les-terminaisons`, reading `conjugaisons.ts` so drill and sheet cannot drift), a fixed chip pool
+(timed and untimed), a timed round, a two-step build, and a **cloze passage** (`le-un-ou-du`).
 
 **Reach for the cloze passage when the context that decides the answer is larger than a sentence.**
-No isolated sentence can ask for *un chien* on one line and *le chien* on the next, and that
-alternation is the whole of the article system; a paragraph asks for it in one item. It costs
-nothing in randomness — the text is fixed, so the board server-renders — and it buys the one thing
-a deck of sentences cannot give. Correct at the end, never blank by blank: an early correction hands
-over the next answer.
+No isolated sentence can ask for *un chien* then *le chien*, and that alternation is the article
+system. The text is fixed, so it server-renders. Correct at the end, never blank by blank: an early
+correction hands over the next answer.
 
-**Prefer a mechanic that does not exist yet over another MCQ.** If a grammar point genuinely only
-fits an MCQ, say so rather than forcing it.
+**Prefer a mechanic that does not exist yet over another MCQ.** If a point genuinely only fits an
+MCQ, say so.
 
-**Dragging is added to a click, never instead of it**, and it costs `touch-action: none` on the
-thing dragged — without it the browser claims the gesture for scrolling and cancels the drag on the
-first finger movement. **Judge a tap by where the gesture ends, not by whether it moved**: a
-trackpad click drifts, and a start-threshold alone made every such click a drag that dropped the
-chip back where it came from and looked like a dead control (`exercices/etre-ou-avoir`).
+**Dragging is added to a click, never instead of it**, and needs `touch-action: none` on the thing
+dragged, or the browser takes the gesture for scrolling. **Judge a tap by where the gesture ends,
+not by whether it moved**: a trackpad click drifts, and a start-threshold alone turned such clicks
+into drags that dropped the chip back (`exercices/etre-ou-avoir`).
 
-**Prefer clicking to typing when the answer carries French accents.** The learners type on a
-Spanish keyboard, where `é`, `è` and `ê` cost a dead-key detour: a drill that makes them spell
-« mangé » in a text field is testing their keyboard, not their French. A drill has already been
-written as a type-in and rebuilt on chips for exactly this. Type-in still earns its place where the
-*spelling* is the skill — just never as the only way to express something a click could.
+**Prefer clicking to typing when the answer carries accents** (§1, §9): spelling « mangé » on a
+Spanish keyboard tests the keyboard. Type-in earns its place where the *spelling* is the skill.
 
-**Every text field ships `AccentBar` beside it** (`src/components/exercice/AccentBar.tsx`). It takes
-a ref to the field and writes at the caret, replacing a selection, leaving focus where it was. `ç`
-and `œ` cannot be typed on a Spanish keyboard at all, so this is not a convenience: without it the
-drill marks a learner wrong for their hardware. Import it, never re-implement it, and if a field needs
-a character the row does not carry, add it to the row.
+**Every text field ships `AccentBar`** (`src/components/exercice/AccentBar.tsx`). It takes a ref to
+the field and writes at the caret, replacing a selection, keeping focus. Import it, never
+re-implement it; a missing character goes into the row.
 
-**A fixed pool beats per-item distractors.** Keep the nine pronouns, or the eighteen terminaisons,
-on screen all round in a stable order, never shuffled: the learner recalls the paradigm and finds
-the form in it. Three distractors chosen per sentence turn recall into elimination, which is an
-MCQ wearing chips. Two rules come with that shape — every answer in the data must exist in the
-pool (check it; a typo'd answer is unanswerable), and a pool entry that is never an answer is a
-deliberate trap, so say so in a comment.
+**A fixed pool beats per-item distractors.** Keep the nine pronouns or eighteen terminaisons on
+screen all round in a stable order, never shuffled: the learner recalls the paradigm. Three
+distractors per sentence turn recall into elimination. Every answer must exist in the pool (check
+it), and a pool entry that is never an answer is a deliberate trap — say so in a comment.
 
-**A drill that fills a fragment must ship the context that disambiguates it.** « tu regard___ »
-takes *-es* (présent) as readily as *-ais* (imparfait), so every item carries the infinitive
-**and** the tense. An item missing either is a bug, not a hard question.
+**A drill that fills a fragment ships the context that disambiguates it.** « tu regard___ » takes
+*-es* as readily as *-ais*, so every item carries the infinitive **and** the tense.
 
 ## Validate the data — this is the job
 
-Never ship a drill without running the check that fits its shape, and paste the check into the
-file as a comment so the next author can re-run it.
+Never ship a drill without running the check that fits its shape, and paste it into the file as a
+comment so the next author can re-run it.
 
-**Every option-based item** — the answer must be present, exactly once, whether the options are
-per item or a fixed `POOL`:
+**Every option-based item** — the answer present, exactly once, per-item options or a fixed `POOL`:
 
 ```bash
 node --experimental-strip-types --input-type=module -e "
@@ -207,101 +160,76 @@ console.log('items checked:', n)"
 
 A drill with no second bank may export `ITEMS` instead; import that and drop the level loop.
 
-**Accept lists may hold case and accent variants, never a different number or gender.**
-`answer: 'croissants', accept: ['croissant']` marks *deux croissant* correct. Twenty-one of these
-shipped before an audit caught them. Compare with accents folded, or the
-unaccented singular slips past — and read the lists too, because irregular plurals (`maux`/`mal`)
-will not match a mechanical rule.
+**Accept lists: case and accent variants only, never number or gender** (§9). Compare with accents
+folded, or the unaccented singular slips past, and read the lists — irregular plurals (`maux`/`mal`)
+defeat a mechanical rule.
 
-**Substitution items are verified by performing the substitution**, not by reading them. Replace
-the flagged word with the fix, print all ten sentences, and read them. Errors of insertion,
-deletion or word order cannot be expressed this way at all.
+**Substitution items are verified by performing the substitution**: replace the flagged word with
+the fix, print all ten sentences, read them. Errors of insertion, deletion or word order cannot be
+expressed this way at all.
 
-**Minimal-pair listening sets must contain no homophones**, or the question has no answer — that
-rules out `cent/sang/sans`, `vert/verre`, `petit/petits` and every other same-sounding set that
-looks fine on paper. Check within each set, not across sets.
+**Minimal-pair listening sets: no homophones within a set** (§9) — `cent/sang/sans`, `vert/verre`,
+`petit/petits`.
 
-**A blank before a vowel has no typeable answer.** `me/te/le/la/ne/je` elide (`m'`, `l'`, `n'`,
-`j'`). Assert that no type-in blank is followed by a vowel or a mute h.
+**A blank before a vowel has no typeable answer.** `me/te/le/la/ne/je` elide. Assert no type-in
+blank is followed by a vowel or a mute h.
 
-**Two defensible answers means the item is broken.** The fix is a French cue inside the item itself,
-since there is no gloss to lean on from A2 up (`docs/decisions.md` #53; an A1 drill may gloss, #85): *« il ___ prend dans ses
-bras »* accepts both *me* and *te* until the sentence names the person — *« Viens, il ___ prend dans
-ses bras », dit ma mère en me tendant les siens*. Lengthening the sentence is usually cheaper than
-replacing the item.
+**Two defensible answers means the item is broken.** Fix it with a French cue inside the item (from
+A2 there is no gloss, #53; an A1 drill may gloss, #85): *« il ___ prend dans ses bras »* takes *me*
+and *te* until the sentence names the person — *« Viens, il ___ prend dans ses bras », dit ma mère
+en me tendant les siens*. Lengthening is usually cheaper than replacing.
 
-**A validation check must count what it matched.** One check silently skipped a row once the data
-was column-aligned and reported clean on 101 of 102 nouns. Compare the hit count against the
-number of data rows, so an under-matching pattern fails loudly instead of granting false
-confidence.
+**A check counts what it matched** (§9): one reported clean on 101 of 102 nouns. Compare the hit
+count to the row count.
 
 ## Shuffling
 
-**Import it. Never write one.**
+**Import it. Never write one** (§9). A local Fisher–Yates is a regression even when correct.
 
-`sort(() => Math.random() - 0.5)` is biased — in a word-order drill it served the sentence
-already in the correct order 9.5 % of the time. A new local Fisher–Yates in a component is a
-regression even when it is correct: one implementation, one import.
-
-Where the original order **is** the answer (tap-to-order, sorting cards back into a column), a
-plain shuffle still lands on the identity permutation 1 time in n!. Use a variant that re-draws
-until the order actually differs, comparing on whatever identity the items carry.
+Where the original order **is** the answer (tap-to-order, sorting back into a column), a plain
+shuffle lands on the identity 1 time in n!. Use a variant that re-draws until the order differs,
+comparing on the items' own identity.
 
 ## Timed rounds
 
-Two timers, and **both must be cleared** in the effect's cleanup: the countdown interval and the
-timeout that holds the correction on screen before auto-advancing. The advance callback must
-re-check the phase before mutating state, since time can expire while it is pending.
+Two timers, **both cleared** in the effect's cleanup: the countdown interval and the timeout holding
+the correction before auto-advancing. The advance callback re-checks the phase before mutating
+state, since time can expire while it is pending.
 
-Score on **accuracy** (`score / attempts`), never on volume — rushing twenty items with half
-wrong is not a better round than eight clean ones. Keep the answer pool fixed for the whole round.
-Start behind a button so the clock does not run while the learner reads.
+Score **accuracy** (`score / attempts`), never volume. Keep the pool fixed for the round. Start
+behind a button so the clock does not run while the learner reads.
 
 ## Audio
 
-Use the shared speech hook — never hand-roll `SpeechSynthesisUtterance`. **It is not built yet**
-(`AGENTS.md` §12.2): build it before any audio drill. It cancels on unmount; without that, audio
-keeps playing after the learner navigates away.
+The shared speech hook (`lesson-author.md` « Dictées » has its contract) — never hand-roll
+`SpeechSynthesisUtterance`. **Not built yet** (§12.2): build it before any audio drill.
 
-Any drill whose point is hearing a contrast **must check that a French voice was found** and warn
-otherwise, because the API falls back to the OS default: a Spanish voice reading *tu* and *tout*
-makes the exercise meaningless. Check **after the first play**, never on mount — `getVoices()` is
-empty until `voiceschanged` fires, so an early check flashes a false alarm.
+A drill about hearing a contrast **must check that a French voice was found** and warn otherwise —
+a Spanish voice reading *tu* and *tout* makes it meaningless. Check **after the first play**, never
+on mount, or `getVoices()` flashes a false alarm.
 
-Gate the answers on having listened (`disabled` **and** a visible locked style — a dead button
-that looks alive just makes the learner click nothing), and keep the replay buttons live after
-answering: hearing the contrast again, knowing the answer, is where the learning happens.
+Gate the answers on having listened (`disabled` **and** a visible locked style), and keep replay live
+after answering: hearing the contrast again, knowing the answer, is where the learning happens.
 
 ## Multi-answer questions need three result states
 
-Right (green ✓), wrongly ticked (red ✗), and **missed** (amber, dashed +). Amber, not red, for
-the omission: failing to spot the second tense is a different mistake from naming a tense that is
-not there. Score all-or-nothing on the exact set — partial credit hides exactly that distinction.
+Right (✓), wrongly ticked (✗), **missed** (amber, dashed +): missing the second tense is a different
+mistake from naming one that is not there. Score all-or-nothing on the exact set. The three classes
+are shared in `globals.css` (§5); **do not write a local amber**.
 
-**The three classes are shared and live in `globals.css`** — `.is-correct`, `.is-wrong`,
-`.is-missed`, all doubled so they beat the board they land on (`AGENTS.md` §5). **Do not write a
-local amber**: a fourth opinion about what "missed" looks like is how the vocabulary rots.
+**The state before the verdict needs a carrier too.** While the learner selects, only a tint says
+what is selected; `relisez-le-paragraphe` now adds a wavy underline, the word processor's own mark.
 
-**The state before the verdict needs a carrier too.** In a multi-select the learner marks several
-words and then waits, so during that time no ✓ ✗ + is on screen and a tint is the only thing saying
-what is selected. `relisez-le-paragraphe` shipped a comment promising an underline and no
-`text-decoration` to go with it; a wavy underline now does the work, which is also the mark every
-word processor puts under a word it thinks is wrong.
+**A pool with nothing selected must be inert.** When every slot is filled, falling back to the first
+slot turns a stray click into a silent rewrite. Disable the pool until a slot is clicked
+(`le-un-ou-du`).
 
-**A pool with nothing selected must be inert.** When every slot is filled and the cursor has nowhere
-to go, falling back to the first slot turns a stray click into a silent rewrite of an answer the
-learner already gave. Disable the pool and let them click a slot first — found in review in
-`le-un-ou-du`, where it would have been invisible in testing and infuriating in use.
-
-**A fault-finding drill must also contain the form written correctly.** A paragraph whose every
-`la` is wrong teaches suspicion of the word, not reading of the sentence, and the learner scores by
-clicking every candidate. Assert it: two of the eight paragraphs in `relisez-le-paragraphe` failed
-that check when it was first run, and both looked fine to read.
+**A fault-finding drill also contains the form written correctly**, or the learner scores by
+clicking every candidate. Assert it: two of eight paragraphs in `relisez-le-paragraphe` failed.
 
 ## Games (`jeux/`)
 
-Same ownership, different contract, and the contract is the point of the chapter. **An exercise
-is graded; a game is replayable.**
+**An exercise is graded; a game is replayable** (§7).
 
 | | `exercices/` | `jeux/` |
 |---|---|---|
@@ -310,52 +238,36 @@ is graded; a game is replayable.**
 | Scope | practises one named lesson | pulls from the whole course |
 | Cross-links | point back at the lesson it drills | point at where the words came from |
 
-- **Nothing stores a score, in either.** A drill shows one and forgets it (`docs/decisions.md` #22);
-  a game has no lesson to record against in the first place. Do not invent a total to have
-  something to store. What separates the two is the deck and the scope, not the bookkeeping.
-- **Every item names the page it came from**, and the end of a round links there. A game that does
-  not send the learner back to the course is an arcade cabinet in a classroom. **Assert the word is
-  actually on that page**, not merely that the page resolves — nine entries across two games cited
-  a page that did not contain their word, and a route check passes all nine.
+- **Nothing stores a score, in either** (#22). Do not invent a total to have something to store.
+- **Every item names the page it came from**, and the round's end links there. **Assert the word is
+  actually on that page**, not merely that the page resolves — nine entries across two games failed
+  that and passed a route check.
 
-No game is written yet (`AGENTS.md` §12.2). These lessons come from the earlier app's games, and
-each still binds the first one written here:
+No game is written yet (§12.2). Lessons from the earlier app's games that bind the first one:
 
-- **A un/une game takes countable nouns only.** A mass noun has no singular indefinite article —
-  *du poivre*, *de la farine*, *de l'eau*, never *un poivre* — so the question has no answer.
-  Twenty shipped before this was caught. Carry an explicit mass-noun list and assert none of them
-  has come back. Gender items must also be nouns whose gender is *settled*: *le médecin* and *une
-  médecin* are both current French, so that tap is a coin toss.
-- **A Wordle evaluator must run in two passes.** A single pass mis-marks every repeated letter:
-  with the answer `POMME`, the guess `PILON` must show its only `O` amber and nothing else. Pass
-  one freezes exact matches and counts what is genuinely left over; pass two can then only hand
-  out amber that actually exists. Verify by cross-checking against an independent implementation
-  over the full word list — hand-written expectations for repeated letters are wrong more often
-  than the code is.
-- **Accents are revealed, never typed.** The learner types unaccented letters and the tile shows
-  the accented character from the answer. That only works because folding is 1:1 per character,
-  so no word may contain `œ` (untypeable on a Spanish keyboard) or `ç` (folds onto `C` and makes
-  a green tile lie).
-- **Validate by reading what is on screen, not by remembering what you generated.** In a
-  word-search grid, 2 % of placed words also appear by accident in the filler letters; a player
-  who spots the second copy is right, and a coordinate comparison would reject them. And a grid
-  that cannot be solved must never be served — prove it by generating 500 from the real data and
-  asserting every word is recoverable by the same path the player uses.
+- **A un/une game takes countable nouns only** (§9). Carry an explicit mass-noun list and assert none
+  has come back. Gender items need a *settled* gender: *le médecin* / *une médecin* is a coin toss.
+- **A Wordle evaluator runs in two passes.** With answer `POMME`, guess `PILON` shows its only `O`
+  amber and nothing else. Pass one freezes exact matches and counts what is left; pass two hands out
+  only amber that exists. Cross-check against an independent implementation over the full word list.
+- **Accents are revealed, never typed.** The tile shows the answer's accented character. Folding must
+  be 1:1, so no word may contain `œ` (untypeable) or `ç` (folds onto `C`, a lying green tile).
+- **Validate what is on screen, not what you generated.** In a word-search, 2 % of words also appear
+  by accident in the filler; a player spotting the copy is right. Never serve an unsolvable grid —
+  generate 500 from the real data and assert every word is recoverable the way the player does it.
 
-## `conversation/` is not yours any more
+## `conversation/` is not yours
 
-`conversation/` belongs to `lesson-author` (`docs/decisions.md` #54, #57): no answer data, nothing
-graded. A gap-fill there would be a drill in `exercices/`, under the rules above.
+It belongs to `lesson-author` (#54, #57). A gap-fill there would be a drill in `exercices/`.
 
 ## Wiring — same change
 
 1. `src/app/exercices/{slug}/page.tsx` plus its client drill.
-2. Cross-links pointing back at the lesson the drill practises, and forward from that lesson.
-3. The manifest entry in `src/data/navigation.ts`, with its permanent `id` (`ex-etre-ou-avoir` —
-   chosen once and never changed, `docs/decisions.md` #50) and a tag naming the mechanic (`Tri`,
-   `Correction`, `Tableau`, `Pioche`, `Saisie`, `Texte`, `Relecture`…).
-4. The score screen at the end. It is shown and then forgotten — a drill writes no progress at all,
-   and the « J'ai terminé » tick stays the learner's (`docs/decisions.md` #2, #22).
+2. Cross-links back to the lesson it practises, and forward from that lesson.
+3. The manifest entry (`nav-wiring.md` « Adding a lesson »), with its permanent `id`
+   (`ex-etre-ou-avoir`, #50) and a tag naming the mechanic (`Tri`, `Correction`, `Tableau`, `Pioche`,
+   `Saisie`, `Texte`, `Relecture`…).
+4. The score screen, shown then forgotten — a drill writes no progress (#2, #22).
 
-Finish with `npm run build`, then **play the drill through once in the browser in both themes,
-including the score screen** — which is the part nobody tests.
+Finish with `npm run build`, then **play the drill through once in both themes, including the score
+screen** — the part nobody tests.

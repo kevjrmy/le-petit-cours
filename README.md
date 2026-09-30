@@ -11,78 +11,55 @@ at home, a track that teaches them to write it.
 
 > ### 🚧 Being rewritten
 >
-> The project was restarted on Next.js on **2026-09-05**. The design system, the app shell, the navigation
-> manifest, search, the whole account flow — sign-in, the chosen level, the display name — and
-> progress, from the « J'ai terminé » tick to `/ma-progression`, are written. Sixteen chapters
-> are declared, plus a scratch chapter for a class in progress, and twelve of the sixteen carry
-> lessons — [`src/data/navigation.ts`](src/data/navigation.ts) is where to count them. Nothing is
-> announced before it is written, so a chapter waits offstage until it has a page. Accounts work; offline
-> caching is not installed.
->
-> [`docs/decisions.md`](docs/decisions.md) records why the project is shaped this way, including
-> what was carried over from the version before it and what was deliberately not.
+> Restarted on Next.js on **2026-09-05**. The design system, the app shell, navigation, search,
+> accounts and progress are written; twelve of the sixteen chapters carry lessons —
+> [`src/data/navigation.ts`](src/data/navigation.ts) is where to count them. Offline caching is
+> not installed yet.
 
 ## What it is
 
 Most French courses are written for English speakers. This one is written for **hispanophones** —
-which shapes the material more than the language it is written in. From A2 up, everything is
-explained in French, in French simple enough to read at the level being taught; an A1 page explains
-in Spanish and teaches in French, because a beginner cannot use a rule stated in a language they do
-not have yet. what the audience changes is *what gets
-explained*. The false friends that trip a Spanish speaker are defined where they appear (`robe`,
-`sol`, `carte`), the mistakes their first language pulls them towards are printed wrong-then-right,
-and the drills assume a **Spanish keyboard** — `é`/`è`/`ê` cost a dead-key detour and `œ`/`ç` cannot
-be typed at all — so they prefer clicking to typing wherever accents are involved. Explaining in
-French from A2 also keeps the course usable by a reader who arrives from anywhere else.
+which shapes *what gets explained* more than the language it is written in. From A2 up, everything
+is explained in French simple enough to read at the level being taught; an A1 page explains in
+Spanish and teaches in French, because a beginner cannot use a rule stated in a language they do
+not have yet. False friends (`robe`, `sol`, `carte`) are defined where they appear, the mistakes
+Spanish pulls a reader towards are printed wrong-then-right, and the drills assume a **Spanish
+keyboard** — `œ` and `ç` cannot be typed on one — so they prefer clicking to typing.
 
 It serves **two kinds of reader**:
 
 - **The learner** — a Spanish speaker starting French from zero.
 - **The heritage speaker** — someone with French family who grew up in Spain, speaks French
-  fluently at home, and never went to a French school. They do not need to learn French; they
-  need to learn to *write* it — accents, accord, homophones, the spelling of forms they already
-  say correctly. They may be an adult, or a teenager at a Spanish school whose written French is
-  slipping.
+  fluently at home, and never went to a French school. They need to learn to *write* it —
+  accents, agreement, homophones, the spelling of forms they already say correctly.
 
-They are not two levels of one thing. A heritage speaker can be orally C1 and written A2 at the
-same time. One library of lessons serves both, ordered differently for each.
+They are not two levels of one thing: a heritage speaker can speak like a C1 and write like an A2.
+One library of lessons serves both, ordered differently for each.
 
-**Levels.** The course goes **A1 → B2**; C1 and C2 are out of scope, for a different audience.
-A2 was written first and **A1 and B1 are being written beside it**; all three can be chosen. **A
-page is listed from the level it was written at upward**, so choosing a higher level never shows
-you less. B2 is declared but cannot be chosen yet. A level counts as complete when it covers the
-published **DELF** syllabus for that level — [`docs/scope.md`](docs/scope.md) has the rest.
+**Levels** follow the European framework (CEFR). The course goes **A1 → B2**; A2 was written first,
+and A1 and B1 are being written beside it. A page is listed from the level it was written at
+upward, so choosing a higher level never shows you less. A level counts as complete when it covers
+the published **DELF** exam syllabus for that level.
 
 Chapters cover grammar, spelling, conjugation, pronunciation, vocabulary, translation, reading,
-culture, dialogues, dictations, graded exercises and replayable games — and `delf`, which holds
-whole exam papers to sit in real conditions, written for this course rather than reproduced from
-anyone's sujet. You browse them by chapter; a *parcours* — an ordered path through the same
-lessons for a given level or profile — is planned.
-
-Three of those chapters are not written like the rest. A **conjugaison** page is a sheet generated
-from a data file, with toggles for the negative and for a feminine subject. A **conversation** page
-is a role-play to do with someone else: a scene, the steps it follows, and about twenty words to
-play it out of. A **traduction** page gives a short Spanish text to write in French, with
-three of its words uncoverable for the French term.
+culture, role-plays, dictations, graded exercises, replayable games, and `delf` — whole practice
+exam papers, written for this course rather than copied from a real one.
 
 **Accounts.** Everything is free and public — no account is needed to read a lesson or play a
-drill. An account only exists so your progress follows you across devices, and it holds nothing
-but a username, an address nobody can send mail to, your ticked lessons and your settings.
+drill. An account only exists so your ticked lessons follow you across devices, and it holds
+nothing but a username, an address nobody can send mail to, your ticks and your settings.
 
-Full detail in [`docs/scope.md`](docs/scope.md), including what this project deliberately is not.
+[`docs/scope.md`](docs/scope.md) has the full picture, including what this project deliberately is
+not.
 
 ## Stack
 
 - **Next.js 16** (App Router) · React 19 · TypeScript · React Compiler
-- **Plain CSS** — design tokens and shared content patterns in `src/app/globals.css`, component
-  styles in co-located CSS Modules. No Tailwind, no CSS-in-JS. Both themes live in one
-  `light-dark()` value per token, so a colour cannot be defined for one theme and forgotten in the
-  other.
-- **Spectral and Inter**, on a palette anchored to the blue the logo is drawn in. The serif sets
-  the French being taught, the sans sets the instruction around it — a split by role, so it works
-  on both tracks at once.
-- **Vercel** for hosting · **Supabase** for auth (username or email, plus a password) and progress
-  sync — both written, against the two-table schema in `supabase/migrations/`
+- **Plain CSS** — design tokens in `src/app/globals.css`, component styles in CSS Modules. Both
+  themes live in one `light-dark()` value per token.
+- **Spectral and Inter**: the serif sets the French being taught, the sans the explanation.
+- **Vercel** for hosting · **Supabase** for sign-in and progress sync, against the schema in
+  `supabase/migrations/`
 - **Serwist** for the service worker and offline precaching (not yet installed)
 
 ## Running it
@@ -107,77 +84,29 @@ node scripts/make-icons.mjs                                           # every ic
 ```
 
 Two environment variables — `NEXT_PUBLIC_SUPABASE_URL` and
-`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. The app **runs without them**: the client returns `null`,
-the shell renders signed out, and the whole course still works, because every lesson is public and
-static. They are not secrets — the publishable key is public by design and row-level security is
-what protects a learner's data.
+`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. They are not secrets, and the app **runs without them**:
+the shell renders signed out and every lesson still works, because every lesson is public and
+static.
 
-A third, `FRONTEND_PASSWORD`, is a secret and is the one thing in this project that must not be
-committed. It is the shared password in front of `/temp`, the scratch chapter used for a class in
-progress; without it that chapter is closed to everyone. Every other page works without it.
+A third, `FRONTEND_PASSWORD`, is a secret and must never be committed. It guards `/temp`, a scratch
+chapter used for a class in progress; without it that chapter is closed to everyone and every other
+page works.
 
 ## How it is put together
 
 - **`src/data/navigation.ts` is the single source of truth** for chapters, lessons, order and
-  cross-links. The sidebar, the home page and every chapter page read from it. Nothing
-  auto-discovers pages, so a lesson missing from the manifest is reachable from nothing.
-- Routes come from the filesystem: `src/app/{chapitre}/{lecon}/page.tsx`. **Chapter landing pages
-  are one generated route** — `src/app/[chapitre]/page.tsx` renders every one of them from the
-  manifest, so adding a chapter means adding an entry and nothing else.
-- **The home page is a search field once you are signed in**, and a welcome with three doors when
-  you are not; the course's table of contents is at `/sommaire` either way. Search reads
-  the manifest rather than an index — titles, subtitles, blurbs and DELF descriptors — so it works
-  offline, and it folds accents, because both readers type on a Spanish keyboard and *passe compose*
-  has to find « Le passé composé ». The query lives in the URL, so `/recherche?q=` is linkable and
-  the page stays static.
-- **The shell lives in `src/app/layout.tsx`**, so the sidebar keeps its scroll position across
-  navigation. It is one level deep — one link per chapter; a chapter's lessons are on its own
-  landing page, because a tree that opens does not survive a course this size. It has three shapes:
-  a drawer on a phone, an icons-only rail on a tablet, the open panel on a laptop — collapsible
-  either way, and the choice is remembered. The chapter icons are drawn in the repo and inlined, so
-  they render offline like everything else.
-- **Lessons are Server Components** — no `'use client'`, no hooks, no state. They prerender to
-  HTML and ship no JavaScript. Interactivity (drills, games, audio, the account menu) lives in
-  small client leaves, never in the page wrapping them.
-- **Two tables, and a rule for what earns one.** `progress` and `usernames` are all this project
-  owns. A learner's level and display name live in their account's own user metadata instead and
-  arrive with the session — they grant nothing, nobody else sees them, and a bad value is fixed by
-  re-choosing. A username fails both tests: you sign in with it and it must be unique, and metadata
-  can enforce neither, so it gets a column with a constraint behind it. Progress could never be
-  metadata either: it is many rows per learner written from several devices, and held as a list on
-  one row, two devices syncing after being offline would overwrite each other's ticks.
-- Progress is keyed by a permanent lesson id, ticked **manually** by the learner — at the foot of
-  the lesson, or straight from its row on the chapter's page — and stored behind a swappable
-  adapter: an IndexedDB cache and the Supabase table are two implementations of one interface. It
-  requires an account; the content around it does not, and signed out the control under the lesson
-  links to the sign-in page and brings you back. The local copy stays the read path even when
-  signed in — this is an offline app, so the server is a sync target and never something a render
-  waits on. A tick made with no connection is queued as an *operation* rather than a snapshot, so
-  replaying it later cannot undo what another device did in between.
-- **The end of a lesson is drawn by the shell**: the tick, then « Pour aller plus loin », for any
-  path the manifest knows as a lesson. A lesson page renders its prose and nothing else, so it can
-  forget neither.
-- **The session is never read in a layout.** Doing so would opt every lesson underneath out of
-  static prerendering and break offline. Only the leaf controls that write progress know who is
-  signed in.
-- **A chosen level filters the listings, never access.** Signed in, the sommaire, the chapter pages
-  and the sidebar show a lesson when its levels are empty or contain yours. Signed out, they show
-  everything. Two surfaces stand outside it: search groups out-of-level matches rather than cutting
-  them, and `/ma-progression`'s record never filters at all — it shows what you did, not what is
-  offered, though the « La suite » head above it is an offer and does filter. A lesson at another
-  level still opens from a link — the level decides what the course
-  *offers*, not what it permits. The listings are client components inside static pages, so the
-  **unfiltered course is what ships in the HTML** and hydration narrows it; that is what a signed-out
-  reader should get, and what an offline page should contain.
-- **« La suite » is the one thing derived from the ticks**: the first lesson at your level you have
-  not ticked, named on the home page and at the head of `/ma-progression`. It is the first gap in
-  course order, not a stored position — an account keeps a username, a level, a display name and the
-  ticks, and nothing about where you have been.
-- **Signing in returns you to the page you were reading.** Every way into `/compte` carries it in
-  the URL; with nothing to return to you land on the home page, where « La suite » is.
-- **An exercise is graded; a game is replayable.** An exercise walks a fixed deck once, scores
-  out of N on screen and practises one named lesson; a game redraws every round, keeps no tally,
-  and pulls from the whole course. Neither stores a score.
+  cross-links. Nothing auto-discovers pages, so a lesson missing from it is linked from nothing.
+- Routes come from the filesystem: `src/app/{chapitre}/{lecon}/page.tsx`. Chapter landing pages
+  are one generated route, `src/app/[chapitre]/page.tsx`.
+- **Lessons are Server Components** that prerender to static HTML. Interactivity (drills, the
+  account menu) lives in small client components, and the session is never read in a layout, so
+  every lesson stays static and can work offline.
+- **Progress is ticked by hand** and keyed by a permanent lesson id. It is stored locally in
+  IndexedDB and synced to Supabase; the local copy is always what the page reads.
+- **A chosen level filters the listings, never access**: a lesson at another level still opens
+  from a link.
+
+The rules behind each of these, and the traps they guard against, are in [`AGENTS.md`](AGENTS.md).
 
 ## Contributing
 
@@ -200,11 +129,9 @@ for.
 | [`docs/atelier.md`](docs/atelier.md) | how a page for a class in progress is built |
 | [`docs/decisions.md`](docs/decisions.md) | why the project is shaped this way; what is still open is [`AGENTS.md` §12](AGENTS.md) |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | how to propose a change |
-| [`AGENTS.md` §9](AGENTS.md) | the content traps that have actually shipped — the list worth checking a new page against |
 
-The deployed site also carries `/design`, a specimen of every shared visual pattern on one page.
-It is in no menu and indexed by nothing; it exists so a change to a token can be checked in both
-themes before there are enough lessons to check it on.
+The deployed site also carries `/design`, an unlisted specimen of every shared visual pattern, for
+checking a design change in both themes.
 
 ## Licence
 

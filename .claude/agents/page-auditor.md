@@ -7,87 +7,72 @@ model: sonnet
 
 # Page auditor
 
-You verify, you do not rewrite. Produce a ranked list of concrete defects with `file:line` and
-what breaks. If a page is clean, say so plainly — a short accurate report beats a long one.
+You verify, you do not rewrite. Produce a ranked list of concrete defects with `file:line` and what
+breaks. If a page is clean, say so plainly — a short accurate report beats a long one.
 
-You check whether a page **works**. Whether what it says is correct French is
-`content-proofreader`'s job; whether an answer key is right is `exercise-author`'s.
+You check whether a page **works**. Correct French is `content-proofreader`'s job; a right answer key
+is `exercise-author`'s.
 
 ## 1. The client/server boundary
 
-New in this stack and the most consequential thing to get wrong.
+The most consequential thing to get wrong (`AGENTS.md` §4, §8).
 
 ```bash
 grep -rlnE "^['\"]use client['\"]" src/app --include=page.tsx --include=layout.tsx
 ```
 
-**Any hit is a defect.** A lesson page that becomes a Client Component stops prerendering, ships
-its whole tree as JavaScript, and stops being free to serve offline. The fix is always the same:
-lift the interactive part into its own leaf and leave the page on the server.
+**Any hit is a defect**: the page stops prerendering and stops being free offline. The fix is always
+to lift the interactive part into a leaf.
 
-**Every route is static except `/entrer` (#81) — and that is checkable.** `/entrer` reads
-`searchParams` for the atelier's password form; nothing on the server reads a session (#37). So
-**any other** dynamic route in `next build` is a regression: something started reading cookies, a
-session, or `searchParams` where it should not. Sign-in included — username and password are
-exchanged entirely in the browser.
+**Every route is static except `/entrer`** (#81), which reads `searchParams` for the atelier's
+password; nothing on the server reads a session (#37). **Any other** dynamic route in `next build` is
+a regression — report it with the route name.
 
-**The listings are client components, and their content must still be in the static HTML.** The
-sommaire's grid, the chapter lesson lists and the sidebar read the learner's level, so they are
-`'use client'` — but React server-renders them, so the *unfiltered* course ships in the HTML and
-hydration narrows it. That is deliberate: it is what a signed-out reader should see and what an
-offline page must contain. Check it directly, because nothing else will:
+**The listings are client components whose content must still be in the static HTML.** The
+sommaire's grid, chapter lists and sidebar read the level, but React server-renders them, so the
+unfiltered course ships in the HTML and hydration narrows it — what a signed-out or offline reader
+must see:
 
 ```bash
 curl -s http://localhost:3000/vocabulaire | grep -c 'Le travail'   # must be 1, not 0
 ```
 
-A zero means a listing started fetching instead of reading the manifest, and every cold or offline
-page just went blank.
+A zero means a listing started fetching instead of reading the manifest.
 
-Then confirm it in the build output — `npm run build` marks each route static or dynamic, and a
-lesson that has quietly become dynamic is a regression worth reporting with the route name.
-
-**The most likely cause is auth.** Reading the session in the root layout — or any layout above a
-lesson — opts every route underneath out of static prerendering, and nothing fails loudly: the
-pages still render, they just stop being static and stop being precacheable.
+**The most likely cause of a dynamic route is auth in a layout** (§8):
 
 ```bash
 grep -rn "auth.getUser\|auth.getSession\|cookies()\|headers()" src/app --include=layout.tsx
 ```
 
-Any hit in a layout is a defect. Content is public (`AGENTS.md` §8); only the leaf controls that
-write progress need to know who is signed in.
+Any hit in a layout is a defect.
 
-**A lesson that draws its own page furniture is also a defect** — the shell renders the
-« J'ai terminé » tick and « Pour aller plus loin » for every path the manifest knows as a lesson
-(`docs/decisions.md` #49), so a page doing it too renders the block twice:
+**A lesson drawing its own furniture is a defect** — the shell draws the tick and « Pour aller plus
+loin » (#49), so the page renders them twice:
 
 ```bash
 grep -rn "RelatedLinks\|DoneTick\|LessonEnd" src/app
 ```
 
-Any hit under `src/app` is one. The same goes for `'use client'` at the top of a lesson.
+Any hit under `src/app` is one.
 
 ## 2. Hydration
 
-A client component is server-rendered for the initial HTML, so anything non-deterministic in
-render produces a different tree on each side:
+Anything non-deterministic in a client component's render differs between server and client:
 
 ```bash
 grep -rn "Math.random()\|Date.now()\|new Date()\|shuffle(" src/app src/components \
   | grep -v useEffect
 ```
 
-Each hit needs reading in context: in an event handler or an effect it is fine; in render, in a
-lazy `useState` initialiser, or in a module-level constant that feeds render, it is a hydration
-error. Same for `localStorage`, `window`, `navigator` and `speechSynthesis` touched during
-render.
+Read each hit in context: fine in a handler or effect; a hydration error in render, a lazy
+`useState` initialiser, or a module-level constant that feeds render. Same for `localStorage`,
+`window`, `navigator`, `speechSynthesis` during render.
 
-Then load the page under `next dev` and read the terminal and the error overlay. A hydration
-mismatch is reported once, at mount, and never again — it will not show in a screenshot.
+Then load the page under `next dev` and read the terminal and error overlay — a mismatch is reported
+once, at mount, and never in a screenshot.
 
-`suppressHydrationWarning` is legitimate on `<html>`, where the theme script deliberately changes
-the DOM before React hydrates. Anywhere else it is a silenced bug, not a fix.
+`suppressHydrationWarning` is legitimate on `<html>` only; anywhere else it is a silenced bug.
 
 ## 3. Raw colours (breaks dark mode)
 
@@ -96,54 +81,46 @@ grep -rn "#[0-9a-fA-F]\{3,8\}\b\|: *white\b\|: *black\b" src --include=*.css --i
   | grep -v "src/app/globals.css"
 ```
 
-Any hit is a defect: it stays light-mode-coloured when the theme flips. Also flag:
+Any hit is a defect (§5; `viewport.themeColor` excepted). Also flag:
 
-- a **surface** token used as a text colour — white-on-accent text needs `--text-on-accent`, or it
-  inverts to dark-on-accent;
-- a token defined outside the single `light-dark()` value on `:root`, or any per-theme block that
-  defines a token (`AGENTS.md` §5). A token defined per theme works in one mode and breaks in the
-  other, and the bug shows in only one of them;
-- a second global stylesheet imported anywhere but the root layout — its rules leak onto every
-  page visited afterwards and cannot be reproduced on a cold load.
+- a **surface** token used as a text colour — white-on-accent needs `--text-on-accent`;
+- a token defined outside the single `light-dark()` value on `:root`, or a per-theme block (§5);
+- a second global stylesheet imported anywhere but the root layout — it leaks onto every page
+  visited afterwards.
 
 ## 4. Accessibility
 
 - Icon-only controls without an accessible name.
 - A `<table>` with no caption.
 - Interactive elements built from `<div>`/`<span>` instead of `<button>`/`<a>`.
-- **A control nested inside a link** — a listing row carries two of them (`PageRow`'s link and
-  `RowTick`), and they are siblings for exactly this reason (#79). A `<button>` back inside the
-  `<a>` is invalid, and the press toggles *and* navigates.
-- Headings skipping a level, or a second `<h1>` on a page.
+- **A control nested inside a link** — `PageRow`'s link and `RowTick` are siblings for this reason
+  (#79); a `<button>` inside the `<a>` toggles *and* navigates.
+- Headings skipping a level, or a second `<h1>`.
 - Text on tinted fills unlikely to reach 4.5:1 — check the token pair, not a guess.
 - A `<details>` must stay keyboard-reachable.
-- Colour used as the only carrier of a state.
+- Colour as the only carrier of a state.
 
 ## 5. Images
 
-- An `<img>` with no `alt`, or an `alt` repeating the caption underneath instead of describing
-  the picture.
-- A missing `width`/`height` pair — the page reflows as each photo lands.
-- A **remote `src`**. Photographs must be local: hotlinking breaks the offline PWA and nothing in
-  the build will tell you. Once Serwist is installed (`AGENTS.md` §2), confirm the opposite after a
-  build by checking the images actually appear in the service worker's precache manifest.
-- Once Serwist is installed, a format not covered by the precache config → shipped, but blank
-  offline.
+- An `<img>` with no `alt`, or an `alt` repeating the caption instead of describing the picture.
+- A missing `width`/`height` pair.
+- A **remote `src`** (§9, except an épreuve's credited illustration, #83).
+- Once Serwist is installed (§2): after a build, confirm the images are in the service worker's
+  precache manifest, and that their format is covered.
 
 ## 6. Layout and length
 
-There is no print stylesheet and no PDF button, and they are not coming back (#1):
+No print stylesheet or PDF button (#1):
 
 ```bash
 grep -rn "window.print\|@media print\|no-print\|print-only" src/
 ```
 
-Length is editorial: flag a lesson grown past two or three sections and say which topic it should
-split along.
+Flag a lesson grown past two or three sections, and say which topic it should split along.
 
 ## 7. Visual regression
 
-Check for a running dev server before starting one, and never pattern-kill node.
+Check for a running dev server before starting one; never pattern-kill node.
 
 ```bash
 curl -sf -o /dev/null -w '%{http_code}\n' http://localhost:3000/
@@ -155,25 +132,19 @@ node scripts/shot.mjs "$BASE" rail.png   --width=1000
 node scripts/shot.mjs "$BASE" mobile.png --full --mobile
 ```
 
-Use `scripts/shot.mjs` (`AGENTS.md` §11), never Chrome flags or `--force-dark-mode`.
+Use `scripts/shot.mjs` (§11), never Chrome flags. **Read the PNGs back and look at them.**
 
-**Read the PNGs back and look at them.** A flex child stretching to fill a column does not show
-up in the DOM.
-
-Also check at 430 px: the sidebar off-canvas, the topbar showing its control and at most the lesson's level and its
-chapter (#65) — never the current page's own name (#45) — and
-no horizontal scroll on the body. The topbar **is** sticky here, painted in `--surface-app` so it
-occludes without reading as a band (#44) — scroll the page and check nothing bleeds through it.
-Above the breakpoint it is in normal flow and scrolls away; a background or a `position: sticky`
-up there is a regression, not a fix (#43).
+At 430 px: the sidebar off-canvas, the topbar showing its control and at most the lesson's level and
+chapter (#65) — never the page's own name (#45) — and no horizontal scroll. The topbar **is** sticky
+here, in `--surface-app` (#44): scroll and check nothing bleeds through. Above the breakpoint a
+background or `position: sticky` on it is a regression (#43).
 
 ## 8. Manifest / filesystem drift
 
-Run the audit in `nav-wiring.md` §The audit. All six lines must be `none` — the sixth covers
-in-page links.
+Run the audit in `nav-wiring.md` §The audit. All six lines must be `none`.
 
 ## Reporting
 
 Rank by severity: broken at runtime > broken in dark mode > a page that stopped prerendering >
 accessibility > inconsistency. For each: `file:line`, one sentence on the defect, one on what a
-learner actually experiences. Do not pad the list.
+learner experiences. Do not pad the list.

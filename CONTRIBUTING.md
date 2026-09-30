@@ -7,30 +7,20 @@ make, and they need no code at all.**
 ## What is most useful
 
 **1. Corrections to the French.** A wrong accent, a broken elision, an agreement error, a form
-that is not standard, an example that contradicts the rule above it. If you are a native or
-advanced speaker reading a page and something is off, that is worth an issue on its own — you do
-not have to propose the fix.
+that is not standard, an example that contradicts the rule above it. If something reads wrong to a
+native or advanced speaker, that is worth an issue on its own — you do not have to propose the fix.
 
-**2. Unflagged false friends.** From A2 up, the course is written **entirely in French** — no
-glosses, no translation columns, no bilingual pages (`docs/decisions.md` #53; A1 is the exception
-below). So a word a Spanish speaker
-reads wrong has to be defended *in French*, where it appears: a page that introduces *une robe*
-without an example making the wrong reading impossible is missing something the learner will get
-wrong. Spotting one of those is worth an issue.
-
-Spanish appears in exactly two places. The **source text of a `traduction/` page** is the thing
-being translated (#55). And **an A1 page explains in Spanish** (#85) — the rule, the glosses and
-the instructions, never the French it teaches — because a beginner cannot use a rule written in a
-language they do not have yet. Corrections to that Spanish are welcome on the same terms as
-corrections to the French. Spanish anywhere else on a page — including on an A2 page — is a bug,
-not a feature to extend.
+**2. Unflagged false friends.** From A2 up the course is written entirely in French, so a word a
+Spanish speaker reads wrong has to be defended *in French*, where it appears: *une robe* with no
+example making the wrong reading impossible is worth an issue. Corrections to the Spanish of an A1
+page are welcome on the same terms.
 
 **3. Facts.** Dates, authors, works, chefs-lieux, historical claims. Cheap to check and
 embarrassing to get wrong in a course.
 
-**4. Broken drills.** An exercise whose answer key is wrong, or that has two defensible answers,
-or that marks a correct answer wrong. These are the worst bugs in the project because the app
-looks like it is working while it confirms a mistake.
+**4. Broken drills.** A wrong answer key, two defensible answers, a correct answer marked wrong.
+These are the worst bugs in the project: the app looks like it is working while it confirms a
+mistake.
 
 **5. Accessibility and dark-mode problems.** Both are requirements here, not polish.
 
@@ -40,103 +30,60 @@ looks like it is working while it confirms a mistake.
 
 - **For anything more than a typo, open an issue first.** Especially for a new lesson or chapter —
   the course is sequenced deliberately, and where a topic sits matters as much as whether it exists.
-- **One change per pull request.** A French correction and a refactor in the same branch are two
-  reviews wearing one hat.
-- If you are proposing a *new* lesson, say which chapter it belongs to, which **level** it is,
-  which **DELF descriptor** it covers, and what it displaces or follows. A level is considered
-  complete when it covers the DELF syllabus for that level, so a lesson that maps to nothing in it
-  needs a reason. See the open decisions in [`AGENTS.md`](AGENTS.md) §12 — the authoring
-  format for lessons is not settled yet, so large content contributions may be premature.
+- **One change per pull request.** A French correction and a refactor are two reviews.
+- **A new lesson** says which chapter, which **level**, which **DELF descriptor** it covers, and
+  what it follows. A lesson that maps to nothing in the DELF syllabus needs a reason. The authoring
+  format is not settled yet ([`AGENTS.md`](AGENTS.md) §12), so large content contributions may be
+  premature.
 - **« Atelier » (`temp`) is not a chapter to contribute to.** It is scratch space for a class in
-  progress: its pages are written for one session, shared on screen during it, then promoted into a
-  real chapter or deleted ([`docs/decisions.md`](docs/decisions.md) #80). Finding it empty is normal
-  and is not a bug; a lesson proposed for it belongs in one of the sixteen instead. On the deployed
-  site it also sits behind a shared password ([`docs/decisions.md`](docs/decisions.md) #81), so you
-  will not be able to open it — the pages themselves are in this repository like everything else.
+  progress, emptied weekly and password-protected on the site (#80, #81); finding it empty is
+  normal.
 
 ## The constraints that are not negotiable
 
-These come from the audience, and a change that breaks one will be asked to change:
+These come from the audience, and a change that breaks one will be asked to change. The full rules
+are in [`AGENTS.md`](AGENTS.md); the `#nn` numbers point into
+[`docs/decisions.md`](docs/decisions.md).
 
-- **There are two readers, not one** (see [`docs/scope.md`](docs/scope.md)): a native Spanish
-  speaker learning French from zero, and a heritage speaker who grew up with spoken French in
-  Spain and needs to learn to *write* it. They need opposite things, and the second one is not
-  simply a higher level — they can be orally C1 and written A2 at the same time.
-- **Everything is written in French — explanations included, for both profiles — from A2 up.**
-  No Spanish gloss, no translation column, no bilingual page. An A1 page is the exception: it
-  explains in Spanish and teaches in French (`docs/decisions.md` #85). Most readers are Spanish speakers, so
-  keep the French of the explanation simpler than the French being taught, define the false friends
-  instead of translating them, and print the common wrong sentence beside the right one.
-  **English is never used either** — no English glosses, no English mnemonics (no DR & MRS
-  VANDERTRAMP). Never assume the reader knows English.
-- **Current scope is A1, A2 and B1.** A2 was written first, because the course's learner is at
-  A2; **A1 and B1 are being written beside it** and are welcome. B2 takes no content yet, and **C1 and C2 are out of
-  scope** — they serve a different audience and the `Level` type stops at B2. A1 and B1 are choosable
-  while unfinished, so an A1 page is visible to an A1 learner the day it lands. The account offers
-  the three levels and says nothing about how finished each is. Climbing never shows fewer lessons:
-  B1 is offered everything A2 is. `docs/levels/` says what each level still needs. Short
-  sentences, everyday vocabulary, no literary tenses, no metalanguage beyond *verbe, sujet, adjectif, accord* — the heritage track is the one place school grammar
-  vocabulary is allowed.
-- **They type on a Spanish keyboard.** Prefer clicking to typing wherever an answer carries French
-  accents. Type-in earns its place only where the *spelling* is the skill.
+- **Two readers, not one** ([`docs/scope.md`](docs/scope.md)): a Spanish speaker learning from
+  zero, and a heritage speaker who speaks French and needs to learn to *write* it — not a higher
+  level (#13).
+- **French only from A2 up** (#53): no Spanish gloss, no translation column, no bilingual page.
+  Spanish appears only as a `traduction` page's source text (#55) and as an A1 page's explanation
+  (#85); anywhere else it is a bug.
+- **The explanation's French is simpler than the French taught**: define false friends rather than
+  translate them, and print the common wrong sentence beside the right one.
+- **English is never used** — no English glosses, no English mnemonics (no DR & MRS VANDERTRAMP).
+- **Scope is A1, A2 and B1**; B2 takes no content yet; **C1 and C2 are out of scope** (#75).
+  `docs/levels/` says what each level still needs.
+- **No literary tenses, no metalanguage beyond *verbe, sujet, adjectif, accord*** — except on the
+  heritage track.
+- **Spanish keyboard**: prefer clicking to typing where an answer carries accents; type-in only
+  where the spelling is the skill.
 - **A lesson is two or three sections.** A topic that needs more is two lessons.
-- **Dark mode is not optional**, and neither is the mobile layout. Every visual change is checked
-  in both themes and all three shells: open sidebar, icons-only rail (about 1000 px), mobile
-  drawer.
-- **No raw colour values in components** — everything comes from a design token, or it freezes in
-  light mode.
-- **The serif marks the French being taught; the sans marks the instruction around it.** In
-  practice: `<span className="fr">le livre</span>` inside prose. On an A1 page, where the
-  explanation is Spanish, the section carries `lang="es"` and every piece of French takes
-  `lang="fr"` back — not decoration: it stops a screen reader reading French with a Spanish
-  accent.
-- **Every lesson declares its `levels`** in `src/data/navigation.ts`, and `[]` is how you say "no
-  level, always visible". An omitted field is a type error on purpose: forgetting to tag a page
-  and deciding it needs no tag must not look the same in a diff.
-- **`levels` is the rungs a page is *listed* at, and it runs from its floor upward.** Write
-  `from("A2")`: a page written at A2 stays listed at B1 and B2, because a learner who climbs does
-  not stop needing what they climbed on. A written-out tag — `["A1"]` — is the exception and claims
-  something higher up supersedes the page.
-- **Never widen a tag downward.** The levels share topics but differ in what they use — A1 negates
-  with `ne… pas`, A2 with `ne… plus / rien` — so an A1 learner who needs the topic gets a simpler
-  A1 page written beside the existing one, never the A2 page's tag.
-- **`perLevel: true` is the separate claim: this page holds one body of work per level** — a
-  question set or an item bank per rung, in a module beside the page (`questions.ts` exporting
-  `SETS`, `data.ts` exporting `BANKS`). Its keys and the `levels` above must match exactly: the
-  manifest wins where they differ, so a level tagged with nothing behind it quietly serves another
-  level's material. The navigation audit is the only thing that reports it.
-- **Widening `levels` is free; adding `perLevel` is a data migration.** The tick keys on `perLevel`
-  alone, so listing a page at more rungs costs nothing and a learner who ticked it keeps the tick
-  when they climb — but giving a page a second body of work moves its key from `id` to `id@LEVEL`,
-  and every tick already stored stops being read unless a migration moves it too.
-- **Every lesson declares an `id`, and it is permanent.** It is the key a learner's « J'ai terminé »
-  is stored under, so a page can be renamed, moved or given a better URL freely — but changing its
-  `id` erases that lesson from everyone's history with nothing failing anywhere. Choose it once,
-  in the shape `chapitre-nom` (`gram-articles`, `ex-pluriel`), and leave it alone. A `perLevel` page
-  keeps one tick **per level**, since it holds a level's work per level; every other page keeps
-  exactly one, under the bare `id`, however many rungs it is listed at.
-- **No copyrighted text.** Reading pages use public-domain works or original writing. Song pages
-  quote short excerpts for commentary and never a full lyric sheet. Images must be CC0, public
-  domain, CC BY or CC BY-SA, credited individually with author, link and licence, and stored
-  locally rather than hotlinked — the app has to work offline. (The one exception: a DELF épreuve's
-  illustration, linked from Wikimedia Commons and credited, where the text alone still answers.)
-- **An exam paper is copyrighted text too**, including the free official DELF sujets. The `delf`
-  chapter reproduces no sujet and no prep book: the *format* of a public exam is a fact and may be
-  described, but its documents, questions, consignes and corrigés belong to whoever wrote them, and
-  free to download is not free to relicense. Everything in `delf/` is written for this course. Read
-  a real sujet to calibrate difficulty; do not copy a line of one, and **do not add one to
-  `public/`** — anything there is served, so hosting a copy is publishing it, and a credit line
-  beside it does not make the repo able to license it. The chapter links to France Éducation
-  international's own page instead; `public/PDF/` is gitignored so a local reference copy cannot be
-  committed by accident.
+- **Dark mode and mobile are not optional**: check both themes at all three widths — open sidebar,
+  icons-only rail (about 1000 px), mobile drawer.
+- **No raw colour values in components** — every colour comes from a design token.
+- **The serif marks the French taught** (`<span className="fr">`); on an A1 page the section is
+  `lang="es"` and every piece of French takes `lang="fr"` back (#85).
+- **Every lesson declares `levels`**, and `[]` means "always visible" (#23).
+- **`levels` runs from the page's floor upward** — `from("A2")` — **and is never widened
+  downward**: an A1 learner gets a simpler A1 page (#72, #76).
+- **`perLevel: true` means one body of work per level**, and its material must match `levels`
+  exactly (#76).
+- **Widening `levels` is free; adding or removing `perLevel` is a data migration** (#68).
+- **A lesson's `id` is permanent** (`chapitre-nom`): changing it silently erases everyone's tick on
+  it (#50).
+- **No copyrighted text.** Public-domain works or original writing; song lyrics as short excerpts
+  only; images CC0, public domain, CC BY or CC BY-SA, credited and stored locally (#83 is the one
+  linked exception).
+- **No exam paper, including the free official DELF sujets** (#78): describe the format, copy
+  nothing, and add none to `public/` — anything there is published.
 
 [`docs/scope.md`](docs/scope.md) carries the goals, the profiles and the non-goals — read it
-before proposing anything larger than a correction. [`AGENTS.md`](AGENTS.md) carries the full
-rules and, more usefully, the traps that previous bugs
-have already paid for. The briefs in [`.claude/agents/`](.claude/agents/) carry the how-to for
-each kind of work — writing a lesson, writing a drill, wiring navigation, styling, auditing,
-proofreading. They are written for AI coding agents but they are the same instructions a human
-needs.
+before proposing anything larger than a correction. The briefs in
+[`.claude/agents/`](.claude/agents/) carry the how-to for each kind of work; they are written for
+AI coding agents, but they are the same instructions a human needs.
 
 ## Working on it
 
@@ -150,16 +97,15 @@ npm run lint
 Before you open the pull request:
 
 1. `npm run build` passes.
-2. Any page you touched renders correctly in **light and dark**, at desktop width, at 1000 px (the rail) and at 430 px.
-   `node scripts/shot.mjs <url> out.png --full --dark` will photograph it for you; browser flags
-   for emulating dark mode stopped working silently a while ago, so use the script.
+2. Any page you touched renders correctly in **light and dark**, at desktop width, at 1000 px (the
+   rail) and at 430 px. `node scripts/shot.mjs <url> out.png --full --dark` photographs it; browser
+   flags for dark mode no longer work.
 3. If you touched navigation, the audit in
    [`.claude/agents/nav-wiring.md`](.claude/agents/nav-wiring.md) reports `none` on all six
    lines.
 4. If you touched a drill, you **played it through once**, including the score screen — which is
    the part nobody tests.
-5. If you touched a rule rather than just content, the documentation moved with it. Docs and
-   behaviour disagreeing means the change is not finished.
+5. If you touched a rule rather than just content, the documentation moved with it.
 
 ## Writing style for issues and reviews
 
@@ -177,9 +123,8 @@ the project:
   [CC BY-SA 4.0](LICENSE-CONTENT).
 
 You must have the right to contribute what you submit. Do not paste in material from another
-course, textbook, website, app or exam paper: quoted lyrics, copyrighted literary text,
-third-party photographs and DELF sujets cannot be relicensed by us, and content contributed
-without the right to license it has to be removed later, along with anything built on it.
+course, textbook, website, app or exam paper: we cannot relicense it, and it would have to be
+removed later along with anything built on it.
 
 ## Conduct
 
