@@ -38,8 +38,8 @@ renumber; add inside a section.
 
 Count content in `src/data/navigation.ts`, never in prose.
 
-- **#86–#88 are decided, not built**: one `level` per page and a learner-chosen view, tabs on a
-  page holding sets, and parcours with « La suite » walking them. **Until each lands, §1, §6 and §8
+- **#86–#89 are decided, not built**: one `level` per page and a learner-chosen view, tabs on a
+  page holding sets, parcours with « La suite » walking them, and the syllabus as data. **Until each lands, §1, §6 and §8
   still describe the code**; the commit that builds one folds the entries it replaces and rewrites
   those lines.
 - **Vercel** at <https://lepetitcours.vercel.app>, from `main`. Supabase project

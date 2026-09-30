@@ -84,6 +84,7 @@ than marking it superseded.
 | 86 | 2026-09-30 | A page has one level, and the learner chooses which levels they see | Binding · not built · replaces #23, #35, #76 |
 | 87 | 2026-09-30 | A page holding one set per level shows them as tabs | Binding · not built · replaces #73 |
 | 88 | 2026-09-30 | A parcours is a file of étapes, chosen in the account; « La suite » walks it | Binding · not built · builds #14, amends #70 |
+| 89 | 2026-09-30 | The syllabus is data, and a parcours ends on its épreuves | Binding · not built · builds #15, extends #88 |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -1069,3 +1070,31 @@ now for browsing**; teaching order is the parcours's.
 
 **The existing accounts' `level` becomes `view: [level]`** and no parcours, in the commit that ships
 the setting.
+
+## 89 · The syllabus is data, and a parcours ends on its épreuves
+**2026-09-30 · Binding · not built yet · builds #15 · extends #88**
+
+**The syllabus** is `src/data/syllabus/<level>.ts`, one file per rung, from the *Inventaire
+linguistique des contenus clés* (CIEP / Eaquals, 2015), Annexe E: its **fonctions**, **grammaire**
+and **thèmes** as items, each with a **permanent id** (`a2-raconter-au-passe`) and a short label.
+**The labels are ours** — the document is cited as the source, never copied as text (§9b).
+
+- **A page names the items it covers**: `covers: SyllabusId[]` in the manifest, replacing the
+  free-text `delf` string; a page holding sets (#87) names them per set. **An étape names its
+  items too** (#88).
+- **An id that resolves to nothing fails the build**, like a lesson id (`assertLessonIds`).
+- **Coverage is an audit, not a gate**: a script prints, per level, the items counted, the ones
+  covered and the ones not, **FONCTIONS first** — they are the finish line (#15, #72). It never
+  fails a build, because an unfinished level is the normal state (#74).
+- **`docs/levels/*.md` keep the how-to and lose the map**: a list in prose went stale on every page
+  that landed, and A2 and B1 never had one.
+
+**A parcours may end on épreuves**: `exam: LessonId[]`, pages of `delf` at the parcours's level,
+drawn after the last étape as « L'examen blanc ». **Offered, never counted**: no tick (#82), out of
+the parcours's tally, never « La suite ». **When every étape is ticked, « La suite » offers the
+épreuves** instead of nothing. A parcours with `level: null` has none.
+
+**Why**: #15 made DELF coverage the definition of done and nothing could measure it; a count of
+pages is an inventory (#15). And nothing led from a path to the exam it prepares for — `delf` was
+only the last chapter. **Chosen against a coverage gate in the build**, which would fail every
+commit of a level being written.
