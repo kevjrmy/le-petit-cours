@@ -103,8 +103,9 @@ page works.
   every lesson stays static and can work offline.
 - **Progress is ticked by hand** and keyed by a permanent lesson id. It is stored locally in
   IndexedDB and synced to Supabase; the local copy is always what the page reads.
-- **A chosen level filters the listings, never access**: a lesson at another level still opens
-  from a link.
+- **Signed out, everything is listed; signed in, the learner chooses which levels are**, and may
+  follow a parcours, whose next lesson is « La suite ». A filter never blocks access: a lesson at
+  another level still opens from a link.
 
 The rules behind each of these, and the traps they guard against, are in [`AGENTS.md`](AGENTS.md).
 

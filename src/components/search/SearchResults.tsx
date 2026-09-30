@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { PageRow } from "@/components/nav/PageRow";
 import { useAccount } from "@/hooks/useAccount";
-import { atLevel, searchCourse } from "@/lib/search";
+import { atView, searchCourse } from "@/lib/search";
 import { SearchBox } from "./SearchBox";
 import { StartPills } from "./StartPills";
 import styles from "./SearchResults.module.css";
@@ -17,8 +17,8 @@ import styles from "./SearchResults.module.css";
  * (`AGENTS.md` §8). Searching itself is synchronous over the manifest, so there
  * is no loading state to render and nothing to wait for offline.
  *
- * **The level groups the results, it does not cut them.** Everywhere else the
- * chosen level filters what the course offers (§6, #35); a page someone has typed
+ * **The view groups the results, it does not cut them.** Everywhere else the
+ * chosen levels filter what the course offers (§6, #86); a page someone has typed
  * the name of is not an offer, and dropping it would answer « ça n'existe pas »
  * to a question about a page that does exist. So out-of-level matches keep
  * their own labelled group under the rest — visible, and visibly not part of
@@ -27,11 +27,11 @@ import styles from "./SearchResults.module.css";
 export function SearchResults() {
   const query = (useSearchParams().get("q") ?? "").trim();
   const account = useAccount();
-  const level = account?.level ?? null;
+  const view = account?.view ?? "all";
 
   const hits = searchCourse(query);
-  const here = hits.filter((hit) => atLevel(hit, level));
-  const elsewhere = hits.filter((hit) => !atLevel(hit, level));
+  const here = hits.filter((hit) => atView(hit, view));
+  const elsewhere = hits.filter((hit) => !atView(hit, view));
 
   return (
     <>
@@ -63,9 +63,9 @@ export function SearchResults() {
         <section className={styles.other}>
           <h2 className={styles.otherTitle}>À d’autres niveaux</h2>
           <p className={styles.otherNote}>
-            {here.length > 0 ? "Ces pages ne sont pas" : "Ce que vous cherchez n’est pas"} au
-            programme <strong>{level}</strong>, mais elles se lisent normalement.{" "}
-            <Link href="/compte">Changer de niveau</Link>
+            {here.length > 0 ? "Ces pages ne sont pas" : "Ce que vous cherchez n’est pas"} aux
+            niveaux que vous avez choisis, mais elles se lisent normalement.{" "}
+            <Link href="/compte#vue">Changer</Link>
           </p>
           <ul className={styles.list}>
             {elsewhere.map((hit) => (

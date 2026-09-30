@@ -42,9 +42,9 @@ export function LessonEnd() {
 
   return (
     <div className={styles.end}>
-      {/* The tick names the variant on screen, and since #73 that is the level
-          on the account — the questions above and the tick below read the same
-          hook, so they cannot disagree. Every lesson serving one level resolves
+      {/* The tick names the set on screen — the parcours's level when the page
+          has it (#87) — and the questions above and the tick below read the
+          same hook, so they cannot disagree. Every lesson serving one level resolves
           to it, and `progressKey` ignores it. */}
       {isTracked(found.chapter) && (
         <DoneTick lesson={found.lesson} level={level} path={path} />

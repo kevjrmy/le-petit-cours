@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { trackedChapters, type Chapter, type Lesson } from "@/data/navigation";
+import { etapesOf, examOf, nextUp, tallyOf, type IsDone, type Parcours } from "@/data/parcours";
 import { useAccount } from "@/hooks/useAccount";
 import { useProgress } from "@/hooks/useProgress";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
@@ -10,14 +11,19 @@ import { NextLesson } from "./NextLesson";
 import styles from "./Progression.module.css";
 
 /**
- * The learner's own record: what they have finished, chapter by chapter.
+ * The learner's dashboard: « La suite », the parcours step by step, then the
+ * record of everything ticked, chapter by chapter.
  *
- * **This is the one listing that does not filter by level.** Every other
- * listing shows what the course *offers* at the learner's level (`AGENTS.md`
- * §6); this one shows what they *did*, and a tick hidden because they since
- * moved from A2 to A1 would read as a lost tick. It is the same reasoning that
- * makes search group by level rather than cut by it, and the same reasoning
- * behind the migration keeping the level out of the progress key.
+ * **The parcours comes first** (#88): its tally counts its étapes only, never
+ * the épreuves it ends on (#89), and each étape lists its lessons ticked or
+ * not — the path, seen whole. The étape « La suite » is in opens; the others
+ * are one line each.
+ *
+ * **The record does not filter by view.** Every other listing shows what the
+ * course *offers* at the levels chosen (`AGENTS.md` §6); this one shows what
+ * they *did*, and a tick hidden because they since narrowed their view would
+ * read as a lost tick. It is the same reasoning that makes search group rather
+ * than cut, and the same reasoning behind keeping the view out of the key.
  *
  * The denominator is the chapter's lessons, which is now the same thing as the
  * pages that exist: the manifest holds no announced-but-unwritten entries to
@@ -32,18 +38,18 @@ import styles from "./Progression.module.css";
 export function Progression() {
   const account = useAccount();
   const { ready, signedIn, isDone, doneAt } = useProgress();
-  const level = account?.level ?? null;
+  /* The set a page holding several is counted at: the parcours's (#87). */
+  const parcours = account?.parcours ?? null;
+  const level = parcours?.level ?? null;
 
   if (!signedIn) return <SignedOut />;
   /* Not "nothing done" — not known yet. Saying zero here and three a moment
      later is worse than saying nothing for that moment. */
   if (!ready) return <p className={styles.loading}>Chargement…</p>;
 
-  /* The lessons are not filtered by level — that is what this page is (#48) —
-     but a lesson carrying a tick per level still has to be asked about one, and
-     the honest one to ask about is the learner's own. Which variants a page
-     with several should count toward which tally is a separate question, and
-     belongs with the per-level breakdown rather than here. */
+  /* The lessons are not filtered by view — that is what this page is (#48) —
+     but a lesson carrying a tick per set still has to be asked about one, and
+     the honest one to ask about is the parcours's. */
   const rows = trackedChapters()
     .map((chapter) => {
       const lessons = chapter.lessons;
@@ -69,12 +75,16 @@ export function Progression() {
 
   return (
     <>
-      {/* The offer, above the record. It filters by level and the record below
-          does not — two claims on one page, which is why the rule about this
-          page not filtering is about the tally and not about the head (#48). */}
+      {/* The offer, above the record. It follows the parcours and the record
+          below does not — two claims on one page, which is why the rule about
+          this page not filtering is about the tally and not about the head
+          (#48). */}
       <NextLesson as="card" />
 
+      {parcours && <ParcoursRecord parcours={parcours} isDone={isDone} />}
+
       <section className={styles.summary}>
+        {parcours && <h2 className={styles.part}>Tout le cours</h2>}
         <p className={styles.count}>
           <strong>{finished}</strong> {finished === 1 ? "leçon terminée" : "leçons terminées"} sur{" "}
           {total}
@@ -129,6 +139,110 @@ export function Progression() {
         note, ni temps passé, ni page visitée.
       </p>
     </>
+  );
+}
+
+/**
+ * The path, étape by étape: a tally and a bar for the whole, then each étape as
+ * a disclosure with its own count. The étape holding « La suite » opens; the
+ * rest stay one line — a finished étape needs no more, an unstarted one is
+ * read when it comes. The épreuves close it, offered and not counted (#89).
+ */
+function ParcoursRecord({ parcours, isDone }: { parcours: Parcours; isDone: IsDone }) {
+  const { done, total } = tallyOf(parcours, isDone);
+  const next = nextUp(parcours, isDone);
+  const current = next.kind === "lesson" ? next.etape : null;
+  const exam = examOf(parcours);
+
+  return (
+    <section className={styles.summary}>
+      <h2 className={styles.part}>{parcours.title}</h2>
+      <p className={styles.count}>
+        <strong>{done}</strong> {done === 1 ? "leçon terminée" : "leçons terminées"} sur {total}
+      </p>
+      <Bar done={done} total={total} />
+
+      <ol className={styles.etapes}>
+        {etapesOf(parcours).map((etape, index) => {
+          const ticked = etape.steps.filter((step) => isDone(step.lesson, parcours.level));
+          const finished = ticked.length === etape.steps.length;
+          return (
+            <li key={etape.title}>
+              <details className={styles.etape} open={etape.title === current}>
+                <summary className={styles.etapeHead}>
+                  <span className={styles.etapeNumber}>{index + 1}</span>
+                  <span className={styles.etapeTitle}>{etape.title}</span>
+                  <span className={styles.tally}>
+                    {finished && (
+                      <svg className={styles.check} viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M5 12.5l4.5 4.5L19 7.5" />
+                      </svg>
+                    )}
+                    {ticked.length}
+                    <span aria-hidden="true">/</span>
+                    <span className={styles.sr}> sur </span>
+                    {etape.steps.length}
+                  </span>
+                </summary>
+                <ul className={styles.lessons}>
+                  {etape.steps.map(({ chapter, lesson }) => (
+                    <Step
+                      key={lesson.id}
+                      lesson={lesson}
+                      chapter={chapter}
+                      done={isDone(lesson, parcours.level)}
+                    />
+                  ))}
+                </ul>
+              </details>
+            </li>
+          );
+        })}
+      </ol>
+
+      {exam.length > 0 && (
+        <div className={styles.exam}>
+          <h3 className={styles.examTitle}>L’examen blanc</h3>
+          <p className={styles.empty}>
+            Pour finir le parcours, dans l’ordre de l’examen. Une épreuve ne se coche
+            pas : elle se repasse autant qu’il le faut.
+          </p>
+          <ul className={styles.lessons}>
+            {exam.map(({ chapter, lesson }) => (
+              <li key={lesson.id}>
+                <Link href={lesson.path} className={styles.lesson}>
+                  <span className={styles.lessonTitle}>{lesson.title}</span>
+                  <span className={styles.sr}>, {chapter.title}</span>
+                  {lesson.subtitle && <span className={styles.when}>{lesson.subtitle}</span>}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  );
+}
+
+/** A lesson of an étape: a tick or an empty ring, and never colour alone. */
+function Step({ lesson, chapter, done }: { lesson: Lesson; chapter: Chapter; done: boolean }) {
+  return (
+    <li>
+      <Link href={lesson.path} className={styles.lesson}>
+        {done ? (
+          <svg className={styles.check} viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12.5l4.5 4.5L19 7.5" />
+          </svg>
+        ) : (
+          <span className={styles.ring} aria-hidden="true" />
+        )}
+        <span className={styles.lessonTitle}>{lesson.title}</span>
+        <span className={styles.sr}>
+          , {chapter.title}, {done ? "terminée" : "pas encore terminée"}
+        </span>
+        <span className={styles.when}>{chapter.shortTitle ?? chapter.title}</span>
+      </Link>
+    </li>
   );
 }
 

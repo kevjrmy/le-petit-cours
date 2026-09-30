@@ -38,10 +38,9 @@ renumber; add inside a section.
 
 Count content in `src/data/navigation.ts`, never in prose.
 
-- **#86–#89 are decided, not built**: one `level` per page and a learner-chosen view, tabs on a
-  page holding sets, parcours with « La suite » walking them, and the syllabus as data. **Until each lands, §1, §6 and §8
-  still describe the code**; the commit that builds one folds the entries it replaces and rewrites
-  those lines.
+- **Decided, not built**: #87's tabs on a page holding sets (the default set is built); #89's
+  syllabus as data (its épreuves are built). Until they land, a page with sets opens on the
+  parcours's level and nothing measures coverage.
 - **Vercel** at <https://lepetitcours.vercel.app>, from `main`. Supabase project
   `ephdtigxjccfauzgexpd`: RLS on, legacy JWT keys off, two public env vars, no integration, no
   Supabase secret at rest (#21).
@@ -89,16 +88,18 @@ Language:
 
 Levels (per-level detail: `docs/levels/`):
 
-- **`CHOOSABLE_LEVELS` is `A1, A2, B1`**, offered while being written (#74); B2 declared,
-  unchoosable; C1/C2 out of scope (#75). **Removing a level is a silent reset** for anyone on it.
+- **`CHOOSABLE_LEVELS` is `A1, A2, B1`**, offered in the view while being written (#74); B2
+  declared, unchoosable; C1/C2 out of scope (#75). **Removing a level silently drops it from every
+  view** that held it.
 - **The chooser rates nothing** (#77) — no « en cours », no `COURSE_LEVELS`. **Put them back
   before the site is listed or sign-up opens.** "Done" is DELF coverage (#15), tracked in
   `docs/levels/`.
-- **`levels` = the rungs a page is listed at, floor upward** (#76): `from("A2")`. **Never widen
-  downward** — a lower level gets a new, simpler page (#72). `["A1"]` claims something above
-  supersedes the page; `ANY` (`[]`) means no rung (#23).
-- **`perLevel: true` is a separate claim** (#76): one body of work per level; it alone keys the
-  tick, and its `levels` list exactly the sets it has — never `from()`.
+- **`level` = the one rung a page is written at, or `null`** (#86). A lower level gets a new,
+  simpler page (#72), never a second tag.
+- **The learner chooses what is listed** (#86): signed out, everything; signed in, the `view` —
+  some levels, or `"all"` (never frozen to today's levels). A `null` page is in every view.
+- **`sets` is a separate claim** (#87): one body of work per level, written out, ladder order,
+  first = `level` (checked at import); it alone keys the tick and widens the listing.
 
 ## 2. Stack and intended shape
 
@@ -176,16 +177,21 @@ Accent `#0044AA`, **Spectral** + **Inter** (#27).
 `src/data/navigation.ts` is the single source of truth. **No auto-discovery**: an entry without a
 folder is a 404, a folder without an entry is unreachable — `nav-wiring` audits both.
 
-- **A parcours orders lessons, never owns them** (#14). None is built yet.
-- **`levels` is required; `[]` is deliberate** (#23). Listings draw the **floor, one badge** (#76).
-- **Insert a level's lessons in teaching order, never append** (#72).
-- **Levels filter listings, never access** (#35). Exceptions: search groups rather than cuts;
-  `/ma-progression` is a record. A direct link always renders the lesson.
-- **Nothing counts a chapter's lessons**; the rows are the count.
+- **A parcours orders lessons, never owns them** (#14, #88): `src/data/parcours/`, étapes of
+  lesson **ids**, tracked lessons only, checked at import. **Teaching order is the parcours's**; a
+  chapter's order is for browsing.
+- **`level` is required; `null` is deliberate** (#86). A row draws its level, one badge.
+- **The view filters listings, never access** (#86): sommaire, chapters and sidebar together.
+  Exceptions: search groups rather than cuts; `/ma-progression` is a record. A direct link always
+  renders the lesson.
+- **A listing holding several levels groups them** (#86): a `<details>` per level, « Tous niveaux »
+  last; the parcours's level opens, else the lowest; not remembered.
+- **Nothing counts a chapter's lessons**; the rows are the count — **except a level group's head**
+  (#86).
 - **Nothing announces an unwritten page** (#51) — no « bientôt » row in any form; an empty chapter
   simply drops out (`listedChapters`).
 - **`temp` (« Atelier ») is scratch** (#80, `docs/atelier.md`): ids carry the date and never return;
-  nothing permanent links in; no redirect on removal; lessons `ANY`; out of the sitemap; promotion is
+  nothing permanent links in; no redirect on removal; lessons `level: null`; out of the sitemap; promotion is
   a new page with a new id. **Behind a shared password** (#81) via `src/proxy.ts` → `/entrer`; its
   row still draws everywhere.
 - **Chapter landing pages and verb sheets are one dynamic route each** (#29, #56), with
@@ -228,13 +234,13 @@ folder is a 404, a folder without an entry is unreachable — `nav-wiring` audit
 | `delf` | a whole **épreuve**, marked once at the end; a production has no corrigé; nothing stored (#78, #82, #84) |
 | `temp` | scratch for a class in progress, any form above, ticked nowhere (#80) |
 
-- **Another level of a page**: lower = a new page; higher = usually nothing, it is already listed
-  (#72, #76). **`perLevel` is only for a stimulus with no floor** (a reading, a level-free drill),
-  and scales up only. **Each level gets its own role-play.**
+- **Another level of a page**: lower = a new page (#72); higher = usually nothing — a learner
+  who wants it keeps its level in view (#86). **`sets` is only for a stimulus with no floor** (a
+  reading, a level-free drill), and scales up only. **Each level gets its own role-play.**
 
 ## 8. Accounts, access and progress
 
-**All content is public; an account buys the tick and the chosen level** (#18).
+**All content is public; an account buys the tick, the view and a parcours** (#18).
 
 **Never read the session in the root layout or any layout above a lesson.** It silently turns every
 page underneath dynamic and breaks offline. `AccountProvider` holds it once, inside `AppShell`.
@@ -265,16 +271,18 @@ page underneath dynamic and breaks offline. `AccountProvider` holds it once, ins
 - **Ticking is manual everywhere** (#2); a drill's score is never stored and never ticks.
 - **A tick needs an account** (#48). Signed out, the lesson's control is still drawn and links to
   `/compte?suivant=…`; a listing shows no tick (#79). **No anonymous local tick.**
-- **No tick in `temp` or `delf`** (#80, #82): test `isTracked()`, never `scratch`. `nextUp` and
-  `/ma-progression` walk **`trackedChapters()`**.
+- **No tick in `temp` or `delf`** (#80, #82): test `isTracked()`, never `scratch`.
+  `/ma-progression` walks **`trackedChapters()`**; a parcours may name tracked lessons only, and
+  ends on épreuves as its `exam` — offered, never counted (#89).
 - **Keys come from `progressKey(lesson, level)` only** (#50, #68): the bare id, or `id@LEVEL` on a
-  `perLevel` page — **never `levels.length > 1`** (#76).
-- **Adding or removing `perLevel` is a data migration**: ship the guarded backfill in the same
-  commit (#68). **Widening `levels` must never become one.**
+  page with `sets` (#87).
+- **Adding or removing `sets` is a data migration**: ship the guarded backfill in the same commit
+  (#68). **Changing `level` or the view must never become one.**
 - **Ticks stay off `ProgressApi`**; `isDone`/`doneAt`/`toggle` take a required level (#68). **An
   unmark filters on the level too.**
-- **The variant in view comes from the account only** (#73) — no picker on the page, no `?niveau=`.
-- **Per-level material matches the manifest's `levels`**; it lives in `questions.ts` (`SETS`) or
+- **The set in view is the learner's default set** (#87): the parcours's level if the page has it,
+  else the first — one rule for the page, the row's tick and « La suite ». No `?niveau=`.
+- **Per-level material matches the manifest's `sets`**; it lives in `questions.ts` (`SETS`) or
   `data.ts` (`BANKS`), type-only imports, **export names kept** — the audit reads them.
 - **Storage goes through `load()`/`save()`**; IndexedDB keyed by account (#24) is the read path;
   offline is **a queue of operations** (#48).
@@ -282,10 +290,12 @@ page underneath dynamic and breaks offline. `AccountProvider` holds it once, ins
 - **A listing's `RowTick` sits beside the row's link, never inside it**; the card is the `<li>`
   (#79). **Read the state once and hand it to both halves**; omit the slot when there is nothing to
   report. A done row wears `--success-soft`/`--success-line`.
-- **`/ma-progression` does not filter by level** (#48) — except its « La suite » head. Counts divide
-  by published lessons.
-- **« La suite » is `nextUp` alone** (#70): first unticked lesson at the level. **Never "where you
-  left off."**
+- **`/ma-progression` does not filter by view** (#48): the parcours first, étape by étape, then
+  the record. The record's counts divide by published lessons; the parcours's by its étapes.
+- **« La suite » is `nextUp(parcours)` alone** (#70, #88): first unticked lesson of the parcours,
+  then its épreuves; **no parcours, no « La suite »**. **Never "where you left off."**
+- **The view and the parcours are two settings, one writer each** (#88): choosing one never sets the
+  other.
 
 ## 9. Traps that have actually shipped
 
@@ -397,8 +407,6 @@ Recorded so nobody decides them by writing code.
    data shape, §7), `dictees` (the speech hook and a comparator), `jeux` (a game that is not a drill),
    `culture` (sourced photographs, §9).
 3. **Where « Index » goes on a phone** (#66). Decide before building one.
-4. **Whether the heritage parcours gets its own front door.** Answered by #88 (a parcours beside
-   the levels); leaves this list when it lands.
 5. **Kids mode** (`docs/scope.md`). **A mode beside the level — never an entry in `Level`.** Open:
    what a parent may see (RLS is own-rows only; #18, #36; parental consent), what a game is (point 2,
    the speech hook, the language rule of #85), and where it lives (a client-side filter like the

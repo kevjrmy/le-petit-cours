@@ -1,7 +1,7 @@
 # The atelier
 
 Writing an atelier page: the `temp` chapter, « Atelier » on screen — pages for one class in
-progress, shared during the call, then promoted or deleted (#80). Its pages are `ANY`. **Adding and
+progress, shared during the call, then promoted or deleted (#80). Its pages have `level: null`. **Adding and
 clearing pages is `nav-wiring.md`** (« The atelier »).
 
 ## Who reads it
@@ -38,7 +38,7 @@ heritage speaker leans on the ear, not on a list to memorise.
 ## What the chapter is not
 
 - **Not tracked.** No tick under the page or in its listing; `scratch: true` keeps it out of
-  `nextUp` and `/ma-progression`.
+  every parcours and `/ma-progression`.
 - **Not linked into** — the link would vanish at the reset. An atelier page may point out at
   lessons.
 - **Not promised.** Ids carry the date and are never reused (`temp-2026-09-29-…`); a removed page gets
@@ -47,5 +47,5 @@ heritage speaker leans on the ear, not on a list to memorise.
   matches `/temp` alone and reads no session. **Do not widen the matcher, and never write the
   password anywhere** but `.env` and Vercel.
 - **Not a place to keep things.** A page worth keeping is rewritten into its chapter as **a new page
-  with a new id** and a real `levels` tag. Pages piling up for months mean the chapter is misfiled
+  with a new id** and a real `level`. Pages piling up for months mean the chapter is misfiled
   (#80).

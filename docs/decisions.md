@@ -30,13 +30,11 @@ than marking it superseded.
 | 18 | 2026-09-05 | All content is public; an account buys only the learning path | Binding |
 | 21 | 2026-09-05 | No key that bypasses RLS lives anywhere, and RLS is the authorization model | Binding |
 | 22 | 2026-09-05 | A progress row *is* the tick; the level never keys progress | Binding · narrowed by #68 |
-| 23 | 2026-09-05 | A lesson carries a set of levels; `[]` means "always visible" | Binding · until #86 lands |
 | 24 | 2026-09-05 | IndexedDB is the local store; `localStorage` is for pre-paint values only | Binding |
 | 26 | 2026-09-05 | Sign-in is a route, `/compte`, never a modal | Binding |
 | 27 | 2026-09-05 | The accent is the wordmark's blue; the serif carries the French | Binding |
 | 29 | 2026-09-05 | Chapter landing pages are one generated route, not one file per chapter | Binding |
 | 31 | 2026-09-05 | An account may hold an optional display name | Binding |
-| 35 | 2026-09-05 | The level filters every listing, and never access | Binding · until #86 lands |
 | 36 | 2026-09-06 | The learner's settings live in user metadata, not in a table of ours | Binding |
 | 37 | 2026-09-06 | Username and password; nothing on the server reads the session | Binding |
 | 38 | 2026-09-06 | The username is its own table — unique, mutable, mirrored | Binding |
@@ -63,15 +61,13 @@ than marking it superseded.
 | 65 | 2026-09-12 | The lesson's level rides in the trail, in front of the chapter | Binding |
 | 66 | 2026-09-12 | Sections are marked, not merely spaced; the in-page index is read from the page | Binding |
 | 67 | 2026-09-12 | « En résumé » is a titled block, and one line closes a lesson | Binding |
-| 68 | 2026-09-12 | A tick names its level only when the page holds a body of work per level | Binding · narrowed by #73, #76 |
+| 68 | 2026-09-12 | A tick names its level only when the page holds a body of work per level | Binding · narrowed by #86, #87 |
 | 69 | 2026-09-17 | A recurring mistake steers the course, and nobody gets a programme of their own | Binding · extends #13 |
 | 70 | 2026-09-21 | « La suite » is the dashboard; signing in returns you where you were | Binding |
 | 71 | 2026-09-21 | Signed out, `/` is a welcome; the search field is the signed-in home | Binding |
-| 72 | 2026-09-21 | A1 joins the course as pages, not as tags | Binding · narrowed by #74, #76 |
-| 73 | 2026-09-21 | The level is chosen in the account, never on the page | Binding · narrows #68 · until #87 lands |
-| 74 | 2026-09-21 | A level is offered while it is being written, not once it is finished | Binding · narrowed by #76, #77 |
+| 72 | 2026-09-21 | A1 joins the course as pages, not as tags | Binding · narrowed by #74, #86 |
+| 74 | 2026-09-21 | A level is offered while it is being written, not once it is finished | Binding · narrowed by #77, #86 |
 | 75 | 2026-09-21 | The ladder stops at B2; C1 and C2 are out of scope | Binding |
-| 76 | 2026-09-21 | A page is listed from its floor upward; the tick follows the material | Binding · narrows #68, #72 · until #86 lands |
 | 77 | 2026-09-21 | The chooser offers the levels and rates none of them | Binding · narrows #74 |
 | 78 | 2026-09-21 | A `delf` chapter describes the exam and prints none of it | Binding · amended by #82 |
 | 79 | 2026-09-21 | The tick is settable from a chapter's listing, beside the row's link | Binding · extends #2, #48 |
@@ -81,10 +77,10 @@ than marking it superseded.
 | 83 | 2026-09-27 | An épreuve may link a Commons photo as illustration, never as the answer | Binding · narrows §9 |
 | 84 | 2026-09-27 | A written copy is handed in by downloading it, never by storing it | Binding · extends #31, #82 |
 | 85 | 2026-09-30 | An A1 page explains in Spanish; the French it teaches stays French | Binding · narrows #53 |
-| 86 | 2026-09-30 | A page has one level, and the learner chooses which levels they see | Binding · not built · replaces #23, #35, #76 |
-| 87 | 2026-09-30 | A page holding one set per level shows them as tabs | Binding · not built · replaces #73 |
-| 88 | 2026-09-30 | A parcours is a file of étapes, chosen in the account; « La suite » walks it | Binding · not built · builds #14, amends #70 |
-| 89 | 2026-09-30 | The syllabus is data, and a parcours ends on its épreuves | Binding · not built · builds #15, extends #88 |
+| 86 | 2026-09-30 | A page has one level, and the learner chooses which levels they see | Binding · narrows #72, #85 |
+| 87 | 2026-09-30 | A page holding one set per level shows them as tabs | Binding · tabs not built · narrows #68 |
+| 88 | 2026-09-30 | A parcours is a file of étapes, chosen in the account; « La suite » walks it | Binding · builds #14, amends #70 |
+| 89 | 2026-09-30 | The syllabus is data, and a parcours ends on its épreuves | Binding · syllabus not built · builds #15, extends #88 |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -198,7 +194,7 @@ secret is a decision to take here first** (#81 is the one taken).
 ## 22 · A progress row *is* the tick; the level never keys progress
 **2026-09-05 · Binding · narrowed by #68**
 
-`(user_id, lesson_id, level)` and a `marked_at`, `level` being `''` except on a `perLevel` page
+`(user_id, lesson_id, level)` and a `marked_at`, `level` being `''` except on a page with `sets`
 (#68). Marking inserts; unmarking deletes. **No `done` column** (the row says it) and **no score
 column**.
 
@@ -209,15 +205,6 @@ are stored nowhere**: a per-run score records performance, not what the learner 
 **The database knows nothing about the course** — no lessons table or foreign key, which would be a
 second place for the course to disagree with itself. **`marked_at` is client-supplied**: offline,
 what matters is when the learner ticked, and a client can only lie about its own rows.
-
-## 23 · A lesson carries a set of levels; `[]` means "always visible"
-**2026-09-05 · Binding**
-
-A page tagged `from("A1")` appears at every rung and keeps **one** tick (#76); duplication is what
-#14 rejects. **`levels` is required, and `[]` is a statement**: an optional field would make "forgot
-to tag" and "needs no tag" identical in a diff. **Filtering is `learner level ∈ lesson levels`**
-against the manifest at render time; the database has no opinion on levels, so retagging is a diff,
-not a data migration.
 
 ## 24 · IndexedDB is the local store; `localStorage` is for pre-paint values only
 **2026-09-05 · Binding**
@@ -275,18 +262,6 @@ page.**
 Optional; nothing depends on it. **The bar for anything further:** a learner would notice its
 absence. An account holds a username, an email, a password, progress rows, a level and an optional
 display name. Nothing else.
-
-## 35 · The level filters every listing, and never access
-**2026-09-05 · Binding**
-
-The level filters the sommaire, the chapter pages and the sidebar — **all three**, or seven lessons
-beside one reads as a bug. **The unfiltered course ships; hydration narrows it**, since empty would
-break offline.
-
-**Hiding is never gating:** every path resolves, and reading the session to decide rendering would
-drag lessons out of prerendering. **A filter must be visible** or it looks like an unwritten course:
-the sommaire names its programme and offers a change. **Exceptions:** search groups by level (#39),
-and `/ma-progression` does not filter (#48).
 
 ## 36 · The learner's settings live in user metadata, not in a table of ours
 **2026-09-06 · Binding**
@@ -354,7 +329,7 @@ and gone on a cold service-worker load.
 **The index is the manifest**, with no fetch, so it works offline. Full-text search over prose
 needs a compile-time index and a fetch: a different decision.
 
-**Grouped by level, never cut — a deliberate exception to #35:** hiding a page whose name was typed
+**Grouped by level, never cut — a deliberate exception to #86:** hiding a page whose name was typed
 says « ça n'existe pas » about one that opens.
 
 **`featuredChapterSlugs` is the one hand-kept list** — short, or it is the sommaire again.
@@ -579,7 +554,7 @@ control's height and the token follows**; drift shows on the rail.
 **A2 · Grammaire**, over a title that is only the title.
 
 **It is the lesson's tag, never the learner's chosen level**, which would claim the page belongs to
-it on a page that renders in full whatever they picked (#35), and put an async session read above
+it on a page that renders in full whatever they picked (#86), and put an async session read above
 every lesson. It sits outside the `<nav>` — a level is not a step of the trail.
 
 ## 66 · Sections are marked, and the margin carries an index
@@ -614,18 +589,18 @@ reads as duplication.
 links.
 
 ## 68 · A tick names its level only when the page holds a body of work per level
-**2026-09-12 · Binding · narrows #22 · narrowed by #73, #76**
+**2026-09-12 · Binding · narrows #22 · narrowed by #86, #87**
 
 `public.progress` has a `level` column, and a tick is stored under `progressKey(lesson, level)`: the
 bare `Lesson.id`, or `id@LEVEL` on a page holding one body of work per level. **The test is
-`perLevel` in the manifest**, not `levels.length > 1` (#76).
+`sets` in the manifest** (#87), never the page's `level`.
 
 **#22 is narrowed, not overturned**: the column names **which variant of the page was finished**, a
 property of the work like `lesson_id`, not the learner's setting. One tick cannot report two bodies
 of work, while a `[]` page belongs to no level on purpose.
 
 **Chosen against a second route per level** (`…/le-lion-et-le-rat/b1`): it duplicates the text, the
-id and the tick (#14, #23). The variant belongs in the key, not the URL.
+id and the tick (#14, #86). The variant belongs in the key, not the URL.
 
 **Moving a page between one key and the other is a data migration, not a tag edit**: rows keep
 `level = ''`, so a key that grows an `@` stops reading them. Ship a backfill in the same commit,
@@ -645,7 +620,7 @@ prerendered HTML.
 **In a drill, the remount is the reset**: the board is keyed on the level, so deck, placements, score
 and « vérifié » go together; a reset threaded through four setters loses one.
 
-**A page's sets and its manifest `levels` must agree**, and the manifest wins, so the sets sit in a
+**A page's sets and its manifest `sets` must agree**, and the manifest wins, so the sets sit in a
 type-only-import module (`questions.ts`, `data.ts`) that the `nav-wiring` audit reads. **A set per
 level is worth building only where the stimulus is level-independent and the *task* scales.**
 
@@ -709,15 +684,15 @@ blank first screen. Reading a cookie on the server makes `/` dynamic and drops `
 precache (§8).
 
 ## 72 · A1 joins the course as pages, not as tags
-**2026-09-21 · Binding · extends #23, #68 · narrowed by #74, #76**
+**2026-09-21 · Binding · extends #68 · narrowed by #74, #86**
 
 A1 is written into the existing chapters, inserted before the A2 material in teaching order.
 
 **One course that the level filters, not a second course beside A2**, which would duplicate the
-chapters (#14, #23). A level as a *section* of one ordered path is what `parcours` is for.
+chapters (#14, #86). A level as a *section* of one ordered path is what `parcours` is for.
 
-**Never widened downward** (#76): an A1 learner handed the A2 imparfait is the failure a second page
-exists to prevent. **The conjugation sheets are `ANY`**: a table is the same at every level.
+**A lower level is a new page, never a wider tag** (#86): an A1 learner handed the A2 imparfait is the failure a second page
+exists to prevent. **The conjugation sheets have no level**: a table is the same at every level.
 
 **A second level is a new page, except where the stimulus has no floor.** An A1 cannot read Cosette
 at all, and a drill whose mechanic *is* the level hides no A1 task. **`conversation` is not an
@@ -735,24 +710,8 @@ jamais`, A2 with `ne… plus / rien / personne`. The six points that first appea
 l'imparfait, l'alternance avec le passé composé, COD/COI, la comparaison, EN et Y, les relatifs —
 have **A2 as their floor** and no A1 twin.
 
-## 73 · The level is chosen in the account, never on the page
-**2026-09-21 · Binding · narrows #68**
-
-No level control on the page; only `LevelChooser` in `/compte` changes level, and a page shows the
-learner's level if it has it, else its own first.
-
-**A level is the course someone is following, not a view option like a theme.** It decides the
-sommaire, the sidebar, « La suite » and which body of work the tick records; a page control
-repointing the last gave two answers to one question.
-
-**Progress is untouched** (#22, #68). **A two-level page now hides one level behind a settings
-change**, so it earns its place only where the *stimulus* carries both.
-
-**Chosen against a read-only picker previewing the harder set**: still a level control on the page,
-and a tick asking which level it means. `?niveau=` stays closed (#68).
-
 ## 74 · A level is offered while it is being written, not once it is finished
-**2026-09-21 · Binding · reverses the A2-only gate, narrows #72 · narrowed by #76, #77**
+**2026-09-21 · Binding · reverses the A2-only gate, narrows #72 · narrowed by #77, #86**
 
 `CHOOSABLE_LEVELS` holds `A1, A2, B1`, and a level joins it while it is being written. **A2 was
 written first, and that order stands**: the learners the course was started for are at A2.
@@ -766,7 +725,7 @@ removed level reads back as having chosen none. Remember that before offering B2
 looks like.
 
 **Chosen against two alternatives.** Keeping the gate left the maintainer unable to see the level he
-is writing. A separate preview control would be a second writer of one value (#70, #73).
+is writing. A separate preview control would be a second writer of one value (#70).
 
 ## 75 · The ladder stops at B2; C1 and C2 are out of scope
 **2026-09-21 · Binding**
@@ -780,32 +739,6 @@ heritage speaker's **oral C1 and written A2** (#13) is CEFR describing a person.
 
 **`progress_level_shape` still admits `C1`, deliberately**: the table holds what a rung *looks like*,
 not which are taught (#22, #68). **Do not tighten it**, or a syllabus change becomes a migration.
-
-## 76 · A page is listed from its floor upward; the tick follows the material
-**2026-09-21 · Binding · narrows #68, #72**
-
-`levels` is the set of rungs a page is **listed at**, from its floor to the top of the ladder unless
-something higher supersedes it — `from("A2")`, which slices `LADDER`. A separate `perLevel: true`
-says the page holds one body of work per level, and **that** is what `progressKey` branches on.
-**A learner who climbs does not stop needing what they climbed on.**
-
-**Two claims had been sharing one bit**: `levels.length > 1` meant both, so widening a tag silently
-repointed the tick (#68). **If widening a tag ever costs a migration again, the two claims have been
-merged back.**
-
-**Chosen against three alternatives.** *A B1 twin of every A2 page*: a B1 imparfait page would be a
-copy. *A second field for the rungs a page is "still useful at"*: two lists to keep in step. *Wider
-tags with per-level ticks*: a learner who moves up finds the imparfait unticked.
-
-**`from()` has no downward twin** (#72). A written-out tag — `["A1"]` — claims something above
-supersedes the page. **`ANY` is not `from("A1")`**: `[]` belongs to no rung (the verb sheets, the
-spelling pages, which answer to literacy rather than CEFR); `from("A1")` is a syllabus claim.
-**`from("A2")` includes B2, which nobody can choose**, so the day B2 opens needs no edits.
-
-**A `perLevel` page writes its levels out, never `from()`**: the tag *is* the list of sets, and a
-rung with no set would serve another rung's material. A B2 face is a B2 set, not a wider tag.
-
-**The interface prints the floor, one badge** — « A2 B1 B2 » on every row separates nothing.
 
 ## 77 · The chooser offers the levels and rates none of them
 **2026-09-21 · Binding · narrows #74**
@@ -842,7 +775,7 @@ gitignored: anything under `public/` is served, and serving is redistribution. *
 the sujets instead** (`Chapter.outbound`); **attribution is not the fix**, since the repo still could
 not license the copy. Nothing an épreuve needs hangs off that link, which fails offline.
 
-**The épreuves carry a written-out level, not `from()`** (#76): a B1 candidate sits the B1 exam.
+**An épreuve's `level` is its paper's** (#86): a B1 candidate sits the B1 exam.
 
 ## 79 · The tick is settable from a chapter's listing, beside the row's link
 **2026-09-21 · Binding · extends #2, #48**
@@ -882,7 +815,7 @@ shrink; the row would outlive the page. So every counting or resuming reader wal
 **Ids carry a date and never come back** (a reused slug resurrects ticks, #50); **nothing permanent
 links in** (the link vanishes at the next reset); **a removed page gets no redirect** and the sitemap
 lists none of it — its URL was never promised. **Promotion is a new page with a new id. Lessons are
-`ANY`**, so no filter hides the page being shared.
+`level: null`**, so no filter hides the page being shared.
 
 **A learner's own text may be reproduced here, anonymous**: invented errors teach a different lesson.
 The line is **personal information, not authorship** — a commit that lands a name can be reverted out
@@ -972,8 +905,8 @@ they cannot use. The monolingual FLE textbook assumes a teacher in the room; thi
 alone.
 
 **Decided against Spanish by reader or by chosen level**: a lesson never reads the session (§8), so
-the language follows **the page's floor**, and an A1 page stays `from("A1")` (#76) — an A2 learner
-reads its Spanish too, which costs less than hiding it. **Decided against Spanish in the chrome**: an
+the language follows **the page's floor**, and an A1 page reaches whoever keeps A1 in view (#86) —
+which costs less than a second language setting. **Decided against Spanish in the chrome**: an
 interface that changes language with the level has to read it above a lesson, and search reads the
 titles.
 
@@ -985,13 +918,14 @@ reader read French with a Spanish voice, and fails nothing. **The A1 pages writt
 this are to be retrofitted.**
 
 ## 86 · A page has one level, and the learner chooses which levels they see
-**2026-09-30 · Binding · not built yet · replaces #23, #35, #76 on landing · narrows #72, #85**
+**2026-09-30 · Binding · narrows #72, #85**
 
 `levels: Level[]` becomes **`level: Level | null`**: the rung the page is written at, or none. It
 stays **required, and `null` is a statement** — forgetting to tag a page and a page that needs no tag
 must not look the same in a diff. `from()`, `ANY`, `A2B1` and the written-out "superseded above" tag
-go. The manifest is split **one file per chapter**, `navigation.ts` assembling them and keeping the
-helpers.
+go. **Changing a page's `level` is a diff, never a data migration**: the database has no opinion on
+levels (#22). **Still to do**: split the manifest one file per chapter, `navigation.ts` assembling
+them and keeping the helpers.
 
 **Who decides what is listed:**
 
@@ -1003,10 +937,11 @@ helpers.
 - **A page is listed when its level is in the view.** **A page with no level is listed under every
   view.** A page holding sets (#87) is listed when any of its sets is.
 
-**The filter still never gates** (#35 folded here): every path resolves, the unfiltered course
+**The filter never gates**: every path resolves, the unfiltered course
 prerenders and hydration narrows it, and the sommaire, chapter pages and sidebar filter together — a
 chapter with nothing in view drops out. Search still groups rather than cuts; `/ma-progression`
-still does not filter.
+still does not filter. **A filter must be visible**, or it reads as an unwritten course: the
+sommaire names the levels in view and links to change them.
 
 **A listing holding more than one level groups its rows**, a `<details>` per level in ladder order,
 then « Tous niveaux » for the unlevelled rows when the chapter mixes both. **One level in the
@@ -1018,17 +953,18 @@ listing, no groups.** Rows keep manifest order inside a group.
   lowest. All closed makes a visitor's first chapter a page of shut boxes.
 - **The open state is not remembered**: `localStorage` stays the theme and the sidebar (#24, #42).
 
-**Why**: #76 listed a page from its floor upward because the course chose for the learner, so a B1
+**Why**: a page used to be listed from its floor upward, because the course chose for the learner, so a B1
 saw everything and the level organised nothing above A1. **The learner who chose A2 wants the pages
 written at A2**, and one who still wants A1 ticks A1. It also settles #85's cost: the Spanish of an
 A1 page reaches only someone who asked for A1, or a visitor who sees everything.
 
 **Ticks do not move**: `progressKey` still returns `id` or `id@LEVEL`, keyed on the page's sets, never
 its listing (#68). **Chosen against keeping `from()` beside a view**: two filters stacked, and a B1
-view showing A1 pages would be the course overruling the learner again.
+view showing A1 pages would be the course overruling the learner again. **Chosen against a B1 twin of every
+A2 page**: a copy, when the A2 page is one tick of the view away.
 
 ## 87 · A page holding one set per level shows them as tabs
-**2026-09-30 · Binding · not built yet · replaces #73 on landing · narrows #68**
+**2026-09-30 · Binding · tabs not built yet · narrows #68**
 
 `perLevel: true` becomes **`sets: Level[]`**, the question sets or item banks the page holds, written
 out; its `level` is `sets[0]`, checked at import. **The sets are drawn as tabs above the work**
@@ -1038,7 +974,7 @@ out; its `level` is `sets[0]`, checked at import. **The sets are drawn as tabs a
 the lowest set. **One rule, three readers**: the tab the page opens on, the row's `RowTick` in a
 listing, and the set « La suite » means. `LessonEnd` ticks the tab in view.
 
-**Why #73 fell**: it assumed one level per learner. With a view of several levels and a visitor who
+**Why the account's level no longer picks the set**: that assumed one level per learner. With a view of several levels and a visitor who
 sees everything, there is no single level to follow, and a B1 set reachable only through a settings
 change hid the page's best half from everyone signed out.
 
@@ -1046,7 +982,7 @@ change hid the page's best half from everyone signed out.
 **The remount is still the reset**: the board is keyed on the tab.
 
 ## 88 · A parcours is a file of étapes, chosen in the account; « La suite » walks it
-**2026-09-30 · Binding · not built yet · builds #14 · amends #70 · answers AGENTS.md §12.4**
+**2026-09-30 · Binding · builds #14 · amends #70**
 
 A parcours is **`src/data/parcours/<slug>.ts`**: a permanent `id`, a title, a `level` (`null` for a
 path that answers to no rung) and an ordered list of **étapes**, each a title and the lessons it
@@ -1068,11 +1004,11 @@ walks, **by id** — a path is renamed (#50), an id never is. **It orders lesson
 sixteen grammaire pages, then fourteen verb sheets, before a first role-play. **A chapter's order is
 now for browsing**; teaching order is the parcours's.
 
-**The existing accounts' `level` becomes `view: [level]`** and no parcours, in the commit that ships
-the setting.
+**An account from before carries `level`**, and reads as `view: [level]` with no parcours; saving a
+view clears the old key.
 
 ## 89 · The syllabus is data, and a parcours ends on its épreuves
-**2026-09-30 · Binding · not built yet · builds #15 · extends #88**
+**2026-09-30 · Binding · syllabus not built yet · builds #15 · extends #88**
 
 **The syllabus** is `src/data/syllabus/<level>.ts`, one file per rung, from the *Inventaire
 linguistique des contenus clés* (CIEP / Eaquals, 2015), Annexe E: its **fonctions**, **grammaire**

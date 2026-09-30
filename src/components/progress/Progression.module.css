@@ -174,3 +174,82 @@
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* ── the parcours (#88) ──────────────────────────────────────────────────── */
+
+/* The two parts of the page, when there is a parcours: the path, then the
+   whole course. Small capitals like « La suite », so the numbers under them
+   stay the headline. */
+.part {
+  margin-bottom: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.etapes {
+  list-style: none;
+  margin-top: 1.4rem;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.etapeHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border-soft);
+  cursor: pointer;
+  list-style: none;
+}
+
+.etapeHead::-webkit-details-marker { display: none; }
+
+.etapeHead:hover .etapeTitle { color: var(--accent-text); }
+
+.etapeNumber {
+  flex: 0 0 1.4rem;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.etapeTitle {
+  min-width: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-1);
+}
+
+.etape .tally {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* The unticked mark: an empty ring the size of the tick, so the column of
+   marks lines up and « not yet » is a shape, not an absence. */
+.ring {
+  flex: 0 0 auto;
+  align-self: center;
+  width: 0.85rem;
+  height: 0.85rem;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 50%;
+}
+
+.exam {
+  margin-top: 1.6rem;
+}
+
+.examTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-1);
+}

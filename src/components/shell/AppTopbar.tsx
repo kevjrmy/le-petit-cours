@@ -31,14 +31,10 @@ import styles from "./AppTopbar.module.css";
  * its place against the panel it collapses.
  *
  * **The lesson's level rides in front of the chapter** rather than beside the
- * `<h1>` (#65). It is the lesson's own tag, read from the manifest — not the
- * learner's chosen level, which is a filter on listings and nothing this bar
- * knows about (#35). So there is no session to read here and nothing to flash.
- *
- * **It prints the floor, one badge, and never the whole tag** (#76). A page is
- * listed from the rung it was written at upward, so the tag is now three rungs
- * wide on most lessons and « A2 B1 B2 » would say nothing a reader could use:
- * what they want to know is where the page sits, which is where it starts.
+ * `<h1>` (#65). It is the lesson's own `level`, read from the manifest — not
+ * the levels the learner chose to see, which filter listings and are nothing
+ * this bar knows about (#86). So there is no session to read here and nothing
+ * to flash. A page holding sets prints its first.
  */
 export function AppTopbar({
   mode,
@@ -52,8 +48,8 @@ export function AppTopbar({
   const pathname = usePathname();
   const found = findLesson(pathname);
   const parent = found?.chapter ?? null;
-  /* The floor: the rung the page was written at. See the note above. */
-  const level = found?.lesson.levels[0] ?? null;
+  /* The rung the page was written at. See the note above. */
+  const level = found?.lesson.level ?? null;
 
   const drawer = mode === "drawer";
   const railed = mode === "rail";

@@ -190,16 +190,16 @@ Same reading, same vocabulary table, same tick, harder questions (#59, #68).
 `lecture/le-comte-de-monte-cristo` is the worked example.
 
 - **`questions.ts` exports `SETS`, imports types only**, and `quiz.tsx` is `<Comprehension
-  sets={SETS} />`. Its keys must match the manifest's `levels` (§8; the `nav-wiring` audit's fifth
+  sets={SETS} />`. Its keys must match the manifest's `sets` (§8; the `nav-wiring` audit's fifth
   line).
 - **The harder set asks more of the same page, never more pages.** A word read from context instead
   of the table, an adverb that judges the speaker, a cut sentence to reconstruct, a compliment given
   back as an insult. Every answer still on the page, every wrong option still contradicted by it.
-- **Not every text carries a harder set honestly** (`docs/levels/b1.md`); tag for the levels it can
+- **Not every text carries a harder set honestly** (`docs/levels/b1.md`); list the sets it can
   serve.
 - **The prose around the quiz must not count the questions** — two sets will not agree (§9).
 - **`delf` takes a descriptor per level** — `{ A2: '…', B1: '…' }`. `LessonDelf` follows the
-  account's level (#73); `<meta name="description">` publishes the first level's.
+  set in view (#87); `<meta name="description">` publishes the first level's.
 
 #### Checking a set before you call it done
 
@@ -259,7 +259,7 @@ One page is one épreuve (#78, #82). `delf/a2-comprehension-des-ecrits` is the w
 - **The listening épreuve is read aloud.** Write its texts to be *said* — short sentences, times and
   prices in words — with the reader's notes in `cadre`, behind `<Corrige>`.
 - **The duration is stated in the `.epreuve` banner, never counted down.**
-- **No « En résumé », no tick** (`untracked`, #82); levels written out, `["A2"]`, never `from()`.
+- **No « En résumé », no tick** (`untracked`, #82); `level` its paper's (`"A2"`).
 - **A photo is illustration only** (#83), credited, the item answerable without it.
 - Patterns: `.epreuve`, `.exercice`, `.documents`, `ol.questions`, `.redaction`, `.document`,
   `.corrige`, `.credits` in `globals.css`, components in `src/components/delf/`, all on `/design`.
@@ -309,7 +309,7 @@ writing `<td>` for either, you are in the wrong file.**
 ## Wiring — same change
 
 The page, its manifest entry and its cross-links, as `nav-wiring.md` « Adding a lesson » describes:
-the `id` is permanent (#50), `levels` required (#23), plus the DELF descriptor and `created`. Update
+the `id` is permanent (#50), `level` required (#86), plus the DELF descriptor and `created`. Put it in the parcours of its level, in teaching order (`src/data/parcours/`, #88). Update
 `AGENTS.md` if the change touches a rule. **Never hand-write a chapter landing page** (#29).
 
 Finish with `npm run build`, the `nav-wiring` audit (**all six lines `none`**), and the page in

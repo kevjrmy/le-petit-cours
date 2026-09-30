@@ -26,9 +26,9 @@ export const metadata: Metadata = {
    Nothing is hand-listed.
 
    The page is a Server Component; the two listings below are client leaves so
-   they can read the chosen level. React server-renders them into this page's
+   they can read the chosen view. React server-renders them into this page's
    static HTML, so the unfiltered course is what ships and hydration narrows it —
-   which is also the right answer for a signed-out visitor (#23). */
+   which is also the right answer for a signed-out visitor (#86). */
 export default function Sommaire() {
   return (
     <div className={styles.page}>

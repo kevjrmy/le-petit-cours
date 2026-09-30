@@ -1,4 +1,4 @@
-import { annexes, chapters, type Level, type PageEntry } from "@/data/navigation";
+import { annexes, chapters, inView, listedAt, type Level, type PageEntry, type View } from "@/data/navigation";
 
 /**
  * Searching the course, over the manifest and nothing else.
@@ -42,7 +42,10 @@ export interface SearchHit {
   titleHtml?: string;
   subtitle?: string;
   tag?: string;
-  levels: Level[];
+  /** The page's own rung, drawn as its badge; `null` for none. */
+  level: Level | null;
+  /** The rungs it is listed at — its sets, else its level (#86). */
+  listedAt: Level[];
   /** Where the hit sits in the course — « Grammaire », « Chapitre », « Le site ». */
   where: string;
 }
@@ -54,14 +57,19 @@ interface Entry extends SearchHit {
   rest_: string;
 }
 
-function entry(page: PageEntry, where: string, rest: string[] = []): Entry {
+function entry(
+  page: PageEntry & { sets?: Level[] },
+  where: string,
+  rest: string[] = [],
+): Entry {
   return {
     path: page.path,
     title: page.title,
     titleHtml: page.titleHtml,
     subtitle: page.subtitle,
     tag: page.tag,
-    levels: page.levels,
+    level: page.level,
+    listedAt: listedAt(page),
     where,
     title_: fold(page.title),
     rest_: fold([page.subtitle, page.tag, page.delf, ...rest].filter(Boolean).join(" ")),
@@ -83,7 +91,7 @@ const listed = chapters.filter((chapter) => chapter.lessons.length > 0);
 const index: Entry[] = [
   ...listed.map((chapter) =>
     entry(
-      { path: chapter.path, title: chapter.title, subtitle: chapter.blurb, levels: [] },
+      { path: chapter.path, title: chapter.title, subtitle: chapter.blurb, level: null },
       "Chapitre",
     ),
   ),
@@ -137,7 +145,7 @@ export function searchCourse(query: string): SearchHit[] {
     .map(({ row }) => row);
 }
 
-/** Whether a hit is part of what the course offers at `level` (`AGENTS.md` §6). */
-export function atLevel(hit: SearchHit, level: Level | null): boolean {
-  return !level || hit.levels.length === 0 || hit.levels.includes(level);
+/** Whether a hit is part of what the learner chose to see (#86). */
+export function atView(hit: SearchHit, view: View): boolean {
+  return inView({ ...hit, level: hit.level, sets: hit.listedAt }, view);
 }

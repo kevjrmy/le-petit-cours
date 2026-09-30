@@ -1,4 +1,5 @@
-import { CHOOSABLE_LEVELS, type Level } from "@/data/navigation";
+import { CHOOSABLE_LEVELS, LADDER, type Level, type View } from "@/data/navigation";
+import { findParcours, type Parcours } from "@/data/parcours";
 import { getSupabaseClient } from "@/lib/supabase/client";
 
 /**
@@ -115,11 +116,37 @@ export function readDisplayName(raw: unknown): string | null {
   return check.ok ? check.value : null;
 }
 
-/** What the metadata says the level is, or `null` if it is not one we offer. */
-export function readLevel(raw: unknown): Level | null {
-  return typeof raw === "string" && (CHOOSABLE_LEVELS as string[]).includes(raw)
-    ? (raw as Level)
-    : null;
+/** Whether a value is a level the chooser offers. */
+function isChoosable(raw: unknown): raw is Level {
+  return typeof raw === "string" && (CHOOSABLE_LEVELS as string[]).includes(raw);
+}
+
+/**
+ * What the metadata says the learner chose to see (#86).
+ *
+ * `view` is `"all"` or a list of levels; anything we do not offer is dropped,
+ * and a list left empty reads as `"all"`, so no stored value can hide the whole
+ * course. **An account from before #86 has a `level` and no `view`**, and reads
+ * as that one level — nothing is rewritten, the old key simply stops being read
+ * once a view is saved.
+ */
+export function readView(raw: unknown, legacyLevel: unknown): View {
+  if (raw === "all") return "all";
+  if (Array.isArray(raw)) {
+    const levels = LADDER.filter((level) => raw.includes(level) && isChoosable(level));
+    return levels.length > 0 ? levels : "all";
+  }
+  if (isChoosable(legacyLevel)) return [legacyLevel];
+  return "all";
+}
+
+/**
+ * What the metadata says the parcours is (#88), or `null` — which is also
+ * the answer for an id no parcours has any more: removing one is a silent
+ * reset for everyone on it, exactly like closing a level.
+ */
+export function readParcours(raw: unknown): Parcours | null {
+  return typeof raw === "string" ? findParcours(raw) : null;
 }
 
 export type SaveProblem =
@@ -145,7 +172,7 @@ export class SaveSettingError extends Error {
  * every consumer learns about the change — there is nothing to re-read and no
  * cache to invalidate.
  */
-async function saveSettings(data: Record<string, string | null>): Promise<void> {
+async function saveSettings(data: Record<string, string | string[] | null>): Promise<void> {
   const supabase = getSupabaseClient();
   if (!supabase) throw new SaveSettingError("unavailable");
 
@@ -163,14 +190,24 @@ export async function saveDisplayName(value: string | null): Promise<void> {
 }
 
 /**
- * Record the level this learner is working at.
+ * Record which levels this learner wants listed (#86).
  *
  * Checked against `CHOOSABLE_LEVELS` before it is written, because nothing
- * downstream will check it — that is the trade this storage makes (#36).
+ * downstream will check it — that is the trade this storage makes (#36). The
+ * pre-#86 `level` key is cleared in the same write, so an account carries one
+ * answer to the question.
  */
-export async function saveLevel(level: Level): Promise<void> {
-  if (!CHOOSABLE_LEVELS.includes(level)) throw new SaveSettingError("rejected");
-  return saveSettings({ level });
+export async function saveView(view: View): Promise<void> {
+  if (view !== "all" && (view.length === 0 || !view.every(isChoosable))) {
+    throw new SaveSettingError("rejected");
+  }
+  return saveSettings({ view, level: null });
+}
+
+/** Record the parcours this learner follows, or `null` for none (#88). */
+export async function saveParcours(id: string | null): Promise<void> {
+  if (id !== null && !findParcours(id)) throw new SaveSettingError("rejected");
+  return saveSettings({ parcours: id });
 }
 
 /**

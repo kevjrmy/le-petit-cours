@@ -37,8 +37,8 @@ export interface Question {
 /**
  * A set of questions per level, for a text whose task scales with the rung.
  *
- * **A page with these is `perLevel: true` in the manifest, and its keys must be
- * exactly that lesson's `levels`** (`docs/decisions.md` #68, #76). The flag is
+ * **A page with these has `sets` in the manifest, and its keys must be exactly
+ * that list** (`docs/decisions.md` #68, #87). The field is
  * what the tick is keyed by, so a second set arriving without it puts two
  * bodies of work behind one circle; the keys are what the level resolves
  * against, so a level listed with no set here falls back to the first and the

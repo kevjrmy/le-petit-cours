@@ -10,7 +10,7 @@ import type { Level } from "@/data/navigation";
  *
  * **Type-only imports, deliberately** (`AGENTS.md` §8). The `nav-wiring` audit
  * imports this file with plain `node` to check `BANKS`'s keys against the
- * manifest's `levels`; a runtime import of `@/data/conjugaisons` would need the
+ * manifest's `sets`; a runtime import of `@/data/conjugaisons` would need the
  * path alias node does not have, and the audit would stop reporting without
  * saying so.
  */
@@ -45,13 +45,13 @@ export interface Bank {
  * « tous les verbes en -er se conjuguent ainsi, sauf aller », so these eighteen
  * endings are the endings of the largest group in the language.
  *
- * **One bank, so this lesson is not `perLevel`** and its tick is the bare id
- * (#76). A second bank belongs on this page rather than on a new one, the
+ * **One bank, so this lesson has no `sets`** and its tick is the bare id
+ * (#87). A second bank belongs on this page rather than on a new one, the
  * mechanic being level-independent (#68) — *manger* or *commencer* would make a
  * good harder bank, since their stems soften before `a` and not before `i`, and
  * the board already reads that from the verb entry. **Adding it costs three
- * things in one commit**: `perLevel: true` in the manifest, `levels` written
- * out as exactly the banks' keys, and a backfill moving every stored tick from
+ * things in one commit**: `sets` in the manifest, written out as exactly the
+ * banks' keys, and a backfill moving every stored tick from
  * `ex-les-terminaisons` to `ex-les-terminaisons@A2`.
  */
 export const BANKS: Record<string, Bank> = {

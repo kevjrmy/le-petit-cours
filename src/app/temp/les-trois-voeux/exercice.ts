@@ -11,7 +11,7 @@ import type { FauteItem } from "../_exercice/Faute";
  *   était » serait une stratégie.
  * - `DEFI` : un seul mot fautif par phrase, jamais une élision.
  *
- * Les noms `data.ts`, `SETS`, `BANKS` sont évités exprès : la page est `ANY`.
+ * Les noms `data.ts`, `SETS`, `BANKS` sont évités exprès : la page est sans niveau.
  *
  * Vérification (phrases complétées, côtés, doublons stricts) :
  *

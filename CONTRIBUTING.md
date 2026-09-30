@@ -66,12 +66,12 @@ are in [`AGENTS.md`](AGENTS.md); the `#nn` numbers point into
 - **No raw colour values in components** — every colour comes from a design token.
 - **The serif marks the French taught** (`<span className="fr">`); on an A1 page the section is
   `lang="es"` and every piece of French takes `lang="fr"` back (#85).
-- **Every lesson declares `levels`**, and `[]` means "always visible" (#23).
-- **`levels` runs from the page's floor upward** — `from("A2")` — **and is never widened
-  downward**: an A1 learner gets a simpler A1 page (#72, #76).
-- **`perLevel: true` means one body of work per level**, and its material must match `levels`
-  exactly (#76).
-- **Widening `levels` is free; adding or removing `perLevel` is a data migration** (#68).
+- **Every lesson declares one `level`**, or `null` for a page that answers to no rung (#86). A
+  lower level gets a new, simpler page, never a second tag (#72).
+- **`sets` means one body of work per level**, and its material must match it exactly (#87).
+- **Changing `level` is free; adding or removing `sets` is a data migration** (#68).
+- **A parcours names lessons by id** (`src/data/parcours/`, #88): a lesson removed or re-id'd
+  leaves every parcours first, or the build fails.
 - **A lesson's `id` is permanent** (`chapitre-nom`): changing it silently erases everyone's tick on
   it (#50).
 - **No copyrighted text.** Public-domain works or original writing; song lyrics as short excerpts

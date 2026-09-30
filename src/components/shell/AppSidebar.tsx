@@ -24,7 +24,6 @@ import styles from "./AppSidebar.module.css";
 export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: () => void }) {
   const pathname = usePathname();
   const account = useAccount();
-  const level = account?.level ?? null;
   useRestoreRail();
 
   /* Either list can be empty — nothing but the manifest decides what is in
@@ -34,7 +33,7 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
   const tailAnnexes = iconAnnexes("tree");
   /* Empty while the course is unwritten (#51), and the sommaire says why — a
      panel of nothing needs no caption of its own. */
-  const listed = listedChapters(level);
+  const listed = listedChapters(account?.view ?? "all");
 
   /* One row, wherever the annexe sits. Written once because the two lists are
      the same row in two places, and the day one grows an active state or a

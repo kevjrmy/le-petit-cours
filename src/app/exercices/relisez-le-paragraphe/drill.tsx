@@ -10,7 +10,7 @@ import dynamic from "next/dynamic";
  * (`.claude/agents/exercise-author.md`). La note longue est dans
  * `exercices/etre-ou-avoir/drill.tsx`.
  *
- * **Pas de `useLessonVariant` ici** : cette leçon est taguée `ANY` et n'a qu'un
+ * **Pas de `useLessonVariant` ici** : cette leçon est sans niveau et n'a qu'un
  * lot, donc il n'y a pas de variante à choisir (`docs/decisions.md` #68).
  */
 const Board = dynamic(() => import("./board").then((m) => m.Board), {

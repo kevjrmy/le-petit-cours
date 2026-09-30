@@ -1,1 +1,50 @@
 .list { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+
+/* ── the level groups (#86) ─────────────────────────────────────────────── */
+
+.groups { display: flex; flex-direction: column; gap: 0.6rem; }
+
+.group > .list { margin-top: 0.45rem; }
+
+/* The head reads as a heading over the rows, not as another row: no card, the
+   level in the serif, the count in the sans beside it. */
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  cursor: pointer;
+  list-style: none;
+  border-bottom: 1px solid var(--border);
+}
+
+.head::-webkit-details-marker { display: none; }
+
+.head:hover .label { color: var(--accent-text); }
+
+.chevron {
+  align-self: center;
+  width: 0.9rem;
+  height: 0.9rem;
+  fill: none;
+  stroke: var(--text-3);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--dur-fast) ease;
+}
+
+.group[open] > .head .chevron { transform: rotate(90deg); }
+
+.label {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+.count { font-size: 0.8rem; color: var(--text-3); }
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron { transition: none; }
+}

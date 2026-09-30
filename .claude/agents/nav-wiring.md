@@ -81,15 +81,15 @@ const stale = Object.entries(relatedPages).flatMap(([from, tos]) => [
 const slugs = new Set(chapters.map(c => c.slug))
 const pills = featuredChapterSlugs.filter(s => !slugs.has(s))
 
-// A page marked perLevel holds one body of work per level, in a module beside
-// its page.tsx (#68, #76): questions.ts exporting SETS for a reading quiz,
-// data.ts exporting BANKS for a drill. Its keys and the manifest's levels are
+// A page with sets holds one body of work per level, in a module beside
+// its page.tsx (#68, #87): questions.ts exporting SETS for a reading quiz,
+// data.ts exporting BANKS for a drill. Its keys and the manifest's sets are
 // two lists that must say the same thing, and the manifest wins where they
 // differ — so a level tagged with nothing behind it serves another level's
 // material rather than failing. Nothing else says so.
 //
 // The other direction is the one that costs a tick: several sets and no
-// perLevel means two bodies of work sharing one circle, and adding the flag
+// no sets in the manifest means two bodies of work sharing one circle, and adding the flag
 // later moves every tick on the page. A single set with no flag is the ordinary
 // case and fine -- the module is just where that page keeps its data.
 //
@@ -97,7 +97,7 @@ const pills = featuredChapterSlugs.filter(s => !slugs.has(s))
 // string, so bash would run their contents as commands before node sees it.
 const sets = []
 for (const l of declared) {
-  const levels = l.levels ?? []
+  const levels = l.sets ?? []
   let keys = null
   for (const [file, name] of [['/questions.ts', 'SETS'], ['/data.ts', 'BANKS']]) {
     const path = './src/app' + l.path + file
@@ -106,11 +106,11 @@ for (const l of declared) {
     if (map) { keys = Object.keys(map).sort(); break }
   }
   if (keys === null) {
-    if (l.perLevel) sets.push(l.path + ' -> perLevel, no per-level module')
+    if (l.sets) sets.push(l.path + ' -> sets, no per-level module')
     continue
   }
-  if (!l.perLevel) {
-    if (keys.length > 1) sets.push(l.path + ' -> ' + keys.length + ' sets [' + keys + '], no perLevel in the manifest')
+  if (!l.sets) {
+    if (keys.length > 1) sets.push(l.path + ' -> ' + keys.length + ' sets [' + keys + '], no sets in the manifest')
     continue
   }
   const want = [...levels].sort().join(',')
@@ -167,10 +167,11 @@ Then `npm run build`.
    the page in the wrong place or nowhere.
 3. Its cross-links, and a link back from whatever relates to it.
 
-**`levels`** is required; `[]` means always visible (#23). Write `from("A2")`; a written-out tag is
-the exception; never widen downward (§1, #76). **`perLevel: true`** is the separate claim of one
-body of work per level: adding or removing it moves every tick between `id` and `id@LEVEL`, so ship
-the backfill in the same commit, and list exactly the levels with material — never `from()` (§8).
+**`level`** is required: the rung the page is written at, or `null` for none (#86). **`sets`** is the
+separate claim of one body of work per level: written out in ladder order, the first equal to
+`level` (checked at import); adding or removing it moves every tick between `id` and `id@LEVEL`, so
+ship the backfill in the same commit (§8). **A lesson removed or re-id'd must leave every parcours
+first** (`src/data/parcours/`, #88) — a parcours naming a missing id fails the build.
 
 **`id`** is required and the one field you can never revise (#50). Shape: lower case, digits and
 hyphens, alphanumeric at both ends. Convention: a short chapter prefix plus the lesson's name —
@@ -255,7 +256,7 @@ just its manifest entry.
 **Adding a page** is « Adding a lesson », with four differences:
 
 - **The id carries the date**: `temp-2026-09-22-terminaisons`.
-- **`levels: ANY`**, never `from()`.
+- **`level: null`**, and never in a parcours (it cannot be ticked, #88).
 - **No `relatedPages` entry pointing *at* it.** It may have a key of its **own**, linking out —
   delete that key with the page (the audit's third line reports a source that no longer resolves).
 - **Nothing in `featuredChapterSlugs`.**
@@ -273,7 +274,7 @@ last page using them is gone; the underscore hides them from the router **and** 
 behind they are dead code. No redirect. `grep -rn "/temp/" src/` checks nothing permanent linked in.
 The chapter stays in the manifest with `lessons: []`.
 
-**Keeping a page** is a new page in its real chapter, with a **new permanent id** and a real `levels`
+**Keeping a page** is a new page in its real chapter, with a **new permanent id** and a real `level`
 tag.
 
 Run the audit either way: an entry left after its folder went is the first of the six lines.

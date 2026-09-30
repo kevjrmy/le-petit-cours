@@ -69,10 +69,10 @@ The **mechanic is level-independent**; only the deck moves (#68). A harder level
 on the same page, never a second page (upward only: an A1 version is a new page, #72).
 
 - **`data.ts` exports `BANKS`**, keyed by level, plus `bankFor(level)` falling back to the first
-  bank. Its keys must equal the manifest's `levels` — the `nav-wiring` audit's fifth line checks it,
+  bank. Its keys must equal the manifest's `sets` — the `nav-wiring` audit's fifth line checks it,
   so keep the export named.
-- **`drill.tsx` keys the board on the level and draws no control for it** (#73). `useLessonVariant`
-  reads the account; `<Board key={level} level={level} />` remounts on a change, which is the whole
+- **`drill.tsx` keys the board on the level** (#87). `useLessonVariant` gives the learner's default
+  set; `<Board key={level} level={level} />` remounts on a change, which is the whole
   reset — threading a reset through four setters once scored a board against the other level's
   answers.
 - **Nothing in the page's prose counts the deck** — read `deck.length` (§9).

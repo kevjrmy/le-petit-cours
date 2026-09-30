@@ -11,7 +11,7 @@ import dynamic from "next/dynamic";
  * `exercices/etre-ou-avoir/drill.tsx`.
  *
  * **Pas de `useLessonVariant` ici**, contrairement aux autres plateaux : cette
- * leçon est taguée `ANY` et n'a qu'un lot, donc il n'y a pas de variante à
+ * leçon est sans niveau et n'a qu'un lot, donc il n'y a pas de variante à
  * choisir ni de clé à poser dessus (`docs/decisions.md` #68).
  */
 const Board = dynamic(() => import("./board").then((m) => m.Board), {

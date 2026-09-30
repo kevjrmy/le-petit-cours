@@ -14,7 +14,8 @@ import {
   type SaveProblem,
 } from "@/lib/account";
 import { useAccount } from "@/hooks/useAccount";
-import { LevelChooser } from "./LevelChooser";
+import { ParcoursChooser } from "./ParcoursChooser";
+import { ViewChooser } from "./ViewChooser";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { SignInForm } from "./SignInForm";
 import styles from "./AccountSettings.module.css";
@@ -44,11 +45,12 @@ export function AccountSettings() {
           can read two inches lower is a page whose first screen is spent.
 
           The settings themselves all arrive with the session, so there is no
-          loading state to show and no ordering between them: the level no
-          longer has to exist before a name can be saved (#36). It still comes
-          first because it is the one a learner is asked for once, on arrival
-          (#23). */}
-      <LevelChooser current={account.level} />
+          loading state to show and no ordering between them (#36). The
+          parcours comes first because it is what « La suite » walks (#88),
+          then what the listings show (#86): the two a learner sets on
+          arrival. */}
+      <ParcoursChooser current={account.parcours} />
+      <ViewChooser current={account.view} />
       <UsernameField initial={account.username} />
       <DisplayNameField initial={account.displayName} />
       <PasswordField email={account.email} />

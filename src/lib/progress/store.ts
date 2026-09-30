@@ -1,4 +1,4 @@
-import type { Lesson, Level } from "@/data/navigation";
+import { variantOf, type Lesson, type Level } from "@/data/navigation";
 
 /**
  * What progress is, and the one interface both stores implement.
@@ -19,14 +19,10 @@ export type Progress = Record<string, string>;
  * The key one tick is stored under, and the only place the rule lives.
  *
  * **A tick carries a level exactly when the lesson holds a body of work per
- * level** — `perLevel` in the manifest, never `levels.length > 1` (#76). Since
- * a page is listed from its floor upward, most multi-level pages are one lesson
- * shown at several rungs: the imparfait is the same page at A2 and at B1, so it
- * keeps **one** tick and a learner who ticked it at A2 finds it ticked when
- * they climb. That is what makes widening a tag free, and it is the whole
- * reason the two claims are separate fields.
+ * level** — `sets` in the manifest, never its `level` (#86, #87). The imparfait
+ * is one page with one tick whoever reads it and whatever they chose to see.
  *
- * `perLevel` says the opposite thing about the few pages that set it: a
+ * `sets` says the opposite thing about the few pages that have it: a
  * `lecture` text with a question set per level, an `exercices` drill with an
  * item bank per level (#68). There one tick cannot report both — a learner who
  * read the text at A2 and moved to B1 would find the B1 questions already
@@ -47,11 +43,8 @@ export type Progress = Record<string, string>;
  * collapsing onto the global key and silently reading another variant's tick.
  */
 export function progressKey(lesson: Lesson, level: Level | null): string {
-  /* The length guard is defence, not the rule: a page claiming a set per level
-     while naming one level has no second variant to name. */
-  if (!lesson.perLevel || lesson.levels.length < 2) return lesson.id;
-  const variant = level && lesson.levels.includes(level) ? level : lesson.levels[0];
-  return joinKey(lesson.id, variant);
+  if (!lesson.sets) return lesson.id;
+  return joinKey(lesson.id, variantOf(lesson, level) ?? "");
 }
 
 /**

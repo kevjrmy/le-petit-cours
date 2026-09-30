@@ -4,7 +4,7 @@ import type { Question, QuestionSets } from "@/components/exercice/Comprehension
  * The questions for this extract, one set per level.
  *
  * **Data, not a component, and in its own file** so the `nav-wiring` audit can
- * import it and check its keys against the manifest's `levels` without loading
+ * import it and check its keys against the manifest's `sets` without loading
  * a client component and its stylesheet. Every import here is `import type`,
  * which type stripping erases, so plain `node` can read this file.
  *

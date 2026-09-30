@@ -1,9 +1,10 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { readDisplayName, readLevel, readUsername } from "@/lib/account";
+import { readDisplayName, readParcours, readUsername, readView } from "@/lib/account";
 import { getSupabaseClient, SUPABASE_CONFIGURED } from "@/lib/supabase/client";
-import type { Level } from "@/data/navigation";
+import type { View } from "@/data/navigation";
+import type { Parcours } from "@/data/parcours";
 
 export interface Account {
   /**
@@ -32,8 +33,10 @@ export interface Account {
    * has something to show.
    */
   displayName: string | null;
-  /** The CEFR level they are working at, or `null` if they have not chosen. */
-  level: Level | null;
+  /** The levels they chose to see listed, or `"all"` (#86). */
+  view: View;
+  /** The path they follow, or `null` for none (#88). Never set by the view. */
+  parcours: Parcours | null;
 }
 
 /** What to call this learner: their chosen name, else their username. */
@@ -52,7 +55,7 @@ const AccountReadyContext = createContext(false);
 /**
  * Holds who is signed in, once, for the whole shell.
  *
- * **Everything about the learner arrives with the session.** The level and the
+ * **Everything about the learner arrives with the session.** The view and the
  * display name live in the account's user metadata (#36), so there is no second
  * read, nothing to be told apart from "not loaded yet", and no cache to
  * invalidate after a save — `updateUser` emits `USER_UPDATED`, which comes back
@@ -106,7 +109,8 @@ export function AccountProvider({ children }: { children: ReactNode }) {
         username: readUsername(meta.username, user.email),
         email: user.email,
         displayName: readDisplayName(meta.display_name),
-        level: readLevel(meta.level),
+        view: readView(meta.view, meta.level),
+        parcours: readParcours(meta.parcours),
       });
     });
 

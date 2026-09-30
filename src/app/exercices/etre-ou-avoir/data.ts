@@ -269,7 +269,7 @@ const B1: VerbItem[] = [
 ];
 
 /**
- * Les lots, par niveau. **Les clés doivent être exactement les `levels` de la
+ * Les lots, par niveau. **Les clés doivent être exactement les `sets` de la
  * leçon dans le manifeste**, et l'audit de `nav-wiring` ne vérifie que cela.
  */
 export const BANKS: Partial<Record<Level, VerbItem[]>> = { A2, B1 };

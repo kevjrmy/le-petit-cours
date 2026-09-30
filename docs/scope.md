@@ -10,8 +10,8 @@ how to build it; `docs/decisions.md` records why; this file says what is being b
 **The ladder stops at B2** (#75) — C1 and C2 serve academic or professional French, which is
 neither profile below. A2 was written first (#74); A1 and B1 are written into the same chapters and
 all three are choosable while being written, with nothing in the interface rating them (#77). B2 is
-declared and cannot be chosen. A page is listed from its floor upward, so climbing never shows
-fewer lessons (#76). The mechanics are in `AGENTS.md` §1; each rung's syllabus and gap is in
+declared and cannot be chosen. A page has one level; a visitor sees them all, and a learner chooses
+which to see (#86). The mechanics are in `AGENTS.md` §1; each rung's syllabus and gap is in
 `docs/levels/`. That limit is deliberate: an unbounded project never finishes a level.
 
 Nothing announces what is unwritten: a chapter is offered in the commit that gives it a page (#51).
@@ -69,15 +69,16 @@ student-management system » below and with an account that holds nothing about 
 ## Two ways in: the chapters and the parcours
 
 - **The chapters.** Browse by chapter — grammaire, orthographe, conjugaison, vocabulaire… The
-  reference view, and what exists today.
+  reference view, filtered by the levels a learner chose (#86).
 - **The exam.** `delf` holds whole épreuves to sit in real conditions, written for this course
   (#78). It is the last chapter because it teaches nothing: it asks for everything above it at
   once, in the exam's own time.
-- **A parcours** — planned, not built. An ordered path through the same lessons (#14): `Parcours
-  A1` and `Parcours A2` follow the DELF syllabus; a heritage parcours (« Écrire le français »)
-  walks the orthography and conjugation pages in remediation order.
+- **A parcours** — an ordered path through the same lessons, in étapes (#14, #88), chosen in the
+  account; « La suite » walks it. `Parcours A1`, `A2` and `B1` follow the DELF syllabus, A2 ending
+  on its épreuves (#89); « Écrire le français » walks the orthography and conjugation pages in
+  remediation order — the heritage speaker's door, with no level.
 
-One library, several orderings: a level is a filter on tagged lessons, not a fork in the codebase,
+One library, several orderings: a level is a filter the learner sets, not a fork in the codebase,
 and a new profile means a new parcours rather than a new app.
 
 ## What "done" means
@@ -161,6 +162,5 @@ Stated so a "no" is about scope rather than about the person asking:
 
 Tracked here, decided in `docs/decisions.md` when they close:
 
-- Whether the heritage parcours gets its own front door or stays one path among several.
 - When B2 opens (`docs/levels/b2.md`).
 - The Kids mode (`AGENTS.md` §12.5): what a parent sees, what a game is, where the mode lives.

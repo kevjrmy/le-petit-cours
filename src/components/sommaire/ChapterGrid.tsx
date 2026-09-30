@@ -14,7 +14,7 @@ import styles from "./ChapterGrid.module.css";
  * into the static HTML, so a visitor with no JavaScript — or the service worker
  * serving a cold page offline — still gets the whole grid. Hydration then
  * narrows it. The unfiltered course is the correct thing to serve when nobody
- * has said otherwise, which is exactly what signed-out means (#23).
+ * has said otherwise, which is exactly what signed-out means (#86).
  *
  * **A chapter with nothing to offer is not a card** (#51). It used to be one
  * reading « 3 à venir » or « rien à ce niveau », which is a card that costs a
@@ -22,8 +22,7 @@ import styles from "./ChapterGrid.module.css";
  */
 export function ChapterGrid() {
   const account = useAccount();
-  const level = account?.level ?? null;
-  const listed = listedChapters(level);
+  const listed = listedChapters(account?.view ?? "all");
 
   /* The course is being written and nothing is published yet (#51). Said here,
      once, rather than by fourteen cards each announcing their own emptiness —

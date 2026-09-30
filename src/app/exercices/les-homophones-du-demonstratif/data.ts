@@ -4,7 +4,7 @@
  * **Un seul lot, sans niveau.** La paire `ces / ses` se décide de la même façon
  * pour qui apprend le français et pour qui l'écrit depuis toujours : c'est de
  * la littératie, pas un échelon du CECRL, et la leçon qui la porte est taguée
- * `ANY` comme le reste du chapitre `orthographe`. Ce fichier n'exporte donc pas
+ * sans niveau comme le reste du chapitre `orthographe`. Ce fichier n'exporte donc pas
  * de `BANKS` : il n'y a rien à faire varier par niveau (`AGENTS.md` §8).
  *
  * **Aucun import**, pas même de type : l'audit `nav-wiring` lit ce dossier avec

@@ -9,8 +9,8 @@ export interface PageRowProps {
   titleHtml?: string;
   subtitle?: string;
   tag?: string;
-  /** The manifest tag. Only its **floor** is drawn — see the note below. */
-  levels: Level[];
+  /** The page's rung, drawn as a badge; `null` draws none — see the note below. */
+  level: Level | null;
   /** Where the page sits in the course. Shown only where the list is not already
    *  one chapter's — a search result needs it, a chapter's own list does not. */
   where?: string;
@@ -49,11 +49,9 @@ export interface PageRowProps {
  * end of it, and lets the hairline between the two controls take the row's
  * colour.
  *
- * **The level badge is the tag's floor, one badge** (#76). A page is listed
- * from the rung it was written at upward, so `levels` is three rungs wide on
- * most lessons and a row ending « A2 B1 B2 » would be a column of noise that
- * separates nothing — every row in the list would carry it. The floor is the
- * one thing it says that distinguishes one row from the next.
+ * **One badge, the page's own level** (#86) — a page holding sets is badged at
+ * its first. A listing grouped by level passes `null`: the group head already
+ * says it, and the same badge on every row under it separates nothing.
  */
 export function PageRow({
   path,
@@ -61,7 +59,7 @@ export function PageRow({
   titleHtml,
   subtitle,
   tag,
-  levels,
+  level,
   where,
   done,
   tick,
@@ -84,7 +82,7 @@ export function PageRow({
         <span className={styles.meta}>
           {where && <span className={styles.where}>{where}</span>}
           {tag && <span className={styles.tag}>{tag}</span>}
-          {levels[0] && <span className={styles.level}>{levels[0]}</span>}
+          {level && <span className={styles.level}>{level}</span>}
         </span>
       </Link>
       {tick}

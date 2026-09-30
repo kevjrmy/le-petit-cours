@@ -13,7 +13,7 @@ import type { Morceau } from "../_exercice/Trous";
  * Une phrase de la copie résumait le passé du personnage d'une façon qui n'a
  * pas sa place sur une page publique ; elle n'est pas reprise.
  *
- * Nommé comme ses voisins, jamais `SETS` ni `BANKS` : la page est `ANY`.
+ * Nommé comme ses voisins, jamais `SETS` ni `BANKS` : la page est sans niveau.
  */
 export const TEXTE: Morceau[][] = [
   [

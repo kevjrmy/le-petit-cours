@@ -4,7 +4,7 @@ import type { Question, QuestionSets } from "@/components/exercice/Comprehension
  * The questions for this text, one set per level (`docs/decisions.md` #68).
  *
  * **Data, not a component, and in its own file** so the `nav-wiring` audit can
- * import it and check its keys against the manifest's `levels`. Every import
+ * import it and check its keys against the manifest's `sets`. Every import
  * here is `import type`, which type stripping erases, so plain `node` reads it.
  *
  * Same text, same vocabulary table, same tick: only the question changes (#59).

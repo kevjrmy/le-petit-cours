@@ -83,7 +83,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             to be correct before anything is painted — a theme that arrives late
             flashes white, and a sidebar that arrives late renders open and
             snaps shut, which is worse because it moves the page. Both are one
-            short string nobody would mourn. The chosen level and progress are
+            short string nobody would mourn. The chosen view and progress are
             in IndexedDB, which is async and cannot be read here at all; that is
             the line, not the count. */}
         <script
