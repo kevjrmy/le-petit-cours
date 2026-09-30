@@ -58,7 +58,7 @@ than marking it superseded.
 | 59 | 2026-09-07 | How hard a reading text may be, and what to do when it is too hard | Binding |
 | 60 | 2026-09-07 | World literature in `litterature`; the translator's death date is the test | Binding |
 | 63 | 2026-09-12 | The footer belongs to the home page; the shell's foot is one shared row | Binding |
-| 65 | 2026-09-12 | The lesson's level rides in the trail, in front of the chapter | Binding |
+| 65 | 2026-09-12 | No level in the trail; a lesson's level is shown on its listing row | Binding · amended 2026-09-30 |
 | 66 | 2026-09-12 | Sections are marked, not merely spaced; the in-page index is read from the page | Binding |
 | 67 | 2026-09-12 | « En résumé » is a titled block, and one line closes a lesson | Binding |
 | 68 | 2026-09-12 | A tick names its level only when the page holds a body of work per level | Binding · narrowed by #86, #87 |
@@ -389,8 +389,8 @@ panel. **Its label follows the mode** — *ouvert* / *fermé* for a drawer, *ré
 a panel.
 
 **The trail does not name the current page** — the `<h1>` is right beneath it. It keeps **the
-chapter, as a link up**, the only place a lesson names it. **It grows *upward*** (a parcours step, a
-level, #65); **putting the leaf back is not growth.**
+chapter, as a link up**, the only place a lesson names it. **It grows *upward*** (a parcours step;
+not a level, #65); **putting the leaf back is not growth.**
 
 ## 47 · The account popover holds the account, and nothing else
 **2026-09-06 · Binding**
@@ -553,14 +553,16 @@ annexe is reachable from `/` only.**
 **The account control and the footer share `--shell-foot-h`**: one rule, one baseline. **Change the
 control's height and the token follows**; drift shows on the rail.
 
-## 65 · The lesson's level rides in the trail, in front of the chapter
-**2026-09-12 · Binding**
+## 65 · No level in the trail; a lesson's level is shown on its listing row
+**2026-09-12 · Binding · amended 2026-09-30**
 
-**A2 · Grammaire**, over a title that is only the title.
+**The trail is the chapter, and only the chapter.** From 2026-09-12 it carried the lesson's level in
+front of it (« A2 · Grammaire »); the maintainer removed it on 2026-09-30. A literary work now
+shows a body per level (#92), so a floor printed above the page named a level the reader was not
+reading, and on every other page it repeated the row's badge.
 
-**It is the lesson's tag, never the learner's chosen level**, which would claim the page belongs to
-it on a page that renders in full whatever they picked (#86), and put an async session read above
-every lesson. It sits outside the `<nav>` — a level is not a step of the trail.
+**Still true from the first version**: the learner's chosen level never goes in the topbar, which
+would put an async session read above every lesson (#86). No badge returns beside the `<h1>`.
 
 ## 66 · Sections are marked, and the margin carries an index
 **2026-09-12 · Binding · the mobile placement is open, see `AGENTS.md` §12**

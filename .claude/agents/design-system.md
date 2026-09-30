@@ -242,4 +242,4 @@ condensed and read as deformed; lowercase « abc » fits, and needed 3.2 units b
 white.
 
 **A badge beside an `<h1>` goes outside it**, or the heading's name becomes « Le passé composé A2 ».
-The level now rides in the topbar (#65); no page carries a badge beside its title.
+No page carries a level beside its title, and the topbar carries none either (#65).

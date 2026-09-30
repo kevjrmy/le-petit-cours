@@ -134,8 +134,8 @@ node scripts/shot.mjs "$BASE" mobile.png --full --mobile
 
 Use `scripts/shot.mjs` (§11), never Chrome flags. **Read the PNGs back and look at them.**
 
-At 430 px: the sidebar off-canvas, the topbar showing its control and at most the lesson's level and
-chapter (#65) — never the page's own name (#45) — and no horizontal scroll. The topbar **is** sticky
+At 430 px: the sidebar off-canvas, the topbar showing its control and at most the lesson's
+chapter, no level (#65) — never the page's own name (#45) — and no horizontal scroll. The topbar **is** sticky
 here, in `--surface-app` (#44): scroll and check nothing bleeds through. Above the breakpoint a
 background or `position: sticky` on it is a regression (#43).
 

@@ -45,8 +45,8 @@
 
   /* The trail lines up with the `<h1>` under it rather than with the button
      beside it — and it is the trail, not the crumb, that carries the
-     offset, so the level pill in front of the chapter starts on the column
-     too (#65). `.prose` is centred at `--measure` inside `.content`'s gutters,
+     offset, so anything the trail grows upward starts on the column too.
+     `.prose` is centred at `--measure` inside `.content`'s gutters,
      so the offset is computable rather than guessed: this bar's box is 1rem
      wider than the content's (its padding is `--shell-gutter` less the 0.5rem
      that puts the *glyph* on the text edge), and the button eats 2.25rem of the
@@ -86,11 +86,9 @@
   stroke-linejoin: round;
 }
 
-/* The level, then one link back up to the chapter. The whole trail is absent
+/* One link back up to the chapter, no level (#65). The whole trail is absent
    on every top-level page, so it must not reserve space — no `flex: 1`,
-   nothing to leave a gap behind. `center` rather than `baseline`: the pill is a
-   box with padding and the link is 0.85rem of text, and there is no large type
-   here for the two to share a baseline with. */
+   nothing to leave a gap behind. */
 .trail {
   display: flex;
   align-items: center;
@@ -108,22 +106,3 @@
 
 .crumbs a { color: var(--text-2); }
 .crumbs a:hover { color: var(--accent); }
-
-/* The lesson's own level, moved off the page header (#65). `flex: 0 0 auto`,
-   because in a row a flex child with a zero basis collapses — and a two-letter
-   pill has nothing to spare. */
-.levels {
-  flex: 0 0 auto;
-  display: flex;
-  gap: 0.35rem;
-}
-
-.levels span {
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  padding: 0.12rem 0.45rem;
-  border-radius: var(--radius-pill);
-  background: var(--accent-soft);
-  color: var(--accent-text);
-}

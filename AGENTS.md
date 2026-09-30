@@ -213,8 +213,8 @@ folder is a 404, a folder without an entry is unreachable — `nav-wiring` audit
 - **Search reads the manifest only, folds accents, groups by level.** `/recherche` stays static:
   `useSearchParams` in a leaf inside `Suspense`.
 - **A route outside the course goes in `unlistedPages`** (the audit reads it).
-- **The topbar never names the current page** (#45); **its trail carries the lesson's floor level
-  from the manifest, never the learner's level** (#65).
+- **The topbar never names the current page** (#45); **its trail is the chapter alone, no level**
+  (#65).
 - **One sidebar control, in the topbar, at every breakpoint.**
 - **« Index » is read from the page's `h2`s after paint** (#66) — anchors are not permanent; the
   reading column never shrinks for it.
