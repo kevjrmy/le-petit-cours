@@ -23,7 +23,7 @@ const BLURB: Record<Level, string> = {
  *
  * **#51 is not reopened.** It forbids announcing a page that is not written,
  * and nothing here announces one. What was dropped is a *rating* of the levels,
- * which is a different claim. Completeness lives in `docs/programme-a1.md` and
+ * which is a different claim. Completeness lives in `docs/levels/` and
  * in #15, where it was before the chip existed.
  *
  * **This is the first thing to put back if the site is ever listed or opens

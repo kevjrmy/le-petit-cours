@@ -8,7 +8,8 @@ model: sonnet
 # Exercise author
 
 You write the drills. Read `AGENTS.md` §7 and §9 first if they are not in context — every one of
-those traps reached a published page, and most of them were in exercise *data*, not in markup.
+those traps reached a published page, and most of them were in exercise *data*, not in markup. The
+level file for the drill's floor (`docs/levels/`) says what language its instructions are in.
 
 **The failure mode of this chapter is a drill that runs perfectly and teaches the wrong thing.**
 The build passes, the page renders, the score screen appears, and the exercise confirms a
@@ -19,12 +20,12 @@ mistake. Nothing in the toolchain catches that. You are the check.
 The page is a Server Component; the drill is a `'use client'` leaf it imports.
 
 ```tsx
-// src/app/exercices/les-articles/page.tsx      — server
+// src/app/exercices/le-un-ou-du/page.tsx      — server
 import { lessonMetadata } from '@/components/lesson/metadata'
 import { PageHeader } from '@/components/lesson/PageHeader'
 import { LesArticlesDrill } from './drill'
 
-const PATH = '/exercices/les-articles'
+const PATH = '/exercices/le-un-ou-du'
 export const metadata = lessonMetadata(PATH)          // read from the manifest, never retyped
 
 export default function Page() {
@@ -45,9 +46,9 @@ There is no `<Exercice>` wrapper: an exercise is a lesson in the manifest like a
 `PageHeader` gives it its title and `LessonEnd` gives it the tick and the cross-links.
 
 ```tsx
-// src/app/exercices/les-articles/drill.tsx     — client, the dynamic() wrapper
-// src/app/exercices/les-articles/board.tsx     — client, never server-rendered
-// src/app/exercices/les-articles/data.ts       — the items, and the check that validates them
+// src/app/exercices/le-un-ou-du/drill.tsx     — client, the dynamic() wrapper
+// src/app/exercices/le-un-ou-du/board.tsx     — client, never server-rendered
+// src/app/exercices/le-un-ou-du/data.ts       — the items, and the check that validates them
 'use client'
 ```
 
@@ -59,6 +60,11 @@ A drill writes its board's CSS Module and nothing else.
 Never mark the page client to make the drill work. The instructions, the title and the
 cross-links stay server-rendered.
 
+**A drill whose floor is A1 gives its instructions in Spanish** (#85): what goes inside
+`Instructions`, a per-item hint, a gloss beside a French cue — marked `lang="es"`. The items, the
+answers and every French word the learner reads or types stay French, with `lang="fr"` back on
+them. The labels the shared furniture prints (`Score`, the buttons) are chrome and stay French.
+
 **Write no CSS for the shell.** The instructions block, the progress meter, the card, the
 feedback states and the score screen belong to the design system. Only the drill's own board —
 its pool, columns, chips, slots — gets a CSS Module. Feedback colours are tokens; a raw hex will
@@ -69,7 +75,8 @@ not survive dark mode.
 A drill's **mechanic is level-independent**; only its deck moves
 (`docs/decisions.md` #68). Sorting verbs is sorting verbs whether the verbs are
 *aller / manger* or *monter dans le train / monter l'escalier*, so a harder
-level is a second bank on the same page, never a second page.
+level is a second bank on the same page, never a second page (upward only: an
+A1 version is a new page, #72).
 
 - **`data.ts` exports `BANKS`**, keyed by level, plus a `bankFor(level)` that
   falls back to the first bank written. Its keys must be exactly the lesson's
@@ -102,9 +109,8 @@ level is a second bank on the same page, never a second page.
 
 ## Shared state shape
 
-`deck` (shuffled), `currentIndex`, `checked`, `score`, `finished`, plus the result thresholds at
-1 / 0.75 / 0.5. Keep the names: every drill then reads the same way, and the score-capture call
-reads them by name.
+`deck` (shuffled), `currentIndex`, `checked`, `score`, `finished`. Keep the names: every drill
+then reads the same way.
 
 React Compiler is on. Do not hand-write `useMemo` / `useCallback`.
 
@@ -131,8 +137,7 @@ produces a different tree on each side and React throws a hydration error:
 
 ## Vary the mechanic
 
-A chapter of drills drifts towards one shape, and that shape is the 4-option MCQ: nine of the
-first eleven ever written here were the same quiz with different words in it. Mechanics that have
+A chapter of drills drifts towards one shape, and that shape is the 4-option MCQ. Mechanics that have
 earned their place and are worth reaching for instead: matching pairs, tap-to-order, bucket sort,
 locate-and-retype, multi-select, listening, type-in conjugation (`les-terminaisons`: the verb
 sheet's five tenses with the endings blanked, read from `conjugaisons.ts` so the drill and the
@@ -184,16 +189,23 @@ takes *-es* (présent) as readily as *-ais* (imparfait), so every item carries t
 Never ship a drill without running the check that fits its shape, and paste the check into the
 file as a comment so the next author can re-run it.
 
-**Every option-based item** — the answer must be present, exactly once:
+**Every option-based item** — the answer must be present, exactly once, whether the options are
+per item or a fixed `POOL`:
 
 ```bash
-npx tsx -e "
-import { items } from './src/app/exercices/<slug>/data'
-items.forEach((it, i) => {
-  if (!it.options.includes(it.answer)) console.log(i, 'answer not in options', it.answer)
-  if (new Set(it.options).size !== it.options.length) console.log(i, 'duplicate options')
-})"
+node --experimental-strip-types --input-type=module -e "
+const { BANKS, POOL } = await import('./src/app/exercices/<slug>/data.ts')
+let n = 0
+for (const [level, items] of Object.entries(BANKS)) items.forEach((it, i) => {
+  n++
+  const options = it.options ?? POOL
+  if (!options.includes(it.answer)) console.log(level, i, 'answer not in options', it.answer)
+  if (new Set(options).size !== options.length) console.log(level, i, 'duplicate options')
+})
+console.log('items checked:', n)"
 ```
+
+A drill with no second bank may export `ITEMS` instead; import that and drop the level loop.
 
 **Accept lists may hold case and accent variants, never a different number or gender.**
 `answer: 'croissants', accept: ['croissant']` marks *deux croissant* correct. Twenty-one of these
@@ -213,7 +225,7 @@ looks fine on paper. Check within each set, not across sets.
 `j'`). Assert that no type-in blank is followed by a vowel or a mute h.
 
 **Two defensible answers means the item is broken.** The fix is a French cue inside the item itself,
-since there is no gloss to lean on any more (`docs/decisions.md` #53): *« il ___ prend dans ses
+since there is no gloss to lean on from A2 up (`docs/decisions.md` #53; an A1 drill may gloss, #85): *« il ___ prend dans ses
 bras »* accepts both *me* and *te* until the sentence names the person — *« Viens, il ___ prend dans
 ses bras », dit ma mère en me tendant les siens*. Lengthening the sentence is usually cheaper than
 replacing the item.
@@ -247,8 +259,9 @@ Start behind a button so the clock does not run while the learner reads.
 
 ## Audio
 
-Use the shared speech hook — never hand-roll `SpeechSynthesisUtterance`. It cancels on unmount;
-without that, audio keeps playing after the learner navigates away.
+Use the shared speech hook — never hand-roll `SpeechSynthesisUtterance`. **It is not built yet**
+(`AGENTS.md` §12.2): build it before any audio drill. It cancels on unmount; without that, audio
+keeps playing after the learner navigates away.
 
 Any drill whose point is hearing a contrast **must check that a French voice was found** and warn
 otherwise, because the API falls back to the OS default: a Spanish voice reading *tu* and *tout*
@@ -305,7 +318,8 @@ is graded; a game is replayable.**
   actually on that page**, not merely that the page resolves — nine entries across two games cited
   a page that did not contain their word, and a route check passes all nine.
 
-Four games have shipped, and each left a lesson worth keeping:
+No game is written yet (`AGENTS.md` §12.2). These lessons come from the earlier app's games, and
+each still binds the first one written here:
 
 - **A un/une game takes countable nouns only.** A mass noun has no singular indefinite article —
   *du poivre*, *de la farine*, *de l'eau*, never *un poivre* — so the question has no answer.
@@ -330,24 +344,16 @@ Four games have shipped, and each left a lesson worth keeping:
 
 ## `conversation/` is not yours any more
 
-**A conversation page is a guided role-play, and `lesson-author` owns it** (`docs/decisions.md`
-#54). It grades nothing, scores nothing and stores nothing: it sets a scene, lists the steps of
-the exchange and hides every phrase it offers behind a `<details>`. There is no answer data, so
-there is nothing here for the discipline above to protect.
-
-The gap-fill this brief used to specify came from six dialogue pages written before #54. It
-was dropped because it grades a script the learner did not write, while the skill the chapter
-exists for is producing your own turn. If a page ever wants a gap-fill again it is a drill, it
-belongs in `exercices/`, and the rules above apply to it unchanged — in particular that an
-`accept` list may hold case and accent variants and **never** a different number or gender.
+`conversation/` belongs to `lesson-author` (`docs/decisions.md` #54, #57): no answer data, nothing
+graded. A gap-fill there would be a drill in `exercices/`, under the rules above.
 
 ## Wiring — same change
 
 1. `src/app/exercices/{slug}/page.tsx` plus its client drill.
 2. Cross-links pointing back at the lesson the drill practises, and forward from that lesson.
-3. The manifest entry in `src/data/navigation.ts`, with its permanent `id` (`ex-pluriel`,
-   `jeu-un-ou-une` — chosen once and never changed, `docs/decisions.md` #50) and a tag naming the
-   mechanic or the skill (`Chrono`, `Écoute`, `Mémoire`, `Correction`, `Grammaire`…).
+3. The manifest entry in `src/data/navigation.ts`, with its permanent `id` (`ex-etre-ou-avoir` —
+   chosen once and never changed, `docs/decisions.md` #50) and a tag naming the mechanic (`Tri`,
+   `Correction`, `Tableau`, `Pioche`, `Saisie`, `Texte`, `Relecture`…).
 4. The score screen at the end. It is shown and then forgotten — a drill writes no progress at all,
    and the « J'ai terminé » tick stays the learner's (`docs/decisions.md` #2, #22).
 

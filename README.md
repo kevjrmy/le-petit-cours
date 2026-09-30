@@ -1,7 +1,7 @@
 # Le Petit Cours
 
 **A free, open French course written for Spanish speakers** — a PWA that installs to your home
-screen, works offline, and teaches French **in French**. Also, for readers who already speak French
+screen, works offline, and teaches French **in French** from A2 up. Also, for readers who already speak French
 at home, a track that teaches them to write it.
 
 [![Licence: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
@@ -14,12 +14,9 @@ at home, a track that teaches them to write it.
 > The project was restarted on Next.js on **2026-09-05**. The design system, the app shell, the navigation
 > manifest, search, the whole account flow — sign-in, the chosen level, the display name — and
 > progress, from the « J'ai terminé » tick to `/ma-progression`, are written. Sixteen chapters
-> are declared, plus a scratch chapter for a class in progress, and **eighty-three lessons are
-> published**, written in French: sixteen in
-> `grammaire`, fourteen verb sheets in `conjugaison`, ten scenes in `conversation`, nine texts in
-> `lecture`, seven in `exercices`, six each in `orthographe`, `vocabulaire` and `traduction`, four
-> in `astuces`, three in `delf`, and one each in `litterature` and `musique`. Nothing is announced before it is
-> written, so a chapter waits offstage until it has a page — four still do. Accounts work; offline
+> are declared, plus a scratch chapter for a class in progress, and twelve of the sixteen carry
+> lessons — [`src/data/navigation.ts`](src/data/navigation.ts) is where to count them. Nothing is
+> announced before it is written, so a chapter waits offstage until it has a page. Accounts work; offline
 > caching is not installed.
 >
 > [`docs/decisions.md`](docs/decisions.md) records why the project is shaped this way, including
@@ -28,13 +25,15 @@ at home, a track that teaches them to write it.
 ## What it is
 
 Most French courses are written for English speakers. This one is written for **hispanophones** —
-which shapes the material, not the language it is written in. Everything is explained in French, in
-French simple enough to read at the level being taught; what the audience changes is *what gets
+which shapes the material more than the language it is written in. From A2 up, everything is
+explained in French, in French simple enough to read at the level being taught; an A1 page explains
+in Spanish and teaches in French, because a beginner cannot use a rule stated in a language they do
+not have yet. what the audience changes is *what gets
 explained*. The false friends that trip a Spanish speaker are defined where they appear (`robe`,
 `sol`, `carte`), the mistakes their first language pulls them towards are printed wrong-then-right,
 and the drills assume a **Spanish keyboard** — `é`/`è`/`ê` cost a dead-key detour and `œ`/`ç` cannot
 be typed at all — so they prefer clicking to typing wherever accents are involved. Explaining in
-French rather than Spanish also keeps the course usable by a reader who arrives from anywhere else.
+French from A2 also keeps the course usable by a reader who arrives from anywhere else.
 
 It serves **two kinds of reader**:
 
@@ -42,34 +41,28 @@ It serves **two kinds of reader**:
 - **The heritage speaker** — someone with French family who grew up in Spain, speaks French
   fluently at home, and never went to a French school. They do not need to learn French; they
   need to learn to *write* it — accents, accord, homophones, the spelling of forms they already
-  says correctly. They may be an adult, or a teenager at a Spanish school whose written French is
+  say correctly. They may be an adult, or a teenager at a Spanish school whose written French is
   slipping.
 
 They are not two levels of one thing. A heritage speaker can be orally C1 and written A2 at the
 same time. One library of lessons serves both, ordered differently for each.
 
 **Levels.** The course goes **A1 → B2**; C1 and C2 are out of scope, for a different audience.
-The scope being written is **A1, A2 and B1**. A2 is the level that is written — that is where the
-course's learner is — and **A1 and B1 are being written beside it**, each with its first pages.
-B1 also carries a harder question set on every reading text and both drills, so the same text and
-the same mechanic serve two levels and keep one tick each. Which set you see follows the level on
-your account; there is no control on the page. **A page is listed from the level it was written at
-upward**, so choosing a higher level never shows you less; A1 is the thin rung, because a page is
-never widened downward. All three can be chosen while they are unfinished, and the chooser makes no
-claim about how finished each one is. B2 is declared and empty. A level counts as complete when it covers the published
-**DELF** syllabus for that level.
+A2 was written first and **A1 and B1 are being written beside it**; all three can be chosen. **A
+page is listed from the level it was written at upward**, so choosing a higher level never shows
+you less. B2 is declared but cannot be chosen yet. A level counts as complete when it covers the
+published **DELF** syllabus for that level — [`docs/scope.md`](docs/scope.md) has the rest.
 
 Chapters cover grammar, spelling, conjugation, pronunciation, vocabulary, translation, reading,
 culture, dialogues, dictations, graded exercises and replayable games — and `delf`, which holds
 whole exam papers to sit in real conditions, written for this course rather than reproduced from
-anyone's sujet. You can browse them by
-chapter, or follow a *parcours* — an ordered path through the same lessons for a given level or
-profile.
+anyone's sujet. You browse them by chapter; a *parcours* — an ordered path through the same
+lessons for a given level or profile — is planned.
 
 Three of those chapters are not written like the rest. A **conjugaison** page is a sheet generated
 from a data file, with toggles for the negative and for a feminine subject. A **conversation** page
-is a role-play to do with someone else: a scene, the steps it follows, and a model dialogue kept
-shut until you want it. A **traduction** page gives a short Spanish text to write in French, with
+is a role-play to do with someone else: a scene, the steps it follows, and about twenty words to
+play it out of. A **traduction** page gives a short Spanish text to write in French, with
 three of its words uncoverable for the French term.
 
 **Accounts.** Everything is free and public — no account is needed to read a lesson or play a
@@ -203,7 +196,9 @@ for.
 | [`docs/scope.md`](docs/scope.md) | what is being built and for whom — the profiles, the levels, the non-goals |
 | [`AGENTS.md`](AGENTS.md) | the conventions and the traps — read before changing anything |
 | [`.claude/agents/*.md`](.claude/agents/) | the how-to for each recurring job (design, lessons, drills, wiring, auditing, proofreading) |
-| [`docs/decisions.md`](docs/decisions.md) | why the project is shaped this way, and what is still open |
+| [`docs/levels/`](docs/levels/) | one file per level: its language, its tags, its syllabus and what it still needs |
+| [`docs/atelier.md`](docs/atelier.md) | how a page for a class in progress is built |
+| [`docs/decisions.md`](docs/decisions.md) | why the project is shaped this way; what is still open is [`AGENTS.md` §12](AGENTS.md) |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | how to propose a change |
 | [`AGENTS.md` §9](AGENTS.md) | the content traps that have actually shipped — the list worth checking a new page against |
 

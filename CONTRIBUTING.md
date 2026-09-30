@@ -11,15 +11,18 @@ that is not standard, an example that contradicts the rule above it. If you are 
 advanced speaker reading a page and something is off, that is worth an issue on its own — you do
 not have to propose the fix.
 
-**2. Unflagged false friends.** The course is written **entirely in French** — no glosses, no
-translation columns, no bilingual pages (`docs/decisions.md` #53). So a word a Spanish speaker
+**2. Unflagged false friends.** From A2 up, the course is written **entirely in French** — no
+glosses, no translation columns, no bilingual pages (`docs/decisions.md` #53; A1 is the exception
+below). So a word a Spanish speaker
 reads wrong has to be defended *in French*, where it appears: a page that introduces *une robe*
 without an example making the wrong reading impossible is missing something the learner will get
 wrong. Spotting one of those is worth an issue.
 
-There is exactly one place Spanish appears, and it is not a gloss: the **source text of a
-`traduction/` page**, which is the thing being translated (#55). Corrections to that Spanish are
-welcome on the same terms as corrections to the French. Spanish anywhere else on a page is a bug,
+Spanish appears in exactly two places. The **source text of a `traduction/` page** is the thing
+being translated (#55). And **an A1 page explains in Spanish** (#85) — the rule, the glosses and
+the instructions, never the French it teaches — because a beginner cannot use a rule written in a
+language they do not have yet. Corrections to that Spanish are welcome on the same terms as
+corrections to the French. Spanish anywhere else on a page — including on an A2 page — is a bug,
 not a feature to extend.
 
 **3. Facts.** Dates, authors, works, chefs-lieux, historical claims. Cheap to check and
@@ -42,7 +45,7 @@ looks like it is working while it confirms a mistake.
 - If you are proposing a *new* lesson, say which chapter it belongs to, which **level** it is,
   which **DELF descriptor** it covers, and what it displaces or follows. A level is considered
   complete when it covers the DELF syllabus for that level, so a lesson that maps to nothing in it
-  needs a reason. See the open questions in [`docs/decisions.md`](docs/decisions.md) — the authoring
+  needs a reason. See the open decisions in [`AGENTS.md`](AGENTS.md) §12 — the authoring
   format for lessons is not settled yet, so large content contributions may be premature.
 - **« Atelier » (`temp`) is not a chapter to contribute to.** It is scratch space for a class in
   progress: its pages are written for one session, shared on screen during it, then promoted into a
@@ -59,31 +62,34 @@ These come from the audience, and a change that breaks one will be asked to chan
   speaker learning French from zero, and a heritage speaker who grew up with spoken French in
   Spain and needs to learn to *write* it. They need opposite things, and the second one is not
   simply a higher level — they can be orally C1 and written A2 at the same time.
-- **Everything is written in French — explanations included, on every page and for both profiles.**
-  No Spanish gloss, no translation column, no bilingual page. Most readers are Spanish speakers, so
+- **Everything is written in French — explanations included, for both profiles — from A2 up.**
+  No Spanish gloss, no translation column, no bilingual page. An A1 page is the exception: it
+  explains in Spanish and teaches in French (`docs/decisions.md` #85). Most readers are Spanish speakers, so
   keep the French of the explanation simpler than the French being taught, define the false friends
   instead of translating them, and print the common wrong sentence beside the right one.
   **English is never used either** — no English glosses, no English mnemonics (no DR & MRS
   VANDERTRAMP). Never assume the reader knows English.
-- **Current scope is A1 and A2.** A2 was written first, because the course's learner is at A2;
-  **A1 is being written now** and is welcome. B2 takes no content yet, and **C1 and C2 are out of
+- **Current scope is A1, A2 and B1.** A2 was written first, because the course's learner is at
+  A2; **A1 and B1 are being written beside it** and are welcome. B2 takes no content yet, and **C1 and C2 are out of
   scope** — they serve a different audience and the `Level` type stops at B2. A1 and B1 are choosable
   while unfinished, so an A1 page is visible to an A1 learner the day it lands. The account offers
   the three levels and says nothing about how finished each is. Climbing never shows fewer lessons:
-  B1 is offered everything A2 is. `docs/programme-a1.md` says what A1 still needs. Short sentences, everyday vocabulary, no literary tenses, no metalanguage
-  beyond *verbe, sujet, adjectif, accord* — the heritage track is the one place school grammar
+  B1 is offered everything A2 is. `docs/levels/` says what each level still needs. Short
+  sentences, everyday vocabulary, no literary tenses, no metalanguage beyond *verbe, sujet, adjectif, accord* — the heritage track is the one place school grammar
   vocabulary is allowed.
 - **They type on a Spanish keyboard.** Prefer clicking to typing wherever an answer carries French
   accents. Type-in earns its place only where the *spelling* is the skill.
 - **A lesson is two or three sections.** A topic that needs more is two lessons.
 - **Dark mode is not optional**, and neither is the mobile layout. Every visual change is checked
-  in both themes at both breakpoints.
+  in both themes and all three shells: open sidebar, icons-only rail (about 1000 px), mobile
+  drawer.
 - **No raw colour values in components** — everything comes from a design token, or it freezes in
   light mode.
 - **The serif marks the French being taught; the sans marks the instruction around it.** In
-  practice: `<span className="fr" lang="fr">le livre</span>` inside prose, and `lang="es"` on the
-  Spanish. The `lang` attribute is not decoration — it picks the voice for speech and stops a
-  screen reader reading French with a Spanish accent, so it always travels with the class.
+  practice: `<span className="fr">le livre</span>` inside prose. On an A1 page, where the
+  explanation is Spanish, the section carries `lang="es"` and every piece of French takes
+  `lang="fr"` back — not decoration: it stops a screen reader reading French with a Spanish
+  accent.
 - **Every lesson declares its `levels`** in `src/data/navigation.ts`, and `[]` is how you say "no
   level, always visible". An omitted field is a type error on purpose: forgetting to tag a page
   and deciding it needs no tag must not look the same in a diff.
@@ -144,12 +150,12 @@ npm run lint
 Before you open the pull request:
 
 1. `npm run build` passes.
-2. Any page you touched renders correctly in **light and dark**, at desktop width and at 430 px.
+2. Any page you touched renders correctly in **light and dark**, at desktop width, at 1000 px (the rail) and at 430 px.
    `node scripts/shot.mjs <url> out.png --full --dark` will photograph it for you; browser flags
    for emulating dark mode stopped working silently a while ago, so use the script.
 3. If you touched navigation, the audit in
-   [`.claude/agents/nav-wiring.md`](.claude/agents/nav-wiring.md) reports `none` on all three
-   lines — manifest, filesystem and cross-links.
+   [`.claude/agents/nav-wiring.md`](.claude/agents/nav-wiring.md) reports `none` on all six
+   lines.
 4. If you touched a drill, you **played it through once**, including the score screen — which is
    the part nobody tests.
 5. If you touched a rule rather than just content, the documentation moved with it. Docs and

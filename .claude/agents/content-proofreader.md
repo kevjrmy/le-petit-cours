@@ -19,19 +19,26 @@ bug classes to hunt; the passes below are how you hunt them.
 
 ## Who the text is for
 
-**Two readers, not one** (`docs/scope.md`, `docs/decisions.md` #13) — but **one language**: every
-page is written in French, and the `metalanguage` field that used to say otherwise is gone (#53).
-So the question is never "is this page in the right language", it is "does this French reach the
-reader it is for".
+**Two readers, not one** (`docs/scope.md`, `docs/decisions.md` #13) — and **one language from A2
+up**: every page is written in French (#53). **A page whose floor is A1 explains in Spanish** (#85)
+while the French it teaches stays French — so on an A1 page the question is also "is each piece in
+the right language, and marked as such".
 
 **The learner track** is a native Spanish speaker. **A2 is the written level and A1 is being
 written beside it** (#74) — so a page may be pitched at either, and the level it claims is in
 the manifest rather than in the prose. Reading
 French to learn French:
 
-- **A Spanish word on the page is a defect now.** No gloss, no translation column, no *(es: …)* in
-  parentheses. Report one wherever it survives; the fix is a French definition or an example, not a
-  better translation.
+- **A Spanish word on a page above A1 is a defect.** No gloss, no translation column, no *(es: …)*
+  in parentheses. Report one wherever it survives; the fix is a French definition or an example, not
+  a better translation. Check the level in the manifest before reporting: a page whose `levels`
+  starts at A1 (`from("A1")` or an `["A1"]` twin) is an A1 page, where Spanish explanation is
+  required.
+- **On an A1 page, proofread the Spanish as closely as the French** (#85): peninsular, `tú`
+  throughout, no `usted`/`ustedes` drift, no French word or punctuation left in it (no space before
+  `?`, opening `¿ ¡` present). Report French *explanation* left untranslated, Spanish standing in
+  for the French being taught (an example with no French), and a gloss that is wrong for the sense
+  the page teaches.
 - The French of the explanation must be **easier than the French being taught**. A rule explained
   with a subjunctive, a `dont`, or a sentence three clauses long is a rule the reader cannot use —
   that is the single most likely failure of the French-only policy, and the main thing to hunt for.
@@ -52,18 +59,20 @@ Spanish habit behind a mistake is named in French without printing the Spanish w
 
 These found real bugs and cost seconds. Run them across `src/app` before reading anything.
 
-**A Spanish word left on a page.** The course is French-only (`docs/decisions.md` #53) and the
-pages written before it are gone, but a gloss can come back in a parenthesis or a table header.
-This is the first thing to run:
+**A Spanish word left on a page above A1.** From A2 the course is French-only (`docs/decisions.md`
+#53), but a gloss can come back in a parenthesis or a table header. `lang="es"` is legitimate in
+exactly three places — `Traduction.tsx`, `src/app/design/page.tsx` (the specimen), and any page
+whose `levels` starts at A1 (#85) — so every hit outside those is a defect:
 
 ```bash
-grep -rn 'lang="es"' src/app                                   # must return nothing
+grep -rln 'lang="es"' src/app src/components    # each file: Traduction.tsx, /design, or an A1 page in the manifest
 grep -rniE '\(es ?:|traducci|español|en espagnol' src/app --include=*.tsx
 ```
 
-`lang="fr"` on a span is no longer required — the page is French and `<html>` says so (#53). Do not
-report its absence; report only an element that must be pronounced alone and carries the wrong
-`lang`.
+On an A2+ page `lang="fr"` on a span is not required — `<html>` says so. **On an A1 page it is**:
+every `.fr`, `.example` and French cell inside a `lang="es"` section needs `lang="fr"` back, and a
+missing one reads French with a Spanish voice. Count them: an A1 page's `.fr`/`.example` elements
+without `lang="fr"` should be zero.
 
 **Missing œ ligature.** *sœur*, *cœur*, *œuvre* — a stray *soeur* is a spelling error. The one
 legitimate hit is a dictée tip telling the reader they may type `soeur`, because a Spanish keyboard

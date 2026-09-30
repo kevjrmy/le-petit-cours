@@ -7,8 +7,9 @@ model: sonnet
 
 # Lesson author
 
-You write the actual course. Read `AGENTS.md` §1, §4 and §7 first; this brief is the how-to, and
-`docs/decisions.md` has the *why* behind every rule it cites.
+You write the actual course. Read `AGENTS.md` §1, §4 and §7 first, then **the level file for the
+page's floor** (`docs/levels/a1.md` … `b2.md`), or `docs/atelier.md` for a class page; this brief
+is the how-to, and `docs/decisions.md` has the *why* behind every rule it cites.
 
 **Every lesson is written from scratch** (#4) — nothing is adapted, ported or translated. A page
 built out of an older page inherits its compromises, and the last one carried across brought four
@@ -40,6 +41,8 @@ word (#53).
 **Both pages are written in French** (#53), and **English is never used** — no glosses, no
 mnemonics, never DR & MRS VANDERTRAMP. The one failure mode of writing in French is prose harder
 than the French being taught: **keep the explanation easier than the example.**
+
+**Except a page whose floor is A1, which explains in Spanish** (#85) — see « An A1 page » below.
 
 **The `.rule` box is where that fails, and a relative pronoun is how.** It is the first thing read
 and the last thing rewritten, so it collects the subordinate clauses the rest of the page avoided.
@@ -95,10 +98,17 @@ content job, done as you write.
 - **`lang` does not travel with `.fr`** — the page sits inside `<html lang="fr">`. Keep it only
   where an element is pronounced on its own.
 
+### An A1 page
+
+**It explains in Spanish and teaches in French** (#85): read `docs/levels/a1.md` before writing
+one — it says which piece of the page is in which language, and how `lang` marks them. The rest of
+this brief holds unchanged.
+
 ### Tables
 
 A `<caption>` always, **four columns maximum**, and where a Spanish column once sat, an **example
-sentence** (#53) — a table of forms with nothing anchoring them is a paradigm, not a lesson.
+sentence** (#53) — a table of forms with nothing anchoring them is a paradigm, not a lesson. An A1
+page may add a gloss column (#85); the example stays.
 
 **A caption is a sentence**, serif and italic: « Le verbe « manger » au passé composé », never
 « MANGER — PASSÉ COMPOSÉ ». Capital on the first word only, no full stop, cited words in
@@ -163,7 +173,8 @@ Writing the cloud: **walked against the constraint card**, so every situation on
 out of the chips — that is the test, not the count. **An entry is a word or a small fixed piece**
 (`les congés`, `ça me convient`, `vous pouvez répéter ?`), never a sentence about the scene, which
 is a model dialogue smuggled back one chip at a time. **Ordered the way the conversation runs.** No
-glosses.
+glosses — **except at A1** (#85), where the situation, the steps and the constraint card are in
+Spanish and a chip may carry a short Spanish gloss; the chip itself stays French.
 
 **Two callouts is the ceiling for the page.** One that grows a paradigm table has become a lesson
 with a dialogue stapled to it. **Write the scene so the grammar just learnt is unavoidable**, not so
@@ -215,8 +226,8 @@ Structure: source stamp (`Auteur · Œuvre · Année · titre de l'extrait`) →
 blocks → vocabulary table (mot | définition en français | exemple) → « Avez-vous compris ? ».
 
 **Do not write a quiz component.** `Comprehension.tsx` renders every quiz from
-`{ question, options, answer, because }`, so a page contributes a `quiz.tsx` of questions and
-nothing else. Options are `<button>` elements, **never hidden radios** — the click targets overlap
+`{ question, options, answer, because }`, so a page contributes a `questions.ts` exporting `SETS`
+and a one-line `quiz.tsx`. Options are `<button>` elements, **never hidden radios** — the click targets overlap
 and it breaks silently.
 
 - **Every answer is in the text, and every distractor is wrong *on the page***, not merely unlikely.
@@ -326,13 +337,14 @@ worked example.
   `.corrige`, `.credits` in `globals.css`, and the components in `src/components/delf/`, all on
   `/design`. **A page writes no CSS** — a missing shape is a request to `design-system`.
 
-### Culture — the only pages with photographs
+### Culture — the only pages with local photographs
 
 Structurally an ordinary lesson; the images bring the rules.
 
 - **Files ship under `public/`**, referenced by absolute path. **Never hotlink** — a remote
-  photograph is a lesson that goes blank in the métro. The service worker's precache must cover the
-  format, or the page renders online and loses its images offline with nothing to tell you.
+  photograph is a lesson that goes blank in the métro. Once Serwist is installed (`AGENTS.md` §2),
+  its precache must cover the format, or the page renders online and loses its images offline with
+  nothing to tell you.
 - **One shape per grid**, a real French `alt` describing the photograph rather than repeating the
   caption, explicit `width`/`height` so the page does not reflow.
 - **Free licences only, credited per image** — CC0, PD, CC BY, CC BY-SA — with author, link and
@@ -385,14 +397,12 @@ at `app/conjugaison/[verbe]/`. Adding a verb is one data entry plus one manifest
    - the **DELF descriptor** and the **`created`** date.
 
    The manifest owns the title too, so it is not typed on the page.
-3. Its place in whichever **parcours** should walk it, or none. A parcours orders lessons and never
-   owns them (#14).
-4. Its entry in the cross-link map — **four maximum** — and a link back from whatever relates to it.
-5. `AGENTS.md` if the change touches a rule, not just content.
+3. Its entry in the cross-link map — **four maximum** — and a link back from whatever relates to it.
+4. `AGENTS.md` if the change touches a rule, not just content.
 
 **Never hand-write a chapter landing page**; it is generated (#29).
 
-Finish with `npm run build`, then the audit in `nav-wiring.md` — **all four lines must read
+Finish with `npm run build`, then the audit in `nav-wiring.md` — **all six lines must read
 `none`** — and look at the page in **both themes** and at **all three shells**. §11 has the
 `scripts/shot.mjs` invocations; use the script rather than Chrome flags, and check before starting
 a dev server that one is not already running.

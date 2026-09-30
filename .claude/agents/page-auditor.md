@@ -18,18 +18,18 @@ You check whether a page **works**. Whether what it says is correct French is
 New in this stack and the most consequential thing to get wrong.
 
 ```bash
-grep -rln "'use client'" src/app --include=page.tsx --include=layout.tsx
+grep -rlnE "^['\"]use client['\"]" src/app --include=page.tsx --include=layout.tsx
 ```
 
 **Any hit is a defect.** A lesson page that becomes a Client Component stops prerendering, ships
 its whole tree as JavaScript, and stops being free to serve offline. The fix is always the same:
 lift the interactive part into its own leaf and leave the page on the server.
 
-**Every route is static, with no exceptions — and that is checkable.** `/auth/callback` used to be
-the one legitimately dynamic route; it was deleted along with the magic link, and nothing on the
-server reads a session any more (#37). So **any** dynamic route in `next build` is a regression:
-something started reading cookies, a session, or `searchParams` where it should not. Sign-in
-included — username and password are exchanged entirely in the browser.
+**Every route is static except `/entrer` (#81) — and that is checkable.** `/entrer` reads
+`searchParams` for the atelier's password form; nothing on the server reads a session (#37). So
+**any other** dynamic route in `next build` is a regression: something started reading cookies, a
+session, or `searchParams` where it should not. Sign-in included — username and password are
+exchanged entirely in the browser.
 
 **The listings are client components, and their content must still be in the static HTML.** The
 sommaire's grid, the chapter lesson lists and the sidebar read the learner's level, so they are
@@ -38,7 +38,7 @@ hydration narrows it. That is deliberate: it is what a signed-out reader should 
 offline page must contain. Check it directly, because nothing else will:
 
 ```bash
-curl -s http://localhost:3000/vocabulaire | grep -c 'Les couleurs'   # must be 1, not 0
+curl -s http://localhost:3000/vocabulaire | grep -c 'Le travail'   # must be 1, not 0
 ```
 
 A zero means a listing started fetching instead of reading the manifest, and every cold or offline
@@ -100,9 +100,9 @@ Any hit is a defect: it stays light-mode-coloured when the theme flips. Also fla
 
 - a **surface** token used as a text colour — white-on-accent text needs `--text-on-accent`, or it
   inverts to dark-on-accent;
-- a token defined in `:root` but missing from **both** dark blocks (the `prefers-color-scheme`
-  one **and** the `[data-theme="dark"]` one). Half-defined tokens fail for either "système" or the
-  explicit toggle, and the bug shows in only one of them;
+- a token defined outside the single `light-dark()` value on `:root`, or any per-theme block that
+  defines a token (`AGENTS.md` §5). A token defined per theme works in one mode and breaks in the
+  other, and the bug shows in only one of them;
 - a second global stylesheet imported anywhere but the root layout — its rules leak onto every
   page visited afterwards and cannot be reproduced on a cold load.
 
@@ -116,7 +116,7 @@ Any hit is a defect: it stays light-mode-coloured when the theme flips. Also fla
   `<a>` is invalid, and the press toggles *and* navigates.
 - Headings skipping a level, or a second `<h1>` on a page.
 - Text on tinted fills unlikely to reach 4.5:1 — check the token pair, not a guess.
-- A `<details>` used to hide a translation must stay keyboard-reachable.
+- A `<details>` must stay keyboard-reachable.
 - Colour used as the only carrier of a state.
 
 ## 5. Images
@@ -125,14 +125,14 @@ Any hit is a defect: it stays light-mode-coloured when the theme flips. Also fla
   the picture.
 - A missing `width`/`height` pair — the page reflows as each photo lands.
 - A **remote `src`**. Photographs must be local: hotlinking breaks the offline PWA and nothing in
-  the build will tell you. Confirm the opposite after a build by checking the images actually
-  appear in the service worker's precache manifest.
-- A format not covered by the precache config → shipped, but blank offline.
+  the build will tell you. Once Serwist is installed (`AGENTS.md` §2), confirm the opposite after a
+  build by checking the images actually appear in the service worker's precache manifest.
+- Once Serwist is installed, a format not covered by the precache config → shipped, but blank
+  offline.
 
 ## 6. Layout and length
 
-There is no print stylesheet and no PDF button — both were removed on 2026-08-26 and are not
-coming back:
+There is no print stylesheet and no PDF button, and they are not coming back (#1):
 
 ```bash
 grep -rn "window.print\|@media print\|no-print\|print-only" src/
@@ -151,21 +151,17 @@ curl -sf -o /dev/null -w '%{http_code}\n' http://localhost:3000/
 BASE=http://localhost:3000/<route>
 node scripts/shot.mjs "$BASE" light.png  --full
 node scripts/shot.mjs "$BASE" dark.png   --full --dark
+node scripts/shot.mjs "$BASE" rail.png   --width=1000
 node scripts/shot.mjs "$BASE" mobile.png --full --mobile
 ```
 
-**Use the script, not raw Chrome flags.** `--blink-settings=preferredColorScheme=0` used to emulate
-dark and stopped working silently somewhere before Chrome 152 — the flag is ignored and you get a
-light screenshot in a file named `dark.png`, which is worse than not checking. `scripts/shot.mjs`
-uses the DevTools Protocol instead, and always emulates `prefers-reduced-motion: reduce` so a page
-transition cannot leave the shot half-faded. Never use `--force-dark-mode`: it applies Chrome's own
-auto-darkening and produces a page that is not yours.
+Use `scripts/shot.mjs` (`AGENTS.md` §11), never Chrome flags or `--force-dark-mode`.
 
 **Read the PNGs back and look at them.** A flex child stretching to fill a column does not show
 up in the DOM.
 
-Also check at 430 px: the sidebar off-canvas, the topbar showing its control and at most the parent
-chapter — never the current page's own name (#45) — and
+Also check at 430 px: the sidebar off-canvas, the topbar showing its control and at most the lesson's level and its
+chapter (#65) — never the current page's own name (#45) — and
 no horizontal scroll on the body. The topbar **is** sticky here, painted in `--surface-app` so it
 occludes without reading as a band (#44) — scroll the page and check nothing bleeds through it.
 Above the breakpoint it is in normal flow and scrolls away; a background or a `position: sticky`
@@ -173,16 +169,8 @@ up there is a regression, not a fix (#43).
 
 ## 8. Manifest / filesystem drift
 
-Run the audit in `nav-wiring.md` §The audit. All four lines must be `none`.
-
-Also check in-page cross-links: a `<Link href>` pointing at a path with no `page.tsx` renders as a
-normal-looking link that 404s on click — no console warning, no build failure.
-
-```bash
-grep -rhno 'href="/[^"]*"' src/app src/components | sed 's/.*href="\([^"]*\)".*/\1/' | sort -u
-```
-
-Compare that list against the routes on disk.
+Run the audit in `nav-wiring.md` §The audit. All six lines must be `none` — the sixth covers
+in-page links.
 
 ## Reporting
 

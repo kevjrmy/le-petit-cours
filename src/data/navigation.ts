@@ -321,7 +321,7 @@ const ANY: Level[] = [];
 
 /* The levels a `perLevel` page has material for, written out rather than sliced
    from the ladder: here the tag *is* the list of sets, so it stops where they
-   do (#76). A B2 face for these nine readings and two drills would be a B2
+   do (#76). A B2 face for these pages would be a B2
    question set, not a wider tag. */
 const A2B1: Level[] = ["A2", "B1"];
 
@@ -375,7 +375,7 @@ export const chapters: Chapter[] = [
       },
       /* Le partitif est écrit à l'A2 et l'inventaire le donne aussi à l'A1 :
          un jumeau A1 reste donc dû, comme pour les démonstratifs
-         (`docs/programme-a1.md`). Cette page-ci porte ce que l'A1 ne demande
+         (`docs/levels/a1.md`). Cette page-ci porte ce que l'A1 ne demande
          pas : le choix entre les trois séries, et ce que la quantité fait à
          l'article. */
       {
@@ -945,7 +945,7 @@ export const chapters: Chapter[] = [
     blurb:
       "Des situations de la vie quotidienne à jouer à deux, avec des aides à regarder ou à ignorer.",
     lessons: [
-      /* Les deux scènes A1, avant les six scènes A2 (#72). Chaque niveau a la
+      /* Les deux scènes A1, avant les scènes A2 (#72). Chaque niveau a la
          sienne : une scène ne se partage pas comme un texte de lecture, parce
          que #57 fait la page de ses étapes et de son nuage de mots, et les
          deux changent entièrement d'un niveau à l'autre. */

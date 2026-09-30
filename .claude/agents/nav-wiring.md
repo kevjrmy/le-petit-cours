@@ -12,7 +12,7 @@ because nothing detects it at build time.
 
 | Source | Owns | Symptom when it drifts |
 |---|---|---|
-| `src/data/navigation.ts` | titles, order, blurbs, counts, tags, dates | the page exists but is unreachable from the UI |
+| `src/data/navigation.ts` | titles, order, blurbs, tags, dates | the page exists but is unreachable from the UI |
 | `src/app/**/page.tsx` | the URL and the page itself | a sidebar link 404s |
 | the cross-link map | "Pour aller plus loin" | a page silently loses a link, or keeps one to a page that is gone |
 
@@ -151,8 +151,7 @@ console.log('inline links that resolve to nothing:', dead.length ? dead : 'none'
 "
 ```
 
-All six lines must read `none`. (`npx tsx` works too if the manifest ever grows syntax that type
-stripping cannot handle.)
+All six lines must read `none`.
 
 The last four matter most, because they all **fail soft or worse**: an unresolvable cross-link or
 home pill is dropped rather than rendered, and a level with no question set behind it shows another
@@ -192,9 +191,11 @@ A page that sets it lists exactly the levels it has material for, so `from()` is
 `id` is **required** too, and it is the one field you can never revise. It is the key every
 progress tick is stored under (#50), so pick it once when the entry is written and treat it as
 frozen from that commit on. Shape: lower case, digits and hyphens, alphanumeric at both ends. The
-convention is a short chapter prefix and the lesson's own name — `gram-articles`, `ex-pluriel`,
-`conj-etre` — which keeps ids readable in a diff and steps around the collisions paths already have
-(`/grammaire/les-articles` and `/exercices/les-articles` are two lessons). **The prefix is a
+convention is a short chapter prefix and the lesson's own name — `gram-articles-definis`,
+`ex-etre-ou-avoir`, `conj-etre` — which keeps ids readable in a diff and steps around the
+collisions paths already have (`/orthographe/les-homophones-du-demonstratif` and
+`/exercices/les-homophones-du-demonstratif` are two lessons, `orth-homophones-demonstratif` and
+`ex-homophones-demonstratif`). **The prefix is a
 reading aid, not a lookup key**: nothing parses it, and a lesson that later moves to another
 chapter keeps the id it was born with rather than being renamed to match.
 
@@ -205,8 +206,7 @@ Optional manifest keys worth knowing: a rich label for superscripts, a subtitle 
 a short tag badge, the DELF descriptor and the `created` date.
 
 **There is no flag for a lesson that does not exist yet** (`docs/decisions.md` #51). An entry goes
-in the manifest in the same commit as its `page.tsx`, never before — the old `soon` flag and the
-"Bientôt" row it drew were deleted along with the thirty-nine placeholder entries. A chapter with
+in the manifest in the same commit as its `page.tsx`, never before. A chapter with
 an empty `lessons` array is fine and is the normal state of most of them: `listedChapters()` keeps
 it out of the sidebar, the sommaire, the home pills and search until its first lesson lands, and
 its landing page says so honestly to anyone arriving by URL. **Do not add a placeholder entry, a
@@ -218,9 +218,11 @@ dimmed row or a "planned" count to fill a chapter out.**
    **and `icon`**. There is no count noun any more — nothing counts a chapter. The icon is required and its
    type is a union, so a chapter without one does not compile and a name with no drawing does not
    either — add the glyph to `src/components/nav/ChapterIcon.tsx` in the same change. **Never give
-   that map a `default` entry**: an earlier version of it ended `?? icons.default`, so a forgotten
-   chapter rendered a generic glyph, looked like a design choice and failed nowhere (#29, repaired
-   by #42).
+   that map a `default` entry**: a forgotten chapter would render a generic glyph, look like a
+   design choice and fail nowhere (#42).
+   Three optional keys change how a chapter behaves: `untracked` for pages that are sat, not
+   ticked (`delf`, #82), `scratch` for the atelier alone (#80), and `outbound` for its one link off
+   the site. Test tracking with `isTracked()`, never with either flag.
    The mark on a *sommaire card* is still the chapter's initial in the serif — a different surface
    with room for lettering, and nothing to keep in step.
 2. **Nothing else.** `src/app/[chapitre]/page.tsx` renders every chapter landing page from the
@@ -231,9 +233,10 @@ dimmed row or a "planned" count to fill a chapter out.**
    its first page exists (#51) — that is expected, not a wiring fault.
 3. `AGENTS.md` §7 if the page type is new.
 
-A chapter that ships images needs one more thing: its files under `public/`, and the format
-covered by whatever the service worker precaches. Miss the second and the pages render online and
-lose their images offline — a failure that never appears in `npm run build`.
+A chapter that ships images needs one more thing: its files under `public/`, and — once Serwist is
+installed (`AGENTS.md` §2) — the format covered by whatever the service worker precaches. Miss the
+second and the pages render online and lose their images offline — a failure that never appears
+in `npm run build`.
 
 ## Adding an annexe — a page that belongs to no chapter
 
@@ -259,9 +262,8 @@ if a lesson has to link it (#63).
 
 ## Renaming, moving, removing
 
-**A rename used to be the dangerous one**, and is not any more: progress is keyed by the lesson's
-`id`, not by its path (`docs/decisions.md` #50), so a renamed page keeps every tick on it. What
-this now means is one rule with no exceptions — **never change a lesson's `id`**. Changing one
+Progress is keyed by the lesson's `id`, not by its path (`docs/decisions.md` #50), so a renamed
+page keeps every tick on it. One rule, no exceptions — **never change a lesson's `id`**. Changing one
 deletes that lesson from every learner's history, silently, and nothing anywhere will fail. Rename
 the folder, the path and the title as freely as the course needs; leave the id alone.
 
@@ -293,22 +295,17 @@ mapping to remember.
 
 ## The atelier — adding and clearing scratch pages
 
-`temp` is the one chapter that is **emptied on purpose** (`docs/decisions.md` #80): its pages are
-written for a class in progress, shared on screen during the session, then promoted or deleted. It
-carries `scratch: true`, which is what keeps it out of every tick and every count — so the weekly
-reset is a manifest edit and a folder, with none of the migration a real lesson would need.
+`temp` is the one chapter that is **emptied on purpose** (`docs/decisions.md` #80); why, and what
+it is not, is `docs/atelier.md`. It carries `scratch: true`, so the weekly reset is a manifest edit
+and a folder, with none of the migration a real lesson would need.
 
 **Adding a page** is `## Adding a lesson` above, with four differences:
 
-- **The id carries the date**: `temp-2026-09-22-terminaisons`. Ids are permanent and never reused,
-  and this is the one chapter where the same slug plausibly describes different material twice.
-- **`levels: ANY`**, never `from()`. A level filter that hides the page being shared mid-call is the
-  failure this avoids.
+- **The id carries the date**: `temp-2026-09-22-terminaisons`.
+- **`levels: ANY`**, never `from()`.
 - **No entry in `relatedPages` pointing *at* it.** The page may have a key of its **own**, linking
-  out to the lessons it works through — delete that key with the page, and the audit's first line
-  catches you if you forget, since a key whose source no longer resolves is reported. A course page
-  linking *in* is the one to refuse: it loses its link at the next reset and says so nowhere,
-  because cross-links fail soft.
+  out to the lessons it works through — delete that key with the page; the audit's third line
+  reports a key whose source no longer resolves.
 - **Nothing in `featuredChapterSlugs`.**
 
 **Clearing it** is the manifest entries and the folders, and that is all:
@@ -322,13 +319,12 @@ git rm -r src/app/temp/<slug>          # for each page being cleared
 using them is gone: `_exercice/` (`Choix`, `Faute`, `Trous` and their « tu » `Bilan`) and `_texte/`
 (`Copie`, `Corrige`, the atelier's scoped styles). The underscore hides them from Next's router
 **and** from the audit's walk, which is why they can live under `temp/` and leave with it; left
-behind, they are code nothing calls. No redirect: #50 asks for one when a promised URL dies, and
-these never were. `grep -rn "/temp/" src/` checks that nothing permanent linked in. The chapter
+behind, they are code nothing calls. No redirect. `grep -rn "/temp/" src/` checks that nothing
+permanent linked in. The chapter
 itself stays in the manifest with `lessons: []` and simply stops drawing.
 
 **Keeping a page** means rewriting it into the chapter it belongs to, with a **new permanent id**
-and a real `levels` tag — a new page, not a move. There is no tick to carry across, which is
-exactly what makes this free.
+and a real `levels` tag — a new page, not a move.
 
 Run the audit either way: an entry left behind after the folder went is a link to a 404, and it is
 the first of the six lines.
@@ -362,8 +358,7 @@ them.
   **Registering a lesson is all the wiring progress needs**; there is nothing to add to the page.
 - The « J'ai terminé » control and the « Pour aller plus loin » block, both drawn by the shell for
   any path that resolves to a lesson (#49).
-- Recency, from `created` dates in the manifest. (`/nouveautes` was a placeholder annexe with no
-  page and was deleted with the rest of them, #51; the dates stay, ready for whatever reads them.)
+- Recency, from `created` dates in the manifest.
 
 If you find yourself copying a title into a second place, stop: it belongs in the manifest and
 should be read from there.

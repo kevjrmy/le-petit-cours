@@ -16,7 +16,7 @@
 -- a table with a constraint instead". A username you sign in with grants
 -- something, and it has to be unique; metadata can hold neither property (#38).
 --
--- Authorization is row-level security, not application code (docs/decisions.md #19).
+-- Authorization is row-level security, not application code (docs/decisions.md #21).
 
 -- ---------------------------------------------------------------------------
 -- progress: one row per lesson a learner has marked done.

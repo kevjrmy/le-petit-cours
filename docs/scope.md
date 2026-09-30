@@ -10,24 +10,21 @@ being built and for whom.
 
 **The ladder stops at B2** (#75) — C1 and C2 are out of scope, not deferred: they serve someone
 doing academic or professional French, which is neither profile below. The scope being written is
-**A1 and A2**. The course started
-with **A2 alone** — sized to the DELF A2 syllabus rather than to however many lessons exist —
-because the learners it was started for are at A2 (below). **A1 is now being written** into the same
-chapters, ahead of the A2 material. **A1 and B1 are both choosable while they are being written**
-(#74). **Nothing in the interface rates them** (#77): the account offers the three levels and says
+**A1, A2 and B1**. A2 was written first, because the learners the course was started for are at A2
+(#74); A1 and B1 are written into the same chapters, and **all three are choosable while they are
+being written**. **Nothing in the interface rates them** (#77): the account offers the three levels and says
 nothing about how finished each is, because the audience is known and a warning addressed to nobody
 is chrome. That trade holds only while the site is unlisted and sign-up is closed.
-DELF coverage is still what "done" means (#15); it decides when a level stops being marked « en
-cours », not when it may be chosen. `docs/programme-a1.md` is the syllabus and the gap.
+DELF coverage is still what "done" means (#15); it decides when a level is finished, which the
+interface does not say. `docs/levels/` holds each rung's syllabus and gap.
 
 **A page is listed from the rung it was written at upward** (#76), so climbing never shows fewer
 lessons: B1 is offered everything A2 is, and A1 is the thin level, because a page is never widened
 downward — an A1 learner who needs a topic gets a simpler A1 page, not the A2 page's tag. What is
-written for B1 alone today is the harder question set on the nine `lecture` texts and two
-`exercices` drills, reached by working at B1 — the level is set in the account and never on the
-page (#68, #73) — plus the first `grammaire` pages written at B1's own floor. B2 is declared and
-empty. That is a deliberate limit, not a gap to be quietly
-filled: an unbounded project never finishes a level.
+written for B1 alone is the harder question set on the pages marked `perLevel`, reached by working
+at B1 — the level is set in the account and never on the page (#68, #73) — plus the pages written
+at B1's own floor. B2 is declared, cannot be chosen, and has nothing at its own floor. That is a
+deliberate limit, not a gap to be quietly filled: an unbounded project never finishes a level.
 
 Nothing announces what is unwritten: a lesson appears in the interface in the commit that creates
 it, and until then its chapter is simply not offered (`docs/decisions.md` #51).
@@ -81,16 +78,24 @@ point**, not the pool of lessons: `orthographe`, `dictees`, `astuces` and `conju
 heritage speaker, `grammaire`, `vocabulaire` and `conversation` to the learner, and both read the
 same pages when the page suits them.
 
+### 3. The child — planned, not yet written
+
+A child learning French, **served through a Kids mode** — « Espace enfants » on screen — that is
+neither a level nor a chapter: the child still has a rung, and the mode spans chapters. **Game
+first**, and **watched by a parent**. Nothing is written for it; how it works is open
+(`AGENTS.md` §12.5), and the monitoring has to be squared with « not a student-management system »
+below, and with an account that holds nothing about its behaviour (#18, #31).
+
 ## Two ways in: the chapters and the parcours
 
 - **The exam.** `delf` holds whole épreuves to sit in real conditions, at the published format and
   written for this course (#78). It is the last chapter because it teaches nothing: everything it
   asks for is taught above it, and what it adds is the experience of being asked for all of it at
-  once, in thirty minutes, with the corrigé out of sight until you say so.
+  once, in the exam's own time, with the corrigé out of sight until you say so.
 - **The chapters.** Browse by chapter — grammaire, orthographe, conjugaison, vocabulaire… This is the
   reference view, and it is what exists today. A learner who wants *les articles* goes and reads
   *les articles*.
-- **A parcours.** An ordered path through the same lessons, with a position in it. `Parcours A1`
+- **A parcours** — planned, not built. An ordered path through the same lessons, with a position in it. `Parcours A1`
   and `Parcours A2` follow the DELF syllabus; a heritage parcours (« Écrire le français ») walks
   the orthography and conjugation pages in remediation order.
 
@@ -98,16 +103,8 @@ One library, several orderings. Every lesson carries a set of CEFR **level tags*
 is not being offered is a filter rather than a fork in the codebase, and adding a profile later
 means adding a parcours rather than an app.
 
-**A tag is the rungs a page is listed at, and it runs from its floor upward** (#76). The levels are
-a ladder and a learner who climbs does not stop needing what they climbed on, so the A2 imparfait is
-listed at B1 too and keeps the one tick it already had. **Downward is not symmetric** (#72): where a
-topic appears at two levels it appears with different exponents — A1 negates with `ne… pas`, A2 with
-`ne… plus / rien` — and that is a second, simpler page, never a second tag on the first.
-
-A page holds **two bodies of work** only where the *stimulus* has no floor and the task scales,
-which is a reading's question set or a drill's item bank, never a prose explanation. That is a
-separate flag, and it is the one the tick keys on: listing a page at more rungs costs nothing, while
-giving it a second body of work moves every tick stored against it.
+How a page is tagged — listed from its floor upward, a second body of work only where the stimulus
+has no floor — is in each level's file in `docs/levels/` and in `AGENTS.md` §1 and §7.
 
 ## What "done" means
 
@@ -118,8 +115,8 @@ existing content instead of hiding them, gives learners a target they could actu
 once teachers are contributing — gives everyone a shared reference to argue from rather than
 taste.
 
-Concretely: map lessons to DELF A2 descriptors first, then A1, and track which descriptors have no
-lesson. A count of published pages is an inventory, never a claim of coverage.
+Concretely: map each level's FONCTIONS against the lessons, in that level's file in `docs/levels/`,
+and track which have no page. A count of published pages is an inventory, never a claim of coverage.
 
 **The published syllabus is the *Inventaire linguistique des contenus clés des niveaux du CECRL***
 (CIEP / Eaquals, 2015), which France Éducation international distributes because no official DELF
@@ -128,26 +125,31 @@ level. **Coverage is measured on the fonctions**: the DELF tests communication, 
 
 ## Language of instruction
 
-**Everything is written in French.** The explanations, the tables, the callouts, the drill
-instructions and the interface — one language, on every page, for both profiles
+**From A2 up, everything is written in French.** The explanations, the tables, the callouts, the
+drill instructions and the interface — one language, on every page, for both profiles
 (`docs/decisions.md` #53).
 
-**One exception, and it is exact**: the source text of a `traduction/` page is in Spanish, because
-a translation exercise cannot exist without one (#55). Spanish is *material to be translated*
-there, never explanation — the instructions, the hints and the model version on those pages are
-French like everywhere else.
+**Two exceptions, and both are exact.** The source text of a `traduction/` page is in Spanish,
+because a translation exercise cannot exist without one (#55); Spanish is *material to be
+translated* there, and the instructions, hints and model version are French. And **a page whose
+floor is A1 explains in Spanish** (#85): the rule, the glosses and the instructions, while the
+French it teaches stays French. A reader starting from zero cannot use a rule stated in a language
+they do not have yet, and a lesson read alone has no teacher to rephrase it. The interface stays
+French at every level.
 
 The reader is still, in the main, a Spanish speaker. That fact did not go away; it moved. It no
 longer decides *which language explains*, it decides *what gets explained and how plainly*: the
 false friends get a French definition instead of a gloss, the interference errors are printed
-wrong-then-right, and the French of the explanation stays easier than the French being taught. A
-page that needs a translation to be understood is a page written at the wrong level.
+wrong-then-right, and the French of the explanation stays easier than the French being taught. From
+A2, a page that needs a translation to be understood is a page written at the wrong level.
 
-**Why one language.** The old rule — Spanish for the learner, French for the heritage speaker —
+**Why one language from A2.** The old rule — Spanish for the learner, French for the heritage speaker —
 had a reader in mind and a nationality attached to them. The course is public, and a Spanish gloss
 is dead weight for a Brazilian, an Italian or a Moroccan reader who is otherwise squarely in the
 audience. Immersion is also how French is taught to adults everywhere; the monolingual FLE
-textbook is not an accident.
+textbook is not an accident. A1 is where that argument runs out (#85): a monolingual textbook
+assumes a teacher in the room to rephrase, and a beginner reading alone cannot use a rule in a
+language they do not have yet.
 
 **English is never used anywhere, for either profile.** No English glosses, no English mnemonics
 (never DR & MRS VANDERTRAMP). Never assume the reader knows English.
@@ -232,5 +234,5 @@ Stated so a "no" is about scope rather than about the person asking:
 Tracked here, decided in `docs/decisions.md` when they close:
 
 - Whether the heritage parcours gets its own front door or stays one path among several.
-- When B1 opens, and whether the same two profiles still describe the audience by then.
-- What a third learner profile looks like — expected, but not yet met.
+- When B2 opens (`docs/levels/b2.md`).
+- The Kids mode (`AGENTS.md` §12.5): what a parent sees, what a game is, where the mode lives.

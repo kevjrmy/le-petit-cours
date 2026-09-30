@@ -48,11 +48,8 @@ announces the wrong colour is worse than one that announces none.
    (`--accent` / `-hover` / `-soft` / `-subtle` / `-line` / `-text`, and the same shape for
    `--danger`, `--warn`, `--success`), plus elevation and layout tokens.
 
-An earlier version of this course grew a third layer of `--clr-*` aliases, kept alive so that pages
-written before the tokens existed would still inherit dark mode. **Do not recreate it.** There is no
-legacy here to be compatible with, and the aliases were a bug class on their own — `--clr-page` read
-like "page text colour" and was in fact a *surface* token, so every component that used it for text
-inverted in dark mode.
+**Do not recreate a third layer of `--clr-*` aliases** (`AGENTS.md` §5): an alias hides which
+layer a name belongs to, and a *surface* token read as a text colour inverts in dark mode.
 
 ### Adding a semantic token
 
@@ -67,10 +64,9 @@ inverted in dark mode.
 :root[data-theme="dark"]  { color-scheme: dark; }
 ```
 
-The toggle only flips `color-scheme`; every token follows. This replaces the old arrangement of
-three blocks — `:root`, a `prefers-color-scheme` block and a `[data-theme="dark"]` block — where a
-token defined in two of the three worked in whichever mode you happened to be testing and broke in
-the other. **Never reintroduce a per-theme block to add a token.**
+The toggle only flips `color-scheme`; every token follows. **Never reintroduce a per-theme block to
+add a token** — a token defined per theme works in whichever mode you happened to be testing and
+breaks in the other.
 
 Two things to know about `light-dark()`:
 
@@ -158,12 +154,18 @@ instruction around it** (`docs/decisions.md` #27). The split is by role, not by 
 orthographe page written in French for the heritage speaker still sets its explanation in sans and
 its example words in serif.
 
+On an A2+ page everything is French and `<html lang="fr">` covers every span. **An A1 page
+explains in Spanish** (#85), so there the Spanish sits in `lang="es"` sections and every `.fr`
+takes `lang="fr"` back:
+
 ```html
-<span class="fr" lang="fr">le livre</span> · el libro
+<section lang="es"><p>Una <span class="fr" lang="fr">robe</span> es un vestido.</p></section>
 ```
 
-`.fr` always travels with `lang="fr"`. The attribute is not decoration: it picks the voice for
-`useSpeech` and stops a screen reader reading French with a Spanish accent. `.example` is the block
+On an A1 page the attribute is not decoration: it stops a screen reader reading French with a
+Spanish accent, and it is what the speech hook will pick a voice from (not built yet, §12.2). The
+callouts' printed labels (`.attention`, `.exception`, `.astuce`) switch under `:lang(es)` — **a new
+printed label needs its Spanish twin** in the same change, or an A1 callout opens in French. `.example` is the block
 form and sets the serif throughout, so `.fr` is redundant inside it.
 
 `.fr` carries a small `font-size: 1.06em` because Spectral's x-height is below Inter's and an
@@ -178,16 +180,19 @@ once before. `globals.css` publishes the answer instead:
 
 ```css
 :root { --shell-mode: "drawer"; }
-@media (min-width: 56.25rem) { :root { --shell-mode: "sidebar"; } }
+@media (min-width: 56.25rem) { :root { --shell-mode: "rail"; } }
+@media (min-width: 75rem)    { :root { --shell-mode: "sidebar"; } }
+/* and :root[data-rail="1" | "0"] above 56.25rem, the learner's collapse choice */
 ```
 
-`useSidebar` reads the token rather than carrying its own number:
+`useShellMode` (`src/hooks/useShellMode.ts`) reads the token rather than carrying its own number,
+and returns one of the three modes:
 
 ```js
-getComputedStyle(document.documentElement).getPropertyValue("--shell-mode").trim() === '"sidebar"'
+getComputedStyle(document.documentElement).getPropertyValue("--shell-mode").trim().replace(/"/g, "")
 ```
 
-Note the quotes in the comparison: the value is a CSS string and comes back with them.
+The value is a CSS string and comes back quoted, which is why the hook strips the quotes.
 
 **The same trick covers a metric two components have to agree on.** The footer and the sidebar's
 account control are one row across the panel's edge — one rule, one baseline — so the height is
@@ -208,8 +213,9 @@ prerendering, and a lesson that stops prerendering stops being free to serve off
 - **A reading column narrower than the shell.** The shell is full-width; prose is not. `--measure`
   is `52rem`, sized for line length rather than for paper, and `.prose` is the class that applies
   it.
-- **Two breakpoints, not five.** One for content and one for the shell — see *The breakpoint lives
-  in the CSS, once*, above.
+- **Few breakpoints, each written once.** The shell has two (56.25rem for the rail, 75rem for the
+  panel — see *The breakpoint lives in the CSS, once*, above), and « Index » two more (81.25rem
+  beside the rail, 93.75rem beside the panel, #66).
 - **There is no print stylesheet.** PDF export was removed on 2026-08-26. Do not add `@media
   print` blocks or `.no-print` classes.
 - **Colour is never the only carrier.** Every state that is signalled by colour also says
@@ -236,18 +242,12 @@ curl -sf -o /dev/null -w '%{http_code}\n' http://localhost:3000/   # already run
 
 node scripts/shot.mjs http://localhost:3000/design light.png  --full
 node scripts/shot.mjs http://localhost:3000/design dark.png   --full --dark
+node scripts/shot.mjs http://localhost:3000/design rail.png   --width=1000
 node scripts/shot.mjs http://localhost:3000/design mobile.png --full --mobile
 ```
 
-**Use the script, not raw Chrome flags.** The recipe that used to live here —
-`--blink-settings=preferredColorScheme=0` — stopped working silently somewhere before Chrome 152:
-the flag is ignored and you get a light screenshot in a file named `dark.png`. Since half this
-app's bugs live in one theme only, a dark check that quietly runs in light is worse than no check.
-`scripts/shot.mjs` drives `Emulation.setEmulatedMedia` over the DevTools Protocol instead, which
-still works; it needs Node 22+ and `google-chrome` on PATH, and has no dependencies. It always
-emulates `prefers-reduced-motion: reduce`, without which a page transition leaves the shot
-half-faded and the colours cannot be judged. Never use `--force-dark-mode`: that applies Chrome's
-own auto-darkening and produces a page that is not yours.
+Use `scripts/shot.mjs` (`AGENTS.md` §11), never Chrome flags or `--force-dark-mode`. It needs
+Node 22+ and `google-chrome` on PATH.
 
 **Read the PNGs back and actually look at them.** Layout bugs — a flex child stretching to fill a
 column, an image collapsed to zero width — do not show up in the DOM.

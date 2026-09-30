@@ -849,6 +849,12 @@ ol.questions .enonce {
   margin-bottom: 0.4rem;
 }
 
+/* An A1 page explains in Spanish (docs/decisions.md #85), so the printed
+   labels follow the section's lang. Every label above needs its twin here. */
+.attention:lang(es)::before { content: "Recuerda: "; }
+.exception:lang(es)::before { content: "Excepto: "; }
+.astuce:lang(es)::before { content: "Truco"; }
+
 .astuce-hook {
   font-family: var(--font-serif);
   font-size: 1.15rem;

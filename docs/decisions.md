@@ -31,12 +31,12 @@ than marking it superseded.
 | 15 | 2026-09-05 | A level is complete when it covers the DELF syllabus for that level | Binding |
 | 18 | 2026-09-05 | All content is public; an account buys only the learning path | Binding |
 | 21 | 2026-09-05 | No key that bypasses RLS lives anywhere, and RLS is the authorization model | Binding |
-| 22 | 2026-09-05 | A progress row *is* the tick; the level never keys progress | Binding |
+| 22 | 2026-09-05 | A progress row *is* the tick; the level never keys progress | Binding · narrowed by #68 |
 | 23 | 2026-09-05 | A lesson carries a set of levels; `[]` means "always visible" | Binding |
 | 24 | 2026-09-05 | IndexedDB is the local store; `localStorage` is for pre-paint values only | Binding |
 | 26 | 2026-09-05 | Sign-in is a route, `/compte`, never a modal | Binding |
 | 27 | 2026-09-05 | The accent is the wordmark's blue; the serif carries the French | Binding |
-| 29 | 2026-09-05 | Chapter landing pages are one generated route, not fourteen files | Binding |
+| 29 | 2026-09-05 | Chapter landing pages are one generated route, not one file per chapter | Binding |
 | 31 | 2026-09-05 | An account may hold an optional display name | Binding |
 | 35 | 2026-09-05 | The level filters every listing, and never access | Binding |
 | 36 | 2026-09-06 | The learner's settings live in user metadata, not in a table of ours | Binding |
@@ -53,9 +53,9 @@ than marking it superseded.
 | 49 | 2026-09-06 | The shell draws the end of a lesson: the tick, then the links | Binding |
 | 50 | 2026-09-06 | Progress is keyed by a permanent lesson id, never by the route path | Binding |
 | 51 | 2026-09-06 | The course announces nothing it has not written | Binding |
-| 53 | 2026-09-06 | One language of instruction, and it is French | Binding |
+| 53 | 2026-09-06 | One language of instruction, and it is French | Binding · narrowed by #85 |
 | 54 | 2026-09-06 | A conversation page is a guided role-play, graded nowhere | Binding |
-| 55 | 2026-09-06 | A `traduction` chapter — the one place Spanish is allowed back | Binding |
+| 55 | 2026-09-06 | A `traduction` chapter — Spanish as material, never as explanation | Binding |
 | 56 | 2026-09-06 | The conjugation sheets: one data file, one route, the imparfait included | Binding |
 | 57 | 2026-09-07 | A role-play offers words, never a model dialogue | Binding |
 | 58 | 2026-09-07 | What a `lecture` text has to be, and how the public domain is tested | Binding |
@@ -66,22 +66,23 @@ than marking it superseded.
 | 66 | 2026-09-12 | Sections are marked, not merely spaced; the in-page index is read from the page | Binding |
 | 67 | 2026-09-12 | « En résumé » is a titled block, and one line closes a lesson | Binding |
 | 68 | 2026-09-12 | A tick names its level only when the page holds a body of work per level | Binding · narrowed by #73, #76 |
-| 69 | 2026-09-17 | A recurring mistake steers the course, and nobody gets a programme of their own | Binding |
+| 69 | 2026-09-17 | A recurring mistake steers the course, and nobody gets a programme of their own | Binding · extends #13 |
 | 70 | 2026-09-21 | « La suite » is the dashboard; signing in returns you where you were | Binding |
 | 71 | 2026-09-21 | Signed out, `/` is a welcome; the search field is the signed-in home | Binding |
 | 72 | 2026-09-21 | A1 joins the course as pages, not as tags | Binding · narrowed by #74, #76 |
-| 73 | 2026-09-21 | The level is chosen in the account, never on the page | Binding |
+| 73 | 2026-09-21 | The level is chosen in the account, never on the page | Binding · narrows #68 |
 | 74 | 2026-09-21 | A level is offered while it is being written, not once it is finished | Binding · narrowed by #76, #77 |
-| 77 | 2026-09-21 | The chooser offers the levels and rates none of them | Binding · narrows #74 |
-| 78 | 2026-09-21 | A `delf` chapter describes the exam and prints none of it | Binding |
 | 75 | 2026-09-21 | The ladder stops at B2; C1 and C2 are out of scope | Binding |
 | 76 | 2026-09-21 | A page is listed from its floor upward; the tick follows the material | Binding · narrows #68, #72 |
+| 77 | 2026-09-21 | The chooser offers the levels and rates none of them | Binding · narrows #74 |
+| 78 | 2026-09-21 | A `delf` chapter describes the exam and prints none of it | Binding · amended by #82 |
 | 79 | 2026-09-21 | The tick is settable from a chapter's listing, beside the row's link | Binding · extends #2, #48 |
 | 80 | 2026-09-22 | A scratch chapter: listed like the others, counted like nothing | Binding · extends #18, #48, #51 |
 | 81 | 2026-09-22 | The atelier sits behind one shared password, in a proxy that knows nothing else | Binding · extends #37, #80 |
 | 82 | 2026-09-27 | An épreuve is marked once, at the end, and a person reads the listening one aloud | Binding · amends #78 |
 | 83 | 2026-09-27 | An épreuve may link a Commons photo as illustration, never as the answer | Binding · narrows §9 |
 | 84 | 2026-09-27 | A written copy is handed in by downloading it, never by storing it | Binding · extends #31, #82 |
+| 85 | 2026-09-30 | An A1 page explains in Spanish; the French it teaches stays French | Binding · narrows #53 |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -209,10 +210,12 @@ first**, not one acquired by accident.
 ## 22 · A progress row *is* the tick; the level never keys progress
 **2026-09-05 · Binding · narrowed by #68**
 
-`(user_id, lesson_id)` and a `marked_at`. Marking inserts; unmarking deletes. **No `done` column**
+`(user_id, lesson_id, level)` and a `marked_at`, `level` being `''` except on a `perLevel` page
+(#68). Marking inserts; unmarking deletes. **No `done` column**
 (the row says it) and **no score column**.
 
-**The level is a setting, never part of a progress key**, so a learner can drop a level and climb
+**The learner's chosen level is a setting, never part of a progress key** — #68's `level` column
+names the variant a `perLevel` page holds, not the setting — so a learner can drop a level and climb
 back losing nothing; on the key or even the row it fragments one history into per-level piles.
 **Scores are stored nowhere**: a per-run score records performance, not what the learner decided is
 done — closer to behavioural tracking than progress.
@@ -225,7 +228,7 @@ offline, what matters is when the learner ticked; a client can only lie about it
 ## 23 · A lesson carries a set of levels; `[]` means "always visible"
 **2026-09-05 · Binding**
 
-A page on *les articles* can be tagged `['A1', 'A2']` and appear for both, keeping **one** tick.
+A page on *les articles* is tagged `from("A1")` and appears at every rung, keeping **one** tick (#76).
 Duplication is what #14 rejects. **`levels` is required, and `[]` is a statement:** `culture` and
 `musique` prompted it, belonging to whoever wants them. An optional field would make "forgot to tag"
 and "needs no tag" identical in a diff. **Filtering is `learner level ∈ lesson levels`** against the
@@ -288,7 +291,7 @@ accents wrongly.
 
 `app/[chapitre]/page.tsx` with `generateStaticParams` and `dynamicParams = false`, so an unknown
 slug 404s — which also stops the segment swallowing every unmatched top-level path. The verb sheets
-likewise (#56). **Chosen over fourteen near-identical files** that drift; the cost is a nav-audit
+likewise (#56). **Chosen over one near-identical file per chapter**, which drift; the cost is a nav-audit
 line per chapter, since a filesystem walk skips dynamic segments. **Never hand-write a chapter
 landing page.**
 
@@ -534,15 +537,16 @@ No `soon` flag, placeholder, dimmed row or « Bientôt » card; **a manifest ent
 served while the manifest was the plan; now they are clicks into nothing and counts of intentions.
 **Chosen against an honest empty state** — the same experience, better mannered.
 
-**The sixteen chapters stay declared** (slug, icon, blurb; every landing page builds, every URL
+**Every chapter stays declared** (slug, icon, blurb; every landing page builds, every URL
 answers); only the offer is filtered. **Search hides an empty chapter rather than grouping it**: a
 level-filtered page still opens in full, an empty chapter has nothing behind it. **No "coming soon"
 row in any form** — dimmed, disabled or counted.
 
 ## 53 · One language of instruction, and it is French
-**2026-09-06 · Binding**
+**2026-09-06 · Binding · narrowed by #85**
 
-Everything is French (AGENTS.md §1), **except a `traduction` page's source text** (#55).
+Everything is French (AGENTS.md §1), **except a `traduction` page's source text** (#55) **and an A1
+page's explanation** (#85).
 
 **Decided against splitting by reader** (Spanish for the learner, French for the heritage speaker):
 the course is public, a Spanish gloss is dead weight for a Brazilian, Italian or Moroccan reader,
@@ -555,8 +559,8 @@ and an example (*« Elle porte une robe bleue »*); an interference error is pri
 (*on ne dit pas « il est trois »*); **the explanation's French stays easier than the French taught**
 — this decision's failure mode, which `content-proofreader` hunts first.
 
-**The cost:** a rule in a language not yet had is harder, survivable because content starts at A2
-(#74). Drills lengthen the sentence instead of glossing. The fourth table column holds an example
+**The cost:** a rule in a language not yet had is harder — survivable from A2, and not at A1, which
+is why #85 lifts the rule there. From A2, drills lengthen the sentence instead of glossing. The fourth table column holds an example
 sentence. **English stays forbidden.** Serif is the French studied, sans the explanation;
 `<html lang="fr">` covers spans, and `lang="fr"` stays only where an element is pronounced alone.
 
@@ -574,11 +578,11 @@ before Thursday, calling for her son), because a role-play replayed is a script 
 order, never random** — random differs between server and client, and a class walks the list anyway.
 **Write the scene so the grammar just learnt is unavoidable.**
 
-## 55 · A `traduction` chapter — the one place Spanish is allowed back
+## 55 · A `traduction` chapter — Spanish as material, never as explanation
 **2026-09-06 · Binding**
 
 A short Spanish source, a place to write the French, the model version. Spanish is **material, never
-explanation**, so #53 holds. `src/components/exercice/Traduction.tsx` renders it from `lines`,
+explanation**, so #53 holds (A1's explanation aside, #85). `src/components/exercice/Traduction.tsx` renders it from `lines`,
 `model`, `note`; **one component, not one per page**, or every page forks with bespoke CSS.
 
 - **Four sentences that hang together** — unrelated ones are a grammar exercise wearing a text.
@@ -605,7 +609,7 @@ will one day hit the wrong verb. **The imparfait is on the sheet**, no longer on
 
 **Two toggles make it a client component**: Négatif shows *ne … pas* around the **auxiliary** in the
 passé composé, a Spanish speaker's long-running mistake; Féminin shows agreement on `être` verbs.
-**Cross-links are derived**: eleven of twelve are the same two paths.
+**Cross-links are derived**: nearly all are the same two paths.
 
 ## 57 · A role-play offers words, never a model dialogue
 **2026-09-07 · Binding**
@@ -617,7 +621,7 @@ dialogue put everything on the page twice, to be read instead of played.
 
 **The cloud** is tested against the constraint card — every situation answerable from it — not by
 count. **Entries are words or small fixed pieces**, never sentences (the dialogue returning a chip at
-a time), in conversation order, **with no glosses**: a word needing one belongs in the linked lesson.
+a time), in conversation order, **with no glosses** (an A1 chip may carry a short Spanish one, #85): a word needing more belongs in the linked lesson.
 
 ## 58 · What a `lecture` text has to be
 **2026-09-07 · Binding**
@@ -771,7 +775,7 @@ inside a background sync, with no error. `remote.ts` groups removals by level.
 comes from the account (#73).
 
 **`exercices` proved the rule is about the mechanic.** A sorting board is the same board whether the
-chips read *aller* or *monter dans le train*, so both drills took a second bank, not a second page:
+chips read *aller* or *monter dans le train*, so drills took a second bank, not a second page:
 `data.ts` exports `BANKS` and `drill.tsx` keys the board on the level, so **the remount is the
 reset** — a deck, its placements, its score and its « vérifié » flag go together, and a reset
 threaded through four setters loses one, scoring a board against the other level's answers.
@@ -779,7 +783,7 @@ threaded through four setters loses one, scoring a board against the other level
 **The two lists that must agree are checked.** A `perLevel` page's sets and its manifest `levels`
 live in different files and the manifest wins, so a level with no set would serve another level's
 questions. The sets live in a type-only-import module beside the page — `questions.ts` for a quiz,
-`data.ts` for a drill — readable by plain `node`, and the `nav-wiring` audit's fifth line compares
+`data.ts` for a drill — readable by plain `node`, and the `nav-wiring` audit compares
 both directions: keys that disagree, and a multi-level lesson with no such module. Both were broken
 on purpose and seen to fail.
 
@@ -804,7 +808,7 @@ would put their writing in a public repository. **Nothing about who made a mista
 commit or a doc.**
 
 **The heritage profile widened** (#13) to a teenager at a Spanish school with Spanish writing
-habits; a page names the habit in French without printing the Spanish word (#53). **A lesson may
+habits; a page names the habit in French without printing the Spanish word (#53; an A1 page aside, #85). **A lesson may
 ship without a drill**; the drill comes when practice earns its place.
 
 ## 70 · « La suite » is the dashboard; signing in returns you where you were
@@ -918,7 +922,7 @@ unfiltered, and A1's *présent* below A2's *passé composé* reads as a broken p
 DELF A1 grammar programme; the exam tests communication. France Éducation international distributes
 the *Inventaire linguistique des contenus clés des niveaux du CECRL* (CIEP/Eaquals, 2015), whose
 Annexe E gives per level the fonctions, grammaire, socio-culturel and thèmes de vocabulaire;
-`docs/programme-a1.md` maps it against the manifest. **#15's finish line for A1 is the FONCTIONS
+`docs/levels/a1.md` maps it against the manifest. **#15's finish line for A1 is the FONCTIONS
 list**, not GRAMMAIRE — weighting `conversation` and `vocabulaire` over `grammaire`, which suits
 learners who already have a Romance verb system.
 
@@ -933,8 +937,7 @@ relatifs — have **A2 as their floor** and no A1 twin, and #76 lists them at B1
 ## 73 · The level is chosen in the account, never on the page
 **2026-09-21 · Binding · narrows #68**
 
-`LevelPicker` is deleted, with `LessonVariantProvider`, its context and its per-path state.
-`useLessonVariant` is a plain hook: the learner's level, else the lesson's first, with the lesson's
+No level control on the page. `useLessonVariant` is a plain hook: the learner's level, else the lesson's first, with the lesson's
 own `levels` as the authority at both steps. Only `LevelChooser` in `/compte` changes level.
 
 **A level is the course someone is following, not a view option like a theme.** It decides what
@@ -959,8 +962,7 @@ links to `/compte` (#35).
 **2026-09-21 · Binding · reverses the A2-only gate, narrows #72 · narrowed by #76, #77**
 
 `CHOOSABLE_LEVELS` holds `A1, A2, B1`, and a level joins it while it is being written rather than
-once it is done. (The « en cours » badge and `COURSE_LEVELS` this entry added were deleted by #77;
-the reasoning below still binds.) **A2 was written first, and that order stands**: the learners the
+once it is done. **A2 was written first, and that order stands**: the learners the
 course was started for are at A2.
 
 **The old gate answered the wrong question.** The A2-only gate was right about the risk and wrong
@@ -968,13 +970,11 @@ about the remedy: an unfinished level is dishonest not because it can be chosen 
 says it is unfinished. #51 forbids *announcing* what is not written; offering a level announces
 nothing false.
 
-**The deciding fact was that leaving A2 showed *fewer* lessons** — picking B1 lost `grammaire`,
-`vocabulaire`, `astuces`, `conversation` and `traduction` and bought only eleven harder question
-sets (#68). #76 removed that fact: B1 is now offered everything A2 is. **A1 stays the thin rung**,
-because no page is widened downward.
+**Everything A2 lists, B1 lists** (#76); **A1 stays the thin rung**, because no page is widened
+downward.
 
 **#15 still defines when a level is *done*; it no longer decides when it may be *chosen*.**
-Completeness is an editorial fact, tracked in `docs/programme-a1.md`; since #77 the interface says
+Completeness is an editorial fact, tracked in `docs/levels/`; since #77 the interface says
 nothing about it.
 
 **Closing a level is a silent reset.** `readLevel` filters against `CHOOSABLE_LEVELS` as well as
@@ -1027,8 +1027,7 @@ and "holds a body of work per rung", so widening a tag silently repointed the ti
 `id@LEVEL` — the migration #68 is about, which had stranded eleven pages' ticks nine days earlier.
 Now `levels` decides listing, `perLevel` decides the key, and neither is inferred from the other.
 
-**Zero rows moved**: the eleven per-level pages are the eleven carrying `perLevel`, and twenty-three
-pages widened to A2–B2 with no tick shifted. **If widening a tag ever costs a migration again, the
+**No rows moved**: `levels` was widened across the course without a tick shifting. **If widening a tag ever costs a migration again, the
 two claims have been merged back.**
 
 **Chosen against three alternatives.**
@@ -1050,11 +1049,11 @@ not the A2 one's tag. A written-out tag — `["A1"]` — claims something above 
 pages, which answer to literacy rather than CEFR (#23, #68). `from("A1")` is a syllabus claim.
 
 **`from("A2")` includes B2, which nobody can choose** (#74, #75), deliberately: the day B2 opens
-needs no twenty-three edits, and an unselectable level shows nothing wrong meanwhile.
+needs no edits, and an unselectable level shows nothing wrong meanwhile.
 
 **A `perLevel` page writes its levels out, never `from()`.** The tag *is* the list of sets and must
 equal it; the manifest wins, so a rung with no set behind it would serve another rung's material
-rather than fail. The nine `lecture` texts and two `exercices` drills stay `["A2", "B1"]`: a B2
+rather than fail. The `perLevel` pages stay `["A2", "B1"]` (`A2B1`): a B2
 face is a B2 question set, not a wider tag. The `nav-wiring` audit checks both directions,
 plus a third: several sets with no `perLevel` is two bodies of work behind one circle.
 
@@ -1076,27 +1075,27 @@ sign-up form and every account made by hand for someone told what the course is.
 **#51 is not reopened.** #51 forbids *announcing a page that is not written*. Every level in
 `CHOOSABLE_LEVELS` has pages, a level with none would draw an empty sommaire rather than a promise,
 and `listedChapters` still drops empty chapters. What went is a **rating** of the levels — a claim
-about how finished the course is, which #15 and `docs/programme-a1.md` already hold; the chooser was
+about how finished the course is, which #15 and `docs/levels/` already hold; the chooser was
 a second copy.
 
 **Chosen against two alternatives.**
 
 *Declare A1 and B1 finished* by moving them into `COURSE_LEVELS`. It keeps the mechanism for B2, and
-records A1 as complete while nine of twenty-four functions are covered. A field that lies is worse
+records A1 as complete while a minority of the twenty-four functions are covered. A field that lies is worse
 than a field that is gone.
 
 *Keep the note, drop only the badge.* `COURSE_LEVELS` would lose its only reader and become a
 hand-kept list nothing reads — what #75 deleted `LEVELS` for — sitting beside `CHOOSABLE_LEVELS`
 looking load-bearing.
 
-**The cost.** Someone choosing A1 sees twenty-four lessons, twenty tagged `[]`, and nothing says A1
+**The cost.** Someone choosing A1 sees a thin listing, mostly pages tagged `[]`, and nothing says A1
 is thin. Acceptable only while the audience is known. **This is the first thing to put back if the
 site is ever listed or opens sign-up** — badge and note before the door. A comment on
 `LevelChooser` says so.
 
 
 ## 78 · A `delf` chapter describes the exam and prints none of it
-**2026-09-21 · Binding · extends #15, #51, #9b's licence rule**
+**2026-09-21 · Binding · extends #15, #51, §9b's licence rule · amended by #82**
 
 A sixteenth chapter, `delf`, last in the manifest, holding **whole épreuves to sit in real
 conditions** and nothing else. How they are marked and sat is #82's.
@@ -1106,10 +1105,9 @@ useful, and standing between the learner and the exam. The barème lives on the 
 to. `/delf/comment-ca-se-passe` redirects to the chapter; `delf-comment-ca-se-passe` is a retired id,
 never reused (#50).
 
-**The licence line is why the entry exists.** The request arrived with the *Transcriptions et
-corrigés* booklet of a Hachette DELF A2 prep book (ISBN 978-2-01-719952-6). It cannot go in, and
-neither can France Éducation international's free sample sujets — free to download, not free to
-relicense. Content here is CC BY-SA 4.0, and #9b allows licensing only what the project owns.
+**The licence line is why the entry exists.** A prep book's transcriptions and corrigés
+cannot go in, and neither can France Éducation international's free sample sujets — free to download, not free to
+relicense. Content here is CC BY-SA 4.0, and §9b allows licensing only what the project owns.
 
 **Format is a fact; a sujet is someone's writing.** Four épreuves, twenty-five points each, fifty to
 pass, five minimum per épreuve, the order on the day, what each asks — stated here. The *texts,
@@ -1180,7 +1178,7 @@ they were not looking at.
 
 `temp` — « Atelier » on screen — holds the pages of a class in progress: written for one session,
 shared on screen during a call, then promoted or deleted. It is the only chapter **emptied on
-purpose**, and `Chapter.scratch` is what the app reads to know it.
+purpose**. `Chapter.scratch` marks it; readers test `isTracked()` (#82).
 
 **Decided against keeping it out of the repo** (a local folder, a branch, an outside document):
 the class is given by sharing the app itself, and a page built elsewhere looks like something else.
@@ -1234,7 +1232,7 @@ serves the class: it may say « tu », and it may restyle a shared pattern (`.fr
 
 **What would reopen this.** Pages piling up for months, or someone outside the class working through
 them: then it is an ordinary chapter wanting ticks, a syllabus position and a place in
-`docs/programme-a1.md`. A scratch chapter that is never reset is misfiled.
+`docs/levels/`. A scratch chapter that is never reset is misfiled.
 
 
 ## 81 · The atelier sits behind one shared password, in a proxy that knows nothing else
@@ -1353,3 +1351,43 @@ unsent — as a new decision.
 **Decided against a file on the server.** A Vercel function's `/tmp` belongs to one instance and
 dies with it. Vercel Blob would work, at the cost of a public write route, a second secret beside
 `FRONTEND_PASSWORD` (#81) and a second storage service beside Supabase (#8).
+
+## 85 · An A1 page explains in Spanish; the French it teaches stays French
+**2026-09-30 · Binding · narrows #53**
+
+On a page whose floor is A1, **the explanation, the glosses and the drill or role-play instructions
+are in Spanish**. The French being taught — `.fr`, `.example`, a table's French column, a drill's
+items and answers, a role-play's word cloud — stays French. From A2 up, #53 holds unchanged.
+
+**Why #53 did not survive at A1.** #53's cost clause said « survivable because content starts at A2 »;
+#74 made A1 choosable, and a rule stated in a language the reader does not have yet is a rule they
+cannot use. The `.rule` box was already failing there — two A1 pages opened on a `dont`. The
+monolingual FLE textbook assumes a teacher in the room to rephrase; this course is read alone.
+
+**Decided against Spanish by reader or by chosen level.** The page cannot tell who is reading it: a
+lesson is prerendered and never reads the session (#73, §8). So the language follows **the page's
+floor**, which the manifest already states, and an A1 page stays `from("A1")` (#76): an A2 learner
+revising the articles reads the Spanish too, and that costs less than hiding the only articles page
+from them.
+
+**Decided against Spanish in the chrome.** The sidebar, the tick, the account and every title and
+subtitle in the manifest stay French at every level — an interface that changes language with the
+level has to read it, which is the session read §8 forbids above a lesson, and search reads the
+titles (§6).
+
+**What #53 still forbids at A1:** English, anywhere; Spanish as a replacement for the French being
+taught (an example sentence is French, the gloss sits beside it); a Spanish-only table with the
+French missing. The four-column limit stands, so a gloss column costs the table something else.
+
+**The Spanish is peninsular and says `tú`.** The learners are in Spain, and a page that mixes
+`tú` and `usted`, or `vosotros` and `ustedes`, reads as two authors.
+
+**`lang` does the work here that `<html lang="fr">` did alone.** The Spanish is marked `lang="es"` —
+on each `<section>` and on the `.resume`, never on the `<article>`, since `PageHeader` inside it
+prints the French title — and every piece of French inside it takes `lang="fr"` back. Forgetting one
+has a screen reader read French with a Spanish voice, and fails nothing. The callouts' printed
+labels follow `:lang(es)` in `globals.css` (« Recuerda: », « Excepto: », « Truco »); the `.resume`'s
+written heading is « En resumen ».
+
+**The seven A1 pages written in French before this are to be retrofitted**, so that A1 reads as
+one course.

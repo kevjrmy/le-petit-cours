@@ -159,6 +159,17 @@ export default function DesignPage() {
             un <span className="fr" lang="fr">œuf</span> se prononce « euf », mais
             des <span className="fr" lang="fr">œufs</span> se prononce « eu ».
           </div>
+          <div className={styles.stack} lang="es">
+            <div className="attention">
+              en una página A1 (#85), la explicación está en español y las
+              etiquetas cambian solas: <span className="fr" lang="fr">une
+              robe</span> es un vestido.
+            </div>
+            <div className="exception">
+              <span className="fr" lang="fr">au Mexique</span>: el nombre
+              acaba en <em>-e</em>, pero es masculino.
+            </div>
+          </div>
           <div className="resume">
             <h2>En résumé</h2>
             <ul>

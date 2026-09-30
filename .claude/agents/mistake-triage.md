@@ -24,7 +24,8 @@ same mistake. If you were handed the original text, describe the pattern (« -é
   (`orthographe`, `astuces`, `conjugaison`). A structure that is wrong when spoken is the learner's
   (`grammaire`, `vocabulaire`).
 - **Its cause, when there is one.** A Spanish writing habit (one accent, a single consonant, no space
-  before `? ! : ;`) is named on the page, in French, without printing the Spanish word (#53).
+  before `? ! : ;`) is named on the page, in French, without printing the Spanish word (#53) —
+  unless the page proposed is an A1 page, which explains in Spanish (#85).
 - **The smallest rule that fixes it.** « Les homophones » is too wide to act on; « `ces` / `ses` » is not.
 
 ## 2. Look for what exists
