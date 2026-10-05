@@ -35,14 +35,14 @@ export default function Page() {
           Es «un bolígrafo», «la estación», «mi hermana» y «Paul». En español
           puedes callar el sujeto: <em>es un libro</em>. En francés no:{" "}
           <span className="fr" lang="fr">c’est un livre</span>.{" "}
-          <span className="fr" lang="fr">est un livre</span> no existe.
+          <s className="fr" lang="fr">est un livre</s> no existe.
         </p>
 
         <p>
           <span className="fr" lang="fr">c’est</span> se escribe siempre con
           apóstrofo: <span className="fr" lang="fr">ce</span> pierde la{" "}
           <em>e</em> delante de <span className="fr" lang="fr">est</span>, y{" "}
-          <span className="fr" lang="fr">ce est</span> no existe.
+          <s className="fr" lang="fr">ce est</s> no existe.
         </p>
 
         <p>
@@ -212,8 +212,8 @@ export default function Page() {
           frase cambia de forma: sin palabra pequeña, se dice{" "}
           <span className="fr" lang="fr">il est médecin</span>; con ella,{" "}
           <span className="fr" lang="fr">c’est un médecin</span>.{" "}
-          <span className="fr" lang="fr">il est un médecin</span> no existe, y
-          tampoco <span className="fr" lang="fr">c’est médecin</span>.
+          <s className="fr" lang="fr">il est un médecin</s> no existe, y
+          tampoco <s className="fr" lang="fr">c’est médecin</s>.
         </div>
 
         <div className="exception">

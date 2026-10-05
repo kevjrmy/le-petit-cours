@@ -74,7 +74,13 @@ Order inside a section: **rule → table → examples → one key exception.**
 The serif carries the French being taught, the sans the instruction (#27, #53).
 
 - `.fr` on a French word inside instruction prose; `.example` for a block of French, serif
-  throughout, so `.fr` inside it is redundant.
+  throughout, so `.fr` inside it is redundant. A `<span className="fr">` in a sentence is drawn
+  semi-bold: do not wrap it in `<strong>`.
+- **A wrong form is `<s className="fr">`**, never a span: « on dit `<span>`je sors ensuite`</span>`,
+  on ne dit pas `<s>`je sors puis`</s>` ». Struck through, at the text's weight, so the mistake is
+  not the loudest word in the sentence. **Only a form wrong as written** (*je sors puis*, *mèr*,
+  *il a mort*) — not a correct word that is the wrong choice here (« jamais *un* ni *une* »), and
+  not a spoken form the page allows (*je sais pas*). The sentence still says it is wrong in words.
 - A table's French column takes it per cell, **including `<th scope="row">`**.
 - **`lang` does not travel with `.fr`** — `<html lang="fr">` covers it. Keep it only where an
   element is pronounced on its own (and on A1 pages, per `docs/levels/a1.md`).

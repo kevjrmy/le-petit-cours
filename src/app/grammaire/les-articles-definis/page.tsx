@@ -66,7 +66,7 @@ export default function Page() {
         <p>
           Delante de una vocal (a, e, i, o, u), <span className="fr" lang="fr">le</span> y{" "}
           <span className="fr" lang="fr">la</span> pierden la vocal y ponen un
-          apóstrofo. <span className="fr" lang="fr">la école</span> no existe:
+          apóstrofo. <s className="fr" lang="fr">la école</s> no existe:
           se escribe <span className="fr" lang="fr">l’école</span>. Se pronuncia
           todo junto, como una sola palabra. <span className="fr" lang="fr">les</span> no cambia al escribirlo: es igual
           para masculino y femenino.
@@ -169,8 +169,8 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          <span className="fr" lang="fr">à le</span> y{" "}
-          <span className="fr" lang="fr">de le</span> no se escriben nunca. La
+          <s className="fr" lang="fr">à le</s> y{" "}
+          <s className="fr" lang="fr">de le</s> no se escriben nunca. La
           forma junta es obligatoria:{" "}
           <span className="fr" lang="fr">je vais au marché</span> (voy al
           mercado), <span className="fr" lang="fr">la voiture du voisin</span> (el
@@ -242,7 +242,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          <span className="fr" lang="fr">j’aime chocolat</span> no existe.
+          <s className="fr" lang="fr">j’aime chocolat</s> no existe.
           En estos tres casos hace falta un artículo.
         </div>
 

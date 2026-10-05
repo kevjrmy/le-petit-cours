@@ -46,7 +46,7 @@ export default function Page() {
           un frigo se décrit surtout à la forme négative, et la négation change
           l’article : <span className="fr">il n’y a plus de lait</span>,{" "}
           <span className="fr">il ne reste plus de beurre</span>. Jamais{" "}
-          <span className="fr">plus du lait</span>. Le raccourci est dans{" "}
+          <s className="fr">plus du lait</s>. Le raccourci est dans{" "}
           <Link href="/astuces/pas-de">pas de ou pas un ?</Link>
         </div>
 

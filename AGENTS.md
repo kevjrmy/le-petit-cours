@@ -161,7 +161,10 @@ Accent `#0044AA`, **Spectral** + **Inter** (#27).
 - **Spectral is loaded at 400 and 600 only** — serif `700` silently renders 600.
 - **Serif = the French taught** (`.fr`, `.example`), **sans = the explanation** (#53). `lang="fr"`
   is inherited — repeat it only for an element pronounced alone, and on A1 pages (§1).
-- **Red means wrong**: `--danger` is for a wrong answer and `.exception`, nothing else.
+- **A cited form is `span.fr`, semi-bold; a wrong one is `<s className="fr">`, struck through** —
+  a wrong form left in a span is the boldest word in its sentence.
+- **Red means wrong**: `--danger` is for a wrong answer, a struck form and `.exception`, nothing
+  else.
 - **Colour is never the only carrier**: `.attention` prints « À retenir : », `.exception`
   « Sauf : » (Spanish under `:lang(es)`), feedback carries a mark.
 - **`.is-correct` / `.is-wrong` / `.is-missed` are doubled selectors** so they beat `.chip`/`.word`.

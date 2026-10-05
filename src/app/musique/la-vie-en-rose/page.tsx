@@ -28,7 +28,7 @@ export default function Page() {
         <div className="attention">
           en français, la couleur du bonheur est le{" "}
           <span className="fr">rose</span>, jamais le rouge.{" "}
-          <span className="fr">voir la vie en rouge</span> ne veut rien dire. La
+          <s className="fr">voir la vie en rouge</s> ne veut rien dire. La
           couleur des idées noires, elle, est bien le noir :{" "}
           <span className="fr">broyer du noir</span>, c’est être triste.
         </div>
@@ -170,7 +170,7 @@ export default function Page() {
 
         <div className="exception">
           on dit <span className="fr">pour moi</span>, jamais{" "}
-          <span className="fr">pour je</span>. Deux formes seulement se
+          <s className="fr">pour je</s>. Deux formes seulement se
           ressemblent d’une colonne à l’autre,{" "}
           <span className="fr">nous</span> et <span className="fr">vous</span> ;
           toutes les autres changent, et{" "}

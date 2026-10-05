@@ -58,7 +58,7 @@ export default function Page() {
           <span className="fr">une place</span>, en français, c’est la place
           d’un village ou d’une ville, ou bien une place assise. Pour l’endroit
           où l’on va, on dit <span className="fr">un endroit</span> : on ne dit
-          pas <span className="fr">« je connais une belle place pour manger »</span>,
+          pas <s className="fr">« je connais une belle place pour manger »</s>,
           on dit <span className="fr">« je connais un bon endroit pour manger »</span>.
         </div>
       </section>

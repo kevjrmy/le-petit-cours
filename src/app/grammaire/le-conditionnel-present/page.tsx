@@ -274,9 +274,9 @@ export default function Page() {
           on ne met jamais de conditionnel après{" "}
           <span className="fr">si</span>. On écrit{" "}
           <span className="fr">si j’avais</span>, jamais{" "}
-          <span className="fr">si j’aurais</span>, et{" "}
+          <s className="fr">si j’aurais</s>, et{" "}
           <span className="fr">si je pouvais</span>, jamais{" "}
-          <span className="fr">si je pourrais</span>. La faute est fréquente,
+          <s className="fr">si je pourrais</s>. La faute est fréquente,
           y compris chez des francophones, et elle se voit immédiatement à
           l’écrit.
         </div>

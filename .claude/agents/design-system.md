@@ -138,6 +138,12 @@ change. `.fr` is redundant inside `.example`. A role-play chip (`ul.mots li`) is
 `.fr` carries `font-size: 1.06em` because Spectral's x-height is below Inter's. Change either face
 and re-check that number first.
 
+**A cited form is marked by weight, a wrong one by a line** — and by nothing else. `span.fr` is
+Spectral 600, the weight a table's row head and a `<strong>` in an `.example` already have; it falls
+back to the block's weight inside `.example` and `ul.mots`. `s.fr` keeps the text's weight and is
+struck through in `--danger`. No colour on either (blue reads as a link), no tinted box (a sixth
+callout, eight times a paragraph), no italic (the caption's voice). Both are on `/design`.
+
 ## The breakpoint lives in the CSS, once
 
 A media query cannot read a custom property, so the breakpoint would end up in both `globals.css`

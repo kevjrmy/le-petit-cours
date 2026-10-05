@@ -92,7 +92,7 @@ export function A2() {
           <span className="fr">il est mort</span> avec{" "}
           <span className="fr">être</span>. Arriver et mourir se conjuguent avec{" "}
           <span className="fr">être</span> : on ne dit pas{" "}
-          <span className="fr">il a mort</span>.
+          <s className="fr">il a mort</s>.
         </div>
       </section>
 

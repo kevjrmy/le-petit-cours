@@ -68,7 +68,7 @@ export default function Page() {
               ce sont les quatre négations. Après une négation, l’article
               change : «{" "}
               <span className="fr">il ne mange pas d’ordures</span> », jamais «{" "}
-              <span className="fr">des ordures</span> ».{" "}
+              <s className="fr">des ordures</s> ».{" "}
               <span className="fr">personne</span> est ici le sujet, donc «{" "}
               <span className="fr">ne</span> » reste devant le verbe : «{" "}
               <span className="fr">personne ne veut</span> ». Et au futur

@@ -22,7 +22,7 @@ export default function Page() {
 
         <div className="attention">
           on écrit <span className="fr">je vais manger</span>, jamais{" "}
-          <span className="fr">je vais à manger</span>. Aucune préposition ne
+          <s className="fr">je vais à manger</s>. Aucune préposition ne
           sépare <span className="fr">aller</span> de l’infinitif. C’est la
           faute la plus fréquente sur ce temps, et la seule chose à surveiller.
         </div>
@@ -158,7 +158,7 @@ export default function Page() {
           le pronom ne se met jamais devant{" "}
           <span className="fr">aller</span>. On écrit{" "}
           <span className="fr">tu vas te laver</span>, jamais{" "}
-          <span className="fr">tu te vas laver</span>. Et quand la phrase est
+          <s className="fr">tu te vas laver</s>. Et quand la phrase est
           négative, le pronom reste avec son infinitif, donc derrière{" "}
           <span className="fr">pas</span> :{" "}
           <span className="fr">je ne vais pas me coucher</span>.

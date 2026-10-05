@@ -179,7 +179,7 @@ export default function Page() {
           femenino que empieza por vocal. Se escribe{" "}
           <span className="fr" lang="fr">mon amie</span> y{" "}
           <span className="fr" lang="fr">son école</span>, nunca{" "}
-          <span className="fr" lang="fr">ma amie</span>. El nombre sigue siendo
+          <s className="fr" lang="fr">ma amie</s>. El nombre sigue siendo
           femenino: <span className="fr" lang="fr">mon amie est espagnole</span>{" "}
           (mi amiga es española). Las formas completas están en{" "}
           <Link href="/orthographe/les-determinants-possessifs" lang="fr">

@@ -186,9 +186,9 @@ export default function Page() {
         <h2>5. Troisième truc : avait ou était ?</h2>
 
         <p>
-          Dans ton texte : <span className="fr">il avait aller</span>. Pourtant,
+          Dans ton texte : <s className="fr">il avait aller</s>. Pourtant,
           à l’oral, tu ne dirais jamais{" "}
-          <span className="fr">hier, il a allé à Rome</span>. Tu dis{" "}
+          <s className="fr">hier, il a allé à Rome</s>. Tu dis{" "}
           <span className="fr">hier, il est allé à Rome</span>. Ton oreille
           connaît déjà la réponse : il suffit de lui poser la question.
         </p>

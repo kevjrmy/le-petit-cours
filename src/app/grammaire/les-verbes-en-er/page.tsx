@@ -133,11 +133,11 @@ export default function Page() {
           dice quién habla. En francés no. Como cuatro formas suenan igual, el
           sujeto se dice siempre. Escribes{" "}
           <span className="fr" lang="fr">je parle français</span>, nunca
-          «<span className="fr" lang="fr">parle français</span>».
+          «<s className="fr" lang="fr">parle français</s>».
         </div>
 
         <p>
-          Mal: <span className="fr" lang="fr">Parle français.</span> Bien:
+          Mal: <s className="fr" lang="fr">Parle français.</s> Bien:
         </p>
 
         <div className="example" lang="fr">
@@ -231,7 +231,7 @@ export default function Page() {
           </li>
           <li>
             El sujeto es obligatorio: <span className="fr" lang="fr">je parle</span>,
-            nunca «<span className="fr" lang="fr">parle</span>».
+            nunca «<s className="fr" lang="fr">parle</s>».
           </li>
           <li>
             <span className="fr" lang="fr">je</span> pasa a{" "}

@@ -163,8 +163,8 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          <span className="fr" lang="fr">j’aime du chocolat</span> y{" "}
-          <span className="fr" lang="fr">j’aime chocolat</span> no existen.
+          <s className="fr" lang="fr">j’aime du chocolat</s> y{" "}
+          <s className="fr" lang="fr">j’aime chocolat</s> no existen.
           Cuando dices lo que te gusta, piensas en el chocolate en general:{" "}
           <span className="fr" lang="fr">j’aime le chocolat</span>. Cuando
           pides o comes una parte, es otro caso: mira{" "}

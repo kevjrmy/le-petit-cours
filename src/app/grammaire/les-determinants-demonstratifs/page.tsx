@@ -86,7 +86,7 @@ export default function Page() {
           <span className="fr">ce haricot</span>. Ces mots sont peu nombreux et
           s’apprennent un par un, comme pour l’article :{" "}
           <span className="fr">le héros</span> et non{" "}
-          <span className="fr">l’héros</span>.
+          <s className="fr">l’héros</s>.
         </div>
       </section>
 
@@ -120,7 +120,7 @@ export default function Page() {
           le trait d’union est obligatoire, et il se place{" "}
           <strong>après le nom</strong>, pas après le déterminant. On écrit{" "}
           <span className="fr">ce livre-là</span> ; la forme{" "}
-          <span className="fr">ce-là livre</span> n’existe pas.
+          <s className="fr">ce-là livre</s> n’existe pas.
         </div>
 
         <div className="astuce">

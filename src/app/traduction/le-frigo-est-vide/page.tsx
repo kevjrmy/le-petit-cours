@@ -58,7 +58,7 @@ export default function Page() {
               <span className="fr">le frigo</span> », et «{" "}
               <span className="fr">je vais acheter</span> » vaut le futur.
               Deux choses ne passent pas : un nom laissé tout nu, comme «{" "}
-              <span className="fr">acheter pain</span> », et «{" "}
+              <s className="fr">acheter pain</s> », et «{" "}
               <span className="fr">pas de la viande</span> » à la place de «{" "}
               <span className="fr">pas de viande</span> ».
             </>

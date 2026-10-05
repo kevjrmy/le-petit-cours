@@ -70,7 +70,7 @@ export default function Page() {
         <div className="attention">
           ce qui ne se compte pas ne prend jamais{" "}
           <span className="fr">un</span> ni <span className="fr">une</span>. On
-          ne dit pas <span className="fr">un lait</span>, on dit{" "}
+          ne dit pas <s className="fr">un lait</s>, on dit{" "}
           <span className="fr">du lait</span>, ou bien{" "}
           <span className="fr">un verre de lait</span> quand on veut compter :
           alors c’est le verre qu’on compte, pas le lait.
@@ -142,7 +142,7 @@ export default function Page() {
           <span className="fr">j’aime le café</span>,{" "}
           <span className="fr">elle adore les gâteaux</span>,{" "}
           <span className="fr">je déteste le bruit</span>. On n’écrit jamais{" "}
-          <span className="fr">j’aime du café</span> : aimer ne prend pas une
+          <s className="fr">j’aime du café</s> : aimer ne prend pas une
           part, il prend la chose entière.
         </div>
 

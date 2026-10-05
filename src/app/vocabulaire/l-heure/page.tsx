@@ -27,8 +27,8 @@ export default function Page() {
         <div className="attention">
           <span className="fr">heure</span> est un nom, et il s’accorde : une{" "}
           <strong>heure</strong>, deux <strong>heures</strong>. On ne dit ni{" "}
-          <span className="fr">il est trois</span>, ni{" "}
-          <span className="fr">il est une heures</span>.
+          <s className="fr">il est trois</s>, ni{" "}
+          <s className="fr">il est une heures</s>.
         </div>
 
         <h3>Les minutes</h3>

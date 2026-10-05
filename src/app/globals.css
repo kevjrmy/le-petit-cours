@@ -385,6 +385,36 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   font-size: 1.06em;
 }
 
+/* A form cited inside a sentence of explanation. The serif alone is too quiet
+   there: at reading size « puis se place avant l'action » looks like one run
+   of text. It takes the weight a table's row head and a `<strong>` in an
+   `.example` already have, so the form under study has one look everywhere.
+   Weight only, on purpose: a colour would read as a link, a tinted box as a
+   sixth callout, and the italic is the caption's.
+
+   Where the whole block is French already, the span keeps the block's weight. */
+span.fr { font-weight: 600; }
+
+.example span.fr,
+ul.mots span.fr { font-weight: inherit; }
+
+/* A form cited to say it is wrong: « on ne dit pas … ». Beside a semi-bold
+   right form it must not be the louder of the two, so it keeps the text's own
+   weight and is struck through in `--danger` — the wrong answer's red (§5).
+   The line is the mark, so the meaning never rests on the colour; the letters
+   stay in the text's ink, because the learner has to recognise their own
+   sentence under it.
+
+   `<s class="fr">`, not a modifier on the span: the element already says the
+   content is not accurate, so the meaning survives without this sheet. Only
+   for a form that is wrong as written (« je sors puis », « mèr »), never for a
+   correct word that is merely the wrong choice here. */
+s.fr {
+  text-decoration-line: line-through;
+  text-decoration-color: var(--danger);
+  text-decoration-thickness: 0.08em;
+}
+
 /* Bare tags are deliberately left unstyled. In the old sheet `article` and
    `section` were padded cards, so a page that used them as layout boxes paid
    ~4rem of chrome per section. Cards are a class you ask for. */

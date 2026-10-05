@@ -51,9 +51,9 @@ export default function Page() {
               je m’appelle
             </span>
             . No se dice{" "}
-            <span className="fr" lang="fr">
+            <s className="fr" lang="fr">
               je suis appelle
-            </span>
+            </s>
             . Para la edad se usa el verbo{" "}
             <span className="fr" lang="fr">
               avoir
@@ -67,13 +67,13 @@ export default function Page() {
               ans
             </span>{" "}
             no se omite nunca. No se dice{" "}
-            <span className="fr" lang="fr">
+            <s className="fr" lang="fr">
               je suis vingt-cinq
-            </span>{" "}
+            </s>{" "}
             ni{" "}
-            <span className="fr" lang="fr">
+            <s className="fr" lang="fr">
               j’ai vingt-cinq
-            </span>
+            </s>
             .
           </p>
         </div>

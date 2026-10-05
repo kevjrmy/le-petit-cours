@@ -64,7 +64,7 @@ export default function Page() {
                   dans <span className="fr">introduction</span> ; on appelle et
                   on demande <em>quelqu’un</em>, sans « lui » ni « pour » ; et
                   on écrit <span className="fr">jusqu’au jour où</span>, jamais{" "}
-                  <span className="fr">jusqu’à qu’un jour</span>.
+                  <s className="fr">jusqu’à qu’un jour</s>.
                 </td>
               </tr>
               <tr>

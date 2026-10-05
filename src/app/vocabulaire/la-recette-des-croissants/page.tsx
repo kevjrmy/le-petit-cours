@@ -333,8 +333,8 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          On ne dit jamais <span className="fr">un beurre</span> ni{" "}
-          <span className="fr">une farine</span>. Ces choses-là ne se comptent
+          On ne dit jamais <s className="fr">un beurre</s> ni{" "}
+          <s className="fr">une farine</s>. Ces choses-là ne se comptent
           pas : on en prend une quantité, on n’en prend pas un.
         </div>
 
@@ -440,7 +440,7 @@ export default function Page() {
             Devant ce qui ne se compte pas :{" "}
             <span className="fr">du beurre</span>,{" "}
             <span className="fr">de la farine</span>. Jamais{" "}
-            <span className="fr">un beurre</span>.
+            <s className="fr">un beurre</s>.
           </li>
           <li>
             Après une quantité, toujours <span className="fr">de</span> :{" "}

@@ -57,7 +57,7 @@ export default function Page() {
 
         <div className="attention">
           <span className="fr">celui</span> ne vit jamais seul. On ne dit pas{" "}
-          <span className="fr">je prends celui</span>. Il faut une suite, et il
+          <s className="fr">je prends celui</s>. Il faut une suite, et il
           n’y en a que trois : <span className="fr">-ci</span> ou{" "}
           <span className="fr">-là</span>, <span className="fr">de</span> et un
           nom, ou une phrase qui commence par{" "}

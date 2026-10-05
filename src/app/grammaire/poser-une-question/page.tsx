@@ -176,7 +176,7 @@ export default function Page() {
           una pregunta sobre una cosa, y va siempre al principio:{" "}
           <span className="fr" lang="fr">Qu’est-ce que tu fais&nbsp;?</span>{" "}
           (¿qué haces?). No existe{" "}
-          <span className="fr" lang="fr">Tu fais qu’est-ce que&nbsp;?</span>.
+          <s className="fr" lang="fr">Tu fais qu’est-ce que&nbsp;?</s>.
           Al final de la frase, «qué» se dice{" "}
           <span className="fr" lang="fr">quoi</span>:{" "}
           <span className="fr" lang="fr">Tu fais quoi&nbsp;?</span>
@@ -250,7 +250,7 @@ export default function Page() {
 
         <div className="attention">
           En español dices «¿qué hora es?». En francés{" "}
-          <span className="fr" lang="fr">Que heure est-il&nbsp;?</span> no
+          <s className="fr" lang="fr">Que heure est-il&nbsp;?</s> no
           existe: se dice{" "}
           <span className="fr" lang="fr">Quelle heure est-il&nbsp;?</span>,
           porque «hora» es <span className="fr" lang="fr">heure</span>, un

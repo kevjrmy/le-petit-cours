@@ -174,7 +174,7 @@ export default function Page() {
           <span className="fr">avec</span> se prononcent avec le son ouvert,
           exactement comme <span className="fr">père</span>, et pourtant ils ne
           portent aucun accent. On n’écrit jamais{" "}
-          <span className="fr">mèr</span> ni <span className="fr">èlle</span>.
+          <s className="fr">mèr</s> ni <s className="fr">èlle</s>.
         </div>
 
         <div className="astuce">
@@ -252,7 +252,7 @@ export default function Page() {
           déjà doux, la cédille n’aurait rien à y faire : on écrit{" "}
           <span className="fr">ce</span>, <span className="fr">ci</span>,{" "}
           <span className="fr">cinéma</span>, et jamais{" "}
-          <span className="fr">çe</span> ni <span className="fr">çi</span>.
+          <s className="fr">çe</s> ni <s className="fr">çi</s>.
         </div>
 
         <div className="example">

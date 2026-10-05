@@ -152,7 +152,21 @@ export default function DesignPage() {
         <p>
           Sans cette séparation, une forme citée au milieu d’un paragraphe se
           confond avec le paragraphe : <span className="fr">une sœur</span>{" "}
-          prend un <em>e</em> au féminin.
+          prend un <em>e</em> au féminin. Le serif seul y serait trop discret :
+          la forme citée prend aussi le demi-gras, la graisse d’une tête de
+          ligne dans un tableau. Ni couleur ni fond. Dans un bloc d’exemples ou
+          un nuage de mots, tout est déjà du français, et elle garde la graisse
+          du bloc.
+        </p>
+        <p>
+          Une forme citée pour dire qu’elle est fausse ne doit pas être la plus
+          visible des deux. Elle garde la graisse du texte et elle est barrée,
+          dans le rouge de la mauvaise réponse : on dit{" "}
+          <span className="fr">je sors ensuite</span>, on ne dit pas{" "}
+          <s className="fr">je sors puis</s>. Le trait porte le sens, pas la
+          couleur. Il ne sert que pour une forme fausse telle qu’elle est
+          écrite, jamais pour un mot correct qui serait seulement le mauvais
+          choix.
         </p>
       </section>
 

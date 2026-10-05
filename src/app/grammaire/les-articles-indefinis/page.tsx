@@ -68,7 +68,7 @@ export default function Page() {
           español muchas veces no dices nada: <em>compro manzanas</em>. En
           francés siempre hay un artículo:{" "}
           <span className="fr" lang="fr">j’achète des pommes</span>.{" "}
-          <span className="fr" lang="fr">j’achète pommes</span> no existe. Es un
+          <s className="fr" lang="fr">j’achète pommes</s> no existe. Es un
           olvido muy frecuente: falta una palabra entera.
         </div>
 

@@ -73,13 +73,13 @@ export default function Page() {
         </div>
 
         <div className="example">
-          On n’écrit pas <span className="fr">« j’ai manger »</span>, on écrit{" "}
+          On n’écrit pas <s className="fr">« j’ai manger »</s>, on écrit{" "}
           <span className="fr">« j’ai mangé »</span>.
           <br />
-          On n’écrit pas <span className="fr">« il va mangé »</span>, on
+          On n’écrit pas <s className="fr">« il va mangé »</s>, on
           écrit <span className="fr">« il va manger »</span>.
           <br />
-          On n’écrit pas <span className="fr">« vous mangé »</span>, on écrit{" "}
+          On n’écrit pas <s className="fr">« vous mangé »</s>, on écrit{" "}
           <span className="fr">« vous mangez »</span>.
         </div>
 
@@ -103,7 +103,7 @@ export default function Page() {
           <span className="fr">après</span> plutôt que comme dans{" "}
           <span className="fr">café</span>. Mais chez beaucoup de gens,
           cette différence s’efface à l’oreille, et c’est là que{" "}
-          <span className="fr">« je mangé »</span> s’écrit à la place de{" "}
+          <s className="fr">« je mangé »</s> s’écrit à la place de{" "}
           <span className="fr">« je mangeais »</span>.
         </div>
 
@@ -191,13 +191,13 @@ export default function Page() {
 
         <div className="attention">
           à l’imparfait, la terminaison ne s’écrit jamais{" "}
-          <span className="fr">-é</span> : <span className="fr">
+          <span className="fr">-é</span> : <s className="fr">
             « je mangé »
-          </span>{" "}
+          </s>{" "}
           n’existe pas, seul <span className="fr">« je mangeais »</span> est
           correct. Et le participe en <span className="fr">-é</span> ne
           s’écrit jamais seul, comme un verbe conjugué :{" "}
-          <span className="fr">« il mangé »</span> n’existe pas non plus, il
+          <s className="fr">« il mangé »</s> n’existe pas non plus, il
           faut <span className="fr">« il a mangé »</span> ou{" "}
           <span className="fr">« il mangeait »</span>, selon ce que la phrase
           raconte.

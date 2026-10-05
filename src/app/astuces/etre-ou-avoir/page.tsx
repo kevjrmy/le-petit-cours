@@ -185,7 +185,7 @@ export default function Page() {
           <p>
             Avec <span className="fr">avoir</span>, il ne bouge pas :{" "}
             <span className="fr">elle a mangé</span>, jamais{" "}
-            <span className="fr">elle a mangée</span>. C’est la contrepartie de
+            <s className="fr">elle a mangée</s>. C’est la contrepartie de
             la petite liste, et c’est ce que la liste sert vraiment à décider.
           </p>
         </div>

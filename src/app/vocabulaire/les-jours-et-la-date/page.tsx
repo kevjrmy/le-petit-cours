@@ -136,7 +136,7 @@ export default function Page() {
 
         <div className="exception">
           on écrit <span className="fr">le 5 mai</span>, jamais{" "}
-          <span className="fr">le 5 de mai</span>. Et le premier jour du mois
+          <s className="fr">le 5 de mai</s>. Et le premier jour du mois
           est le seul qui se compte autrement :{" "}
           <span className="fr">
             le 1<sup>er</sup> août

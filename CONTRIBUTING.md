@@ -66,7 +66,8 @@ are in [`AGENTS.md`](AGENTS.md); the `#nn` numbers point into
   icons-only rail (about 1000 px), mobile drawer.
 - **No raw colour values in components** — every colour comes from a design token.
 - **The serif marks the French taught** (`<span className="fr">`); on an A1 page the section is
-  `lang="es"` and every piece of French takes `lang="fr"` back (#85).
+  `lang="es"` and every piece of French takes `lang="fr"` back (#85). A form cited as wrong is
+  `<s className="fr">`, struck through, never a span.
 - **Every lesson declares one `level`**, or `null` for a page that answers to no rung (#86). A
   lower level gets a new, simpler page, never a second tag (#72).
 - **`sets` means one body of work per level**, and its material must match it exactly (#87). A

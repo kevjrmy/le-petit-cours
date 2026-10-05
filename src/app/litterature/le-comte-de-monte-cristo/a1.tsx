@@ -67,7 +67,7 @@ export function A1() {
           <span className="fr" lang="fr">il est arrivé</span>,{" "}
           <span className="fr" lang="fr">il est mort</span> con{" "}
           <span className="fr" lang="fr">être</span>. No se dice
-          «<span className="fr" lang="fr">il a mort</span>».
+          «<s className="fr" lang="fr">il a mort</s>».
         </div>
       </section>
 

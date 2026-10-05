@@ -132,7 +132,7 @@ export default function Page() {
           <span className="fr">le</span>, <span className="fr">la</span>,{" "}
           <span className="fr">les</span> restent tels quels :{" "}
           <span className="fr">je n’aime pas le café</span>, jamais{" "}
-          <span className="fr">je n’aime pas de café</span>. Et après le verbe{" "}
+          <s className="fr">je n’aime pas de café</s>. Et après le verbe{" "}
           <span className="fr">être</span>, rien ne change non plus :{" "}
           <span className="fr">ce n’est pas un problème</span>. Les deux
           exceptions tiennent sur une ligne dans{" "}
@@ -226,7 +226,7 @@ export default function Page() {
           ces mots remplacent <span className="fr">pas</span>, ils ne
           s’ajoutent pas à lui. On dit{" "}
           <span className="fr">je ne fume plus</span>, jamais{" "}
-          <span className="fr">je ne fume pas plus</span>.
+          <s className="fr">je ne fume pas plus</s>.
         </div>
 
         <div className="exception">

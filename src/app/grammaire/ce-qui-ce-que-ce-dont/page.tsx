@@ -74,7 +74,7 @@ export default function Page() {
           <span className="fr">ce qu’elle veut</span>.{" "}
           <span className="fr">ce qui</span> ne s’élide jamais : on écrit{" "}
           <span className="fr">ce qui est arrivé</span>, jamais{" "}
-          <span className="fr">ce qu’est arrivé</span>. L’apostrophe est donc le
+          <s className="fr">ce qu’est arrivé</s>. L’apostrophe est donc le
           signe qu’un sujet suit.
         </div>
 
