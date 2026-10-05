@@ -162,10 +162,12 @@ data — `lines`, `model`, `note`. No component, no CSS.
 
 ### Lecture and Littérature
 
-**What the text is picks the chapter** (#58): an original dialogue written for the course goes in
-`lecture`; a public-domain literary work goes in `litterature`. Same page shape, same quiz.
+**What the text is picks the chapter** (#58): an original text written for the course goes in
+`lecture` — a dialogue, or a récit; a public-domain literary work goes in `litterature`. Same page
+shape, same quiz. **Retelling a work in the course's own words is `lecture`** (`lect-ulysse-cyclope`
+retells Homer and quotes none of him); quoting it is `litterature`.
 
-Public-domain French text, or an original A2 dialogue for a practical scenario. Never
+Public-domain French text, or an original A2 dialogue or récit. Never
 machine-generated filler, never in-copyright text. A screen or so.
 
 **Public domain in the country of origin** (#58): the working test is an author dead before ~1955
@@ -186,7 +188,8 @@ an error and is not (`veux-tu que j'allonge la corde !`). Your bridging sentence
 quoted blocks, in sans.
 
 Structure: source stamp (`Auteur · Œuvre · Année · titre de l'extrait`) → the text in `.example`
-blocks → vocabulary table (mot | définition en français | exemple) → « Avez-vous compris ? ».
+blocks (a récit in paragraphs takes `className="example recit"`, which spaces them; dialogue and
+verse stay tight) → vocabulary table (mot | définition en français | exemple) → « Avez-vous compris ? ».
 
 **Do not write a quiz component.** `Comprehension.tsx` renders `{ question, options, answer,
 because }`; a page contributes a `questions.ts` exporting `SETS` and a one-line `quiz.tsx`. Options

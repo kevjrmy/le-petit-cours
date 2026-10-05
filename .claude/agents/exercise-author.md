@@ -110,7 +110,8 @@ render differs on each side and throws a hydration error:
 Drills drift towards the 4-option MCQ. Mechanics that have earned their place: matching pairs,
 tap-to-order, bucket sort, locate-and-retype, multi-select, listening, type-in conjugation
 (`les-terminaisons`, reading `conjugaisons.ts` so drill and sheet cannot drift), a fixed chip pool
-(timed and untimed), a timed round, a two-step build, and a **cloze passage** (`le-un-ou-du`).
+(timed and untimed), a timed round, a two-step build, a **cloze passage** (`le-un-ou-du`), and a
+**cloze passage with a menu per gap** (`mais-donc-ou-parce-que`).
 
 **Reach for the cloze passage when the context that decides the answer is larger than a sentence.**
 No isolated sentence can ask for *un chien* then *le chien*, and that alternation is the article
@@ -136,6 +137,13 @@ re-implement it; a missing character goes into the row.
 screen all round in a stable order, never shuffled: the learner recalls the paradigm. Three
 distractors per sentence turn recall into elimination. Every answer must exist in the pool (check
 it), and a pool entry that is never an answer is a deliberate trap — say so in a comment.
+
+**The exception is a set of near-synonyms.** Twelve connectors in one pool give most gaps two right
+answers (*ensuite* / *puis*, *donc* / *c'est pour ça que*, *mais* / *pourtant*), and the drill then
+marks a correct answer wrong. `mais-donc-ou-parce-que` gives each gap its own menu of three, **one
+from each of three different uses**, so only the logic of the sentence decides. Never put two words
+of the same use in one menu; no gap before a vowel when a choice ends in *que* or *si* (the elided
+form gives the answer away); and re-read every sentence with each wrong choice in place.
 
 **A drill that fills a fragment ships the context that disambiguates it.** « tu regard___ » takes
 *-es* as readily as *-ais*, so every item carries the infinitive **and** the tense.

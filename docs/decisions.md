@@ -84,6 +84,7 @@ than marking it superseded.
 | 90 | 2026-09-30 | A first sign-in passes through `/bienvenue`, in French or Spanish | Binding · amends #88, narrows #53, amended by #91 |
 | 91 | 2026-09-30 | The account screens speak the account's language, French or Spanish | Binding · amends #90, #31 · narrows #53 |
 | 92 | 2026-09-30 | A literary work is one page whose body follows the level; at A1 the Spanish sits under each line | Binding · narrows #72, #86, #87, #53 |
+| 93 | 2026-10-05 | A cited form is marked by weight, a wrong one by a line | Binding · builds #27, #53 |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -511,7 +512,7 @@ chip may carry a short Spanish one, #85).
 ## 58 · What a reading text has to be
 **2026-09-07 · Binding · amended 2026-09-30**
 
-Real **public-domain** French text or an original A2 dialogue; never generated filler or copyrighted
+Real **public-domain** French text or an original A2 dialogue or récit; never generated filler or copyrighted
 text; an « Avez-vous compris ? » quiz graded on screen, stored nowhere. **What the text is picks its
 chapter** (amended 2026-09-30): a text written for this course is `lecture`, a literary work is
 `litterature`; both carry the quiz, and the rules on this page apply to both.
@@ -1117,3 +1118,21 @@ less text; a body per level lets B1 read more and A1 read at all.
 **Chosen against a page per level** (built, then folded back the same day, never shipped): two
 rows and two ticks for one work, and a B1 page a learner must find. **Ticks did not move**: the keys
 stay `id@A2` and `id@B1`, and A1 adds `id@A1` (#68).
+
+## 93 · A cited form is marked by weight, a wrong one by a line
+**2026-10-05 · Binding · builds #27, #53**
+
+**A French form cited inside a sentence of explanation is semi-bold** (`span.fr`, Spectral 600), the
+weight a table's row head and a `<strong>` in an `.example` already had. The serif alone (#27, #53)
+did not detach it at reading size: « puis se place avant l'action » read as one run of text. Inside
+`.example` and `ul.mots`, where everything is French, the span keeps the block's weight.
+
+**A form cited to say it is wrong is `<s className="fr">`**: the text's own weight, struck through in
+`--danger`. Left in a span it became the boldest word in the sentence that rejects it. The line is
+the mark, so the meaning does not rest on the red. **Only a form wrong as written** (*je sors puis*,
+*mèr*), never a correct word that is the wrong choice here, and never a spoken form the page allows.
+Sixty forms were converted in the lessons that existed.
+
+**Chosen against a colour** (the accent reads as a link), **a tinted pill** (a new shape, up to eight
+times a paragraph, clashing with the amber and red callouts) **and the italic** (the caption's voice,
+and too quiet). All three were tried on real pages before the weight was kept.
