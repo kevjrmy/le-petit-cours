@@ -1,0 +1,153 @@
+/* Le plateau : un récit à trous, et un menu sous le trou qu'on touche. Le reste
+   de l'habillage est partagé (`src/components/exercice/Drill.tsx`), et les
+   états de réponse sont `.is-correct` et `.is-wrong`, doublés en global pour
+   passer par-dessus `.slot` : aucune de ces couleurs n'est redéclarée ici
+   (`AGENTS.md` §5). */
+
+/* Le texte est du français enseigné : sérif (`AGENTS.md` §5). L'interligne est
+   large parce que les trous sont des boutons : sans cela, deux lignes voisines
+   se touchent. */
+.text {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.35rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  line-height: 2.2;
+  color: var(--text-1);
+}
+
+.text > p + p {
+  margin-top: 0.9rem;
+}
+
+/* Le trou et son menu : le menu se place sous le trou qui l'a ouvert. */
+.place {
+  position: relative;
+  /* Le trou et la virgule qui le suit ne se séparent pas en fin de ligne. */
+  white-space: nowrap;
+}
+
+/* Le trou. Il garde une largeur avant d'être rempli, pour que le paragraphe ne
+   se réorganise pas trop à chaque choix, et son soulignement dit qu'il attend
+   quelque chose. */
+.slot {
+  display: inline-block;
+  min-width: 4.5rem;
+  padding: 0.05rem 0.4rem;
+  border: 1px solid transparent;
+  border-bottom: 2px solid var(--border-strong);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  background: none;
+  color: var(--text-3);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: center;
+  cursor: pointer;
+  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+
+.slot:hover:not(:disabled) {
+  background: var(--accent-subtle);
+}
+
+.slot:disabled { cursor: default; }
+
+.filled {
+  border-bottom-color: var(--accent-line);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+/* Le trou dont le menu est ouvert. Doublé : un trou déjà rempli peut être
+   rouvert, donc `.filled` et `.active` atterrissent sur le même bouton avec la
+   même spécificité, et l'ordre des règles ne doit pas trancher. */
+.active.active {
+  border-bottom-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+/* Le menu des trois connecteurs, sous le trou. En colonne : trois lignes se
+   comparent mieux que trois pastilles côte à côte, et la plus longue,
+   « C'est pour ça que », tient sur un téléphone. */
+.menu {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 100%;
+  width: max-content;
+  max-width: min(16rem, 75vw);
+  padding: 0.5rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+  box-shadow: var(--shadow-lg);
+  line-height: 1.4;
+}
+
+.option {
+  padding: 0.35rem 0.85rem;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-pill);
+  background: var(--accent-subtle);
+  color: var(--text-heading);
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.option:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* Le connecteur déjà choisi, quand on rouvre le menu pour changer d'avis. */
+.taken.taken {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  color: var(--accent-text);
+}
+
+.corrections {
+  margin-top: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.corrections li {
+  margin-top: 0;
+}
+
+/* Le morceau de phrase corrigé : la correction se situe dans le texte, au lieu
+   de renvoyer à un numéro de trou que personne ne compte. */
+.fragment {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--text-heading);
+}
+
+.why {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.88rem;
+  color: var(--text-2);
+}
+
+.actions {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}

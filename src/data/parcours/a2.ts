@@ -1,8 +1,8 @@
 import type { Parcours } from "./index";
 
 /* The A2 pages as the DELF A2 asks for them: the everyday first, then time and
-   place, then the past — told, then described — then plans, and the readings
-   last because they spend all of it. Each étape pairs the rule with the scene,
+   place, then the past — told, then described, then linked into a story with
+   its reasons — then plans, and the readings last because they spend all of it. Each étape pairs the rule with the scene,
    the drill or the translation that makes it work. The four épreuves close it
    (#89). */
 export const A2: Parcours = {
@@ -61,10 +61,17 @@ export const A2: Parcours = {
       lessons: [
         "gram-imparfait",
         "gram-pc-ou-imparfait",
-        "gram-connecteurs",
         "ex-terminaisons",
         "conv-parler-espagne",
         "trad-une-journee",
+      ],
+    },
+    {
+      title: "Relier ses idées",
+      lessons: [
+        "gram-connecteurs",
+        "lect-ulysse-cyclope",
+        "ex-mais-donc-parce-que",
       ],
     },
     {

@@ -1035,6 +1035,19 @@ export const chapters: Chapter[] = [
         },
         created: "2026-09-21",
       },
+      /* Le texte à trous de `gram-connecteurs`. Un menu de trois par trou et
+         non un tirage : douze connecteurs offerts ensemble donneraient deux
+         réponses justes à presque chaque trou (`data.ts`). */
+      {
+        id: "ex-mais-donc-parce-que",
+        path: "/exercices/mais-donc-ou-parce-que",
+        title: "Mais, donc ou parce que ?",
+        subtitle: "Un récit à trous : Ulysse et les Sirènes",
+        tag: "Texte",
+        level: "A2",
+        delf: "Choisir le connecteur que demande le lien entre deux idées",
+        created: "2026-10-05",
+      },
       {
         id: "ex-relisez-le-paragraphe",
         path: "/exercices/relisez-le-paragraphe",
@@ -1266,7 +1279,7 @@ export const chapters: Chapter[] = [
     path: "/lecture",
     title: "Lecture",
     blurb:
-      "Un dialogue écrit pour ce cours, avec des questions pour vérifier ce que vous avez compris.",
+      "Un texte écrit pour ce cours, avec des questions pour vérifier ce que vous avez compris.",
     lessons: [
       {
         id: "lect-entretien-embauche",
@@ -1281,6 +1294,20 @@ export const chapters: Chapter[] = [
           B1: "Lire un entretien comme un genre : une réponse qui n’accuse personne, un fait transformé en argument, une objection devancée.",
         },
         created: "2026-09-12",
+      },
+      /* Un récit, et non un dialogue : l'épisode est raconté avec nos mots,
+         au présent, et chacun des douze connecteurs de `gram-connecteurs` y
+         passe une fois. Le texte d'Homère n'est pas cité, donc la page est
+         ici et non dans `litterature` (#58). */
+      {
+        id: "lect-ulysse-cyclope",
+        path: "/lecture/ulysse-et-le-cyclope",
+        title: "Ulysse et le Cyclope",
+        subtitle: "Récit écrit pour ce cours, d’après Homère",
+        tag: "Compréhension",
+        level: "A2",
+        delf: "Comprendre un récit court : l’ordre des actions et leurs raisons",
+        created: "2026-10-05",
       },
     ],
   },
@@ -2158,9 +2185,18 @@ const handWrittenLinks: Record<string, string[]> = {
   /* Les connecteurs servent d'abord à raconter : la page renvoie au choix du
      temps, puis à deux endroits où le récit se pratique. */
   "/grammaire/les-connecteurs": [
+    "/exercices/mais-donc-ou-parce-que",
+    "/lecture/ulysse-et-le-cyclope",
     "/grammaire/passe-compose-ou-imparfait",
     "/traduction/une-journee",
-    "/conversation/parler-de-l-espagne",
+  ],
+  "/lecture/ulysse-et-le-cyclope": [
+    "/grammaire/les-connecteurs",
+    "/exercices/mais-donc-ou-parce-que",
+  ],
+  "/exercices/mais-donc-ou-parce-que": [
+    "/grammaire/les-connecteurs",
+    "/lecture/ulysse-et-le-cyclope",
   ],
   /* Chaque exercice renvoie à la leçon qu'il fait travailler, et la leçon
      renvoie vers lui : un exercice qu'aucune leçon ne cite n'est jamais

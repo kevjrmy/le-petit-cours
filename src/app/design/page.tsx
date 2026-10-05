@@ -150,6 +150,18 @@ export default function DesignPage() {
           </p>
         </div>
         <p>
+          Un récit tient en plusieurs paragraphes : <code>.example.recit</code>{" "}
+          les sépare. Sans lui, les lignes restent serrées, comme il le faut
+          pour un dialogue ou des vers.
+        </p>
+        <div className="example recit">
+          <p>
+            Ulysse veut rentrer chez lui, mais le voyage est long. Un jour, il
+            arrive sur une île.
+          </p>
+          <p>Le soir, le maître de la grotte rentre avec son troupeau.</p>
+        </div>
+        <p>
           Sans cette séparation, une forme citée au milieu d’un paragraphe se
           confond avec le paragraphe : <span className="fr">une sœur</span>{" "}
           prend un <em>e</em> au féminin. Le serif seul y serait trop discret :

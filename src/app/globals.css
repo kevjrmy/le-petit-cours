@@ -609,6 +609,13 @@ a.button:hover { text-decoration: none; }
   margin-top: 0.75rem;
 }
 
+/* A récit: one continuous text in paragraphs. Without the modifier the `<p>`s
+   of an `.example` stay tight, which is right for lines of dialogue or verse
+   and wrong here — five paragraphs read as one wall. */
+.example.recit p + p {
+  margin-top: 0.75rem;
+}
+
 /* The words a role-play needs, and nothing built out of them (#57).
  *
  * A conversation page carries no model dialogue: sentences on the page are
