@@ -61,6 +61,7 @@ export const A2: Parcours = {
       lessons: [
         "gram-imparfait",
         "gram-pc-ou-imparfait",
+        "gram-connecteurs",
         "ex-terminaisons",
         "conv-parler-espagne",
         "trad-une-journee",

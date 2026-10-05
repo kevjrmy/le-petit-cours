@@ -456,6 +456,18 @@ export const chapters: Chapter[] = [
         delf: "Choisir un objet parmi d’autres sans répéter son nom",
         created: "2026-09-21",
       },
+      /* En dernier dans l'A2 : relier ses phrases demande d'abord d'en avoir,
+         au passé comme au présent. La page se lit seule, ses exemples ne
+         s'appuient sur aucune lecture. */
+      {
+        id: "gram-connecteurs",
+        path: "/grammaire/les-connecteurs",
+        title: "Les connecteurs",
+        subtitle: "d’abord · parce que · donc · pourtant",
+        level: "A2",
+        delf: "Relier ses phrases pour raconter, expliquer et nuancer",
+        created: "2026-10-05",
+      },
       /* Les deux premières pages écrites pour le B1. Elles viennent après
          l'A2 parce qu'un chapitre suit l'ordre du cours (#72) : le
          plus-que-parfait se construit sur le passé composé et l'imparfait,
@@ -2143,6 +2155,13 @@ const handWrittenLinks: Record<string, string[]> = {
     "/conjugaison/etre",
     "/conjugaison/avoir",
   ],
+  /* Les connecteurs servent d'abord à raconter : la page renvoie au choix du
+     temps, puis à deux endroits où le récit se pratique. */
+  "/grammaire/les-connecteurs": [
+    "/grammaire/passe-compose-ou-imparfait",
+    "/traduction/une-journee",
+    "/conversation/parler-de-l-espagne",
+  ],
   /* Chaque exercice renvoie à la leçon qu'il fait travailler, et la leçon
      renvoie vers lui : un exercice qu'aucune leçon ne cite n'est jamais
      rencontré au moment où il sert. */
@@ -2203,6 +2222,7 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/passe-compose-ou-imparfait",
     "/vocabulaire/l-heure",
     "/conversation/prendre-rendez-vous",
+    "/grammaire/les-connecteurs",
   ],
   "/traduction/le-resume-d-un-film": [
     "/grammaire/la-negation",
