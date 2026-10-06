@@ -1,5 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { ATELIER_COOKIE, atelierToken, sameSecret } from "@/lib/atelier";
+import {
+  ATELIER_COOKIE,
+  ATELIER_VERROUILLE,
+  atelierToken,
+  sameSecret,
+} from "@/lib/atelier";
 
 /**
  * Le seul proxy du projet, et il ne sert qu'à une chose : le verrou de
@@ -15,13 +20,13 @@ import { ATELIER_COOKIE, atelierToken, sameSecret } from "@/lib/atelier";
  *
  * **Le `matcher` est ce qui garde le reste du cours statique.** Sans lui, le
  * proxy tournerait sur chaque requête, fichiers de `_next/static` compris. Ici
- * il ne voit que `/temp` et ses enfants, et comme un proxy s'exécute *avant* le
+ * il ne voit que `/atelier` et ses enfants, et comme un proxy s'exécute *avant* le
  * cache, les pages de l'atelier restent prérendues : le verrou coûte une
  * redirection, pas le rendu dynamique de quoi que ce soit.
  *
  * **La porte, `/entrer`, est volontairement hors du `matcher`.** Les Server
  * Functions ne sont pas des routes à part : ce sont des POST vers la route qui
- * les contient (doc `proxy.md`). Une action placée sous `/temp` serait donc
+ * les contient (doc `proxy.md`). Une action placée sous `/atelier` serait donc
  * interceptée par ce proxy avant d'avoir pu vérifier le mot de passe, et la
  * porte ne s'ouvrirait jamais. L'action vit donc sur `/entrer`, où elle
  * refait le contrôle pour son compte plutôt que de faire confiance à ce
@@ -30,8 +35,14 @@ import { ATELIER_COOKIE, atelierToken, sameSecret } from "@/lib/atelier";
  * **Sans `FRONTEND_PASSWORD`, personne n'entre.** Laisser passer quand la
  * variable manque serait la panne silencieuse : sur un déploiement mal
  * configuré, l'atelier s'ouvrirait à tout le monde et rien n'échouerait.
+ *
+ * **Le verrou est levé depuis le 2026-10-06** (`ATELIER_VERROUILLE`, #81) : le
+ * proxy tourne toujours sur `/atelier` et laisse passer tout le monde. Il reste
+ * en place, `matcher` compris, pour que le remettre soit une ligne.
  */
 export function proxy(request: NextRequest) {
+  if (!ATELIER_VERROUILLE) return NextResponse.next();
+
   const expected = atelierToken();
   const given = request.cookies.get(ATELIER_COOKIE)?.value;
 
@@ -49,8 +60,8 @@ export function proxy(request: NextRequest) {
 }
 
 /* Constantes obligatoires : le matcher est analysé au build et une valeur
-   calculée serait ignorée, silencieusement. `/temp` et `/temp/:path*` sont deux
+   calculée serait ignorée, silencieusement. `/atelier` et `/atelier/:path*` sont deux
    entrées parce que la seconde ne couvre pas le chemin nu. */
 export const config = {
-  matcher: ["/temp", "/temp/:path*"],
+  matcher: ["/atelier", "/atelier/:path*"],
 };

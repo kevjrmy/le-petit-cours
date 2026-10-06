@@ -9,7 +9,7 @@ import styles from "./Choix.module.css";
  * « Laquelle des deux ? » — le petit exercice des pages d'atelier (#80).
  *
  * **Un dossier privé, et il part avec le chapitre.** Il est sous
- * `src/app/temp/_exercice/` plutôt que dans `src/components/`, parce que
+ * `src/app/atelier/_exercice/` plutôt que dans `src/components/`, parce que
  * l'atelier se vide : un composant permanent laissé derrière après une remise
  * à zéro serait du code que plus rien n'appelle. Le préfixe `_` le sort du
  * routage de Next **et** de la marche du `page.tsx` que fait l'audit.

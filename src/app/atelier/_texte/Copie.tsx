@@ -21,7 +21,7 @@ import styles from "./Copie.module.css";
  *
  * **Pas dans `globals.css`, et pas sur `/design`.** `.example` sert tout le
  * cours ; l'élargir pour deux pages qui seront effacées lundi changerait la
- * taille de chaque exemple de chaque leçon. Ce bloc vit sous `temp/` avec le
+ * taille de chaque exemple de chaque leçon. Ce bloc vit sous `atelier/` avec le
  * reste de l'atelier et s'en va avec lui.
  */
 export function Copie({ children }: { children: ReactNode }) {

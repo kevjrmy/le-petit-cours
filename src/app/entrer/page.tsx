@@ -2,14 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { ATELIER_COOKIE, atelierPasswordOk, atelierToken } from "@/lib/atelier";
+import {
+  ATELIER_COOKIE,
+  ATELIER_VERROUILLE,
+  atelierPasswordOk,
+  atelierToken,
+} from "@/lib/atelier";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Atelier",
   description: "L’atelier demande un mot de passe.",
   /* Une porte n'a rien à faire dans un index, et les pages derrière elle non
-     plus : le chapitre `temp` est déjà hors du sitemap (#80, #81). */
+     plus : le chapitre `atelier` est déjà hors du sitemap (#80, #81). */
   robots: { index: false, follow: false },
 };
 
@@ -26,9 +31,9 @@ const UN_MOIS = 60 * 60 * 24 * 30;
  * déguisée que `startsWith("/")` laisse passer.
  */
 function versLAtelier(vers: unknown): string {
-  if (typeof vers !== "string") return "/temp";
-  if (vers.startsWith("//")) return "/temp";
-  return vers === "/temp" || vers.startsWith("/temp/") ? vers : "/temp";
+  if (typeof vers !== "string") return "/atelier";
+  if (vers.startsWith("//")) return "/atelier";
+  return vers === "/atelier" || vers.startsWith("/atelier/") ? vers : "/atelier";
 }
 
 /**
@@ -40,7 +45,7 @@ function versLAtelier(vers: unknown): string {
  * chemin le plus sûr pour qu'il n'y soit pas est qu'aucune de ces lignes ne
  * parte côté client.
  *
- * **L'action refait le contrôle.** Le proxy garde `/temp` ; cette route est
+ * **L'action refait le contrôle.** Le proxy garde `/atelier` ; cette route est
  * hors de son `matcher`, donc rien ne l'a vérifiée avant d'arriver ici. C'est
  * la règle générale des Server Functions — on n'autorise pas dans le proxy, on
  * autorise dans la fonction (doc `proxy.md`) — et ici c'est aussi la seule
@@ -53,6 +58,9 @@ function versLAtelier(vers: unknown): string {
 export default async function Page({ searchParams }: PageProps<"/entrer">) {
   const params = await searchParams;
   const vers = versLAtelier(params.vers);
+  /* Verrou levé (#81) : la porte n'a plus rien à demander, et un vieux lien
+     vers elle mène droit à l'atelier. */
+  if (!ATELIER_VERROUILLE) redirect(vers);
   const erreur = params.erreur !== undefined;
   const configure = atelierToken() !== null;
 
@@ -121,11 +129,18 @@ export default async function Page({ searchParams }: PageProps<"/entrer">) {
           )}
         </form>
       ) : (
+        /* Fermé, et rien de plus : un visiteur n'a pas à apprendre quelle
+           variable chercher. Le nom ne s'affiche qu'en développement, où le
+           seul lecteur est celui qui doit la poser. */
         <div className="attention">
-          l’atelier est fermé sur ce déploiement : la variable{" "}
-          <code>FRONTEND_PASSWORD</code> n’y est pas posée. Personne ne peut
-          entrer tant qu’elle manque, y compris celui qui connaît le mot de
-          passe.
+          l’atelier est fermé pour le moment.
+          {process.env.NODE_ENV === "development" && (
+            <>
+              {" "}
+              En développement : la variable <code>FRONTEND_PASSWORD</code>{" "}
+              manque dans <code>.env</code>.
+            </>
+          )}
         </div>
       )}
 

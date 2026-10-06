@@ -17,7 +17,7 @@
  * state of a chapter rather than a gap to be filled: `prononciation`, `jeux`,
  * `dictees` and `culture` each wait on something other than writing
  * (`AGENTS.md` §12). Sixteen chapters of the course are declared and twelve
- * carry pages; `temp` sits beside them and is counted with neither (#80).
+ * carry pages; `atelier` sits beside them and is counted with neither (#80).
  *
  * **Chapter order is inherited, not decided.** Which chapters carry which
  * content and in what order is still open (`AGENTS.md` §12) and is meant to be
@@ -208,7 +208,7 @@ export interface Chapter {
   outbound?: { href: string; label: string; note: string };
   /**
    * Set when the chapter is **scratch space**, emptied and refilled on a
-   * schedule rather than written once (#80). `temp` is the only one.
+   * schedule rather than written once (#80). `atelier` is the only one.
    *
    * It is listed exactly like the others — sidebar row, sommaire card, search
    * results — because the point of it is to be one click away in the middle of
@@ -1487,7 +1487,7 @@ export const chapters: Chapter[] = [
 
      Trois règles que rien ne vérifie :
 
-     - **Un identifiant porte sa date** — `temp-2026-09-22-terminaisons` — et ne
+     - **Un identifiant porte sa date** — `atelier-2026-09-22-terminaisons` — et ne
        ressert jamais. Un identifiant est permanent et une coche est rangée
        dessous (#50) ; réutiliser un slug pour une autre matière ferait
        réapparaître des coches sur la mauvaise page.
@@ -1502,9 +1502,9 @@ export const chapters: Chapter[] = [
      été promise à personne, ce qui est exactement ce qui la distingue d'une
      leçon renommée (#50). */
   {
-    slug: "temp",
+    slug: "atelier",
     icon: "atelier",
-    path: "/temp",
+    path: "/atelier",
     title: "Atelier",
     blurb:
       "Les pages d’une séance : écrites pour un cours en particulier, remplacées chaque semaine.",
@@ -1513,22 +1513,22 @@ export const chapters: Chapter[] = [
       /* Un texte rendu cette semaine et la séance construite dessus. Publié
          sans nom et sans rien qui désigne qui l'a écrit (`AGENTS.md` §9b). */
       {
-        id: "temp-2026-09-29-les-trois-voeux",
-        path: "/temp/les-trois-voeux",
-        title: "Les trois vœux",
-        subtitle: "Ton texte, son corrigé, et trois trucs pour ce qui suit « avait »",
+        id: "atelier-2026-10-06-la-paire-de-chaussures",
+        path: "/atelier/la-paire-de-chaussures",
+        title: "La paire de chaussures",
+        subtitle: "Ton texte, son corrigé, et trois trucs pour ce qui ne s’entend pas",
         level: null,
         delf: "Raconter une histoire au passé, à l'écrit",
-        created: "2026-09-29",
+        created: "2026-10-06",
       },
       {
-        id: "temp-2026-09-29-un-resume-de-roman",
-        path: "/temp/un-resume-de-roman",
-        title: "Un résumé de roman",
-        subtitle: "Ta copie à corriger toi-même, puis tes fautes en quatre familles",
+        id: "atelier-2026-10-06-un-compte-rendu-de-match",
+        path: "/atelier/un-compte-rendu-de-match",
+        title: "Un compte rendu de match",
+        subtitle: "Ta copie à corriger toi-même, tes fautes en quatre familles, et un quiz",
         level: null,
-        delf: "Résumer par écrit un récit qu'on a lu",
-        created: "2026-09-29",
+        delf: "Rendre compte par écrit d'un évènement qu'on a vu",
+        created: "2026-10-06",
       },
     ],
   },
@@ -1670,7 +1670,7 @@ export const annexes: Annexe[] = [
  *
  * Five pages are not part of the course: the home page, the results page, the
  * token specimen, the atelier's door (#81) — which is a route precisely
- * because it has to sit *outside* `/temp`, where the proxy cannot intercept the
+ * because it has to sit *outside* `/atelier`, where the proxy cannot intercept the
  * Server Function that opens it — and the onboarding a first sign-in passes
  * through (`/bienvenue`). Declaring them is what lets the `nav-wiring`
  * audit report a route that is in neither the manifest nor this list, instead
@@ -2574,16 +2574,15 @@ const handWrittenLinks: Record<string, string[]> = {
      **Cette clé part avec la page.** Une clé dont la source n'existe plus est
      la première chose que l'audit signale, ce qui est exactement le filet
      qu'on veut ici. */
-  "/temp/les-trois-voeux": [
+  "/atelier/la-paire-de-chaussures": [
+    "/orthographe/les-terminaisons-verbales",
+    "/orthographe/les-homophones",
+    "/grammaire/l-imparfait",
+  ],
+  "/atelier/un-compte-rendu-de-match": [
     "/grammaire/le-passe-compose",
     "/astuces/etre-ou-avoir",
     "/orthographe/les-terminaisons-verbales",
-    "/exercices/etre-ou-avoir",
-  ],
-  "/temp/un-resume-de-roman": [
-    "/grammaire/les-pronoms-cod-coi",
-    "/orthographe/les-homophones-du-demonstratif",
-    "/grammaire/le-passe-compose",
   ],
 };
 

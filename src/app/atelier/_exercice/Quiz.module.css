@@ -1,0 +1,62 @@
+/* Le quiz en deux clics. La carte, les réponses, la raison et les boutons du
+   bas viennent de `Choix.module.css` : ce fichier n'ajoute que la pile des
+   quatre écritures, que `Choix` n'a pas.
+
+   Aucun token de couleur d'état ici : `.is-correct` et `.is-wrong` sont
+   globaux et doublés pour battre `.ecriture` (`globals.css`). */
+
+/* Le nom de l'étape en cours, en sans : c'est une consigne, pas du français
+   à lire. */
+.etape {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.suite {
+  margin-top: 1.3rem;
+}
+
+.ecritures {
+  margin-top: 0.8rem;
+  display: grid;
+  gap: 0.55rem;
+}
+
+/* Une écriture est une ligne entière : quatre phrases presque pareilles se
+   comparent l'une sous l'autre, pas côte à côte. */
+.ecriture {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  width: 100%;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--text-1);
+  font-family: var(--font-serif);
+  font-size: 1.04rem;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.ecriture:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+}
+
+.ecriture:disabled {
+  cursor: default;
+}
+
+/* La raison d'une faute, sous son écriture, alignée sur le texte et non sur
+   la marque. */
+.raison {
+  margin: 0.3rem 0 0 2.15rem;
+  font-size: 0.9rem;
+  color: var(--text-2);
+}

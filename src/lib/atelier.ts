@@ -1,7 +1,7 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 
 /**
- * Le verrou de l'atelier : un mot de passe partagé devant `/temp` (#81).
+ * Le verrou de l'atelier : un mot de passe partagé devant `/atelier` (#81).
  *
  * **Ce module est serveur, et il doit le rester.** Il lit
  * `FRONTEND_PASSWORD`, qui n'a délibérément pas de préfixe `NEXT_PUBLIC_` :
@@ -21,6 +21,19 @@ import { createHash, timingSafeEqual } from "node:crypto";
  * touche pas Supabase, et ne protège aucune donnée d'apprenant : les coches
  * sont protégées par RLS et rien d'autre.
  */
+
+/**
+ * Le verrou est-il posé ? **`false` depuis le 2026-10-06** : l'atelier est
+ * ouvert à tout le monde, sur décision du mainteneur (#81).
+ *
+ * **Tout le reste du verrou est gardé pour pouvoir le remettre** : le proxy,
+ * la porte `/entrer`, le cookie, la variable. Repasser cette ligne à `true`
+ * suffit, tant que `FRONTEND_PASSWORD` est encore posée sur le déploiement.
+ *
+ * Typé `boolean`, pas `false` : avec le type littéral, tout ce qui suit un
+ * `if (!ATELIER_VERROUILLE) return` se lirait comme du code mort.
+ */
+export const ATELIER_VERROUILLE: boolean = false;
 
 /** Le nom du cookie, écrit par l'action et relu par le proxy. Une seule fois. */
 export const ATELIER_COOKIE = "atelier";

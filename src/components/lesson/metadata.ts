@@ -21,5 +21,9 @@ export function lessonMetadata(path: string): Metadata {
   return {
     title: lesson.title,
     description: delf ?? `${lesson.title} : ${chapter.title}`,
+    /* An atelier page is gone within weeks, with no redirect (#80): indexed,
+       it would be a dead result. The lock used to keep crawlers out; with it
+       lifted (#81), the page says so itself. */
+    ...(chapter.scratch ? { robots: { index: false, follow: false } } : {}),
   };
 }
