@@ -1,6 +1,6 @@
 # The atelier
 
-Writing an atelier page: the `temp` chapter, « Atelier » on screen — pages for one class in
+Writing an atelier page: the `atelier` chapter, « Atelier » on screen — pages for one class in
 progress, shared during the call, then promoted or deleted (#80). Its pages have `level: null`. **Adding and
 clearing pages is `nav-wiring.md`** (« The atelier »).
 
@@ -20,17 +20,29 @@ patterns never change for it.** The language follows the course's: Spanish expla
 3. **The page, section by section.** Stop where the class will go on orally.
 
 The furniture exists, in folders that leave with the chapter: `_texte/` (`Copie`, `Corrige`) for
-the text and its correction, `_exercice/` (`Choix`, `Faute`, `Trous`, and the « tu » `Bilan`) for
-the practice. **Clicks, never typing** — the answers carry accents a Spanish keyboard cannot type
-(§1) — and **no shuffle**: the items follow the text, and the page stays prerendered. A trick for a
-heritage speaker leans on the ear, not on a list to memorise.
+the text and its correction, `_exercice/` (`Choix`, `Faute`, `Trous`, `Quiz`, and the « tu »
+`Bilan`) for the practice. **Clicks, never typing** — the answers carry accents a Spanish keyboard
+cannot type (§1) — and **no shuffle**: the items follow the text, and the page stays prerendered. A
+trick for a heritage speaker leans on the ear, not on a list to memorise.
+
+Two shapes have served. **A page of trucs**: the copy, a hunt aloud, the copy again with gaps
+(`Trous`), the hidden corrigé, then one truc at a time, each with its own board (`Choix`), a défi
+(`Faute`) and « En résumé ». **A page of families**: the gaps first, the copy hidden under them
+(`Corrige` with `voir`), a table sorting the corrections into families, and a quiz.
+
+- **A gap or a board never offers a second right answer** (§9): no well-formed passé simple beside
+  a passé composé, no trap that differs from the right form by an agreement the page does not teach.
+- **`Quiz` is two clicks**: the well-written question among four, then the answer; the point needs
+  both. A wrong writing is the question with **one** piece replaced (`juste` → `faux`), never retyped.
+- **A fact in a quiz is dated and checked against a source** (« en 2010 », « à l'Euro 2024 »): a
+  total or a record changes at the next competition, a dated result does not.
 
 ## A learner's own text (#80, AGENTS.md §9b)
 
 - **Anonymous, and only here.** No name, age, school, town, class or date of birth — in the page,
   the manifest, a comment or a **commit message**. Characters from a book summarised stay.
 - **The photo, the transcript and the notes stay in `.private/`**, gitignored. Only the anonymous
-  copy reaches `src/app/temp/`.
+  copy reaches `src/app/atelier/`.
 - A page that cannot be written without saying whose it is stays out: a name can be reverted out
   of the tree, never out of anyone's clone. **If a local hook refuses a commit, fix the content;
   never `--no-verify`.**
@@ -41,11 +53,13 @@ heritage speaker leans on the ear, not on a list to memorise.
   every parcours and `/ma-progression`.
 - **Not linked into** — the link would vanish at the reset. An atelier page may point out at
   lessons.
-- **Not promised.** Ids carry the date and are never reused (`temp-2026-09-29-…`); a removed page gets
+- **Not promised.** Ids carry the date and are never reused (`atelier-2026-09-29-…`); a removed page gets
   no redirect; the sitemap lists none of its pages.
-- **Not open.** The chapter sits behind `FRONTEND_PASSWORD` (#81), checked by `src/proxy.ts`, which
-  matches `/temp` alone and reads no session. **Do not widen the matcher, and never write the
-  password anywhere** but `.env` and Vercel.
+- **Not listed, and lockable.** The chapter has a lock: `FRONTEND_PASSWORD` (#81), checked by
+  `src/proxy.ts`, which matches `/atelier` alone and reads no session. **It is lifted since
+  2026-10-06** (`ATELIER_VERROUILLE` in `src/lib/atelier.ts`), so anyone with a link reads a page;
+  each page carries `noindex`. **Do not widen the matcher, and never write the password
+  anywhere** but `.env` and Vercel.
 - **Not a place to keep things.** A page worth keeping is rewritten into its chapter as **a new page
   with a new id** and a real `level`. Pages piling up for months mean the chapter is misfiled
   (#80).

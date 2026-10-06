@@ -47,8 +47,10 @@ Count content in `src/data/navigation.ts`, never in prose.
   `ephdtigxjccfauzgexpd`: RLS on, legacy JWT keys off, two public env vars, no integration, no
   Supabase secret at rest (#21).
 - **`FRONTEND_PASSWORD`** (#81) is in the gitignored `.env` and set on Vercel by hand
-  (`vercel env add`). **Without it nobody enters `/temp`, you included** — on purpose. Never write
-  it anywhere else.
+  (`vercel env add`). Never write it anywhere else. **The atelier's lock is lifted since
+  2026-10-06** (`ATELIER_VERROUILLE = false` in `src/lib/atelier.ts`): everyone enters, and the rest
+  stays in place so one line puts it back. **Locked, without the variable nobody enters `/atelier`,
+  you included** — on purpose.
 - **Supabase Email provider, three settings the repo cannot enforce**, readable at the public
   `/auth/v1/settings`: provider **enabled** (`external.email` — the master toggle; off takes the
   whole site down, and it has happened once), sign-up **off** (`disable_signup`), confirmation
@@ -201,10 +203,10 @@ folder is a 404, a folder without an entry is unreachable — `nav-wiring` audit
   (#86).
 - **Nothing announces an unwritten page** (#51) — no « bientôt » row in any form; an empty chapter
   simply drops out (`listedChapters`).
-- **`temp` (« Atelier ») is scratch** (#80, `docs/atelier.md`): ids carry the date and never return;
+- **`atelier` (« Atelier ») is scratch** (#80, `docs/atelier.md`): ids carry the date and never return;
   nothing permanent links in; no redirect on removal; lessons `level: null`; out of the sitemap; promotion is
-  a new page with a new id. **Behind a shared password** (#81) via `src/proxy.ts` → `/entrer`; its
-  row still draws everywhere.
+  a new page with a new id. **Behind a shared password** (#81) via `src/proxy.ts` → `/entrer`, lifted
+  for now (§0), so its pages carry `noindex` themselves; its row still draws everywhere.
 - **Chapter landing pages and verb sheets are one dynamic route each** (#29, #56), with
   `dynamicParams = false`.
 - **`/` is a search field** (#39); the sommaire is `/sommaire`. **Signed out, the prerendered `/` is
@@ -244,7 +246,7 @@ folder is a 404, a folder without an entry is unreachable — `nav-wiring` audit
 | `lecture` | a text written for the course + comprehension quiz |
 | `litterature` | a literary work (public domain, #58, #60) + comprehension quiz; what the text is picks the chapter |
 | `delf` | a whole **épreuve**, marked once at the end; a production has no corrigé; nothing stored (#78, #82, #84) |
-| `temp` | scratch for a class in progress, any form above, ticked nowhere (#80) |
+| `atelier` | scratch for a class in progress, any form above, ticked nowhere (#80) |
 
 - **Another level of a page**: lower = a new page (#72); higher = usually nothing — a learner
   who wants it keeps its level in view (#86). **`sets` is only for a stimulus with no floor** (a
@@ -275,7 +277,7 @@ page underneath dynamic and breaks offline. `AccountProvider` holds it once, ins
 - **Usernames live in `public.usernames`** (#38); `set_username()` mirrors them to metadata. **Never
   pre-check availability.** The app builds no email address.
 - **Nothing on the server reads the session** (#37); a server Supabase client would be a new
-  decision. **`src/proxy.ts` matches `/temp` alone and reads one cookie** (#81) — never widen it or
+  decision. **`src/proxy.ts` matches `/atelier` alone and reads one cookie** (#81) — never widen it or
   teach it the session.
 - **RLS (`auth.uid() = user_id`) is the authorization model.** No permission checks in components.
 - **Schema changes are migration files in `supabase/migrations/`**, never dashboard edits.
@@ -289,7 +291,7 @@ page underneath dynamic and breaks offline. `AccountProvider` holds it once, ins
 - **Ticking is manual everywhere** (#2); a drill's score is never stored and never ticks.
 - **A tick needs an account** (#48). Signed out, the lesson's control is still drawn and links to
   `/compte?suivant=…`; a listing shows no tick (#79). **No anonymous local tick.**
-- **No tick in `temp` or `delf`** (#80, #82): test `isTracked()`, never `scratch`.
+- **No tick in `atelier` or `delf`** (#80, #82): test `isTracked()`, never `scratch`.
   `/ma-progression` walks **`trackedChapters()`**; a parcours may name tracked lessons only, and
   ends on épreuves as its `exam` — offered, never counted (#89).
 - **Keys come from `progressKey(lesson, level)` only** (#50, #68): the bare id, or `id@LEVEL` on a

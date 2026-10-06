@@ -107,9 +107,9 @@ from A2 also keeps the course usable by a Brazilian, Italian or Moroccan reader.
 what keeps lessons prerendered and precacheable, so the app works offline.
 
 **One chapter is the exception, and it is not part of the course.** « Atelier » holds the pages of
-a class in progress and is emptied every week (#80), behind a single shared password (#81). It
-buys no secrecy — the pages are in this public repository, anonymous — only keeps one-class
-material out of the way of someone expecting a course. See `docs/atelier.md`.
+a class in progress and is emptied every week (#80). It has a single shared password (#81), lifted
+for now. The lock buys no secrecy — the pages are in this public repository, anonymous — it only
+keeps one-class material out of the way of someone expecting a course. See `docs/atelier.md`.
 
 **An account is required to keep a learning path** — the « J'ai terminé » tick, the level you work
 at, and a position in a parcours, across devices. There is no anonymous progress (#48).

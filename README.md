@@ -89,9 +89,9 @@ Two environment variables — `NEXT_PUBLIC_SUPABASE_URL` and
 the shell renders signed out and every lesson still works, because every lesson is public and
 static.
 
-A third, `FRONTEND_PASSWORD`, is a secret and must never be committed. It guards `/temp`, a scratch
-chapter used for a class in progress; without it that chapter is closed to everyone and every other
-page works.
+A third, `FRONTEND_PASSWORD`, is a secret and must never be committed. It guards `/atelier`, a scratch
+chapter used for a class in progress, when its lock is on (it is lifted for now); with the lock on
+and no password set, that chapter is closed to everyone and every other page works.
 
 ## How it is put together
 

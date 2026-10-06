@@ -72,7 +72,7 @@ than marking it superseded.
 | 78 | 2026-09-21 | A `delf` chapter describes the exam and prints none of it | Binding · amended by #82 |
 | 79 | 2026-09-21 | The tick is settable from a chapter's listing, beside the row's link | Binding · extends #2, #48 |
 | 80 | 2026-09-22 | A scratch chapter: listed like the others, counted like nothing | Binding · extends #18, #48, #51 |
-| 81 | 2026-09-22 | The atelier sits behind one shared password, in a proxy that knows nothing else | Binding · extends #37, #80 |
+| 81 | 2026-09-22 | The atelier sits behind one shared password, in a proxy that knows nothing else | Binding · extends #37, #80 · lifted 2026-10-06 |
 | 82 | 2026-09-27 | An épreuve is marked once, at the end, and a person reads the listening one aloud | Binding · amends #78 |
 | 83 | 2026-09-27 | An épreuve may link a Commons photo as illustration, never as the answer | Binding · narrows §9 |
 | 84 | 2026-09-27 | A written copy is handed in by downloading it, never by storing it | Binding · extends #31, #82 |
@@ -808,9 +808,10 @@ results**: a tick there would key at the learner's level for a variant they were
 ## 80 · A scratch chapter: listed like the others, counted like nothing
 **2026-09-22 · Binding · extends #18, #48, #51**
 
-`temp` — « Atelier » — holds the pages of a class in progress, shared on screen during a call, then
-promoted or deleted: the only chapter **emptied on purpose**. Readers test `isTracked()` (#82); how a
-page is written is `docs/atelier.md`'s.
+`atelier` — « Atelier » — holds the pages of a class in progress, shared on screen during a call,
+then promoted or deleted: the only chapter **emptied on purpose**. Readers test `isTracked()` (#82);
+how a page is written is `docs/atelier.md`'s. **The slug was `temp` until 2026-10-06**; renamed with
+no redirect, since nothing under it was ever promised.
 
 **Decided against keeping it out of the repo, or unlisted**: the class is given by sharing the app,
 and its value is being **one click away in the middle of a lesson**.
@@ -836,24 +837,31 @@ them. A scratch chapter that is never reset is misfiled.
 ## 81 · The atelier sits behind one shared password, in a proxy that knows nothing else
 **2026-09-22 · Binding · extends #37, #80**
 
-`src/proxy.ts` matches `/temp` alone and sends anyone without the cookie to `/entrer`. **It is not
+`src/proxy.ts` matches `/atelier` alone and sends anyone without the cookie to `/entrer`. **It is not
 secrecy**: the texts are public in the repo; nothing stronger should be built on it.
 
 **Decided against an account**: an account is a learning path (#18), and gating on it means the
 server reading a session (#37). **Decided against a layout that reads cookies**: it silently opts every
 page under it out of prerendering (§8); a proxy runs before the cache.
 
-**`/entrer` sits outside the matcher and re-does the check itself**: a Server Function under `/temp`
+**`/entrer` sits outside the matcher and re-does the check itself**: a Server Function under `/atelier`
 would be intercepted before it could run. **It fails closed**: no `FRONTEND_PASSWORD`, nobody enters,
-rather than the atelier open to everyone with nothing complaining.
+rather than the atelier open to everyone with nothing complaining. **The closed door says only that
+it is closed**: the variable's name is printed in development alone, never to a visitor.
 
 **The cookie carries a digest, never the password.** **`atelierToken()` is what the cookie holds;
 `atelierPasswordOk()` checks what a visitor types** — comparing the typed password to the token
 builds and refuses everybody.
 
-**`?vers=`, not `?suivant=`**, which `signInHref` owns (#70); validated against the `/temp` prefix,
+**`?vers=`, not `?suivant=`**, which `signInHref` owns (#70); validated against the `/atelier` prefix,
 `//` included. **The chapter's row still shows**: hiding it needs a readable cookie and a hydration
 flash, for titles public anyway.
+
+**Lifted on 2026-10-06, kept in the code.** The maintainer opened the atelier to everyone: a learner
+reaches a page from a link, with nothing to type. `ATELIER_VERROUILLE` in `src/lib/atelier.ts` is
+`false`; the proxy passes everyone and `/entrer` redirects in. **Decided against deleting the lock**:
+putting it back is that one line, while the variable is still set. Unlocked, a scratch page carries
+`noindex` itself, since the door no longer stops a crawler.
 
 **What would reopen this**: a second path, a second password, or anyone needing their own — that is
 an account and RLS (#37), not a growing proxy.
@@ -1002,7 +1010,7 @@ path that answers to no rung) and an ordered list of **étapes**, each a title a
 walks, **by id** — a path is renamed (#50), an id never is. **It orders lessons and owns none**
 (#14): a lesson in two parcours has one tick, done in both.
 
-- **Only tracked lessons**: nothing from `temp` or `delf`, which can never be ticked and would be a
+- **Only tracked lessons**: nothing from `atelier` or `delf`, which can never be ticked and would be a
   permanent first hole (#80, #82). The `nav-wiring` audit checks every id resolves.
 - **Chosen in `/compte`, one at a time, or none**: `parcours` in metadata beside `view`. **Unknown
   ids read back as none**, so removing a parcours is the same silent reset as closing a level (#74).

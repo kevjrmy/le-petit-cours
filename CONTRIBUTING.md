@@ -35,9 +35,9 @@ mistake.
   what it follows. A lesson that maps to nothing in the DELF syllabus needs a reason. The authoring
   format is not settled yet ([`AGENTS.md`](AGENTS.md) §12), so large content contributions may be
   premature.
-- **« Atelier » (`temp`) is not a chapter to contribute to.** It is scratch space for a class in
-  progress, emptied weekly and password-protected on the site (#80, #81); finding it empty is
-  normal.
+- **« Atelier » (`atelier`) is not a chapter to contribute to.** It is scratch space for a class in
+  progress, emptied weekly, with a password lock that is currently lifted (#80, #81); finding it
+  empty is normal.
 
 ## The constraints that are not negotiable
 

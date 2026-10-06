@@ -255,12 +255,12 @@ just its manifest entry.
 
 ## The atelier — adding and clearing scratch pages
 
-`temp` is emptied on purpose (#80); why, and what it is not, is `docs/atelier.md`. It carries
+`atelier` is emptied on purpose (#80); why, and what it is not, is `docs/atelier.md`. It carries
 `scratch: true`, so the weekly reset is a manifest edit and a folder, with no migration.
 
 **Adding a page** is « Adding a lesson », with four differences:
 
-- **The id carries the date**: `temp-2026-09-22-terminaisons`.
+- **The id carries the date**: `atelier-2026-09-22-terminaisons`.
 - **`level: null`**, and never in a parcours (it cannot be ticked, #88).
 - **No `relatedPages` entry pointing *at* it.** It may have a key of its **own**, linking out —
   delete that key with the page (the audit's third line reports a source that no longer resolves).
@@ -269,14 +269,14 @@ just its manifest entry.
 **Clearing it** is the manifest entries and the folders:
 
 ```bash
-git rm -r src/app/temp/<slug>          # for each page being cleared
-# then delete its entry from the `temp` chapter's `lessons` array
+git rm -r src/app/atelier/<slug>          # for each page being cleared
+# then delete its entry from the `atelier` chapter's `lessons` array
 ```
 
 … and its `relatedPages` key, if any. The `_`-prefixed folders — `_exercice/` (`Choix`, `Faute`,
-`Trous`, the « tu » `Bilan`) and `_texte/` (`Copie`, `Corrige`, the scoped styles) — go once the
+`Trous`, `Quiz`, the « tu » `Bilan`) and `_texte/` (`Copie`, `Corrige`, the scoped styles) — go once the
 last page using them is gone; the underscore hides them from the router **and** the audit, so left
-behind they are dead code. No redirect. `grep -rn "/temp/" src/` checks nothing permanent linked in.
+behind they are dead code. No redirect. `grep -rn "/atelier/" src/` checks nothing permanent linked in.
 The chapter stays in the manifest with `lessons: []`.
 
 **Keeping a page** is a new page in its real chapter, with a **new permanent id** and a real `level`
