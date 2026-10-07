@@ -1172,5 +1172,6 @@ chapter moved below `musique` at the maintainer's word.
 #21). The maintainer wants one later, speech-to-text included, tied to an LLM: `AGENTS.md` §12.6
 holds what that reopens. **This does not settle the sound sheets' data shape** (§12.2).
 
-**Seen on the first try** (desktop Linux): Chrome reads well, with Google's online voice; Brave
-stays silent, cause unconfirmed (it ships no Google voice, and its Shields may hide the system's).
+**Seen on the first try** (desktop Linux): Chrome reads well, and every voice it lists is one of
+Google's online ones, its default German; Brave lists none at all, so there is nothing to fall back
+to inside the browser. A fallback voice is one the course brings (`AGENTS.md` §12.6).
