@@ -85,6 +85,7 @@ than marking it superseded.
 | 91 | 2026-09-30 | The account screens speak the account's language, French or Spanish | Binding · amends #90, #31 · narrows #53 |
 | 92 | 2026-09-30 | A literary work is one page whose body follows the level; at A1 the Spanish sits under each line | Binding · narrows #72, #86, #87, #53 |
 | 93 | 2026-10-05 | A cited form is marked by weight, a wrong one by a line | Binding · builds #27, #53 |
+| 94 | 2026-10-07 | The course speaks with the device's French voice, or not at all | Binding · a trial · builds #51, #82 |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -1144,3 +1145,32 @@ Sixty forms were converted in the lessons that existed.
 **Chosen against a colour** (the accent reads as a link), **a tinted pill** (a new shape, up to eight
 times a paragraph, clashing with the amber and red callouts) **and the italic** (the caption's voice,
 and too quiet). All three were tried on real pages before the weight was kept.
+
+## 94 · The course speaks with the device's French voice, or not at all
+**2026-10-07 · Binding · a trial · builds #51, #82**
+
+**`/prononciation/ecouter` reads aloud what the learner types**, through the browser's own speech
+(`speechSynthesis`): no server, no recording, no cost, any word or sentence. It is the first page of
+`prononciation` and the first thing in the course that makes a sound. **A trial**: the voice is the
+device's, so its quality is not the course's to promise, and the page is kept or dropped on what it
+sounds like on learners' phones.
+
+**A French voice, or silence.** `useSpeech` (`src/hooks/useSpeech.ts`) picks a voice whose language
+is French, `fr-FR` first, and sets it on the utterance. With none it says nothing and the page says
+why. An utterance carrying only `lang` falls back to the device's default voice, so a browser set to
+Spanish would read French with Spanish sounds: the one outcome worse than no tool. **Every later
+sound goes through this hook** (a dictée, a listening drill).
+
+**The chapter is `untracked`** (#82) while its one page is a tool: nothing there is ever finished.
+**Revisit when a sound sheet lands**: the flag is the chapter's, and a sheet wants its tick. The
+chapter moved below `musique` at the maintainer's word.
+
+**Chosen against a written pronunciation.** A rule engine is confidently wrong on *femme*,
+*monsieur*, *ils parlent*; a dictionary is megabytes and still blind to liaison; IPA is metalanguage
+(§1), and a Spanish respelling cannot write the sounds Spanish lacks, which are the ones to learn.
+**Against a speech service, for now**: a key, a cost and a server the course does not have (#8,
+#21). The maintainer wants one later, speech-to-text included, tied to an LLM: `AGENTS.md` §12.6
+holds what that reopens. **This does not settle the sound sheets' data shape** (§12.2).
+
+**Seen on the first try** (desktop Linux): Chrome reads well, with Google's online voice; Brave
+stays silent, cause unconfirmed (it ships no Google voice, and its Shields may hide the system's).

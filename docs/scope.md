@@ -164,3 +164,5 @@ Tracked here, decided in `docs/decisions.md` when they close:
 
 - When B2 opens (`docs/levels/b2.md`).
 - The Kids mode (`AGENTS.md` §12.5): what a parent sees, what a game is, where the mode lives.
+- Speech through a hosted model (`AGENTS.md` §12.6): speech-to-text and a better voice, tied to an
+  LLM. Listening to the learner must stay clear of the non-goal above, or reopen it by name.

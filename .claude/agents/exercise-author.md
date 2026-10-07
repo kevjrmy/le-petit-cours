@@ -211,12 +211,12 @@ behind a button so the clock does not run while the learner reads.
 
 ## Audio
 
-The shared speech hook (`lesson-author.md` « Dictées » has its contract) — never hand-roll
-`SpeechSynthesisUtterance`. **Not built yet** (§12.2): build it before any audio drill.
+`useSpeech` (`src/hooks/useSpeech.ts`, #94; `lesson-author.md` « Dictées » has its contract) — never
+hand-roll `SpeechSynthesisUtterance`. It speaks with a French voice or not at all.
 
-A drill about hearing a contrast **must check that a French voice was found** and warn otherwise —
-a Spanish voice reading *tu* and *tout* makes it meaningless. Check **after the first play**, never
-on mount, or `getVoices()` flashes a false alarm.
+A drill about hearing a contrast **must read the hook's `problem` and warn** — with no French
+voice nothing plays, and the drill has no question. It is set **after the first play**, never on
+mount, or `getVoices()` flashes a false alarm.
 
 Gate the answers on having listened (`disabled` **and** a visible locked style), and keep replay live
 after answering: hearing the contrast again, knowing the answer, is where the learning happens.

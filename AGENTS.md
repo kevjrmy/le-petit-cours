@@ -148,6 +148,8 @@ Read `node_modules/next/dist/docs/` first. The traps:
   (#24, #42).
 - **The theme must not flash**: inline script sets `data-theme` before paint.
 - **`window`, `document`, `navigator`, `speechSynthesis`** exist only in effects and handlers.
+- **Speech is `useSpeech` alone** (#94): a French voice set on the utterance, or silence and a
+  message. `lang` without a `voice` is read by the device's default voice, in its language.
 - **The shell lives in the root layout** so its state survives navigation; never mount it per page.
 
 ## 5. Design system
@@ -238,6 +240,7 @@ folder is a 404, a folder without an entry is unreachable — `nav-wiring` audit
 |---|---|
 | `grammaire`, `orthographe`, `vocabulaire`, `astuces`, `musique`, `culture` | prose lesson |
 | `conjugaison`, `prononciation` | **data-driven** — one component, one data file; never a hand-written table |
+| `prononciation/ecouter` | a **tool**, the chapter's one page: type, hear the device's French voice; no tick, no score (#94) |
 | `exercices` | graded drill, scored on screen, stored nowhere |
 | `jeux` | replayable game, records nothing; not a second `exercices/` |
 | `dictees` | listen, type, compare |
@@ -425,11 +428,18 @@ Recorded so nobody decides them by writing code.
 
 1. **The lesson authoring format** (#10). Leaning content-as-data; **do not build a pipeline yet.**
 2. **Which chapters ship next.** A2 first (#74); A1 is mapped (`docs/levels/a1.md`), **B1 is not**.
-   Order should come from the DELF syllabus. **Four chapters are blocked**: `prononciation` (its
-   data shape, §7), `dictees` (the speech hook and a comparator), `jeux` (a game that is not a drill),
-   `culture` (sourced photographs, §9).
+   Order should come from the DELF syllabus. **Four chapters are blocked**: `prononciation`'s
+   sound sheets (their data shape, §7; its listening tool is built, #94), `dictees` (a comparator;
+   the speech hook is built), `jeux` (a game that is not a drill), `culture` (sourced photographs,
+   §9).
 3. **Where « Index » goes on a phone** (#66). Decide before building one.
 5. **Kids mode** (`docs/scope.md`). **A mode beside the level — never an entry in `Level`.** Open:
    what a parent may see (RLS is own-rows only; #18, #36; parental consent), what a game is (point 2,
    the speech hook, the language rule of #85), and where it lives (a client-side filter like the
    level, or its own prerendered `/enfants/…` routes — never a session read, §8).
+6. **Speech through a hosted model** (#94): speech-to-text and a better voice, tied to an LLM
+   (Mistral AI or another). Wanted, not designed. Open: the provider; where its key lives (the
+   course has no server secret but #81's, #21); who pays for an open endpoint on a public site;
+   a learner's voice leaving the device, a teenager's included (#69); offline; and what listening
+   is *for* — `docs/scope.md` rules out grading how a learner sounds. **`useSpeech` is the seam** —
+   a page never learns where its voice comes from.

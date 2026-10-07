@@ -305,12 +305,13 @@ data entry, look at what you downloaded). Also:
 
 ### Dictées
 
-Listen, type, compare. **Not built** — the speech hook and the comparator come first. The typing and
-audio are a client leaf; the page stays a Server Component.
+Listen, type, compare. **Not built** — the comparator comes first. The typing and audio are a
+client leaf; the page stays a Server Component.
 
-Audio goes through a shared speech hook — **never hand-roll `SpeechSynthesisUtterance`**. It
-resolves a French voice lazily (`getVoices()` is empty until `voiceschanged`), exposes a `speaking`
-flag so buttons can be disabled mid-utterance, and cancels on unmount.
+Audio goes through `useSpeech` (`src/hooks/useSpeech.ts`, #94) — **never hand-roll
+`SpeechSynthesisUtterance`**. It resolves a French voice lazily (`getVoices()` is empty until
+`voiceschanged`) and speaks with that voice or not at all: `problem` says why, **after the first
+play**. It exposes a `speaking` flag and cancels on unmount. `prononciation/ecouter` is the pattern.
 
 The comparator lowercases, folds curly apostrophes, strips punctuation and collapses whitespace.
 **Keep the apostrophe out of the punctuation class**: elision (`d'aller`) is orthography. Accent-
@@ -329,7 +330,8 @@ writing `<td>` for either, you are in the wrong file.**
 - **The futur and imparfait are generated from a stem.** `assertVerbs()` refuses a futur stem not
   ending in `r`, or an imparfait stem ending in `e`, `g` or `ç` — one stem cannot give both *je
   mangeais* and *nous mangions*. Such a verb stores two.
-- **`prononciation/` is unbuilt** (§12).
+- **`prononciation/`'s sound sheets are unbuilt** (§12). Its one page is a hand-written tool,
+  `prononciation/ecouter` (#94).
 
 ## Wiring — same change
 
