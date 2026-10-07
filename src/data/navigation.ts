@@ -13,11 +13,11 @@
  * chapter with an empty `lessons` array is simply not offered anywhere until
  * one does.
  *
- * **Four chapters are in that state right now**, and that is the normal resting
- * state of a chapter rather than a gap to be filled: `prononciation`, `jeux`,
- * `dictees` and `culture` each wait on something other than writing
- * (`AGENTS.md` §12). Sixteen chapters of the course are declared and twelve
- * carry pages; `atelier` sits beside them and is counted with neither (#80).
+ * **Three chapters are in that state right now**, and that is the normal
+ * resting state of a chapter rather than a gap to be filled: `jeux`, `dictees`
+ * and `culture` each wait on something other than writing (`AGENTS.md` §12).
+ * Sixteen chapters of the course are declared and thirteen carry pages;
+ * `atelier` sits beside them and is counted with neither (#80).
  *
  * **Chapter order is inherited, not decided.** Which chapters carry which
  * content and in what order is still open (`AGENTS.md` §12) and is meant to be
@@ -241,6 +241,7 @@ export interface Chapter {
    * whose épreuves are a mock exam taken as often as it is useful. A tick would
    * say « terminé » about something that is never finished, and the score an
    * épreuve gives is already the record that matters, on screen and nowhere else.
+   * `prononciation` carries it too, while its one page is a tool (#94).
    *
    * It takes the four progress readers of `scratch` above and nothing else: no
    * tick under the page or in the listing, out of `/ma-progression`, out of a
@@ -873,14 +874,6 @@ export const chapters: Chapter[] = [
     ],
   },
   {
-    slug: "prononciation",
-    icon: "prononciation",
-    path: "/prononciation",
-    title: "Prononciation",
-    blurb: "Lire le français à voix haute : les groupes de lettres et leurs sons.",
-    lessons: [],
-  },
-  {
     slug: "exercices",
     icon: "exercices",
     path: "/exercices",
@@ -1462,6 +1455,33 @@ export const chapters: Chapter[] = [
         level: null,
         delf: "Comprendre une chanson simple et l’expression qui lui donne son titre",
         created: "2026-09-12",
+      },
+    ],
+  },
+  /* Un outil, pas encore des leçons (#94) : on écrit, la voix française de
+     l'appareil lit. Les fiches de sons attendent toujours la forme de leurs
+     données (`AGENTS.md` §12.2).
+
+     `untracked` parce qu'un outil ne se termine pas : une coche dessous dirait
+     « terminé » d'une page où l'on revient à chaque mot. **À revoir le jour où
+     une fiche arrive ici** : le drapeau est au chapitre, et il priverait la
+     fiche de sa coche. */
+  {
+    slug: "prononciation",
+    icon: "prononciation",
+    path: "/prononciation",
+    title: "Prononciation",
+    blurb: "Entendre le français écrit : un mot ou une phrase, lus à voix haute.",
+    untracked: true,
+    lessons: [
+      {
+        id: "pron-ecouter",
+        path: "/prononciation/ecouter",
+        title: "Comment ça se prononce ?",
+        subtitle: "Écrivez un mot ou une phrase, puis écoutez",
+        tag: "Outil",
+        level: null,
+        created: "2026-10-07",
       },
     ],
   },
