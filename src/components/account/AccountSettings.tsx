@@ -244,13 +244,13 @@ function DisplayNameField({ initial, lang }: { initial: string | null; lang: Lan
       <p>{t.nameText}</p>
 
       <form className={styles.form} onSubmit={onSubmit} noValidate>
-        <label className={styles.label} htmlFor="display-name">
+        <label className={`label ${styles.label}`} htmlFor="display-name">
           {t.nameLabel}
         </label>
         <div className={styles.row}>
           <input
             id="display-name"
-            className={styles.input}
+            className={`input ${styles.input}`}
             type="text"
             value={value}
             maxLength={DISPLAY_NAME_MAX * 2}
@@ -345,12 +345,12 @@ function PasswordField({ email, lang }: { email: string; lang: Lang }) {
 
       <form className={styles.form} onSubmit={onSubmit} noValidate>
         <div className={styles.field}>
-          <label className={styles.label} htmlFor="current-password">
+          <label className={`label ${styles.label}`} htmlFor="current-password">
             {t.passwordCurrent}
           </label>
           <input
             id="current-password"
-            className={styles.input}
+            className={`input ${styles.input}`}
             type="password"
             value={current}
             autoComplete="current-password"
@@ -363,12 +363,12 @@ function PasswordField({ email, lang }: { email: string; lang: Lang }) {
         </div>
 
         <div className={styles.field}>
-          <label className={styles.label} htmlFor="new-password">
+          <label className={`label ${styles.label}`} htmlFor="new-password">
             {t.passwordNew}
           </label>
           <input
             id="new-password"
-            className={styles.input}
+            className={`input ${styles.input}`}
             type="password"
             value={next}
             autoComplete="new-password"
@@ -466,13 +466,13 @@ function UsernameField({ initial, lang }: { initial: string; lang: Lang }) {
       <p>{t.usernameText}</p>
 
       <form className={styles.form} onSubmit={onSubmit} noValidate>
-        <label className={styles.label} htmlFor="username-field">
+        <label className={`label ${styles.label}`} htmlFor="username-field">
           {t.usernameLabel}
         </label>
         <div className={styles.row}>
           <input
             id="username-field"
-            className={styles.input}
+            className={`input ${styles.input}`}
             type="text"
             value={value}
             maxLength={USERNAME_MAX * 2}

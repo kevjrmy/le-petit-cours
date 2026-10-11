@@ -97,7 +97,7 @@ export function Traduction({
       <textarea
         id="traduction"
         ref={field}
-        className={styles.zone}
+        className="input"
         rows={6}
         spellCheck
         lang="fr"

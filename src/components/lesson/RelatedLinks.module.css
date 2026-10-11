@@ -2,7 +2,7 @@
    lesson — so space, not a second rule (#67). Enough of it that the tick reads
    as the end of what you were doing rather than as the first row of this. */
 .related {
-  margin-top: 3.6rem;
+  margin-top: var(--space-56);
 }
 
 /* Still a heading — it names the block, and a reader is meant to arrive at it
@@ -11,9 +11,9 @@
    rather than the heading colour, because in end-matter the *destinations* are
    the thing and the label is only telling you what they are. */
 .heading {
-  font-size: 1.05rem;
+  font-size: var(--type-106);
   color: var(--text-2);
-  margin-bottom: 0.6rem;
+  margin-bottom: var(--space-10);
 }
 
 /* **No cards.** A bordered box on `--surface-1` is the content idiom — it is
@@ -26,15 +26,15 @@
   list-style: none;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-  column-gap: 2rem;
-  row-gap: 0.15rem;
+  column-gap: var(--space-32);
+  row-gap: var(--space-2);
 }
 
 .related a {
   display: flex;
   flex-direction: column;
-  gap: 0.05rem;
-  padding: 0.4rem 0;
+  gap: var(--space-2);
+  padding: var(--space-6) 0;
   color: inherit;
 }
 
@@ -42,7 +42,7 @@
 .related a:hover .title { color: var(--accent); }
 
 .chapter {
-  font-size: 0.64rem;
+  font-size: var(--type-66);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -51,7 +51,7 @@
 
 .title {
   font-family: var(--font-serif);
-  font-size: 0.95rem;
+  font-size: var(--type-95);
   color: var(--text-heading);
   transition: color var(--dur-fast) ease;
 }

@@ -8,7 +8,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.4rem;
+  gap: var(--space-6);
 }
 
 /* Rounded rectangles rather than lozenges, so they agree with the field above
@@ -18,13 +18,13 @@
 .pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.42rem 0.7rem;
+  gap: var(--space-6);
+  padding: var(--space-6) var(--space-12);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface-1);
   color: var(--text-2);
-  font-size: 0.86rem;
+  font-size: var(--type-85);
   font-weight: 500;
   white-space: nowrap;
   transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease,

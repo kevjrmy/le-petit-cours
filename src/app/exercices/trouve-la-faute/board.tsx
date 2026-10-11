@@ -5,6 +5,7 @@ import { Instructions, Meter, Score } from "@/components/exercice/Drill";
 import { shuffle } from "@/lib/shuffle";
 import type { Level } from "@/data/navigation";
 import { bankFor, type FaultItem } from "./data";
+import board from "@/components/exercice/Board.module.css";
 import styles from "./drill.module.css";
 
 /**
@@ -93,13 +94,13 @@ export function Board({ level }: { level: Level | null }) {
         label="Phrase en cours"
       />
 
-      <div className={styles.card}>
-        <p className={styles.sentence} role="group" aria-label="Phrase à corriger">
+      <div className={`card ${board.card}`}>
+        <p className={board.words} role="group" aria-label="Phrase à corriger">
           {current.words.map((word, index) => (
             <button
               key={`${currentIndex}-${index}`}
               type="button"
-              className={`${styles.word} ${picked === index ? styles.picked : ""} ${
+              className={`${board.word} ${picked === index ? "is-chosen" : ""} ${
                 checked && index === current.badIndex ? "is-correct" : ""
               } ${checked && picked === index && !foundIt ? "is-wrong" : ""}`}
               disabled={checked}
@@ -117,12 +118,12 @@ export function Board({ level }: { level: Level | null }) {
             : `2. Remplacez « ${current.words[picked]} » par :`}
         </p>
 
-        <div className={styles.fixes}>
+        <div className={`${board.pool} ${styles.fixes}`}>
           {fixes.map((candidate) => (
             <button
               key={candidate}
               type="button"
-              className={`${styles.fix} ${fix === candidate ? styles.chosen : ""}`}
+              className={`${board.chip} ${fix === candidate ? "is-chosen" : ""}`}
               disabled={picked === null || checked}
               onClick={() => setFix(candidate)}
             >
@@ -136,7 +137,7 @@ export function Board({ level }: { level: Level | null }) {
         <div role="status">
           {checked && (
             <div
-              className={`${styles.verdict} ${right ? "is-correct" : "is-wrong"}`}
+              className={`${board.verdict} ${right ? "is-correct" : "is-wrong"}`}
             >
               <p>
                 {right
@@ -145,7 +146,7 @@ export function Board({ level }: { level: Level | null }) {
                     ? `✗ Le mot était le bon, mais il fallait écrire « ${current.fix} ».`
                     : `✗ La faute était « ${current.words[current.badIndex]} », à remplacer par « ${current.fix} ».`}
               </p>
-              <p className={styles.corrected}>
+              <p className={board.corrected}>
                 {current.words
                   .map((word, index) =>
                     index === current.badIndex ? current.fix : word,
@@ -158,7 +159,7 @@ export function Board({ level }: { level: Level | null }) {
         </div>
       </div>
 
-      <div className={styles.actions}>
+      <div className={board.actions}>
         {checked ? (
           <button type="button" className="button button-primary" onClick={next}>
             {currentIndex + 1 === deck.length ? "Voir mon score" : "Phrase suivante"}

@@ -1,18 +1,18 @@
-.list { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+.list { list-style: none; display: flex; flex-direction: column; gap: var(--space-6); }
 
 /* ── the level groups (#86) ─────────────────────────────────────────────── */
 
-.groups { display: flex; flex-direction: column; gap: 0.6rem; }
+.groups { display: flex; flex-direction: column; gap: var(--space-10); }
 
-.group > .list { margin-top: 0.45rem; }
+.group > .list { margin-top: var(--space-8); }
 
 /* The head reads as a heading over the rows, not as another row: no card, the
    level in the serif, the count in the sans beside it. */
 .head {
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
-  padding: 0.35rem 0;
+  gap: var(--space-8);
+  padding: var(--space-6) 0;
   cursor: pointer;
   list-style: none;
   border-bottom: 1px solid var(--border);
@@ -20,7 +20,7 @@
 
 .head::-webkit-details-marker { display: none; }
 
-.head:hover .label { color: var(--accent-text); }
+.head:hover .label { color: var(--accent); }
 
 .chevron {
   align-self: center;
@@ -38,12 +38,12 @@
 
 .label {
   font-family: var(--font-serif);
-  font-size: 1.05rem;
+  font-size: var(--type-106);
   font-weight: 600;
   color: var(--text-heading);
 }
 
-.count { font-size: 0.8rem; color: var(--text-3); }
+.count { font-size: var(--type-80); color: var(--text-3); }
 
 @media (prefers-reduced-motion: reduce) {
   .chevron { transition: none; }

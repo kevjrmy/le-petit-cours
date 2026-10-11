@@ -139,7 +139,7 @@ export function LessonToc() {
 
   return (
     <nav className={styles.toc} aria-labelledby="index-de-la-page">
-      <p className={styles.label} id="index-de-la-page">
+      <p className={`label ${styles.label}`} id="index-de-la-page">
         Index
       </p>
       <ol>

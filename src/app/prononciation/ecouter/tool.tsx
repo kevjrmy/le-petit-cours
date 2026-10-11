@@ -43,7 +43,7 @@ export function ListenTool() {
       <textarea
         id="a-ecouter"
         ref={field}
-        className={styles.zone}
+        className={`input ${styles.zone}`}
         rows={2}
         maxLength={MAX_LENGTH}
         spellCheck

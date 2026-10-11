@@ -1,11 +1,11 @@
 /* Wider than a heading's line would be: logo.svg is cropped to the glyph, so
    the tail of « Cours » hangs into whatever sits under it. */
 .line {
-  margin-top: 1rem;
+  margin-top: var(--space-16);
   margin-inline: auto;
   max-width: 30rem;
   font-family: var(--font-serif);
-  font-size: 1.1rem;
+  font-size: var(--type-112);
   line-height: 1.5;
   color: var(--text-2);
 }

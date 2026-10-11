@@ -6,11 +6,11 @@
   margin-inline: auto;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: var(--space-20);
   /* Off-centre on purpose — optical centre sits above the true one, and the
      shell's topbar already takes the space above. Never a fixed height: the
      mobile keyboard shrinks the viewport and would push the pills off. */
-  padding-block: clamp(1.5rem, 12vh, 6rem) 2rem;
+  padding-block: clamp(var(--space-24), 12vh, var(--space-88)) var(--space-32);
   text-align: center;
 }
 

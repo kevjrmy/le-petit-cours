@@ -40,7 +40,7 @@
   height: var(--topbar-h);
   display: flex;
   align-items: center;
-  padding: 0 1rem;
+  padding: 0 var(--space-16);
   border-bottom: 1px solid var(--border-soft);
 }
 
@@ -48,7 +48,7 @@
   display: flex;
   align-items: center;
   min-width: 0;
-  padding: 0.35rem 0.15rem;
+  padding: var(--space-6) var(--space-2);
   border-radius: var(--radius-sm);
   color: inherit;
   text-decoration: none;
@@ -67,7 +67,7 @@
   display: none;
   width: 1.75rem;
   aspect-ratio: 1;
-  border-radius: 50%;
+  border-radius: var(--radius-pill);
   background: var(--accent);
 }
 
@@ -97,7 +97,7 @@
   flex: 1 1 auto;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 0.75rem 0.5rem 2rem;
+  padding: var(--space-12) var(--space-8) var(--space-32);
 }
 
 .chapters, .annexes, .top { list-style: none; }
@@ -105,8 +105,8 @@
 /* The way into the chapters, sitting above them. Separated by a rule for the same
    reason `.annexes` is: it is not one of the fourteen. */
 .top {
-  margin-bottom: 0.5rem;
-  padding-bottom: 0.5rem;
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-8);
   border-bottom: 1px solid var(--border-soft);
 }
 
@@ -117,11 +117,11 @@
 .chapter {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0.45rem 0.5rem;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-8);
   border-radius: var(--radius-sm);
   color: var(--text-1);
-  font-size: 0.88rem;
+  font-size: var(--type-90);
   font-weight: 600;
   text-decoration: none;
   white-space: nowrap;
@@ -139,6 +139,7 @@ a.chapter:hover {
 a.activeChapter:hover {
   background: var(--accent-soft);
   color: var(--accent-text);
+  font-weight: 600;
 }
 
 .chapterTitle { flex: 1 1 auto; }
@@ -147,11 +148,11 @@ a.activeChapter:hover {
 .lesson {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0.35rem 0.5rem;
+  gap: var(--space-8);
+  padding: var(--space-6) var(--space-8);
   border-radius: var(--radius-sm);
   color: var(--text-2);
-  font-size: 0.85rem;
+  font-size: var(--type-85);
   line-height: 1.4;
   text-decoration: none;
   white-space: nowrap;
@@ -174,8 +175,8 @@ a.activeLesson:hover {
 }
 
 .annexes {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
+  margin-top: var(--space-12);
+  padding-top: var(--space-12);
   border-top: 1px solid var(--border-soft);
 }
 
@@ -207,9 +208,9 @@ a.activeLesson:hover {
     justify-content: center;
     gap: 0;
     padding-inline: 0;
-    margin-inline: 0.35rem;
+    margin-inline: var(--space-6);
   }
 
-  .tree { padding-inline: 0.35rem; }
+  .tree { padding-inline: var(--space-6); }
 
 }

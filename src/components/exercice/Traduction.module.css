@@ -3,7 +3,7 @@
 }
 
 .line + .line {
-  margin-top: 0.35rem;
+  margin-top: var(--space-6);
 }
 
 /* A word of the source she can uncover. Accent, never danger: red here would be
@@ -39,25 +39,6 @@
   white-space: nowrap;
 }
 
-.zone {
-  display: block;
-  width: 100%;
-  min-height: 9rem;
-  padding: 0.7rem 0.85rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface-1);
-  color: var(--text-1);
-  font-family: var(--font-serif);
-  font-size: 1.02rem;
-  line-height: 1.65;
-  resize: vertical;
-}
-
-.zone:focus-visible {
-  border-color: var(--accent);
-}
-
 .controls {
-  margin-top: 0.9rem;
+  margin-top: var(--space-14);
 }

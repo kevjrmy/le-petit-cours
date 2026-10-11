@@ -7,17 +7,17 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-8);
   min-height: 3.5rem;
-  margin-top: 1rem;
-  padding: 0.75rem;
+  margin-top: var(--space-16);
+  padding: var(--space-12);
   border: 1px dashed var(--border-strong);
   border-radius: var(--radius);
   background: var(--surface-2);
 }
 
 .vide {
-  font-size: 0.88rem;
+  font-size: var(--type-90);
   color: var(--text-3);
 }
 
@@ -25,13 +25,13 @@
    sinon le navigateur prend le geste pour un défilement et annule le glisser
    au premier mouvement du doigt. */
 .pastille {
-  padding: 0.35rem 0.8rem;
+  padding: var(--space-6) var(--space-12);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-pill);
   background: var(--surface-1);
   color: var(--text-1);
   font-family: var(--font-serif);
-  font-size: 0.95rem;
+  font-size: var(--type-95);
   line-height: 1.35;
   text-align: left;
   cursor: grab;
@@ -39,18 +39,14 @@
   user-select: none;
 }
 
-.pastille:hover { border-color: var(--accent-line); }
+.pastille:hover {
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
+}
 .pastille[aria-disabled="true"] { cursor: default; }
 
-/* Triplé pour battre `.pastille:hover` sans dépendre de l'ordre des règles. */
-.choisie.choisie.choisie {
-  border-color: var(--accent);
-  background: var(--accent-subtle);
-  color: var(--accent-text);
-  box-shadow: inset 0 0 0 1px var(--accent);
-}
 
-.enCours { opacity: 0.4; }
+.enCours { opacity: var(--opacity-lifted); }
 
 /* La face d'un panneau : un bouton, pour qu'un panneau se touche et se
    choisisse au clavier. Il ne dessine rien lui-même, la carte `.documents > li`
@@ -59,7 +55,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--space-6);
   width: 100%;
   padding: 0;
   border: 0;
@@ -82,7 +78,7 @@
 .posees {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: var(--space-6);
   width: 100%;
 }
 
@@ -92,7 +88,7 @@
    une pilule toute ronde s'y lit mal. */
 .posees .pastille {
   border-radius: var(--radius-sm);
-  font-size: 0.88rem;
+  font-size: var(--type-90);
   text-align: center;
 }
 
@@ -103,29 +99,24 @@
   background: var(--accent-subtle);
 }
 
-/* La phrase sous le doigt : fixe et inerte, pour ne jamais devenir elle-même
-   la cible qu'on survole. */
-.fantome {
+/* La phrase sous le doigt : la `.pastille`, soulevée. Fixe et inerte, pour ne
+   jamais devenir elle-même la cible qu'on survole. Doublé pour passer
+   par-dessus la pastille. */
+.fantome.fantome {
   position: fixed;
-  z-index: 50;
+  z-index: var(--z-drag);
   transform: translate(-50%, -120%);
-  padding: 0.35rem 0.8rem;
-  border: 1px solid var(--accent);
-  border-radius: var(--radius-pill);
-  background: var(--surface-1);
-  color: var(--text-1);
-  font-family: var(--font-serif);
-  font-size: 0.95rem;
+  border-color: var(--accent);
   pointer-events: none;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow);
   white-space: nowrap;
 }
 
 .corrections {
-  margin-top: 1rem;
-  padding-left: 1.25rem;
-  font-size: 0.92rem;
+  margin-top: var(--space-16);
+  padding-left: var(--space-20);
+  font-size: var(--type-90);
   color: var(--text-2);
 }
 
-.corrections li + li { margin-top: 0.3rem; }
+.corrections li + li { margin-top: var(--space-4); }

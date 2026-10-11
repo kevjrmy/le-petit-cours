@@ -61,7 +61,7 @@ export function SearchResults() {
 
       {elsewhere.length > 0 && (
         <section className={styles.other}>
-          <h2 className={styles.otherTitle}>À d’autres niveaux</h2>
+          <h2 className="label">À d’autres niveaux</h2>
           <p className={styles.otherNote}>
             {here.length > 0 ? "Ces pages ne sont pas" : "Ce que vous cherchez n’est pas"} aux
             niveaux que vous avez choisis, mais elles se lisent normalement.{" "}

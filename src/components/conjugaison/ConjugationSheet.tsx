@@ -127,19 +127,19 @@ export function ConjugationSheet({ verb }: { verb: Verb }) {
     <>
       <dl className={styles.meta}>
         <div>
-          <dt>Groupe</dt>
+          <dt className="label">Groupe</dt>
           <dd>{verb.groupe}</dd>
         </div>
         <div>
-          <dt>Auxiliaire</dt>
+          <dt className="label">Auxiliaire</dt>
           <dd>{verb.aux}</dd>
         </div>
         <div>
-          <dt>Participe passé</dt>
+          <dt className="label">Participe passé</dt>
           <dd>{verb.participe}</dd>
         </div>
         <div>
-          <dt>Participe présent</dt>
+          <dt className="label">Participe présent</dt>
           <dd>{plain(verb.ppresent)}</dd>
         </div>
       </dl>

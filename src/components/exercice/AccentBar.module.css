@@ -1,31 +1,33 @@
 .bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.3rem;
-  margin-bottom: 0.5rem;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
 }
 
 .key {
   min-width: 2.1rem;
-  padding: 0.3rem 0.45rem;
+  padding: var(--space-4) var(--space-8);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface-1);
   color: var(--text-1);
   font-family: var(--font-serif);
-  font-size: 1.05rem;
+  font-size: var(--type-106);
   line-height: 1.2;
   cursor: pointer;
 }
 
 .key:hover {
-  border-color: var(--border-strong);
-  background: var(--surface-2);
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
 }
 
+/* The one control with a pressed look: a key is hit, not chosen, and the
+   letter appearing in the field is a beat too late to say it took. */
 .key:active {
-  background: var(--accent-subtle);
-  border-color: var(--accent-line);
+  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
 /* On a touch screen these are the keyboard, so they get a real key's target.

@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.4rem 0.7rem;
+  padding: var(--space-6) var(--space-12);
   border: 0;
   background: none;
   color: inherit;
@@ -29,7 +29,7 @@
   inline-size: 1.3rem;
   block-size: 1.3rem;
   border: 1px solid var(--border-strong);
-  border-radius: 50%;
+  border-radius: var(--radius-pill);
   background: transparent;
   transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
 }

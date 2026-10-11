@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Instructions } from "@/components/exercice/Drill";
 import { Bilan } from "./Bilan";
+import board from "@/components/exercice/Board.module.css";
 import styles from "./Trous.module.css";
 
 /** Un trou : la forme juste, celle que la copie portait, et deux pièges. */
@@ -137,7 +138,7 @@ export function Trous({
                   {ouvert === trou && (
                     <span
                       ref={menu}
-                      className={styles.menu}
+                      className={board.menu}
                       role="group"
                       aria-label={`Choix pour le trou ${trou + 1}`}
                     >
@@ -145,7 +146,7 @@ export function Trous({
                         <button
                           key={option}
                           type="button"
-                          className={`${styles.option} ${mot === option ? styles.pris : ""}`}
+                          className={`${board.option} ${mot === option ? "is-chosen" : ""}`}
                           aria-pressed={mot === option}
                           onClick={() => choisir(trou, option)}
                         >

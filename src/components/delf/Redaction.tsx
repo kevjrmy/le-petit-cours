@@ -162,7 +162,8 @@ export function Redaction({
   return (
     <>
       <textarea
-        className="redaction"
+        className="input"
+        rows={6}
         aria-label={libelle}
         placeholder={placeholder}
         readOnly={copie?.rendue != null}

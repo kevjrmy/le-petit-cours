@@ -5,6 +5,7 @@ import { Instructions, Meter, Score } from "@/components/exercice/Drill";
 import { shuffle } from "@/lib/shuffle";
 import type { Level } from "@/data/navigation";
 import { bankFor, type VerbItem } from "./data";
+import board from "@/components/exercice/Board.module.css";
 import styles from "./drill.module.css";
 
 type Column = "etre" | "avoir";
@@ -142,6 +143,7 @@ export function Board({ level }: { level: Level | null }) {
         key={verb.id}
         type="button"
         className={[
+          board.chip,
           styles.chip,
           drag?.verb.id === verb.id ? styles.dragging : "",
           checked ? (right ? "is-correct" : "is-wrong") : "",
@@ -282,7 +284,7 @@ export function Board({ level }: { level: Level | null }) {
           becomes the thing the pointer is over. */}
       {drag && (
         <span
-          className={styles.ghost}
+          className={`${board.chip} ${styles.ghost}`}
           style={{ left: drag.x, top: drag.y }}
           aria-hidden="true"
         >
@@ -313,7 +315,7 @@ export function Board({ level }: { level: Level | null }) {
         </div>
       )}
 
-      <div className={styles.actions}>
+      <div className={board.actions}>
         {checked ? (
           <button
             type="button"

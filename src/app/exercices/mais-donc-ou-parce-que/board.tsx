@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
 import { ITEMS, TEXT, type Piece } from "./data";
-import styles from "./drill.module.css";
+import board from "@/components/exercice/Board.module.css";
 
 /**
  * Un récit à trous, et un petit menu sous chaque trou.
@@ -98,7 +98,7 @@ export function Board() {
 
       <Meter value={filled.length} max={ITEMS.length} label="Trous remplis" />
 
-      <div className={styles.text}>
+      <div className={`card ${board.card} ${board.text}`}>
         {TEXT.map((paragraph, p) => (
           <p key={p}>
             {paragraph.map((piece, index) => {
@@ -117,15 +117,15 @@ export function Board() {
               const right = chosen === piece.answer;
 
               return (
-                <span key={piece.id} className={styles.place}>
+                <span key={piece.id} className={board.place}>
                   <button
                     ref={(element) => {
                       if (element) slots.current.set(piece.id, element);
                       else slots.current.delete(piece.id);
                     }}
                     type="button"
-                    className={`${styles.slot} ${chosen ? styles.filled : ""} ${
-                      open === piece.id ? styles.active : ""
+                    className={`${board.slot} ${chosen ? board.filled : ""} ${
+                      open === piece.id ? board.active : ""
                     } ${checked ? (right ? "is-correct" : "is-wrong") : ""}`}
                     disabled={checked}
                     aria-haspopup="true"
@@ -148,7 +148,7 @@ export function Board() {
                   {open === piece.id && (
                     <span
                       ref={menu}
-                      className={styles.menu}
+                      className={board.menu}
                       role="group"
                       aria-label={`Choix pour le trou ${position + 1}`}
                     >
@@ -156,8 +156,8 @@ export function Board() {
                         <button
                           key={option}
                           type="button"
-                          className={`${styles.option} ${
-                            chosen === option ? styles.taken : ""
+                          className={`${board.option} ${
+                            chosen === option ? "is-chosen" : ""
                           }`}
                           aria-pressed={chosen === option}
                           onClick={() => pick(piece.id, option)}
@@ -187,18 +187,18 @@ export function Board() {
             </p>
 
             {wrong.length > 0 && (
-              <ul className={styles.corrections}>
+              <ul className={board.corrections}>
                 {wrong.map((blank) => {
                   const paragraph = TEXT.find((pieces) => pieces.includes(blank)) ?? [];
                   const { before, after } = around(paragraph, paragraph.indexOf(blank));
                   return (
                     <li key={blank.id}>
-                      <span className={styles.fragment}>
+                      <span className={board.fragment}>
                         … {before} <strong>{blank.answer}</strong>
                         {after.startsWith(",") ? "" : " "}
                         {after} …
                       </span>
-                      <span className={styles.why}>{blank.because}</span>
+                      <span className={board.why}>{blank.because}</span>
                     </li>
                   );
                 })}
@@ -208,7 +208,7 @@ export function Board() {
         )}
       </div>
 
-      <div className={styles.actions}>
+      <div className={board.actions}>
         {checked ? (
           <button
             type="button"

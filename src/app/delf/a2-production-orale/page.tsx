@@ -97,7 +97,8 @@ export default function Page() {
           </p>
 
           <textarea
-            className="redaction"
+            className="input"
+            rows={6}
             aria-label="Vos notes pour le monologue"
             placeholder="où · quand · avec qui · ce que j’ai aimé…"
           />

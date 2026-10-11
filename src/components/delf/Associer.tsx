@@ -96,7 +96,7 @@ export function Associer({
         type="button"
         className={[
           styles.pastille,
-          choisie === id ? styles.choisie : "",
+          choisie === id ? "is-chosen" : "",
           glisse?.id === id ? styles.enCours : "",
           etat,
         ].join(" ")}
@@ -241,7 +241,7 @@ export function Associer({
 
       {glisse && (
         <span
-          className={styles.fantome}
+          className={`${styles.pastille} ${styles.fantome}`}
           style={{ left: glisse.x, top: glisse.y }}
           aria-hidden="true"
         >

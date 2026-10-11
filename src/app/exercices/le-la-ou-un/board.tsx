@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
 import { ITEMS, POOL, glue, shown, type Form } from "./data";
-import styles from "./drill.module.css";
+import board from "@/components/exercice/Board.module.css";
 
 /**
  * Une phrase à la fois, les sept formes toujours à l'écran.
@@ -86,11 +86,11 @@ export function Board() {
 
       <Meter value={currentIndex + 1} max={deck.length} label="Phrase en cours" />
 
-      <div className={styles.card}>
-        <p className={styles.sentence}>
+      <div className={`card ${board.card}`}>
+        <p className={board.sentence}>
           {current.before && `${current.before} `}
           <span
-            className={`${styles.slot} ${picked ? styles.filled : ""} ${
+            className={`${board.slot} ${picked ? board.filled : ""} ${
               checked ? (right ? "is-correct" : "is-wrong") : ""
             }`}
           >
@@ -110,12 +110,12 @@ export function Board() {
           {current.after}
         </p>
 
-        <div className={styles.pool} role="group" aria-label="Les sept formes">
+        <div className={board.pool} role="group" aria-label="Les sept formes">
           {POOL.map((form) => (
             <button
               key={form}
               type="button"
-              className={`${styles.chip} ${picked === form ? styles.chosen : ""}`}
+              className={`${board.chip} ${picked === form ? "is-chosen" : ""}`}
               disabled={checked}
               aria-pressed={picked === form}
               onClick={() => setPicked(form)}
@@ -128,14 +128,14 @@ export function Board() {
         <div role="status">
           {checked && (
             <div
-              className={`${styles.verdict} ${right ? "is-correct" : "is-wrong"}`}
+              className={`${board.verdict} ${right ? "is-correct" : "is-wrong"}`}
             >
               <p>
                 {right
                   ? "✓ Juste."
                   : `✗ La réponse : « ${current.answer} ».`}
               </p>
-              <p className={styles.corrected}>
+              <p className={board.corrected}>
                 {current.before && `${current.before} `}
                 <strong>{shown(current, current.answer)}</strong>
                 {glue(current.answer)}
@@ -148,7 +148,7 @@ export function Board() {
         </div>
       </div>
 
-      <div className={styles.actions}>
+      <div className={board.actions}>
         {checked ? (
           <button type="button" className="button button-primary" onClick={next}>
             {currentIndex + 1 === deck.length

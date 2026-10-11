@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Instructions, Meter } from "@/components/exercice/Drill";
 import { Bilan } from "./Bilan";
+import board from "@/components/exercice/Board.module.css";
 import styles from "./Choix.module.css";
 
 /**
@@ -101,7 +102,7 @@ export function Choix({
         label={`Avancement : ${nom}`}
       />
 
-      <div className={styles.card}>
+      <div className={`card ${board.card}`}>
         <p className={styles.sentence}>
           {current.avant}
           <span className={styles.gap}>
@@ -149,7 +150,7 @@ export function Choix({
         )}
 
         {answered && (
-          <div className={styles.actions}>
+          <div className={board.actions}>
             <button type="button" className="button" onClick={next}>
               {index + 1 === items.length ? "Terminer" : "Suivante"}
             </button>

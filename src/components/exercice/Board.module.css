@@ -1,0 +1,257 @@
+/* The board every drill is built from: the card, the sentence and its blank,
+   the pool of chips, the verdict, the row of actions. One definition, so two
+   drills cannot drift apart; a drill's own module holds only what its
+   mechanic adds.
+
+   **A drill that resizes one of these doubles its own class** (`.slot.slot`):
+   the two modules tie otherwise, and the order they load in decides
+   (`.claude/agents/design-system.md`).
+
+   No answer colour here: `.is-chosen`, `.is-correct`, `.is-wrong` and
+   `.is-missed` are global and land on top of all of this (`AGENTS.md` §5).
+   **A hover here is written at two classes' worth** (`:where()` around the
+   `:not`), so the chosen state beats it. */
+
+/* The board is the global `.card`; this is only its place under the meter. */
+.card {
+  margin-top: var(--space-24);
+}
+
+/* ── One sentence, one blank ─────────────────────────────────────────────── */
+
+/* The sentence is the French taught: serif (`AGENTS.md` §5). */
+.sentence {
+  font-family: var(--font-serif);
+  font-size: var(--type-112);
+  line-height: 1.7;
+  color: var(--text-1);
+}
+
+/* The blank. It keeps a width before it is filled, so the line does not jump
+   at the first click, and the underline says it is waiting for something. */
+.slot {
+  display: inline-block;
+  min-width: 4.5rem;
+  padding: var(--space-2) var(--space-6);
+  border: 1px solid transparent;
+  border-bottom: 2px solid var(--border-strong);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  text-align: center;
+  color: var(--text-3);
+}
+
+.filled {
+  border-bottom-color: var(--accent);
+  background: var(--accent-subtle);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+/* ── A sentence whose words are buttons ──────────────────────────────────── */
+
+/* Buttons, never clickable `<span>`s: that is what puts the words in the tab
+   order and gives them a pressed state a screen reader can announce. */
+.words {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.word {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-1);
+  font-family: var(--font-serif);
+  font-size: var(--type-112);
+  cursor: pointer;
+  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+
+.word:hover:where(:not(:disabled)) {
+  background: var(--accent-subtle);
+  border-color: var(--accent-line);
+}
+
+.word:disabled { cursor: default; }
+
+
+/* ── A text, several blanks ──────────────────────────────────────────────── */
+
+/* The line height is wide because the blanks are buttons: without it two
+   neighbouring lines touch. Worn with `.card` when the text is the board. */
+.text {
+  font-family: var(--font-serif);
+  font-size: var(--type-112);
+  line-height: 2.2;
+  color: var(--text-1);
+}
+
+.text > p + p {
+  margin-top: var(--space-14);
+}
+
+/* A blank that is a button is one of several: the learner picks which to
+   fill. Filled, it is quiet, and the accent goes to the one in hand. */
+button.slot {
+  background: none;
+  font-family: var(--font-serif);
+  font-size: var(--type-100);
+  line-height: 1.6;
+  cursor: pointer;
+  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+
+.slot:where(button:not(:disabled)):hover {
+  background: var(--accent-subtle);
+}
+
+button.slot:disabled { cursor: default; }
+
+button.filled {
+  border-bottom-color: var(--accent-line);
+  background: none;
+}
+
+/* The blank in hand. Doubled: a filled blank can be the current one, and the
+   order of two rules must not decide which shows. */
+.active.active {
+  border-bottom-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+/* A blank and the menu it opens; the two do not part from the comma after. */
+.place {
+  position: relative;
+  white-space: nowrap;
+}
+
+/* The choices, under the blank. A column: three lines compare better than
+   three chips side by side, and the longest fits a phone. */
+.menu {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  z-index: var(--z-content);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-width: 100%;
+  width: max-content;
+  max-width: min(16rem, 75vw);
+  padding: var(--space-8);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+  box-shadow: var(--shadow);
+  line-height: 1.4;
+}
+
+.option {
+  padding: var(--space-6) var(--space-14);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-pill);
+  background: var(--accent-subtle);
+  color: var(--text-heading);
+  font-family: var(--font-serif);
+  font-size: var(--type-106);
+  text-align: left;
+  cursor: pointer;
+}
+
+.option:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+
+/* ── The pool ────────────────────────────────────────────────────────────── */
+
+/* It keeps one order from the first item to the last: the learner finds the
+   paradigm again rather than eliminating from it. */
+.pool {
+  margin-top: var(--space-24);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+}
+
+.chip {
+  min-width: 3.8rem;
+  padding: var(--space-4) var(--space-12);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--text-1);
+  font-family: var(--font-serif);
+  font-size: var(--type-100);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.chip:hover:where(:not(:disabled)) {
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
+}
+
+/* Locked after the check: the chips that were not picked fade, and the one
+   that was keeps its look (`.is-chosen`, `globals.css`). One class' worth, so
+   a verdict landing on a chip is not faded either. */
+.chip:where(:disabled) {
+  cursor: default;
+  opacity: var(--opacity-disabled);
+}
+
+/* ── After the check ─────────────────────────────────────────────────────── */
+
+.verdict {
+  margin-top: var(--space-20);
+  padding: var(--space-12) var(--space-16);
+  border-radius: var(--radius);
+  font-size: var(--type-95);
+}
+
+/* The sentence written right, inside the verdict. */
+.corrected {
+  font-family: var(--font-serif);
+  font-size: var(--type-106);
+  color: var(--text-heading);
+}
+
+/* One correction per missed blank. The fragment places it in the text, where
+   a blank's number would send the learner counting. */
+.corrections {
+  margin-top: var(--space-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.corrections li {
+  margin-top: 0;
+}
+
+.fragment {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: var(--type-100);
+  color: var(--text-heading);
+}
+
+.why {
+  display: block;
+  margin-top: var(--space-2);
+  font-size: var(--type-90);
+  color: var(--text-2);
+}
+
+.actions {
+  margin-top: var(--space-24);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-10);
+  align-items: center;
+}

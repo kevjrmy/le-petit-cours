@@ -1,15 +1,13 @@
-/* A form is not prose. The article around it is `--measure` wide, and a text
-   field that wide is a target the eye has to cross to reach its own button —
-   the reading column is sized for sentences, not for controls. */
+/* A form is not prose: `--measure-form`, not the article's `--measure`. */
 .form {
-  margin-top: 1rem;
-  max-width: 26rem;
+  margin-top: var(--space-16);
+  max-width: var(--measure-form);
 }
 
 /* A stacked label-over-input block, for a form with more than one field. The
    inline `.row` still serves the single-field forms, where a button beside the
    input reads as one gesture. */
-.field { margin-bottom: 0.75rem; }
+.field { margin-bottom: var(--space-12); }
 
 /* **`.input`'s `flex` only fires inside `.row`.** A stacked field is a block,
    so the flex basis was inert there and the input fell back to the browser's
@@ -19,39 +17,25 @@
 
 .label {
   display: block;
-  margin-bottom: 0.35rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-3);
+  margin-bottom: var(--space-6);
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--space-8);
   align-items: center;
 }
 
+/* The look is the global `.input`; this is its place in the row. */
 .input {
   flex: 1 1 14rem;
   min-width: 0;
-  padding: 0.45rem 0.7rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface-1);
-  color: var(--text-1);
-  font-size: 0.95rem;
 }
 
-.input:focus-visible { border-color: var(--accent); }
-
-.input[aria-invalid="true"] { border-color: var(--danger); }
-
 .help {
-  margin-top: 0.45rem;
-  font-size: 0.78rem;
+  margin-top: var(--space-8);
+  font-size: var(--type-80);
   color: var(--text-3);
   min-height: 1.2em;
 }
@@ -63,8 +47,8 @@
 .helpGood { color: var(--success-text); }
 
 .aside {
-  margin-top: 0.75rem;
-  font-size: 0.85rem;
+  margin-top: var(--space-12);
+  font-size: var(--type-85);
   color: var(--text-2);
 }
 
@@ -82,14 +66,14 @@
 
 .linkish:hover { color: var(--accent-hover); }
 
-.signOut { margin-top: 1.25rem; }
+.signOut { margin-top: var(--space-20); }
 
 .choices {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  gap: var(--space-8);
+  margin-top: var(--space-16);
   padding-left: 0;
 }
 
@@ -97,8 +81,8 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
-  padding: 0.8rem 1rem;
+  gap: var(--space-4);
+  padding: var(--space-12) var(--space-16);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface-1);
@@ -116,7 +100,10 @@
 
 .choice:disabled { cursor: progress; }
 
-.choice[aria-pressed="true"] {
+/* With its own `:hover`, so the card just chosen does not fall back to the
+   hover's paler look while the pointer is still on it. */
+.choice[aria-pressed="true"],
+.choice[aria-pressed="true"]:hover {
   border-color: var(--accent);
   background: var(--accent-soft);
 }
@@ -124,9 +111,9 @@
 .choiceName {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--space-6);
   font-family: var(--font-serif);
-  font-size: 1.1rem;
+  font-size: var(--type-112);
   font-weight: 600;
   color: var(--text-heading);
 }
@@ -145,14 +132,14 @@
 
 .choice[aria-pressed="true"] .choiceTick { visibility: visible; }
 
-.choiceBlurb { font-size: 0.85rem; line-height: 1.5; color: var(--text-2); }
+.choiceBlurb { font-size: var(--type-85); line-height: 1.5; color: var(--text-2); }
 
 
 /* Beside the name, in the sans: what the choice holds, not what it is. */
 .choiceMeta {
   margin-left: auto;
   font-family: var(--font-sans);
-  font-size: 0.75rem;
+  font-size: var(--type-72);
   font-weight: 400;
   color: var(--text-3);
 }

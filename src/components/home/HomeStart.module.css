@@ -16,6 +16,6 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 1.25rem;
+  gap: var(--space-20);
   min-block-size: 13.6rem;
 }

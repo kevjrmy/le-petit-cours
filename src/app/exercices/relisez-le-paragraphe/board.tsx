@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
 import { shuffle } from "@/lib/shuffle";
 import { PARAGRAPHS, type Paragraph } from "./data";
+import board from "@/components/exercice/Board.module.css";
 import styles from "./drill.module.css";
 
 /**
@@ -103,9 +104,9 @@ export function Board() {
         label="Paragraphe en cours"
       />
 
-      <div className={styles.card}>
+      <div className={`card ${board.card}`}>
         <p
-          className={styles.paragraph}
+          className={board.words}
           role="group"
           aria-label="Paragraphe à relire"
         >
@@ -134,7 +135,7 @@ export function Board() {
               <button
                 key={`${currentIndex}-${index}`}
                 type="button"
-                className={`${styles.word} ${isPicked && !checked ? styles.picked : ""} ${state}`}
+                className={`${board.word} ${isPicked && !checked ? `is-chosen ${styles.picked}` : ""} ${state}`}
                 disabled={checked}
                 aria-pressed={isPicked}
                 onClick={() =>
@@ -161,7 +162,7 @@ export function Board() {
         <div role="status">
           {checked && (
             <div
-              className={`${styles.verdict} ${perfect ? "is-correct" : "is-wrong"}`}
+              className={`${board.verdict} ${perfect ? "is-correct" : "is-wrong"}`}
             >
               <p>
                 {perfect
@@ -171,7 +172,7 @@ export function Board() {
                   : `✗ ${summary.charAt(0).toUpperCase()}${summary.slice(1)}.`}
               </p>
 
-              <p className={styles.corrected}>
+              <p className={board.corrected}>
                 {current.words
                   .map((word, index) => {
                     const fault = current.faults.find((item) => item.at === index);
@@ -195,7 +196,7 @@ export function Board() {
         </div>
       </div>
 
-      <div className={styles.actions}>
+      <div className={board.actions}>
         {checked ? (
           <button type="button" className="button button-primary" onClick={next}>
             {currentIndex + 1 === deck.length

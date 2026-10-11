@@ -104,7 +104,7 @@ export default async function Page({ searchParams }: PageProps<"/entrer">) {
         <form action={entrer} className={styles.form}>
           <input type="hidden" name="vers" value={vers} />
 
-          <label className={styles.label} htmlFor="motdepasse">
+          <label className={`label ${styles.label}`} htmlFor="motdepasse">
             Mot de passe
           </label>
           <div className={styles.row}>
@@ -112,7 +112,7 @@ export default async function Page({ searchParams }: PageProps<"/entrer">) {
               id="motdepasse"
               name="motdepasse"
               type="password"
-              className={`${styles.input} ${erreur ? "is-wrong" : ""}`}
+              className={`input ${styles.input} ${erreur ? "is-wrong" : ""}`}
               autoComplete="current-password"
               required
               aria-describedby={erreur ? "erreur" : undefined}

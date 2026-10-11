@@ -55,7 +55,7 @@ export function NextLesson({ as }: { as: "line" | "card" }) {
     }
     return (
       <section className={styles.card}>
-        <h2 className={styles.heading}>La suite</h2>
+        <h2 className="label">La suite</h2>
         <p className={styles.done}>
           Choisissez un parcours, et cette place vous donnera la leçon suivante,
           étape par étape. <Link href="/compte#parcours">Choisir un parcours</Link>
@@ -73,7 +73,7 @@ export function NextLesson({ as }: { as: "line" | "card" }) {
     if (as === "line") return null;
     return (
       <section className={styles.card}>
-        <h2 className={styles.heading}>La suite</h2>
+        <h2 className="label">La suite</h2>
         <p className={styles.done}>
           Vous avez coché toutes les leçons de votre parcours.{" "}
           <Link href="/compte#parcours">Changer de parcours</Link>
@@ -97,7 +97,7 @@ export function NextLesson({ as }: { as: "line" | "card" }) {
     }
     return (
       <section className={styles.card}>
-        <h2 className={styles.heading}>La suite</h2>
+        <h2 className="label">La suite</h2>
         <p className={styles.done}>
           Toutes les étapes sont cochées. Reste l’examen blanc, dans l’ordre de
           l’examen :
@@ -135,7 +135,7 @@ export function NextLesson({ as }: { as: "line" | "card" }) {
     <section className={styles.card}>
       {/* « La suite » rather than the verb: the heading names the block, the
           link under it carries the action. */}
-      <h2 className={styles.heading}>La suite</h2>
+      <h2 className="label">La suite</h2>
       <Link href={step.lesson.path} className={styles.target}>
         <span className={styles.mark} aria-hidden="true">
           <ChapterIcon name={step.chapter.icon} />

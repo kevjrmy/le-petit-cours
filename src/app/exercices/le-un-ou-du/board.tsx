@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
 import type { Level } from "@/data/navigation";
 import { NOTHING, bankFor, blanksOf, type Piece } from "./data";
+import board from "@/components/exercice/Board.module.css";
 import styles from "./drill.module.css";
 
 /**
@@ -90,8 +91,8 @@ export function Board({ level }: { level: Level | null }) {
 
       <Meter value={filled.length} max={blanks.length} label="Trous remplis" />
 
-      <div className={styles.card}>
-        <p className={styles.text}>
+      <div className={`card ${board.card}`}>
+        <p className={board.text}>
           {bank.text.map((piece, index) => {
             if (typeof piece === "string") return <span key={index}>{piece}</span>;
 
@@ -103,8 +104,8 @@ export function Board({ level }: { level: Level | null }) {
               <button
                 key={piece.id}
                 type="button"
-                className={`${styles.slot} ${chosen ? styles.filled : ""} ${
-                  active === piece.id && !checked ? styles.active : ""
+                className={`${board.slot} ${styles.slot} ${chosen ? board.filled : ""} ${
+                  active === piece.id && !checked ? board.active : ""
                 } ${checked ? (right ? "is-correct" : "is-wrong") : ""}`}
                 disabled={checked}
                 aria-pressed={active === piece.id && !checked}
@@ -121,12 +122,12 @@ export function Board({ level }: { level: Level | null }) {
           })}
         </p>
 
-        <div className={styles.pool} role="group" aria-label="Les articles">
+        <div className={board.pool} role="group" aria-label="Les articles">
           {bank.pool.map((word) => (
             <button
               key={word}
               type="button"
-              className={`${styles.chip} ${word === NOTHING ? styles.nothing : ""}`}
+              className={`${board.chip} ${styles.chip} ${word === NOTHING ? styles.nothing : ""}`}
               disabled={checked || !active}
               onClick={() => pick(word)}
             >
@@ -147,20 +148,20 @@ export function Board({ level }: { level: Level | null }) {
               </p>
 
               {wrong.length > 0 && (
-                <ul className={styles.corrections}>
+                <ul className={board.corrections}>
                   {wrong.map((blank) => {
                     const index = bank.text.indexOf(blank);
                     const { before, after } = around(bank.text, index);
                     return (
                       <li key={blank.id}>
-                        <span className={styles.fragment}>
+                        <span className={board.fragment}>
                           … {before}{" "}
                           <strong>
                             {blank.answer === NOTHING ? "(rien)" : blank.answer}
                           </strong>{" "}
                           {after} …
                         </span>
-                        <span className={styles.why}>{blank.because}</span>
+                        <span className={board.why}>{blank.because}</span>
                       </li>
                     );
                   })}
@@ -171,7 +172,7 @@ export function Board({ level }: { level: Level | null }) {
         </div>
       </div>
 
-      <div className={styles.actions}>
+      <div className={board.actions}>
         {checked ? (
           <button
             type="button"

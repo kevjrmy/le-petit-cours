@@ -5,6 +5,7 @@ import { Copie, Correction, Questions } from "@/components/delf/Copie";
 import type { CopieEpreuve } from "@/components/delf/copie-data";
 import { Redaction } from "@/components/delf/Redaction";
 import { Tirage } from "@/components/delf/Tirage";
+import board from "@/components/exercice/Board.module.css";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -17,6 +18,34 @@ export const metadata: Metadata = {
    and it is not a lesson. It exists so a visual change can be checked in both
    themes at both breakpoints (AGENTS.md §11) without a lesson to check it on.
    Delete it the day the real pages cover the same ground. */
+/* The type scale, smallest first: the token, and what wears it. */
+const TYPE = [
+  ["66", "Une étiquette sur une ligne"],
+  ["72", "Une marque, une ligne de métadonnées"],
+  ["80", "Un libellé, un compte, une note"],
+  ["85", "Les menus, le fil d’Ariane"],
+  ["90", "Un bouton, la barre latérale"],
+  ["95", "Une légende, un verdict"],
+  ["100", "Le texte courant"],
+  ["106", "Le français à la taille du texte"],
+  ["112", "La phrase d’un exercice"],
+  ["120", "Un titre de niveau 3"],
+  ["150", "Un titre de niveau 2, un score"],
+  ["210", "Le titre de la page"],
+] as const;
+
+/* The spacing scale: every step, drawn at its own width. */
+const SPACE = [2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 56, 80, 88] as const;
+
+/* The five radii, smallest first: the token, and what it rounds. */
+const RADII = [
+  ["xs", "un drapeau"],
+  ["sm", "un bouton, un champ"],
+  ["", "une carte, un encadré"],
+  ["lg", "le champ de recherche"],
+  ["pill", "une pastille"],
+] as const;
+
 const SURFACES = [
   ["--surface-app", "var(--surface-app)"],
   ["--surface-1", "var(--surface-1)"],
@@ -120,6 +149,56 @@ export default function DesignPage() {
             qu’il annonce.
           </p>
         </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2>Espacements</h2>
+        <p>
+          Dix-sept pas, nommés par leurs pixels à la taille par défaut :{" "}
+          <code>--space-*</code>. Toute marge, tout remplissage et tout écart
+          en est un.
+        </p>
+        <ul className={styles.spaces}>
+          {SPACE.map((step) => (
+            <li key={step}>
+              <span style={{ width: `var(--space-${step})` }} />
+              <code>--space-{step}</code>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className={styles.section}>
+        <h2>Rayons</h2>
+        <div className={styles.states}>
+          {RADII.map(([step, role]) => {
+            const token = step ? `--radius-${step}` : "--radius";
+            return (
+              <span
+                key={token}
+                className={styles.state}
+                style={{ borderRadius: `var(${token})` }}
+              >
+                {role} <code>{token}</code>
+              </span>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2>L’échelle des tailles</h2>
+        <p>
+          Douze tailles, et pas une de plus : <code>--type-*</code>, nommées
+          par leur pourcentage du texte courant.
+        </p>
+        <ul className={styles.scale}>
+          {TYPE.map(([step, role]) => (
+            <li key={step} style={{ fontSize: `var(--type-${step})` }}>
+              {role} <code>--type-{step}</code>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section className={styles.section}>
@@ -249,8 +328,8 @@ export default function DesignPage() {
           </div>
           <div className="message message-success">Nom enregistré.</div>
           <div className={styles.elevated}>
-            Une carte posée sur la page : <code>--shadow</code> et{" "}
-            <code>--surface-1</code>.
+            Ce qui flotte au-dessus de la page, un menu ou un panneau :{" "}
+            <code>--shadow</code>. Tout le reste est plat, avec une bordure.
           </div>
         </div>
       </section>
@@ -292,11 +371,15 @@ export default function DesignPage() {
         <h2>Retours d’exercice</h2>
         <p>
           La couleur ne porte jamais le sens toute seule : chaque état dit aussi
-          quelque chose. Le troisième ne sert qu’aux questions à plusieurs
+          quelque chose. Le premier est le choix, avant la vérification : son
+          trait s’épaissit. Le dernier ne sert qu’aux questions à plusieurs
           réponses, où oublier une case n’est pas la même faute que cocher la
           mauvaise.
         </p>
         <div className={styles.states}>
+          <span className={`${styles.state} is-chosen`}>
+            <span className="fr" lang="fr">la table</span> : choisi
+          </span>
           <span className={`${styles.state} is-correct`}>
             ✓ <span className="fr" lang="fr">la table</span> : juste
           </span>
@@ -307,6 +390,88 @@ export default function DesignPage() {
             + <span className="fr" lang="fr">là table</span> : oublié
           </span>
         </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2>Le plateau d’exercice</h2>
+        <p>
+          Un seul plateau pour tous les exercices
+          (<code>Board.module.css</code>) : la carte, la phrase et son trou, le
+          tirage, le verdict. Un exercice n’écrit que ce que sa mécanique
+          ajoute.
+        </p>
+        <div className={`card ${board.card}`} lang="fr">
+          <p className={board.sentence}>
+            Je bois <span className={`${board.slot} ${board.filled}`}>du</span>{" "}
+            café et <span className={board.slot}>{"\u00a0"}</span> eau.
+          </p>
+          <div className={board.pool}>
+            <button type="button" className={`${board.chip} is-chosen`}>
+              du
+            </button>
+            <button type="button" className={board.chip}>
+              de la
+            </button>
+            <button type="button" className={board.chip}>
+              de l’
+            </button>
+            <button type="button" className={board.chip} disabled>
+              des
+            </button>
+          </div>
+          <div className={`${board.verdict} is-correct`}>
+            <p>✓ Juste.</p>
+            <p className={board.corrected}>
+              Je bois <strong>du</strong> café.
+            </p>
+          </div>
+        </div>
+        <div className={`card ${board.card} ${board.text}`} lang="fr">
+          <p>
+            Il pleut,{" "}
+            <button type="button" className={`${board.slot} ${board.filled}`}>
+              donc
+            </button>{" "}
+            je prends le bus,{" "}
+            <button type="button" className={`${board.slot} ${board.active}`}>
+              {"\u00a0"}
+            </button>{" "}
+            il est en retard.
+          </p>
+        </div>
+        <p className={board.words} lang="fr">
+          <button type="button" className={board.word}>
+            Elle
+          </button>
+          <button type="button" className={`${board.word} is-chosen`}>
+            et
+          </button>
+          <button type="button" className={board.word}>
+            partie.
+          </button>
+        </p>
+      </section>
+
+      <section className={styles.section}>
+        <h2>Champs et libellés</h2>
+        <p>
+          Un seul champ, <code>.input</code>, pour une ligne comme pour une
+          page ; un seul libellé, <code>.label</code>, pour le nom d’un champ,
+          le titre d’une liste et l’en-tête d’une colonne.
+        </p>
+        <div>
+          <label className="label" htmlFor="specimen-champ">
+            Nom d’utilisateur
+          </label>
+          <input id="specimen-champ" className="input" placeholder="camille" />
+        </div>
+        <textarea
+          className="input"
+          rows={3}
+          lang="fr"
+          aria-label="Texte, spécimen"
+          placeholder="Écrivez votre version ici."
+        />
       </section>
 
       <section className={styles.section}>
@@ -404,7 +569,7 @@ export default function DesignPage() {
             Tout le cours
           </Link>
         </div>
-        <p style={{ fontSize: "0.8rem", color: "var(--text-3)" }}>
+        <p style={{ fontSize: "var(--type-80)", color: "var(--text-3)" }}>
           Un bouton désactivé le montre, et quelque chose à côté dit pourquoi.
           Le dernier est un lien : même dessin, pas de soulignement.
         </p>

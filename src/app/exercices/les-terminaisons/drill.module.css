@@ -7,31 +7,31 @@
    Everything else — the stepper, the headings, the notes — is chrome and keeps
    its own small sizes. */
 .board {
-  --form: 1.05rem;
+  --form: var(--type-106);
 }
 
 /* The verb under drill. Centred over the stepper, because the two together
    read as one heading for the board: which verb, then which tense of it. */
 .verbHead {
-  margin-top: 1.5rem;
+  margin-top: var(--space-24);
   margin-bottom: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: center;
-  gap: 0.5rem;
+  gap: var(--space-8);
 }
 
 .verbWord {
   font-family: var(--font-serif);
-  font-size: 1.35rem;
+  font-size: var(--type-150);
   font-weight: 600;
   color: var(--text-heading);
 }
 
 .verbGroup {
   font-family: var(--font-sans);
-  font-size: 0.78rem;
+  font-size: var(--type-80);
   color: var(--text-3);
 }
 
@@ -52,20 +52,20 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
+  gap: var(--space-6);
 }
 
 .tab {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.3rem 0.6rem;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-10);
   border: 1px solid transparent;
   border-radius: var(--radius-pill);
   background: none;
   color: var(--text-3);
   font-family: var(--font-sans);
-  font-size: 0.88rem;
+  font-size: var(--type-90);
   cursor: pointer;
 }
 
@@ -85,14 +85,14 @@
 }
 
 .tabDone {
-  font-size: 0.75rem;
+  font-size: var(--type-72);
   color: var(--success-text);
 }
 
 /* A corrected tense carries its score instead of a tick. Tabular figures so
    « 5/6 » and « 3/3 » do not shift the names either side of them as you step. */
 .tabScore {
-  font-size: 0.72rem;
+  font-size: var(--type-72);
   font-variant-numeric: tabular-nums;
   color: var(--text-3);
 }
@@ -114,7 +114,7 @@
 }
 
 .arrow:hover:not(:disabled) {
-  color: var(--accent-text);
+  color: var(--accent);
 }
 
 .arrow:disabled {
@@ -123,8 +123,8 @@
 }
 
 .tableWrap {
-  margin-top: 1rem;
-  padding: 0.8rem;
+  margin-top: var(--space-16);
+  padding: var(--space-12);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface-1);
@@ -153,8 +153,8 @@
    card, carries the rule that separates it from the rows, and leaves the
    strip inside to do the naming. */
 .caption.caption {
-  padding: 0 0 0.6rem;
-  margin-bottom: 0.6rem;
+  padding: 0 0 var(--space-10);
+  margin-bottom: var(--space-10);
   border-bottom: 1px solid var(--border-soft);
 }
 
@@ -171,14 +171,14 @@
      lands in the middle of the card rather than against its left edge. */
   width: 50%;
   text-align: right;
-  padding-right: 0.35rem;
+  padding-right: var(--space-6);
 }
 
 /* The third cell: the join, the blank, and the mark after checking. */
 .form {
   display: inline-flex;
   align-items: baseline;
-  gap: 0.25rem;
+  gap: var(--space-4);
   font-family: var(--font-serif);
 }
 
@@ -210,8 +210,8 @@
      or « parler » needs, and never break it. */
   width: 1%;
   white-space: nowrap;
-  padding-left: 0.35rem;
-  padding-right: 0.2rem;
+  padding-left: var(--space-6);
+  padding-right: var(--space-4);
 }
 
 /* The other half of the same join, and the other half of the width. */
@@ -227,7 +227,7 @@
    never hint at the length of the answer. */
 .field {
   width: 7ch;
-  padding: 0.15rem 0.4rem;
+  padding: var(--space-2) var(--space-6);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-sm);
   background: var(--surface-2);
@@ -258,44 +258,38 @@
    green from the red still reads the result (`AGENTS.md` §5). */
 .mark {
   font-family: var(--font-sans);
-  font-size: 0.8rem;
+  font-size: var(--type-80);
   font-weight: 700;
 }
 
 /* The accent row and its heading. */
 .aid {
-  margin-top: 1.5rem;
+  margin-top: var(--space-24);
 }
 
 /* Doubled, because `.prose h3` is (0,1,1) and a single class is (0,1,0): the
    global heading rhythm would otherwise push this label away from the row it
    names (`.claude/agents/design-system.md`). */
 .aidHead.aidHead {
-  margin: 0 0 0.4rem;
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--text-3);
+  margin: 0 0 var(--space-6);
 }
 
 .note {
-  margin-top: 0.5rem;
-  font-size: 0.8rem;
+  margin-top: var(--space-8);
+  font-size: var(--type-80);
   color: var(--text-3);
 }
 
 .corrections {
-  margin-top: 1.25rem;
+  margin-top: var(--space-20);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-8);
 }
 
 .corrections li {
   margin-top: 0;
-  font-size: 0.92rem;
+  font-size: var(--type-90);
 }
 
 .corrections .verb {
@@ -303,13 +297,6 @@
   color: var(--text-heading);
 }
 
-.actions {
-  margin-top: 1.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  align-items: center;
-}
 
 
 /* Below the drawer breakpoint the strip keeps only the tense you are on, so it

@@ -5,6 +5,7 @@ import { AccentBar } from "@/components/exercice/AccentBar";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
 import { shuffle } from "@/lib/shuffle";
 import { ITEMS, type WordItem } from "./data";
+import board from "@/components/exercice/Board.module.css";
 import styles from "./drill.module.css";
 
 /**
@@ -86,8 +87,8 @@ export function Board() {
 
       <Meter value={currentIndex + 1} max={deck.length} label="Phrase en cours" />
 
-      <div className={styles.card}>
-        <p className={styles.sentence}>
+      <div className={`card ${board.card}`}>
+        <p className={`${board.sentence} ${styles.sentence}`}>
           {current.before}
           <input
             ref={field}
@@ -119,7 +120,7 @@ export function Board() {
             cette rangée, le plateau compterait faux une réponse juste. */}
         {!checked && (
           <div className={styles.aid}>
-            <h3 className={styles.aidHead}>Accents</h3>
+            <h3 className={`label ${styles.aidHead}`}>Accents</h3>
             <AccentBar target={field} />
           </div>
         )}
@@ -129,12 +130,12 @@ export function Board() {
         <div role="status">
           {checked && (
             <div
-              className={`${styles.verdict} ${right ? "is-correct" : "is-wrong"}`}
+              className={`${board.verdict} ${right ? "is-correct" : "is-wrong"}`}
             >
               <p>
                 {right ? "✓ Juste." : `✗ Il fallait écrire « ${current.answer} ».`}
               </p>
-              <p className={styles.corrected}>
+              <p className={board.corrected}>
                 {current.before}
                 <strong>{current.answer}</strong>
                 {current.after}
@@ -145,7 +146,7 @@ export function Board() {
         </div>
       </div>
 
-      <div className={styles.actions}>
+      <div className={board.actions}>
         {checked ? (
           <button type="button" className="button button-primary" onClick={next}>
             {currentIndex + 1 === deck.length

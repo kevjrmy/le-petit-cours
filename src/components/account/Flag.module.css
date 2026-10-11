@@ -3,6 +3,6 @@
   flex: none;
   width: 1.5rem;
   height: 1rem;
-  border-radius: 2px;
+  border-radius: var(--radius-xs);
   box-shadow: 0 0 0 1px var(--border);
 }

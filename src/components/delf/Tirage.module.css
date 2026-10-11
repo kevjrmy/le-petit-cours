@@ -11,11 +11,11 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 1rem;
-  margin-top: 0.9rem;
+  gap: var(--space-8) var(--space-16);
+  margin-top: var(--space-14);
 }
 
 .ligne > span {
-  font-size: 0.9rem;
+  font-size: var(--type-90);
   color: var(--text-2);
 }

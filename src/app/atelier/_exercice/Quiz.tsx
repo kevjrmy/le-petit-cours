@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import board from "@/components/exercice/Board.module.css";
 import { Instructions, Meter } from "@/components/exercice/Drill";
 import { Bilan } from "./Bilan";
 import choix from "./Choix.module.css";
@@ -141,7 +142,7 @@ export function Quiz({
         label={`Avancement : ${nom}`}
       />
 
-      <div className={choix.card}>
+      <div className={`card ${board.card}`}>
         <p className={styles.etape}>Quelle question est bien écrite ?</p>
 
         <div
@@ -238,7 +239,7 @@ export function Quiz({
         )}
 
         {finie && (
-          <div className={choix.actions}>
+          <div className={board.actions}>
             <button type="button" className="button" onClick={next}>
               {index + 1 === items.length ? "Terminer" : "Suivante"}
             </button>

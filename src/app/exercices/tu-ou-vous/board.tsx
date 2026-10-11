@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
 import { shuffle } from "@/lib/shuffle";
 import { bankFor, type SituationItem } from "./data";
+import board from "@/components/exercice/Board.module.css";
 import styles from "./drill.module.css";
 
 /**
@@ -93,12 +94,12 @@ export function Board() {
 
       <Meter value={currentIndex + 1} max={deck.length} label="Situation en cours" />
 
-      <div className={styles.card}>
+      <div className={`card ${board.card}`}>
         <p className={styles.situation} lang="es">
           {current.situation}
         </p>
 
-        <div className={styles.pool} role="group" aria-label="Que dites-vous ?">
+        <div className={`${board.pool} ${styles.pool}`} role="group" aria-label="Que dites-vous ?">
           {current.options.map((option) => {
             const state = checked
               ? option === current.answer
@@ -111,7 +112,7 @@ export function Board() {
               <button
                 key={option}
                 type="button"
-                className={`${styles.chip} ${picked === option ? styles.chosen : ""} ${state}`}
+                className={`${board.chip} ${styles.chip} ${picked === option ? "is-chosen" : ""} ${state}`}
                 disabled={checked}
                 aria-pressed={picked === option}
                 onClick={() => setPicked(option)}
@@ -125,7 +126,7 @@ export function Board() {
         <div role="status">
           {checked && (
             <div
-              className={`${styles.verdict} ${right ? "is-correct" : "is-wrong"}`}
+              className={`${board.verdict} ${right ? "is-correct" : "is-wrong"}`}
             >
               <p>
                 {right ? "✓ Juste." : `✗ La réponse : « ${current.answer} »`}
@@ -136,7 +137,7 @@ export function Board() {
         </div>
       </div>
 
-      <div className={styles.actions}>
+      <div className={board.actions}>
         {checked ? (
           <button type="button" className="button button-primary" onClick={next}>
             {last ? "Voir mon score" : "Situation suivante"}

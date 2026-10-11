@@ -15,12 +15,12 @@
 .copie.copie {
   /* 1,02rem pour un exemple d'une ligne, 1,12 pour un paragraphe de quinze :
      la copie se lit en entier, pas en diagonale. */
-  font-size: 1.12rem;
+  font-size: var(--type-112);
   /* 1,7 est l'interlignage du corps du cours. Une copie porte des fautes qu'on
      cherche à l'œil, et un œil qui cherche a besoin de retrouver le début de la
      ligne suivante du premier coup. */
   line-height: 1.85;
-  padding: 1.35rem 1.6rem;
+  padding: var(--space-20) var(--space-24);
 }
 
 /* Le reset met toutes les marges à zéro, donc sans cette règle les trois
@@ -28,5 +28,5 @@
    supportable pour les répliques d'un dialogue, qui est ce pour quoi `.example`
    a été écrit ; ça ne l'est pas pour un récit. */
 .copie.copie > p + p {
-  margin-top: 1.15rem;
+  margin-top: var(--space-20);
 }

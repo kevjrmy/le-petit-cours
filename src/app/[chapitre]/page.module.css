@@ -1,13 +1,13 @@
 .head {
-  padding-bottom: 1.25rem;
+  padding-bottom: var(--space-20);
   border-bottom: 1px solid var(--border-soft);
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--space-20);
 }
 
 .blurb {
-  margin-top: 0.5rem;
+  margin-top: var(--space-8);
   font-family: var(--font-serif);
-  font-size: 1.05rem;
+  font-size: var(--type-106);
   line-height: 1.55;
   color: var(--text-2);
 }
@@ -15,10 +15,10 @@
 /* Le lien sortant d'un chapitre (`Chapter.outbound`). Détaché des rangées par
    une règle, pour qu'il ne se lise pas comme une leçon de plus. */
 .outbound {
-  margin-top: 2.5rem;
-  padding-top: 1.25rem;
+  margin-top: var(--space-40);
+  padding-top: var(--space-20);
   border-top: 1px solid var(--border-soft);
-  font-size: 0.9375rem;
+  font-size: var(--type-95);
   line-height: 1.6;
   color: var(--text-2);
 }

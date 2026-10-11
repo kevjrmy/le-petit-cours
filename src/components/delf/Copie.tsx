@@ -148,7 +148,7 @@ export function Questions({ groupe }: { groupe: string }) {
                         className={[
                           "button",
                           styles.option,
-                          !corrigee && prise ? styles.choisie : "",
+                          !corrigee && prise ? "is-chosen" : "",
                           etat,
                         ].join(" ")}
                         aria-pressed={prise}

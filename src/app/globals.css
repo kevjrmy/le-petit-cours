@@ -156,12 +156,14 @@
   /* Flips like --text-on-accent: white on green-500 fails AA in dark. */
   --text-on-success: light-dark(var(--white), var(--grey-950));
 
-  /* Elevation. The colour is the token; the geometry is theme-independent. */
+  /* Elevation, and there is one. The page is flat: a card, a field and a
+     button rest on it with a border and no shadow. The shadow is for
+     what floats over the page and goes away again: a menu, a popover, the chip
+     under the pointer. The colour is the token; the geometry is
+     theme-independent, because `light-dark()` only takes colours. */
   --shadow-color:  light-dark(rgb(8 12 19 / 0.10), rgb(0 0 0 / 0.5));
   --shadow-color-2:light-dark(rgb(8 12 19 / 0.05), rgb(0 0 0 / 0.4));
-  --shadow-sm: 0 1px 2px var(--shadow-color-2);
-  --shadow:    0 2px 8px -2px var(--shadow-color), 0 1px 3px var(--shadow-color-2);
-  --shadow-lg: 0 12px 32px -8px var(--shadow-color), 0 2px 8px var(--shadow-color-2);
+  --shadow: 0 12px 32px -8px var(--shadow-color), 0 2px 8px var(--shadow-color-2);
 }
 
 /* The explicit toggle wins over the OS, in both directions. These two blocks
@@ -176,6 +178,9 @@
   /* The reading column. A measure in rem, sized for line length: much wider
      and prose runs long, much narrower and a four-column table crowds. */
   --measure: 52rem;
+  /* A form is not prose: a field as wide as the reading column is a target
+     the eye has to cross to reach its own button. */
+  --measure-form: 26rem;
 
   /* App shell */
   --sidebar-w:           16.5rem;
@@ -213,6 +218,38 @@
      without knowing that it exists. */
   --shell-mode: "drawer";
 
+  /* The spacing scale: seventeen steps, named by their pixels at the default
+     text size (they are `rem`, and grow with it). 2px apart up to 16, 4px up
+     to 32, then wider. **Every margin, padding and gap is one of them**:
+     fifty-one values had grown, most a pixel from a neighbour.
+
+     An offset or a size (`top`, `width`, `min-height`) is not spacing and
+     keeps its own number. So does an alignment that was measured — two
+     baselines on one line — and a comment on its line says so, starting
+     with the word « measured ». */
+  --space-2:  0.125rem;   /* a hairline of air: inside a blank, between a title and its subtitle */
+  --space-4:  0.25rem;    /* inside a chip, top and bottom */
+  --space-6:  0.375rem;   /* between chips; inside a small control */
+  --space-8:  0.5rem;     /* between an icon and its word; a button's rows */
+  --space-10: 0.625rem;   /* between buttons */
+  --space-12: 0.75rem;    /* inside a chip or a field, left and right */
+  --space-14: 0.875rem;   /* inside a box */
+  --space-16: 1rem;       /* between two blocks of a section */
+  --space-20: 1.25rem;    /* inside a card; the page's own gap */
+  --space-24: 1.5rem;     /* above a board, a card */
+  --space-28: 1.75rem;    /* above an h3 */
+  --space-32: 2rem;       /* the shell's gutter */
+  --space-40: 2.5rem;
+  --space-48: 3rem;
+  --space-56: 3.5rem;     /* above « Pour aller plus loin » */
+  --space-80: 5rem;       /* between two sections of a lesson */
+  --space-88: 5.5rem;     /* above « En résumé »: more than any section break */
+
+  /* Five radii, by what is being rounded: a swatch or a flag · a control (a
+     button, a field, a key) · a block (a card, a box, a table, a menu) · the
+     search field, the one control as large as a block · a chip, a badge, a
+     disc. A disc is the pill on a square, never `50%`. */
+  --radius-xs:   2px;
   --radius-sm:   6px;
   --radius:     10px;
   --radius-lg:  14px;
@@ -224,19 +261,57 @@
   --font-sans:  var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono:  ui-monospace, "SF Mono", "Courier New", Courier, monospace;
 
+  /* The type scale: twelve sizes, named by their percentage of the body's.
+     **A size that is not on this list is a bug**, like a colour that is not a
+     token: thirty-four had grown, some a third of a pixel apart. In `em` only
+     where the size must follow its surroundings (`.fr`, a box's label).
+
+     106 is the serif at the body's size: Spectral's x-height is below
+     Inter's, so French set alone (`.example`, a chip, a caption's table) takes
+     the step `.fr` takes inside a sentence. */
+  --type-66:  0.66rem;    /* a tag on a row */
+  --type-72:  0.72rem;    /* a mark, a meta line */
+  --type-80:  0.8rem;     /* `.label`, a count, a note */
+  --type-85:  0.85rem;    /* the menus, the crumbs, a blurb */
+  --type-90:  0.9rem;     /* `.button`, the sidebar, a reason */
+  --type-95:  0.95rem;    /* a caption, a verdict */
+  --type-100: 1rem;       /* the body */
+  --type-106: 1.06rem;    /* French at the body's size, h4 */
+  --type-112: 1.125rem;   /* a drill's sentence */
+  --type-120: 1.2rem;     /* h3 */
+  --type-150: 1.5rem;     /* h2, a score */
+  --type-210: 2.1rem;     /* h1 */
+
+  /* Two ways of being faded. A control that cannot be used yet, or any more;
+     and the chip left behind while its ghost is under the pointer. Nothing
+     that carries an answer or a verdict is ever faded. */
+  --opacity-disabled: 0.5;
+  --opacity-lifted:   0.4;
+
+  /* Two speeds. A change of state (a hover's colour, a border, a chevron) is
+     `var(--dur-fast) ease`; something that moves or resizes (the drawer, the
+     rail, a meter) is `var(--dur) var(--ease)`. `prefers-reduced-motion` is
+     handled once, in the reset below. */
   --ease: cubic-bezier(0.32, 0.72, 0, 1);
   --dur-fast: 0.14s;
   --dur:      0.22s;
 
-  /* The ladder. The bar rung is for the topbar **below the drawer breakpoint
-     only** — there it is sticky, so it genuinely floats over the page and a
-     positioned element in a lesson would otherwise paint through it. Above the
-     breakpoint the topbar is in normal flow and takes no z-index at all
-     (#43, #44). Nothing else may claim this rung. */
+  /* The ladder, and every `z-index` in the course is one of its rungs.
+
+     content — what a lesson opens over its own text: a drill's menu. Under the
+       bar, so it scrolls behind the topbar like the text it belongs to.
+     bar — the topbar, **below the drawer breakpoint only**: there it is sticky
+       and floats over the page. Above the breakpoint it is in normal flow and
+       takes no z-index at all (#43, #44). Nothing else may claim this rung.
+     scrim, drawer — the drawer and what dims the page under it. The account
+       popover sits on the drawer's rung: it opens from inside the panel.
+     drag — the chip under the pointer, over everything, for as long as the
+       finger is down. */
   --z-content: 1;
   --z-bar:    20;
   --z-scrim:  30;
   --z-drawer: 40;
+  --z-drag:   50;
 }
 
 /* Keep these in step with --shell-mode above; they are the duplicated numbers,
@@ -289,7 +364,7 @@ body {
   display: flex;
   flex-direction: column;
   font-family: var(--font-sans);
-  font-size: 1rem;
+  font-size: var(--type-100);
   line-height: 1.7;
   color: var(--text-1);
   background-color: var(--surface-app);
@@ -326,17 +401,17 @@ h1, h2, h3, h4, h5, h6 {
    section outranks a sub-point. Spectral's x-height is below Inter's, so every
    size here reads about a tenth smaller than the same number in sans; that is
    why h3 is 1.2rem and not the 1.1rem that would look right on paper. */
-h1 { font-size: 2.1rem; line-height: 1.15; letter-spacing: -0.018em; }
-h2 { font-size: 1.5rem; line-height: 1.25; letter-spacing: -0.01em; }
-h3 { font-size: 1.2rem; line-height: 1.35; }
+h1 { font-size: var(--type-210); line-height: 1.15; letter-spacing: -0.018em; }
+h2 { font-size: var(--type-150); line-height: 1.25; letter-spacing: -0.01em; }
+h3 { font-size: var(--type-120); line-height: 1.35; }
 
 /* The course stops at h3. These exist so that a fourth level, the day a page
    needs one, is not *smaller* than the paragraph under it — the UA sizes h5 and
    h6 at 0.83em and 0.67em, which is a heading that reads as a footnote. Below
    h3 the answer is usually a label rather than a heading: see `.astuce::before`
    for the idiom the interface already uses. */
-h4 { font-size: 1.05rem; line-height: 1.4; }
-h5, h6 { font-size: 1rem; line-height: 1.4; }
+h4 { font-size: var(--type-106); line-height: 1.4; }
+h5, h6 { font-size: var(--type-100); line-height: 1.4; }
 
 p { text-wrap: pretty; }
 
@@ -440,9 +515,9 @@ s.fr {
  * So prose flow is declared here, scoped to `.prose`, and a page gets it by
  * asking. Sections are the unit: siblings inside one are close, sections are
  * far apart, and a heading owns the gap above itself rather than below. */
-.prose section > * + * { margin-top: 0.95rem; }
-.prose section + section { margin-top: 4.75rem; }
-.prose > * + * { margin-top: 1.6rem; }
+.prose section > * + * { margin-top: var(--space-16); }
+.prose section + section { margin-top: var(--space-80); }
+.prose > * + * { margin-top: var(--space-24); }
 
 /* A section announces itself.
  *
@@ -460,7 +535,7 @@ s.fr {
  * the drawer breakpoint the topbar is sticky and would otherwise sit on the
  * heading it just scrolled to (#44). */
 .prose section > h2 {
-  scroll-margin-top: calc(var(--topbar-h) + 1.25rem);
+  scroll-margin-top: calc(var(--topbar-h) + var(--space-20));
 }
 
 .prose section > h2::before {
@@ -468,8 +543,8 @@ s.fr {
   display: block;
   width: 2.25rem;
   height: 2px;
-  margin-bottom: 0.85rem;
-  border-radius: 1px;
+  margin-bottom: var(--space-14);
+  border-radius: var(--radius-pill);
   background: var(--accent);
 }
 
@@ -478,7 +553,7 @@ s.fr {
  * The gap *above* an h2 is the section break above it, so the only thing left
  * to set is the gap below — and it has to be set on the next element, not on
  * the heading: adjacent siblings collapse their margins to the larger of the
- * two, which is why the `margin-bottom: 0.15rem` that used to sit on `.prose
+ * two, which is why the `margin-bottom` that used to sit on `.prose
  * h2` did nothing at all against the 0.95rem above.
  *
  * Both selectors are deliberate. A heading inside a `section` has to outrank
@@ -486,36 +561,36 @@ s.fr {
  * a class alone would merely tie and win on source order, which is not
  * something to leave load-bearing (`.claude/agents/design-system.md`). */
 .prose section > h2 + *,
-.prose > h2 + * { margin-top: 0.55rem; }
+.prose > h2 + * { margin-top: var(--space-8); }
 
 .prose section > h3 + *,
-.prose > h3 + * { margin-top: 0.4rem; }
+.prose > h3 + * { margin-top: var(--space-6); }
 
 /* A sub-point is a break inside a section, so it owns more air than a
    paragraph but well under a section's own. */
-.prose h3 { margin-top: 1.8rem; }
+.prose h3 { margin-top: var(--space-28); }
 
 /* A caption is already spaced from its table; without this it collides with
    whatever precedes the table. */
-.prose .table-wrap { margin-top: 1.3rem; }
+.prose .table-wrap { margin-top: var(--space-20); }
 
 /* The reset zeroes padding, which puts a list's markers outside its box and
    clips them. Lists opt back in here, like the rest of prose flow. */
-.prose ul, .prose ol { padding-left: 1.35rem; }
-.prose li + li { margin-top: 0.35rem; }
+.prose ul, .prose ol { padding-left: var(--space-20); }
+.prose li + li { margin-top: var(--space-6); }
 
 /* The shared button. One look, so a drill's controls and a page's actions
    cannot drift apart. */
 .button {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.4rem 0.85rem;
+  gap: var(--space-6);
+  padding: var(--space-6) var(--space-14);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface-1);
   color: var(--text-1);
-  font-size: 0.9rem;
+  font-size: var(--type-90);
   font-weight: 600;
   cursor: pointer;
   transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
@@ -550,7 +625,7 @@ a.button:hover { text-decoration: none; }
    while looking clickable is a bug the learner blames on themselves. */
 .button:disabled,
 .button:disabled:hover {
-  opacity: 0.5;
+  opacity: var(--opacity-disabled);
   cursor: not-allowed;
 }
 
@@ -566,11 +641,55 @@ a.button:hover { text-decoration: none; }
   color: var(--text-on-accent);
 }
 
-.card {
+/* The text field: one look for a line of text and for a page of it, so a
+   password, a display name and a translation are the same control.
+
+   **1rem at least**: under 16px iOS zooms the page on focus. The ring is the
+   global one, pulled in against the border so the two read as one line. */
+.input {
+  padding: var(--space-8) var(--space-12);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  color: var(--text-1);
+  font-size: var(--type-100);
+}
+
+.input:focus-visible {
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+
+.input[aria-invalid="true"] { border-color: var(--danger); }
+
+/* A page of it is the learner's own French, so it is serif (#53). Its height
+   is the `rows` attribute. A module resizing it doubles its class: this
+   selector carries a tag. */
+textarea.input {
+  display: block;
+  width: 100%;
+  padding: var(--space-12) var(--space-14);
+  font-family: var(--font-serif);
+  font-size: var(--type-106);
+  line-height: 1.65;
+  resize: vertical;
+}
+
+/* The paper: what the course sets apart from the page without tinting it. A
+   role-play's scene, a text to translate, a drill's board, an exam's exercise
+   and its documents are all this one sheet; `.exercice` and `.document` only
+   add what lies inside theirs (further down). A tinted ground is `.example`
+   or one of the four boxes, never a second paper.
+
+   A card that is itself a control (a chapter, a choice, « La suite ») draws
+   the same three lines in its own module, at a control's padding. */
+.card,
+.exercice,
+.document {
   background: var(--surface-1);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.5rem 1.75rem;
+  padding: var(--space-20) var(--space-24);
 }
 
 /* A block of French examples. Serif throughout — no .fr needed inside. */
@@ -578,9 +697,9 @@ a.button:hover { text-decoration: none; }
   background: var(--accent-subtle);
   border: 1px solid var(--accent-line);
   border-radius: var(--radius);
-  padding: 0.9rem 1.15rem;
+  padding: var(--space-14) var(--space-20);
   font-family: var(--font-serif);
-  font-size: 1.02rem;
+  font-size: var(--type-106);
 }
 
 /* At A1 a literary text is read with its Spanish under each line (#92). One
@@ -592,21 +711,21 @@ a.button:hover { text-decoration: none; }
 }
 
 .bilingue > span:lang(es) {
-  margin-top: 0.1rem;
+  margin-top: var(--space-2);
   font-family: var(--font-sans);
-  font-size: 0.86rem;
+  font-size: var(--type-85);
   color: var(--text-2);
 }
 
 .example .bilingue + .bilingue {
-  margin-top: 0.75rem;
+  margin-top: var(--space-12);
 }
 
 /* A récit: one continuous text in paragraphs. Without the modifier the `<p>`s
    of an `.example` stay tight, which is right for lines of dialogue or verse
    and wrong here — five paragraphs read as one wall. */
 .example.recit p + p {
-  margin-top: 0.75rem;
+  margin-top: var(--space-12);
 }
 
 /* The words a role-play needs, and nothing built out of them (#57).
@@ -622,7 +741,7 @@ a.button:hover { text-decoration: none; }
 ul.mots {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
+  gap: var(--space-8);
   list-style: none;
   padding-left: 0;
 }
@@ -630,11 +749,11 @@ ul.mots {
 ul.mots li {
   margin-top: 0;
   font-family: var(--font-serif);
-  font-size: 1.02rem;
+  font-size: var(--type-106);
   background: var(--accent-subtle);
   border: 1px solid var(--accent-line);
   border-radius: var(--radius-pill);
-  padding: 0.25rem 0.8rem;
+  padding: var(--space-4) var(--space-12);
 }
 
 /* At A1 a chip carries its Spanish gloss (#85): the chip is sans, and the
@@ -658,12 +777,12 @@ ul.mots li:lang(es) {
 .epreuve {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem 1.4rem;
+  gap: var(--space-6) var(--space-24);
   border-top: 2px solid var(--accent);
   border-bottom: 1px solid var(--border);
-  padding: 0.7rem 0;
+  padding: var(--space-12) 0;
   font-family: var(--font-sans);
-  font-size: 0.82rem;
+  font-size: var(--type-80);
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -672,24 +791,17 @@ ul.mots li:lang(es) {
 
 /* Un exercice. Le numéro et les points tiennent sur la même ligne que le titre,
    comme sur le sujet papier, parce que le barème fait partie de la consigne. */
-.exercice {
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface-1);
-  padding: 1.25rem 1.5rem;
-}
-
 .exercice > h3 {
   margin-top: 0;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 1rem;
+  gap: var(--space-16);
 }
 
 .exercice .points {
   font-family: var(--font-sans);
-  font-size: 0.78rem;
+  font-size: var(--type-80);
   font-weight: 600;
   color: var(--text-3);
   white-space: nowrap;
@@ -701,8 +813,8 @@ ul.mots li:lang(es) {
 .documents {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
-  gap: 0.75rem;
-  margin-top: 1rem;
+  gap: var(--space-12);
+  margin-top: var(--space-16);
   padding-left: 0;
   list-style: none;
 }
@@ -711,12 +823,12 @@ ul.mots li:lang(es) {
   margin-top: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: var(--space-6);
   align-items: center;
   justify-content: center;
   text-align: center;
   min-height: 5rem;
-  padding: 0.8rem 0.9rem;
+  padding: var(--space-12) var(--space-14);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-sm);
   background: var(--surface-2);
@@ -726,7 +838,7 @@ ul.mots li:lang(es) {
 /* La lettre qui nomme le document, pour que la consigne puisse y renvoyer. */
 .documents .lettre {
   font-family: var(--font-sans);
-  font-size: 0.72rem;
+  font-size: var(--type-72);
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--accent-text);
@@ -752,8 +864,8 @@ ul.mots li:lang(es) {
 /* Qui a pris les photos, et sous quelle licence. Petit, mais sur la page :
    une licence CC BY se respecte en nommant l'auteur là où l'image paraît. */
 .credits {
-  margin: 0.6rem 0 1.1rem;
-  font-size: 0.78rem;
+  margin: var(--space-10) 0 var(--space-16);
+  font-size: var(--type-80);
   color: var(--text-3);
 }
 
@@ -763,19 +875,12 @@ ul.mots li:lang(es) {
    détachées en bas. `.card` n'a pas d'espacement interne et ne doit pas en
    gagner : les scènes de jeu de rôle et les textes de traduction l'utilisent
    pour un bloc court, et le leur irait de travers. */
-.document {
-  background: var(--surface-1);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.25rem 1.5rem;
-}
-
-.document > * + * { margin-top: 0.75rem; }
+.document > * + * { margin-top: var(--space-12); }
 
 .document > h4 {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: 1.1rem;
+  font-size: var(--type-112);
   font-weight: 600;
   color: var(--text-heading);
 }
@@ -784,9 +889,9 @@ ul.mots li:lang(es) {
    corps du message comme dans une vraie boîte de réception. */
 .document .entete {
   border-bottom: 1px solid var(--border-soft);
-  padding-bottom: 0.7rem;
+  padding-bottom: var(--space-12);
   font-family: var(--font-sans);
-  font-size: 0.88rem;
+  font-size: var(--type-90);
   color: var(--text-2);
 }
 
@@ -795,53 +900,30 @@ ul.mots li:lang(es) {
    réécrire. */
 .document .notes {
   border-top: 1px solid var(--border-soft);
-  padding-top: 0.6rem;
-  font-size: 0.82rem;
+  padding-top: var(--space-10);
+  font-size: var(--type-80);
   color: var(--text-3);
 }
 
 /* Une question et ses propositions. `ol.questions` porte sa balise pour battre
    `.prose ol`, qui indente et espace. */
 ol.questions {
-  margin-top: 1.1rem;
-  padding-left: 1.25rem;
+  margin-top: var(--space-16);
+  padding-left: var(--space-20);
 }
 
-ol.questions > li + li { margin-top: 1.1rem; }
+ol.questions > li + li { margin-top: var(--space-16); }
 
 ol.questions .enonce {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 1rem;
+  gap: var(--space-16);
 }
 
-/* Ce qu'on écrit : un texte de soixante mots. */
-.redaction {
-  width: 100%;
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  color: var(--text-1);
-  background: var(--surface-1);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
-  padding: 0.35rem 0.55rem;
-}
-
-.redaction {
-  display: block;
-  margin-top: 0.7rem;
-  min-height: 11rem;
-  line-height: 1.8;
-  padding: 0.7rem 0.8rem;
-  resize: vertical;
-}
-
-.redaction:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-  border-color: var(--accent);
-}
+/* Ce qu'on écrit : un texte de soixante mots. Le champ est `textarea.input`,
+   le même qu'ailleurs ; seul l'écart avec la consigne est d'ici. */
+.exercice textarea.input { margin-top: var(--space-12); }
 
 /* Le corrigé, une fois demandé. Vert : c'est la réponse juste, et le rouge de
    ce cours ne sert qu'à signaler une faute (AGENTS.md §5). */
@@ -850,16 +932,16 @@ ol.questions .enonce {
   border-left: 4px solid var(--success);
   background: var(--success-soft);
   border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 1.1rem 1.35rem;
+  padding: var(--space-16) var(--space-20);
 }
 
 /* Le corrigé enchaîne quatre exercices : chaque titre doit se détacher de la
    liste qui le précède, sauf le premier, qui touche le haut du bloc. */
-.corrige > * + * { margin-top: 0.7rem; }
-.corrige > h3 { margin-top: 1.6rem; }
+.corrige > * + * { margin-top: var(--space-12); }
+.corrige > h3 { margin-top: var(--space-24); }
 .corrige > h3:first-child { margin-top: 0; }
-.corrige ol { padding-left: 1.25rem; }
-.corrige li + li { margin-top: 0.3rem; }
+.corrige ol { padding-left: var(--space-20); }
+.corrige li + li { margin-top: var(--space-4); }
 
 /* ── The four boxes ──────────────────────────────────────────────────────────
    A lesson's remarks: the rule a section teaches, what to remember from it,
@@ -872,7 +954,7 @@ ol.questions .enonce {
 :is(.rule, .attention, .exception, .astuce) {
   border-left: 4px solid;
   border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 1rem 1.25rem;
+  padding: var(--space-16) var(--space-20);
 }
 
 /* Grammar rule — the thing the section is teaching. */
@@ -981,7 +1063,7 @@ ol.questions .enonce {
  * conclusion actually is: a heading, a list, and more air above it than any
  * section break, so the eye stops before it rather than reading on. */
 .resume {
-  margin-top: 5.5rem;
+  margin-top: var(--space-88);
 }
 
 /* `h3`'s size, like « Pour aller plus loin » under it: both close the page
@@ -989,8 +1071,8 @@ ol.questions .enonce {
    accent bar — that mark belongs to a section beginning, and this is the
    opposite end. */
 .resume > h2 {
-  font-size: 1.2rem;
-  margin-bottom: 0.7rem;
+  font-size: var(--type-120);
+  margin-bottom: var(--space-12);
 }
 
 /* A message from the interface — a save that failed, a link that expired.
@@ -1003,7 +1085,7 @@ ol.questions .enonce {
   border-left: 4px solid var(--border-strong);
   background: var(--surface-2);
   border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 0.9rem 1.15rem;
+  padding: var(--space-14) var(--space-20);
 }
 
 .message-danger {
@@ -1017,6 +1099,26 @@ ol.questions .enonce {
   background: var(--success-soft);
   color: var(--success-text);
 }
+
+/* The interface's label: a listing's section title, a field's name, a column
+   head. One fixed phrase the system chose, which is the case uppercase is for
+   (a sentence, or anything an author wrote, is never set this way — see
+   `caption`). Declared in full because headings wear it: the face, the weight,
+   the colour and the tracking are all a heading's to lose. Margins are the
+   wearer's. */
+.label,
+thead th {
+  font-family: var(--font-sans);
+  font-size: var(--type-80);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+/* One leading whatever wears it, a heading's 1.25 or a paragraph's 1.7. Not
+   on the column head, whose row height every table already has. */
+.label { line-height: 1.4; }
 
 /* Table chrome. Four columns maximum and a <caption> on every one — AGENTS.md
    §9. The fourth column carries an example sentence, not a translation: the
@@ -1049,26 +1151,24 @@ caption {
   caption-side: top;
   text-align: left;
   font-family: var(--font-serif);
-  font-size: 0.95rem;
+  font-size: var(--type-95);
   font-style: italic;
   line-height: 1.45;
   color: var(--text-2);
   text-wrap: pretty;
-  padding-bottom: 0.55rem;
+  padding-bottom: var(--space-8);
 }
 
 th, td {
   text-align: left;
-  padding: 0.55rem 0.9rem;
+  padding: var(--space-8) var(--space-14);
   border-bottom: 1px solid var(--border-soft);
 }
 
+/* The column head wears `.label` (below); on its own ground it takes the
+   darker of the two greys. */
 thead th {
   background: var(--surface-2);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: var(--text-2);
 }
 
@@ -1091,12 +1191,14 @@ tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
   border-color: var(--success-line);
   background: var(--success-soft);
   color: var(--success-text);
+  opacity: 1;
 }
 
 .is-wrong.is-wrong {
   border-color: var(--danger-line);
   background: var(--danger-soft);
   color: var(--danger-text);
+  opacity: 1;
 }
 
 /* The third state, and it is not a paler red. A question answered by ticking
@@ -1114,6 +1216,27 @@ tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
   border-style: dashed;
   background: var(--warn-soft);
   color: var(--warn-text);
+  opacity: 1;
+}
+
+/* Chosen, before the verdict: the answer in hand, on a chip, a word, an
+ * option. The one state the learner sets, and it has one look.
+ *
+ * The line thickens as well as the ground tints — a ring inside the border —
+ * so the choice survives without colour (`AGENTS.md` §5).
+ *
+ * **Three classes' worth, and that is the point**: the pointer is still on the
+ * thing just clicked, and on a phone the hover sticks, so a choice that loses
+ * to `:hover` is one the learner never sees. A hover it can meet is therefore
+ * written at two (`.button:hover`, `.chip:hover:where(…)`), never three. It
+ * steps aside when a verdict lands on the same element, and it is never
+ * faded: a locked pool dims the chips that were not picked. */
+.is-chosen.is-chosen:not(.is-correct, .is-wrong, .is-missed) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  opacity: 1;
 }
 
 .visually-hidden {

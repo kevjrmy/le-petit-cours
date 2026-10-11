@@ -6,13 +6,13 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.6rem;
+  gap: var(--space-10);
 }
 
 .control {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-8);
 }
 
 /* Done is a success state, not an accent one: --success is what this app uses

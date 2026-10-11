@@ -1,21 +1,9 @@
-/* Le plateau de « Trouvez la faute ». L'habillage est partagé
-   (`src/components/exercice/Drill.tsx`), et les trois états de réponse sont
-   globaux et doublés (`globals.css`) : rien de tout cela n'est redéclaré ici. */
-
-.card {
-  margin-top: 1.5rem;
-  padding: 1.25rem 1.35rem 1.4rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface-1);
-}
-
 .sentence {
   margin: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 0.45rem 0.4rem;
+  gap: var(--space-8) var(--space-6);
 }
 
 /* Chaque mot est une pastille teintée : une cible large et visible, que le
@@ -24,13 +12,13 @@
    c'est le bon échange. Les trois états de réponse (`.is-wrong`,
    `.is-missed`) sont doublés dans `globals.css` et passent par-dessus. */
 .mot {
-  padding: 0.2rem 0.75rem;
+  padding: var(--space-4) var(--space-12);
   border: 1px solid var(--accent-line);
   border-radius: var(--radius-pill);
   background: var(--accent-subtle);
   color: var(--text-heading);
   font-family: var(--font-serif);
-  font-size: 1.15rem;
+  font-size: var(--type-112);
   line-height: 1.6;
   cursor: pointer;
   transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
@@ -46,27 +34,20 @@
 }
 
 .verdict {
-  margin-top: 1.2rem;
+  margin-top: var(--space-20);
 }
 
 .corrected {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: 1.05rem;
+  font-size: var(--type-106);
   color: var(--text-heading);
 }
 
 .pourquoi {
-  margin-top: 0.6rem;
+  margin-top: var(--space-10);
   margin-bottom: 0;
-  font-size: 0.95rem;
+  font-size: var(--type-95);
   color: var(--text-2);
 }
 
-.actions {
-  margin-top: 1.3rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  align-items: center;
-}

@@ -38,8 +38,8 @@
   min-width: 0;
   display: flex;
   align-items: baseline;
-  gap: 1rem;
-  padding: 0.7rem 0.9rem;
+  gap: var(--space-16);
+  padding: var(--space-12) var(--space-14);
   color: inherit;
 }
 
@@ -52,7 +52,7 @@ a.row:hover { text-decoration: none; }
    row's state: a done row's separator is the done row's green, and the tick's
    own stylesheet cannot see that state. */
 .withTick .row {
-  padding-inline-end: 0.75rem;
+  padding-inline-end: var(--space-12);
   border-inline-end: 1px solid var(--border);
 }
 
@@ -63,27 +63,27 @@ a.row:hover { text-decoration: none; }
   min-width: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.15rem 0.6rem;
+  gap: var(--space-2) var(--space-10);
   align-items: baseline;
 }
 
 .title {
   font-family: var(--font-serif);
-  font-size: 1rem;
+  font-size: var(--type-100);
   font-weight: 600;
   color: var(--text-heading);
 }
 
-.subtitle { font-size: 0.82rem; color: var(--text-3); }
+.subtitle { font-size: var(--type-80); color: var(--text-3); }
 
-.meta { flex: 0 0 auto; display: flex; align-items: center; gap: 0.35rem; }
+.meta { flex: 0 0 auto; display: flex; align-items: center; gap: var(--space-6); }
 
 .where, .tag, .level {
-  font-size: 0.66rem;
+  font-size: var(--type-66);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0.12rem 0.4rem;
+  padding: var(--space-2) var(--space-6);
   border-radius: var(--radius-pill);
   white-space: nowrap;
 }

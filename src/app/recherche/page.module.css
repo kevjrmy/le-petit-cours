@@ -2,10 +2,10 @@
   width: 100%;
   max-width: var(--measure);
   margin-inline: auto;
-  padding-top: 0.5rem;
+  padding-top: var(--space-8);
 }
 
 .title {
-  font-size: 1.6rem;
-  margin-bottom: 1rem;
+  font-size: var(--type-150);
+  margin-bottom: var(--space-16);
 }

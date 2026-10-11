@@ -2,31 +2,31 @@
    was added *on top of* the section rhythm and the specimen showed a spacing no
    lesson has. The rhythm in `globals.css` is the thing being specimened. */
 .page {
-  padding: 2.5rem 1.25rem 5rem;
+  padding: var(--space-40) var(--space-20) var(--space-80);
 }
 
 .section {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: var(--space-14);
 }
 
 .section > h2 {
-  padding-bottom: 0.4rem;
+  padding-bottom: var(--space-6);
   border-bottom: 1px solid var(--border);
 }
 
 .swatches {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
-  gap: 0.6rem;
+  gap: var(--space-10);
 }
 
 .swatch {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 0.6rem 0.7rem;
-  font-size: 0.72rem;
+  padding: var(--space-10) var(--space-12);
+  font-size: var(--type-72);
   line-height: 1.4;
   min-height: 4.5rem;
   display: flex;
@@ -36,26 +36,65 @@
 .states {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: var(--space-10);
 }
 
 .state {
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 0.5rem 0.85rem;
-  font-size: 0.9rem;
+  padding: var(--space-8) var(--space-14);
+  font-size: var(--type-90);
 }
 
 .stack {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: var(--space-12);
 }
 
 .elevated {
   background: var(--surface-1);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1rem 1.25rem;
+  padding: var(--space-16) var(--space-20);
   box-shadow: var(--shadow);
+}
+
+/* Doubled to drop `.prose ul`'s indent and `.prose li + li`'s gap: each line
+   is a size, and its own leading spaces it. */
+.scale.scale {
+  list-style: none;
+  padding-left: 0;
+  line-height: 1.5;
+}
+
+.scale.scale li { margin-top: 0; }
+
+.scale code {
+  font-size: var(--type-72);
+  color: var(--text-3);
+}
+
+/* Doubled like `.scale`, for the same two `.prose` rules. */
+.spaces.spaces {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  gap: var(--space-4);
+}
+
+.spaces.spaces li {
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  font-size: var(--type-72);
+  color: var(--text-3);
+}
+
+.spaces span {
+  flex: 0 0 auto;
+  height: 0.75rem;
+  border-radius: var(--radius-xs);
+  background: var(--accent);
 }

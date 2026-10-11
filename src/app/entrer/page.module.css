@@ -4,58 +4,43 @@
    rouges. */
 
 .header {
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-32);
 }
 
 .blurb {
-  margin-top: 0.5rem;
+  margin-top: var(--space-8);
   color: var(--text-2);
 }
 
 .form {
-  max-width: 28rem;
+  max-width: var(--measure-form);
 }
 
 .label {
   display: block;
-  margin-bottom: 0.4rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-2);
+  margin-bottom: var(--space-6);
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: var(--space-10);
   align-items: center;
 }
 
 .input {
   flex: 1 1 12rem;
   min-width: 0;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius);
-  background: var(--surface-2);
-  color: var(--text-1);
-  font-family: var(--font-sans);
-  font-size: 1rem;
-}
-
-.input:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
 }
 
 .erreur {
-  margin-top: 0.75rem;
+  margin-top: var(--space-12);
   margin-bottom: 0;
-  font-size: 0.95rem;
+  font-size: var(--type-95);
   color: var(--danger-text);
 }
 
 .sortie {
-  margin-top: 2.5rem;
-  font-size: 0.95rem;
+  margin-top: var(--space-40);
+  font-size: var(--type-95);
 }

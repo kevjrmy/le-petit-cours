@@ -1,40 +1,28 @@
 .tool {
-  margin-top: 1.25rem;
+  margin-top: var(--space-20);
 }
 
 /* Serif and larger than the page: what is typed here is the French itself, and
-   the learner reads it back while the voice says it. */
-.zone {
-  display: block;
-  width: 100%;
-  padding: 0.7rem 0.85rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface-1);
-  color: var(--text-1);
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
+   the learner reads it back while the voice says it.
+   Doubled to beat `textarea.input` (`globals.css`). */
+.zone.zone {
+  font-size: var(--type-120);
   line-height: 1.5;
-  resize: vertical;
-}
-
-.zone:focus-visible {
-  border-color: var(--accent);
 }
 
 .controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.9rem;
+  gap: var(--space-8);
+  margin-top: var(--space-14);
 }
 
 .status {
-  margin-top: 0.9rem;
+  margin-top: var(--space-14);
 }
 
 .voice {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: var(--type-80);
   color: var(--text-3);
 }

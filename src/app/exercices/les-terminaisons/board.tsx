@@ -14,6 +14,7 @@ import {
 } from "@/data/conjugaisons";
 import type { Level } from "@/data/navigation";
 import { bankFor, type Bank, type TenseKey } from "./data";
+import board from "@/components/exercice/Board.module.css";
 import styles from "./drill.module.css";
 
 const TENSES: Record<TenseKey, { label: string; note?: string }> = {
@@ -418,7 +419,7 @@ export function Board({ level }: { level: Level | null }) {
           (`AGENTS.md` §1, §9). */}
       {!checked && (
         <div className={styles.aid}>
-          <h3 className={styles.aidHead}>Accents</h3>
+          <h3 className={`label ${styles.aidHead}`}>Accents</h3>
           <AccentBar target={active} />
         </div>
       )}
@@ -447,7 +448,7 @@ export function Board({ level }: { level: Level | null }) {
         </div>
       )}
 
-      <div className={styles.actions}>
+      <div className={board.actions}>
         {/* Correct this tense now, or fill the five and correct them together.
             The second is secondary on purpose: one tense at a time is what the
             stepper above already asks of her. */}

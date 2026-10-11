@@ -14,9 +14,9 @@
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  padding: 0 1.15rem 0.78rem;
+  padding: 0 var(--space-16) 0.78rem; /* measured: the two baselines */
   border-top: 1px solid var(--border-soft);
-  font-size: 0.8rem;
+  font-size: var(--type-80);
   line-height: 1.6;
   color: var(--text-3);
   text-align: right;

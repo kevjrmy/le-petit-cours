@@ -21,10 +21,10 @@
   height: var(--topbar-h);
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: var(--space-10);
   /* 0.5rem less than the content gutter, so the *glyph* inside the 2.25rem
      button lands on the text's left edge rather than the button's box. */
-  padding: 0 0.65rem;
+  padding: 0 var(--space-8);
 }
 
 /* Above the breakpoint the bar stops holding the page down and the two things
@@ -38,7 +38,7 @@
        does not stay with the button. */
     position: static;
     background: none;
-    padding-inline: calc(var(--shell-gutter) - 0.5rem);
+    padding-inline: calc(var(--shell-gutter) - var(--space-8));
     /* The crumb sets its own offset below, so the gap must not add to it. */
     gap: 0;
   }
@@ -56,7 +56,7 @@
      than the measure, the computed offset goes to zero, and without it the
      trail would sit on top of the button. */
   .trail {
-    margin-left: max(0.85rem, calc((100% - var(--measure)) / 2 - 2.25rem));
+    margin-left: max(var(--space-14), calc((100% - var(--measure)) / 2 - 2.25rem)); /* measured: the button's width */
   }
 }
 
@@ -92,13 +92,13 @@
 .trail {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-8);
   min-width: 0;
 }
 
 .crumbs {
   min-width: 0;
-  font-size: 0.85rem;
+  font-size: var(--type-85);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

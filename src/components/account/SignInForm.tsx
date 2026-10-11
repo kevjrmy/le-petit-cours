@@ -77,12 +77,12 @@ export function SignInForm() {
 
       <form className={styles.form} onSubmit={onSubmit} noValidate>
         <div className={styles.field}>
-          <label className={styles.label} htmlFor="username">
+          <label className={`label ${styles.label}`} htmlFor="username">
             Identifiant ou adresse électronique
           </label>
           <input
             id="username"
-            className={styles.input}
+            className={`input ${styles.input}`}
             type="text"
             value={username}
             autoComplete="username"
@@ -98,12 +98,12 @@ export function SignInForm() {
         </div>
 
         <div className={styles.field}>
-          <label className={styles.label} htmlFor="password">
+          <label className={`label ${styles.label}`} htmlFor="password">
             Mot de passe
           </label>
           <input
             id="password"
-            className={styles.input}
+            className={`input ${styles.input}`}
             type="password"
             value={password}
             autoComplete="current-password"

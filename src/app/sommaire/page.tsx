@@ -40,7 +40,7 @@ export default function Sommaire() {
           wanted should not mean going back to the home page for the search. */}
       <SearchBox />
 
-      <h2 className={styles.sectionTitle}>Les chapitres</h2>
+      <h2 className={`label ${styles.sectionTitle}`}>Les chapitres</h2>
       <LevelNotice />
       <ChapterGrid />
     </div>

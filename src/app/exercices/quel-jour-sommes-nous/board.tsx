@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
 import { shuffle } from "@/lib/shuffle";
 import { ITEMS, POOL, label, sentence, type Form } from "./data";
+import board from "@/components/exercice/Board.module.css";
 import styles from "./drill.module.css";
 
 /** Les mots français d'une correction sont entre astérisques : `lang="fr"`. */
@@ -73,7 +74,7 @@ export function Board() {
 
   const slot = (
     <span
-      className={`${styles.slot} ${picked ? styles.filled : ""} ${
+      className={`${board.slot} ${picked ? board.filled : ""} ${
         checked ? (right ? "is-correct" : "is-wrong") : ""
       }`}
     >
@@ -100,24 +101,24 @@ export function Board() {
 
       <Meter value={currentIndex + 1} max={deck.length} label="Phrase en cours" />
 
-      <div className={styles.card}>
+      <div className={`card ${board.card}`}>
         {current.hint && (
           <p className={styles.hint} lang="es">
             {current.hint}
           </p>
         )}
-        <p className={styles.sentence}>
+        <p className={board.sentence}>
           {current.before && `${current.before} `}
           {slot}
           {` ${current.after}`}
         </p>
 
-        <div className={styles.pool} role="group" aria-label="Les sept possibilités">
+        <div className={board.pool} role="group" aria-label="Les sept possibilités">
           {POOL.map((form) => (
             <button
               key={form}
               type="button"
-              className={`${styles.chip} ${picked === form ? styles.chosen : ""}`}
+              className={`${board.chip} ${picked === form ? "is-chosen" : ""}`}
               disabled={checked}
               aria-pressed={picked === form}
               aria-label={form === "rien" ? "rien, aucun mot" : undefined}
@@ -131,21 +132,21 @@ export function Board() {
         <div role="status">
           {checked && (
             <div
-              className={`${styles.verdict} ${right ? "is-correct" : "is-wrong"}`}
+              className={`${board.verdict} ${right ? "is-correct" : "is-wrong"}`}
             >
               <p>
                 {right
                   ? "✓ Juste."
                   : `✗ La réponse : « ${label(current.answer)} ».`}
               </p>
-              <p className={styles.corrected}>{sentence(current, current.answer)}</p>
+              <p className={board.corrected}>{sentence(current, current.answer)}</p>
               <p lang="es">{french(current.because)}</p>
             </div>
           )}
         </div>
       </div>
 
-      <div className={styles.actions}>
+      <div className={board.actions}>
         {checked ? (
           <button type="button" className="button button-primary" onClick={next}>
             {currentIndex + 1 === deck.length

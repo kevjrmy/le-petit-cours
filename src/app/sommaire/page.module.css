@@ -5,16 +5,10 @@
 }
 
 .hero {
-  padding: 1rem 0 1.5rem;
+  padding: var(--space-16) 0 var(--space-24);
 }
 
 .sectionTitle {
-  font-size: 0.78rem;
-  font-family: var(--font-sans);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-3);
-  margin-top: 2.25rem;
-  margin-bottom: 0.85rem;
+  margin-top: var(--space-32);
+  margin-bottom: var(--space-14);
 }

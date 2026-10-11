@@ -1,13 +1,13 @@
 .header {
-  padding-bottom: 1.1rem;
+  padding-bottom: var(--space-16);
   border-bottom: 1px solid var(--border-soft);
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-24);
 }
 
 .delf {
-  margin-top: 0.45rem;
+  margin-top: var(--space-8);
   font-family: var(--font-serif);
-  font-size: 1rem;
+  font-size: var(--type-100);
   color: var(--text-2);
 }
 

@@ -3,29 +3,29 @@
    nothing here can drift from the design system. */
 
 .list {
-  padding-left: 1.35rem;
+  padding-left: var(--space-20);
 }
 
 .item + .item {
-  margin-top: 1.4rem;
+  margin-top: var(--space-24);
 }
 
 .question {
-  margin: 0 0 0.55rem;
+  margin: 0 0 var(--space-8);
   font-weight: 600;
 }
 
 .options {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--space-8);
 }
 
 /* Empty until she answers, because the live region has to exist before the
    verdict is written into it. */
 .verdict {
-  margin-top: 0.6rem;
-  padding: 0.5rem 0.8rem;
+  margin-top: var(--space-10);
+  padding: var(--space-8) var(--space-12);
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
 }

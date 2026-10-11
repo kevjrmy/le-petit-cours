@@ -84,7 +84,7 @@ export function Progression() {
       {parcours && <ParcoursRecord parcours={parcours} isDone={isDone} />}
 
       <section className={styles.summary}>
-        {parcours && <h2 className={styles.part}>Tout le cours</h2>}
+        {parcours && <h2 className={`label ${styles.part}`}>Tout le cours</h2>}
         <p className={styles.count}>
           <strong>{finished}</strong> {finished === 1 ? "leçon terminée" : "leçons terminées"} sur{" "}
           {total}
@@ -156,7 +156,7 @@ function ParcoursRecord({ parcours, isDone }: { parcours: Parcours; isDone: IsDo
 
   return (
     <section className={styles.summary}>
-      <h2 className={styles.part}>{parcours.title}</h2>
+      <h2 className={`label ${styles.part}`}>{parcours.title}</h2>
       <p className={styles.count}>
         <strong>{done}</strong> {done === 1 ? "leçon terminée" : "leçons terminées"} sur {total}
       </p>

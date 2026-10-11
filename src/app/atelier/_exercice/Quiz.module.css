@@ -9,19 +9,19 @@
    à lire. */
 .etape {
   margin: 0;
-  font-size: 0.92rem;
+  font-size: var(--type-90);
   font-weight: 600;
   color: var(--text-2);
 }
 
 .suite {
-  margin-top: 1.3rem;
+  margin-top: var(--space-20);
 }
 
 .ecritures {
-  margin-top: 0.8rem;
+  margin-top: var(--space-12);
   display: grid;
-  gap: 0.55rem;
+  gap: var(--space-8);
 }
 
 /* Une écriture est une ligne entière : quatre phrases presque pareilles se
@@ -29,15 +29,15 @@
 .ecriture {
   display: flex;
   align-items: baseline;
-  gap: 0.45rem;
+  gap: var(--space-8);
   width: 100%;
-  padding: 0.6rem 0.9rem;
+  padding: var(--space-10) var(--space-14);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
   background: var(--surface-2);
   color: var(--text-1);
   font-family: var(--font-serif);
-  font-size: 1.04rem;
+  font-size: var(--type-106);
   line-height: 1.5;
   text-align: left;
   cursor: pointer;
@@ -45,7 +45,7 @@
 }
 
 .ecriture:hover:not(:disabled) {
-  border-color: var(--accent);
+  border-color: var(--accent-line);
   background: var(--accent-subtle);
 }
 
@@ -56,7 +56,7 @@
 /* La raison d'une faute, sous son écriture, alignée sur le texte et non sur
    la marque. */
 .raison {
-  margin: 0.3rem 0 0 2.15rem;
-  font-size: 0.9rem;
+  margin: var(--space-4) 0 0 2.15rem; /* measured: the text's edge, past the mark */
+  font-size: var(--type-90);
   color: var(--text-2);
 }
