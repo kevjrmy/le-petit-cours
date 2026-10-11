@@ -84,7 +84,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          delante de unas pocas palabras con h no hay apóstrofo:{" "}
+          Delante de unas pocas palabras con h no hay apóstrofo:{" "}
           <span className="fr" lang="fr">le héros</span> (héroe),{" "}
           <span className="fr" lang="fr">la hauteur</span> (altura),{" "}
           <span className="fr" lang="fr">le haricot</span> (judía). Son pocas

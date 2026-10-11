@@ -84,7 +84,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          un verbe du premier groupe ne peut pas servir de remplacement :{" "}
+          Un verbe du premier groupe ne peut pas servir de remplacement :{" "}
           <span className="fr">chanter</span> et{" "}
           <span className="fr">chanté</span> se prononcent pareil, eux aussi,
           et ne tranchent rien. Choisissez toujours un verbe du deuxième ou du
@@ -190,7 +190,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          à l’imparfait, la terminaison ne s’écrit jamais{" "}
+          À l’imparfait, la terminaison ne s’écrit jamais{" "}
           <span className="fr">-é</span> : <s className="fr">
             « je mangé »
           </s>{" "}

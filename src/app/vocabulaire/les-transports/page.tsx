@@ -396,7 +396,7 @@ export default function Page() {
         </p>
 
         <div className="exception">
-          en la calle oyes mucho{" "}
+          En la calle oyes mucho{" "}
           <span className="fr" lang="fr">
             en vélo
           </span>{" "}

@@ -211,7 +211,7 @@ export default function Page() {
         </p>
 
         <div className="exception">
-          casi todas las filas tienen excepciones, y las más comunes se
+          Casi todas las filas tienen excepciones, y las más comunes se
           aprenden de memoria. <span className="fr" lang="fr">le silence</span>{" "}
           (silencio), <span className="fr" lang="fr">le côté</span> (lado)
           y <span className="fr" lang="fr">l’été</span> (verano) son

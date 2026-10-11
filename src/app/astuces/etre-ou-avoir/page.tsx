@@ -29,7 +29,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          la question ne se pose qu’au passé composé, et elle se pose{" "}
+          La question ne se pose qu’au passé composé, et elle se pose{" "}
           <strong>avant</strong> d’écrire le participe. Choisir l’auxiliaire,
           c’est déjà décider si le participe va s’accorder ou non.
         </div>
@@ -162,7 +162,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          les verbes construits sur ceux de la liste la suivent :{" "}
+          Les verbes construits sur ceux de la liste la suivent :{" "}
           <span className="fr">devenir</span>,{" "}
           <span className="fr">revenir</span>,{" "}
           <span className="fr">rentrer</span>,{" "}

@@ -156,7 +156,7 @@ export default function Page() {
         </p>
 
         <div className="attention">
-          l’accent ne survit qu’au masculin singulier. Dès que le participe
+          L’accent ne survit qu’au masculin singulier. Dès que le participe
           s’accorde, il le perd : <span className="fr">dû</span>, mais{" "}
           <span className="fr">due</span>, <span className="fr">dus</span>,{" "}
           <span className="fr">dues</span>. C’est la preuve que l’accent
@@ -164,7 +164,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          le nom <span className="fr">le dû</span> existe, au sens de ce qu’on
+          Le nom <span className="fr">le dû</span> existe, au sens de ce qu’on
           doit à quelqu’un : <span className="fr">réclamer son dû</span>. Il est
           rare, et il garde l’accent.
         </div>

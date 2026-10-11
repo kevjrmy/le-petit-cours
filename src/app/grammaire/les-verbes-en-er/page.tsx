@@ -110,7 +110,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          con <span className="fr" lang="fr">manger</span> se escribe{" "}
+          Con <span className="fr" lang="fr">manger</span> se escribe{" "}
           <span className="fr" lang="fr">nous mangeons</span>, con una{" "}
           <em>e</em> que no suena, para que la <em>g</em> siga sonando como la <span className="fr" lang="fr">j</span> de <span className="fr" lang="fr">je</span>. Lo
           mismo pasa con{" "}
@@ -199,7 +199,7 @@ export default function Page() {
         </p>
 
         <div className="exception">
-          delante de consonante no hay liaison, y entonces{" "}
+          Delante de consonante no hay liaison, y entonces{" "}
           <span className="fr" lang="fr">il parle</span> e{" "}
           <span className="fr" lang="fr">ils parlent</span> suenan idéntico.
           Solo el contexto dice si es uno o varios.

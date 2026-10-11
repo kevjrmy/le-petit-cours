@@ -68,7 +68,7 @@ export default function Page() {
         </p>
 
         <div className="attention">
-          ce qui ne se compte pas ne prend jamais{" "}
+          Ce qui ne se compte pas ne prend jamais{" "}
           <span className="fr">un</span> ni <span className="fr">une</span>. On
           ne dit pas <s className="fr">un lait</s>, on dit{" "}
           <span className="fr">du lait</span>, ou bien{" "}
@@ -138,7 +138,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          les verbes qui disent un goût gardent toujours l’article défini :{" "}
+          Les verbes qui disent un goût gardent toujours l’article défini :{" "}
           <span className="fr">j’aime le café</span>,{" "}
           <span className="fr">elle adore les gâteaux</span>,{" "}
           <span className="fr">je déteste le bruit</span>. On n’écrit jamais{" "}
@@ -229,7 +229,7 @@ export default function Page() {
         </p>
 
         <div className="exception">
-          deux expressions gardent l’article entier :{" "}
+          Deux expressions gardent l’article entier :{" "}
           <span className="fr">bien des gens</span> et{" "}
           <span className="fr">la plupart des élèves</span>. Ce sont des
           tournures figées ; apprenez-les telles quelles plutôt que d’y chercher

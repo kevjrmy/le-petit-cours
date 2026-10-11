@@ -133,7 +133,7 @@ export default async function Page({ searchParams }: PageProps<"/entrer">) {
            variable chercher. Le nom ne s'affiche qu'en développement, où le
            seul lecteur est celui qui doit la poser. */
         <div className="attention">
-          l’atelier est fermé pour le moment.
+          L’atelier est fermé pour le moment.
           {process.env.NODE_ENV === "development" && (
             <>
               {" "}

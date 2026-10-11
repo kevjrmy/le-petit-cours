@@ -104,7 +104,7 @@ export default function Page() {
         </p>
 
         <div className="attention">
-          un accent fait partie du mot, au même titre qu’une lettre. Écrire{" "}
+          Un accent fait partie du mot, au même titre qu’une lettre. Écrire{" "}
           <span className="fr">eleve</span> pour{" "}
           <span className="fr">élève</span> n’est pas une frappe manquée, c’est
           une faute d’orthographe. Et{" "}
@@ -169,7 +169,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          la troisième ligne est le vrai piège.{" "}
+          La troisième ligne est le vrai piège.{" "}
           <span className="fr">mer</span>, <span className="fr">elle</span> et{" "}
           <span className="fr">avec</span> se prononcent avec le son ouvert,
           exactement comme <span className="fr">père</span>, et pourtant ils ne
@@ -247,7 +247,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          jamais de cédille devant <span className="fr">e</span> ni{" "}
+          Jamais de cédille devant <span className="fr">e</span> ni{" "}
           <span className="fr">i</span>. Le <span className="fr">c</span> y est
           déjà doux, la cédille n’aurait rien à y faire : on écrit{" "}
           <span className="fr">ce</span>, <span className="fr">ci</span>,{" "}
@@ -261,7 +261,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          la cédille ne se tape pas sur un clavier espagnol, et{" "}
+          La cédille ne se tape pas sur un clavier espagnol, et{" "}
           <span className="fr">œ</span> non plus. Ce n’est pas une raison pour
           les laisser tomber : <span className="fr">francais</span> et{" "}
           <span className="fr">soeur</span> sont des fautes. Copiez le

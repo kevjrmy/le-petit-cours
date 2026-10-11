@@ -114,7 +114,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          les verbes très fréquents ont un participe à part. Il faut les
+          Les verbes très fréquents ont un participe à part. Il faut les
           apprendre un par un : <span className="fr">avoir → eu</span>,{" "}
           <span className="fr">être → été</span>,{" "}
           <span className="fr">faire → fait</span>,{" "}
@@ -187,7 +187,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          l’accord s’entend rarement. <span className="fr">parti</span> et{" "}
+          L’accord s’entend rarement. <span className="fr">parti</span> et{" "}
           <span className="fr">partie</span> se prononcent de la même façon :
           c’est une règle d’écriture, et elle se voit seulement sur la page.
         </div>
@@ -224,7 +224,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          à l’oral, le <span className="fr">ne</span> disparaît souvent —{" "}
+          À l’oral, le <span className="fr">ne</span> disparaît souvent —{" "}
           <span className="fr">j’ai pas compris</span>. On l’entend peu, mais à
           l’écrit il est obligatoire.
         </div>

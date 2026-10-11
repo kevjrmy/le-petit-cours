@@ -181,14 +181,14 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          dans <span className="fr">celui qui</span>, le verbe qui suit s’accorde
+          Dans <span className="fr">celui qui</span>, le verbe qui suit s’accorde
           avec le pronom, donc avec le nom remplacé :{" "}
           <span className="fr">ceux qui arrivent en retard attendent</span>,{" "}
           <span className="fr">celle qui est sur la table est à moi</span>.
         </div>
 
         <div className="exception">
-          quand la chose n’a pas de nom, parce qu’il s’agit d’une idée ou de
+          Quand la chose n’a pas de nom, parce qu’il s’agit d’une idée ou de
           toute une phrase, le pronom n’est ni{" "}
           <span className="fr">celui</span> ni <span className="fr">celle</span>{" "}
           mais <span className="fr">ce</span> :{" "}

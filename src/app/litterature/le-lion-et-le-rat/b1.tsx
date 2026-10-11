@@ -109,7 +109,7 @@ export function B1() {
         </div>
 
         <div className="attention">
-          les deux fables ne sont pas racontées au même temps. La première est au
+          Les deux fables ne sont pas racontées au même temps. La première est au
           passé simple : <span className="fr">sortit</span>,{" "}
           <span className="fr">montra</span>,{" "}
           <span className="fr">accourut</span>. La seconde commence au passé, avec{" "}

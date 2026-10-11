@@ -271,7 +271,7 @@ export default function Page() {
         </p>
 
         <div className="attention">
-          on ne met jamais de conditionnel après{" "}
+          On ne met jamais de conditionnel après{" "}
           <span className="fr">si</span>. On écrit{" "}
           <span className="fr">si j’avais</span>, jamais{" "}
           <s className="fr">si j’aurais</s>, et{" "}

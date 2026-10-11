@@ -172,8 +172,8 @@ export default function DesignPage() {
         </p>
         <p>
           Une forme citée pour dire qu’elle est fausse ne doit pas être la plus
-          visible des deux. Elle garde la graisse du texte et elle est barrée,
-          dans le rouge de la mauvaise réponse : on dit{" "}
+          visible des deux. Elle garde la graisse du texte, elle est en italique
+          et elle est barrée, dans le rouge de la mauvaise réponse : on dit{" "}
           <span className="fr">je sors ensuite</span>, on ne dit pas{" "}
           <s className="fr">je sors puis</s>. Le trait porte le sens, pas la
           couleur. Il ne sert que pour une forme fausse telle qu’elle est
@@ -195,14 +195,14 @@ export default function DesignPage() {
             </p>
             <p>en France, en Espagne, en Italie.</p>
           </div>
-          <div className="exception">au Mexique, au Cambodge, au Zimbabwe.</div>
+          <div className="exception">Au Mexique, au Cambodge, au Zimbabwe.</div>
           <div className="attention">
-            un <span className="fr" lang="fr">œuf</span> se prononce « euf », mais
+            Un <span className="fr" lang="fr">œuf</span> se prononce « euf », mais
             des <span className="fr" lang="fr">œufs</span> se prononce « eu ».
           </div>
           <div className={styles.stack} lang="es">
             <div className="attention">
-              en una página A1 (#85), la explicación está en español y las
+              En una página A1 (#85), la explicación está en español y las
               etiquetas cambian solas: <span className="fr" lang="fr">une
               robe</span> es un vestido.
             </div>

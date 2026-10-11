@@ -148,7 +148,7 @@
   --warn-line:     light-dark(#F0DAB4,          #4B3A1A);
   --warn-text:     light-dark(var(--amber-700), var(--amber-300));
 
-  /* Success — a correct answer. */
+  /* Success — a correct answer, and the astuce's box. */
   --success:       light-dark(var(--green-600), var(--green-500));
   --success-soft:  light-dark(var(--green-100), #11241A);
   --success-line:  light-dark(var(--green-300), #2A5733);
@@ -400,16 +400,17 @@ ul.mots span.fr { font-weight: inherit; }
 
 /* A form cited to say it is wrong: « on ne dit pas … ». Beside a semi-bold
    right form it must not be the louder of the two, so it keeps the text's own
-   weight and is struck through in `--danger` — the wrong answer's red (§5).
-   The line is the mark, so the meaning never rests on the colour; the letters
-   stay in the text's ink, because the learner has to recognise their own
-   sentence under it.
+   weight, leans in italic and is struck through in `--danger` — the wrong
+   answer's red (§5). The line and the slant are the marks, so the meaning
+   never rests on the colour; the letters stay in the text's ink, because the
+   learner has to recognise their own sentence under it.
 
    `<s class="fr">`, not a modifier on the span: the element already says the
    content is not accurate, so the meaning survives without this sheet. Only
    for a form that is wrong as written (« je sors puis », « mèr »), never for a
    correct word that is merely the wrong choice here. */
 s.fr {
+  font-style: italic;
   text-decoration-line: line-through;
   text-decoration-color: var(--danger);
   text-decoration-thickness: 0.08em;
@@ -570,14 +571,6 @@ a.button:hover { text-decoration: none; }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.5rem 1.75rem;
-}
-
-/* Grammar rule — the thing the section is teaching. */
-.rule {
-  border-left: 4px solid var(--accent);
-  background: var(--accent-soft);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 1rem 1.25rem;
 }
 
 /* A block of French examples. Serif throughout — no .fr needed inside. */
@@ -868,70 +861,107 @@ ol.questions .enonce {
 .corrige ol { padding-left: 1.25rem; }
 .corrige li + li { margin-top: 0.3rem; }
 
-/* « À retenir ». The label is text, not colour, so the meaning survives for a
-   learner who cannot tell the amber from the blue. */
-.attention {
-  border-left: 4px solid var(--warn);
-  background: var(--warn-soft);
+/* ── The four boxes ──────────────────────────────────────────────────────────
+   A lesson's remarks: the rule a section teaches, what to remember from it,
+   its exception, and the trick that makes it stick. One shape, four colours,
+   and each prints its own name, so the meaning never rests on the colour.
+
+     <div class="rule">…</div>
+     <div class="astuce"><p class="astuce-hook">…</p><p>…</p></div>
+─────────────────────────────────────────────────────────────────────────── */
+:is(.rule, .attention, .exception, .astuce) {
+  border-left: 4px solid;
   border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 0.9rem 1.15rem;
+  padding: 1rem 1.25rem;
 }
 
-.attention::before {
-  content: "À retenir : ";
-  font-weight: 700;
-  color: var(--warn-text);
+/* Grammar rule — the thing the section is teaching. */
+.rule {
+  border-left-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.attention {
+  border-left-color: var(--warn);
+  background: var(--warn-soft);
 }
 
 /* An exception to the rule above it. Pair it with .astuce whenever the trick
    is not absolute — a shortcut presented as absolute teaches a mistake. */
 .exception {
-  border-left: 4px solid var(--danger);
+  border-left-color: var(--danger);
   background: var(--danger-soft);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 0.9rem 1.15rem;
-}
-
-.exception::before {
-  content: "Sauf : ";
-  font-weight: 700;
-  color: var(--danger-text);
 }
 
 /* The one line the learner should walk away with. One per section, then
-   explain around it. */
+   explain around it. Green, so it is not mistaken for the `.rule` it sits
+   under: the rule is the blue box, the trick is the green one. */
 .astuce {
-  border: 1px solid var(--accent-line);
-  border-left: 4px solid var(--accent);
-  background: var(--accent-subtle);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 1rem 1.25rem;
+  border-left-color: var(--success);
+  background: var(--success-soft);
 }
 
-.astuce::before {
-  content: "Astuce";
-  display: block;
-  font-family: var(--font-sans);
-  font-size: 0.68rem;
+/* The label: capitals, bold, the box's own colour and a notch under the
+   text's size (capitals at full size shout over the sentence), and nothing
+   else. The face and the spacing are the text's. */
+:is(.rule, .attention, .exception, .astuce)::before,
+.astuce-hook {
+  font-size: 0.8125em;
   font-weight: 700;
-  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent-text);
-  margin-bottom: 0.4rem;
 }
+
+/* It sits on a row of its own above the text… */
+:is(.rule, .attention, .exception)::before { display: block; }
+
+/* …except an astuce's, which its hook finishes in the same letters, after a
+   colon (the space before it is French, and unbreakable). Both are inline, so
+   the hook wraps under the label and the explanation is the next block down. */
+.astuce-hook { display: inline; }
+
+.rule::before {
+  content: "Règle";
+  color: var(--accent-text);
+}
+
+.attention::before {
+  content: "À retenir";
+  color: var(--warn-text);
+}
+
+.exception::before {
+  content: "Sauf";
+  color: var(--danger-text);
+}
+
+.astuce::before { content: "Astuce\00a0: "; }
+
+.astuce::before,
+.astuce-hook { color: var(--success-text); }
 
 /* An A1 page explains in Spanish (docs/decisions.md #85), so the printed
    labels follow the section's lang. Every label above needs its twin here. */
-.attention:lang(es)::before { content: "Recuerda: "; }
-.exception:lang(es)::before { content: "Excepto: "; }
-.astuce:lang(es)::before { content: "Truco"; }
+.rule:lang(es)::before { content: "Regla"; }
+.attention:lang(es)::before { content: "Recuerda"; }
+.exception:lang(es)::before { content: "Excepto"; }
+.astuce:lang(es)::before { content: "Truco: "; }
 
-.astuce-hook {
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  line-height: 1.45;
-  color: var(--text-heading);
+/* Inside a box a cited form keeps the box's own face. The tinted ground
+   already sets the remark apart, and a serif word in the middle of it read as
+   a second voice. The size goes back with the face, since 1.06em only
+   corrects Spectral.
+
+   With the face gone, weight is the one mark left on a right form. A struck
+   form never takes it: its italic and its line tell it apart, here as
+   everywhere else (#93). */
+:is(.rule, .attention, .exception, .astuce) .fr {
+  font-family: inherit;
+  font-size: inherit;
 }
+
+/* The hook is bold throughout, so a form cited in it keeps the hook's weight
+   rather than dropping to the 600 of a form in a sentence. */
+.astuce-hook .fr { font-weight: inherit; }
 
 /* « En résumé », at the foot of a prose lesson. Neutral on purpose: it restates
    blocks that are already colour-coded by role, so a fifth accent would compete

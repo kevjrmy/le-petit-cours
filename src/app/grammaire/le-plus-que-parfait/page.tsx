@@ -68,7 +68,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          l’auxiliaire ne change pas. Un verbe qui prend{" "}
+          L’auxiliaire ne change pas. Un verbe qui prend{" "}
           <span className="fr">être</span> au passé composé prend{" "}
           <span className="fr">être</span> ici aussi, et l’accord du participe
           se fait de la même façon :{" "}
@@ -181,7 +181,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          le plus-que-parfait ne raconte pas la suite de l’histoire, il
+          Le plus-que-parfait ne raconte pas la suite de l’histoire, il
           l’explique. Trois phrases de suite au plus-que-parfait veulent
           presque toujours dire que le récit a commencé au mauvais endroit.
         </div>

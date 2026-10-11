@@ -87,7 +87,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          en el plural de <span className="fr" lang="fr">-eau</span>, la <em>x</em> también es muda:{" "}
+          En el plural de <span className="fr" lang="fr">-eau</span>, la <em>x</em> también es muda:{" "}
           <span className="fr" lang="fr">un gâteau</span> (un pastel) y<span className="fr" lang="fr">des gâteaux</span> suenan igual al final. Solo cambia
           el artículo, como en <span className="fr" lang="fr">le chat</span> y <span className="fr" lang="fr">les chats</span>.
         </div>
@@ -160,7 +160,7 @@ export default function Page() {
         </p>
 
         <div className="exception">
-          delante de unas pocas palabras con h no hay liaison, igual que no
+          Delante de unas pocas palabras con h no hay liaison, igual que no
           hay apóstrofo: <span className="fr" lang="fr">les héros</span> (los héroes), <span className="fr" lang="fr">les haricots</span> (las
           judías). Es la misma h de <span className="fr" lang="fr">le héros</span> en{" "}
           <Link href="/grammaire/les-articles-definis" lang="fr">

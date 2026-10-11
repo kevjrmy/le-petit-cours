@@ -47,7 +47,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          le verbe <span className="fr">être</span> n’y touche pas :{" "}
+          Le verbe <span className="fr">être</span> n’y touche pas :{" "}
           <span className="fr">ce n’est pas un problème</span>,{" "}
           <span className="fr">ce ne sont pas des touristes</span>. Et l’article
           défini ne bouge jamais non plus :{" "}
@@ -87,7 +87,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          deux tournures figées gardent l’article entier :{" "}
+          Deux tournures figées gardent l’article entier :{" "}
           <span className="fr">bien des gens</span> et{" "}
           <span className="fr">la plupart des élèves</span>. Elles s’apprennent
           telles quelles. La règle complète, avec le choix entre{" "}

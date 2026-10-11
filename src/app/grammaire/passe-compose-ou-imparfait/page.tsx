@@ -107,7 +107,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          une durée précise ferme l’action, donc elle appelle le passé composé :{" "}
+          Une durée précise ferme l’action, donc elle appelle le passé composé :{" "}
           <span className="fr">J’ai vécu dix ans à Lyon</span> — dix ans, c’est
           fini. Avec <span className="fr">Je vivais à Lyon</span>, on ne dit pas
           combien de temps, on plante le décor.

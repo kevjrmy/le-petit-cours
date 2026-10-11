@@ -137,7 +137,7 @@ export function B1() {
         </div>
 
         <div className="attention">
-          un seul verbe du texte est au passé simple : « les artistes qui les{" "}
+          Un seul verbe du texte est au passé simple : « les artistes qui les{" "}
           <span className="fr">créèrent</span> ». C’est un temps de livre. À
           l’oral, on dit « les artistes qui les{" "}
           <span className="fr">ont créées</span> ».

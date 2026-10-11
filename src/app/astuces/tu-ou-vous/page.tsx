@@ -71,7 +71,7 @@ export default function Page() {
         </p>
 
         <div className="exception">
-          entre jóvenes, entre compañeros de trabajo y en muchos ambientes
+          Entre jóvenes, entre compañeros de trabajo y en muchos ambientes
           informales se usa <span className="fr" lang="fr">tu</span> aunque no
           os conozcáis. Si dudas, empieza con{" "}
           <span className="fr" lang="fr">vous</span>: si te conviene el{" "}

@@ -119,7 +119,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          en español, «mis hermanos» y «mis hijos» incluyen chicos y chicas. En
+          En español, «mis hermanos» y «mis hijos» incluyen chicos y chicas. En
           francés, <span className="fr" lang="fr">mes fils</span> son solo
           chicos: para todos los hijos se dice{" "}
           <span className="fr" lang="fr">mes enfants</span>, y para los

@@ -183,7 +183,7 @@ export function B1() {
         </div>
 
         <div className="attention">
-          le récit est au passé simple : <span className="fr">elle lâcha</span>,{" "}
+          Le récit est au passé simple : <span className="fr">elle lâcha</span>,{" "}
           <span className="fr">il s’arrêta</span>,{" "}
           <span className="fr">il eut</span>,{" "}
           <span className="fr">ils atteignirent</span>. À l’oral, on dit{" "}

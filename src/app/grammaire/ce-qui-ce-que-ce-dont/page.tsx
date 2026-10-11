@@ -166,7 +166,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          quelques verbes réclament <span className="fr">à</span> plutôt que{" "}
+          Quelques verbes réclament <span className="fr">à</span> plutôt que{" "}
           <span className="fr">de</span>, et la forme devient alors{" "}
           <span className="fr">ce à quoi</span> :{" "}
           <span className="fr">ce à quoi je pense</span>,{" "}
@@ -204,7 +204,7 @@ export default function Page() {
         </p>
 
         <div className="attention">
-          devant un nom au pluriel, la reprise s’écrit{" "}
+          Devant un nom au pluriel, la reprise s’écrit{" "}
           <span className="fr">ce sont</span> :{" "}
           <span className="fr">ce qui me manque, ce sont les vacances</span>. La
           règle est la même que dans{" "}

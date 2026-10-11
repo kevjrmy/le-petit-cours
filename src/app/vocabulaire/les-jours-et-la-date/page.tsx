@@ -135,7 +135,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          on écrit <span className="fr">le 5 mai</span>, jamais{" "}
+          On écrit <span className="fr">le 5 mai</span>, jamais{" "}
           <s className="fr">le 5 de mai</s>. Et le premier jour du mois
           est le seul qui se compte autrement :{" "}
           <span className="fr">
@@ -148,7 +148,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          pour demander la date, deux questions coexistent :{" "}
+          Pour demander la date, deux questions coexistent :{" "}
           <span className="fr">quel jour sommes-nous ?</span> et{" "}
           <span className="fr">on est le combien ?</span>. La première est plus
           soignée, la seconde très courante. Les deux se répondent par{" "}

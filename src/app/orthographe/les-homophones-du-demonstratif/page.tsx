@@ -119,7 +119,7 @@ export default function Page() {
         </p>
 
         <div className="attention">
-          les deux phrases peuvent être justes toutes les deux.{" "}
+          Les deux phrases peuvent être justes toutes les deux.{" "}
           <span className="fr">Il range ces livres</span> et{" "}
           <span className="fr">Il range ses livres</span> se disent, se lisent
           et ne veulent pas dire la même chose. Ce n’est pas le test qui

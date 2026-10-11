@@ -100,7 +100,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          l’entretien se fait entièrement au{" "}
+          L’entretien se fait entièrement au{" "}
           <span className="fr">vous</span>, des deux côtés. Même si le poste est
           dans une petite équipe où tout le monde se tutoie ensuite, on ne passe
           jamais au <span className="fr">tu</span> pendant un entretien.

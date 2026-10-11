@@ -117,7 +117,7 @@ export default function Page() {
           <Tirage sujets={SITUATIONS} />
 
           <div className="attention">
-            l’examinateur n’est pas là pour vous aider. Il attend que{" "}
+            L’examinateur n’est pas là pour vous aider. Il attend que{" "}
             <strong>vous</strong> posiez les questions, que vous demandiez de
             répéter si vous n’avez pas compris, et que vous relanciez quand le
             silence s’installe. Un candidat qui attend qu’on lui parle perd des

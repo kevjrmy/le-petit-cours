@@ -21,7 +21,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          on écrit <span className="fr">je vais manger</span>, jamais{" "}
+          On écrit <span className="fr">je vais manger</span>, jamais{" "}
           <s className="fr">je vais à manger</s>. Aucune préposition ne
           sépare <span className="fr">aller</span> de l’infinitif. C’est la
           faute la plus fréquente sur ce temps, et la seule chose à surveiller.
@@ -94,7 +94,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          quand le verbe à l’infinitif est justement{" "}
+          Quand le verbe à l’infinitif est justement{" "}
           <span className="fr">aller</span>, on le répète :{" "}
           <span className="fr">je vais aller à la gare</span>. La phrase paraît
           lourde, elle est correcte, et c’est ce que tout le monde dit.
@@ -155,7 +155,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          le pronom ne se met jamais devant{" "}
+          Le pronom ne se met jamais devant{" "}
           <span className="fr">aller</span>. On écrit{" "}
           <span className="fr">tu vas te laver</span>, jamais{" "}
           <s className="fr">tu te vas laver</s>. Et quand la phrase est

@@ -111,7 +111,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          delante de <span className="fr" lang="fr">un</span> y de{" "}
+          Delante de <span className="fr" lang="fr">un</span> y de{" "}
           <span className="fr" lang="fr">onze</span>, la decena lleva{" "}
           <span className="fr" lang="fr">et</span> (y), sin guion:{" "}
           <span className="fr" lang="fr">vingt et un</span>,{" "}
@@ -271,7 +271,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          en español dices «tengo treinta» sin más, pero en francés{" "}
+          En español dices «tengo treinta» sin más, pero en francés{" "}
           <span className="fr" lang="fr">ans</span> es obligatorio:{" "}
           <span className="fr" lang="fr">j’ai trente</span> está mal. Y el verbo
           de la edad es siempre <span className="fr" lang="fr">avoir</span>{" "}

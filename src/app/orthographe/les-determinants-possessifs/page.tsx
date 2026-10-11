@@ -102,7 +102,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          les trois dernières lignes n’ont que deux formes au lieu de trois :{" "}
+          Les trois dernières lignes n’ont que deux formes au lieu de trois :{" "}
           <span className="fr">notre</span>,{" "}
           <span className="fr">votre</span> et{" "}
           <span className="fr">leur</span> ne changent pas au féminin. Seul le
@@ -136,7 +136,7 @@ export default function Page() {
         </p>
 
         <div className="exception">
-          devant un <span className="fr">h</span> aspiré, la règle ne s’applique
+          Devant un <span className="fr">h</span> aspiré, la règle ne s’applique
           pas, parce que le heurt n’a pas lieu : on écrit{" "}
           <span className="fr">sa hauteur</span>,{" "}
           <span className="fr">ma honte</span>. Ces mots sont peu nombreux et

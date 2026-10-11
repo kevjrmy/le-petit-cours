@@ -155,7 +155,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          ces tests marchent parce que l’un des deux mots est un verbe, qu’on
+          Ces tests marchent parce que l’un des deux mots est un verbe, qu’on
           compare à un autre temps du même verbe. Ils ne disent rien des paires
           où aucun des deux n’en est un — <span className="fr">ces / ses</span>,{" "}
           <span className="fr">mais / mes</span>,{" "}

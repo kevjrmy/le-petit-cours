@@ -126,7 +126,7 @@ export default function Page() {
         </p>
 
         <div className="attention">
-          l’article revient derrière <span className="fr">sans</span> dès que le
+          L’article revient derrière <span className="fr">sans</span> dès que le
           nom est qualifié ou désigné :{" "}
           <span className="fr">sans une minute de retard</span>,{" "}
           <span className="fr">sans l’aide de personne</span>. Le nom nu est le
@@ -177,14 +177,14 @@ export default function Page() {
         </p>
 
         <div className="attention">
-          c’est une règle de l’écrit soigné. À l’oral, on entend partout{" "}
+          C’est une règle de l’écrit soigné. À l’oral, on entend partout{" "}
           <span className="fr">des grandes maisons</span>, et personne ne
           reprend celui qui le dit. À l’écrit, et dans une copie d’examen, la
           forme attendue reste <span className="fr">de</span>.
         </div>
 
         <div className="exception">
-          quand l’adjectif et le nom forment un seul mot de la langue,{" "}
+          Quand l’adjectif et le nom forment un seul mot de la langue,{" "}
           <span className="fr">des</span> reste :{" "}
           <span className="fr">des jeunes gens</span>,{" "}
           <span className="fr">des petits pois</span>,{" "}

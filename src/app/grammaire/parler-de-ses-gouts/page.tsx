@@ -92,7 +92,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          con una persona, <span className="fr" lang="fr">j’aime Paul</span>{" "}
+          Con una persona, <span className="fr" lang="fr">j’aime Paul</span>{" "}
           suena a amor. Para decir que alguien te cae bien, usa{" "}
           <span className="fr" lang="fr">j’aime bien Paul</span>.
         </div>
@@ -253,7 +253,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          en la negación, <span className="fr" lang="fr">ne… pas</span> rodea a{" "}
+          En la negación, <span className="fr" lang="fr">ne… pas</span> rodea a{" "}
           <span className="fr" lang="fr">aimer</span> y el infinitivo se queda
           detrás: <span className="fr" lang="fr">je n’aime pas danser</span> (no
           me gusta bailar).

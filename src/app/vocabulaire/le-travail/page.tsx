@@ -21,7 +21,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          l’article revient dès qu’un adjectif s’ajoute :{" "}
+          L’article revient dès qu’un adjectif s’ajoute :{" "}
           <span className="fr">je suis un bon professeur</span>. C’est
           l’adjectif qui l’appelle, pas le métier.
         </div>
@@ -100,7 +100,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          les deux dernières lignes sortent de la règle. Tous les métiers en{" "}
+          Les deux dernières lignes sortent de la règle. Tous les métiers en{" "}
           <span className="fr">-eur</span> ne font pas{" "}
           <span className="fr">-euse</span> :{" "}
           <span className="fr">ingénieur</span> donne{" "}

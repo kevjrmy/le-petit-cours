@@ -182,7 +182,7 @@ export function B1() {
         </div>
 
         <div className="attention">
-          le portrait est à l’imparfait, le temps de l’habitude
+          Le portrait est à l’imparfait, le temps de l’habitude
           (<span className="fr">il vivait</span>,{" "}
           <span className="fr">il rentrait</span>) ; le récit passe au passé
           simple quand quelque chose arrive une seule fois :{" "}

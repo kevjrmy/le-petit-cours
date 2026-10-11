@@ -79,7 +79,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          devant un <span className="fr">h</span> aspiré, le heurt entre les
+          Devant un <span className="fr">h</span> aspiré, le heurt entre les
           deux voyelles n’a pas lieu et la forme courte revient :{" "}
           <span className="fr">ce héros</span>,{" "}
           <span className="fr">ce hasard</span>,{" "}
@@ -117,7 +117,7 @@ export default function Page() {
         </p>
 
         <div className="attention">
-          le trait d’union est obligatoire, et il se place{" "}
+          Le trait d’union est obligatoire, et il se place{" "}
           <strong>après le nom</strong>, pas après le déterminant. On écrit{" "}
           <span className="fr">ce livre-là</span> ; la forme{" "}
           <s className="fr">ce-là livre</s> n’existe pas.
@@ -208,7 +208,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          sans <span className="fr">-là</span>, l’expression parle du présent.{" "}
+          Sans <span className="fr">-là</span>, l’expression parle du présent.{" "}
           <span className="fr">ce matin</span> est le matin d’aujourd’hui,{" "}
           <span className="fr">ce matin-là</span> est un matin de l’histoire
           qu’on raconte. Le petit mot change l’époque de la phrase entière.

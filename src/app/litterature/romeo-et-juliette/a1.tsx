@@ -60,7 +60,7 @@ export function A1() {
         </div>
 
         <div className="attention">
-          en las líneas 5 y 6, el sujeto llega al final. En orden normal:{" "}
+          En las líneas 5 y 6, el sujeto llega al final. En orden normal:{" "}
           <span className="fr" lang="fr">
             un couple d’amoureux a pris naissance
           </span>{" "}

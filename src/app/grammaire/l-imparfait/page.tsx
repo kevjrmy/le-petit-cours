@@ -87,7 +87,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          les terminaisons sont les mêmes pour <strong>tous</strong> les verbes
+          Les terminaisons sont les mêmes pour <strong>tous</strong> les verbes
           du français. Quatre d’entre elles se prononcent de façon identique :{" "}
           <span className="fr">
             je parlais, tu parlais, il parlait, ils parlaient

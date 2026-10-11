@@ -58,7 +58,7 @@ export function A2() {
         </div>
 
         <div className="attention">
-          presque tous les verbes de cette fable sont au passé simple :{" "}
+          Presque tous les verbes de cette fable sont au passé simple :{" "}
           <span className="fr">sortit</span>,{" "}
           <span className="fr">montra</span>,{" "}
           <span className="fr">accourut</span>,{" "}

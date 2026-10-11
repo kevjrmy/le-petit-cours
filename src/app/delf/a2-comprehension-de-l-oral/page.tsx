@@ -54,7 +54,7 @@ export default function Page() {
           </p>
 
           <div className="attention">
-            les textes à lire sont en bas de la page, sous « Les textes à lire
+            Les textes à lire sont en bas de la page, sous « Les textes à lire
             ». La personne qui lit les ouvre sur son écran à elle, pas sur le
             vôtre.
           </div>

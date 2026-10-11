@@ -222,7 +222,7 @@ export default function Page() {
         </p>
 
         <div className="attention">
-          après <span className="fr">était</span>, le{" "}
+          Après <span className="fr">était</span>, le{" "}
           <span className="fr">-é</span> s’accorde avec le sujet :{" "}
           <span className="fr">la dame était allée</span>,{" "}
           <span className="fr">les chaussures étaient séparées</span>.

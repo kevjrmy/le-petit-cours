@@ -43,7 +43,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          au passé composé, les deux morceaux encadrent{" "}
+          Au passé composé, les deux morceaux encadrent{" "}
           <strong>l’auxiliaire</strong>, pas le participe :{" "}
           <span className="fr">je n’ai pas mangé</span>,{" "}
           <span className="fr">elle n’est pas venue</span>. Le participe reste
@@ -128,7 +128,7 @@ export default function Page() {
         </p>
 
         <div className="exception">
-          l’article défini ne bouge pas.{" "}
+          L’article défini ne bouge pas.{" "}
           <span className="fr">le</span>, <span className="fr">la</span>,{" "}
           <span className="fr">les</span> restent tels quels :{" "}
           <span className="fr">je n’aime pas le café</span>, jamais{" "}
@@ -223,14 +223,14 @@ export default function Page() {
         </p>
 
         <div className="attention">
-          ces mots remplacent <span className="fr">pas</span>, ils ne
+          Ces mots remplacent <span className="fr">pas</span>, ils ne
           s’ajoutent pas à lui. On dit{" "}
           <span className="fr">je ne fume plus</span>, jamais{" "}
           <s className="fr">je ne fume pas plus</s>.
         </div>
 
         <div className="exception">
-          au passé composé, <span className="fr">personne</span> se place après
+          Au passé composé, <span className="fr">personne</span> se place après
           le participe, alors que les trois autres restent devant :{" "}
           <span className="fr">je n’ai rien vu</span> mais{" "}
           <span className="fr">je n’ai vu personne</span>.

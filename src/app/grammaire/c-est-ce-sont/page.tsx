@@ -217,7 +217,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          después de <span className="fr" lang="fr">c’est</span>, el adjetivo
+          Después de <span className="fr" lang="fr">c’est</span>, el adjetivo
           no concuerda nunca. Se escribe{" "}
           <span className="fr" lang="fr">c’est bon</span> incluso hablando de
           una tarta, porque el adjetivo no describe la tarta: da tu opinión.

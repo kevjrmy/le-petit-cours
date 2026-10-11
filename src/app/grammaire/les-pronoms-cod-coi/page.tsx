@@ -70,7 +70,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          devant une voyelle, <span className="fr">me</span>,{" "}
+          Devant une voyelle, <span className="fr">me</span>,{" "}
           <span className="fr">te</span>, <span className="fr">le</span> et{" "}
           <span className="fr">la</span> perdent leur voyelle :{" "}
           <span className="fr">Je l’écoute</span>,{" "}
@@ -180,14 +180,14 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          quand un COD est placé avant le verbe, le participe passé s’accorde
+          Quand un COD est placé avant le verbe, le participe passé s’accorde
           avec lui : <span className="fr">Je les ai invit<strong>és</strong></span>{" "}
           · <span className="fr">Cette lettre, je l’ai écrit<strong>e</strong></span>.
           L’accord ne s’entend pas toujours, mais il s’écrit.
         </div>
 
         <div className="exception">
-          l’impératif affirmatif. Là, le pronom passe{" "}
+          L’impératif affirmatif. Là, le pronom passe{" "}
           <strong>après</strong> le verbe, avec un trait d’union, et{" "}
           <span className="fr">me</span> devient{" "}
           <span className="fr">moi</span> : <span className="fr">Regarde-la !</span>{" "}

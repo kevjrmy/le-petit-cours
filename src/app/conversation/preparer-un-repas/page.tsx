@@ -43,7 +43,7 @@ export default function Page() {
         </ol>
 
         <div className="attention">
-          un frigo se décrit surtout à la forme négative, et la négation change
+          Un frigo se décrit surtout à la forme négative, et la négation change
           l’article : <span className="fr">il n’y a plus de lait</span>,{" "}
           <span className="fr">il ne reste plus de beurre</span>. Jamais{" "}
           <s className="fr">plus du lait</s>. Le raccourci est dans{" "}

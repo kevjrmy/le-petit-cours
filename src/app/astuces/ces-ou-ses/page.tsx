@@ -37,7 +37,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          le test dit ce qui est possible, pas ce que vous vouliez écrire.{" "}
+          Le test dit ce qui est possible, pas ce que vous vouliez écrire.{" "}
           <span className="fr">Il range ces livres</span> et{" "}
           <span className="fr">Il range ses livres</span> passent le test toutes
           les deux, parce que les deux phrases existent. Quand c’est le cas, le
@@ -71,7 +71,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          dans une phrase où les deux tiennent, aucun test ne décide à votre
+          Dans une phrase où les deux tiennent, aucun test ne décide à votre
           place. C’est le sens que vous voulez donner qui choisit : montrer, ou
           dire à qui. Le reste des paires,{" "}
           <span className="fr">ce / se</span>,{" "}

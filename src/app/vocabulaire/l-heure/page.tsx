@@ -124,7 +124,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          on écrit <span className="fr">14 h 30</span> avec un{" "}
+          On écrit <span className="fr">14 h 30</span> avec un{" "}
           <span className="fr">h</span> minuscule et des espaces, jamais avec
           deux points. Et l’heure officielle ne prend ni{" "}
           <span className="fr">et quart</span> ni{" "}

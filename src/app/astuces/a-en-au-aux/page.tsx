@@ -31,7 +31,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          quelques villes portent un article dans leur nom, et cet article
+          Quelques villes portent un article dans leur nom, et cet article
           change la préposition : <span className="fr">Le Havre</span> donne{" "}
           <span className="fr">au Havre</span>,{" "}
           <span className="fr">La Haye</span> donne{" "}
@@ -104,7 +104,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          pour dire d’où l’on vient, le même raisonnement sert avec{" "}
+          Pour dire d’où l’on vient, le même raisonnement sert avec{" "}
           <span className="fr">de</span> :{" "}
           <span className="fr">je viens de France</span>,{" "}
           <span className="fr">je viens du Japon</span>,{" "}
@@ -151,7 +151,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          cette page est un raccourci, pas une leçon. Elle ne dit rien de{" "}
+          Cette page est un raccourci, pas une leçon. Elle ne dit rien de{" "}
           <span className="fr">chez</span>, ni des prépositions de lieu à
           l’intérieur d’une ville. Elle sert à décider vite entre quatre mots,
           et à savoir quand ne pas lui faire confiance.

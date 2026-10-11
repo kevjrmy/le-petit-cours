@@ -339,7 +339,7 @@ export default function Page() {
         </div>
 
         <div className="exception">
-          ce qui se compte garde <span className="fr">un</span> et{" "}
+          Ce qui se compte garde <span className="fr">un</span> et{" "}
           <span className="fr">une</span> :{" "}
           <span className="fr">un œuf</span>,{" "}
           <span className="fr">deux œufs</span>,{" "}

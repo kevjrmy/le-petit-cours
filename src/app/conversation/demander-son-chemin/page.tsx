@@ -42,7 +42,7 @@ export default function Page() {
         </ol>
 
         <div className="attention">
-          on aborde un inconnu par{" "}
+          On aborde un inconnu par{" "}
           <span className="fr">pardon, madame</span> ou{" "}
           <span className="fr">excusez-moi, monsieur</span>, jamais par{" "}
           <span className="fr">bonjour</span> seul et jamais par{" "}
