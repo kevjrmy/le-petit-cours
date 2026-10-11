@@ -813,6 +813,15 @@ export const chapters: Chapter[] = [
         delf: "Suivre une recette écrite et nommer ce qu’elle demande",
         created: "2026-09-15",
       },
+      {
+        id: "voc-opinion",
+        path: "/vocabulaire/l-opinion",
+        title: "L’opinion",
+        subtitle: "Donner son avis, répondre à celui de l’autre",
+        level: "A2",
+        delf: "Donner son avis, dire son accord ou son désaccord et développer une idée",
+        created: "2026-10-11",
+      },
     ],
   },
   {
@@ -1041,6 +1050,19 @@ export const chapters: Chapter[] = [
         delf: "Choisir le connecteur que demande le lien entre deux idées",
         created: "2026-10-05",
       },
+      /* Le dialogue à trous de `voc-opinion`, et le seul dialogue modèle du
+         jeu de rôle `conv-donner-son-avis`. Même plateau que le récit
+         ci-dessus : un menu de trois par trou (`data.ts`). */
+      {
+        id: "ex-d-accord-ou-pas",
+        path: "/exercices/d-accord-ou-pas-d-accord",
+        title: "D’accord ou pas d’accord ?",
+        subtitle: "Un dialogue à trous : le marché ou le supermarché",
+        tag: "Texte",
+        level: "A2",
+        delf: "Choisir la formule qui donne un avis, y répond ou le développe",
+        created: "2026-10-11",
+      },
       {
         id: "ex-relisez-le-paragraphe",
         path: "/exercices/relisez-le-paragraphe",
@@ -1191,6 +1213,16 @@ export const chapters: Chapter[] = [
         level: "A2",
         delf: "Décider d’un repas, dire ce qu’il faut acheter et en quelle quantité.",
         created: "2026-09-21",
+      },
+      {
+        id: "conv-donner-son-avis",
+        path: "/conversation/donner-son-avis",
+        title: "Donner son avis",
+        subtitle: "Autour d’un café, avec une amie",
+        tag: "Jeu de rôle",
+        level: "A2",
+        delf: "Donner son opinion, la justifier par une raison et un exemple, réagir à celle de l’autre.",
+        created: "2026-10-11",
       },
     ],
   },
@@ -2217,6 +2249,25 @@ const handWrittenLinks: Record<string, string[]> = {
   "/exercices/mais-donc-ou-parce-que": [
     "/grammaire/les-connecteurs",
     "/lecture/ulysse-et-le-cyclope",
+    "/conversation/donner-son-avis",
+  ],
+  /* L'avis se prépare avec ses mots, s'exerce dans un dialogue à trous, puis
+     se joue : les trois pages se renvoient l'une à l'autre, et aux
+     connecteurs qui portent les raisons. */
+  "/vocabulaire/l-opinion": [
+    "/exercices/d-accord-ou-pas-d-accord",
+    "/conversation/donner-son-avis",
+    "/grammaire/les-connecteurs",
+    "/exercices/mais-donc-ou-parce-que",
+  ],
+  "/exercices/d-accord-ou-pas-d-accord": [
+    "/vocabulaire/l-opinion",
+    "/conversation/donner-son-avis",
+  ],
+  "/conversation/donner-son-avis": [
+    "/vocabulaire/l-opinion",
+    "/exercices/d-accord-ou-pas-d-accord",
+    "/grammaire/les-connecteurs",
   ],
   /* Chaque exercice renvoie à la leçon qu'il fait travailler, et la leçon
      renvoie vers lui : un exercice qu'aucune leçon ne cite n'est jamais
