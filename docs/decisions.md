@@ -14,78 +14,78 @@ When you add one: append it with the next free number, say what it was chosen ag
 replaces an earlier entry, fold what still matters into your own text and delete the old one rather
 than marking it superseded.
 
-| # | Date | Decision | Status |
-|---|---|---|---|
-| 1 | 2026-08-26 | No PDF export, no print stylesheet | Binding |
-| 2 | 2026-08-26 | Progress is ticked manually, never automatically | Binding |
-| 4 | 2026-09-05 | Lessons are written from scratch, never adapted from an older page | Binding |
-| 6 | 2026-09-05 | Plain CSS (global tokens + CSS Modules), not Tailwind | Inferred |
-| 7 | 2026-09-05 | Vercel hosting, still an offline PWA — not a static export | Binding |
-| 8 | 2026-09-05 | Supabase, scoped to accounts and progress sync only | Binding |
-| 10 | 2026-09-05 | The lesson authoring format is deferred until the primitives exist | **Open** |
-| 11 | 2026-09-05 | MIT for the code, CC BY-SA 4.0 for the content, with a carve-out | Binding |
-| 13 | 2026-09-05 | Two learner profiles, and the heritage speaker is not a level | Binding |
-| 14 | 2026-09-05 | A parcours orders lessons without owning them | Binding |
-| 15 | 2026-09-05 | A level is complete when it covers the DELF syllabus for that level | Binding |
-| 18 | 2026-09-05 | All content is public; an account buys only the learning path | Binding |
-| 21 | 2026-09-05 | No key that bypasses RLS lives anywhere, and RLS is the authorization model | Binding |
-| 22 | 2026-09-05 | A progress row *is* the tick; the level never keys progress | Binding · narrowed by #68 |
-| 24 | 2026-09-05 | IndexedDB is the local store; `localStorage` is for pre-paint values only | Binding |
-| 26 | 2026-09-05 | Sign-in is a route, `/compte`, never a modal | Binding |
-| 27 | 2026-09-05 | The accent is the wordmark's blue; the serif carries the French | Binding |
-| 29 | 2026-09-05 | Chapter landing pages are one generated route, not one file per chapter | Binding |
-| 31 | 2026-09-05 | An account may hold an optional display name | Binding |
-| 36 | 2026-09-06 | The learner's settings live in user metadata, not in a table of ours | Binding |
-| 37 | 2026-09-06 | Username and password; nothing on the server reads the session | Binding |
-| 38 | 2026-09-06 | The username is its own table — unique, mutable, mirrored | Binding |
-| 39 | 2026-09-06 | The home page is a search field; the sommaire is at `/sommaire` | Binding · narrowed by #71 |
-| 40 | 2026-09-06 | The sidebar is one level deep: a chapter is a link, not a disclosure | Binding |
-| 42 | 2026-09-06 | Three shells; chapter icons are required and compiler-checked | Binding |
-| 43 | 2026-09-06 | The topbar is part of the page: no band, no blur | Binding |
-| 44 | 2026-09-06 | The topbar is sticky on mobile only, painted in the page's own ground | Binding |
-| 45 | 2026-09-06 | One sidebar control; the trail never names the page you are on | Binding |
-| 47 | 2026-09-06 | The account popover holds the account, and nothing else | Binding |
-| 48 | 2026-09-06 | A tick needs an account; offline is a queue of operations | Binding |
-| 49 | 2026-09-06 | The shell draws the end of a lesson: the tick, then the links | Binding |
-| 50 | 2026-09-06 | Progress is keyed by a permanent lesson id, never by the route path | Binding |
-| 51 | 2026-09-06 | The course announces nothing it has not written | Binding |
-| 53 | 2026-09-06 | One language of instruction, and it is French | Binding · narrowed by #85, #91 |
-| 54 | 2026-09-06 | A conversation page is a guided role-play, graded nowhere | Binding |
-| 55 | 2026-09-06 | A `traduction` chapter — Spanish as material, never as explanation | Binding |
-| 56 | 2026-09-06 | The conjugation sheets: one data file, one route, the imparfait included | Binding |
-| 57 | 2026-09-07 | A role-play offers words, never a model dialogue | Binding |
-| 58 | 2026-09-07 | What a reading text has to be, and how the public domain is tested | Binding · amended 2026-09-30 |
-| 59 | 2026-09-07 | How hard a reading text may be, and what to do when it is too hard | Binding |
-| 60 | 2026-09-07 | World literature in `litterature`; the translator's death date is the test | Binding |
-| 63 | 2026-09-12 | The footer belongs to the home page; the shell's foot is one shared row | Binding |
-| 65 | 2026-09-12 | No level in the trail; a lesson's level is shown on its listing row | Binding · amended 2026-09-30 |
-| 66 | 2026-09-12 | Sections are marked, not merely spaced; the in-page index is read from the page | Binding |
-| 67 | 2026-09-12 | « En résumé » is a titled block, and one line closes a lesson | Binding |
-| 68 | 2026-09-12 | A tick names its level only when the page holds a body of work per level | Binding · narrowed by #86, #87 |
-| 69 | 2026-09-17 | A recurring mistake steers the course, and nobody gets a programme of their own | Binding · extends #13 |
-| 70 | 2026-09-21 | « La suite » is the dashboard; signing in returns you where you were | Binding |
-| 71 | 2026-09-21 | Signed out, `/` is a welcome; the search field is the signed-in home | Binding |
-| 72 | 2026-09-21 | A1 joins the course as pages, not as tags | Binding · narrowed by #74, #86 |
-| 74 | 2026-09-21 | A level is offered while it is being written, not once it is finished | Binding · narrowed by #77, #86 |
-| 75 | 2026-09-21 | The ladder stops at B2; C1 and C2 are out of scope | Binding |
-| 77 | 2026-09-21 | The chooser offers the levels and rates none of them | Binding · narrows #74 |
-| 78 | 2026-09-21 | A `delf` chapter describes the exam and prints none of it | Binding · amended by #82 |
-| 79 | 2026-09-21 | The tick is settable from a chapter's listing, beside the row's link | Binding · extends #2, #48 |
-| 80 | 2026-09-22 | A scratch chapter: listed like the others, counted like nothing | Binding · extends #18, #48, #51 |
-| 81 | 2026-09-22 | The atelier sits behind one shared password, in a proxy that knows nothing else | Binding · extends #37, #80 · lifted 2026-10-06 |
-| 82 | 2026-09-27 | An épreuve is marked once, at the end, and a person reads the listening one aloud | Binding · amends #78 |
-| 83 | 2026-09-27 | An épreuve may link a Commons photo as illustration, never as the answer | Binding · narrows §9 |
-| 84 | 2026-09-27 | A written copy is handed in by downloading it, never by storing it | Binding · extends #31, #82 |
-| 85 | 2026-09-30 | An A1 page explains in Spanish; the French it teaches stays French | Binding · narrows #53 |
-| 86 | 2026-09-30 | A page has one level, and the learner chooses which levels they see | Binding · narrows #72, #85 |
-| 87 | 2026-09-30 | A page holding sets shows the learner's default one, with no tabs | Binding · amended 2026-09-30 · narrows #68 |
-| 88 | 2026-09-30 | A parcours is a file of étapes, chosen in the account; « La suite » walks it | Binding · builds #14, amends #70 |
-| 89 | 2026-09-30 | The syllabus is data, and a parcours ends on its épreuves | Binding · syllabus not built · builds #15, extends #88 |
-| 90 | 2026-09-30 | A first sign-in passes through `/bienvenue`, in French or Spanish | Binding · amends #88, narrows #53, amended by #91 |
-| 91 | 2026-09-30 | The account screens speak the account's language, French or Spanish | Binding · amends #90, #31 · narrows #53 |
-| 92 | 2026-09-30 | A literary work is one page whose body follows the level; at A1 the Spanish sits under each line | Binding · narrows #72, #86, #87, #53 |
-| 93 | 2026-10-05 | A cited form is marked by weight, a wrong one by a line | Binding · builds #27, #53 |
-| 94 | 2026-10-07 | The course speaks with the device's French voice, or not at all | Binding · a trial · builds #51, #82 |
+| #   | Date       | Decision                                                                                         | Status                                                 |
+| --- | ---------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
+| 1   | 2026-08-26 | No PDF export, no print stylesheet                                                               | Binding                                                |
+| 2   | 2026-08-26 | Progress is ticked manually, never automatically                                                 | Binding                                                |
+| 4   | 2026-09-05 | Lessons are written from scratch, never adapted from an older page                               | Binding                                                |
+| 6   | 2026-09-05 | Plain CSS (global tokens + CSS Modules), not Tailwind                                            | Inferred                                               |
+| 7   | 2026-09-05 | Vercel hosting, still an offline PWA — not a static export                                       | Binding                                                |
+| 8   | 2026-09-05 | Supabase, scoped to accounts and progress sync only                                              | Binding                                                |
+| 10  | 2026-09-05 | The lesson authoring format is deferred until the primitives exist                               | **Open**                                               |
+| 11  | 2026-09-05 | MIT for the code, CC BY-SA 4.0 for the content, with a carve-out                                 | Binding                                                |
+| 13  | 2026-09-05 | Two learner profiles, and the heritage speaker is not a level                                    | Binding                                                |
+| 14  | 2026-09-05 | A parcours orders lessons without owning them                                                    | Binding                                                |
+| 15  | 2026-09-05 | A level is complete when it covers the DELF syllabus for that level                              | Binding                                                |
+| 18  | 2026-09-05 | All content is public; an account buys only the learning path                                    | Binding                                                |
+| 21  | 2026-09-05 | No key that bypasses RLS lives anywhere, and RLS is the authorization model                      | Binding                                                |
+| 22  | 2026-09-05 | A progress row *is* the tick; the level never keys progress                                      | Binding · narrowed by #68                              |
+| 24  | 2026-09-05 | IndexedDB is the local store; `localStorage` is for pre-paint values only                        | Binding                                                |
+| 26  | 2026-09-05 | Sign-in is a route, `/compte`, never a modal                                                     | Binding                                                |
+| 27  | 2026-09-05 | The accent is the wordmark's blue; the serif carries the French                                  | Binding                                                |
+| 29  | 2026-09-05 | Chapter landing pages are one generated route, not one file per chapter                          | Binding                                                |
+| 31  | 2026-09-05 | An account may hold an optional display name                                                     | Binding                                                |
+| 36  | 2026-09-06 | The learner's settings live in user metadata, not in a table of ours                             | Binding                                                |
+| 37  | 2026-09-06 | Username and password; nothing on the server reads the session                                   | Binding                                                |
+| 38  | 2026-09-06 | The username is its own table — unique, mutable, mirrored                                        | Binding                                                |
+| 39  | 2026-09-06 | The home page is a search field; the sommaire is at `/sommaire`                                  | Binding · narrowed by #71                              |
+| 40  | 2026-09-06 | The sidebar is one level deep: a chapter is a link, not a disclosure                             | Binding                                                |
+| 42  | 2026-09-06 | Three shells; chapter icons are required and compiler-checked                                    | Binding                                                |
+| 43  | 2026-09-06 | The topbar is part of the page: no band, no blur                                                 | Binding                                                |
+| 44  | 2026-09-06 | The topbar is sticky on mobile only, painted in the page's own ground                            | Binding                                                |
+| 45  | 2026-09-06 | One sidebar control; the trail never names the page you are on                                   | Binding                                                |
+| 47  | 2026-09-06 | The account popover holds the account, and nothing else                                          | Binding                                                |
+| 48  | 2026-09-06 | A tick needs an account; offline is a queue of operations                                        | Binding                                                |
+| 49  | 2026-09-06 | The shell draws the end of a lesson: the tick, then the links                                    | Binding                                                |
+| 50  | 2026-09-06 | Progress is keyed by a permanent lesson id, never by the route path                              | Binding                                                |
+| 51  | 2026-09-06 | The course announces nothing it has not written                                                  | Binding                                                |
+| 53  | 2026-09-06 | One language of instruction, and it is French                                                    | Binding · narrowed by #85, #91                         |
+| 54  | 2026-09-06 | A conversation page is a guided role-play, graded nowhere                                        | Binding                                                |
+| 55  | 2026-09-06 | A `traduction` chapter — Spanish as material, never as explanation                               | Binding                                                |
+| 56  | 2026-09-06 | The conjugation sheets: one data file, one route, the imparfait included                         | Binding                                                |
+| 57  | 2026-09-07 | A role-play offers words, never a model dialogue                                                 | Binding                                                |
+| 58  | 2026-09-07 | What a reading text has to be, and how the public domain is tested                               | Binding · amended 2026-09-30                           |
+| 59  | 2026-09-07 | How hard a reading text may be, and what to do when it is too hard                               | Binding                                                |
+| 60  | 2026-09-07 | World literature in `litterature`; the translator's death date is the test                       | Binding                                                |
+| 63  | 2026-09-12 | The footer belongs to the home page; the shell's foot is one shared row                          | Binding                                                |
+| 65  | 2026-09-12 | No level in the trail; a lesson's level is shown on its listing row                              | Binding · amended 2026-09-30                           |
+| 66  | 2026-09-12 | Sections are marked, not merely spaced; the in-page index is read from the page                  | Binding                                                |
+| 67  | 2026-09-12 | « En résumé » is a titled block, and one line closes a lesson                                    | Binding                                                |
+| 68  | 2026-09-12 | A tick names its level only when the page holds a body of work per level                         | Binding · narrowed by #86, #87                         |
+| 69  | 2026-09-17 | A recurring mistake steers the course, and nobody gets a programme of their own                  | Binding · extends #13                                  |
+| 70  | 2026-09-21 | « La suite » is the dashboard; signing in returns you where you were                             | Binding                                                |
+| 71  | 2026-09-21 | Signed out, `/` is a welcome; the search field is the signed-in home                             | Binding                                                |
+| 72  | 2026-09-21 | A1 joins the course as pages, not as tags                                                        | Binding · narrowed by #74, #86                         |
+| 74  | 2026-09-21 | A level is offered while it is being written, not once it is finished                            | Binding · narrowed by #77, #86                         |
+| 75  | 2026-09-21 | The ladder stops at B2; C1 and C2 are out of scope                                               | Binding                                                |
+| 77  | 2026-09-21 | The chooser offers the levels and rates none of them                                             | Binding · narrows #74                                  |
+| 78  | 2026-09-21 | A `delf` chapter describes the exam and prints none of it                                        | Binding · amended by #82                               |
+| 79  | 2026-09-21 | The tick is settable from a chapter's listing, beside the row's link                             | Binding · extends #2, #48                              |
+| 80  | 2026-09-22 | A scratch chapter: listed like the others, counted like nothing                                  | Binding · extends #18, #48, #51                        |
+| 81  | 2026-09-22 | The atelier sits behind one shared password, in a proxy that knows nothing else                  | Binding · extends #37, #80 · lifted 2026-10-06         |
+| 82  | 2026-09-27 | An épreuve is marked once, at the end, and a person reads the listening one aloud                | Binding · amends #78                                   |
+| 83  | 2026-09-27 | An épreuve may link a Commons photo as illustration, never as the answer                         | Binding · narrows §9                                   |
+| 84  | 2026-09-27 | A written copy is handed in by downloading it, never by storing it                               | Binding · extends #31, #82                             |
+| 85  | 2026-09-30 | An A1 page explains in Spanish; the French it teaches stays French                               | Binding · narrows #53                                  |
+| 86  | 2026-09-30 | A page has one level, and the learner chooses which levels they see                              | Binding · narrows #72, #85                             |
+| 87  | 2026-09-30 | A page holding sets shows the learner's default one, with no tabs                                | Binding · amended 2026-09-30 · narrows #68             |
+| 88  | 2026-09-30 | A parcours is a file of étapes, chosen in the account; « La suite » walks it                     | Binding · builds #14, amends #70                       |
+| 89  | 2026-09-30 | The syllabus is data, and a parcours ends on its épreuves                                        | Binding · syllabus not built · builds #15, extends #88 |
+| 90  | 2026-09-30 | A first sign-in passes through `/bienvenue`, in French or Spanish                                | Binding · amends #88, narrows #53, amended by #91      |
+| 91  | 2026-09-30 | The account screens speak the account's language, French or Spanish                              | Binding · amends #90, #31 · narrows #53                |
+| 92  | 2026-09-30 | A literary work is one page whose body follows the level; at A1 the Spanish sits under each line | Binding · narrows #72, #86, #87, #53                   |
+| 93  | 2026-10-05 | A cited form is marked by weight, a wrong one by a line                                          | Binding · builds #27, #53                              |
+| 94  | 2026-10-07 | The course speaks with the device's French voice, or not at all                                  | Binding · a trial · builds #51, #82                    |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -1136,15 +1136,17 @@ weight a table's row head and a `<strong>` in an `.example` already had. The ser
 did not detach it at reading size: « puis se place avant l'action » read as one run of text. Inside
 `.example` and `ul.mots`, where everything is French, the span keeps the block's weight.
 
-**A form cited to say it is wrong is `<s className="fr">`**: the text's own weight, struck through in
-`--danger`. Left in a span it became the boldest word in the sentence that rejects it. The line is
+**A form cited to say it is wrong is `<s className="fr">`**: the text's own weight, italic (since
+2026-10-11), struck through in `--danger`. Left in a span it became the boldest word in the sentence that rejects it. The line is
 the mark, so the meaning does not rest on the red. **Only a form wrong as written** (*je sors puis*,
 *mèr*), never a correct word that is the wrong choice here, and never a spoken form the page allows.
 Sixty forms were converted in the lessons that existed.
 
 **Chosen against a colour** (the accent reads as a link), **a tinted pill** (a new shape, up to eight
 times a paragraph, clashing with the amber and red callouts) **and the italic** (the caption's voice,
-and too quiet). All three were tried on real pages before the weight was kept.
+and too quiet). All three were tried on real pages before the weight was kept. The italic went to the
+wrong form instead on 2026-10-11, after a semi-bold struck form inside the callouts was tried and
+dropped the same day: a wrong form is never bold.
 
 ## 94 · The course speaks with the device's French voice, or not at all
 **2026-10-07 · Binding · a trial · builds #51, #82**

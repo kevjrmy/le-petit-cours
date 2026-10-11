@@ -10,11 +10,11 @@ model: sonnet
 You keep three things in agreement. Nothing detects drift between them at build time (`AGENTS.md`
 §6).
 
-| Source | Owns | Symptom when it drifts |
-|---|---|---|
-| `src/data/navigation.ts` | titles, order, blurbs, tags, dates | the page exists but is unreachable from the UI |
-| `src/app/**/page.tsx` | the URL and the page itself | a sidebar link 404s |
-| the cross-link map | "Pour aller plus loin" | a page silently loses a link, or keeps one to a page that is gone |
+| Source                   | Owns                               | Symptom when it drifts                                            |
+| ------------------------ | ---------------------------------- | ----------------------------------------------------------------- |
+| `src/data/navigation.ts` | titles, order, blurbs, tags, dates | the page exists but is unreachable from the UI                    |
+| `src/app/**/page.tsx`    | the URL and the page itself        | a sidebar link 404s                                               |
+| the cross-link map       | "Pour aller plus loin"             | a page silently loses a link, or keeps one to a page that is gone |
 
 ## There is no route table
 
@@ -211,12 +211,12 @@ the format in the precache, or the images vanish offline without a build error.
 
 `where` says which surface offers it; a position without its fields does not compile.
 
-| `where` | Drawn | Also required |
-|---|---|---|
-| `top` | above the chapter list | `icon` |
-| `tree` | the foot of the sidebar, with the chapters | `icon` |
-| `menu` | the account popover | `icon`, **`signedOut`** |
-| `footer` | the line under the home page and its own pages | nothing — it is text |
+| `where`  | Drawn                                          | Also required           |
+| -------- | ---------------------------------------------- | ----------------------- |
+| `top`    | above the chapter list                         | `icon`                  |
+| `tree`   | the foot of the sidebar, with the chapters     | `icon`                  |
+| `menu`   | the account popover                            | `icon`, **`signedOut`** |
+| `footer` | the line under the home page and its own pages | nothing — it is text    |
 
 `signedOut` is `"hide"` or `{ title }` (#47, #70). A title replaces the signed-in one where the page
 is a different offer without an account, and **that row becomes the way in** — the popover appends

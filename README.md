@@ -122,15 +122,15 @@ for.
 
 ## Documentation
 
-| File | Carries |
-|---|---|
-| [`docs/scope.md`](docs/scope.md) | what is being built and for whom — the profiles, the levels, the non-goals |
-| [`AGENTS.md`](AGENTS.md) | the conventions and the traps — read before changing anything |
+| File                                     | Carries                                                                                     |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------- |
+| [`docs/scope.md`](docs/scope.md)         | what is being built and for whom — the profiles, the levels, the non-goals                  |
+| [`AGENTS.md`](AGENTS.md)                 | the conventions and the traps — read before changing anything                               |
 | [`.claude/agents/*.md`](.claude/agents/) | the how-to for each recurring job (design, lessons, drills, wiring, auditing, proofreading) |
-| [`docs/levels/`](docs/levels/) | one file per level: its language, its tags, its syllabus and what it still needs |
-| [`docs/atelier.md`](docs/atelier.md) | how a page for a class in progress is built |
-| [`docs/decisions.md`](docs/decisions.md) | why the project is shaped this way; what is still open is [`AGENTS.md` §12](AGENTS.md) |
-| [`CONTRIBUTING.md`](CONTRIBUTING.md) | how to propose a change |
+| [`docs/levels/`](docs/levels/)           | one file per level: its language, its tags, its syllabus and what it still needs            |
+| [`docs/atelier.md`](docs/atelier.md)     | how a page for a class in progress is built                                                 |
+| [`docs/decisions.md`](docs/decisions.md) | why the project is shaped this way; what is still open is [`AGENTS.md` §12](AGENTS.md)      |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md)     | how to propose a change                                                                     |
 
 The deployed site also carries `/design`, an unlisted specimen of every shared visual pattern, for
 checking a design change in both themes.

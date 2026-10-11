@@ -60,8 +60,8 @@ plus loin »; a cross-link is declared in `relatedPages`, never rendered.
 read it from the manifest.
 
 **There are no `<Rule>` / `<Table>` / `<Attention>` components.** The patterns are CSS classes in
-`globals.css`, all rendered on `/design` — read it before writing prose. `.attention` and
-`.exception` print their own label. `PageHeader` is the only component a lesson calls. While #10 is
+`globals.css`, all rendered on `/design` — read it before writing prose. `.rule`, `.attention`,
+`.astuce` and `.exception` print their own label. `PageHeader` is the only component a lesson calls. While #10 is
 open, **do not set up an MDX pipeline or a block schema**; write the lesson and note what fought you.
 
 **Write no CSS.** A missing pattern is a request to `design-system`, and it goes on `/design` in
@@ -77,9 +77,9 @@ The serif carries the French being taught, the sans the instruction (#27, #53).
   throughout, so `.fr` inside it is redundant. A `<span className="fr">` in a sentence is drawn
   semi-bold: do not wrap it in `<strong>`.
 - **A wrong form is `<s className="fr">`**, never a span: « on dit `<span>`je sors ensuite`</span>`,
-  on ne dit pas `<s>`je sors puis`</s>` ». Struck through, at the text's weight, so the mistake is
-  not the loudest word in the sentence. **Only a form wrong as written** (*je sors puis*, *mèr*,
-  *il a mort*) — not a correct word that is the wrong choice here (« jamais *un* ni *une* »), and
+  on ne dit pas `<s>`je sors puis`</s>` ». Italic and struck through, at the text's weight, so the
+  mistake is not the loudest word in the sentence. **Only a form wrong as written** (*je sors
+  puis*, *mèr*, *il a mort*) — not a correct word that is the wrong choice here (« jamais *un* ni *une* »), and
   not a spoken form the page allows (*je sais pas*). The sentence still says it is wrong in words.
 - A table's French column takes it per cell, **including `<th scope="row">`**.
 - **`lang` does not travel with `.fr`** — `<html lang="fr">` covers it. Keep it only where an

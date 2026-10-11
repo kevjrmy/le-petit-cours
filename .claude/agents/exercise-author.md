@@ -111,7 +111,8 @@ Drills drift towards the 4-option MCQ. Mechanics that have earned their place: m
 tap-to-order, bucket sort, locate-and-retype, multi-select, listening, type-in conjugation
 (`les-terminaisons`, reading `conjugaisons.ts` so drill and sheet cannot drift), a fixed chip pool
 (timed and untimed), a timed round, a two-step build, a **cloze passage** (`le-un-ou-du`), and a
-**cloze passage with a menu per gap** (`mais-donc-ou-parce-que`).
+**cloze passage with a menu per gap** (`mais-donc-ou-parce-que`, and as a dialogue
+`d-accord-ou-pas-d-accord`).
 
 **Reach for the cloze passage when the context that decides the answer is larger than a sentence.**
 No isolated sentence can ask for *un chien* then *le chien*, and that alternation is the article
@@ -143,7 +144,9 @@ answers (*ensuite* / *puis*, *donc* / *c'est pour ça que*, *mais* / *pourtant*)
 marks a correct answer wrong. `mais-donc-ou-parce-que` gives each gap its own menu of three, **one
 from each of three different uses**, so only the logic of the sentence decides. Never put two words
 of the same use in one menu; no gap before a vowel when a choice ends in *que* or *si* (the elided
-form gives the answer away); and re-read every sentence with each wrong choice in place.
+form gives the answer away); no menu or sentence shows the pairing another gap tests (*je suis
+d'accord* in clear beside a gap asking for *est*); and re-read every sentence with each wrong
+choice in place.
 
 **A drill that fills a fragment ships the context that disambiguates it.** « tu regard___ » takes
 *-es* as readily as *-ais*, so every item carries the infinitive **and** the tense.
@@ -241,12 +244,12 @@ clicking every candidate. Assert it: two of eight paragraphs in `relisez-le-para
 
 **An exercise is graded; a game is replayable** (§7).
 
-| | `exercices/` | `jeux/` |
-|---|---|---|
-| Deck | fixed, walked once | redrawn every round, no end |
-| Score | `score / deck.length`, shown at the end | a streak, shown while it lasts |
-| Scope | practises one named lesson | pulls from the whole course |
-| Cross-links | point back at the lesson it drills | point at where the words came from |
+|             | `exercices/`                            | `jeux/`                            |
+| ----------- | --------------------------------------- | ---------------------------------- |
+| Deck        | fixed, walked once                      | redrawn every round, no end        |
+| Score       | `score / deck.length`, shown at the end | a streak, shown while it lasts     |
+| Scope       | practises one named lesson              | pulls from the whole course        |
+| Cross-links | point back at the lesson it drills      | point at where the words came from |
 
 - **Nothing stores a score, in either** (#22). Do not invent a total to have something to store.
 - **Every item names the page it came from**, and the round's end links there. **Assert the word is

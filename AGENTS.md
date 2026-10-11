@@ -16,20 +16,20 @@ TypeScript, plain CSS, Vercel; Supabase for accounts and progress sync only.
 **This file is the traps**: the rules a change breaks *silently*, one line each. The *why* is in
 `docs/decisions.md` (`#nn`); the how-to is in the file for the job:
 
-| When you are… | Read |
-|---|---|
-| writing a prose lesson, a role-play, a reading, a dictée or a DELF épreuve | `.claude/agents/lesson-author.md` |
-| writing a drill or a game | `.claude/agents/exercise-author.md` |
-| turning a mistake learners keep making into a page | `.claude/agents/mistake-triage.md` |
-| changing tokens, components or the shell's look | `.claude/agents/design-system.md` |
-| adding, renaming, moving or removing a page or chapter | `.claude/agents/nav-wiring.md` |
-| checking a page for regressions before shipping | `.claude/agents/page-auditor.md` |
-| checking the French itself | `.claude/agents/content-proofreader.md` |
-| writing at a level, or asking what it still needs | `docs/levels/a1.md`, `a2.md`, `b1.md`, `b2.md` |
-| building a class in the atelier | `docs/atelier.md` |
-| asking *why* a rule is what it is | `docs/decisions.md` |
-| asking what is being built and for whom | `docs/scope.md` |
-| arriving from GitHub, or contributing from outside | `README.md`, `CONTRIBUTING.md` |
+| When you are…                                                              | Read                                           |
+| -------------------------------------------------------------------------- | ---------------------------------------------- |
+| writing a prose lesson, a role-play, a reading, a dictée or a DELF épreuve | `.claude/agents/lesson-author.md`              |
+| writing a drill or a game                                                  | `.claude/agents/exercise-author.md`            |
+| turning a mistake learners keep making into a page                         | `.claude/agents/mistake-triage.md`             |
+| changing tokens, components or the shell's look                            | `.claude/agents/design-system.md`              |
+| adding, renaming, moving or removing a page or chapter                     | `.claude/agents/nav-wiring.md`                 |
+| checking a page for regressions before shipping                            | `.claude/agents/page-auditor.md`               |
+| checking the French itself                                                 | `.claude/agents/content-proofreader.md`        |
+| writing at a level, or asking what it still needs                          | `docs/levels/a1.md`, `a2.md`, `b1.md`, `b2.md` |
+| building a class in the atelier                                            | `docs/atelier.md`                              |
+| asking *why* a rule is what it is                                          | `docs/decisions.md`                            |
+| asking what is being built and for whom                                    | `docs/scope.md`                                |
+| arriving from GitHub, or contributing from outside                         | `README.md`, `CONTRIBUTING.md`                 |
 
 **Section numbers are load-bearing** — source comments and briefs cite `AGENTS.md §n`. Never
 renumber; add inside a section.
@@ -165,12 +165,15 @@ Accent `#0044AA`, **Spectral** + **Inter** (#27).
 - **Spectral is loaded at 400 and 600 only** — serif `700` silently renders 600.
 - **Serif = the French taught** (`.fr`, `.example`), **sans = the explanation** (#53). `lang="fr"`
   is inherited — repeat it only for an element pronounced alone, and on A1 pages (§1).
-- **A cited form is `span.fr`, semi-bold; a wrong one is `<s className="fr">`, struck through**
-  (#93) — a wrong form left in a span is the boldest word in its sentence.
+  **Inside `.rule`, `.attention`, `.exception` and `.astuce` a `.fr` takes the box's sans**: weight
+  marks the right form there, italic and strike the wrong one.
+- **A cited form is `span.fr`, semi-bold; a wrong one is `<s className="fr">`, italic and struck
+  through, never bold** (#93) — a wrong form left in a span is the boldest word in its sentence.
 - **Red means wrong**: `--danger` is for a wrong answer, a struck form and `.exception`, nothing
   else.
-- **Colour is never the only carrier**: `.attention` prints « À retenir : », `.exception`
-  « Sauf : » (Spanish under `:lang(es)`), feedback carries a mark.
+- **Colour is never the only carrier**: `.rule` prints « Règle », `.attention` « À retenir »,
+  `.astuce` « Astuce : », `.exception` « Sauf » (Spanish under `:lang(es)`), feedback carries a
+  mark.
 - **`.is-correct` / `.is-wrong` / `.is-missed` are doubled selectors** so they beat `.chip`/`.word`.
   **`.is-missed` (amber, dashed, `+`)** is the third state — a drill never grows its own.
 - **A `<section>` inside a lesson is a section** (accent bar, Index line, #66); cards and column
@@ -236,20 +239,20 @@ folder is a 404, a folder without an entry is unreachable — `nav-wiring` audit
 
 ## 7. Page types
 
-| Chapter | Kind |
-|---|---|
-| `grammaire`, `orthographe`, `vocabulaire`, `astuces`, `musique`, `culture` | prose lesson |
-| `conjugaison`, `prononciation` | **data-driven** — one component, one data file; never a hand-written table |
-| `prononciation/ecouter` | a **tool**, the chapter's one page: type, hear the device's French voice; no tick, no score (#94) |
-| `exercices` | graded drill, scored on screen, stored nowhere |
-| `jeux` | replayable game, records nothing; not a second `exercices/` |
-| `dictees` | listen, type, compare |
-| `conversation` | **role-play** for two: scene, steps, ~20 words; no model dialogue, graded nowhere (#54, #57) |
-| `traduction` | a Spanish source to write in French, three hints, then the model (#55) |
-| `lecture` | a text written for the course + comprehension quiz |
-| `litterature` | a literary work (public domain, #58, #60) + comprehension quiz; what the text is picks the chapter |
-| `delf` | a whole **épreuve**, marked once at the end; a production has no corrigé; nothing stored (#78, #82, #84) |
-| `atelier` | scratch for a class in progress, any form above, ticked nowhere (#80) |
+| Chapter                                                                    | Kind                                                                                                     |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `grammaire`, `orthographe`, `vocabulaire`, `astuces`, `musique`, `culture` | prose lesson                                                                                             |
+| `conjugaison`, `prononciation`                                             | **data-driven** — one component, one data file; never a hand-written table                               |
+| `prononciation/ecouter`                                                    | a **tool**, the chapter's one page: type, hear the device's French voice; no tick, no score (#94)        |
+| `exercices`                                                                | graded drill, scored on screen, stored nowhere                                                           |
+| `jeux`                                                                     | replayable game, records nothing; not a second `exercices/`                                              |
+| `dictees`                                                                  | listen, type, compare                                                                                    |
+| `conversation`                                                             | **role-play** for two: scene, steps, ~20 words; no model dialogue, graded nowhere (#54, #57)             |
+| `traduction`                                                               | a Spanish source to write in French, three hints, then the model (#55)                                   |
+| `lecture`                                                                  | a text written for the course + comprehension quiz                                                       |
+| `litterature`                                                              | a literary work (public domain, #58, #60) + comprehension quiz; what the text is picks the chapter       |
+| `delf`                                                                     | a whole **épreuve**, marked once at the end; a production has no corrigé; nothing stored (#78, #82, #84) |
+| `atelier`                                                                  | scratch for a class in progress, any form above, ticked nowhere (#80)                                    |
 
 - **Another level of a page**: lower = a new page (#72); higher = usually nothing — a learner
   who wants it keeps its level in view (#86). **`sets` is only for a stimulus with no floor** (a
@@ -367,14 +370,14 @@ commit messages included.
   Vercel only. No RLS-bypassing key in the deployment env (#21).
 - **License only what the project owns.**
 
-| Material | Rule |
-|---|---|
-| A DELF sujet or prep book | **Never**, free samples included (#78); the format may be described. |
-| Literary text | Public domain in its country of origin; for a translation, the translator's death date (#60). |
-| Song lyrics | Short excerpts for commentary; never a full lyric. |
-| Photographs | CC0, PD, CC BY, CC BY-SA; local; credited per image. |
-| A learner's own text | **Anonymous, atelier only** (#80): no name, age, school, town or class anywhere, commit messages included; originals stay in `.private/`. |
-| Anything else | Ask in an issue first. |
+| Material                  | Rule                                                                                                                                      |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| A DELF sujet or prep book | **Never**, free samples included (#78); the format may be described.                                                                      |
+| Literary text             | Public domain in its country of origin; for a translation, the translator's death date (#60).                                             |
+| Song lyrics               | Short excerpts for commentary; never a full lyric.                                                                                        |
+| Photographs               | CC0, PD, CC BY, CC BY-SA; local; credited per image.                                                                                      |
+| A learner's own text      | **Anonymous, atelier only** (#80): no name, age, school, town or class anywhere, commit messages included; originals stay in `.private/`. |
+| Anything else             | Ask in an issue first.                                                                                                                    |
 
 **`CONTRIBUTING.md` repeats these rules on purpose** — change both together.
 
@@ -382,14 +385,14 @@ commit messages included.
 
 **If behaviour and docs disagree, the change is not done.**
 
-| File | Carries |
-|---|---|
-| `AGENTS.md` | the traps, one line each |
-| `.claude/agents/*.md` | the how-to per job |
+| File                                  | Carries                                     |
+| ------------------------------------- | ------------------------------------------- |
+| `AGENTS.md`                           | the traps, one line each                    |
+| `.claude/agents/*.md`                 | the how-to per job                          |
 | `docs/levels/*.md`, `docs/atelier.md` | per-level context and syllabus; the atelier |
-| `docs/scope.md` | what is built and for whom |
-| `docs/decisions.md` | what each rule was chosen *against* |
-| `README.md`, `CONTRIBUTING.md` | for strangers and contributors |
+| `docs/scope.md`                       | what is built and for whom                  |
+| `docs/decisions.md`                   | what each rule was chosen *against*         |
+| `README.md`, `CONTRIBUTING.md`        | for strangers and contributors              |
 
 - **Here: what is true now, one line, cited.** History and reasons go to `decisions.md`; how-to to
   the brief. A rule earns a line by being **silently violable**.

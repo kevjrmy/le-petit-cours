@@ -141,9 +141,11 @@ and re-check that number first.
 
 **A cited form is marked by weight, a wrong one by a line** — and by nothing else. `span.fr` is
 Spectral 600, the weight a table's row head and a `<strong>` in an `.example` already have; it falls
-back to the block's weight inside `.example` and `ul.mots`. `s.fr` keeps the text's weight and is
+back to the block's weight inside `.example` and `ul.mots`. `s.fr` keeps the text's weight, is italic and is
 struck through in `--danger`. No colour on either (blue reads as a link), no tinted box (a sixth
-callout, eight times a paragraph), no italic (the caption's voice). Both are on `/design`.
+callout, eight times a paragraph), no italic on the right form (the caption's voice). Both are on
+`/design`. **Inside `.rule`, `.attention`, `.exception` and `.astuce` both take the box's sans at
+its size**; `s.fr` is never bold, there or anywhere.
 
 ## The breakpoint lives in the CSS, once
 
@@ -219,11 +221,11 @@ a stretched flex child or a collapsed image does not show in the DOM.
 **A single module class does not beat `.prose`'s rules.** Anything inside `<article
 className="prose">` inherits them, and they are stronger than they look (three fixes on 2026-09-06):
 
-| Global rule | Specificity | What it did to a component |
-|---|---|---|
-| `.prose section + section` | 0,1,2 | pushed every grid column but the first down a whole section break, so the headings did not line up |
-| `.prose ul, .prose ol` | 0,1,1 | indented a flex legend 1.35rem from the column everything else aligns on |
-| `.prose li + li` | 0,1,2 | put 0.35rem between two items that were meant to sit side by side |
+| Global rule                | Specificity | What it did to a component                                                                         |
+| -------------------------- | ----------- | -------------------------------------------------------------------------------------------------- |
+| `.prose section + section` | 0,1,2       | pushed every grid column but the first down a whole section break, so the headings did not line up |
+| `.prose ul, .prose ol`     | 0,1,1       | indented a flex legend 1.35rem from the column everything else aligns on                           |
+| `.prose li + li`           | 0,1,2       | put 0.35rem between two items that were meant to sit side by side                                  |
 
 `.legend` (0,1,0) loses; `.tense ol` (0,1,1) ties and wins on injection order, which must not be
 load-bearing. **Double the class** — `.legend.legend`, `.tense.tense ol` (0,2,0). Never
