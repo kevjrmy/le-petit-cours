@@ -64,7 +64,9 @@ are in [`AGENTS.md`](AGENTS.md); the `#nn` numbers point into
 - **A lesson is two or three sections.** A topic that needs more is two lessons.
 - **Dark mode and mobile are not optional**: check both themes at all three widths — open sidebar,
   icons-only rail (about 1000 px), mobile drawer.
-- **No raw colour values in components** — every colour comes from a design token.
+- **No raw values in components**: every colour, font size, margin, padding, gap, radius and
+  shadow is a design token from `src/app/globals.css` (#96). A card, a text field, a small label
+  and a drill's board are shared patterns: a component places them and never redraws them (#97).
 - **The serif marks the French taught** (`<span className="fr">`); on an A1 page the section is
   `lang="es"` and every piece of French takes `lang="fr"` back (#85). A form cited as wrong is
   `<s className="fr">`, struck through, never a span.

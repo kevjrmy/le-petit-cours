@@ -1,6 +1,6 @@
 ---
 name: page-auditor
-description: Use to check le-petit-cours pages for regressions before shipping — dark-mode breakage, raw colors, hydration errors, a page that stopped prerendering, accessibility problems, or layout that breaks at a breakpoint. Read-only analysis plus screenshots; reports findings rather than rewriting pages.
+description: Use to check le-petit-cours pages for regressions before shipping — dark-mode breakage, raw colours and sizes, a shared pattern redrawn, hydration errors, a page that stopped prerendering, accessibility problems, or layout that breaks at a breakpoint. Read-only analysis plus screenshots; reports findings rather than rewriting pages.
 tools: Read, Grep, Glob, Bash
 model: sonnet
 ---
@@ -74,19 +74,22 @@ once, at mount, and never in a screenshot.
 
 `suppressHydrationWarning` is legitimate on `<html>` only; anywhere else it is a silenced bug.
 
-## 3. Raw colours (breaks dark mode)
+## 3. Raw values and redrawn patterns
 
-```bash
-grep -rn "#[0-9a-fA-F]\{3,8\}\b\|: *white\b\|: *black\b" src --include=*.css --include=*.tsx \
-  | grep -v "src/app/globals.css"
-```
-
-Any hit is a defect (§5; `viewport.themeColor` excepted). Also flag:
+A raw colour breaks dark mode; a raw size, space, radius, layer or shadow is the same bug (§5, #96).
+**Run the four checks that open `.claude/agents/design-system.md`**, kept there alone. The first
+prints `viewport.themeColor` and the manifest's two colours; the other three print nothing. Any
+other hit is a defect. Also flag:
 
 - a **surface** token used as a text colour — white-on-accent needs `--text-on-accent`;
 - a token defined outside the single `light-dark()` value on `:root`, or a per-theme block (§5);
 - a second global stylesheet imported anywhere but the root layout — it leaks onto every page
-  visited afterwards.
+  visited afterwards;
+- a module that redraws `.card`, `.input`, `.label` or the drill board (a border, a fill, a face or
+  a size of its own), or a drill with its own chosen or verdict state (#97);
+- a local class resizing a shared one without being doubled: it ties, and production orders the
+  two sheets differently from `next dev`;
+- an answer or a verdict drawn faded.
 
 ## 4. Accessibility
 
@@ -120,7 +123,8 @@ Flag a lesson grown past two or three sections, and say which topic it should sp
 
 ## 7. Visual regression
 
-Check for a running dev server before starting one; never pattern-kill node.
+An audit is the one job that photographs unasked. Use the maintainer's dev server; **never start
+one, never pattern-kill node** (§11). If nothing answers, report that and skip this section.
 
 ```bash
 curl -sf -o /dev/null -w '%{http_code}\n' http://localhost:3000/

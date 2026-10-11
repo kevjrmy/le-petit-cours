@@ -87,6 +87,9 @@ than marking it superseded.
 | 93  | 2026-10-05 | A cited form is marked by weight, a wrong one by a line                                          | Binding · builds #27, #53                              |
 | 94  | 2026-10-07 | The course speaks with the device's French voice, or not at all                                  | Binding · a trial · builds #51, #82                    |
 | 95  | 2026-10-11 | The site is public and asks not to be indexed, or translated                                     | Binding · extends #18, #77                             |
+| 96  | 2026-10-11 | Every size, space, radius, layer and shadow is a token; the page is flat                         | Binding · builds #6, #27 · the one shadow inferred     |
+| 97  | 2026-10-11 | One paper, one field, one label, one board; the answer in hand is one state                      | Binding · builds #96                                   |
+| 98  | 2026-10-11 | An agent checks with lint and types; the build and the screenshot are asked for                  | Binding                                                |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -1211,3 +1214,79 @@ Spanish-language browser.
 and the sitemap come back together with the chooser's notes (#77), and the pages that refuse
 indexing on their own account keep doing so: the atelier (#80), `/entrer`, `/design`, `/recherche`,
 `/bienvenue`.
+
+## 96 · Every size, space, radius, layer and shadow is a token; the page is flat
+**2026-10-11 · Binding · builds #6, #27 · the one shadow inferred**
+
+Colour had tokens from the first day and nothing else did. The component sheets held 34 font sizes,
+51 margins, paddings and gaps, three shadows of which one was used, and raw `z-index` numbers: a
+drill's menu sat on the sticky topbar's rung. **Now a raw value in a component is a bug, whatever
+it measures**, and four greps say so by printing nothing (`design-system.md`).
+
+**The steps are the values the pages already had, merged; not a ratio, and not fluid.** Each old
+value went to its nearest step: twelve sizes (`--type-66` … `--type-210`), seventeen spaces
+(`--space-2` … `--space-88`). Most things moved by under a pixel. A computed scale would have moved
+every page to buy a regularity nobody reads.
+
+**A step is named by its value, not by a role**: `--type-80` is 80 % of the body's size,
+`--space-12` twelve pixels at the default one. A role name (`sm`, `md`) hides the number and invites
+one more role; with the value in the name, a step is picked by looking at what the neighbours wear.
+
+**A measured alignment is not on the scale.** Four numbers exist so that two things meet (the
+footer's baseline, the shell's foot); each keeps its value and says « measured » on its line, which
+is what the grep lets through. Rounded to a step, the alignment breaks and nothing fails.
+
+**One shadow, because the page is flat**: what rests on the page has a border, and only what floats
+over it and leaves again is lifted. Three levels were defined and two never used; they went.
+**Inferred**: the maintainer was told, not asked.
+
+**What would reopen this**: a thirteenth size or an eighteenth space. It means two steps are too far
+apart everywhere, so the scale moves, not one module.
+
+## 97 · One paper, one field, one label, one board; the answer in hand is one state
+**2026-10-11 · Binding · builds #96**
+
+Each drill was written with a stylesheet of its own, as its brief then asked, and the copies
+drifted: about sixteen boards, seven text fields, fourteen small uppercase labels, three identical
+papers, five definitions of a chosen answer. **Now there is one of each**: `.card`, `.input`,
+`.label` and the answer's states in `globals.css`, a drill's board in
+`src/components/exercice/Board.module.css`. Where the copies disagreed, the most common one won.
+
+**A module places a shared pattern and never redraws it.** A drill keeps a stylesheet only for what
+its mechanic adds, and five drills have none. **The board is a stylesheet, not a component**: the
+drills differ in mechanic and markup and agree only in look. It is a module rather than a part of
+`globals.css`, which holds what every page uses.
+
+**The price is the tie**: two sheets, equal weight, and an order that differs between `next dev`
+and production. A local class that resizes a shared one is doubled, never `!important`.
+
+**`.is-chosen` is the answer in hand, before the verdict**, and it beats `:hover`: the pointer is
+still on the thing just clicked, and on a phone the hover sticks, so the chip just picked wore the
+paler look of one merely pointed at. **Nothing that carries an answer or a verdict is faded.** After
+the check a pool fades the chips not picked; the chosen one used to dim with them, behind an
+`opacity: 1` that never applied.
+
+**Left apart on purpose**: a card that is itself a link or a choice (a chapter's card, « La suite »,
+a settings choice) is sized by its content and keeps its own padding.
+
+## 98 · An agent checks with lint and types; the build and the screenshot are asked for
+**2026-10-11 · Binding**
+
+`npm run build` closed every brief, and a visual change ended on photographs of both themes in
+three shells. **Now an agent runs `npm run lint` and `npx tsc --noEmit`, and asks the maintainer's
+dev server for each route it touched** (`AGENTS.md` §11). The build is the maintainer's to run; a
+screenshot is offered, not taken.
+
+**Against the build as an agent's gate**: the maintainer's dev server is usually up, from their
+IDE; a build beside it takes minutes, and an agent that starts or kills a server takes theirs with
+it. **Against the screenshot by default**: the maintainer looks at the page anyway, and a list of
+what to look at (the page, the theme, the shell) is worth more than pictures nobody asked for.
+
+**The build still decides.** A lesson gone dynamic (§8) and two CSS rules that tie (#97) show
+nowhere else, so a change is reported as not built, with what only the build can show.
+
+**Kept**: a shot unasked for what the maintainer cannot see by looking (signed in, a measurement) or
+what the agent cannot judge blind; and `page-auditor`, whose job is to photograph.
+
+**`README.md` and `CONTRIBUTING.md` still say the build must pass**: a contributor works on their
+own machine, beside nobody's server.

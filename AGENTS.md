@@ -162,7 +162,14 @@ Accent `#0044AA`, **Spectral** + **Inter** (#27).
 - **Two token layers**, palette and semantic (`--surface-*`, `--text-*`, `--border*`, `--accent*`,
   `--danger*`, `--warn*`, `--success*`). No `--clr-*` alias layer.
 - **One definition per token**: `light-dark(light, dark)` on `:root`. **Never a per-theme block.**
+- **Radius, motion, layer and shadow are tokens too** (#96: `--radius-*`, `--dur*`, `--z-*`,
+  `--shadow`). **The page is flat**: one shadow, for what floats (a menu, a popover, a dragged
+  chip). A menu a lesson opens is `--z-content`, under the phone's sticky topbar.
 - **Spectral is loaded at 400 and 600 only** — serif `700` silently renders 600.
+- **A raw `font-size` in a component is a bug**: twelve sizes, `--type-66` to `--type-210`. `em`
+  only where a size follows its surroundings (`.fr`, a box's label).
+- **So is a raw margin, padding or gap**: seventeen steps, `--space-2` to `--space-88`. A measured
+  alignment keeps its number and says « measured » on its line.
 - **Serif = the French taught** (`.fr`, `.example`), **sans = the explanation** (#53). `lang="fr"`
   is inherited — repeat it only for an element pronounced alone, and on A1 pages (§1).
   **Inside `.rule`, `.attention`, `.exception` and `.astuce` a `.fr` takes the box's sans**: weight
@@ -176,6 +183,13 @@ Accent `#0044AA`, **Spectral** + **Inter** (#27).
   mark.
 - **`.is-correct` / `.is-wrong` / `.is-missed` are doubled selectors** so they beat `.chip`/`.word`.
   **`.is-missed` (amber, dashed, `+`)** is the third state — a drill never grows its own.
+- **`.is-chosen` is the answer in hand, before the verdict** (#97), and it beats `:hover`: the
+  pointer is still on the thing just clicked. A hover it can meet is written at two classes' worth,
+  never three. **Nothing that carries an answer or a verdict is faded.**
+- **One paper, one field, one label, one board** (#97): `.card` (`.exercice` and `.document` are
+  the same sheet), `.input`, `.label` (`globals.css`) and
+  `src/components/exercice/Board.module.css`. A module places them, never redraws them; a local
+  class resizing one is doubled.
 - **A `<section>` inside a lesson is a section** (accent bar, Index line, #66); cards and column
   heads are `div` + `h3`.
 - **Dark mode and accessibility every time**: semantic HTML, `focus-visible`, `aria-label` on icon
@@ -409,16 +423,25 @@ commit messages included.
 ## 11. Verifying a change
 
 ```bash
-npm run build    # must pass
 npm run lint
+npx tsc --noEmit
+curl -s -o /dev/null -w '%{http_code}\n' http://localhost:3000/<route>   # each route touched
 ```
 
-- **The maintainer's dev server is usually running** — check
-  (`curl -sf -o /dev/null -w '%{http_code}' http://localhost:3000/`); **never pattern-kill node.**
+- **The dev server is the maintainer's**, usually running from their IDE. Check it (the `curl`
+  above, on `/`) and use it. **Never start one, never pattern-kill node**; if nothing answers, ask.
+- **`npm run build` is the maintainer's to run — never on your own, and never while their dev
+  server is up** (#98). A change is still not done until it passes: say that it has not run, and
+  what in this change only it can show (a lesson gone dynamic, §8; two CSS rules that tie, whose
+  order differs in production).
+- **No screenshot by default.** Say what to look at, on which page, in which theme and shell, and
+  offer the shot. Take one unasked only for what the maintainer cannot see by looking (signed in
+  with `--seed`, a measurement) or what you cannot judge blind (a shape you drew).
 - **Navigation touched → the `nav-wiring.md` audit, all six lines `none`.**
-- **Visual change → both themes × three shells**: sidebar (≥ 75rem), **rail (56.25–75rem, the one
-  forgotten)**, drawer (< 56.25rem). « Index » adds ≥ 93.75rem (sidebar) and ≥ 81.25rem (rail).
-- **Screenshots with `scripts/shot.mjs` only** (Chrome flags lie about dark mode):
+- **Visual change → both themes × three shells**, named in what you ask the maintainer to look at:
+  sidebar (≥ 75rem), **rail (56.25–75rem, the one forgotten)**, drawer (< 56.25rem). « Index » adds
+  ≥ 93.75rem (sidebar) and ≥ 81.25rem (rail).
+- **A screenshot, when one is taken, is `scripts/shot.mjs`** (Chrome flags lie about dark mode):
 
 ```bash
 node scripts/shot.mjs http://localhost:3000/<route> out.png --full            # light, sidebar

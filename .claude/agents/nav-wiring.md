@@ -162,7 +162,8 @@ not fail soft — it renders and lands on a 404.
 link that does nothing offline. Curl it when you touch it, and hang nothing a page needs on it
 (`delf`'s exists because #78 forbids hosting the file it points at).
 
-Then `npm run build`.
+Then §11's checks; a moved or removed page is one of the changes only the build settles, so say
+that it is owed.
 
 ## Adding a lesson
 

@@ -53,9 +53,12 @@ and `LessonEnd` its tick and cross-links.
 
 **The shared furniture exists**: `Instructions`, `Meter` and `Score` in
 `src/components/exercice/Drill.tsx` (the thresholds live in `Score`), `AccentBar` beside it, and the
-one `shuffle()` in `src/lib/shuffle.ts`. **A drill writes its board's CSS Module and nothing else** —
-pool, columns, chips, slots. The instructions, meter, card, feedback states and score screen belong
-to the design system; feedback colours are tokens.
+one `shuffle()` in `src/lib/shuffle.ts`. **The board is shared too**: `Board.module.css`, imported
+as `board`, places the card (the global `.card`) and holds the sentence and its blank, the text with
+several blanks and its menu, the clickable words, the pool, the verdict and the actions; the four
+answer states are global. **A drill's own module holds only what its mechanic adds**, and a class
+there that resizes a shared one is doubled (`.slot.slot`), or the two modules tie. Feedback colours
+are the global states, never restated.
 
 Never mark the page client to make the drill work.
 
@@ -230,8 +233,11 @@ Right (✓), wrongly ticked (✗), **missed** (amber, dashed +): missing the sec
 mistake from naming one that is not there. Score all-or-nothing on the exact set. The three classes
 are shared in `globals.css` (§5); **do not write a local amber**.
 
-**The state before the verdict needs a carrier too.** While the learner selects, only a tint says
-what is selected; `relisez-le-paragraphe` now adds a wavy underline, the word processor's own mark.
+**The state before the verdict is `.is-chosen`** (`globals.css`), on a chip, a word or an option:
+a tint, and a line that thickens so the choice survives without colour. A drill never draws its own;
+`relisez-le-paragraphe` adds a wavy underline to it, the word processor's own mark, because there
+several words are picked at once. **Write a hover it can meet as `.x:hover:where(:not(:disabled))`**,
+or the choice disappears under the pointer that made it.
 
 **A pool with nothing selected must be inert.** When every slot is filled, falling back to the first
 slot turns a stray click into a silent rewrite. Disable the pool until a slot is clicked
@@ -282,5 +288,5 @@ It belongs to `lesson-author` (#54, #57). A gap-fill there would be a drill in `
    `Saisie`, `Texte`, `Relecture`…).
 4. The score screen, shown then forgotten — a drill writes no progress (#2, #22).
 
-Finish with `npm run build`, then **play the drill through once in both themes, including the score
-screen** — the part nobody tests.
+Finish with §11's checks (no build of your own), then **play the drill through once in both themes,
+including the score screen** — the part nobody tests.

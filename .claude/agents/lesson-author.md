@@ -286,7 +286,7 @@ One page is one épreuve (#78, #82). `delf/a2-comprehension-des-ecrits` is the w
 - **The duration is stated in the `.epreuve` banner, never counted down.**
 - **No « En résumé », no tick** (`untracked`, #82); `level` its paper's (`"A2"`).
 - **A photo is illustration only** (#83), credited, the item answerable without it.
-- Patterns: `.epreuve`, `.exercice`, `.documents`, `ol.questions`, `.redaction`, `.document`,
+- Patterns: `.epreuve`, `.exercice`, `.documents`, `ol.questions`, `textarea.input`, `.document`,
   `.corrige`, `.credits` in `globals.css`, components in `src/components/delf/`, all on `/design`.
   **No CSS on the page.**
 
@@ -339,8 +339,8 @@ The page, its manifest entry and its cross-links, as `nav-wiring.md` « Adding a
 the `id` is permanent (#50), `level` required (#86), plus the DELF descriptor and `created`. Put it in the parcours of its level, in teaching order (`src/data/parcours/`, #88). Update
 `AGENTS.md` if the change touches a rule. **Never hand-write a chapter landing page** (#29).
 
-Finish with `npm run build`, the `nav-wiring` audit (**all six lines `none`**), and the page in
-**both themes** at **all three shells** (§11).
+Finish with §11's checks (no build of your own), the `nav-wiring` audit (**all six lines `none`**),
+and the page named for the maintainer in **both themes** at **all three shells**.
 
 ## French correctness
 
