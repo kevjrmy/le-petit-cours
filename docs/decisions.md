@@ -86,6 +86,7 @@ than marking it superseded.
 | 92  | 2026-09-30 | A literary work is one page whose body follows the level; at A1 the Spanish sits under each line | Binding · narrows #72, #86, #87, #53                   |
 | 93  | 2026-10-05 | A cited form is marked by weight, a wrong one by a line                                          | Binding · builds #27, #53                              |
 | 94  | 2026-10-07 | The course speaks with the device's French voice, or not at all                                  | Binding · a trial · builds #51, #82                    |
+| 95  | 2026-10-11 | The site is public and asks not to be indexed, or translated                                     | Binding · extends #18, #77                             |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -823,8 +824,8 @@ shrink; the row would outlive the page. So every counting or resuming reader wal
 `trackedChapters()`, and **nothing checks a new reader of `chapters`**.
 
 **Ids carry a date and never come back** (a reused slug resurrects ticks, #50); **nothing permanent
-links in** (the link vanishes at the next reset); **a removed page gets no redirect** and the sitemap
-lists none of it — its URL was never promised. **Promotion is a new page with a new id. Lessons are
+links in** (the link vanishes at the next reset); **a removed page gets no redirect** and carries
+`noindex` of its own (#95 aside) — its URL was never promised. **Promotion is a new page with a new id. Lessons are
 `level: null`**, so no filter hides the page being shared.
 
 **A learner's own text may be reproduced here, anonymous**: invented errors teach a different lesson.
@@ -885,7 +886,7 @@ waits for; the texts sit hidden like a corrigé. **The split 6 + 6 + 6 + 7 is th
 citable source gives it per exercise. A recording, if one arrives, is added, not substituted.
 
 **The chapter is `untracked`** — « J'ai terminé » under a mock exam taken again next month says
-something false. It takes `scratch`'s progress behaviour (#80) but not its sitemap exclusion, since
+something false. It takes `scratch`'s progress behaviour (#80) but not its own `noindex`, since
 the chapter is permanent; hence a second flag, and `isTracked()` answers for both.
 
 ## 83 · An épreuve may link a Commons photo as illustration, never as the answer
@@ -1177,3 +1178,36 @@ holds what that reopens. **This does not settle the sound sheets' data shape** (
 **Seen on the first try** (desktop Linux): Chrome reads well, and every voice it lists is one of
 Google's online ones, its default German; Brave lists none at all, so there is nothing to fall back
 to inside the browser. A fallback voice is one the course brings (`AGENTS.md` §12.6).
+
+## 95 · The site is public and asks not to be indexed, or translated
+**2026-10-11 · Binding · extends #18, #77**
+
+The course is open to anyone holding the link (#18) and is used by a handful of learners the
+maintainer gives it to. **It wants no search traffic**: every response carries
+`X-Robots-Tag: noindex, nofollow` (`next.config.ts`), the root layout says the same in `robots`,
+and there is no sitemap.
+
+**The header is the rule, the meta its echo.** A page's own `metadata.robots` replaces the root's,
+silently; the header is out of a page's reach and covers what is not a page.
+
+**Chosen against `Disallow: /` in `robots.txt`**, the obvious way and the wrong one: a crawler that
+may not fetch a page never reads its `noindex`, and a URL linked from elsewhere (the repository's
+README) is then listed bare. So `robots.txt` lets search engines in. **Against a password on the
+whole site**: content stays public (#18), and a learner opens a link with nothing to type.
+
+**The crawlers that feed a model are disallowed by name** in `robots.txt`: they keep no index, so
+`noindex` says nothing to them. The list is kept by hand and is always behind; the content is
+CC BY-SA and on GitHub anyway, so a missed name costs nothing. **Not on it**: an assistant fetching
+one page because a person asked it to, which is a reader.
+
+**The Open Graph image stays**, and the agents that fetch it are never disallowed: it is the preview
+of a link sent in a chat, which is how the course is handed out, not a search feature.
+
+**The browser does not offer to translate either**: `translate="no"` on `<html>` and the `google`
+`notranslate` meta. A translated page teaches nothing, and the offer appears on every page for a
+Spanish-language browser.
+
+**What would reopen this**: listing the site or opening sign-up. Then the header, the root `robots`
+and the sitemap come back together with the chooser's notes (#77), and the pages that refuse
+indexing on their own account keep doing so: the atelier (#80), `/entrer`, `/design`, `/recherche`,
+`/bienvenue`.

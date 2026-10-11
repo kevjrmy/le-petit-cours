@@ -54,12 +54,11 @@ Two shapes have served. **A page of trucs**: the copy, a hunt aloud, the copy ag
 - **Not linked into** — the link would vanish at the reset. An atelier page may point out at
   lessons.
 - **Not promised.** Ids carry the date and are never reused (`atelier-2026-09-29-…`); a removed page gets
-  no redirect; the sitemap lists none of its pages.
+  no redirect; each page carries `noindex` of its own, whatever the site asks for itself (#95).
 - **Not listed, and lockable.** The chapter has a lock: `FRONTEND_PASSWORD` (#81), checked by
   `src/proxy.ts`, which matches `/atelier` alone and reads no session. **It is lifted since
-  2026-10-06** (`ATELIER_VERROUILLE` in `src/lib/atelier.ts`), so anyone with a link reads a page;
-  each page carries `noindex`. **Do not widen the matcher, and never write the password
-  anywhere** but `.env` and Vercel.
+  2026-10-06** (`ATELIER_VERROUILLE` in `src/lib/atelier.ts`), so anyone with a link reads a page.
+  **Do not widen the matcher, and never write the password anywhere** but `.env` and Vercel.
 - **Not a place to keep things.** A page worth keeping is rewritten into its chapter as **a new page
   with a new id** and a real `level`. Pages piling up for months mean the chapter is misfiled
   (#80).

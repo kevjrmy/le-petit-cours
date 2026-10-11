@@ -209,9 +209,9 @@ folder is a 404, a folder without an entry is unreachable — `nav-wiring` audit
 - **Nothing announces an unwritten page** (#51) — no « bientôt » row in any form; an empty chapter
   simply drops out (`listedChapters`).
 - **`atelier` (« Atelier ») is scratch** (#80, `docs/atelier.md`): ids carry the date and never return;
-  nothing permanent links in; no redirect on removal; lessons `level: null`; out of the sitemap; promotion is
-  a new page with a new id. **Behind a shared password** (#81) via `src/proxy.ts` → `/entrer`, lifted
-  for now (§0), so its pages carry `noindex` themselves; its row still draws everywhere.
+  nothing permanent links in; no redirect on removal; lessons `level: null`; promotion is a new page
+  with a new id. **Behind a shared password** (#81) via `src/proxy.ts` → `/entrer`, lifted for now
+  (§0); its pages carry `noindex` of their own (#95 aside); its row still draws everywhere.
 - **Chapter landing pages and verb sheets are one dynamic route each** (#29, #56), with
   `dynamicParams = false`.
 - **`/` is a search field** (#39); the sommaire is `/sommaire`. **Signed out, the prerendered `/` is
@@ -224,6 +224,10 @@ folder is a 404, a folder without an entry is unreachable — `nav-wiring` audit
 - **Search reads the manifest only, folds accents, groups by level.** `/recherche` stays static:
   `useSearchParams` in a leaf inside `Suspense`.
 - **A route outside the course goes in `unlistedPages`** (the audit reads it).
+- **The site asks not to be indexed** (#95): `X-Robots-Tag: noindex` on every response
+  (`next.config.ts`), `robots` in the root metadata, no sitemap. **`robots.txt` lets search
+  engines crawl on purpose**: a `Disallow` hides the `noindex`, and the bare URL is listed anyway.
+  It disallows AI crawlers by name, and never a chat's link-preview agent.
 - **The topbar never names the current page** (#45); **its trail is the chapter alone, no level**
   (#65).
 - **One sidebar control, in the topbar, at every breakpoint.**
