@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "Atelier",
   description: "L’atelier demande un mot de passe.",
   /* Une porte n'a rien à faire dans un index, et les pages derrière elle non
-     plus : le chapitre `atelier` est déjà hors du sitemap (#80, #81). */
+     plus (#80, #81), quoi que le site demande pour lui-même (#95). */
   robots: { index: false, follow: false },
 };
 

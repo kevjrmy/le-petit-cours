@@ -4,6 +4,19 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
 
+  /* The course asks not to be indexed (#95): a public site for a handful of
+     learners who are given the link. The header rather than the root layout's
+     `robots` alone: it covers what is not a page (the Open Graph image, the
+     manifest), and a page's own `metadata.robots` cannot replace it. */
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+    ];
+  },
+
   /* A dead lesson URL, kept alive (AGENTS.md §6). The Daudet extract was
      replaced by « L’Invitation au voyage » in the same slot, so the old path points at the
      page that took its place rather than at the chapter.

@@ -6,9 +6,9 @@ import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Recherche",
-  /* A results page has nothing of its own to index, and every page it can
-     reach is already in the sitemap. `robots.ts` disallows the path too. */
-  robots: { index: false, follow: true },
+  /* A results page has nothing of its own to index, whatever the site asks
+     for itself (#95). */
+  robots: { index: false, follow: false },
 };
 
 /**

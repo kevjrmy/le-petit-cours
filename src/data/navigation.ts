@@ -226,9 +226,9 @@ export interface Chapter {
    *    page and `/ma-progression` would both offer last week's scratch page for
    *    ever and nothing would fail.
    *
-   * And one that is not about progress at all: `sitemap.ts` lists the chapter
-   * and not its lessons, because a sitemap is a claim that a URL is worth
-   * coming back to and these are gone by Monday.
+   * And one that is not about progress at all: `lessonMetadata` marks its
+   * pages `noindex` whatever the site asks for itself (#95), because an index
+   * is a claim that a URL is worth coming back to and these are gone by Monday.
    *
    * That is the whole contract, and **nothing checks that a sixth reader of
    * `chapters` honours it**. Ask what a new one is for: counting or resuming
@@ -245,7 +245,8 @@ export interface Chapter {
    *
    * It takes the four progress readers of `scratch` above and nothing else: no
    * tick under the page or in the listing, out of `/ma-progression`, out of a
-   * parcours's étapes — an épreuve ends one as its `exam` instead (#89). The chapter is permanent, so it keeps its sitemap entries.
+   * parcours's étapes — an épreuve ends one as its `exam` instead (#89).
+   * The chapter is permanent, so its pages carry no `noindex` of their own.
    * `isTracked()` is the one test; read that, never the two flags.
    */
   untracked?: true;

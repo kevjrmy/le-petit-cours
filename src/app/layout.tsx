@@ -38,6 +38,9 @@ export const metadata: Metadata = {
   description:
     "Cours de français pour hispanophones. Grammaire, orthographe, conjugaison et exercices, hors ligne et gratuits.",
   applicationName: "Le Petit Cours",
+  /* Not indexed, anywhere (#95). A page's own `robots` replaces this one, so
+     `next.config.ts` sends the same thing as a header, which no page can. */
+  robots: { index: false, follow: false },
   /* No `icons` here on purpose: declaring it replaces the app/ file
      conventions rather than adding to them, and silently drops icon.svg from
      the head. favicon.ico, icon.svg and apple-icon.png are all file
@@ -66,14 +69,21 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 
        Never read the session here. Reading cookies in this layout opts every
        lesson underneath out of static prerendering, and nothing fails loudly
-       when it happens (AGENTS.md §8). */
+       when it happens (AGENTS.md §8).
+
+       translate="no" and the `google` meta below keep the browser from
+       offering to translate the page: the French is the lesson, and a
+       translated page teaches nothing. The meta is written in <head> rather
+       than in `metadata.other`, which a page's own `other` would replace. */
     <html
       lang="fr"
+      translate="no"
       data-scroll-behavior="smooth"
       className={`${inter.variable} ${spectral.variable}`}
       suppressHydrationWarning
     >
       <head>
+        <meta name="google" content="notranslate" />
         {/* Runs synchronously while <head> is parsed, so the theme and the
             sidebar are right before the first paint. useEffect is exactly what
             does not prevent the flash, and a cookie read on the server would
