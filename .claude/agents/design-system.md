@@ -415,8 +415,7 @@ route answering 200 on the maintainer's dev server. **You run no build and start
 - `flex: 0` is `flex: 0 1 0%` — a zero basis that collapses images. Write `flex: 0 0 auto`.
 - **A `container-type: inline-size` box states its width.** It is measured without its content, so
   one left to shrink to fit (a flex item with `margin: auto`, a centred child) is 0 wide and every
-  `@container (max-width)` under it fires. `Welcome`'s buttons switch to icons on their room, not
-  the screen's: the welcome says `width: 100%`.
+  `@container (max-width)` under it fires.
 - A **surface** token as a text colour inverts in dark mode. Ink on a filled accent is
   `--text-on-accent` (`--text-on-success` on green), and neither is a constant: `--accent` is light
   in dark mode, so white on it drops from 8.7:1 to about 3:1. Check filled states in both themes on

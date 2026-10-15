@@ -1367,9 +1367,9 @@ outline ten times a hair apart, and ten half-transparent edges add up to an opaq
 curve came out stepped on a phone. The dot of the « i » is a gold star, a second mask layer over
 `--star` (`.logo`). **Chosen against the cover's lettering**, which the maintainer asked about:
 the title is Gallimard's logotype and « Le Petit Prince » the estate's trademark, and with a name
-that already echoes it, the same letters would read as a licensed product. The P badge and the
-icons keep the monoline P until they are regenerated (`make-icons.mjs`), and so does the share
-image.
+that already echoes it, the same letters would read as a licensed product. The P of the badge and
+every icon (`logo-mark.svg`) takes the same pen at its own scale, and `make-icons.mjs` adds the
+gold star to the share card, the one place the logo is drawn outside the page.
 
 **The mood, never the drawings.** Saint-Exupéry is not public domain in France (#60), and the
 lettering and the covers are Gallimard's. The star and the planet are drawn for the course

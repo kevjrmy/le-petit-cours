@@ -27,6 +27,8 @@ import { deflateSync, inflateSync } from "node:zlib";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const BRAND = "#0044AA";
 const INK = "#FFFFFF";
+/* --gold-300, the star on the night: the dot of the wordmark's « i » (#100). */
+const STAR = "#F2D06A";
 
 const markSvg = readFileSync(join(ROOT, "public/logo-mark.svg"), "utf8");
 /* The full wordmark, recoloured white. It is outlined paths with the brand blue
@@ -34,6 +36,14 @@ const markSvg = readFileSync(join(ROOT, "public/logo-mark.svg"), "utf8");
    keeps the share image and the logo the same artwork rather than a copy. */
 const wordmarkSvg = readFileSync(join(ROOT, "public/logo.svg"), "utf8")
   .replace(/fill:#0044aa/gi, "fill:#ffffff");
+/* The dot of the « i » is not in logo.svg: the page draws it as a star
+   (`.logo`, globals.css), and so does the card. The same star, at the same
+   place: 3.6 units wide, its box at 51.36 7.95 in the wordmark's viewBox,
+   which is where `--logo-star` puts it. */
+const STAR_D = readFileSync(join(ROOT, "public/etoile.svg"), "utf8").match(/ d="([^"]+)"/)[1];
+const wordmarkWithStar = wordmarkSvg.replace("</svg>",
+  `<path fill="${STAR}" stroke="${STAR}" stroke-width="1.2" stroke-linejoin="round" ` +
+  `transform="translate(51.36 7.95) scale(0.15)" d="${STAR_D}"/></svg>`);
 const viewBox = markSvg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
 const [, GW, GH] = viewBox.map(Number);
 const glyphPath = markSvg.match(/ d="([^"]+)"/)[1];
@@ -61,9 +71,8 @@ function compose(size, pct) {
 function ogCard(width, height) {
   return `<div style="width:${width}px;height:${height}px;background:${BRAND};` +
     `display:flex;align-items:center;justify-content:center">` +
-    `<div style="width:${Math.round(width * 0.62)}px">${wordmarkSvg
-      .replace(/\swidth="[^"]*"/, ' width="100%"')
-      .replace(/\sheight="[^"]*"/, ' height="auto"')}</div></div>`;
+    `<div style="width:${Math.round(width * 0.62)}px">${wordmarkWithStar
+      .replace("<svg ", '<svg width="100%" ')}</div></div>`;
 }
 
 const page = (svg) =>

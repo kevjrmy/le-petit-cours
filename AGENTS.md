@@ -208,9 +208,9 @@ day, night blue by night, text in blue ink in both.
   below the drawer breakpoint, in `--surface-app`.
 - **Brand glyph = CSS mask over a token.** The drawn wordmark is `.logo` (#100: a broad-nib
   `logo.svg`, the « i »'s dot a gold star placed against its viewBox), the home page's `<h1>` and
-  the open sidebar's head; the rail shows the P badge instead. The link's name is
-  hidden text, never the drawing. Icons come from `node scripts/make-icons.mjs` — never
-  hand-edit; opaque; only the maskable pays the safe zone.
+  the open sidebar's head; the rail shows the P badge instead (`logo-mark.svg`, the same pen). The
+  link's name is hidden text, never the drawing. Icons come from `node scripts/make-icons.mjs` —
+  never hand-edit; opaque; only the maskable pays the safe zone.
 - **The shell's foot is one row** (#63): account control and footer share `--shell-foot-h`.
 - **Never set `metadata.icons`** — it drops `icon.svg`.
 

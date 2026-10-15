@@ -1,10 +1,4 @@
-/* A container, so the three buttons ask how much room they have rather than how
-   wide the screen is: the sidebar, the rail and the drawer each leave the page
-   a different width at one viewport. **The width is stated**: a container
-   measures without its content, so one left to shrink to fit is 0 wide. */
 .welcome {
-  container-type: inline-size;
-  width: 100%;
   display: flex;
   flex-direction: column;
   /* Tighter than the page's own 1.25rem: the sentence and the row it explains
@@ -27,28 +21,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* The pills' own gap, because this row stands where they stand. */
+  /* The pills' own gap, because this row stands where they stand. Too narrow
+     for the three, the row wraps and stays centred: the words never go. */
   gap: var(--space-6);
-}
-
-/* Under the width the three need on one line with their words, the words go
-   and the marks stay: a third button wrapped alone reads as a second row of
-   choices. The row is 27.6rem with Inter (measured); 28rem leaves the fallback
-   face a little room. The word is hidden the way `.visually-hidden` hides it, so the
-   link keeps its name; the button squares up around its mark and stays well
-   over `--target-min`. */
-@container (max-width: 28rem) {
-  .action.action {
-    padding: var(--space-8) var(--space-12);
-  }
-
-  .label {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
 }
