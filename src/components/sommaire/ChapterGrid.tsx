@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { listedChapters } from "@/data/navigation";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
+import { Vide } from "@/components/ornement/Planete";
 import { useAccount } from "@/hooks/useAccount";
 import styles from "./ChapterGrid.module.css";
 
@@ -30,11 +31,13 @@ export function ChapterGrid() {
      which is the thing #51 removed. */
   if (listed.length === 0) {
     return (
-      <p className="message">
-        Aucune leçon n&rsquo;est encore publiée. Le cours s&rsquo;écrit en ce
-        moment, en commençant par le niveau A2 : les chapitres apparaîtront ici
-        au fur et à mesure, avec leurs leçons.
-      </p>
+      <Vide>
+        <p className="message">
+          Aucune leçon n&rsquo;est encore publiée. Le cours s&rsquo;écrit en ce
+          moment, en commençant par le niveau A2 : les chapitres apparaîtront ici
+          au fur et à mesure, avec leurs leçons.
+        </p>
+      </Vide>
     );
   }
 

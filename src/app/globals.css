@@ -195,9 +195,12 @@
   --text-on-success: light-dark(var(--white), var(--grey-950));
 
   /* Star — the gold of the stars on *Le Petit Prince*'s cover (#100).
-     Ornament only, worn by `.ciel`: it marks nothing, so it is held to no
+     Ornament only, worn by `.ciel` and the motif: it marks nothing, so it is held to no
      contrast floor and must never be the colour of a state. */
   --star:          light-dark(var(--gold-500), var(--gold-300));
+  /* The little planet the motif stands on (`Planete.tsx`): the grey of the
+     pop-up cover's planet by day, a lighter night by night. Ornament too. */
+  --planet:        light-dark(var(--paper-500), var(--night-600));
 
   /* Elevation, and there is one. The page is flat: a card, a field and a
      button rest on it with a border and no shadow. The shadow is for
@@ -1322,6 +1325,24 @@ tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
     url(/etoile.svg) 74% 2% / 0.7rem no-repeat,
     url(/etoile.svg) 14% 100% / 0.6rem no-repeat,
     url(/planete.svg) 88% 100% / 1.35rem no-repeat;
+}
+
+/* The wordmark, drawn: « Le Petit Cours » in the accent, the dot of its « i »
+ * a gold star (#100). `public/logo.svg` holds the letters without the dot, and
+ * this places the star where the dot was, as one more mask layer with a gold
+ * ground under it alone. **The two numbers are set against the SVG's
+ * viewBox**: redraw the letters and they move with it.
+ *
+ * Both layers are masks over tokens, so the logo follows the theme like every
+ * brand glyph (`AGENTS.md` §5). The wearer gives the width, and the display:
+ * none of the rail's sidebar is the wearer's too, so nothing here ties with it.
+ * Decorative: the name is the hidden text beside it, never the drawing. */
+.logo {
+  --logo-star: 46.6% 47.46% / 3.147% 17.286% no-repeat;
+  aspect-ratio: 114.3887 / 20.8264;
+  background: linear-gradient(var(--star) 0 0) var(--logo-star), var(--accent);
+  -webkit-mask: url(/etoile.svg) var(--logo-star), url(/logo.svg) center / contain no-repeat;
+  mask: url(/etoile.svg) var(--logo-star), url(/logo.svg) center / contain no-repeat;
 }
 
 .visually-hidden {

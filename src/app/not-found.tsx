@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { Planete } from "@/components/ornement/Planete";
 
 export const metadata: Metadata = { title: "Page introuvable" };
 
@@ -8,6 +9,7 @@ export const metadata: Metadata = { title: "Page introuvable" };
 export default function NotFound() {
   return (
     <article className="prose">
+      <Planete />
       <h1>Page introuvable</h1>
       <section>
         <p>

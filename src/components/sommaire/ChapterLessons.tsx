@@ -11,6 +11,7 @@ import {
   type View,
 } from "@/data/navigation";
 import { PageRow } from "@/components/nav/PageRow";
+import { Vide } from "@/components/ornement/Planete";
 import { RowTick } from "@/components/progress/RowTick";
 import { useAccount } from "@/hooks/useAccount";
 import { useProgress } from "@/hooks/useProgress";
@@ -66,27 +67,33 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
        promises a course page, and what lands here is next week's séance. */
     if (chapter.scratch) {
       return (
-        <p className="message">
-          Rien ici pour l’instant. Les pages d’une séance arrivent dans ce
-          chapitre le jour du cours, et en repartent après.
-        </p>
+        <Vide>
+          <p className="message">
+            Rien ici pour l’instant. Les pages d’une séance arrivent dans ce
+            chapitre le jour du cours, et en repartent après.
+          </p>
+        </Vide>
       );
     }
 
     return (
-      <p className="message">
-        Ce chapitre n’a pas encore de leçon. Il en aura : c’est un chapitre du
-        cours, pas une page en attente.
-      </p>
+      <Vide>
+        <p className="message">
+          Ce chapitre n’a pas encore de leçon. Il en aura : c’est un chapitre du
+          cours, pas une page en attente.
+        </p>
+      </Vide>
     );
   }
 
   if (lessons.length === 0) {
     return (
-      <p className="message">
-        Rien dans ce chapitre aux niveaux que vous avez choisis. Les autres
-        leçons restent lisibles, elles ne sont simplement pas proposées ici.
-      </p>
+      <Vide>
+        <p className="message">
+          Rien dans ce chapitre aux niveaux que vous avez choisis. Les autres
+          leçons restent lisibles, elles ne sont simplement pas proposées ici.
+        </p>
+      </Vide>
     );
   }
 

@@ -14,16 +14,11 @@
   text-align: center;
 }
 
-/* The wordmark as a mask over a token, so it follows the theme the way every
-   brand asset does (`AGENTS.md` §5). It is sized in rem against a cap of the
-   hero's own width: below ~24rem the aspect ratio makes it shrink rather than
-   overflow, which is what keeps the eleven letters legible on a phone. */
+/* The wordmark is `.logo` (`globals.css`); this sizes it. In rem against a
+   cap of the hero's own width: below ~24rem the aspect ratio makes it shrink
+   rather than overflow, which keeps the eleven letters legible on a phone. */
 .wordmark {
   width: min(22rem, 100%);
-  aspect-ratio: 113.85 / 20.38;
   margin-inline: auto;
-  background-color: var(--accent);
-  -webkit-mask: url(/logo.svg) center / contain no-repeat;
-  mask: url(/logo.svg) center / contain no-repeat;
 }
 

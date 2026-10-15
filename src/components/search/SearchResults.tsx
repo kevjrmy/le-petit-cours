@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { PageRow } from "@/components/nav/PageRow";
+import { Planete } from "@/components/ornement/Planete";
 import { useAccount } from "@/hooks/useAccount";
 import { atView, searchCourse } from "@/lib/search";
 import { SearchBox } from "./SearchBox";
@@ -77,6 +78,7 @@ export function SearchResults() {
 
       {query !== "" && hits.length === 0 && (
         <div className={styles.empty}>
+          <Planete />
           <p>
             La recherche porte sur les titres du cours, pas encore sur le texte
             des leçons. Essayez un mot plus court, ou parcourez le cours.

@@ -1339,7 +1339,7 @@ French book a learner may already know, read by fifteen-year-olds and adults ali
 
 **The grounds, not the inks.** Light mode is `--paper-*`, a warm cream; dark mode is `--night-*`, a
 blue dark enough to read on. The text greys and the accent stay: blue ink on cream is a
-schoolbook page, and **`#0044AA` stays the accent** (#27): the wordmark has not changed. In dark
+schoolbook page, and **`#0044AA` stays the accent** (#27), the wordmark's blue. In dark
 mode a heading takes the cover title's gold, softened (`--gold-200`). `scripts/contrast.mjs`
 passed on every pair (#99); the sheet and the hover had to stay light enough for `--text-3` and
 `--border-control`.
@@ -1348,6 +1348,21 @@ passed on every pair (#99); the sheet and the hover had to stay light enough for
 block's edges: the home page's title, and `/design`. It marks no state, so it has no contrast
 floor and never enters a lesson, where a gold mark would be read as a signal next to amber's
 « à retenir ». **Chosen against stars across the page background**: they would sit under text.
+
+**The course has its own motif** (second pass, same day): an open book on a little planet under a
+few stars, `Planete.tsx`, in `--accent`, `--planet` and `--star`. It goes where a page has nothing
+to show (a chapter or a search with nothing in it, the 404, through `Vide`) and over the sign-in
+form. **Not over a lesson or a listing that has rows**: there it would compete with the content it
+decorates.
+
+**The wordmark is written with a pen** (third pass, same day). The same Playwrite FR Trad outlines,
+repeated along a short segment at 40°, as a broad nib draws: thick across the pen, thin along it,
+the weight the cover's title has. The dot of the « i » is a gold star, a second mask layer over
+`--star` (`.logo`). **Chosen against the cover's lettering**, which the maintainer asked about:
+the title is Gallimard's logotype and « Le Petit Prince » the estate's trademark, and with a name
+that already echoes it, the same letters would read as a licensed product. The P badge and the
+icons keep the monoline P until they are regenerated (`make-icons.mjs`), and so does the share
+image.
 
 **The mood, never the drawings.** Saint-Exupéry is not public domain in France (#60), and the
 lettering and the covers are Gallimard's. The star and the planet are drawn for the course

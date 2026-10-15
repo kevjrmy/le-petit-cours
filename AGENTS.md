@@ -161,7 +161,7 @@ day, night blue by night.
 - **A raw colour in a component is a bug.** Exceptions: `viewport.themeColor` (`layout.tsx`) and
   `theme_color`/`background_color` (`manifest.ts`) — keep them equal to `--surface-app`.
 - **Two token layers**, palette and semantic (`--surface-*`, `--text-*`, `--border*`, `--accent*`,
-  `--danger*`, `--warn*`, `--success*`, `--star`). No `--clr-*` alias layer.
+  `--danger*`, `--warn*`, `--success*`, `--star`, `--planet`). No `--clr-*` alias layer.
 - **One definition per token**: `light-dark(light, dark)` on `:root`. **Never a per-theme block.**
 - **Radius, motion, layer and shadow are tokens too** (#96: `--radius-*`, `--dur*`, `--z-*`,
   `--shadow`). **The page is flat**: one shadow, for what floats (a menu, a popover, a dragged
@@ -177,8 +177,9 @@ day, night blue by night.
   marks the right form there, italic and strike the wrong one.
 - **A cited form is `span.fr`, semi-bold; a wrong one is `<s className="fr">`, italic and struck
   through, never bold** (#93) — a wrong form left in a span is the boldest word in its sentence.
-- **Gold is ornament only** (#100): `--star` colours `.ciel`, never a state, never in a lesson. **The
-  book's mood, never its drawings** — Saint-Exupéry is not public domain in France (#60).
+- **Gold is ornament only** (#100): `--star` and `--planet` colour `.ciel`, the logo's star and
+  `Planete` (the course's motif, over empty states, the 404 and sign-in); never a state, never in a
+  lesson. **The book's mood, never its drawings** — Saint-Exupéry is not public domain in France (#60).
 - **Red means wrong**: `--danger` is for a wrong answer, a struck form and `.exception`, nothing
   else.
 - **Colour is never the only carrier**: `.rule` prints « Règle », `.attention` « À retenir »,
@@ -205,8 +206,9 @@ day, night blue by night.
   do it. One pixel of colour change is not a focus mark.
 - **The topbar is in the page** (#43, #44): no border, no blur, no surface of its own; sticky only
   below the drawer breakpoint, in `--surface-app`.
-- **Brand glyph = CSS mask over a token.** The drawn wordmark is the home page's `<h1>` and the
-  open sidebar's head; the rail shows the P badge instead. The link's name is
+- **Brand glyph = CSS mask over a token.** The drawn wordmark is `.logo` (#100: a broad-nib
+  `logo.svg`, the « i »'s dot a gold star placed against its viewBox), the home page's `<h1>` and
+  the open sidebar's head; the rail shows the P badge instead. The link's name is
   hidden text, never the drawing. Icons come from `node scripts/make-icons.mjs` — never
   hand-edit; opaque; only the maskable pays the safe zone.
 - **The shell's foot is one row** (#63): account control and footer share `--shell-foot-h`.

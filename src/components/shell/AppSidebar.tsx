@@ -73,7 +73,7 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
             (`AGENTS.md` §5). */}
         <Link href="/" className={styles.brand} onClick={onNavigate}>
           <span className={styles.mark} aria-hidden="true" />
-          <span className={styles.wordmark} aria-hidden="true" />
+          <span className={`logo ${styles.wordmark}`} aria-hidden="true" />
           <span className="visually-hidden">Le Petit Cours</span>
         </Link>
       </div>

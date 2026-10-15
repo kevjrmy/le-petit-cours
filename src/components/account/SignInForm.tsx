@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { signIn, SignInError, type SignInProblem } from "@/lib/account";
+import { Planete } from "@/components/ornement/Planete";
 import styles from "./AccountSettings.module.css";
 
 type State =
@@ -69,6 +70,7 @@ export function SignInForm() {
        one section among several. A fragment rather than a `<section>` for the
        same reason — there is nothing here for a section to be one of. */
     <>
+      <Planete />
       <h1>Se connecter</h1>
       <p>
         Un compte garde vos leçons cochées, votre niveau et le nom sous lequel

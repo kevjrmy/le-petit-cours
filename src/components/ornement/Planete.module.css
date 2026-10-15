@@ -1,0 +1,20 @@
+/* The motif's size is its own: one width wherever it goes, so it reads as the
+   same drawing on every page that has it. The wearer places it. */
+.planete {
+  display: block;
+  width: 10rem;
+  max-width: 100%;
+  height: auto;
+}
+
+.star   { fill: var(--star); }
+.ground { fill: var(--planet); }
+.book   { fill: var(--accent); }
+
+/* The motif centred over its sentence, the gap of a block. */
+.vide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-16);
+}

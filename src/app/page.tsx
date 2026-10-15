@@ -38,7 +38,7 @@ export default function Home() {
         {/* The name is drawn, not set: the wordmark is the heading. The text
             stays inside it, visually hidden, so the document still has an <h1>
             with a name for a screen reader and for search. */}
-        <h1 className={styles.wordmark}>
+        <h1 className={`logo ${styles.wordmark}`}>
           <span className="visually-hidden">Le Petit Cours</span>
         </h1>
         {/* The tagline, until the session says who is reading — then their

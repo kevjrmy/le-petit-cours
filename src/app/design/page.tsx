@@ -6,6 +6,7 @@ import type { CopieEpreuve } from "@/components/delf/copie-data";
 import { Redaction } from "@/components/delf/Redaction";
 import { Tirage } from "@/components/delf/Tirage";
 import board from "@/components/exercice/Board.module.css";
+import { Vide } from "@/components/ornement/Planete";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -143,6 +144,15 @@ export default function DesignPage() {
         <div className={`ciel ${styles.sky}`}>
           <p className={styles.skyTitle}>Un titre sous les étoiles</p>
         </div>
+        <p>
+          Et le motif du cours, <code>Planete</code> : un livre ouvert sur une
+          petite planète. Il accompagne ce qui n’a rien à montrer (une page
+          introuvable, une recherche vide, un chapitre vide) et l’écran de
+          connexion ; <code>Vide</code> le pose au-dessus de sa phrase.
+        </p>
+        <Vide>
+          <p className="message">Ce chapitre n’a pas encore de leçon.</p>
+        </Vide>
       </section>
 
       <section className={styles.section}>
