@@ -34,7 +34,7 @@
   min-width: 4.5rem;
   padding: var(--space-2) var(--space-6);
   border: 1px solid transparent;
-  border-bottom: 2px solid var(--border-strong);
+  border-bottom: 2px solid var(--border-control);
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
   text-align: center;
   color: var(--text-3);
@@ -58,7 +58,10 @@
   gap: var(--space-2);
 }
 
+/* `min-width`: the word to find is often one letter (« a », « à »), and a
+   finger has to land on it. */
 .word {
+  min-width: var(--target-min);
   padding: var(--space-2) var(--space-4);
   border: 1px solid transparent;
   border-radius: var(--radius-sm);

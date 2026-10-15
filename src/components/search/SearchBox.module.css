@@ -4,7 +4,9 @@
    Flat at rest. A resting shadow would lift the field off a page whose own
    chrome is deliberately in the page rather than over it (#43), and the weight
    it was carrying is what made the control read as heavy. The border does the
-   work instead: --border at rest, --border-strong under the pointer. */
+   work instead: --border at rest, --border-strong under the pointer. It is
+   not `--border-control`: this field is known by its glyph and its filled
+   button, not by its edge alone. */
 .form {
   display: flex;
   align-items: center;
@@ -26,7 +28,7 @@
 .form:focus-within,
 .form:focus-within:hover {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
+  box-shadow: 0 0 0 1px var(--accent), 0 0 0 4px var(--accent-soft);
 }
 
 .icon {

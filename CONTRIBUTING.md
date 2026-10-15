@@ -67,6 +67,9 @@ are in [`AGENTS.md`](AGENTS.md); the `#nn` numbers point into
 - **No raw values in components**: every colour, font size, margin, padding, gap, radius and
   shadow is a design token from `src/app/globals.css` (#96). A card, a text field, a small label
   and a drill's board are shared patterns: a component places them and never redraws them (#97).
+- **Contrast, focus and target size are WCAG 2.2 AA** (#99): change a colour token and
+  `node scripts/contrast.mjs` must still print « 0 under their floor »; never remove a focus ring;
+  nothing a finger hits is under 24px.
 - **The serif marks the French taught** (`<span className="fr">`); on an A1 page the section is
   `lang="es"` and every piece of French takes `lang="fr"` back (#85). A form cited as wrong is
   `<s className="fr">`, struck through, never a span.

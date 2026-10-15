@@ -99,7 +99,13 @@ other hit is a defect. Also flag:
 - **A control nested inside a link** — `PageRow`'s link and `RowTick` are siblings for this reason
   (#79); a `<button>` inside the `<a>` toggles *and* navigates.
 - Headings skipping a level, or a second `<h1>`.
-- Text on tinted fills unlikely to reach 4.5:1 — check the token pair, not a guess.
+- **Contrast** (#99): `node scripts/contrast.mjs` must print « 0 under their floor ». A text token
+  on a ground the script does not list for it is a defect, and so is text dimmed with `opacity`.
+- A field, a blank or an empty tick whose edge is not `--border-control`.
+- **`outline: none`** without two pixels of `--accent` replacing it, or a focus ring clipped by a
+  parent's `overflow` — tab to it and look.
+- **A target under 24px on either side** at phone width, a link in a sentence excepted; the
+  recipe that lists them is in `design-system.md` § Three numbers.
 - A `<details>` must stay keyboard-reachable.
 - Colour as the only carrier of a state.
 

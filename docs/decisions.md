@@ -90,6 +90,7 @@ than marking it superseded.
 | 96  | 2026-10-11 | Every size, space, radius, layer and shadow is a token; the page is flat                         | Binding · builds #6, #27 · the one shadow inferred     |
 | 97  | 2026-10-11 | One paper, one field, one label, one board; the answer in hand is one state                      | Binding · builds #96                                   |
 | 98  | 2026-10-11 | An agent checks with lint and types; the build and the screenshot are asked for                  | Binding                                                |
+| 99  | 2026-10-12 | Contrast, focus and target size have numbers: WCAG 2.2 AA, checked                               | Binding · builds #96, #27                              |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -1290,3 +1291,39 @@ what the agent cannot judge blind; and `page-auditor`, whose job is to photograp
 
 **`README.md` and `CONTRIBUTING.md` still say the build must pass**: a contributor works on their
 own machine, beside nobody's server.
+
+## 99 · Contrast, focus and target size have numbers: WCAG 2.2 AA, checked
+**2026-10-12 · Binding · builds #96, #27**
+
+« Dark mode and accessibility every time » had no number in it, so nothing could fail it. Three
+now can.
+
+**Text is 4.5:1 on every ground it may sit on**, and `scripts/contrast.mjs` reads the tokens and
+says so: 196 pairs in two themes. The pairs are written out there because the list *is* the rule
+— which token may sit on which ground. One token failed: `--text-3`, the muted grey of every small
+label, was 4.35 on the page in light mode, 4.05 on a hovered row, under 4 on a tint. It went darker
+(lighter in dark mode) until it cleared every surface and every soft tint, so muted text needs no
+care about where it lands. **Chosen against 7:1** (AAA): `--text-2` is at 7.3, and a third level
+of text would have no room left to be a level.
+
+**The edge of what is known by its edge alone is 3:1**: a field, a blank in a sentence, an empty
+tick. They wore `--border` or `--border-strong`, 1.2 to 1.7 against the page. **A new token,
+`--border-control`, rather than darker borders everywhere**: a card or a chip carries words and is
+read without its line, and the page would have gone heavy to fix six controls. The search field
+keeps its quiet edge; its glyph and its filled button say what it is.
+
+**Focus is two pixels of accent, always.** The global ring is that. A blank typed into, in a row
+of its kind, may put the two pixels on its own edge instead; before, two drills replaced the ring
+with one pixel of border colour, which is a change of state nobody tabbing can see. A ring is
+never clipped by a parent's `overflow` (the topbar's crumb was).
+
+**A target is 24px both ways**, by its own size, a link in a sentence excepted. Measured on the
+deployed site, not read off the CSS: 1,311 targets on 22 pages at two widths, and three kinds were
+under it — the tense arrows of « Les terminaisons » (22px), a one-letter word to click (19px wide:
+« a », « à », the very words a heritage speaker is asked to find), and a link alone on its line
+(the footer's, the topbar's crumb, 15 and 16px tall).
+
+**Chosen against 44px** (AAA, and what a phone's own guidelines ask): a chip is 37px tall, a button
+38, an accent key 30, and a blank in a sentence is held by its line. Reaching 44 is a redesign of
+every drill for the thumb, which may be worth doing and is not decided here. **24 is the floor
+under the exceptions, not the size to aim at.**

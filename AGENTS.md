@@ -194,6 +194,12 @@ Accent `#0044AA`, **Spectral** + **Inter** (#27).
   heads are `div` + `h3`.
 - **Dark mode and accessibility every time**: semantic HTML, `focus-visible`, `aria-label` on icon
   buttons, `<caption>` on every table.
+- **Three numbers, WCAG 2.2 AA** (#99). **Text is 4.5:1 on every ground it may sit on**: a colour
+  token changed means `node scripts/contrast.mjs` still prints « 0 under their floor ». **The edge
+  of a field, a blank or an empty tick is `--border-control`** (3:1), never `--border`. **A target
+  is 24px both ways** (`--target-min`), a link in a sentence excepted.
+- **`outline: none` needs two pixels of `--accent` in its place**, and only a blank typed into may
+  do it. One pixel of colour change is not a focus mark.
 - **The topbar is in the page** (#43, #44): no border, no blur, no surface of its own; sticky only
   below the drawer breakpoint, in `--surface-app`.
 - **Brand glyph = CSS mask over a token.** The drawn wordmark is the home page's `<h1>` and the

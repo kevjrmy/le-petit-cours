@@ -28,7 +28,7 @@
   justify-content: center;
   inline-size: 1.3rem;
   block-size: 1.3rem;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border-control);
   border-radius: var(--radius-pill);
   background: transparent;
   transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;

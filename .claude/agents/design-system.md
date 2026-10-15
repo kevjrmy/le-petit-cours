@@ -45,6 +45,11 @@ A missing shade goes into the palette **and** the semantic layer; use the semant
 `--clr-*` alias layer** (§5): an alias hides which layer a name belongs to, and a *surface* token
 read as a text colour inverts in dark mode.
 
+**Four lines, and one of them is a control.** `--border-soft`, `--border` and `--border-strong`
+divide things that would be read without them: a card, a row, a chip with its word inside.
+`--border-control` is the edge of what is known by its edge alone (a field, a blank, an empty tick)
+and holds 3:1 on every surface. Never lighten a field to match a card.
+
 **One exception**: `--flag-es-*` and `--flag-fr-*`, the two flags of the language chooser
 (`Flag.tsx`, #91) — palette only, fixed in both themes, never reused (their reds are not
 `--danger`).
@@ -113,6 +118,7 @@ All in `globals.css` §2 and §3, each with a comment saying what it is for.
   is not prose), and the shell's metrics (`--sidebar-w`, `--topbar-h`, `--shell-gutter`, `--toc-w`,
   `--shell-foot-h`). **If a number appears in two modules, it belongs in `globals.css`** with a
   comment saying who reads it.
+- **`--target-min`** — 24px, the smallest thing a finger is asked to hit (below).
 
 ## One of each
 
@@ -219,8 +225,64 @@ One look per state, by what the thing is. `/design` shows each.
   nothing else, because **nothing that carries an answer or a verdict is faded** — the three
   verdict states and `.is-chosen` all set `opacity: 1`. A pool fades only the chips not picked.
 - **Pressed exists once**, on `AccentBar`'s keys. Nothing else has an `:active` look.
-- **Focus is the global ring** (2px `--accent`, 3px out). A field pulls it in against its border
-  (`.input`); a blank inside a sentence may replace it with its own border and fill, and only then.
+- **Focus is the global ring** (2px `--accent`, 3px out), and it has rules of its own, below.
+
+## Three numbers
+
+WCAG 2.2 AA, and each one is checked rather than believed (#99).
+
+**4.5:1 for text, on every ground it may sit on.** Run this after touching any colour token:
+
+```bash
+node scripts/contrast.mjs          # « 0 under their floor », or the pairs that are
+```
+
+- **The script's list is the rule**: a text token may sit on the grounds written for it there and
+  on no other. `--text-1`, `--text-2` and `--text-3` clear every surface and every soft tint, so
+  muted text is safe on a hovered row or a done one. A role's `-text` goes on the page or on its
+  own `-soft`, never on another role's.
+- **A new text token or a new ground is added to the script in the same change.**
+- **`--text-3` is as pale as text gets.** For anything paler, ask whether it is text: a separator
+  may be `--border-strong`, a word may not.
+- **Text that must be read is never dimmed with `opacity`.** `--opacity-disabled` is for what
+  cannot be used, with words beside it saying why.
+
+**3:1 for an edge that is the only sign of a control**: `--border-control`, and the focus ring.
+A chip, a button or a card carries words and keeps its quiet line. The search field keeps
+`--border` too: its glyph and its filled button say what it is.
+
+**Focus is always two pixels of `--accent`.**
+
+- The global ring, for everything. Never `outline: none` on a control without what follows.
+- **A field pulls the ring in** (`.input`: `outline-offset: 1px`, the border goes accent with it).
+- **A blank typed into, in a row of its kind, may replace the ring** with its own edge: the border
+  in accent **and one more pixel inside it** (`box-shadow: inset 0 0 0 1px var(--accent)`), plus
+  the subtle fill. One pixel of colour change is not a focus mark. Two drills do it
+  (`les-terminaisons`, `les-homophones-du-demonstratif`); the search box does the same on its
+  frame, with a halo outside.
+- **A ring is never clipped.** `overflow: hidden` goes on the element that owns the ring, not on
+  its parent (the topbar's crumb); inside a bordered row the ring is inset (`RowTick`).
+- A heading that takes focus by script when a slide changes shows no ring (`Onboarding`). It is
+  not a control.
+
+**24px for a target, both ways** (`--target-min`), by its own size rather than by the room around
+it. A link inside a sentence is exempt and nothing else is.
+
+- It is a floor for the small exceptions: an arrow, a one-letter word to click, a link alone on
+  its line. A chip is 37px tall, a button 38, a shell control 36: do not shrink them toward it.
+- **An inline link grows without moving anything**: `padding-block` on an inline box adds to what
+  a finger hits and leaves the line where it was (the footer's links).
+- **A size is measured, not read off the CSS.** `--eval` prints what it returns:
+
+  ```bash
+  node scripts/shot.mjs http://localhost:3000/<route> out.png --mobile --eval="[...document
+    .querySelectorAll('a[href], button, input, textarea, summary')].map(e => [e.textContent
+    .trim().slice(0, 20), ...['width', 'height'].map(k => Math.round(e.getBoundingClientRect()[k]))])
+    .filter(([, w, h]) => w && (w < 24 || h < 24))"
+  ```
+
+  What it prints is every target under the floor; the links in a sentence among them are the
+  exempt ones.
 
 ## The serif carries the French
 
@@ -334,8 +396,8 @@ route answering 200 on the maintainer's dev server. **You run no build and start
   node scripts/shot.mjs http://localhost:3000/design rail.png --width=1000
   ```
 - **Measure before you fix an alignment, and after you move a scale.** Three "a bit off"s were three
-  different rules. `--eval="…"` runs in the page before the shutter and can write
-  `getBoundingClientRect()` values into it: compare numbers, not pictures.
+  different rules. `--eval="…"` runs in the page before the shutter and prints what it returns:
+  compare `getBoundingClientRect()` numbers, not pictures.
 
 ## Traps already paid for
 

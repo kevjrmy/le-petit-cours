@@ -80,8 +80,8 @@
   --grey-800: #1B2432;
   --grey-700: #283242;
   --grey-600: #465366;
-  --grey-500: #68758A;
-  --grey-400: #94A0B2;
+  --grey-500: #5F6B7F;   /* muted text in light mode · 4.5:1 on every ground, tints included */
+  --grey-400: #7A89A0;   /* the edge of a field in light mode · 3:1 on every surface */
   --grey-300: #C0C8D5;
   --grey-200: #DCE1E9;
   --grey-100: #ECEFF4;
@@ -116,7 +116,10 @@
   /* Text */
   --text-1:         light-dark(var(--grey-900), #E6EBF3);
   --text-2:         light-dark(var(--grey-600), #A7B2C4);
-  --text-3:         light-dark(var(--grey-500), #7A8697);
+  /* Muted, and still text: 4.5:1 on every surface and every soft tint, in both
+     themes, so it may sit anywhere `--text-2` may. `scripts/contrast.mjs`
+     checks it; lighten it and a label on a hovered row is the first to fail. */
+  --text-3:         light-dark(var(--grey-500), #85909F);
   --text-heading:   light-dark(var(--blue-900), #CBDFF9);
   /* Text on a filled accent. It is **not** always white: --accent is a deep
      blue in light mode (white on it is 8.7:1) and a light blue in dark mode
@@ -127,6 +130,10 @@
   --border:        light-dark(var(--grey-200), #242E3C);
   --border-soft:   light-dark(var(--grey-100), #19222E);
   --border-strong: light-dark(var(--grey-300), #364357);
+  /* The edge of what is known by its edge alone: a field, a blank, an empty
+     tick. 3:1 against every surface (WCAG 1.4.11). The three above divide
+     things that would be read without them; this one is the control. */
+  --border-control: light-dark(var(--grey-400), #5E6F88);
 
   /* Accent — the brand blue. Links, the current page, primary buttons. */
   --accent:        light-dark(var(--blue-700), var(--blue-400));
@@ -181,6 +188,11 @@
   /* A form is not prose: a field as wide as the reading column is a target
      the eye has to cross to reach its own button. */
   --measure-form: 26rem;
+  /* The smallest thing a finger is asked to hit, both ways: 24px (WCAG 2.5.8).
+     A floor for the small exceptions (an arrow, a one-letter word, a link
+     alone on its line); a chip or a button is half as tall again. A link
+     inside a sentence is exempt. */
+  --target-min: 1.5rem;
 
   /* App shell */
   --sidebar-w:           16.5rem;
@@ -648,7 +660,7 @@ a.button:hover { text-decoration: none; }
    global one, pulled in against the border so the two read as one line. */
 .input {
   padding: var(--space-8) var(--space-12);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-control);
   border-radius: var(--radius-sm);
   background: var(--surface-1);
   color: var(--text-1);

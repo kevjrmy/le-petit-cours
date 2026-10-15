@@ -77,11 +77,12 @@ npm run build    # must pass before a change is done
 npm run lint
 ```
 
-Two scripts, both dependency-free and both needing Node 22+ and `google-chrome` on PATH:
+Three scripts, all dependency-free; the first two need Node 22+ and `google-chrome` on PATH:
 
 ```sh
 node scripts/shot.mjs http://localhost:3000/ shot.png --full --dark   # themed screenshots
 node scripts/make-icons.mjs                                           # every icon, from one SVG
+node scripts/contrast.mjs                                             # colour tokens against WCAG AA
 ```
 
 Two environment variables — `NEXT_PUBLIC_SUPABASE_URL` and

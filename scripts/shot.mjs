@@ -24,6 +24,13 @@
  *   --eval="(async()=>{ btn.click(); await new Promise(r=>setTimeout(r,200));
  *                       next.click() })()" 
  *
+ * **What it returns is printed**, so the same flag measures: a size, a
+ * position, a computed style come back as numbers instead of being judged
+ * from the picture (objects as JSON).
+ *
+ *   --eval="[...document.querySelectorAll('button')].map(b =>
+ *             b.getBoundingClientRect().height)"
+ *
  * --seed is the same, run on a first visit before the page is loaded again. It
  * is for state the app reads while it boots and --eval is therefore too late
  * for: the Supabase session cookie, the IndexedDB progress cache. Every run
@@ -163,8 +170,9 @@ try {
 
   const script = str("eval");
   if (script) {
-    const { exceptionDetails } = await send(
-      "Runtime.evaluate", { expression: script, awaitPromise: true }, s);
+    const { exceptionDetails, result } = await send(
+      "Runtime.evaluate",
+      { expression: script, awaitPromise: true, returnByValue: true }, s);
     if (exceptionDetails) {
       /* exceptionDetails.text is just "Uncaught"; the useful half is in the
          exception object's description. */
@@ -172,6 +180,10 @@ try {
         ?? exceptionDetails.exception?.value
         ?? exceptionDetails.text;
       throw new Error(`--eval failed: ${why}`);
+    }
+    if (result?.value !== undefined) {
+      console.log(
+        typeof result.value === "string" ? result.value : JSON.stringify(result.value));
     }
     await sleep(500); // let whatever it triggered settle
   }

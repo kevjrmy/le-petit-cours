@@ -26,7 +26,8 @@
   .footer { padding-inline: var(--shell-gutter); }
 }
 
-.footer a { color: var(--text-3); }
+/* Inline padding moves nothing and makes the link `--target-min` tall. */
+.footer a { padding-block: var(--space-6); color: var(--text-3); }
 .footer a:hover { color: var(--accent); }
 
 .sep { color: var(--border-strong); }

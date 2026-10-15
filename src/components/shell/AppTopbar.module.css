@@ -100,9 +100,15 @@
   min-width: 0;
   font-size: var(--type-85);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.crumbs a { color: var(--text-2); }
+/* The link is the box: `--target-min` tall for a finger, and the one that
+   clips its own text, so its focus ring is not cut by a parent's `overflow`. */
+.crumbs a {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: var(--target-min);
+  color: var(--text-2);
+}
 .crumbs a:hover { color: var(--accent); }
