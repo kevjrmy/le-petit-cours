@@ -1348,6 +1348,9 @@ passed on every pair (#99); the sheet and the hover had to stay light enough for
 block's edges: the home page's title, and `/design`. It marks no state, so it has no contrast
 floor and never enters a lesson, where a gold mark would be read as a signal next to amber's
 « à retenir ». **Chosen against stars across the page background**: they would sit under text.
+**And never on it**: the first sky placed two of its marks in `%` of the home page's header, which
+grows with the tagline, and on a phone they landed on « petit ». They are placed in `rem` now,
+above the title and beside it.
 
 **The course has its own motif** (second pass, same day): an open book on a little planet under a
 few stars, `Planete.tsx`, in `--accent`, `--planet` and `--star`. It goes where a page has nothing

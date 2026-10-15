@@ -1297,12 +1297,17 @@ tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
  *
  * **Ornament, so it may cost nothing**: a pseudo-element, out of the
  * accessibility tree, under no pointer, in the block's own box so it never
- * widens the page on a phone. Two stars ride above the block, a star and the
- * planet beside its last line, and one star each side of a centred title up
- * to 22rem wide (the wordmark's): **on a phone those two fall outside the box
- * and are not drawn**, rather than landing on the first and last letters.
- * Rare on purpose: the home page's title, and `/design`. Never inside a
- * lesson, where a gold mark would be read as one more signal. */
+ * widens the page on a phone.
+ *
+ * **A star never sits on text.** Every one is placed in `rem` from the top,
+ * never in `%` of the height: the block grows with what it holds (a tagline
+ * wraps to two lines on a phone), and a star placed in a percentage of it once
+ * landed on a word. Four stars and the planet ride in the 1.75rem band the
+ * block is drawn above; two more sit each side of a centred title up to 22rem
+ * wide (the wordmark's), level with its first 4rem. **On a phone those two fall
+ * outside the box and are not drawn**, rather than landing on the first and
+ * last letters. Rare on purpose: the home page's title, and `/design`. Never
+ * inside a lesson, where a gold mark would be read as one more signal. */
 .ciel { position: relative; }
 
 .ciel::before {
@@ -1312,19 +1317,19 @@ tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
   pointer-events: none;
   background: var(--star);
   -webkit-mask:
-    url(/etoile.svg) calc(50% - 13.5rem) 30% / 0.95rem no-repeat,
-    url(/etoile.svg) calc(50% + 13.5rem) 48% / 0.8rem no-repeat,
-    url(/etoile.svg) 31% 0 / 0.5rem no-repeat,
-    url(/etoile.svg) 74% 2% / 0.7rem no-repeat,
-    url(/etoile.svg) 14% 100% / 0.6rem no-repeat,
-    url(/planete.svg) 88% 100% / 1.35rem no-repeat;
+    url(/etoile.svg) calc(50% - 13.5rem) 2.6rem / 0.95rem no-repeat,
+    url(/etoile.svg) calc(50% + 13.5rem) 3.3rem / 0.8rem no-repeat,
+    url(/etoile.svg) 16% 0.85rem / 0.55rem no-repeat,
+    url(/etoile.svg) 33% 0 / 0.5rem no-repeat,
+    url(/etoile.svg) 70% 0.2rem / 0.7rem no-repeat,
+    url(/planete.svg) 90% 0.15rem / 1.3rem no-repeat;
   mask:
-    url(/etoile.svg) calc(50% - 13.5rem) 30% / 0.95rem no-repeat,
-    url(/etoile.svg) calc(50% + 13.5rem) 48% / 0.8rem no-repeat,
-    url(/etoile.svg) 31% 0 / 0.5rem no-repeat,
-    url(/etoile.svg) 74% 2% / 0.7rem no-repeat,
-    url(/etoile.svg) 14% 100% / 0.6rem no-repeat,
-    url(/planete.svg) 88% 100% / 1.35rem no-repeat;
+    url(/etoile.svg) calc(50% - 13.5rem) 2.6rem / 0.95rem no-repeat,
+    url(/etoile.svg) calc(50% + 13.5rem) 3.3rem / 0.8rem no-repeat,
+    url(/etoile.svg) 16% 0.85rem / 0.55rem no-repeat,
+    url(/etoile.svg) 33% 0 / 0.5rem no-repeat,
+    url(/etoile.svg) 70% 0.2rem / 0.7rem no-repeat,
+    url(/planete.svg) 90% 0.15rem / 1.3rem no-repeat;
 }
 
 /* The wordmark, drawn: « Le Petit Cours » in the accent, the dot of its « i »

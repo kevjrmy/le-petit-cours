@@ -372,6 +372,8 @@ None of these fail a build; each reached a published page.
 - **Every count matches the rows under it**, and two pages stating one count change together.
 - **Never restate a paradigm table** — link to its lesson.
 - **Write real characters**: `sœur`, `français`, never the keyboard's substitutes.
+- **An ornament never touches text** (#100): `.ciel` places its stars in `rem`, above and beside a
+  title, never in `%` of a box that text can grow. A star placed that way sat on the tagline.
 
 **Images** (a DELF épreuve now; `culture/` later)
 
