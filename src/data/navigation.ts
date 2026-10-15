@@ -176,7 +176,8 @@ export type IconName =
   | "delf"
   | "sommaire"
   | "progression"
-  | "compte";
+  | "compte"
+  | "recherche";
 
 export interface Chapter {
   slug: string;

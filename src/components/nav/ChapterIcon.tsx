@@ -209,6 +209,14 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0" />
     </>
   ),
+  /* The search field's own magnifier, so the home page's « Rechercher » and the
+     field it leads to wear one mark. Named by `Welcome` rather than a row. */
+  recherche: (
+    <>
+      <circle cx="11" cy="11" r="6.5" />
+      <path d="M15.8 15.8L20 20" />
+    </>
+  ),
 };
 
 /**

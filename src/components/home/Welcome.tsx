@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChapterIcon } from "@/components/nav/ChapterIcon";
 import styles from "./Welcome.module.css";
 
 /**
@@ -23,6 +24,10 @@ import styles from "./Welcome.module.css";
  * page — the same field, empty — and no row anywhere in the chrome leads to it,
  * so removing the field from this page would otherwise take search out of the
  * app entirely for anybody signed out.
+ *
+ * **Each button is a mark and a word, and the word goes first when room runs
+ * out** (`Welcome.module.css`): the label is hidden text then, so the link keeps
+ * its name for a screen reader and its icon carries it for the eye.
  *
  * It carries no `?suivant=`: from `/` that would only name the fallback the
  * redirect already uses, and it would bounce somebody who is signed in out of
@@ -50,14 +55,17 @@ export function Welcome() {
           holds a way into the account as well as two ways into the course,
           and the two rows are never on screen together anyway. */}
       <nav className={styles.row} aria-label="Commencer">
-        <Link href="/sommaire" className="button button-primary">
-          Tout le cours
+        <Link href="/sommaire" className={`button button-primary ${styles.action}`}>
+          <ChapterIcon name="sommaire" />
+          <span className={styles.label}>Tout le cours</span>
         </Link>
-        <Link href="/recherche" className="button">
-          Rechercher
+        <Link href="/recherche" className={`button ${styles.action}`}>
+          <ChapterIcon name="recherche" />
+          <span className={styles.label}>Rechercher</span>
         </Link>
-        <Link href="/compte" className="button">
-          Se connecter
+        <Link href="/compte" className={`button ${styles.action}`}>
+          <ChapterIcon name="compte" />
+          <span className={styles.label}>Se connecter</span>
         </Link>
       </nav>
     </div>
