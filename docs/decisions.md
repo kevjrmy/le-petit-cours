@@ -1339,12 +1339,14 @@ French book a learner may already know, read by fifteen-year-olds and adults ali
 
 **The grounds, not the inks.** Light mode is `--paper-*`, a warm cream; dark mode is `--night-*`, a
 blue dark enough to read on. The text greys and the accent stay: blue ink on cream is a
-schoolbook page, and **`#0044AA` stays the accent** (#27), the wordmark's blue. In dark
-mode a heading takes the cover title's gold, softened (`--gold-200`). `scripts/contrast.mjs`
+schoolbook page, and **`#0044AA` stays the accent** (#27), the wordmark's blue. **Text is never
+gold**: the first pass gave dark-mode headings the cover title's gold, and the maintainer took it
+back the same day; gold is for the interface's marks, and a heading keeps its pale blue.
+`scripts/contrast.mjs`
 passed on every pair (#99); the sheet and the hover had to stay light enough for `--text-3` and
 `--border-control`.
 
-**Gold is ornament and nothing else.** `--star` colours `.ciel`, a few stars and a planet round a
+**Gold is ornament, for the interface and nothing else.** `--star` colours `.ciel`, a few stars and a planet round a
 block's edges: the home page's title, and `/design`. It marks no state, so it has no contrast
 floor and never enters a lesson, where a gold mark would be read as a signal next to amber's
 « à retenir ». **Chosen against stars across the page background**: they would sit under text.

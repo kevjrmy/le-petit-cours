@@ -110,10 +110,10 @@
   --night-700: #222C58;   /* a line */
   --night-600: #313D70;   /* a strong line */
 
-  /* Or — the stars on that cover, and the title. **Decoration and nothing
-     else** (#100): a star carries no state, so it is never a right, a wrong
-     or an « à retenir », and amber keeps those. */
-  --gold-200: #EFE2B8;   /* a heading in dark mode, the title's colour softened */
+  /* Or — the stars on that cover. **For the interface's marks, never for
+     text** (#100): a star, a planet, the dot of the logo's « i ». It carries
+     no state either, so it is never a right, a wrong or an « à retenir »,
+     and amber keeps those. */
   --gold-300: #F2D06A;   /* a star on the night */
   --gold-500: #C4962C;   /* a star on the paper */
 }
@@ -150,8 +150,9 @@
      themes, so it may sit anywhere `--text-2` may. `scripts/contrast.mjs`
      checks it; lighten it and a label on a hovered row is the first to fail. */
   --text-3:         light-dark(var(--grey-500), #8F98BA);
-  /* The book's title is gold on the night: in dark mode a heading is too. */
-  --text-heading:   light-dark(var(--blue-900), var(--gold-200));
+  /* Blue ink in both themes. Never gold: gold marks the interface, not text
+     (#100). */
+  --text-heading:   light-dark(var(--blue-900), #CBDFF9);
   /* Text on a filled accent. It is **not** always white: --accent is a deep
      blue in light mode (white on it is 8.7:1) and a light blue in dark mode
      (white on it is ~3:1, which fails AA). The ink flips with the accent. */
@@ -194,9 +195,9 @@
   /* Flips like --text-on-accent: white on green-500 fails AA in dark. */
   --text-on-success: light-dark(var(--white), var(--grey-950));
 
-  /* Star — the gold of the stars on *Le Petit Prince*'s cover (#100).
-     Ornament only, worn by `.ciel` and the motif: it marks nothing, so it is held to no
-     contrast floor and must never be the colour of a state. */
+  /* Star — the gold of the stars on *Le Petit Prince*'s cover (#100). For the
+     interface's marks only (`.ciel`, the motif, the logo's star), never text
+     and never a state, so it is held to no contrast floor. */
   --star:          light-dark(var(--gold-500), var(--gold-300));
   /* The little planet the motif stands on (`Planete.tsx`): the grey of the
      pop-up cover's planet by day, a lighter night by night. Ornament too. */
