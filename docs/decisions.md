@@ -1359,8 +1359,10 @@ form. **Not over a lesson or a listing that has rows**: there it would compete w
 decorates.
 
 **The wordmark is written with a pen** (third pass, same day). The same Playwrite FR Trad outlines,
-repeated along a short segment at 40°, as a broad nib draws: thick across the pen, thin along it,
-the weight the cover's title has. The dot of the « i » is a gold star, a second mask layer over
+swept along a short segment at 40°, as a broad nib draws: thick across the pen, thin along it, the
+weight the cover's title has. **One merged outline, not stacked copies**: the first version drew the
+outline ten times a hair apart, and ten half-transparent edges add up to an opaque one, so every
+curve came out stepped on a phone. The dot of the « i » is a gold star, a second mask layer over
 `--star` (`.logo`). **Chosen against the cover's lettering**, which the maintainer asked about:
 the title is Gallimard's logotype and « Le Petit Prince » the estate's trademark, and with a name
 that already echoes it, the same letters would read as a licensed product. The P badge and the

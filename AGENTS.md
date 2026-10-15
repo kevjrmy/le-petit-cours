@@ -377,6 +377,8 @@ None of these fail a build; each reached a published page.
 
 **Images** (a DELF épreuve now; `culture/` later)
 
+- **A drawn shape is one outline, never stacked copies**: overlapping copies harden every edge
+  (the wordmark's did, #100).
 - **Local, never hotlinked** — except an épreuve's illustration, only where the item is answerable
   without it (#83).
 - **Free licences only** (CC0, PD, CC BY, CC BY-SA), credit in the same data entry.
