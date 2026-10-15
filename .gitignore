@@ -56,5 +56,5 @@ supabase/.temp/
 # téléchargent librement et ne se relicencient pas (#78, AGENTS.md §9b).
 public/PDF/
 
-# Private classes
+# Private classes, and design references that are not ours to publish (.private/design/)
 .private/

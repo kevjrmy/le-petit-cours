@@ -155,12 +155,13 @@ Read `node_modules/next/dist/docs/` first. The traps:
 ## 5. Design system
 
 `globals.css` owns tokens, reset, typography and every content pattern; `/design` renders them all.
-Accent `#0044AA`, **Spectral** + **Inter** (#27).
+Accent `#0044AA`, **Spectral** + **Inter** (#27). The look follows *Le Petit Prince* (#100): paper by
+day, night blue by night.
 
 - **A raw colour in a component is a bug.** Exceptions: `viewport.themeColor` (`layout.tsx`) and
   `theme_color`/`background_color` (`manifest.ts`) — keep them equal to `--surface-app`.
 - **Two token layers**, palette and semantic (`--surface-*`, `--text-*`, `--border*`, `--accent*`,
-  `--danger*`, `--warn*`, `--success*`). No `--clr-*` alias layer.
+  `--danger*`, `--warn*`, `--success*`, `--star`). No `--clr-*` alias layer.
 - **One definition per token**: `light-dark(light, dark)` on `:root`. **Never a per-theme block.**
 - **Radius, motion, layer and shadow are tokens too** (#96: `--radius-*`, `--dur*`, `--z-*`,
   `--shadow`). **The page is flat**: one shadow, for what floats (a menu, a popover, a dragged
@@ -176,6 +177,8 @@ Accent `#0044AA`, **Spectral** + **Inter** (#27).
   marks the right form there, italic and strike the wrong one.
 - **A cited form is `span.fr`, semi-bold; a wrong one is `<s className="fr">`, italic and struck
   through, never bold** (#93) — a wrong form left in a span is the boldest word in its sentence.
+- **Gold is ornament only** (#100): `--star` colours `.ciel`, never a state, never in a lesson. **The
+  book's mood, never its drawings** — Saint-Exupéry is not public domain in France (#60).
 - **Red means wrong**: `--danger` is for a wrong answer, a struck form and `.exception`, nothing
   else.
 - **Colour is never the only carrier**: `.rule` prints « Règle », `.attention` « À retenir »,

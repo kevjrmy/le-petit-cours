@@ -16,6 +16,22 @@
   border-bottom: 1px solid var(--border);
 }
 
+/* Room above and below for the stars, which `.ciel` draws outside the box.
+   Doubled, to outrank the prose flow's `margin-top`. */
+.sky.sky {
+  display: grid;
+  place-items: center;
+  min-height: 5rem;
+  margin-block: var(--space-28);
+}
+
+.skyTitle {
+  font-family: var(--font-serif);
+  font-size: var(--type-150);
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
 .swatches {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));

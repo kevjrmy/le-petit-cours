@@ -132,6 +132,20 @@ export default function DesignPage() {
       </section>
 
       <section className={styles.section}>
+        <h2>Le ciel</h2>
+        <p>
+          Le papier le jour, la nuit bleue le soir, et des étoiles d’or : le
+          cours emprunte l’ambiance de la couverture du <i>Petit Prince</i>,
+          jamais ses dessins (#100). <code>.ciel</code> pose quelques étoiles
+          et une planète aux bords d’un bloc, en <code>--star</code>. C’est un
+          ornement : il ne marque rien, et il n’entre jamais dans une leçon.
+        </p>
+        <div className={`ciel ${styles.sky}`}>
+          <p className={styles.skyTitle}>Un titre sous les étoiles</p>
+        </div>
+      </section>
+
+      <section className={styles.section}>
         <h2>Titres</h2>
         <p>
           L’échelle entière, en Spectral 600. Le cours s’arrête à{" "}

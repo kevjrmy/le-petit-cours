@@ -23,8 +23,8 @@ export default function manifest(): MetadataRoute.Manifest {
     /* --surface-app in light mode. A manifest has one theme_color and no
        media queries; the per-theme pair lives in the viewport export in
        layout.tsx, which is what browsers actually honour for the status bar. */
-    theme_color: "#F5F7FA",
-    background_color: "#F5F7FA",
+    theme_color: "#F8F4EA",
+    background_color: "#F8F4EA",
     icons: [
       { src: "/pwa-64x64.png", sizes: "64x64", type: "image/png" },
       { src: "/pwa-192x192.png", sizes: "192x192", type: "image/png" },

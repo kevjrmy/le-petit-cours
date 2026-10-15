@@ -91,6 +91,7 @@ than marking it superseded.
 | 97  | 2026-10-11 | One paper, one field, one label, one board; the answer in hand is one state                      | Binding · builds #96                                   |
 | 98  | 2026-10-11 | An agent checks with lint and types; the build and the screenshot are asked for                  | Binding                                                |
 | 99  | 2026-10-12 | Contrast, focus and target size have numbers: WCAG 2.2 AA, checked                               | Binding · builds #96, #27                              |
+| 100 | 2026-10-15 | The look follows *Le Petit Prince*: paper by day, night blue, gold stars as the one ornament     | A first iteration · builds #27, #96, #99               |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -1327,3 +1328,29 @@ under it — the tense arrows of « Les terminaisons » (22px), a one-letter wor
 38, an accent key 30, and a blank in a sentence is held by its line. Reaching 44 is a redesign of
 every drill for the thumb, which may be worth doing and is not decided here. **24 is the floor
 under the exceptions, not the size to aim at.**
+
+## 100 · The look follows *Le Petit Prince*: paper by day, night blue, gold stars as the one ornament
+**2026-10-15 · A first iteration · builds #27, #96, #99**
+
+The maintainer chose the covers of Saint-Exupéry's book as the pillar of the course's look: the
+cream of the pop-up edition, the night blue and gold stars of the Folio Junior collector. A
+French book a learner may already know, read by fifteen-year-olds and adults alike (#69).
+**This first pass changes grounds and adds one ornament**; more will follow.
+
+**The grounds, not the inks.** Light mode is `--paper-*`, a warm cream; dark mode is `--night-*`, a
+blue dark enough to read on. The text greys and the accent stay: blue ink on cream is a
+schoolbook page, and **`#0044AA` stays the accent** (#27): the wordmark has not changed. In dark
+mode a heading takes the cover title's gold, softened (`--gold-200`). `scripts/contrast.mjs`
+passed on every pair (#99); the sheet and the hover had to stay light enough for `--text-3` and
+`--border-control`.
+
+**Gold is ornament and nothing else.** `--star` colours `.ciel`, a few stars and a planet round a
+block's edges: the home page's title, and `/design`. It marks no state, so it has no contrast
+floor and never enters a lesson, where a gold mark would be read as a signal next to amber's
+« à retenir ». **Chosen against stars across the page background**: they would sit under text.
+
+**The mood, never the drawings.** Saint-Exupéry is not public domain in France (#60), and the
+lettering and the covers are Gallimard's. The star and the planet are drawn for the course
+(`public/etoile.svg`, `public/planete.svg`); no prince, no fox, no rose, no script wordmark. The
+reference photographs stay out of git, in `.private/design/`.
+

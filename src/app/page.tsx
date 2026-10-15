@@ -32,7 +32,9 @@ import styles from "./page.module.css";
 export default function Home() {
   return (
     <div className={styles.page}>
-      <header className={styles.hero}>
+      {/* Under the night sky of the book the course takes its look from (#100):
+          `.ciel` draws the stars round the edges, the wordmark keeps the middle. */}
+      <header className="ciel">
         {/* The name is drawn, not set: the wordmark is the heading. The text
             stays inside it, visually hidden, so the document still has an <h1>
             with a name for a screen reader and for search. */}

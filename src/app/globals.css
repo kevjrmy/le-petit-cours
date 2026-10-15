@@ -87,6 +87,35 @@
   --grey-100: #ECEFF4;
   --grey-50:  #F5F7FA;
   --white:    #FFFFFF;
+
+  /* Papier — the light theme's ground, after the cream cover of *Le Petit
+     Prince* (#100). Warm under blue ink, the way a schoolbook page is: the
+     inks above stay blue-grey, only the grounds and the lines that divide
+     them take the paper's colour. */
+  --paper-50:  #FFFDF8;   /* a sheet: a card, a field */
+  --paper-100: #F8F4EA;   /* the page */
+  --paper-200: #F3EEE2;   /* a hover, the sidebar */
+  --paper-300: #EAE2D2;   /* the softest line */
+  --paper-400: #E0D6C3;   /* a line */
+  --paper-500: #CFC3AB;   /* a strong line */
+
+  /* Nuit — the dark theme's ground, after the night-blue cover of the same
+     book (#100). Blue enough to read as a sky, dark enough that text sits on
+     it as on a black. */
+  --night-975: #080C20;   /* the sidebar */
+  --night-950: #0B1027;   /* the page */
+  --night-900: #10173A;   /* a sheet */
+  --night-850: #141C42;
+  --night-800: #1A234D;   /* a hover */
+  --night-700: #222C58;   /* a line */
+  --night-600: #313D70;   /* a strong line */
+
+  /* Or — the stars on that cover, and the title. **Decoration and nothing
+     else** (#100): a star carries no state, so it is never a right, a wrong
+     or an « à retenir », and amber keeps those. */
+  --gold-200: #EFE2B8;   /* a heading in dark mode, the title's colour softened */
+  --gold-300: #F2D06A;   /* a star on the night */
+  --gold-500: #C4962C;   /* a star on the paper */
 }
 
 /* ───────────────────────────────────────────────────────────────────────────
@@ -106,41 +135,43 @@
   color-scheme: light dark;
 
   /* Surfaces */
-  --surface-app:     light-dark(var(--grey-50),  var(--grey-950));
-  --surface-1:       light-dark(var(--white),    var(--grey-900));
-  --surface-2:       light-dark(var(--grey-50),  var(--grey-850));
-  --surface-3:       light-dark(var(--grey-100), var(--grey-800));
-  --surface-sidebar: light-dark(var(--grey-100), #0B1119);
+  /* Paper by day, the night sky by night (#100). */
+  --surface-app:     light-dark(var(--paper-100), var(--night-950));
+  --surface-1:       light-dark(var(--paper-50),  var(--night-900));
+  --surface-2:       light-dark(var(--paper-100), var(--night-850));
+  --surface-3:       light-dark(var(--paper-200), var(--night-800));
+  --surface-sidebar: light-dark(var(--paper-200), var(--night-975));
   --surface-overlay: light-dark(rgb(8 12 19 / 0.42),     rgb(0 0 0 / 0.62));
 
   /* Text */
-  --text-1:         light-dark(var(--grey-900), #E6EBF3);
-  --text-2:         light-dark(var(--grey-600), #A7B2C4);
+  --text-1:         light-dark(var(--grey-900), #E8EAF3);
+  --text-2:         light-dark(var(--grey-600), #ADB4CD);
   /* Muted, and still text: 4.5:1 on every surface and every soft tint, in both
      themes, so it may sit anywhere `--text-2` may. `scripts/contrast.mjs`
      checks it; lighten it and a label on a hovered row is the first to fail. */
-  --text-3:         light-dark(var(--grey-500), #85909F);
-  --text-heading:   light-dark(var(--blue-900), #CBDFF9);
+  --text-3:         light-dark(var(--grey-500), #8F98BA);
+  /* The book's title is gold on the night: in dark mode a heading is too. */
+  --text-heading:   light-dark(var(--blue-900), var(--gold-200));
   /* Text on a filled accent. It is **not** always white: --accent is a deep
      blue in light mode (white on it is 8.7:1) and a light blue in dark mode
      (white on it is ~3:1, which fails AA). The ink flips with the accent. */
   --text-on-accent: light-dark(var(--white), var(--grey-950));
 
   /* Lines */
-  --border:        light-dark(var(--grey-200), #242E3C);
-  --border-soft:   light-dark(var(--grey-100), #19222E);
-  --border-strong: light-dark(var(--grey-300), #364357);
+  --border:        light-dark(var(--paper-400), var(--night-700));
+  --border-soft:   light-dark(var(--paper-300), var(--night-800));
+  --border-strong: light-dark(var(--paper-500), var(--night-600));
   /* The edge of what is known by its edge alone: a field, a blank, an empty
      tick. 3:1 against every surface (WCAG 1.4.11). The three above divide
      things that would be read without them; this one is the control. */
-  --border-control: light-dark(var(--grey-400), #5E6F88);
+  --border-control: light-dark(var(--grey-400), #6672A3);
 
   /* Accent — the brand blue. Links, the current page, primary buttons. */
   --accent:        light-dark(var(--blue-700), var(--blue-400));
   --accent-hover:  light-dark(var(--blue-800), var(--blue-300));
-  --accent-soft:   light-dark(var(--blue-100), #132840);
-  --accent-subtle: light-dark(var(--blue-50),  #101C2C);
-  --accent-line:   light-dark(var(--blue-200), #1F3C5C);
+  --accent-soft:   light-dark(var(--blue-100), #15244F);
+  --accent-subtle: light-dark(var(--blue-50),  #121B43);
+  --accent-line:   light-dark(var(--blue-200), #2A4280);
   --accent-text:   light-dark(var(--blue-800), var(--blue-300));
 
   /* Danger — a wrong answer. */
@@ -162,6 +193,11 @@
   --success-text:  light-dark(var(--green-700), var(--green-300));
   /* Flips like --text-on-accent: white on green-500 fails AA in dark. */
   --text-on-success: light-dark(var(--white), var(--grey-950));
+
+  /* Star — the gold of the stars on *Le Petit Prince*'s cover (#100).
+     Ornament only, worn by `.ciel`: it marks nothing, so it is held to no
+     contrast floor and must never be the colour of a state. */
+  --star:          light-dark(var(--gold-500), var(--gold-300));
 
   /* Elevation, and there is one. The page is flat: a card, a field and a
      button rest on it with a border and no shadow. The shadow is for
@@ -1249,6 +1285,43 @@ tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
   color: var(--accent-text);
   box-shadow: inset 0 0 0 1px var(--accent);
   opacity: 1;
+}
+
+/* A sky over a block: a few gold stars and one planet, as on the cover of *Le
+ * Petit Prince* (#100). Drawn for the course (`public/etoile.svg`,
+ * `public/planete.svg`), never the book's drawings, and masked over `--star`
+ * the way the wordmark is masked over a token (`AGENTS.md` §5).
+ *
+ * **Ornament, so it may cost nothing**: a pseudo-element, out of the
+ * accessibility tree, under no pointer, in the block's own box so it never
+ * widens the page on a phone. Two stars ride above the block, a star and the
+ * planet beside its last line, and one star each side of a centred title up
+ * to 22rem wide (the wordmark's): **on a phone those two fall outside the box
+ * and are not drawn**, rather than landing on the first and last letters.
+ * Rare on purpose: the home page's title, and `/design`. Never inside a
+ * lesson, where a gold mark would be read as one more signal. */
+.ciel { position: relative; }
+
+.ciel::before {
+  content: "";
+  position: absolute;
+  inset: -1.75rem 0 0;
+  pointer-events: none;
+  background: var(--star);
+  -webkit-mask:
+    url(/etoile.svg) calc(50% - 13.5rem) 30% / 0.95rem no-repeat,
+    url(/etoile.svg) calc(50% + 13.5rem) 48% / 0.8rem no-repeat,
+    url(/etoile.svg) 31% 0 / 0.5rem no-repeat,
+    url(/etoile.svg) 74% 2% / 0.7rem no-repeat,
+    url(/etoile.svg) 14% 100% / 0.6rem no-repeat,
+    url(/planete.svg) 88% 100% / 1.35rem no-repeat;
+  mask:
+    url(/etoile.svg) calc(50% - 13.5rem) 30% / 0.95rem no-repeat,
+    url(/etoile.svg) calc(50% + 13.5rem) 48% / 0.8rem no-repeat,
+    url(/etoile.svg) 31% 0 / 0.5rem no-repeat,
+    url(/etoile.svg) 74% 2% / 0.7rem no-repeat,
+    url(/etoile.svg) 14% 100% / 0.6rem no-repeat,
+    url(/planete.svg) 88% 100% / 1.35rem no-repeat;
 }
 
 .visually-hidden {

@@ -21,7 +21,8 @@
  * Not checked, on purpose: `--border`, `--border-soft`, `--border-strong` and
  * the `-line` tokens divide things that are read without them; `--warn` as an
  * edge (« à retenir », a missed answer) always comes with a printed word or a
- * mark. Neither is ever the only carrier (`AGENTS.md` §5).
+ * mark. Neither is ever the only carrier (`AGENTS.md` §5). `--star` is ornament
+ * and marks nothing (#100).
  *
  * No deps. Exits 1 when a pair is under its floor.
  */

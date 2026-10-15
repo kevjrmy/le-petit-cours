@@ -50,6 +50,12 @@ divide things that would be read without them: a card, a row, a chip with its wo
 `--border-control` is the edge of what is known by its edge alone (a field, a blank, an empty tick)
 and holds 3:1 on every surface. Never lighten a field to match a card.
 
+**The grounds are the book's** (#100): `--paper-*` by day, `--night-*` by night, after the covers of
+*Le Petit Prince*; the inks and the accent are unchanged. **Gold is ornament**: `--star` colours
+`.ciel` (stars and a planet round a block's edges, `public/etoile.svg`, `public/planete.svg`) and
+nothing else: no state, no lesson, no contrast floor. Draw any new motif yourself; never trace the
+book's drawings or lettering (#60).
+
 **One exception**: `--flag-es-*` and `--flag-fr-*`, the two flags of the language chooser
 (`Flag.tsx`, #91) — palette only, fixed in both themes, never reused (their reds are not
 `--danger`).
