@@ -1567,15 +1567,6 @@ export const chapters: Chapter[] = [
       /* Un texte rendu cette semaine et la séance construite dessus. Publié
          sans nom et sans rien qui désigne qui l'a écrit (`AGENTS.md` §9b). */
       {
-        id: "atelier-2026-10-13-la-poupee-qui-sait-tout",
-        path: "/atelier/la-poupee-qui-sait-tout",
-        title: "La poupée qui sait tout",
-        subtitle: "Ton texte, son corrigé, et trois trucs pour ce qui ne s’entend pas",
-        level: null,
-        delf: "Raconter une histoire au passé, à l'écrit",
-        created: "2026-10-13",
-      },
-      {
         id: "atelier-2026-10-13-le-barca-contre-getafe",
         path: "/atelier/le-barca-contre-getafe",
         title: "Le Barça contre Getafe",
@@ -2647,12 +2638,6 @@ const handWrittenLinks: Record<string, string[]> = {
      **Cette clé part avec la page.** Une clé dont la source n'existe plus est
      la première chose que l'audit signale, ce qui est exactement le filet
      qu'on veut ici. */
-  "/atelier/la-poupee-qui-sait-tout": [
-    "/astuces/etre-ou-avoir",
-    "/orthographe/les-homophones",
-    "/grammaire/le-singulier-et-le-pluriel",
-    "/orthographe/les-terminaisons-verbales",
-  ],
   "/atelier/le-barca-contre-getafe": [
     "/grammaire/le-passe-compose",
     "/astuces/etre-ou-avoir",
