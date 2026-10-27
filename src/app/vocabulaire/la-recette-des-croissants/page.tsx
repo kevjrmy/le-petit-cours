@@ -6,12 +6,198 @@ const PATH = "/vocabulaire/la-recette-des-croissants";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102). The recipe, the
+   words and their French definitions are the French taught: written once,
+   below, and shared. Only captions, heads and the explanations differ. */
+
+const INGREDIENTS_LIST = [
+  "500 g de farine",
+  "250 ml de lait froid",
+  "250 g de beurre froid",
+  "60 g de sucre",
+  "10 g de sel",
+  "20 g de levure fraîche de boulanger",
+  "un œuf, pour dorer",
+];
+
+const STEPS = [
+  "Mélanger la farine, le sucre, le sel, la levure et le lait dans un saladier.",
+  "Pétrir la pâte cinq minutes. Elle doit rester souple.",
+  "Couvrir le saladier et laisser reposer la pâte deux heures au réfrigérateur.",
+  "Étaler la pâte au rouleau. Poser le beurre froid au centre et refermer la pâte dessus.",
+  "Étaler de nouveau, puis plier la pâte en trois. Remettre au froid trente minutes.",
+  "Recommencer deux fois : étaler, plier en trois, laisser reposer au froid.",
+  "Étaler la pâte en un grand rectangle et couper des triangles au couteau.",
+  "Rouler chaque triangle, de la base vers la pointe, et poser les croissants sur une plaque.",
+  "Laisser pousser deux heures à température ambiante. Les croissants doublent de volume.",
+  "Dorer au pinceau avec l’œuf battu.",
+  "Cuire vingt minutes dans un four à 190 °C.",
+];
+
+const INGREDIENTS = [
+  ["la farine", "la poudre blanche qu’on tire du blé", "500 g de farine"],
+  ["la levure", "ce qui fait gonfler la pâte et la rend légère", "20 g de levure fraîche"],
+  ["le beurre", "la matière grasse jaune qu’on fait avec le lait", "250 g de beurre froid"],
+  ["le lait", "la boisson blanche que donne la vache", "250 ml de lait froid"],
+  ["le sucre", "ce qu’on met dans le café pour qu’il soit doux", "60 g de sucre"],
+  ["le sel", "la poudre blanche qui vient de la mer et relève le goût", "10 g de sel"],
+  ["la pâte", "le mélange de farine et de liquide, avant la cuisson", "Pétrir la pâte cinq minutes."],
+  ["un œuf", "ce que pond la poule ; celui-ci sert à dorer", "un œuf, pour dorer"],
+];
+
+const UTENSILS = [
+  ["un saladier", "un grand bol, pour mélanger", "Mélanger dans un saladier."],
+  ["un rouleau à pâtisserie", "un cylindre de bois, pour aplatir la pâte", "Étaler la pâte au rouleau."],
+  ["un couteau", "l’outil qui coupe", "Couper des triangles au couteau."],
+  ["une plaque", "la tôle plate qu’on glisse dans le four", "Poser les croissants sur une plaque."],
+  ["un pinceau", "une petite brosse ; ici, pour passer l’œuf", "Dorer au pinceau."],
+  ["un four", "l’appareil chaud où l’on fait cuire", "Cuire dans un four à 190 °C."],
+  ["un réfrigérateur", "l’appareil froid où l’on garde les aliments", "Laisser reposer au réfrigérateur."],
+];
+
+const GESTURES = [
+  ["mélanger", "mettre plusieurs choses ensemble", "Mélanger la farine et le lait."],
+  ["pétrir", "travailler la pâte avec les mains", "Pétrir la pâte cinq minutes."],
+  ["laisser reposer", "ne plus y toucher pendant un moment", "Laisser reposer deux heures."],
+  ["étaler", "aplatir la pâte pour qu’elle devienne large et fine", "Étaler la pâte au rouleau."],
+  ["plier", "rabattre une partie sur l’autre", "Plier la pâte en trois."],
+  ["couper", "séparer avec un couteau", "Couper des triangles."],
+  ["rouler", "enrouler sur soi-même, du large vers la pointe", "Rouler chaque triangle."],
+  ["laisser pousser", "attendre que la pâte gonfle toute seule", "Laisser pousser deux heures."],
+  ["dorer", "passer de l’œuf dessus, pour la couleur", "Dorer au pinceau."],
+  ["cuire", "laisser dans le four jusqu’à ce que ce soit prêt", "Cuire vingt minutes."],
+];
+
+const QUANTITIES = [
+  { q: "500 g", whole: "500 g de farine", fr: "le poids", es: "el peso" },
+  { q: "250 ml", whole: "250 ml de lait", fr: "le volume d’un liquide", es: "el volumen de un líquido" },
+  {
+    q: "une cuillère à soupe",
+    whole: "une cuillère à soupe de sucre",
+    fr: "une petite quantité, sans balance",
+    es: "una cantidad pequeña, sin balanza",
+  },
+  { q: "une pincée", whole: "une pincée de sel", fr: "ce qui tient entre deux doigts", es: "lo que cabe entre dos dedos" },
+  { q: "un peu", whole: "un peu de lait", fr: "une quantité qu’on ne précise pas", es: "una cantidad que no se precisa" },
+  { q: "beaucoup", whole: "beaucoup de beurre", fr: "une grande quantité", es: "una gran cantidad" },
+];
+
+function Fr({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="fr" lang="fr">
+      {children}
+    </span>
+  );
+}
+
+function Recipe() {
+  return (
+    <>
+      <div className="example" lang="fr">
+        <ul>
+          {INGREDIENTS_LIST.map((line) => (
+            <li key={line}>{line}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="example" lang="fr">
+        <ol>
+          {STEPS.map((step) => (
+            <li key={step}>{step}</li>
+          ))}
+        </ol>
+      </div>
+    </>
+  );
+}
+
+function WordsTable({
+  rows,
+  caption,
+  heads,
+}: {
+  rows: string[][];
+  caption: string;
+  heads: string[];
+}) {
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{caption}</caption>
+        <thead>
+          <tr>
+            {heads.map((head) => (
+              <th key={head} scope="col">
+                {head}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(([word, definition, example]) => (
+            <tr key={word}>
+              <th scope="row" className="fr" lang="fr">
+                {word}
+              </th>
+              <td lang="fr">{definition}</td>
+              <td className="fr" lang="fr">
+                {example}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function QuantitiesTable({
+  lang,
+  caption,
+  heads,
+}: {
+  lang: "fr" | "es";
+  caption: string;
+  heads: string[];
+}) {
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{caption}</caption>
+        <thead>
+          <tr>
+            {heads.map((head) => (
+              <th key={head} scope="col">
+                {head}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {QUANTITIES.map((row) => (
+            <tr key={row.q}>
+              <th scope="row" className="fr" lang="fr">
+                {row.q}
+              </th>
+              <td className="fr" lang="fr">
+                {row.whole}
+              </td>
+              <td>{row[lang]}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>La recette</h2>
 
         <p>
@@ -21,57 +207,7 @@ export default function Page() {
 
         <p>Pour douze croissants.</p>
 
-        <div className="example">
-          <ul>
-            <li>500 g de farine</li>
-            <li>250 ml de lait froid</li>
-            <li>250 g de beurre froid</li>
-            <li>60 g de sucre</li>
-            <li>10 g de sel</li>
-            <li>20 g de levure fraîche de boulanger</li>
-            <li>un œuf, pour dorer</li>
-          </ul>
-        </div>
-
-        <div className="example">
-          <ol>
-            <li>
-              Mélanger la farine, le sucre, le sel, la levure et le lait dans un
-              saladier.
-            </li>
-            <li>Pétrir la pâte cinq minutes. Elle doit rester souple.</li>
-            <li>
-              Couvrir le saladier et laisser reposer la pâte deux heures au
-              réfrigérateur.
-            </li>
-            <li>
-              Étaler la pâte au rouleau. Poser le beurre froid au centre et
-              refermer la pâte dessus.
-            </li>
-            <li>
-              Étaler de nouveau, puis plier la pâte en trois. Remettre au froid
-              trente minutes.
-            </li>
-            <li>
-              Recommencer deux fois : étaler, plier en trois, laisser reposer au
-              froid.
-            </li>
-            <li>
-              Étaler la pâte en un grand rectangle et couper des triangles au
-              couteau.
-            </li>
-            <li>
-              Rouler chaque triangle, de la base vers la pointe, et poser les
-              croissants sur une plaque.
-            </li>
-            <li>
-              Laisser pousser deux heures à température ambiante. Les croissants
-              doublent de volume.
-            </li>
-            <li>Dorer au pinceau avec l’œuf battu.</li>
-            <li>Cuire vingt minutes dans un four à 190 °C.</li>
-          </ol>
-        </div>
+        <Recipe />
 
         <div className="attention">
           Une recette française s’écrit à l’infinitif :{" "}
@@ -85,237 +221,72 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
-        <h2>Les mots de la recette</h2>
+      <section data-ui="es" lang="es">
+        <h2>La receta</h2>
 
-        <div className="table-wrap">
-          <table>
-            <caption>
-              Les ingrédients, avec l’article qu’il faut apprendre avec eux
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">L’ingrédient</th>
-                <th scope="col">Ce que c’est</th>
-                <th scope="col">Dans la recette</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr">
-                  la farine
-                </th>
-                <td>la poudre blanche qu’on tire du blé</td>
-                <td className="fr">500 g de farine</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  la levure
-                </th>
-                <td>ce qui fait gonfler la pâte et la rend légère</td>
-                <td className="fr">20 g de levure fraîche</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  le beurre
-                </th>
-                <td>la matière grasse jaune qu’on fait avec le lait</td>
-                <td className="fr">250 g de beurre froid</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  le lait
-                </th>
-                <td>la boisson blanche que donne la vache</td>
-                <td className="fr">250 ml de lait froid</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  le sucre
-                </th>
-                <td>ce qu’on met dans le café pour qu’il soit doux</td>
-                <td className="fr">60 g de sucre</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  le sel
-                </th>
-                <td>la poudre blanche qui vient de la mer et relève le goût</td>
-                <td className="fr">10 g de sel</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  la pâte
-                </th>
-                <td>
-                  le mélange de farine et de liquide, avant la cuisson
-                </td>
-                <td className="fr">Pétrir la pâte cinq minutes.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un œuf
-                </th>
-                <td>ce que pond la poule ; celui-ci sert à dorer</td>
-                <td className="fr">un œuf, pour dorer</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <p>
+          Esta es la receta del <Fr>croissant au beurre</Fr>, la de las
+          panaderías de París.
+        </p>
 
-        <div className="table-wrap">
-          <table>
-            <caption>Les objets que la recette demande</caption>
-            <thead>
-              <tr>
-                <th scope="col">L’ustensile</th>
-                <th scope="col">À quoi il sert</th>
-                <th scope="col">Dans la recette</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr">
-                  un saladier
-                </th>
-                <td>un grand bol, pour mélanger</td>
-                <td className="fr">Mélanger dans un saladier.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un rouleau à pâtisserie
-                </th>
-                <td>un cylindre de bois, pour aplatir la pâte</td>
-                <td className="fr">Étaler la pâte au rouleau.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un couteau
-                </th>
-                <td>l’outil qui coupe</td>
-                <td className="fr">Couper des triangles au couteau.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  une plaque
-                </th>
-                <td>la tôle plate qu’on glisse dans le four</td>
-                <td className="fr">Poser les croissants sur une plaque.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un pinceau
-                </th>
-                <td>une petite brosse ; ici, pour passer l’œuf</td>
-                <td className="fr">Dorer au pinceau.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un four
-                </th>
-                <td>l’appareil chaud où l’on fait cuire</td>
-                <td className="fr">Cuire dans un four à 190 °C.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un réfrigérateur
-                </th>
-                <td>l’appareil froid où l’on garde les aliments</td>
-                <td className="fr">Laisser reposer au réfrigérateur.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <p>Para doce croissants.</p>
 
-        <div className="table-wrap">
-          <table>
-            <caption>
-              Les gestes, dans l’ordre où la recette les demande
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Le verbe</th>
-                <th scope="col">Ce qu’on fait</th>
-                <th scope="col">Dans la recette</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr">
-                  mélanger
-                </th>
-                <td>mettre plusieurs choses ensemble</td>
-                <td className="fr">Mélanger la farine et le lait.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  pétrir
-                </th>
-                <td>travailler la pâte avec les mains</td>
-                <td className="fr">Pétrir la pâte cinq minutes.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  laisser reposer
-                </th>
-                <td>ne plus y toucher pendant un moment</td>
-                <td className="fr">Laisser reposer deux heures.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  étaler
-                </th>
-                <td>aplatir la pâte pour qu’elle devienne large et fine</td>
-                <td className="fr">Étaler la pâte au rouleau.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  plier
-                </th>
-                <td>rabattre une partie sur l’autre</td>
-                <td className="fr">Plier la pâte en trois.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  couper
-                </th>
-                <td>séparer avec un couteau</td>
-                <td className="fr">Couper des triangles.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  rouler
-                </th>
-                <td>enrouler sur soi-même, du large vers la pointe</td>
-                <td className="fr">Rouler chaque triangle.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  laisser pousser
-                </th>
-                <td>attendre que la pâte gonfle toute seule</td>
-                <td className="fr">Laisser pousser deux heures.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  dorer
-                </th>
-                <td>passer de l’œuf dessus, pour la couleur</td>
-                <td className="fr">Dorer au pinceau.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  cuire
-                </th>
-                <td>laisser dans le four jusqu’à ce que ce soit prêt</td>
-                <td className="fr">Cuire vingt minutes.</td>
-              </tr>
-            </tbody>
-          </table>
+        <Recipe />
+
+        <div className="attention">
+          Una receta francesa se escribe en infinitivo: <Fr>mélanger</Fr>,{" "}
+          <Fr>étaler</Fr>, <Fr>cuire</Fr>. No es una orden dada a alguien, es la
+          lista de los gestos. Algunos libros emplean el imperativo,{" "}
+          <Fr>mélangez</Fr>, <Fr>étalez</Fr>, y quiere decir exactamente lo
+          mismo.
         </div>
       </section>
 
-      <section>
+      <section data-ui="fr">
+        <h2>Les mots de la recette</h2>
+
+        <WordsTable
+          rows={INGREDIENTS}
+          caption="Les ingrédients, avec l’article qu’il faut apprendre avec eux"
+          heads={["L’ingrédient", "Ce que c’est", "Dans la recette"]}
+        />
+
+        <WordsTable
+          rows={UTENSILS}
+          caption="Les objets que la recette demande"
+          heads={["L’ustensile", "À quoi il sert", "Dans la recette"]}
+        />
+
+        <WordsTable
+          rows={GESTURES}
+          caption="Les gestes, dans l’ordre où la recette les demande"
+          heads={["Le verbe", "Ce qu’on fait", "Dans la recette"]}
+        />
+      </section>
+
+      <section data-ui="es" lang="es">
+        <h2>Las palabras de la receta</h2>
+
+        <WordsTable
+          rows={INGREDIENTS}
+          caption="Los ingredientes, con el artículo que hay que aprender con ellos"
+          heads={["El ingrediente", "Qué es", "En la receta"]}
+        />
+
+        <WordsTable
+          rows={UTENSILS}
+          caption="Los objetos que pide la receta"
+          heads={["El utensilio", "Para qué sirve", "En la receta"]}
+        />
+
+        <WordsTable
+          rows={GESTURES}
+          caption="Los gestos, en el orden en que la receta los pide"
+          heads={["El verbo", "Qué se hace", "En la receta"]}
+        />
+      </section>
+
+      <section data-ui="fr">
         <h2>Dire les quantités</h2>
 
         <div className="rule">
@@ -347,64 +318,11 @@ export default function Page() {
           <span className="fr">un saladier</span>.
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <caption>
-              Après une quantité, l’ingrédient arrive toujours avec « de »
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">La quantité</th>
-                <th scope="col">La phrase entière</th>
-                <th scope="col">Ce qu’elle mesure</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr">
-                  500 g
-                </th>
-                <td className="fr">500 g de farine</td>
-                <td>le poids</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  250 ml
-                </th>
-                <td className="fr">250 ml de lait</td>
-                <td>le volume d’un liquide</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  une cuillère à soupe
-                </th>
-                <td className="fr">une cuillère à soupe de sucre</td>
-                <td>une petite quantité, sans balance</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  une pincée
-                </th>
-                <td className="fr">une pincée de sel</td>
-                <td>ce qui tient entre deux doigts</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un peu
-                </th>
-                <td className="fr">un peu de lait</td>
-                <td>une quantité qu’on ne précise pas</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  beaucoup
-                </th>
-                <td className="fr">beaucoup de beurre</td>
-                <td>une grande quantité</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <QuantitiesTable
+          lang="fr"
+          caption="Après une quantité, l’ingrédient arrive toujours avec « de »"
+          heads={["La quantité", "La phrase entière", "Ce qu’elle mesure"]}
+        />
 
         <div className="astuce">
           <p className="astuce-hook">
@@ -421,7 +339,58 @@ export default function Page() {
         </div>
       </section>
 
-      <div className="resume">
+      <section data-ui="es" lang="es">
+        <h2>Decir las cantidades</h2>
+
+        <div className="rule">
+          Delante de un ingrediente que no se cuenta, se usa <Fr>du</Fr>,{" "}
+          <Fr>de la</Fr> o <Fr>de l’</Fr>: <Fr>du beurre</Fr>,{" "}
+          <Fr>de la farine</Fr>, <Fr>de l’eau</Fr>. La regla completa, más allá
+          de la cocina, está en{" "}
+          <Link href="/grammaire/les-articles-partitifs" lang="fr">
+            Les articles partitifs
+          </Link>
+          .
+        </div>
+
+        <div className="attention">
+          Nunca se dice{" "}
+          <s className="fr" lang="fr">
+            un beurre
+          </s>{" "}
+          ni{" "}
+          <s className="fr" lang="fr">
+            une farine
+          </s>
+          . Esas cosas no se cuentan: se toma una cantidad, no se toma una.
+        </div>
+
+        <div className="exception">
+          Lo que se cuenta conserva <Fr>un</Fr> y <Fr>une</Fr>:{" "}
+          <Fr>un œuf</Fr>, <Fr>deux œufs</Fr>, <Fr>un croissant</Fr>,{" "}
+          <Fr>un saladier</Fr>.
+        </div>
+
+        <QuantitiesTable
+          lang="es"
+          caption="Después de una cantidad, el ingrediente llega siempre con « de »"
+          heads={["La cantidad", "La frase entera", "Lo que mide"]}
+        />
+
+        <div className="astuce">
+          <p className="astuce-hook">
+            En cuanto se dice una cantidad, <Fr>du</Fr> y <Fr>de la</Fr>{" "}
+            desaparecen.
+          </p>
+          <p>
+            Se toma <Fr>du beurre</Fr>, pero <Fr>250 g de beurre</Fr>. Se bebe{" "}
+            <Fr>du lait</Fr>, pero <Fr>un verre de lait</Fr>. La cantidad ocupa
+            el sitio, y solo queda <Fr>de</Fr>.
+          </p>
+        </div>
+      </section>
+
+      <div className="resume" data-ui="fr">
         <h2>En résumé</h2>
         <ul>
           <li>
@@ -453,6 +422,36 @@ export default function Page() {
             <span className="fr">plier</span>,{" "}
             <span className="fr">rouler</span>,{" "}
             <span className="fr">dorer</span>.
+          </li>
+        </ul>
+      </div>
+
+      <div className="resume" data-ui="es" lang="es">
+        <h2>En resumen</h2>
+        <ul>
+          <li>
+            Una receta se escribe en infinitivo: <Fr>mélanger</Fr>,{" "}
+            <Fr>étaler</Fr>, <Fr>cuire</Fr>.
+          </li>
+          <li>
+            Un ingrediente se aprende con su artículo: <Fr>la farine</Fr>,{" "}
+            <Fr>le beurre</Fr>, <Fr>la levure</Fr>.
+          </li>
+          <li>
+            Delante de lo que no se cuenta: <Fr>du beurre</Fr>,{" "}
+            <Fr>de la farine</Fr>. Nunca{" "}
+            <s className="fr" lang="fr">
+              un beurre
+            </s>
+            .
+          </li>
+          <li>
+            Después de una cantidad, siempre <Fr>de</Fr>:{" "}
+            <Fr>500 g de farine</Fr>, <Fr>une pincée de sel</Fr>.
+          </li>
+          <li>
+            Los gestos de la masa: <Fr>pétrir</Fr>, <Fr>étaler</Fr>,{" "}
+            <Fr>plier</Fr>, <Fr>rouler</Fr>, <Fr>dorer</Fr>.
           </li>
         </ul>
       </div>

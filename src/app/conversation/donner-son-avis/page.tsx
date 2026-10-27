@@ -6,12 +6,49 @@ const PATH = "/conversation/donner-son-avis";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102): CSS shows the
+   interface's. The words to say are French, written once and shared. */
+const WORDS = [
+  "à mon avis",
+  "je pense que",
+  "je trouve que",
+  "je préfère",
+  "parce que",
+  "plus pratique",
+  "moins cher",
+  "par exemple",
+  "en plus",
+  "surtout",
+  "en général",
+  "c’est vrai, mais…",
+  "par contre",
+  "ça dépend de",
+  "je suis d’accord",
+  "je ne suis pas d’accord",
+  "tu as raison",
+  "bref",
+  "et toi ?",
+  "qu’est-ce que tu en penses ?",
+];
+
+function Mots() {
+  return (
+    <ul className="mots">
+      {WORDS.map((w) => (
+        <li key={w} lang="fr">
+          {w}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>La situation</h2>
 
         <p>
@@ -24,7 +61,17 @@ export default function Page() {
         <Situations />
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>La situación</h2>
+        <p>
+          Tomas un café con una amiga francesa. Le gusta charlar: hace una
+          pregunta, escucha tu opinión y nunca está del todo de acuerdo. Alguien
+          hace de la amiga; tú defiendes tu idea y le preguntas su opinión.
+        </p>
+        <Situations />
+      </section>
+
+      <section data-ui="fr">
         <h2>Les étapes</h2>
 
         <p>
@@ -57,7 +104,41 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>Las etapas</h2>
+        <p>
+          Una opinión sólida tiene siempre la misma forma. Síguela en orden:
+          cada etapa te da una frase más.
+        </p>
+        <ol>
+          <li>Decir tu opinión, en una frase.</li>
+          <li>Dar una razón.</li>
+          <li>Dar un ejemplo sacado de tu vida.</li>
+          <li>Escuchar la opinión de tu amiga y aceptar una parte.</li>
+          <li>Cerrar tu opinión y preguntarle la suya a tu amiga.</li>
+        </ol>
+        <div className="attention">
+          Para decir que no a una idea, conserva{" "}
+          <span className="fr" lang="fr">
+            je pense que
+          </span>{" "}
+          y pon la negación después:{" "}
+          <span className="fr" lang="fr">
+            je pense que ce n’est pas vrai
+          </span>
+          . Es la forma más sencilla, y siempre es correcta.
+        </div>
+        <div className="astuce">
+          <p className="astuce-hook">Una idea por frase.</p>
+          <p>
+            No busques la frase larga. Tres frases cortas valen más que una
+            larga en la que te pierdes, y tu amiga tiene tiempo de responder
+            entre una y otra.
+          </p>
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Les mots pour le dire</h2>
 
         <p>
@@ -65,28 +146,16 @@ export default function Page() {
           sert, laissez le reste.
         </p>
 
-        <ul className="mots">
-          <li>à mon avis</li>
-          <li>je pense que</li>
-          <li>je trouve que</li>
-          <li>je préfère</li>
-          <li>parce que</li>
-          <li>plus pratique</li>
-          <li>moins cher</li>
-          <li>par exemple</li>
-          <li>en plus</li>
-          <li>surtout</li>
-          <li>en général</li>
-          <li>c’est vrai, mais…</li>
-          <li>par contre</li>
-          <li>ça dépend de</li>
-          <li>je suis d’accord</li>
-          <li>je ne suis pas d’accord</li>
-          <li>tu as raison</li>
-          <li>bref</li>
-          <li>et toi ?</li>
-          <li>qu’est-ce que tu en penses ?</li>
-        </ul>
+        <Mots />
+      </section>
+
+      <section data-ui="es" lang="es">
+        <h2>Las palabras para decirlo</h2>
+        <p>
+          Lo necesario para sostener la discusión hasta el final del café. Coge
+          lo que te sirva y deja el resto.
+        </p>
+        <Mots />
       </section>
     </article>
   );

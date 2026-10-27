@@ -3,6 +3,9 @@
 import { useRef, useState } from "react";
 import { AccentBar } from "@/components/exercice/AccentBar";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
+import { T } from "@/components/lang/T";
+import { useLang } from "@/hooks/useLang";
+import { Bilingue } from "../bilingue";
 import { shuffle } from "@/lib/shuffle";
 import { ITEMS, type WordItem } from "./data";
 import board from "@/components/exercice/Board.module.css";
@@ -33,6 +36,7 @@ function same(typed: string, expected: string): boolean {
 }
 
 export function Board() {
+  const lang = useLang();
   const [deck, setDeck] = useState<WordItem[]>(() => shuffle(ITEMS));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [typed, setTyped] = useState("");
@@ -77,15 +81,34 @@ export function Board() {
   return (
     <>
       <Instructions>
-        Écrivez le mot qui manque. Les huit mots possibles se prononcent deux à
-        deux de la même façon : <span className="fr">ce</span> /{" "}
-        <span className="fr">se</span>, <span className="fr">ces</span> /{" "}
-        <span className="fr">ses</span>, <span className="fr">c’est</span> /{" "}
-        <span className="fr">s’est</span>, <span className="fr">ça</span> /{" "}
-        <span className="fr">sa</span>.
+        <T
+          fr={
+            <>
+              Écrivez le mot qui manque. Les huit mots possibles se prononcent
+              deux à deux de la même façon : <span className="fr">ce</span> /{" "}
+              <span className="fr">se</span>, <span className="fr">ces</span> /{" "}
+              <span className="fr">ses</span>, <span className="fr">c’est</span>{" "}
+              / <span className="fr">s’est</span>,{" "}
+              <span className="fr">ça</span> / <span className="fr">sa</span>.
+            </>
+          }
+          es={
+            <>
+              Escribe la palabra que falta. Las ocho palabras posibles suenan
+              igual de dos en dos: <span className="fr" lang="fr">ce</span> /{" "}
+              <span className="fr" lang="fr">se</span>,{" "}
+              <span className="fr" lang="fr">ces</span> /{" "}
+              <span className="fr" lang="fr">ses</span>,{" "}
+              <span className="fr" lang="fr">c’est</span> /{" "}
+              <span className="fr" lang="fr">s’est</span>,{" "}
+              <span className="fr" lang="fr">ça</span> /{" "}
+              <span className="fr" lang="fr">sa</span>.
+            </>
+          }
+        />
       </Instructions>
 
-      <Meter value={currentIndex + 1} max={deck.length} label="Phrase en cours" />
+      <Meter value={currentIndex + 1} max={deck.length} label={{ fr: "Phrase en cours", es: "Frase actual" }} />
 
       <div className={`card ${board.card}`}>
         <p className={`${board.sentence} ${styles.sentence}`}>
@@ -111,7 +134,7 @@ export function Board() {
             autoComplete="off"
             autoCapitalize="none"
             spellCheck={false}
-            aria-label="Le mot qui manque"
+            aria-label={lang === "es" ? "La palabra que falta" : "Le mot qui manque"}
           />
           {current.after}
         </p>
@@ -120,7 +143,8 @@ export function Board() {
             cette rangée, le plateau compterait faux une réponse juste. */}
         {!checked && (
           <div className={styles.aid}>
-            <h3 className={`label ${styles.aidHead}`}>Accents</h3>
+            <h3 className={`label ${styles.aidHead}`}><T fr="Accents" es="Acentos" />
+            </h3>
             <AccentBar target={field} />
           </div>
         )}
@@ -133,14 +157,31 @@ export function Board() {
               className={`${board.verdict} ${right ? "is-correct" : "is-wrong"}`}
             >
               <p>
-                {right ? "✓ Juste." : `✗ Il fallait écrire « ${current.answer} ».`}
+                {right ? (
+                  <T fr="✓ Juste." es="✓ Correcto." />
+                ) : (
+                  <T
+                    fr={`✗ Il fallait écrire « ${current.answer} ».`}
+                    es={
+                      <>
+                        ✗ Había que escribir «
+                        <span className="fr" lang="fr">
+                          {current.answer}
+                        </span>
+                        ».
+                      </>
+                    }
+                  />
+                )}
               </p>
               <p className={board.corrected}>
                 {current.before}
                 <strong>{current.answer}</strong>
                 {current.after}
               </p>
-              <p>{current.because}</p>
+              <p>
+                <Bilingue text={current.because} />
+              </p>
             </div>
           )}
         </div>
@@ -149,9 +190,11 @@ export function Board() {
       <div className={board.actions}>
         {checked ? (
           <button type="button" className="button button-primary" onClick={next}>
-            {currentIndex + 1 === deck.length
-              ? "Voir mon score"
-              : "Phrase suivante"}
+            {currentIndex + 1 === deck.length ? (
+              <T fr="Voir mon score" es="Ver mi puntuación" />
+            ) : (
+              <T fr="Phrase suivante" es="Frase siguiente" />
+            )}
           </button>
         ) : (
           <button
@@ -160,7 +203,7 @@ export function Board() {
             disabled={typed.trim() === ""}
             onClick={verify}
           >
-            Vérifier
+            <T fr="Vérifier" es="Comprobar" />
           </button>
         )}
       </div>

@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
+import { T } from "@/components/lang/T";
+import { useLang } from "@/hooks/useLang";
+import { Bilingue } from "../bilingue";
 import { shuffle } from "@/lib/shuffle";
 import type { Level } from "@/data/navigation";
 import { POOL, bankFor, type PickItem, type Word } from "./data";
@@ -28,6 +31,7 @@ import board from "@/components/exercice/Board.module.css";
 export function Board({ level }: { level: Level | null }) {
   /* Lu une seule fois : `drill.tsx` remonte ce composant quand le niveau
      change, donc l'initialiseur ci-dessous rejoue avec l'autre lot (#68). */
+  const lang = useLang();
   const items = bankFor(level);
   const [deck, setDeck] = useState<PickItem[]>(() => shuffle(items));
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -70,11 +74,13 @@ export function Board({ level }: { level: Level | null }) {
   return (
     <>
       <Instructions>
-        Complétez la phrase avec le mot qui convient. Les huit mots restent les
-        mêmes d’une phrase à l’autre.
+        <T
+          fr="Complétez la phrase avec le mot qui convient. Les huit mots restent les mêmes d’une phrase à l’autre."
+          es="Completa la frase con la palabra que corresponde. Las ocho palabras son siempre las mismas, de una frase a otra."
+        />
       </Instructions>
 
-      <Meter value={currentIndex + 1} max={deck.length} label="Phrase en cours" />
+      <Meter value={currentIndex + 1} max={deck.length} label={{ fr: "Phrase en cours", es: "Frase actual" }} />
 
       <div className={`card ${board.card}`}>
         <p className={board.sentence}>
@@ -91,14 +97,16 @@ export function Board({ level }: { level: Level | null }) {
             {picked ?? (
               <>
                 <span aria-hidden="true">{"    "}</span>
-                <span className="visually-hidden">blanc à compléter</span>
+                <span className="visually-hidden">
+                  <T fr="blanc à compléter" es="espacio en blanco por completar" />
+                </span>
               </>
             )}
           </span>
           {current.after}
         </p>
 
-        <div className={board.pool} role="group" aria-label="Les huit mots">
+        <div className={board.pool} role="group" aria-label={lang === "es" ? "Las ocho palabras" : "Les huit mots"}>
           {POOL.map((word) => (
             <button
               key={word}
@@ -121,16 +129,31 @@ export function Board({ level }: { level: Level | null }) {
               className={`${board.verdict} ${right ? "is-correct" : "is-wrong"}`}
             >
               <p>
-                {right
-                  ? "✓ Juste."
-                  : `✗ Il fallait écrire « ${current.answer} ».`}
+                {right ? (
+                  <T fr="✓ Juste." es="✓ Correcto." />
+                ) : (
+                  <T
+                    fr={`✗ Il fallait écrire « ${current.answer} ».`}
+                    es={
+                      <>
+                        ✗ Había que escribir «
+                        <span className="fr" lang="fr">
+                          {current.answer}
+                        </span>
+                        ».
+                      </>
+                    }
+                  />
+                )}
               </p>
               <p className={board.corrected}>
                 {current.before}
                 <strong>{current.answer}</strong>
                 {current.after}
               </p>
-              <p>{current.because}</p>
+              <p>
+                <Bilingue text={current.because} />
+              </p>
             </div>
           )}
         </div>
@@ -139,9 +162,11 @@ export function Board({ level }: { level: Level | null }) {
       <div className={board.actions}>
         {checked ? (
           <button type="button" className="button button-primary" onClick={next}>
-            {currentIndex + 1 === deck.length
-              ? "Voir mon score"
-              : "Phrase suivante"}
+            {currentIndex + 1 === deck.length ? (
+              <T fr="Voir mon score" es="Ver mi puntuación" />
+            ) : (
+              <T fr="Phrase suivante" es="Frase siguiente" />
+            )}
           </button>
         ) : (
           <button
@@ -150,7 +175,7 @@ export function Board({ level }: { level: Level | null }) {
             disabled={picked === null}
             onClick={verify}
           >
-            Vérifier
+            <T fr="Vérifier" es="Comprobar" />
           </button>
         )}
       </div>

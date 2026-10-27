@@ -37,7 +37,7 @@ export default function Page() {
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>Le texte</h2>
 
         <p>
@@ -45,11 +45,23 @@ export default function Page() {
           vous feront hésiter se prononcent tous comme un autre : lire votre
           version à voix haute ne vous dira rien. Il faut la regarder.
         </p>
+      </section>
 
-        <Traduction
-          lines={LINES}
-          model={MODEL}
-          note={
+      <section data-ui="es" lang="es">
+        <h2>El texto</h2>
+
+        <p>
+          Cuatro frases corrientes, y una trampa en cada una. Las palabras que
+          te harán dudar suenan todas igual que otra: leer tu versión en voz
+          alta no te dirá nada. Hay que mirarla.
+        </p>
+      </section>
+
+      <Traduction
+        lines={LINES}
+        model={MODEL}
+        note={{
+          fr: (
             <>
               Comparez lettre à lettre : <span className="fr">son</span> et{" "}
               <span className="fr">sont</span>,{" "}
@@ -59,9 +71,25 @@ export default function Page() {
               <span className="fr">où</span> et <span className="fr">ou</span>.
               Le reste de la phrase peut varier ; ces cinq paires, non.
             </>
-          }
-        />
-      </section>
+          ),
+          es: (
+            <>
+              Compara letra a letra:{" "}
+              <span className="fr" lang="fr">son</span> y{" "}
+              <span className="fr" lang="fr">sont</span>,{" "}
+              <span className="fr" lang="fr">est</span> y{" "}
+              <span className="fr" lang="fr">et</span>,{" "}
+              <span className="fr" lang="fr">a</span> y{" "}
+              <span className="fr" lang="fr">à</span>,{" "}
+              <span className="fr" lang="fr">on</span> y{" "}
+              <span className="fr" lang="fr">ont</span>,{" "}
+              <span className="fr" lang="fr">où</span> y{" "}
+              <span className="fr" lang="fr">ou</span>. El resto de la frase
+              puede variar; estas cinco parejas, no.
+            </>
+          ),
+        }}
+      />
     </article>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { T } from "@/components/lang/T";
 
 /**
  * La frontière client, et la raison qu'elle a d'exister : **`ssr: false`**.
@@ -16,7 +17,11 @@ import dynamic from "next/dynamic";
  */
 const Board = dynamic(() => import("./board").then((m) => m.Board), {
   ssr: false,
-  loading: () => <p>Préparation de l’exercice…</p>,
+  loading: () => (
+    <p>
+      <T fr="Préparation de l’exercice…" es="Preparando el ejercicio…" />
+    </p>
+  ),
 });
 
 export function HomophonesDemonstratifDrill() {

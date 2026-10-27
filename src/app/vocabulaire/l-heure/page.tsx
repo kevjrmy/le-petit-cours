@@ -5,12 +5,167 @@ const PATH = "/vocabulaire/l-heure";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102). The French taught
+   is written once, below, and shared. */
+
+const MINUTES = [
+  ["8 h 05", "huit heures cinq"],
+  ["8 h 15", "huit heures et quart"],
+  ["8 h 30", "huit heures et demie"],
+  ["8 h 45", "neuf heures moins le quart"],
+];
+
+const OFFICIAL = [
+  ["13 h 30", "treize heures trente", "une heure et demie"],
+  ["18 h 15", "dix-huit heures quinze", "six heures et quart"],
+  ["21 h 45", "vingt et une heures quarante-cinq", "dix heures moins le quart"],
+];
+
+const MOMENTS = [
+  ["le matin", "Je travaille le matin."],
+  ["l’après-midi", "On se voit cet après-midi ?"],
+  ["le soir", "Le soir, je lis."],
+  ["la nuit", "Il a plu toute la nuit."],
+];
+
+function Fr({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="fr" lang="fr">
+      {children}
+    </span>
+  );
+}
+
+function Hours() {
+  return (
+    <div className="example" lang="fr">
+      Il est une heure. · Il est trois heures. · Il est midi. · Il est minuit.
+    </div>
+  );
+}
+
+function Wrong() {
+  return (
+    <>
+      <s className="fr" lang="fr">
+        il est trois
+      </s>{" "}
+      ni{" "}
+      <s className="fr" lang="fr">
+        il est une heures
+      </s>
+    </>
+  );
+}
+
+function MinutesTable({ caption, heads }: { caption: string; heads: string[] }) {
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{caption}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{heads[0]}</th>
+            <th scope="col">{heads[1]}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {MINUTES.map(([written, said]) => (
+            <tr key={written}>
+              <th scope="row">{written}</th>
+              <td className="fr" lang="fr">
+                {said}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function Minus() {
+  return (
+    <div className="example" lang="fr">
+      10 h 40 → onze heures moins vingt · 17 h 50 → six heures moins dix
+    </div>
+  );
+}
+
+function OfficialTable({ caption, heads }: { caption: string; heads: string[] }) {
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{caption}</caption>
+        <thead>
+          <tr>
+            {heads.map((head) => (
+              <th key={head} scope="col">
+                {head}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {OFFICIAL.map(([written, official, usual]) => (
+            <tr key={written}>
+              <th scope="row">{written}</th>
+              <td className="fr" lang="fr">
+                {official}
+              </td>
+              <td className="fr" lang="fr">
+                {usual}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function MomentsTable({ caption, heads }: { caption: string; heads: string[] }) {
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{caption}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{heads[0]}</th>
+            <th scope="col">{heads[1]}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {MOMENTS.map(([moment, example]) => (
+            <tr key={moment}>
+              <th scope="row" className="fr" lang="fr">
+                {moment}
+              </th>
+              <td className="fr" lang="fr">
+                {example}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function Parts() {
+  return (
+    <div className="example" lang="fr">
+      Il est sept heures du matin. · Rendez-vous à huit heures du soir.
+    </div>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>Quelle heure est-il ?</h2>
 
         <div className="rule">
@@ -19,10 +174,7 @@ export default function Page() {
           <span className="fr">heures</span> — qui ne se supprime jamais.
         </div>
 
-        <div className="example">
-          Il est une heure. · Il est trois heures. · Il est midi. · Il est
-          minuit.
-        </div>
+        <Hours />
 
         <div className="attention">
           <span className="fr">heure</span> est un nom, et il s’accorde : une{" "}
@@ -33,35 +185,10 @@ export default function Page() {
 
         <h3>Les minutes</h3>
 
-        <div className="table-wrap">
-          <table>
-            <caption>Dire les minutes après et avant l’heure</caption>
-            <thead>
-              <tr>
-                <th scope="col">Heure</th>
-                <th scope="col">On dit</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">8 h 05</th>
-                <td className="fr">huit heures cinq</td>
-              </tr>
-              <tr>
-                <th scope="row">8 h 15</th>
-                <td className="fr">huit heures et quart</td>
-              </tr>
-              <tr>
-                <th scope="row">8 h 30</th>
-                <td className="fr">huit heures et demie</td>
-              </tr>
-              <tr>
-                <th scope="row">8 h 45</th>
-                <td className="fr">neuf heures moins le quart</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <MinutesTable
+          caption="Dire les minutes après et avant l’heure"
+          heads={["Heure", "On dit"]}
+        />
 
         <div className="rule">
           Après la demie, on annonce <strong>l’heure suivante</strong> et on
@@ -69,9 +196,7 @@ export default function Page() {
           <span className="fr">moins</span>.
         </div>
 
-        <div className="example">
-          10 h 40 → onze heures moins vingt · 17 h 50 → six heures moins dix
-        </div>
+        <Minus />
 
         <div className="exception">
           <span className="fr">midi</span> et{" "}
@@ -83,7 +208,45 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>
+          Preguntar la hora: <Fr>Quelle heure est-il ?</Fr>
+        </h2>
+
+        <div className="rule">
+          Se responde con <Fr>il est</Fr>, luego el número y luego la palabra{" "}
+          <Fr>heure</Fr> o <Fr>heures</Fr>, que nunca se omite.
+        </div>
+
+        <Hours />
+
+        <div className="attention">
+          <Fr>heure</Fr> es un sustantivo y concuerda: <Fr>une heure</Fr>, <Fr>deux heures</Fr>. No se
+          dice <Wrong />.
+        </div>
+
+        <h3>Los minutos</h3>
+
+        <MinutesTable
+          caption="Decir los minutos después y antes de la hora"
+          heads={["Hora", "Se dice"]}
+        />
+
+        <div className="rule">
+          Pasada la media, se anuncia <strong>la hora siguiente</strong> y se
+          restan los minutos que faltan, con <Fr>moins</Fr>.
+        </div>
+
+        <Minus />
+
+        <div className="exception">
+          <Fr>midi</Fr> y <Fr>minuit</Fr> son masculinos, así que{" "}
+          <Fr>demie</Fr> pierde su <Fr>-e</Fr>: <Fr>midi et demi</Fr>,{" "}
+          <Fr>minuit et demi</Fr>, pero <Fr>une heure et demie</Fr>.
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>L’heure officielle</h2>
 
         <p>
@@ -93,35 +256,10 @@ export default function Page() {
           qu’on parle.
         </p>
 
-        <div className="table-wrap">
-          <table>
-            <caption>La même heure, à l’écrit et à l’oral</caption>
-            <thead>
-              <tr>
-                <th scope="col">Écrit</th>
-                <th scope="col">Officiel</th>
-                <th scope="col">Courant</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">13 h 30</th>
-                <td className="fr">treize heures trente</td>
-                <td className="fr">une heure et demie</td>
-              </tr>
-              <tr>
-                <th scope="row">18 h 15</th>
-                <td className="fr">dix-huit heures quinze</td>
-                <td className="fr">six heures et quart</td>
-              </tr>
-              <tr>
-                <th scope="row">21 h 45</th>
-                <td className="fr">vingt et une heures quarante-cinq</td>
-                <td className="fr">dix heures moins le quart</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <OfficialTable
+          caption="La même heure, à l’écrit et à l’oral"
+          heads={["Écrit", "Officiel", "Courant"]}
+        />
 
         <div className="attention">
           On écrit <span className="fr">14 h 30</span> avec un{" "}
@@ -133,46 +271,34 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>La hora oficial</h2>
+
+        <p>
+          Los horarios escritos (trenes, cines, citas, tiendas) usan las
+          veinticuatro horas, y los minutos se dicen enteros. Es la forma que se
+          lee; la de la sección anterior es la que se habla.
+        </p>
+
+        <OfficialTable
+          caption="La misma hora, por escrito y de palabra"
+          heads={["Escrito", "Oficial", "Corriente"]}
+        />
+
+        <div className="attention">
+          Se escribe <Fr>14 h 30</Fr> con una <Fr>h</Fr> minúscula y espacios,
+          nunca con dos puntos. Y la hora oficial no admite <Fr>et quart</Fr> ni{" "}
+          <Fr>moins le quart</Fr>: esas expresiones son de la lengua hablada.
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Situer un moment dans la journée</h2>
 
-        <div className="table-wrap">
-          <table>
-            <caption>Les moments de la journée et leur usage</caption>
-            <thead>
-              <tr>
-                <th scope="col">Moment</th>
-                <th scope="col">Exemple</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr">
-                  le matin
-                </th>
-                <td className="fr">Je travaille le matin.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  l’après-midi
-                </th>
-                <td className="fr">On se voit cet après-midi ?</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  le soir
-                </th>
-                <td className="fr">Le soir, je lis.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  la nuit
-                </th>
-                <td className="fr">Il a plu toute la nuit.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <MomentsTable
+          caption="Les moments de la journée et leur usage"
+          heads={["Moment", "Exemple"]}
+        />
 
         <div className="rule">
           Pour préciser une heure du matin ou du soir, on ajoute{" "}
@@ -181,9 +307,7 @@ export default function Page() {
           <span className="fr">du soir</span> après l’heure.
         </div>
 
-        <div className="example">
-          Il est sept heures du matin. · Rendez-vous à huit heures du soir.
-        </div>
+        <Parts />
 
         <div className="astuce">
           <p className="astuce-hook">
@@ -201,7 +325,36 @@ export default function Page() {
         </div>
       </section>
 
-      <div className="resume">
+      <section data-ui="es" lang="es">
+        <h2>Situar un momento del día</h2>
+
+        <MomentsTable
+          caption="Los momentos del día y su uso"
+          heads={["Momento", "Ejemplo"]}
+        />
+
+        <div className="rule">
+          Para precisar una hora de la mañana o de la tarde, se añade{" "}
+          <Fr>du matin</Fr>, <Fr>de l’après-midi</Fr> o <Fr>du soir</Fr> después
+          de la hora.
+        </div>
+
+        <Parts />
+
+        <div className="astuce">
+          <p className="astuce-hook">
+            «À quelle heure ?» lleva siempre «à»
+          </p>
+          <p>
+            <Fr>Quelle heure est-il ?</Fr> pregunta la hora que es;{" "}
+            <Fr>À quelle heure ?</Fr> pregunta el momento de una cita, y la
+            respuesta conserva el <Fr>à</Fr>: <Fr>À neuf heures.</Fr> Olvidar
+            ese <Fr>à</Fr> es el error más frecuente al fijar una cita.
+          </p>
+        </div>
+      </section>
+
+      <div className="resume" data-ui="fr">
         <h2>En résumé</h2>
         <ul>
           <li>
@@ -232,6 +385,33 @@ export default function Page() {
             <span className="fr">du matin</span>,{" "}
             <span className="fr">de l’après-midi</span> ou{" "}
             <span className="fr">du soir</span> après l’heure.
+          </li>
+        </ul>
+      </div>
+
+      <div className="resume" data-ui="es" lang="es">
+        <h2>En resumen</h2>
+        <ul>
+          <li>
+            Se responde con <Fr>il est</Fr>, el número y luego <Fr>heure</Fr> o{" "}
+            <Fr>heures</Fr>, que nunca desaparece.
+          </li>
+          <li>
+            Pasada la media, se anuncia la hora siguiente y se restan los
+            minutos con <Fr>moins</Fr>: <Fr>onze heures moins vingt</Fr>.
+          </li>
+          <li>
+            <Fr>midi</Fr> y <Fr>minuit</Fr> son masculinos: <Fr>midi et demi</Fr>
+            , pero <Fr>une heure et demie</Fr>.
+          </li>
+          <li>
+            La hora oficial usa las veinticuatro horas y dice los minutos
+            enteros. Se escribe <Fr>14 h 30</Fr>, sin <Fr>et quart</Fr> ni{" "}
+            <Fr>moins le quart</Fr>.
+          </li>
+          <li>
+            Para situar un momento, se añade <Fr>du matin</Fr>,{" "}
+            <Fr>de l’après-midi</Fr> o <Fr>du soir</Fr> después de la hora.
           </li>
         </ul>
       </div>

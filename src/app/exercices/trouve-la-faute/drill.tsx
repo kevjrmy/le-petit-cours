@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
+import { T } from "@/components/lang/T";
 import { findLesson } from "@/data/navigation";
 import { useLessonVariant } from "@/hooks/useLessonVariant";
 
@@ -10,7 +11,11 @@ import { useLessonVariant } from "@/hooks/useLessonVariant";
    error. The page around it still prerenders. */
 const Board = dynamic(() => import("./board").then((m) => m.Board), {
   ssr: false,
-  loading: () => <p>Préparation de l’exercice…</p>,
+  loading: () => (
+    <p>
+      <T fr="Préparation de l’exercice…" es="Preparando el ejercicio…" />
+    </p>
+  ),
 });
 
 export function TrouveLaFauteDrill() {

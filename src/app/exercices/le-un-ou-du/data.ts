@@ -1,4 +1,5 @@
 import type { Level } from "@/data/navigation";
+import type { Bi } from "../bilingue";
 
 /**
  * « Le, un ou du ? » — un texte à trous par niveau, et un tirage d'articles.
@@ -37,7 +38,7 @@ export interface Blank {
   /** La réponse, qui doit figurer dans le tirage du lot. */
   answer: string;
   /** Montré après coup, et il corrige au lieu de répéter la règle. */
-  because: string;
+  because: Bi;
 }
 
 /** Le texte, coupé aux trous : une chaîne est du texte, le reste est un trou. */
@@ -73,92 +74,127 @@ const A2: Bank = {
     {
       id: "chien-1",
       answer: "un",
-      because:
-        "C’est la première fois qu’on en parle : un chien, que personne ne connaît encore.",
+      because: {
+        fr: "C’est la première fois qu’on en parle : un chien, que personne ne connaît encore.",
+        es: "Es la primera vez que se habla de él: *un chien*, que nadie conoce todavía.",
+      },
     },
     " chien devant la boulangerie. Ce matin, ",
     {
       id: "chien-2",
       answer: "le",
-      because:
-        "On vient d’en parler une ligne plus haut : le chien, celui d’hier.",
+      because: {
+        fr: "On vient d’en parler une ligne plus haut : le chien, celui d’hier.",
+        es: "Acabamos de hablar de él una línea más arriba: *le chien*, el de ayer.",
+      },
     },
     " chien était encore là, devant ",
     {
       id: "entree",
       answer: "l’",
-      because:
-        "Entrée commence par une voyelle, donc l’, et celle du magasin est une entrée précise.",
+      because: {
+        fr: "Entrée commence par une voyelle, donc l’, et celle du magasin est une entrée précise.",
+        es: "*Entrée* empieza por vocal, por eso *l’*, y la de la tienda es una entrada concreta.",
+      },
     },
     "entrée du magasin. Je suis entrée acheter ",
     {
       id: "baguette",
       answer: "une",
-      because: "Une baguette se compte, comme les deux croissants qui suivent.",
+      because: {
+        fr: "Une baguette se compte, comme les deux croissants qui suivent.",
+        es: "*Une baguette* se cuenta, igual que los dos *croissants* que siguen.",
+      },
     },
     " baguette et deux croissants. Il faut toujours ",
     {
       id: "lait-1",
       answer: "du",
-      because:
-        "Le lait ne se compte pas : il faut du lait, et jamais un lait.",
+      because: {
+        fr: "Le lait ne se compte pas : il faut du lait, et jamais un lait.",
+        es: "La leche no se cuenta: hay que decir *du lait*, y nunca *un lait*.",
+      },
     },
     " lait à la maison, alors j’ai pris une bouteille. Ma fille n’aime pas ",
     {
       id: "lait-2",
       answer: "le",
-      because:
-        "Aimer ne prend pas une part : l’article reste défini, même après une négation.",
+      because: {
+        fr: "Aimer ne prend pas une part : l’article reste défini, même après une négation.",
+        es: "*Aimer* no toma una parte: el artículo sigue siendo definido, incluso tras una negación.",
+      },
     },
     " lait, mais elle adore ",
     {
       id: "gateaux",
       answer: "les",
-      because: "Adorer parle des gâteaux en général : l’article défini pluriel.",
+      because: {
+        fr: "Adorer parle des gâteaux en général : l’article défini pluriel.",
+        es: "*Adorer* habla de los pasteles en general: el artículo definido plural.",
+      },
     },
     " gâteaux au chocolat. Pour en faire un, il faut ",
     {
       id: "farine",
       answer: "de la",
-      because: "Farine est féminin et ne se compte pas : de la farine.",
+      because: {
+        fr: "Farine est féminin et ne se compte pas : de la farine.",
+        es: "*Farine* es femenino y no se cuenta: *de la farine*.",
+      },
     },
     " farine, ",
     {
       id: "oeufs",
       answer: "des",
-      because:
-        "Les œufs se comptent, mais on ne dit pas combien : des œufs, jamais œufs tout seul.",
+      because: {
+        fr: "Les œufs se comptent, mais on ne dit pas combien : des œufs, jamais œufs tout seul.",
+        es: "Los huevos se cuentan, pero no se dice cuántos: *des œufs*, nunca *œufs* solo.",
+      },
     },
     " œufs, ",
     {
       id: "eau",
       answer: "de l’",
-      because: "Eau commence par une voyelle : de l’eau.",
+      because: {
+        fr: "Eau commence par une voyelle : de l’eau.",
+        es: "*Eau* empieza por vocal: *de l’eau*.",
+      },
     },
     "eau et un peu ",
     {
       id: "sucre",
       answer: "de",
-      because: "Après un peu, l’article disparaît et il ne reste que de.",
+      because: {
+        fr: "Après un peu, l’article disparaît et il ne reste que de.",
+        es: "Después de *un peu*, el artículo desaparece y solo queda *de*.",
+      },
     },
     " sucre. Le soir, je ne bois jamais ",
     {
       id: "cafe",
       answer: "de",
-      because: "Après une négation, du café devient de café.",
+      because: {
+        fr: "Après une négation, du café devient de café.",
+        es: "Después de una negación, *du café* pasa a ser *de café*.",
+      },
     },
     " café : je préfère ",
     {
       id: "tisane",
       answer: "la",
-      because:
-        "Préférer parle de la tisane en général, comme aimer : l’article reste défini.",
+      because: {
+        fr: "Préférer parle de la tisane en général, comme aimer : l’article reste défini.",
+        es: "*Préférer* habla de la infusión en general, como *aimer*: el artículo sigue siendo definido.",
+      },
     },
     " tisane. C’est la boulangerie la plus chère ",
     {
       id: "quartier",
       answer: "du",
-      because: "De et le se soudent : de le quartier ne s’écrit pas, du quartier oui.",
+      because: {
+        fr: "De et le se soudent : de le quartier ne s’écrit pas, du quartier oui.",
+        es: "*De* y *le* se sueldan: *de le quartier* no se escribe, *du quartier* sí.",
+      },
     },
     " quartier, mais c’est la meilleure.",
   ],
@@ -172,109 +208,154 @@ const B1: Bank = {
     {
       id: "professeur",
       answer: NOTHING,
-      because:
-        "Après être, un nom de métier s’écrit sans article. Avec un article, la phrase changerait de forme et commencerait par c’est : c’est un professeur de français.",
+      because: {
+        fr: "Après être, un nom de métier s’écrit sans article. Avec un article, la phrase changerait de forme et commencerait par c’est : c’est un professeur de français.",
+        es: "Después de *être*, un nombre de profesión se escribe sin artículo. Con artículo, la frase cambiaría de forma y empezaría por *c’est*: *c’est un professeur de français*.",
+      },
     },
     " professeur de français dans un lycée. Je pars tous les matins en ",
     {
       id: "voiture",
       answer: NOTHING,
-      because: "En voiture, en train, en bus : en ne prend jamais d’article.",
+      because: {
+        fr: "En voiture, en train, en bus : en ne prend jamais d’article.",
+        es: "*En voiture*, *en train*, *en bus*: *en* nunca lleva artículo.",
+      },
     },
     " voiture, et j’arrive avant huit heures. Il y a ",
     {
       id: "eleves",
       answer: "des",
-      because:
-        "Un pluriel dont on ne dit pas le nombre : des élèves, jamais élèves tout seul.",
+      because: {
+        fr: "Un pluriel dont on ne dit pas le nombre : des élèves, jamais élèves tout seul.",
+        es: "Un plural del que no se dice el número: *des élèves*, nunca *élèves* solo.",
+      },
     },
     " élèves qui n’ouvrent jamais leur livre : ils font beaucoup ",
     {
       id: "fautes",
       answer: "de",
-      because: "Après beaucoup, il ne reste que de.",
+      because: {
+        fr: "Après beaucoup, il ne reste que de.",
+        es: "Después de *beaucoup*, solo queda *de*.",
+      },
     },
     " fautes, mais ils ont ",
     {
       id: "courage",
       answer: "du",
-      because: "Le courage ne se compte pas : avoir du courage.",
+      because: {
+        fr: "Le courage ne se compte pas : avoir du courage.",
+        es: "El valor no se cuenta: *avoir du courage*.",
+      },
     },
     " courage. Ils ont surtout besoin ",
     {
       id: "patience",
       answer: "de",
-      because:
-        "Avoir besoin de : le verbe réclame déjà de, et l’article ne revient pas derrière.",
+      because: {
+        fr: "Avoir besoin de : le verbe réclame déjà de, et l’article ne revient pas derrière.",
+        es: "*Avoir besoin de*: el verbo ya pide *de*, y el artículo no vuelve detrás.",
+      },
     },
     " patience, et je n’ai pas toujours ",
     {
       id: "temps",
       answer: "de",
-      because: "Après une négation, du temps devient de temps.",
+      because: {
+        fr: "Après une négation, du temps devient de temps.",
+        es: "Después de una negación, *du temps* pasa a ser *de temps*.",
+      },
     },
     " temps. À ",
     {
       id: "entree",
       answer: "l’",
-      because: "Entrée commence par une voyelle, et celle du lycée est précise.",
+      because: {
+        fr: "Entrée commence par une voyelle, et celle du lycée est précise.",
+        es: "*Entrée* empieza por vocal, y la del instituto es concreta.",
+      },
     },
     "entrée du lycée, il y a ",
     {
       id: "fille",
       answer: "une",
-      because:
-        "On la présente pour la première fois, et elle se compte : une élève.",
+      because: {
+        fr: "On la présente pour la première fois, et elle se compte : une élève.",
+        es: "Se la presenta por primera vez, y se cuenta: *une élève*.",
+      },
     },
     " élève qui attend chaque matin ; elle a ",
     {
       id: "chance",
       answer: "de la",
-      because: "La chance ne se compte pas, et le nom est féminin : de la chance.",
+      because: {
+        fr: "La chance ne se compte pas, et le nom est féminin : de la chance.",
+        es: "La suerte no se cuenta, y el sustantivo es femenino: *de la chance*.",
+      },
     },
     " chance, ",
     {
       id: "autres",
       answer: "les",
-      because: "Les autres, ce sont tous ceux qui restent : l’article est défini.",
+      because: {
+        fr: "Les autres, ce sont tous ceux qui restent : l’article est défini.",
+        es: "*Les autres* son todos los que quedan: el artículo es definido.",
+      },
     },
     " autres l’ont adoptée. À la fin ",
     {
       id: "annee",
       answer: "de l’",
-      because: "Année commence par une voyelle : la fin de l’année.",
+      because: {
+        fr: "Année commence par une voyelle : la fin de l’année.",
+        es: "*Année* empieza por vocal: *la fin de l’année*.",
+      },
     },
     "année, ils passent ",
     {
       id: "examen",
       answer: "un",
-      because:
-        "Un examen se compte, et on n’a pas encore dit lequel : un examen difficile.",
+      because: {
+        fr: "Un examen se compte, et on n’a pas encore dit lequel : un examen difficile.",
+        es: "Un examen se cuenta, y aún no se ha dicho cuál: *un examen difficile*.",
+      },
     },
     " examen difficile. Le soir, je rentre à ",
     {
       id: "maison",
       answer: "la",
-      because: "À et la ne se soudent pas : à la maison, comme à l’école.",
+      because: {
+        fr: "À et la ne se soudent pas : à la maison, comme à l’école.",
+        es: "*À* y *la* no se sueldan: *à la maison*, como *à l’école*.",
+      },
     },
     " maison, je bois ",
     {
       id: "the",
       answer: "du",
-      because: "Le thé se prend par quantité : boire du thé.",
+      because: {
+        fr: "Le thé se prend par quantité : boire du thé.",
+        es: "El té se toma por cantidad: *boire du thé*.",
+      },
     },
     " thé sans ",
     {
       id: "sucre",
       answer: NOTHING,
-      because: "Sans fait tomber l’article : un thé sans sucre.",
+      because: {
+        fr: "Sans fait tomber l’article : un thé sans sucre.",
+        es: "*Sans* hace caer el artículo: *un thé sans sucre*.",
+      },
     },
     " sucre. C’est ",
     {
       id: "metier",
       answer: "le",
-      because:
-        "Un superlatif désigne une chose unique : le métier le plus fatigant.",
+      because: {
+        fr: "Un superlatif désigne une chose unique : le métier le plus fatigant.",
+        es: "Un superlativo designa una cosa única: *le métier le plus fatigant*.",
+      },
     },
     " métier le plus fatigant que je connaisse.",
   ],
@@ -308,7 +389,7 @@ for (const [level, bank] of Object.entries(BANKS)) {
     blanks++
     used.add(b.answer)
     if (!bank.pool.includes(b.answer)) bad.push(level + '/' + b.id + ': réponse absente du tirage')
-    if (b.because.length < 20) bad.push(level + '/' + b.id + ': correction trop courte')
+    if (b.because.fr.length < 20 || b.because.es.length < 20) bad.push(level + '/' + b.id + ': correction trop courte')
   }
   for (const word of bank.pool) if (!used.has(word)) bad.push(level + ': la pastille « ' + word + ' » nest jamais la réponse')
   const filled = bank.text.map(p => typeof p === 'string' ? p : (p.answer === NOTHING ? '' : p.answer)).join('')

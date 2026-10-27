@@ -35,18 +35,29 @@ export default function Page() {
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>Le texte</h2>
 
         <p>
           Quatre phrases à écrire en français. Lisez tout avant de commencer :
           la première phrase décide du temps des autres.
         </p>
+      </section>
 
-        <Traduction
-          lines={LINES}
-          model={MODEL}
-          note={
+      <section data-ui="es" lang="es">
+        <h2>El texto</h2>
+
+        <p>
+          Cuatro frases para escribir en francés. Lee todo antes de empezar: la
+          primera frase decide el tiempo de las demás.
+        </p>
+      </section>
+
+      <Traduction
+        lines={LINES}
+        model={MODEL}
+        note={{
+          fr: (
             <>
               Votre version n’a pas à être identique à celle-ci. «{" "}
               <span className="fr">alors</span> » et «{" "}
@@ -55,9 +66,20 @@ export default function Page() {
               <span className="fr">neuf heures et demie</span> ». Comparez les
               temps, les accords et l’ordre des mots, pas les synonymes.
             </>
-          }
-        />
-      </section>
+          ),
+          es: (
+            <>
+              Tu versión no tiene por qué ser idéntica a esta.{" "}
+              <span className="fr" lang="fr">alors</span> y{" "}
+              <span className="fr" lang="fr">donc</span> valen los dos, y{" "}
+              <span className="fr" lang="fr">neuf heures trente</span> vale
+              como <span className="fr" lang="fr">neuf heures et demie</span>.
+              Compara los tiempos, las concordancias y el orden de las
+              palabras, no los sinónimos.
+            </>
+          ),
+        }}
+      />
     </article>
   );
 }

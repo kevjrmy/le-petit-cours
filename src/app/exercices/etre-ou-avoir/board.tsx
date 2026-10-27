@@ -2,6 +2,9 @@
 
 import { useRef, useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
+import { T } from "@/components/lang/T";
+import { useLang } from "@/hooks/useLang";
+import { Bilingue, type Bi } from "../bilingue";
 import { shuffle } from "@/lib/shuffle";
 import type { Level } from "@/data/navigation";
 import { bankFor, type VerbItem } from "./data";
@@ -14,13 +17,16 @@ type Placed = Record<string, Column | null>;
 /** A drop target: the two columns, or back to the pool. */
 type Zone = Column | "pool";
 
-const COLUMNS: { key: Column; label: string; hint: string }[] = [
+const COLUMNS: { key: Column; label: string; hint: Bi }[] = [
   {
     key: "etre",
     label: "être",
-    hint: "déplacement, changement d’état, verbes pronominaux",
+    hint: {
+      fr: "déplacement, changement d’état, verbes pronominaux",
+      es: "desplazamiento, cambio de estado, verbos pronominales",
+    },
   },
-  { key: "avoir", label: "avoir", hint: "la grande majorité des verbes" },
+  { key: "avoir", label: "avoir", hint: { fr: "la grande majorité des verbes", es: "la gran mayoría de los verbos" } },
 ];
 
 /** Movement, in CSS pixels, before the ghost appears and a drag looks started. */
@@ -72,6 +78,7 @@ export function Board({ level }: { level: Level | null }) {
   /* Read once. `drill.tsx` remounts this component when the level changes, so
      the initialiser below runs again with the new bank and every bit of state
      that belonged to the old deck goes with it (`docs/decisions.md` #68). */
+  const lang = useLang();
   const bank = bankFor(level);
   const [deck, setDeck] = useState<VerbItem[]>(() => shuffle(bank));
   const [placed, setPlaced] = useState<Placed>({});
@@ -219,7 +226,12 @@ export function Board({ level }: { level: Level | null }) {
         )}
         {verb.text}
         <span className="visually-hidden">
-          {column ? ` — dans la colonne ${column}` : " — à classer"}
+          {" — "}
+          {column ? (
+            <T fr={`dans la colonne ${column}`} es={`en la columna ${column}`} />
+          ) : (
+            <T fr="à classer" es="por clasificar" />
+          )}
         </span>
       </button>
     );
@@ -228,13 +240,27 @@ export function Board({ level }: { level: Level | null }) {
   return (
     <>
       <Instructions>
-        Glissez un verbe dans une colonne, ou cliquez dessus pour le déplacer :
-        d’abord vers <span className="fr">être</span>, puis vers{" "}
-        <span className="fr">avoir</span>, puis de nouveau dans la réserve.
-        Classez les {deck.length} verbes, puis vérifiez.
+        <T
+          fr={
+            <>
+              Glissez un verbe dans une colonne, ou cliquez dessus pour le
+              déplacer : d’abord vers <span className="fr">être</span>, puis
+              vers <span className="fr">avoir</span>, puis de nouveau dans la
+              réserve. Classez les {deck.length} verbes, puis vérifiez.
+            </>
+          }
+          es={
+            <>
+              Arrastra un verbo a una columna, o haz clic en él para moverlo:
+              primero a <span className="fr" lang="fr">être</span>, luego a{" "}
+              <span className="fr" lang="fr">avoir</span> y después otra vez a
+              la reserva. Clasifica los {deck.length} verbos y comprueba.
+            </>
+          }
+        />
       </Instructions>
 
-      <Meter value={sorted} max={deck.length} label="Verbes classés" />
+      <Meter value={sorted} max={deck.length} label={{ fr: "Verbes classés", es: "Verbos clasificados" }} />
 
       <div className={styles.board}>
         <div
@@ -242,11 +268,14 @@ export function Board({ level }: { level: Level | null }) {
             zones.current.pool = element;
           }}
           className={`${styles.pool} ${drag?.over === "pool" ? styles.over : ""}`}
-          aria-label="Verbes à classer"
+          aria-label={lang === "es" ? "Verbos por clasificar" : "Verbes à classer"}
         >
           {pool.length === 0 ? (
             <span className={styles.poolEmpty}>
-              Tous les verbes sont classés.
+              <T
+                fr="Tous les verbes sont classés."
+                es="Todos los verbos están clasificados."
+              />
             </span>
           ) : (
             pool.map(chip)
@@ -270,7 +299,7 @@ export function Board({ level }: { level: Level | null }) {
             >
               <h3 className={styles.columnHead}>
                 {column.label}
-                <span className={styles.columnHint}>{column.hint}</span>
+                <span className={styles.columnHint}><Bilingue text={column.hint} /></span>
               </h3>
               <div className={styles.slot}>
                 {deck.filter((verb) => placed[verb.id] === column.key).map(chip)}
@@ -295,9 +324,17 @@ export function Board({ level }: { level: Level | null }) {
       {checked && (
         <div role="status">
           <p className={wrong.length === 0 ? "is-correct" : "is-wrong"}>
-            {wrong.length === 0
-              ? `✓ Les ${deck.length} verbes sont à leur place.`
-              : `✗ ${score} sur ${deck.length}. Les verbes marqués d’une croix sont mal classés.`}
+            {wrong.length === 0 ? (
+              <T
+                fr={`✓ Les ${deck.length} verbes sont à leur place.`}
+                es={`✓ Los ${deck.length} verbos están en su sitio.`}
+              />
+            ) : (
+              <T
+                fr={`✗ ${score} sur ${deck.length}. Les verbes marqués d’une croix sont mal classés.`}
+                es={`✗ ${score} de ${deck.length}. Los verbos marcados con una cruz están mal clasificados.`}
+              />
+            )}
           </p>
           {wrong.length > 0 && (
             <ul className={styles.corrections}>
@@ -307,7 +344,7 @@ export function Board({ level }: { level: Level | null }) {
                   <span className="fr">
                     {verb.aux === "etre" ? "être" : "avoir"}
                   </span>{" "}
-                  · {verb.because}
+                  · <Bilingue text={verb.because} />
                 </li>
               ))}
             </ul>
@@ -322,7 +359,7 @@ export function Board({ level }: { level: Level | null }) {
             className="button button-primary"
             onClick={() => setFinished(true)}
           >
-            Voir mon score
+            <T fr="Voir mon score" es="Ver mi puntuación" />
           </button>
         ) : (
           <>
@@ -332,11 +369,14 @@ export function Board({ level }: { level: Level | null }) {
               disabled={pool.length > 0}
               onClick={() => setChecked(true)}
             >
-              Vérifier
+              <T fr="Vérifier" es="Comprobar" />
             </button>
             {pool.length > 0 && (
               <span className={styles.remaining}>
-                Encore {pool.length} verbe{pool.length > 1 ? "s" : ""} à classer.
+                <T
+                  fr={`Encore ${pool.length} verbe${pool.length > 1 ? "s" : ""} à classer.`}
+                  es={`Faltan ${pool.length} verbo${pool.length > 1 ? "s" : ""} por clasificar.`}
+                />
               </span>
             )}
           </>

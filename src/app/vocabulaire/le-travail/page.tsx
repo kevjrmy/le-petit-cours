@@ -5,12 +5,159 @@ const PATH = "/vocabulaire/le-travail";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102). The French taught
+   (the words, their French definitions, the examples) is written once, below,
+   and shared; only captions, heads and the explanations differ. */
+
+const JOBS: { m: string; f: string; change: string | null }[] = [
+  { m: "un boulanger", f: "une boulangère", change: "-er → -ère" },
+  { m: "un infirmier", f: "une infirmière", change: "-ier → -ière" },
+  { m: "un vendeur", f: "une vendeuse", change: "-eur → -euse" },
+  { m: "un serveur", f: "une serveuse", change: "-eur → -euse" },
+  { m: "un informaticien", f: "une informaticienne", change: "-ien → -ienne" },
+  { m: "un avocat", f: "une avocate", change: "-t → -te" },
+  { m: "un ingénieur", f: "une ingénieure", change: "-eur → -eure" },
+  { m: "un médecin", f: "une médecin", change: null },
+];
+
+const NOT_CHANGING = { fr: "forme unique", es: "forma única" };
+
+const WORK_WORDS = [
+  ["une entreprise", "une société, l’endroit qui emploie des gens", "Elle travaille dans une grande entreprise."],
+  ["un bureau", "la pièce où l’on travaille, et aussi la table", "Mon bureau est au troisième étage."],
+  ["un collègue", "une personne qui travaille au même endroit que vous", "Je déjeune avec un collègue."],
+  ["le patron", "la personne qui dirige l’entreprise", "Le patron arrive à sept heures."],
+  ["un contrat", "le papier signé qui fixe les conditions du travail", "J’ai signé mon contrat lundi."],
+  ["un salaire", "l’argent reçu chaque mois pour son travail", "Le salaire est payé le 30 du mois."],
+  ["les congés", "les jours où l’on ne travaille pas et où l’on est payé", "Je prends mes congés en août."],
+  ["une réunion", "un moment où plusieurs collègues parlent d’un sujet", "La réunion dure une heure."],
+];
+
+const TRICKY_WORDS = [
+  [
+    "un stage",
+    "une période courte de travail pour apprendre un métier, souvent pendant les études",
+    "Elle a fait un stage de trois mois dans une école.",
+  ],
+  [
+    "une réunion",
+    "un rendez-vous de travail entre collègues, pas des retrouvailles",
+    "J’ai une réunion avec le service commercial à quatorze heures.",
+  ],
+  ["rester", "ne pas partir, demeurer à un endroit", "Je suis resté au bureau jusqu’à vingt heures."],
+  ["demander", "poser une question, ou réclamer quelque chose", "J’ai demandé une augmentation à mon patron."],
+];
+
+function Fr({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="fr" lang="fr">
+      {children}
+    </span>
+  );
+}
+
+function JobsTable({
+  lang,
+  caption,
+  heads,
+}: {
+  lang: "fr" | "es";
+  caption: string;
+  heads: string[];
+}) {
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{caption}</caption>
+        <thead>
+          <tr>
+            {heads.map((head) => (
+              <th key={head} scope="col">
+                {head}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {JOBS.map((job) => (
+            <tr key={job.m}>
+              <th scope="row" className="fr" lang="fr">
+                {job.m}
+              </th>
+              <td className="fr" lang="fr">
+                {job.f}
+              </td>
+              {job.change ? (
+                <td className="fr" lang="fr">
+                  {job.change}
+                </td>
+              ) : (
+                <td>{NOT_CHANGING[lang]}</td>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function JobExamples() {
+  return (
+    <div className="example" lang="fr">
+      Je suis <strong>ingénieure</strong>. · Qu’est-ce que vous faites{" "}
+      <strong>dans la vie</strong> ? · Je travaille <strong>comme</strong>{" "}
+      vendeuse.
+    </div>
+  );
+}
+
+function WordsTable({
+  rows,
+  caption,
+  heads,
+}: {
+  rows: string[][];
+  caption: string;
+  heads: string[];
+}) {
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{caption}</caption>
+        <thead>
+          <tr>
+            {heads.map((head) => (
+              <th key={head} scope="col">
+                {head}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(([word, definition, example]) => (
+            <tr key={word}>
+              <th scope="row" className="fr" lang="fr">
+                {word}
+              </th>
+              <td lang="fr">{definition}</td>
+              <td className="fr" lang="fr">
+                {example}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>Dire son métier</h2>
 
         <div className="rule">
@@ -26,78 +173,11 @@ export default function Page() {
           l’adjectif qui l’appelle, pas le métier.
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <caption>
-              Les métiers changent de forme au féminin, comme les adjectifs
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Masculin</th>
-                <th scope="col">Féminin</th>
-                <th scope="col">La terminaison qui bouge</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr">
-                  un boulanger
-                </th>
-                <td className="fr">une boulangère</td>
-                <td className="fr">-er → -ère</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un infirmier
-                </th>
-                <td className="fr">une infirmière</td>
-                <td className="fr">-er → -ère</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un vendeur
-                </th>
-                <td className="fr">une vendeuse</td>
-                <td className="fr">-eur → -euse</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un serveur
-                </th>
-                <td className="fr">une serveuse</td>
-                <td className="fr">-eur → -euse</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un informaticien
-                </th>
-                <td className="fr">une informaticienne</td>
-                <td className="fr">-ien → -ienne</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un avocat
-                </th>
-                <td className="fr">une avocate</td>
-                <td className="fr">-t → -te</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un ingénieur
-                </th>
-                <td className="fr">une ingénieure</td>
-                <td className="fr">-eur → -eure</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un médecin
-                </th>
-                <td className="fr">une médecin</td>
-                <td>forme unique</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <JobsTable
+          lang="fr"
+          caption="Les métiers changent de forme au féminin, comme les adjectifs"
+          heads={["Masculin", "Féminin", "La terminaison qui bouge"]}
+        />
 
         <div className="exception">
           Les deux dernières lignes sortent de la règle. Tous les métiers en{" "}
@@ -112,98 +192,76 @@ export default function Page() {
           <span className="fr">une médecin</span>.
         </div>
 
-        <div className="example">
-          Je suis <strong>ingénieure</strong>. · Qu’est-ce que vous faites{" "}
-          <strong>dans la vie</strong> ? · Je travaille{" "}
-          <strong>comme</strong> vendeuse.
-        </div>
+        <JobExamples />
       </section>
 
-      <section>
-        <h2>Le lieu, les gens, le contrat</h2>
+      <section data-ui="es" lang="es">
+        <h2>Decir tu oficio</h2>
 
-        <div className="table-wrap">
-          <table>
-            <caption>
-              Les mots qu’on emploie tous les jours au bureau ou à l’atelier
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Mot</th>
-                <th scope="col">Définition</th>
-                <th scope="col">Exemple</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr">
-                  une entreprise
-                </th>
-                <td>une société, l’endroit qui emploie des gens</td>
-                <td className="fr">Elle travaille dans une grande entreprise.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un bureau
-                </th>
-                <td>la pièce où l’on travaille, et aussi la table</td>
-                <td className="fr">Mon bureau est au troisième étage.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un collègue
-                </th>
-                <td>une personne qui travaille au même endroit que vous</td>
-                <td className="fr">Je déjeune avec un collègue.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  le patron
-                </th>
-                <td>la personne qui dirige l’entreprise</td>
-                <td className="fr">Le patron arrive à sept heures.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un contrat
-                </th>
-                <td>le papier signé qui fixe les conditions du travail</td>
-                <td className="fr">J’ai signé mon contrat lundi.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  un salaire
-                </th>
-                <td>l’argent reçu chaque mois pour son travail</td>
-                <td className="fr">Le salaire est payé le 30 du mois.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  les congés
-                </th>
-                <td>les jours où l’on ne travaille pas et où l’on est payé</td>
-                <td className="fr">Je prends mes congés en août.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  une réunion
-                </th>
-                <td>un moment où plusieurs collègues parlent d’un sujet</td>
-                <td className="fr">La réunion dure une heure.</td>
-              </tr>
-            </tbody>
-          </table>
+        <div className="rule">
+          Después del verbo <Fr>être</Fr>, el nombre del oficio se usa{" "}
+          <strong>sin artículo</strong>: <Fr>je suis professeur</Fr>,{" "}
+          <Fr>elle est infirmière</Fr>.
         </div>
 
         <div className="attention">
-          <span className="fr">les congés</span> est un pluriel : on ne dit pas{" "}
-          <span className="fr">un congé</span> pour parler de ses vacances
-          annuelles. On dit <span className="fr">je suis en congés</span> ou{" "}
+          El artículo vuelve en cuanto se añade un adjetivo:{" "}
+          <Fr>je suis un bon professeur</Fr>. Lo pide el adjetivo, no el
+          oficio.
+        </div>
+
+        <JobsTable
+          lang="es"
+          caption="Los oficios cambian de forma en femenino, como los adjetivos"
+          heads={["Masculino", "Femenino", "La terminación que cambia"]}
+        />
+
+        <div className="exception">
+          Las dos últimas filas se salen de la regla. No todos los oficios en{" "}
+          <Fr>-eur</Fr> hacen <Fr>-euse</Fr>: <Fr>ingénieur</Fr> da{" "}
+          <Fr>ingénieure</Fr> y <Fr>professeur</Fr> da <Fr>professeure</Fr>,
+          porque esas dos palabras no vienen de un verbo. Y <Fr>médecin</Fr> no
+          cambia en absoluto: se dice <Fr>une médecin</Fr>.
+        </div>
+
+        <JobExamples />
+      </section>
+
+      <section data-ui="fr">
+        <h2>Le lieu, les gens, le contrat</h2>
+
+        <WordsTable
+          rows={WORK_WORDS}
+          caption="Les mots qu’on emploie tous les jours au bureau ou à l’atelier"
+          heads={["Mot", "Définition", "Exemple"]}
+        />
+
+        <div className="attention">
+          <span className="fr">les congés</span> est un pluriel : pour les
+          vacances de l’année, on dit plutôt{" "}
+          <span className="fr">les congés</span> que{" "}
+          <span className="fr">un congé</span>. On dit <span className="fr">je suis en congés</span> ou{" "}
           <span className="fr">je prends mes congés</span>.
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>El lugar, la gente, el contrato</h2>
+
+        <WordsTable
+          rows={WORK_WORDS}
+          caption="Las palabras de cada día en la oficina o en el taller"
+          heads={["Palabra", "Definición", "Ejemplo"]}
+        />
+
+        <div className="attention">
+          <Fr>les congés</Fr> es un plural: para las vacaciones del año, se
+          dice más bien <Fr>les congés</Fr> que <Fr>un congé</Fr>. Se dice <Fr>je suis en congés</Fr>{" "}
+          o <Fr>je prends mes congés</Fr>.
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Quatre mots qui trompent</h2>
 
         <p>
@@ -212,63 +270,11 @@ export default function Page() {
           professionnelle.
         </p>
 
-        <div className="table-wrap">
-          <table>
-            <caption>
-              Quatre mots du travail dont le sens ne se devine pas
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Mot</th>
-                <th scope="col">Définition</th>
-                <th scope="col">Exemple</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr">
-                  un stage
-                </th>
-                <td>
-                  une période courte de travail pour apprendre un métier, souvent
-                  pendant les études
-                </td>
-                <td className="fr">
-                  Elle a fait un stage de trois mois dans une école.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  une réunion
-                </th>
-                <td>
-                  un rendez-vous de travail entre collègues, pas des retrouvailles
-                </td>
-                <td className="fr">
-                  J’ai une réunion avec le service commercial à quatorze heures.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  rester
-                </th>
-                <td>ne pas partir, demeurer à un endroit</td>
-                <td className="fr">
-                  Je suis resté au bureau jusqu’à vingt heures.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  demander
-                </th>
-                <td>poser une question, ou réclamer quelque chose</td>
-                <td className="fr">
-                  J’ai demandé une augmentation à mon patron.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <WordsTable
+          rows={TRICKY_WORDS}
+          caption="Quatre mots du travail dont le sens ne se devine pas"
+          heads={["Mot", "Définition", "Exemple"]}
+        />
 
         <div className="astuce">
           <p className="astuce-hook">
@@ -284,7 +290,34 @@ export default function Page() {
         </div>
       </section>
 
-      <div className="resume">
+      <section data-ui="es" lang="es">
+        <h2>Cuatro palabras que engañan</h2>
+
+        <p>
+          Estas cuatro se parecen a palabras que ya conoces, y no significan lo
+          mismo. Aparecen sin parar en la vida profesional.
+        </p>
+
+        <WordsTable
+          rows={TRICKY_WORDS}
+          caption="Cuatro palabras del trabajo cuyo sentido no se adivina"
+          heads={["Palabra", "Definición", "Ejemplo"]}
+        />
+
+        <div className="astuce">
+          <p className="astuce-hook">
+            Un oficio se aprende con su artículo, como cualquier sustantivo.
+          </p>
+          <p>
+            Anota <Fr>une entreprise</Fr>, <Fr>un bureau</Fr>,{" "}
+            <Fr>une réunion</Fr>, nunca la palabra sola. El género forma parte
+            de la palabra, y un sustantivo anotado sin él habrá que reaprenderlo
+            cada vez que lo uses.
+          </p>
+        </div>
+      </section>
+
+      <div className="resume" data-ui="fr">
         <h2>En résumé</h2>
         <ul>
           <li>
@@ -311,6 +344,33 @@ export default function Page() {
             <span className="fr">rester</span> et{" "}
             <span className="fr">demander</span> ne veulent pas dire ce qu’ils
             semblent dire : relisez leur définition.
+          </li>
+        </ul>
+      </div>
+
+      <div className="resume" data-ui="es" lang="es">
+        <h2>En resumen</h2>
+        <ul>
+          <li>
+            Después de <Fr>être</Fr>, el oficio se dice sin artículo; el
+            adjetivo lo hace volver.
+          </li>
+          <li>
+            El femenino sigue las terminaciones del adjetivo:{" "}
+            <Fr>-er → -ère</Fr>, <Fr>-eur → -euse</Fr>,{" "}
+            <Fr>-ien → -ienne</Fr>.
+          </li>
+          <li>
+            <Fr>ingénieure</Fr> y <Fr>professeure</Fr> son excepciones;{" "}
+            <Fr>médecin</Fr> no cambia.
+          </li>
+          <li>
+            <Fr>les congés</Fr> se usa en plural.
+          </li>
+          <li>
+            <Fr>un stage</Fr>, <Fr>une réunion</Fr>, <Fr>rester</Fr> y{" "}
+            <Fr>demander</Fr> no significan lo que parecen: relee su
+            definición.
           </li>
         </ul>
       </div>

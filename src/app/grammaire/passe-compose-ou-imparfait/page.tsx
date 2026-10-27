@@ -5,12 +5,156 @@ const PATH = "/grammaire/passe-compose-ou-imparfait";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102): CSS shows the
+   interface's. The French taught is written once, below, and shared. */
+
+type Lang = "fr" | "es";
+
+const QUESTIONS = [
+  {
+    row: { fr: "Il répond à", es: "Responde a" },
+    pc: { question: "Qu’est-ce qui s’est passé ?" },
+    imp: { question: "Comment c’était ?" },
+  },
+];
+
+const CONTRASTS = [
+  {
+    row: { fr: "L’action est", es: "La acción está" },
+    pc: { fr: "terminée, limitée", es: "terminada, limitada" },
+    imp: { fr: "en cours, sans limite", es: "en curso, sin límite" },
+  },
+  {
+    row: { fr: "Combien de fois", es: "Cuántas veces" },
+    pc: { fr: "une fois, un nombre précis", es: "una vez, un número preciso" },
+    imp: { fr: "souvent, chaque jour", es: "a menudo, cada día" },
+  },
+];
+
+const CLUES = [
+  ["soudain, tout à coup", "souvent, d’habitude"],
+  ["un jour, ce matin-là", "tous les jours, le lundi"],
+  ["hier, la semaine dernière", "à cette époque, quand j’étais petit"],
+  ["deux fois, trois heures", "pendant que, toujours"],
+];
+
+function Night() {
+  return (
+    <div className="example" lang="fr">
+      Il <strong>faisait</strong> nuit et je <strong>dormais</strong> quand le
+      téléphone <strong>a sonné</strong>.
+    </div>
+  );
+}
+
+function Saturday() {
+  return (
+    <div className="example" lang="fr">
+      Samedi, il <strong>pleuvait</strong> et il n’y <strong>avait</strong>{" "}
+      personne dans la rue. Je <strong>suis sortie</strong> quand même. J’
+      <strong>ai marché</strong> jusqu’à la gare, puis j’<strong>ai pris</strong>{" "}
+      un café dans un bar qui <strong>venait</strong> d’ouvrir.
+    </div>
+  );
+}
+
+function TensesTable({ lang }: { lang: Lang }) {
+  const fr = lang === "fr";
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>
+          {fr ? "Ce que chaque temps apporte à un récit" : "Lo que aporta cada tiempo a un relato"}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">{fr ? "Question" : "Pregunta"}</th>
+            <th scope="col">
+              <span className="fr" lang="fr">
+                Passé composé
+              </span>
+            </th>
+            <th scope="col">
+              <span className="fr" lang="fr">
+                Imparfait
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {QUESTIONS.map((q) => (
+            <tr key={q.row.fr}>
+              <th scope="row">{q.row[lang]}</th>
+              <td className="fr" lang="fr">
+                {q.pc.question}
+              </td>
+              <td className="fr" lang="fr">
+                {q.imp.question}
+              </td>
+            </tr>
+          ))}
+          {CONTRASTS.map((c) => (
+            <tr key={c.row.fr}>
+              <th scope="row">{c.row[lang]}</th>
+              <td>{c.pc[lang]}</td>
+              <td>{c.imp[lang]}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function CluesTable({ lang }: { lang: Lang }) {
+  const fr = lang === "fr";
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>
+          {fr
+            ? "Expressions de temps et temps du passé qu’elles appellent"
+            : "Expresiones de tiempo y tiempo del pasado que piden"}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">
+              {fr ? "Plutôt " : "Más bien "}
+              <span className="fr" lang="fr">
+                passé composé
+              </span>
+            </th>
+            <th scope="col">
+              {fr ? "Plutôt " : "Más bien "}
+              <span className="fr" lang="fr">
+                imparfait
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {CLUES.map(([pc, imp]) => (
+            <tr key={pc}>
+              <td className="fr" lang="fr">
+                {pc}
+              </td>
+              <td className="fr" lang="fr">
+                {imp}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>L’action ou le décor</h2>
 
         <div className="rule">
@@ -20,40 +164,9 @@ export default function Page() {
           <strong>décor</strong> autour.
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <caption>Ce que chaque temps apporte à un récit</caption>
-            <thead>
-              <tr>
-                <th scope="col">Question</th>
-                <th scope="col">Passé composé</th>
-                <th scope="col">Imparfait</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Il répond à</th>
-                <td>Qu’est-ce qui s’est passé ?</td>
-                <td>Comment c’était ?</td>
-              </tr>
-              <tr>
-                <th scope="row">L’action est</th>
-                <td>terminée, limitée</td>
-                <td>en cours, sans limite</td>
-              </tr>
-              <tr>
-                <th scope="row">Combien de fois</th>
-                <td>une fois, un nombre précis</td>
-                <td>souvent, chaque jour</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <TensesTable lang="fr" />
 
-        <div className="example">
-          Il <strong>faisait</strong> nuit et je <strong>dormais</strong> quand
-          le téléphone <strong>a sonné</strong>.
-        </div>
+        <Night />
 
         <p>
           Le décor est à l’imparfait — <span className="fr">il faisait</span>,{" "}
@@ -65,7 +178,33 @@ export default function Page() {
         </p>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>La acción o el decorado</h2>
+
+        <div className="rule">
+          Los dos tiempos hablan del pasado, pero no cuentan lo mismo. El{" "}
+          <strong lang="fr">passé composé</strong> dice lo que{" "}
+          <strong>ocurrió</strong>; el <strong lang="fr">imparfait</strong>{" "}
+          describe el <strong>decorado</strong> alrededor.
+        </div>
+
+        <TensesTable lang="es" />
+
+        <Night />
+
+        <p>
+          El decorado va en imperfecto —{" "}
+          <span className="fr" lang="fr">il faisait</span>,{" "}
+          <span className="fr" lang="fr">je dormais</span>. El suceso que llega
+          y corta ese decorado va en <span className="fr" lang="fr">passé composé</span>{" "}
+          — <span className="fr" lang="fr">a sonné</span>. Cambia los tiempos de
+          sitio y la historia cambia:{" "}
+          <span className="fr" lang="fr">Il a fait nuit</span> contaría la
+          llegada de la noche como un suceso.
+        </p>
+      </section>
+
+      <section data-ui="fr">
         <h2>Les mots qui vous mettent sur la piste</h2>
 
         <p>
@@ -74,37 +213,7 @@ export default function Page() {
           direction.
         </p>
 
-        <div className="table-wrap">
-          <table>
-            <caption>
-              Expressions de temps et temps du passé qu’elles appellent
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Plutôt passé composé</th>
-                <th scope="col">Plutôt imparfait</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="fr">soudain, tout à coup</td>
-                <td className="fr">souvent, d’habitude</td>
-              </tr>
-              <tr>
-                <td className="fr">un jour, ce matin-là</td>
-                <td className="fr">tous les jours, le lundi</td>
-              </tr>
-              <tr>
-                <td className="fr">hier, la semaine dernière</td>
-                <td className="fr">à cette époque, quand j’étais petit</td>
-              </tr>
-              <tr>
-                <td className="fr">deux fois, trois heures</td>
-                <td className="fr">pendant que, toujours</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <CluesTable lang="fr" />
 
         <div className="attention">
           Une durée précise ferme l’action, donc elle appelle le passé composé :{" "}
@@ -114,7 +223,27 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>Las palabras que te dan la pista</h2>
+
+        <p>
+          Algunas expresiones de tiempo anuncian casi siempre el mismo tiempo.
+          No deciden por ti, pero indican la dirección.
+        </p>
+
+        <CluesTable lang="es" />
+
+        <div className="attention">
+          Una duración precisa cierra la acción, así que pide el{" "}
+          <span className="fr" lang="fr">passé composé</span>:{" "}
+          <span className="fr" lang="fr">J’ai vécu dix ans à Lyon</span> — diez
+          años, ya está terminado. Con{" "}
+          <span className="fr" lang="fr">Je vivais à Lyon</span> no se dice
+          cuánto tiempo, se pone el decorado.
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Les deux ensemble</h2>
 
         <p>
@@ -122,13 +251,7 @@ export default function Page() {
           tient la scène, le passé composé fait avancer l’histoire.
         </p>
 
-        <div className="example">
-          Samedi, il <strong>pleuvait</strong> et il n’y{" "}
-          <strong>avait</strong> personne dans la rue. Je{" "}
-          <strong>suis sortie</strong> quand même. J’<strong>ai marché</strong>{" "}
-          jusqu’à la gare, puis j’<strong>ai pris</strong> un café dans un bar
-          qui <strong>venait</strong> d’ouvrir.
-        </div>
+        <Saturday />
 
         <div className="astuce">
           <p className="astuce-hook">Le test du film</p>
@@ -147,7 +270,38 @@ export default function Page() {
         </div>
       </section>
 
-      <div className="resume">
+      <section data-ui="es" lang="es">
+        <h2>Los dos juntos</h2>
+
+        <p>
+          En un relato de verdad, los dos tiempos trabajan codo con codo. El
+          imperfecto sostiene la escena, el{" "}
+          <span className="fr" lang="fr">passé composé</span> hace avanzar la
+          historia.
+        </p>
+
+        <Saturday />
+
+        <div className="astuce">
+          <p className="astuce-hook">La prueba de la película</p>
+          <p>
+            Pregúntate si la frase sería una <strong>foto</strong> o una{" "}
+            <strong>escena en movimiento</strong>. Una foto —el tiempo que hace,
+            la edad de alguien, lo que había alrededor— es el imperfecto. Una
+            escena donde algo ocurre y termina es el{" "}
+            <span className="fr" lang="fr">passé composé</span>. La prueba falla
+            sobre todo con los verbos de estado como{" "}
+            <span className="fr" lang="fr">savoir</span> o{" "}
+            <span className="fr" lang="fr">vouloir</span>: en{" "}
+            <span className="fr" lang="fr">passé composé</span> señalan el
+            momento preciso en que cambió el estado —{" "}
+            <span className="fr" lang="fr">j’ai su</span> es «en ese instante,
+            me enteré».
+          </p>
+        </div>
+      </section>
+
+      <div className="resume" data-ui="fr">
         <h2>En résumé</h2>
         <ul>
           <li>
@@ -173,6 +327,38 @@ export default function Page() {
           <li>
             Dans un récit, les deux se relaient : l’imparfait tient la scène, le
             passé composé la fait avancer.
+          </li>
+        </ul>
+      </div>
+
+      <div className="resume" data-ui="es" lang="es">
+        <h2>En resumen</h2>
+        <ul>
+          <li>
+            El <span className="fr" lang="fr">passé composé</span> dice lo que
+            ocurrió; el imperfecto describe el decorado alrededor.
+          </li>
+          <li>
+            Una acción terminada y limitada va en{" "}
+            <span className="fr" lang="fr">passé composé</span>. Una situación
+            sin límite, o repetida, va en imperfecto.
+          </li>
+          <li>
+            Algunas expresiones indican la dirección:{" "}
+            <span className="fr" lang="fr">soudain</span>,{" "}
+            <span className="fr" lang="fr">un jour</span> por un lado;{" "}
+            <span className="fr" lang="fr">souvent</span>,{" "}
+            <span className="fr" lang="fr">tous les jours</span> por el otro.
+            Indican, no deciden.
+          </li>
+          <li>
+            Una duración precisa cierra la acción, así que pide el{" "}
+            <span className="fr" lang="fr">passé composé</span>:{" "}
+            <span className="fr" lang="fr">J’ai vécu dix ans à Lyon</span>.
+          </li>
+          <li>
+            En un relato, los dos se turnan: el imperfecto sostiene la escena, el{" "}
+            <span className="fr" lang="fr">passé composé</span> la hace avanzar.
           </li>
         </ul>
       </div>

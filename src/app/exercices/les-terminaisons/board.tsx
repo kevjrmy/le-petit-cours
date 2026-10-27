@@ -3,6 +3,9 @@
 import { useRef, useState } from "react";
 import { AccentBar } from "@/components/exercice/AccentBar";
 import { Instructions, Score } from "@/components/exercice/Drill";
+import { T } from "@/components/lang/T";
+import { useLang } from "@/hooks/useLang";
+import { Bilingue, type Bi } from "../bilingue";
 import {
   IMPERATIF_PERSONS,
   PRONOUNS,
@@ -17,7 +20,7 @@ import { bankFor, type Bank, type TenseKey } from "./data";
 import board from "@/components/exercice/Board.module.css";
 import styles from "./drill.module.css";
 
-const TENSES: Record<TenseKey, { label: string; note?: string }> = {
+const TENSES: Record<TenseKey, { label: string; note?: Bi }> = {
   present: { label: "Présent" },
   imparfait: { label: "Imparfait" },
   passeCompose: {
@@ -25,12 +28,18 @@ const TENSES: Record<TenseKey, { label: string; note?: string }> = {
     /* Six identical answers, and that is the lesson rather than a flaw in the
        deck: with `avoir` the participe passé does not move. The note is here so
        a learner filling the sixth « é » reads it as a rule instead of a bug. */
-    note: "Avec avoir, le participe ne change pas : la même terminaison six fois.",
+    note: {
+      fr: "Avec avoir, le participe ne change pas : la même terminaison six fois.",
+      es: "Con *avoir*, el participio no cambia: la misma terminación seis veces.",
+    },
   },
   futur: { label: "Futur simple" },
   imperatif: {
     label: "Impératif",
-    note: "Trois personnes seulement, et aucun pronom devant le verbe.",
+    note: {
+      fr: "Trois personnes seulement, et aucun pronom devant le verbe.",
+      es: "Solo tres personas, y ningún pronombre delante del verbo.",
+    },
   },
 };
 
@@ -197,6 +206,8 @@ function same(typed: string, expected: string): boolean {
  * paint is the empty table rather than « Préparation de l’exercice… ».
  */
 export function Board({ level }: { level: Level | null }) {
+  const lang = useLang();
+  const es = lang === "es";
   const bank = bankFor(level);
   const verb = findVerb(bank.verb);
   const cells = verb ? cellsFor(verb, bank) : [];
@@ -243,7 +254,14 @@ export function Board({ level }: { level: Level | null }) {
   }
 
   if (!verb) {
-    return <p>Le verbe de cet exercice est introuvable.</p>;
+    return (
+      <p>
+        <T
+          fr="Le verbe de cet exercice est introuvable."
+          es="No se encuentra el verbo de este ejercicio."
+        />
+      </p>
+    );
   }
 
   if (finished) {
@@ -256,7 +274,10 @@ export function Board({ level }: { level: Level | null }) {
        cannot drift apart the way separate `font-size` declarations did. */
     <div className={styles.board}>
       <Instructions>
-        Écrivez la terminaison qui manque, temps par temps.
+        <T
+          fr="Écrivez la terminaison qui manque, temps par temps."
+          es="Escribe la terminación que falta, tiempo por tiempo."
+        />
       </Instructions>
 
       {/* Which verb is being conjugated, read from the bank rather than typed.
@@ -285,13 +306,13 @@ export function Board({ level }: { level: Level | null }) {
               the one tense — a caption holding five buttons would otherwise
               name the table with all five. */}
           <caption className={styles.caption}>
-          <div className={styles.tabs} role="group" aria-label="Temps">
+          <div className={styles.tabs} role="group" aria-label={es ? "Tiempo verbal" : "Temps"}>
             <button
               type="button"
               className={styles.arrow}
               disabled={shown === 0}
               onClick={() => setShown(shown - 1)}
-              aria-label="Temps précédent"
+              aria-label={es ? "Tiempo anterior" : "Temps précédent"}
             >
               <Chevron back />
             </button>
@@ -320,7 +341,11 @@ export function Board({ level }: { level: Level | null }) {
                         {rows.length - wrongIn(key).length}/{rows.length}
                       </span>
                       <span className="visually-hidden">
-                        {` — corrigé, ${rows.length - wrongIn(key).length} sur ${rows.length}`}
+                        {" — "}
+                        <T
+                          fr={`corrigé, ${rows.length - wrongIn(key).length} sur ${rows.length}`}
+                          es={`corregido, ${rows.length - wrongIn(key).length} de ${rows.length}`}
+                        />
                       </span>
                     </>
                   ) : (
@@ -329,7 +354,10 @@ export function Board({ level }: { level: Level | null }) {
                         <span className={styles.tabDone} aria-hidden="true">
                           ✓
                         </span>
-                        <span className="visually-hidden"> — complété</span>
+                        <span className="visually-hidden">
+                          {" — "}
+                          <T fr="complété" es="completado" />
+                        </span>
                       </>
                     )
                   )}
@@ -342,7 +370,7 @@ export function Board({ level }: { level: Level | null }) {
               className={styles.arrow}
               disabled={shown === bank.tenses.length - 1}
               onClick={() => setShown(shown + 1)}
-              aria-label="Temps suivant"
+              aria-label={es ? "Tiempo siguiente" : "Temps suivant"}
             >
               <Chevron />
             </button>
@@ -407,7 +435,9 @@ export function Board({ level }: { level: Level | null }) {
           </tbody>
         </table>
         {TENSES[tense].note && (
-          <p className={styles.note}>{TENSES[tense].note}</p>
+          <p className={styles.note}>
+            <Bilingue text={TENSES[tense].note} />
+          </p>
         )}
       </div>
 
@@ -419,7 +449,8 @@ export function Board({ level }: { level: Level | null }) {
           (`AGENTS.md` §1, §9). */}
       {!checked && (
         <div className={styles.aid}>
-          <h3 className={`label ${styles.aidHead}`}>Accents</h3>
+          <h3 className={`label ${styles.aidHead}`}><T fr="Accents" es="Acentos" />
+          </h3>
           <AccentBar target={active} />
         </div>
       )}
@@ -430,16 +461,36 @@ export function Board({ level }: { level: Level | null }) {
       {checked && (
         <div role="status">
           <p className={wrongHere.length === 0 ? "is-correct" : "is-wrong"}>
-            {wrongHere.length === 0
-              ? `✓ ${TENSES[tense].label} : les ${here.length} formes sont justes.`
-              : `✗ ${TENSES[tense].label} : ${here.length - wrongHere.length} sur ${here.length}. Les formes marquées d’une croix sont fausses.`}
+            {wrongHere.length === 0 ? (
+              <T
+                fr={`✓ ${TENSES[tense].label} : les ${here.length} formes sont justes.`}
+                es={
+                  <>
+                    ✓ <span lang="fr">{TENSES[tense].label}</span>: las{" "}
+                    {here.length} formas están bien.
+                  </>
+                }
+              />
+            ) : (
+              <T
+                fr={`✗ ${TENSES[tense].label} : ${here.length - wrongHere.length} sur ${here.length}. Les formes marquées d’une croix sont fausses.`}
+                es={
+                  <>
+                    ✗ <span lang="fr">{TENSES[tense].label}</span>:{" "}
+                    {here.length - wrongHere.length} de {here.length}. Las
+                    formas marcadas con una cruz están mal.
+                  </>
+                }
+              />
+            )}
           </p>
           {wrongHere.length > 0 && (
             <ul className={styles.corrections}>
               {wrongHere.map((cell) => (
                 <li key={cell.key}>
                   <span className={styles.verb}>{cell.whole}</span>{" "}
-                  · {TENSES[cell.tense].label.toLowerCase()}, terminaison{" "}
+                  · <span lang="fr">{TENSES[cell.tense].label.toLowerCase()}</span>,{" "}
+                  <T fr="terminaison" es="terminación" />{" "}
                   <span className="fr">-{cell.ending}</span>
                 </li>
               ))}
@@ -459,7 +510,7 @@ export function Board({ level }: { level: Level | null }) {
             disabled={!isFilled(tense)}
             onClick={() => setVerified([...verified, tense])}
           >
-            Vérifier {TENSES[tense].label.toLowerCase()}
+            <T fr="Vérifier" es="Comprobar" /> <span lang="fr">{TENSES[tense].label.toLowerCase()}</span>
           </button>
         )}
 
@@ -469,7 +520,7 @@ export function Board({ level }: { level: Level | null }) {
             className="button button-primary"
             onClick={() => setFinished(true)}
           >
-            Voir mon score
+            <T fr="Voir mon score" es="Ver mi puntuación" />
           </button>
         ) : (
           /* No count beside it: the strip says which tenses are still open, and
@@ -480,7 +531,7 @@ export function Board({ level }: { level: Level | null }) {
             disabled={filled.length < cells.length}
             onClick={() => setVerified([...bank.tenses])}
           >
-            Tout vérifier
+            <T fr="Tout vérifier" es="Comprobar todo" />
           </button>
         )}
       </div>

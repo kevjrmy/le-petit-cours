@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { T } from "@/components/lang/T";
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
 import { LeUnOuDuDrill } from "./drill";
@@ -18,9 +19,11 @@ export default function Page() {
       <PageHeader path={PATH} />
 
       <section>
-        <h2>Un texte, pas des phrases</h2>
+        <h2>
+          <T fr="Un texte, pas des phrases" es="Un texto, no frases sueltas" />
+        </h2>
 
-        <p>
+        <p data-ui="fr">
           L’article ne se choisit pas dans une phrase isolée :{" "}
           <span className="fr">un chien</span> devient{" "}
           <span className="fr">le chien</span> à la ligne suivante parce qu’on
@@ -35,6 +38,25 @@ export default function Page() {
           </Link>{" "}
           et{" "}
           <Link href="/grammaire/les-articles-partitifs">
+            Les articles partitifs
+          </Link>
+          .
+        </p>
+        <p data-ui="es" lang="es">
+          El artículo no se elige en una frase aislada:{" "}
+          <span className="fr" lang="fr">un chien</span> pasa a ser{" "}
+          <span className="fr" lang="fr">le chien</span> en la línea siguiente
+          porque ya se ha hablado de él. Lee todo antes de empezar. Las tres
+          series están en{" "}
+          <Link href="/grammaire/les-articles-definis" lang="fr">
+            Les articles définis
+          </Link>
+          ,{" "}
+          <Link href="/grammaire/les-articles-indefinis" lang="fr">
+            Les articles indéfinis
+          </Link>{" "}
+          y{" "}
+          <Link href="/grammaire/les-articles-partitifs" lang="fr">
             Les articles partitifs
           </Link>
           .

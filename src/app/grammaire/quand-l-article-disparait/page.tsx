@@ -6,12 +6,141 @@ const PATH = "/grammaire/quand-l-article-disparait";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102). The French taught
+   is written once, below, and shared. */
+
+const CONTRASTS = [
+  {
+    without: "un cours de français",
+    with: "le cours du professeur",
+    change: { fr: "une matière, puis une personne précise", es: "una materia, y luego una persona concreta" },
+  },
+  {
+    without: "une tasse de thé",
+    with: "la tasse de ma grand-mère",
+    change: { fr: "ce qu’il y a dedans, puis à qui elle est", es: "lo que contiene, y luego de quién es" },
+  },
+  {
+    without: "une carte de France",
+    with: "la carte de la région",
+    change: { fr: "le sujet de la carte, puis une région connue", es: "el tema del mapa, y luego una región conocida" },
+  },
+];
+
+const PLACES = [
+  { word: "sans", example: "un café sans sucre, sans difficulté", says: { fr: "l’absence de la chose", es: "la ausencia de la cosa" } },
+  { word: "en", example: "en voiture, en été, en classe", says: { fr: "le moyen, le moment, le lieu", es: "el medio, el momento, el lugar" } },
+  { word: "être", example: "Il est médecin. Elle est avocate.", says: { fr: "le métier, sans rien devant", es: "la profesión, sin nada delante" } },
+];
+
+function ContrastTable({
+  caption,
+  heads,
+  lang,
+}: {
+  caption: string;
+  heads: [string, string, string];
+  lang: "fr" | "es";
+}) {
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{caption}</caption>
+        <thead>
+          <tr>
+            {heads.map((head) => (
+              <th key={head} scope="col">
+                {head}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {CONTRASTS.map((row) => (
+            <tr key={row.without}>
+              <td className="fr" lang="fr">
+                {row.without}
+              </td>
+              <td className="fr" lang="fr">
+                {row.with}
+              </td>
+              <td>{row.change[lang]}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function PlacesTable({
+  caption,
+  heads,
+  lang,
+}: {
+  caption: string;
+  heads: [string, string, string];
+  lang: "fr" | "es";
+}) {
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{caption}</caption>
+        <thead>
+          <tr>
+            {heads.map((head) => (
+              <th key={head} scope="col">
+                {head}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {PLACES.map((row) => (
+            <tr key={row.word}>
+              <th scope="row" className="fr" lang="fr">
+                {row.word}
+              </th>
+              <td className="fr" lang="fr">
+                {row.example}
+              </td>
+              <td>{row.says[lang]}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function ClassifyExamples() {
+  return (
+    <div className="example" lang="fr">
+      un cours <strong>de</strong> français · une salle <strong>de</strong>{" "}
+      bains · un billet <strong>de</strong> train · une tasse{" "}
+      <strong>de</strong> thé · un professeur <strong>de</strong> mathématiques
+    </div>
+  );
+}
+
+function AdjectiveExamples() {
+  return (
+    <div className="example" lang="fr">
+      des maisons → <strong>de</strong> grandes maisons
+      <br />
+      des amis → <strong>de</strong> bons amis
+      <br />
+      des enfants → <strong>de</strong> jeunes enfants
+    </div>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>Le nom qui en qualifie un autre</h2>
 
         <div className="rule">
@@ -21,12 +150,7 @@ export default function Page() {
           particulier : il classe.
         </div>
 
-        <div className="example">
-          un cours <strong>de</strong> français · une salle{" "}
-          <strong>de</strong> bains · un billet <strong>de</strong> train · une
-          tasse <strong>de</strong> thé · un professeur{" "}
-          <strong>de</strong> mathématiques
-        </div>
+        <ClassifyExamples />
 
         <p>
           L’article revient dès que le second nom désigne quelque chose de
@@ -34,35 +158,11 @@ export default function Page() {
           dire lequel ?
         </p>
 
-        <div className="table-wrap">
-          <table>
-            <caption>Le même tour, avec et sans article</caption>
-            <thead>
-              <tr>
-                <th scope="col">Sans article</th>
-                <th scope="col">Avec article</th>
-                <th scope="col">Ce qui a changé</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="fr">un cours de français</td>
-                <td className="fr">le cours du professeur</td>
-                <td>une matière, puis une personne précise</td>
-              </tr>
-              <tr>
-                <td className="fr">une tasse de thé</td>
-                <td className="fr">la tasse de ma grand-mère</td>
-                <td>ce qu’il y a dedans, puis à qui elle est</td>
-              </tr>
-              <tr>
-                <td className="fr">une carte de France</td>
-                <td className="fr">la carte de la région</td>
-                <td>le sujet de la carte, puis une région connue</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <ContrastTable
+          caption="Le même tour, avec et sans article"
+          heads={["Sans article", "Avec article", "Ce qui a changé"]}
+          lang="fr"
+        />
 
         <div className="attention">
           <span className="fr">en</span> introduit la matière de la même façon,
@@ -71,7 +171,38 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>El nombre que califica a otro</h2>
+
+        <div className="rule">
+          En un grupo <span className="fr" lang="fr">nom + de + nom</span>, el
+          segundo nombre no lleva artículo cuando dice la especie, la materia,
+          el contenido o el uso del primero. No designa a nadie ni nada en
+          particular: clasifica.
+        </div>
+
+        <ClassifyExamples />
+
+        <p>
+          El artículo vuelve en cuanto el segundo nombre designa algo concreto.
+          Es la única pregunta que hay que hacerse: ¿podría decir cuál?
+        </p>
+
+        <ContrastTable
+          caption="La misma construcción, con y sin artículo"
+          heads={["Sin artículo", "Con artículo", "Lo que ha cambiado"]}
+          lang="es"
+        />
+
+        <div className="attention">
+          <span className="fr" lang="fr">en</span> introduce la materia de la
+          misma manera, y nunca con artículo:{" "}
+          <span className="fr" lang="fr">une table en bois</span>,{" "}
+          <span className="fr" lang="fr">une bague en or</span>.
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Après « sans », après « en », devant un métier</h2>
 
         <div className="rule">
@@ -82,41 +213,11 @@ export default function Page() {
           métier.
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <caption>Les trois endroits où l’article ne s’écrit pas</caption>
-            <thead>
-              <tr>
-                <th scope="col">Le mot</th>
-                <th scope="col">Exemple</th>
-                <th scope="col">Ce qu’il dit</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr">
-                  sans
-                </th>
-                <td className="fr">un café sans sucre, sans difficulté</td>
-                <td>l’absence de la chose</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  en
-                </th>
-                <td className="fr">en voiture, en été, en classe</td>
-                <td>le moyen, le moment, le lieu</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  être
-                </th>
-                <td className="fr">Il est médecin. Elle est avocate.</td>
-                <td>le métier, sans rien devant</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <PlacesTable
+          caption="Les trois endroits où l’article ne s’écrit pas"
+          heads={["Le mot", "Exemple", "Ce qu’il dit"]}
+          lang="fr"
+        />
 
         <p>
           Le cas du métier a une contrepartie qu’il faut connaître avec lui :
@@ -148,7 +249,62 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>
+          Después de «<span className="fr" lang="fr">sans</span>», después de «
+          <span className="fr" lang="fr">en</span>», delante de una profesión
+        </h2>
+
+        <div className="rule">
+          Algunas palabras hacen caer el artículo por sí solas.{" "}
+          <span className="fr" lang="fr">sans</span> y{" "}
+          <span className="fr" lang="fr">en</span> son las dos más frecuentes, y
+          el verbo <span className="fr" lang="fr">être</span> lo hace también
+          delante de un nombre de profesión.
+        </div>
+
+        <PlacesTable
+          caption="Los tres sitios donde no se escribe el artículo"
+          heads={["La palabra", "Ejemplo", "Lo que dice"]}
+          lang="es"
+        />
+
+        <p>
+          El caso de la profesión tiene una contrapartida que hay que conocer
+          con él: en cuanto aparece un artículo, la frase cambia de forma y
+          empieza por <span className="fr" lang="fr">c’est</span>. Los dos están
+          en{" "}
+          <Link href="/grammaire/c-est-ce-sont" lang="fr">
+            C’est, ce sont
+          </Link>
+          .
+        </p>
+
+        <div className="attention">
+          El artículo vuelve detrás de{" "}
+          <span className="fr" lang="fr">sans</span> en cuanto el nombre está
+          calificado o determinado:{" "}
+          <span className="fr" lang="fr">sans une minute de retard</span>,{" "}
+          <span className="fr" lang="fr">sans l’aide de personne</span>. El
+          nombre sin artículo es el caso general, no una prohibición.
+        </div>
+
+        <div className="astuce">
+          <p className="astuce-hook">
+            Un nombre sin artículo ya no es un objeto: es una cualidad.
+          </p>
+          <p>
+            <span className="fr" lang="fr">avec plaisir</span>,{" "}
+            <span className="fr" lang="fr">avec attention</span>,{" "}
+            <span className="fr" lang="fr">sans difficulté</span> no hablan de
+            ningún placer, de ninguna atención ni de ninguna dificultad en
+            particular: dicen cómo se hace la cosa. Por eso no hay nada que
+            determinar, y por tanto nada que poner delante.
+          </p>
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>« des » devient « de » devant un adjectif</h2>
 
         <div className="rule">
@@ -157,13 +313,7 @@ export default function Page() {
           <span className="fr">de</span>.
         </div>
 
-        <div className="example">
-          des maisons → <strong>de</strong> grandes maisons
-          <br />
-          des amis → <strong>de</strong> bons amis
-          <br />
-          des enfants → <strong>de</strong> jeunes enfants
-        </div>
+        <AdjectiveExamples />
 
         <p>
           L’adjectif placé après le nom ne change rien :{" "}
@@ -193,7 +343,53 @@ export default function Page() {
         </div>
       </section>
 
-      <div className="resume">
+      <section data-ui="es" lang="es">
+        <h2>
+          «<span className="fr" lang="fr">des</span>» pasa a «
+          <span className="fr" lang="fr">de</span>» delante de un adjetivo
+        </h2>
+
+        <div className="rule">
+          En plural, cuando un adjetivo se coloca <strong>antes</strong> del
+          nombre, <span className="fr" lang="fr">des</span> se reduce a{" "}
+          <span className="fr" lang="fr">de</span>.
+        </div>
+
+        <AdjectiveExamples />
+
+        <p>
+          El adjetivo colocado después del nombre no cambia nada:{" "}
+          <span className="fr" lang="fr">des maisons anciennes</span>,{" "}
+          <span className="fr" lang="fr">des amis fidèles</span>. Solo cuenta la
+          posición, y solo unos pocos adjetivos corrientes se ponen delante:{" "}
+          <span className="fr" lang="fr">grand</span>,{" "}
+          <span className="fr" lang="fr">petit</span>,{" "}
+          <span className="fr" lang="fr">bon</span>,{" "}
+          <span className="fr" lang="fr">beau</span>,{" "}
+          <span className="fr" lang="fr">jeune</span>,{" "}
+          <span className="fr" lang="fr">vieux</span>,{" "}
+          <span className="fr" lang="fr">gros</span>,{" "}
+          <span className="fr" lang="fr">joli</span>.
+        </p>
+
+        <div className="attention">
+          Es una regla de la lengua escrita cuidada. Al hablar, se oye por todas
+          partes <span className="fr" lang="fr">des grandes maisons</span>, y
+          nadie corrige a quien lo dice. Por escrito, y en un examen, la forma
+          esperada sigue siendo <span className="fr" lang="fr">de</span>.
+        </div>
+
+        <div className="exception">
+          Cuando el adjetivo y el nombre forman una sola palabra de la lengua,{" "}
+          <span className="fr" lang="fr">des</span> se queda:{" "}
+          <span className="fr" lang="fr">des jeunes gens</span>,{" "}
+          <span className="fr" lang="fr">des petits pois</span>,{" "}
+          <span className="fr" lang="fr">des grands-parents</span>. Ya no son un
+          adjetivo y un nombre: es un nombre en dos trozos.
+        </div>
+      </section>
+
+      <div className="resume" data-ui="fr">
         <h2>En résumé</h2>
         <ul>
           <li>
@@ -220,6 +416,38 @@ export default function Page() {
             <span className="fr">des</span> devient{" "}
             <span className="fr">de</span> :{" "}
             <span className="fr">de bons amis</span>.
+          </li>
+        </ul>
+      </div>
+
+      <div className="resume" data-ui="es" lang="es">
+        <h2>En resumen</h2>
+        <ul>
+          <li>
+            En <span className="fr" lang="fr">nom + de + nom</span>, el segundo
+            no lleva artículo cuando clasifica al primero:{" "}
+            <span className="fr" lang="fr">un cours de français</span>.
+          </li>
+          <li>
+            El artículo vuelve en cuanto ese segundo nombre designa a alguien o
+            algo concreto:{" "}
+            <span className="fr" lang="fr">le cours du professeur</span>.
+          </li>
+          <li>
+            <span className="fr" lang="fr">sans</span> y{" "}
+            <span className="fr" lang="fr">en</span> hacen caer el artículo, y{" "}
+            <span className="fr" lang="fr">être</span> también delante de una
+            profesión.
+          </li>
+          <li>
+            Un nombre sin artículo ya no designa un objeto: dice una cualidad o
+            una manera.
+          </li>
+          <li>
+            Delante de un adjetivo colocado antes del nombre,{" "}
+            <span className="fr" lang="fr">des</span> pasa a{" "}
+            <span className="fr" lang="fr">de</span>:{" "}
+            <span className="fr" lang="fr">de bons amis</span>.
           </li>
         </ul>
       </div>

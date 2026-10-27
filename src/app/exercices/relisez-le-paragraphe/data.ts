@@ -1,3 +1,5 @@
+import type { Bi } from "../bilingue";
+
 /**
  * « Relisez le paragraphe » — huit paragraphes, et les mots mal écrits dedans.
  *
@@ -29,7 +31,7 @@ export interface Fault {
   /** Ce qu'il fallait écrire, ponctuation comprise. */
   fix: string;
   /** Le test appliqué, montré après coup. */
-  because: string;
+  because: Bi;
 }
 
 export interface Paragraph {
@@ -52,12 +54,18 @@ export const PARAGRAPHS: Paragraph[] = [
       {
         at: 0,
         fix: "Dès",
-        because: "À partir du moment où la pluie s’arrête : dès, avec un accent grave.",
+        because: {
+          fr: "À partir du moment où la pluie s’arrête : dès, avec un accent grave.",
+          es: "A partir del momento en que la lluvia para: *dès*, con acento grave.",
+        },
       },
       {
         at: 14,
         fix: "la",
-        because: "Je la traverse, je les traverse : c’est le pronom, sans accent.",
+        because: {
+          fr: "Je la traverse, je les traverse : c’est le pronom, sans accent.",
+          es: "*Je la traverse*, *je les traverse*: es el pronombre, sin acento.",
+        },
       },
     ],
   },
@@ -71,12 +79,18 @@ export const PARAGRAPHS: Paragraph[] = [
       {
         at: 2,
         fix: "dû",
-        because: "Il a pu partir, il a dû partir : c’est un participe passé, donc l’accent.",
+        because: {
+          fr: "Il a pu partir, il a dû partir : c’est un participe passé, donc l’accent.",
+          es: "*Il a pu partir*, *il a dû partir*: es un participio pasado, por eso el acento.",
+        },
       },
       {
         at: 11,
         fix: "l’a",
-        because: "Il l’avait raccompagné : c’est le verbe avoir, avec le pronom collé.",
+        because: {
+          fr: "Il l’avait raccompagné : c’est le verbe avoir, avec le pronom collé.",
+          es: "*Il l’avait raccompagné*: es el verbo *avoir*, con el pronombre pegado.",
+        },
       },
     ],
   },
@@ -90,12 +104,18 @@ export const PARAGRAPHS: Paragraph[] = [
       {
         at: 3,
         fix: "là,",
-        because: "Pose-les ici : c’est l’endroit, donc là avec un accent.",
+        because: {
+          fr: "Pose-les ici : c’est l’endroit, donc là avec un accent.",
+          es: "*Pose-les ici*: es el lugar, por eso *là* con acento.",
+        },
       },
       {
         at: 14,
         fix: "dès",
-        because: "À partir de ce matin : dès, et non l’article des.",
+        because: {
+          fr: "À partir de ce matin : dès, et non l’article des.",
+          es: "A partir de esta mañana: *dès*, y no el artículo *des*.",
+        },
       },
     ],
   },
@@ -110,12 +130,18 @@ export const PARAGRAPHS: Paragraph[] = [
       {
         at: 0,
         fix: "Dès",
-        because: "À partir du début : dès. L’article des demanderait un nom pluriel.",
+        because: {
+          fr: "À partir du début : dès. L’article des demanderait un nom pluriel.",
+          es: "A partir del principio: *dès*. El artículo *des* pediría un sustantivo plural.",
+        },
       },
       {
         at: 18,
         fix: "l’a",
-        because: "Personne ne l’avait crue : c’est le verbe avoir, suivi d’un participe.",
+        because: {
+          fr: "Personne ne l’avait crue : c’est le verbe avoir, suivi d’un participe.",
+          es: "*Personne ne l’avait crue*: es el verbo *avoir*, seguido de un participio.",
+        },
       },
     ],
   },
@@ -129,12 +155,18 @@ export const PARAGRAPHS: Paragraph[] = [
       {
         at: 8,
         fix: "dû",
-        because: "Il a pu en corriger trente : le participe de devoir prend l’accent.",
+        because: {
+          fr: "Il a pu en corriger trente : le participe de devoir prend l’accent.",
+          es: "*Il a pu en corriger trente*: el participio de *devoir* lleva acento.",
+        },
       },
       {
         at: 12,
         fix: "dès",
-        because: "À partir de huit heures : dès, avec un accent grave.",
+        because: {
+          fr: "À partir de huit heures : dès, avec un accent grave.",
+          es: "A partir de las ocho: *dès*, con acento grave.",
+        },
       },
     ],
   },
@@ -148,12 +180,18 @@ export const PARAGRAPHS: Paragraph[] = [
       {
         at: 3,
         fix: "là,",
-        because: "Elle est ici, devant la maison : c’est l’endroit, donc là.",
+        because: {
+          fr: "Elle est ici, devant la maison : c’est l’endroit, donc là.",
+          es: "*Elle est ici*, delante de la casa: es el lugar, por eso *là*.",
+        },
       },
       {
         at: 9,
         fix: "l’a",
-        because: "Mon frère l’avait garée : c’est le verbe avoir, pas l’article.",
+        because: {
+          fr: "Mon frère l’avait garée : c’est le verbe avoir, pas l’article.",
+          es: "*Mon frère l’avait garée*: es el verbo *avoir*, no el artículo.",
+        },
       },
     ],
   },
@@ -168,17 +206,26 @@ export const PARAGRAPHS: Paragraph[] = [
       {
         at: 7,
         fix: "dû",
-        because: "Ce qu’il aurait pu faire : c’est le participe de devoir, donc dû.",
+        because: {
+          fr: "Ce qu’il aurait pu faire : c’est le participe de devoir, donc dû.",
+          es: "*Ce qu’il aurait pu faire*: es el participio de *devoir*, por eso *dû*.",
+        },
       },
       {
         at: 9,
         fix: "Des",
-        because: "Un nom pluriel suit, et rien ne dit à partir de quand : c’est l’article des.",
+        because: {
+          fr: "Un nom pluriel suit, et rien ne dit à partir de quand : c’est l’article des.",
+          es: "Sigue un sustantivo plural, y nada dice «a partir de cuándo»: es el artículo *des*.",
+        },
       },
       {
         at: 23,
         fix: "l’a",
-        because: "Il ne l’avait jamais dit : le verbe avoir, suivi d’un participe.",
+        because: {
+          fr: "Il ne l’avait jamais dit : le verbe avoir, suivi d’un participe.",
+          es: "*Il ne l’avait jamais dit*: el verbo *avoir*, seguido de un participio.",
+        },
       },
     ],
   },
@@ -193,7 +240,10 @@ export const PARAGRAPHS: Paragraph[] = [
       {
         at: 0,
         fix: "La",
-        because: "Les réunions commencent : c’est l’article, et il n’a pas d’accent.",
+        because: {
+          fr: "Les réunions commencent : c’est l’article, et il n’a pas d’accent.",
+          es: "*Les réunions commencent*: es el artículo, y no lleva acento.",
+        },
       },
     ],
   },
@@ -222,7 +272,7 @@ for (const p of PARAGRAPHS) {
     if (f.at < 0 || f.at >= p.words.length) bad.push(p.id + ': indice hors du paragraphe')
     if (p.words[f.at] === f.fix) bad.push(p.id + '/' + f.at + ': le mot est déjà correct')
     if (fold(p.words[f.at]) !== fold(f.fix)) bad.push(p.id + '/' + f.at + ': ' + p.words[f.at] + ' et ' + f.fix + ' ne sont pas des homophones')
-    if (f.because.length < 20) bad.push(p.id + '/' + f.at + ': correction trop courte')
+    if (f.because.fr.length < 20 || f.because.es.length < 20) bad.push(p.id + '/' + f.at + ': correction trop courte')
   }
   const fixed = p.words.map((w, i) => { const f = p.faults.find(x => x.at === i); return f ? f.fix : w })
   const forms = new Set(fixed.filter((w, i) => !seen.has(i)).map(fold))

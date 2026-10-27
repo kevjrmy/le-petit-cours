@@ -7,7 +7,7 @@
  * sans niveau comme le reste du chapitre `orthographe`. Ce fichier n'exporte donc pas
  * de `BANKS` : il n'y a rien à faire varier par niveau (`AGENTS.md` §8).
  *
- * **Aucun import**, pas même de type : l'audit `nav-wiring` lit ce dossier avec
+ * **Aucun import**, pas même de type (d'où `because` typé en ligne, et non par `Bi`) : l'audit `nav-wiring` lit ce dossier avec
  * `node` tout court.
  *
  * **La saisie est ici légitime**, contrairement au reste du chapitre : ce qui
@@ -38,7 +38,7 @@ export interface WordItem {
    */
   answer: string;
   /** Le test appliqué, montré après coup : il corrige au lieu de répéter. */
-  because: string;
+  because: { fr: string; es: string };
 }
 
 export const ITEMS: WordItem[] = [
@@ -47,102 +47,140 @@ export const ITEMS: WordItem[] = [
     before: "",
     after: " matin, je me suis levé tôt.",
     answer: "Ce",
-    because:
-      "Un nom suit, et on peut dire « le matin » : c’est le démonstratif, ce.",
+    because: {
+      fr: "Un nom suit, et on peut dire « le matin » : c’est le démonstratif, ce.",
+      es: "Sigue un sustantivo, y se puede decir «*le matin*»: es el demostrativo, *ce*.",
+    },
   },
   {
     id: "ce-que",
     before: "Je ne comprends pas ",
     after: " que tu écris.",
     answer: "ce",
-    because:
-      "Devant que, la forme est ce : ce que tu écris. « Se que » n’existe pas.",
+    because: {
+      fr: "Devant que, la forme est ce : ce que tu écris. « Se que » n’existe pas.",
+      es: "Delante de *que*, la forma es *ce*: *ce que tu écris*. «*Se que*» no existe.",
+    },
   },
   {
     id: "se-leve",
     before: "Il ",
     after: " lève à six heures tous les jours.",
     answer: "se",
-    because: "Mettez la phrase à je : je me lève. Le me prouve le se.",
+    because: {
+      fr: "Mettez la phrase à je : je me lève. Le me prouve le se.",
+      es: "Pasa la frase a *je*: *je me lève*. El *me* prueba que es *se*.",
+    },
   },
   {
     id: "se-souvient",
     before: "Elle ",
     after: " souvient très bien de ce jour-là.",
     answer: "se",
-    because: "Je me souviens : le test du je donne me, donc se.",
+    because: {
+      fr: "Je me souviens : le test du je donne me, donc se.",
+      es: "*Je me souviens*: la prueba del *je* da *me*, por tanto *se*.",
+    },
   },
   {
     id: "ces-montagnes",
     before: "Regarde ",
     after: " montagnes-là, au fond.",
     answer: "ces",
-    because: "Le -là est collé au nom : on montre, donc ces.",
+    because: {
+      fr: "Le -là est collé au nom : on montre, donc ces.",
+      es: "El *-là* va pegado al sustantivo: se señala, por tanto *ces*.",
+    },
   },
   {
     id: "ces-gens",
     before: "",
     after: " gens-là habitent en face.",
     answer: "Ces",
-    because: "Le -là appelle le démonstratif : ces gens-là.",
+    because: {
+      fr: "Le -là appelle le démonstratif : ces gens-là.",
+      es: "El *-là* pide el demostrativo: *ces gens-là*.",
+    },
   },
   {
     id: "ses-mains",
     before: "Il a mis ",
     after: " mains dans les poches de son manteau.",
     answer: "ses",
-    because:
-      "Ce sont les siennes, et personne ne les montre : le possessif, ses.",
+    because: {
+      fr: "Ce sont les siennes, et personne ne les montre : le possessif, ses.",
+      es: "Son las suyas, y nadie las señala: el posesivo, *ses*.",
+    },
   },
   {
     id: "ses-affaires",
     before: "Chacun reprend ",
     after: " affaires avant de partir.",
     answer: "ses",
-    because: "Chacun reprend les siennes : ses affaires.",
+    because: {
+      fr: "Chacun reprend les siennes : ses affaires.",
+      es: "Cada uno recoge las suyas: *ses affaires*.",
+    },
   },
   {
     id: "c-est-tard",
     before: "",
     after: " trop tard pour téléphoner.",
     answer: "C’est",
-    because: "Cela est trop tard : la phrase tient, donc c’est.",
+    because: {
+      fr: "Cela est trop tard : la phrase tient, donc c’est.",
+      es: "*Cela est trop tard*: la frase se sostiene, por tanto *c’est*.",
+    },
   },
   {
     id: "c-est-elle",
     before: "",
     after: " elle qui a téléphoné hier soir.",
     answer: "C’est",
-    because:
-      "Aucun participe passé ne suit, donc ce n’est pas s’est : c’est elle.",
+    because: {
+      fr: "Aucun participe passé ne suit, donc ce n’est pas s’est : c’est elle.",
+      es: "No sigue ningún participio pasado, así que no es *s’est*: *c’est elle*.",
+    },
   },
   {
     id: "s-est-trompe",
     before: "Il ",
     after: " trompé de train.",
     answer: "s’est",
-    because: "Je me suis trompé : le test du je donne s’est, suivi du participe.",
+    because: {
+      fr: "Je me suis trompé : le test du je donne s’est, suivi du participe.",
+      es: "*Je me suis trompé*: la prueba del *je* da *s’est*, seguido del participio.",
+    },
   },
   {
     id: "s-est-ouverte",
     before: "La porte ",
     after: " ouverte toute seule.",
     answer: "s’est",
-    because: "Le verbe est s’ouvrir au passé composé : la porte s’est ouverte.",
+    because: {
+      fr: "Le verbe est s’ouvrir au passé composé : la porte s’est ouverte.",
+      es: "El verbo es *s’ouvrir* en *passé composé*: *la porte s’est ouverte*.",
+    },
   },
   {
     id: "ca-marche",
     before: "",
     after: " ne marche plus depuis hier.",
     answer: "Ça",
-    because: "Cela ne marche plus : ça, avec une cédille et sans accent.",
+    because: {
+      fr: "Cela ne marche plus : ça, avec une cédille et sans accent.",
+      es: "*Cela ne marche plus*: *ça*, con cedilla y sin acento.",
+    },
   },
   {
     id: "sa-voiture",
     before: "",
     after: " voiture est en panne, il vient à pied.",
     answer: "Sa",
-    because: "Remplacez par ma : ma voiture. Donc sa.",
+    because: {
+      fr: "Remplacez par ma : ma voiture. Donc sa.",
+      es: "Sustituye por *ma*: *ma voiture*. Por tanto *sa*.",
+    },
   },
 ];
 
@@ -165,7 +203,7 @@ for (const item of ITEMS) {
   if (item.before !== '' && item.answer[0] === item.answer[0].toUpperCase()) bad.push(item.id + ': majuscule en plein milieu de phrase')
   if (/'/.test(item.answer)) bad.push(item.id + ': apostrophe droite dans la réponse')
   if (!/[.?!]$/.test(item.after)) bad.push(item.id + ': la phrase ne finit pas')
-  if (item.because.length < 20) bad.push(item.id + ': correction trop courte')
+  if (item.because.fr.length < 20 || item.because.es.length < 20) bad.push(item.id + ': correction trop courte')
   console.log('   ' + item.before + item.answer + item.after)
 }
 for (const word of EIGHT) if (!used.has(word)) bad.push('« ' + word + ' » n_est jamais la réponse')

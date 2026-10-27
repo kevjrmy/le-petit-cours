@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { T } from "@/components/lang/T";
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
 import { CeOuCeluiDrill } from "./drill";
@@ -18,9 +19,11 @@ export default function Page() {
       <PageHeader path={PATH} />
 
       <section>
-        <h2>Le déterminant ou le pronom</h2>
+        <h2>
+          <T fr="Le déterminant ou le pronom" es="El determinante o el pronombre" />
+        </h2>
 
-        <p>
+        <p data-ui="fr">
           Le nom est encore là ? C’est un déterminant :{" "}
           <span className="fr">ce</span>, <span className="fr">cet</span>,{" "}
           <span className="fr">cette</span>, <span className="fr">ces</span>. Le
@@ -33,6 +36,25 @@ export default function Page() {
           </Link>{" "}
           et{" "}
           <Link href="/grammaire/les-pronoms-demonstratifs">
+            Les pronoms démonstratifs
+          </Link>
+          .
+        </p>
+        <p data-ui="es" lang="es">
+          ¿El sustantivo sigue ahí? Es un determinante:{" "}
+          <span className="fr" lang="fr">ce</span>,{" "}
+          <span className="fr" lang="fr">cet</span>,{" "}
+          <span className="fr" lang="fr">cette</span>,{" "}
+          <span className="fr" lang="fr">ces</span>. ¿Ha desaparecido? Es un
+          pronombre: <span className="fr" lang="fr">celui</span>,{" "}
+          <span className="fr" lang="fr">celle</span>,{" "}
+          <span className="fr" lang="fr">ceux</span>,{" "}
+          <span className="fr" lang="fr">celles</span>. Las reglas están en{" "}
+          <Link href="/grammaire/les-determinants-demonstratifs" lang="fr">
+            Les déterminants démonstratifs
+          </Link>{" "}
+          y en{" "}
+          <Link href="/grammaire/les-pronoms-demonstratifs" lang="fr">
             Les pronoms démonstratifs
           </Link>
           .

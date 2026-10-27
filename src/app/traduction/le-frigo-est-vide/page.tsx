@@ -37,7 +37,7 @@ export default function Page() {
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>Le texte</h2>
 
         <p>
@@ -45,11 +45,22 @@ export default function Page() {
           arrive sans rien devant lui : en français, il lui faudra quelque
           chose.
         </p>
+      </section>
 
-        <Traduction
-          lines={LINES}
-          model={MODEL}
-          note={
+      <section data-ui="es" lang="es">
+        <h2>El texto</h2>
+
+        <p>
+          Cuatro frases para escribir en francés. Casi cada nombre del texto
+          llega sin nada delante: en francés, necesitará un determinante.
+        </p>
+      </section>
+
+      <Traduction
+        lines={LINES}
+        model={MODEL}
+        note={{
+          fr: (
             <>
               Votre version n’a pas à être identique à celle-ci. «{" "}
               <span className="fr">il n’y a plus rien</span> » vaut «{" "}
@@ -62,9 +73,24 @@ export default function Page() {
               <span className="fr">pas de la viande</span> » à la place de «{" "}
               <span className="fr">pas de viande</span> ».
             </>
-          }
-        />
-      </section>
+          ),
+          es: (
+            <>
+              Tu versión no tiene por qué ser idéntica a esta.{" "}
+              <span className="fr" lang="fr">il n’y a plus rien</span> vale
+              como <span className="fr" lang="fr">il ne reste rien</span>,{" "}
+              <span className="fr" lang="fr">le réfrigérateur</span> vale como{" "}
+              <span className="fr" lang="fr">le frigo</span>, y{" "}
+              <span className="fr" lang="fr">je vais acheter</span> vale como
+              el futuro. Dos cosas no valen: un nombre dejado completamente
+              desnudo, como{" "}
+              <s className="fr" lang="fr">acheter pain</s>, y{" "}
+              <span className="fr" lang="fr">pas de la viande</span> en lugar
+              de <span className="fr" lang="fr">pas de viande</span>.
+            </>
+          ),
+        }}
+      />
     </article>
   );
 }

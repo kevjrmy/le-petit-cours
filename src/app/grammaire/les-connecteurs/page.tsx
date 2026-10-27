@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
 
@@ -5,12 +6,141 @@ const PATH = "/grammaire/les-connecteurs";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102). The French taught
+   is written once, below, and shared. */
+
+type Lang = "fr" | "es";
+
+type Row = {
+  connector: string;
+  says: { fr: string; es: string };
+  example: string;
+};
+
+const ORDER: Row[] = [
+  { connector: "d’abord", says: { fr: "la première action", es: "la primera acción" }, example: "D’abord, je prends une douche." },
+  { connector: "ensuite", says: { fr: "l’action suivante", es: "la acción siguiente" }, example: "Ensuite, je m’habille." },
+  { connector: "puis", says: { fr: "l’action suivante aussi, en plus court", es: "también la acción siguiente, en más corto" }, example: "Je bois un café, puis je sors." },
+  { connector: "enfin", says: { fr: "la dernière action", es: "la última acción" }, example: "Enfin, je prends le bus." },
+];
+
+const CAUSE: Row[] = [
+  { connector: "parce que", says: { fr: "la cause", es: "la causa" }, example: "Je reste à la maison parce qu’il pleut." },
+  { connector: "comme", says: { fr: "la cause, au début de la phrase", es: "la causa, al principio de la frase" }, example: "Comme il pleut, je reste à la maison." },
+  { connector: "donc", says: { fr: "la conséquence", es: "la consecuencia" }, example: "Il pleut, donc je reste à la maison." },
+  { connector: "c’est pour ça que", says: { fr: "la conséquence, surtout à l’oral", es: "la consecuencia, sobre todo al hablar" }, example: "Il pleut. C’est pour ça que je reste à la maison." },
+];
+
+const OPPOSE: Row[] = [
+  { connector: "mais", says: { fr: "une idée opposée", es: "una idea opuesta" }, example: "Il pleut, mais je sors." },
+  { connector: "pourtant", says: { fr: "une surprise : on attendait le contraire", es: "una sorpresa: se esperaba lo contrario" }, example: "Il pleut. Pourtant, je sors sans parapluie." },
+  { connector: "par contre", says: { fr: "une différence entre deux choses", es: "una diferencia entre dos cosas" }, example: "Aujourd’hui, il pleut. Par contre, demain, il va faire beau." },
+  { connector: "même si", says: { fr: "un obstacle qui ne change rien", es: "un obstáculo que no cambia nada" }, example: "Je sors même s’il pleut." },
+];
+
+function ConnectorTable({
+  rows,
+  caption,
+  lang,
+}: {
+  rows: Row[];
+  caption: ReactNode;
+  lang: Lang;
+}) {
+  const es = lang === "es";
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{caption}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{es ? "Conector" : "Connecteur"}</th>
+            <th scope="col">{es ? "Anuncia" : "Il annonce"}</th>
+            <th scope="col">{es ? "Ejemplo" : "Exemple"}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row.connector}>
+              <th scope="row" className="fr" lang="fr">
+                {row.connector}
+              </th>
+              <td>{row.says[lang]}</td>
+              <td className="fr" lang="fr">
+                {row.example}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function ListStory() {
+  return (
+    <div className="example" lang="fr">
+      Samedi, j’ai visité Tolède. J’ai pris le train de neuf heures. J’ai
+      marché dans la vieille ville. J’ai déjeuné sur une petite place. J’ai
+      repris le train à sept heures.
+    </div>
+  );
+}
+
+function OrderStory() {
+  return (
+    <div className="example" lang="fr">
+      Samedi, j’ai visité Tolède. <strong>D’abord</strong>, j’ai pris le
+      train de neuf heures. <strong>Ensuite</strong>, j’ai marché dans la
+      vieille ville, <strong>puis</strong> j’ai déjeuné sur une petite
+      place. <strong>Enfin</strong>, j’ai repris le train à sept heures.
+    </div>
+  );
+}
+
+function CauseStory() {
+  return (
+    <div className="example" lang="fr">
+      Samedi, j’ai visité Tolède. D’abord, j’ai pris le train de neuf heures{" "}
+      <strong>parce que</strong> je voulais arriver tôt. Ensuite, j’ai
+      marché dans la vieille ville, puis j’ai déjeuné sur une petite place.{" "}
+      <strong>Comme</strong> il faisait très chaud, j’ai choisi une table à
+      l’ombre. L’après-midi, le musée était fermé, <strong>donc</strong>{" "}
+      j’ai visité la cathédrale. Le soir, j’avais mal aux pieds.{" "}
+      <strong>C’est pour ça que</strong> j’ai pris un taxi jusqu’à la gare.
+      Enfin, j’ai repris le train à sept heures.
+    </div>
+  );
+}
+
+function FullStory() {
+  return (
+    <div className="example" lang="fr">
+      Samedi, j’ai visité Tolède. La ville est petite,{" "}
+      <strong>mais</strong> il y a beaucoup de choses à voir.{" "}
+      <strong>D’abord</strong>, j’ai pris le train de neuf heures{" "}
+      <strong>parce que</strong> je voulais arriver tôt.{" "}
+      <strong>Ensuite</strong>, j’ai marché dans la vieille ville,{" "}
+      <strong>puis</strong> j’ai déjeuné sur une petite place.{" "}
+      <strong>Comme</strong> il faisait très chaud, j’ai choisi une table à
+      l’ombre. Le repas était simple. <strong>Pourtant</strong>, il était
+      cher. L’après-midi, le musée était fermé, <strong>donc</strong> j’ai
+      visité la cathédrale. Je n’ai pas aimé le restaurant.{" "}
+      <strong>Par contre</strong>, j’ai adoré la cathédrale. Le soir,
+      j’avais mal aux pieds. <strong>C’est pour ça que</strong> j’ai pris un
+      taxi jusqu’à la gare. <strong>Enfin</strong>, j’ai repris le train à
+      sept heures. Je veux retourner à Tolède, <strong>même s’</strong>il
+      fait très chaud en été.
+    </div>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>Raconter dans l’ordre</h2>
 
         <div className="rule">
@@ -21,50 +151,11 @@ export default function Page() {
           , <span className="fr">enfin</span>.
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <caption>
-              Quatre connecteurs pour dire quelle action vient avant l’autre
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Connecteur</th>
-                <th scope="col">Il annonce</th>
-                <th scope="col">Exemple</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr">
-                  d’abord
-                </th>
-                <td>la première action</td>
-                <td className="fr">D’abord, je prends une douche.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  ensuite
-                </th>
-                <td>l’action suivante</td>
-                <td className="fr">Ensuite, je m’habille.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  puis
-                </th>
-                <td>l’action suivante aussi, en plus court</td>
-                <td className="fr">Je bois un café, puis je sors.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  enfin
-                </th>
-                <td>la dernière action</td>
-                <td className="fr">Enfin, je prends le bus.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <ConnectorTable
+          lang="fr"
+          rows={ORDER}
+          caption="Quatre connecteurs pour dire quelle action vient avant l’autre"
+        />
 
         <p>
           <span className="fr">ensuite</span> et{" "}
@@ -77,20 +168,11 @@ export default function Page() {
 
         <p>Sans connecteur, un récit est une liste.</p>
 
-        <div className="example">
-          Samedi, j’ai visité Tolède. J’ai pris le train de neuf heures. J’ai
-          marché dans la vieille ville. J’ai déjeuné sur une petite place. J’ai
-          repris le train à sept heures.
-        </div>
+        <ListStory />
 
         <p>Avec les quatre connecteurs, la liste devient une histoire.</p>
 
-        <div className="example">
-          Samedi, j’ai visité Tolède. <strong>D’abord</strong>, j’ai pris le
-          train de neuf heures. <strong>Ensuite</strong>, j’ai marché dans la
-          vieille ville, <strong>puis</strong> j’ai déjeuné sur une petite
-          place. <strong>Enfin</strong>, j’ai repris le train à sept heures.
-        </div>
+        <OrderStory />
 
         <div className="attention">
           <span className="fr">puis</span> veut dire{" "}
@@ -101,7 +183,51 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>Contar en orden</h2>
+
+        <div className="rule">
+          Un <strong>conector</strong> es una palabra pequeña que une dos
+          frases. Para contar, cuatro conectores dan el orden de las acciones:{" "}
+          <span className="fr" lang="fr">d’abord</span>,{" "}
+          <span className="fr" lang="fr">ensuite</span>,{" "}
+          <span className="fr" lang="fr">puis</span>,{" "}
+          <span className="fr" lang="fr">enfin</span>.
+        </div>
+
+        <ConnectorTable
+          lang="es"
+          rows={ORDER}
+          caption="Cuatro conectores para decir qué acción va antes que la otra"
+        />
+
+        <p>
+          <span className="fr" lang="fr">ensuite</span> y{" "}
+          <span className="fr" lang="fr">puis</span> dicen lo mismo. Pero{" "}
+          <span className="fr" lang="fr">puis</span> va siempre antes de la
+          acción, nunca al final de la frase: se dice{" "}
+          <span className="fr" lang="fr">je sors ensuite</span>, no se dice{" "}
+          <s className="fr" lang="fr">je sors puis</s>.
+        </p>
+
+        <p>Sin conectores, un relato es una lista.</p>
+
+        <ListStory />
+
+        <p>Con los cuatro conectores, la lista se convierte en una historia.</p>
+
+        <OrderStory />
+
+        <div className="attention">
+          <span className="fr" lang="fr">puis</span> significa{" "}
+          <span className="fr" lang="fr">ensuite</span>, y nada más. No sirve
+          para empezar una respuesta ni para ganar tiempo buscando palabras. No
+          se dice <s className="fr" lang="fr">Puis, je ne sais pas</s>. Se dice{" "}
+          <span className="fr" lang="fr">Eh bien, je ne sais pas</span>.
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Expliquer : la cause et la conséquence</h2>
 
         <div className="rule">
@@ -113,53 +239,11 @@ export default function Page() {
           conséquence.
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <caption>
-              Les deux mêmes faits, « il pleut » et « je reste à la maison »,
-              reliés de quatre façons
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Connecteur</th>
-                <th scope="col">Il annonce</th>
-                <th scope="col">Exemple</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr">
-                  parce que
-                </th>
-                <td>la cause</td>
-                <td className="fr">Je reste à la maison parce qu’il pleut.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  comme
-                </th>
-                <td>la cause, au début de la phrase</td>
-                <td className="fr">Comme il pleut, je reste à la maison.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  donc
-                </th>
-                <td>la conséquence</td>
-                <td className="fr">Il pleut, donc je reste à la maison.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  c’est pour ça que
-                </th>
-                <td>la conséquence, surtout à l’oral</td>
-                <td className="fr">
-                  Il pleut. C’est pour ça que je reste à la maison.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <ConnectorTable
+          lang="fr"
+          rows={CAUSE}
+          caption="Les deux mêmes faits, « il pleut » et « je reste à la maison », reliés de quatre façons"
+        />
 
         <p>
           Les quatre phrases racontent la même chose. Seul l’ordre change : avec{" "}
@@ -173,16 +257,7 @@ export default function Page() {
 
         <p>Le récit de Tolède dit maintenant pourquoi.</p>
 
-        <div className="example">
-          Samedi, j’ai visité Tolède. D’abord, j’ai pris le train de neuf heures{" "}
-          <strong>parce que</strong> je voulais arriver tôt. Ensuite, j’ai
-          marché dans la vieille ville, puis j’ai déjeuné sur une petite place.{" "}
-          <strong>Comme</strong> il faisait très chaud, j’ai choisi une table à
-          l’ombre. L’après-midi, le musée était fermé, <strong>donc</strong>{" "}
-          j’ai visité la cathédrale. Le soir, j’avais mal aux pieds.{" "}
-          <strong>C’est pour ça que</strong> j’ai pris un taxi jusqu’à la gare.
-          Enfin, j’ai repris le train à sept heures.
-        </div>
+        <CauseStory />
 
         <div className="attention">
           <span className="fr">pourquoi</span> pose la question,{" "}
@@ -192,7 +267,53 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>Explicar: la causa y la consecuencia</h2>
+
+        <div className="rule">
+          Para explicar, se unen dos hechos: una causa y su consecuencia.{" "}
+          <span className="fr" lang="fr">parce que</span> y{" "}
+          <span className="fr" lang="fr">comme</span> anuncian la causa.{" "}
+          <span className="fr" lang="fr">donc</span> y{" "}
+          <span className="fr" lang="fr">c’est pour ça que</span> anuncian la
+          consecuencia.
+        </div>
+
+        <ConnectorTable
+          lang="es"
+          rows={CAUSE}
+          caption={
+            <>
+              Los mismos dos hechos, «<span lang="fr">il pleut</span>» y «
+              <span lang="fr">je reste à la maison</span>», unidos de cuatro
+              maneras
+            </>
+          }
+        />
+
+        <p>
+          Las cuatro frases cuentan lo mismo. Solo cambia el orden: con{" "}
+          <span className="fr" lang="fr">parce que</span>, la causa va en
+          segundo lugar; con <span className="fr" lang="fr">comme</span>, va en
+          primero. Delante de una vocal, <span className="fr" lang="fr">que</span>{" "}
+          se convierte en <span className="fr" lang="fr">qu’</span>:{" "}
+          <span className="fr" lang="fr">parce qu’il pleut</span>,{" "}
+          <span className="fr" lang="fr">c’est pour ça qu’elle reste</span>.
+        </p>
+
+        <p>El relato de Toledo ahora dice por qué.</p>
+
+        <CauseStory />
+
+        <div className="attention">
+          <span className="fr" lang="fr">pourquoi</span> hace la pregunta,{" "}
+          <span className="fr" lang="fr">parce que</span> da la respuesta:{" "}
+          <span className="fr" lang="fr">Pourquoi tu restes&nbsp;? Parce qu’il pleut.</span>{" "}
+          No se dice <s className="fr" lang="fr">Je reste pourquoi il pleut</s>.
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Opposer deux idées</h2>
 
         <div className="rule">
@@ -203,54 +324,11 @@ export default function Page() {
           <span className="fr">même si</span> sont plus précis.
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <caption>
-              Ce que chaque connecteur dit de plus que « mais »
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Connecteur</th>
-                <th scope="col">Il annonce</th>
-                <th scope="col">Exemple</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr">
-                  mais
-                </th>
-                <td>une idée opposée</td>
-                <td className="fr">Il pleut, mais je sors.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  pourtant
-                </th>
-                <td>une surprise : on attendait le contraire</td>
-                <td className="fr">
-                  Il pleut. Pourtant, je sors sans parapluie.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  par contre
-                </th>
-                <td>une différence entre deux choses</td>
-                <td className="fr">
-                  Aujourd’hui, il pleut. Par contre, demain, il va faire beau.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  même si
-                </th>
-                <td>un obstacle qui ne change rien</td>
-                <td className="fr">Je sors même s’il pleut.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <ConnectorTable
+          lang="fr"
+          rows={OPPOSE}
+          caption="Ce que chaque connecteur dit de plus que « mais »"
+        />
 
         <p>
           Devant <span className="fr">il</span> et{" "}
@@ -273,26 +351,58 @@ export default function Page() {
           Voici le récit complet. Les douze connecteurs de la leçon y sont.
         </p>
 
-        <div className="example">
-          Samedi, j’ai visité Tolède. La ville est petite,{" "}
-          <strong>mais</strong> il y a beaucoup de choses à voir.{" "}
-          <strong>D’abord</strong>, j’ai pris le train de neuf heures{" "}
-          <strong>parce que</strong> je voulais arriver tôt.{" "}
-          <strong>Ensuite</strong>, j’ai marché dans la vieille ville,{" "}
-          <strong>puis</strong> j’ai déjeuné sur une petite place.{" "}
-          <strong>Comme</strong> il faisait très chaud, j’ai choisi une table à
-          l’ombre. Le repas était simple. <strong>Pourtant</strong>, il était
-          cher. L’après-midi, le musée était fermé, <strong>donc</strong> j’ai
-          visité la cathédrale. Je n’ai pas aimé le restaurant.{" "}
-          <strong>Par contre</strong>, j’ai adoré la cathédrale. Le soir,
-          j’avais mal aux pieds. <strong>C’est pour ça que</strong> j’ai pris un
-          taxi jusqu’à la gare. <strong>Enfin</strong>, j’ai repris le train à
-          sept heures. Je veux retourner à Tolède, <strong>même s’</strong>il
-          fait très chaud en été.
-        </div>
+        <FullStory />
       </section>
 
-      <div className="resume">
+      <section data-ui="es" lang="es">
+        <h2>Oponer dos ideas</h2>
+
+        <div className="rule">
+          Para matizar, se oponen dos ideas. El conector más sencillo es{" "}
+          <span className="fr" lang="fr">mais</span>.{" "}
+          <span className="fr" lang="fr">pourtant</span>,{" "}
+          <span className="fr" lang="fr">par contre</span> y{" "}
+          <span className="fr" lang="fr">même si</span> son más precisos.
+        </div>
+
+        <ConnectorTable
+          lang="es"
+          rows={OPPOSE}
+          caption={
+            <>
+              Lo que cada conector dice de más que «<span lang="fr">mais</span>»
+            </>
+          }
+        />
+
+        <p>
+          Delante de <span className="fr" lang="fr">il</span> y{" "}
+          <span className="fr" lang="fr">ils</span>,{" "}
+          <span className="fr" lang="fr">si</span> se convierte en{" "}
+          <span className="fr" lang="fr">s’</span>:{" "}
+          <span className="fr" lang="fr">même s’il pleut</span>. Delante de{" "}
+          <span className="fr" lang="fr">elle</span> y{" "}
+          <span className="fr" lang="fr">on</span> no cambia:{" "}
+          <span className="fr" lang="fr">même si elle dort</span>.
+        </p>
+
+        <div className="attention">
+          <span className="fr" lang="fr">pourtant</span> nunca anuncia una
+          consecuencia. Anuncia una sorpresa. No se dice{" "}
+          <s className="fr" lang="fr">Il pleut, pourtant je prends un parapluie</s>.
+          Se dice{" "}
+          <span className="fr" lang="fr">Il pleut, donc je prends un parapluie</span>.
+        </div>
+
+        <p>
+          Aquí está el relato completo. Los doce conectores de la lección están
+          en él.
+        </p>
+
+        <FullStory />
+      </section>
+
+      <div className="resume" data-ui="fr">
         <h2>En résumé</h2>
         <ul>
           <li>
@@ -322,6 +432,40 @@ export default function Page() {
           <li>
             <span className="fr">pourtant</span> marque une surprise, jamais
             une conséquence.
+          </li>
+        </ul>
+      </div>
+
+      <div className="resume" data-ui="es" lang="es">
+        <h2>En resumen</h2>
+        <ul>
+          <li>
+            Para contar en orden: <span className="fr" lang="fr">d’abord</span>,{" "}
+            <span className="fr" lang="fr">ensuite</span>,{" "}
+            <span className="fr" lang="fr">puis</span>,{" "}
+            <span className="fr" lang="fr">enfin</span>.
+          </li>
+          <li>
+            Para dar la causa: <span className="fr" lang="fr">parce que</span>,{" "}
+            <span className="fr" lang="fr">comme</span>. Para dar la
+            consecuencia: <span className="fr" lang="fr">donc</span>,{" "}
+            <span className="fr" lang="fr">c’est pour ça que</span>.
+          </li>
+          <li>
+            Para oponer dos ideas: <span className="fr" lang="fr">mais</span>,{" "}
+            <span className="fr" lang="fr">pourtant</span>,{" "}
+            <span className="fr" lang="fr">par contre</span>,{" "}
+            <span className="fr" lang="fr">même si</span>.
+          </li>
+          <li>
+            <span className="fr" lang="fr">puis</span> significa{" "}
+            <span className="fr" lang="fr">ensuite</span>, y{" "}
+            <span className="fr" lang="fr">pourquoi</span> hace la pregunta:{" "}
+            <span className="fr" lang="fr">parce que</span> da la respuesta.
+          </li>
+          <li>
+            <span className="fr" lang="fr">pourtant</span> marca una sorpresa,
+            nunca una consecuencia.
           </li>
         </ul>
       </div>

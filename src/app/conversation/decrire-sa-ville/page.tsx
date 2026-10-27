@@ -6,12 +6,53 @@ const PATH = "/conversation/decrire-sa-ville";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102): CSS shows the
+   interface's. The words to say are French, written once and shared. */
+const WORDS = [
+  "dans le sud",
+  "au bord de la mer",
+  "à une heure de",
+  "une grande ville",
+  "un village",
+  "pas très grand",
+  "le centre-ville",
+  "la vieille ville",
+  "une place",
+  "un marché",
+  "en bas de chez moi",
+  "en face",
+  "un endroit",
+  "ça vaut le coup",
+  "à pied",
+  "en bus",
+  "il faut vingt minutes",
+  "c’est loin",
+  "au mois d’août",
+  "il fait chaud",
+  "il y a du monde",
+  "il n’y a pas grand-chose",
+  "c’est une sorte de",
+  "ça ressemble à",
+];
+
+function Mots() {
+  return (
+    <ul className="mots">
+      {WORDS.map((w) => (
+        <li key={w} lang="fr">
+          {w}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>La situation</h2>
 
         <p>
@@ -26,7 +67,19 @@ export default function Page() {
         <Situations />
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>La situación</h2>
+        <p>
+          Una amiga francesa llega a tu casa el mes que viene. Nunca ha estado,
+          no conoce tu ciudad ni tu región, y llama para preparar el viaje. Otra
+          persona hace de la amiga: hace sus preguntas, reacciona, pide
+          precisiones. Tú tienes que darle una idea del lugar donde vives, sin
+          enseñarle ni una foto.
+        </p>
+        <Situations />
+      </section>
+
+      <section data-ui="fr">
         <h2>Les étapes</h2>
 
         <p>
@@ -59,11 +112,63 @@ export default function Page() {
           d’un village ou d’une ville, ou bien une place assise. Pour l’endroit
           où l’on va, on dit <span className="fr">un endroit</span> : on ne dit
           pas <s className="fr">« je connais une belle place pour manger »</s>,
-          on dit <span className="fr">« je connais un bon endroit pour manger »</span>.
+          on dit{" "}
+          <span className="fr">« je connais un bon endroit pour manger »</span>.
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>Las etapas</h2>
+        <p>
+          Quien prepara un viaje vuelve siempre a los mismos cinco momentos, en
+          un orden o en otro.
+        </p>
+        <ol>
+          <li>Situar la ciudad, con respecto a un lugar que ella conoce.</li>
+          <li>Decir cómo es, en dos o tres cosas.</li>
+          <li>Aconsejar un lugar, y decir por qué ese.</li>
+          <li>Explicar cómo se mueve uno por allí.</li>
+          <li>Decir también lo que te gusta menos.</li>
+        </ol>
+        <div className="astuce">
+          <p className="astuce-hook">
+            Sitúa la ciudad con respecto a lo que ella conoce, no con respecto
+            al mapa.
+          </p>
+          <p>
+            <span className="fr" lang="fr">
+              à deux heures de Madrid
+            </span>{" "}
+            o{" "}
+            <span className="fr" lang="fr">
+              à vingt minutes de la mer
+            </span>{" "}
+            le dan enseguida una imagen. El nombre de tu región, en cambio, no
+            le dice nada, y además es la frase más difícil de construir.
+          </p>
+        </div>
+        <div className="attention">
+          <span className="fr" lang="fr">
+            une place
+          </span>
+          , en francés, es la plaza de un pueblo o de una ciudad, o bien un
+          asiento. Para el sitio al que se va, se dice{" "}
+          <span className="fr" lang="fr">
+            un endroit
+          </span>
+          : no se dice{" "}
+          <s className="fr" lang="fr">
+            « je connais une belle place pour manger »
+          </s>
+          , se dice{" "}
+          <span className="fr" lang="fr">
+            « je connais un bon endroit pour manger »
+          </span>
+          .
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Les mots pour le dire</h2>
 
         <p>
@@ -71,32 +176,16 @@ export default function Page() {
           sert, laissez le reste.
         </p>
 
-        <ul className="mots">
-          <li>dans le sud</li>
-          <li>au bord de la mer</li>
-          <li>à une heure de</li>
-          <li>une grande ville</li>
-          <li>un village</li>
-          <li>pas très grand</li>
-          <li>le centre-ville</li>
-          <li>la vieille ville</li>
-          <li>une place</li>
-          <li>un marché</li>
-          <li>en bas de chez moi</li>
-          <li>en face</li>
-          <li>un endroit</li>
-          <li>ça vaut le coup</li>
-          <li>à pied</li>
-          <li>en bus</li>
-          <li>il faut vingt minutes</li>
-          <li>c’est loin</li>
-          <li>au mois d’août</li>
-          <li>il fait chaud</li>
-          <li>il y a du monde</li>
-          <li>il n’y a pas grand-chose</li>
-          <li>c’est une sorte de</li>
-          <li>ça ressemble à</li>
-        </ul>
+        <Mots />
+      </section>
+
+      <section data-ui="es" lang="es">
+        <h2>Las palabras para decirlo</h2>
+        <p>
+          Lo necesario para llevar la conversación de principio a fin. Coge lo
+          que te sirva y deja el resto.
+        </p>
+        <Mots />
       </section>
     </article>
   );

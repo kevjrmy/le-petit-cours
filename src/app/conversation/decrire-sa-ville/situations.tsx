@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { T } from "@/components/lang/T";
 
 /**
  * The constraint card, same contract as the other role-plays: cycles in order,
@@ -18,27 +19,78 @@ import { useState } from "react";
  * whole change.
  */
 const SITUATIONS = [
-  "Votre amie demande où est votre ville. Situez-la sans carte : par rapport à la mer, à la montagne, à une autre ville.",
-  "Elle demande si c’est grand. Répondez sans donner de chiffre.",
-  "Elle n’a qu’un après-midi libre. Conseillez-lui un seul endroit, et dites pourquoi celui-là.",
-  "Elle demande comment on se déplace chez vous, et si elle peut tout faire à pied.",
-  "Décrivez votre rue à quelqu’un qui ne l’a jamais vue : ce qu’il y a en bas, en face, à côté.",
-  "Elle veut venir au mois d’août. Dites-lui ce que ça change.",
-  "Vous parlez d’une fête de chez vous. Le mot n’existe pas en français : expliquez-la autrement.",
+  {
+    fr: "Votre amie demande où est votre ville. Situez-la sans carte : par rapport à la mer, à la montagne, à une autre ville.",
+    es: (
+      <>
+        Tu amiga pregunta dónde está tu ciudad. Sitúala sin mapa: con respecto
+        al mar, a la montaña, a otra ciudad.
+      </>
+    ),
+  },
+  {
+    fr: "Elle demande si c’est grand. Répondez sans donner de chiffre.",
+    es: <>Pregunta si es grande. Responde sin dar ninguna cifra.</>,
+  },
+  {
+    fr: "Elle n’a qu’un après-midi libre. Conseillez-lui un seul endroit, et dites pourquoi celui-là.",
+    es: (
+      <>
+        Solo tiene una tarde libre. Aconséjale un único lugar y di por qué ese.
+      </>
+    ),
+  },
+  {
+    fr: "Elle demande comment on se déplace chez vous, et si elle peut tout faire à pied.",
+    es: (
+      <>
+        Pregunta cómo se mueve la gente por tu ciudad y si puede hacerlo todo a
+        pie.
+      </>
+    ),
+  },
+  {
+    fr: "Décrivez votre rue à quelqu’un qui ne l’a jamais vue : ce qu’il y a en bas, en face, à côté.",
+    es: (
+      <>
+        Describe tu calle a alguien que nunca la ha visto: lo que hay abajo,
+        enfrente, al lado.
+      </>
+    ),
+  },
+  {
+    fr: "Elle veut venir au mois d’août. Dites-lui ce que ça change.",
+    es: <>Quiere ir en agosto. Dile lo que cambia con eso.</>,
+  },
+  {
+    fr: "Vous parlez d’une fête de chez vous. Le mot n’existe pas en français : expliquez-la autrement.",
+    es: (
+      <>
+        Hablas de una fiesta de tu tierra. La palabra no existe en francés:
+        explícala de otra manera.
+      </>
+    ),
+  },
 ];
 
 export function Situations() {
   const [index, setIndex] = useState(0);
+  const { fr, es } = SITUATIONS[index];
 
   return (
     <div className="card">
       <p>
         <strong>
-          Situation {index + 1} sur {SITUATIONS.length}
+          <T
+            fr={`Situation ${index + 1} sur ${SITUATIONS.length}`}
+            es={`Situación ${index + 1} de ${SITUATIONS.length}`}
+          />
         </strong>
       </p>
 
-      <p aria-live="polite">{SITUATIONS[index]}</p>
+      <p aria-live="polite">
+        <T fr={fr} es={es} />
+      </p>
 
       <p>
         <button
@@ -46,7 +98,7 @@ export function Situations() {
           className="button"
           onClick={() => setIndex((i) => (i + 1) % SITUATIONS.length)}
         >
-          Autre situation
+          <T fr="Autre situation" es="Otra situación" />
         </button>
       </p>
     </div>

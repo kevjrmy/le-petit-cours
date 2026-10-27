@@ -1,4 +1,5 @@
 import type { Level } from "@/data/navigation";
+import type { Bi } from "../bilingue";
 
 /**
  * « Être ou avoir ? » — les verbes à classer, seize par niveau.
@@ -36,7 +37,7 @@ export interface VerbItem {
   text: string;
   aux: "etre" | "avoir";
   /** Shown only when the chip was misplaced, so it corrects rather than tells. */
-  because: string;
+  because: Bi;
 }
 
 const A2: VerbItem[] = [
@@ -44,100 +45,145 @@ const A2: VerbItem[] = [
     id: "aller",
     text: "aller",
     aux: "etre",
-    because: "Un déplacement : elle est allée à Paris.",
+    because: {
+      fr: "Un déplacement : elle est allée à Paris.",
+      es: "Un desplazamiento: *elle est allée à Paris*.",
+    },
   },
   {
     id: "venir",
     text: "venir",
     aux: "etre",
-    because: "Un déplacement : il est venu à midi.",
+    because: {
+      fr: "Un déplacement : il est venu à midi.",
+      es: "Un desplazamiento: *il est venu à midi*.",
+    },
   },
   {
     id: "partir",
     text: "partir",
     aux: "etre",
-    because: "Un déplacement : nous sommes partis tôt.",
+    because: {
+      fr: "Un déplacement : nous sommes partis tôt.",
+      es: "Un desplazamiento: *nous sommes partis tôt*.",
+    },
   },
   {
     id: "naitre",
     text: "naître",
     aux: "etre",
-    because: "Un changement d’état : elle est née en mars.",
+    because: {
+      fr: "Un changement d’état : elle est née en mars.",
+      es: "Un cambio de estado: *elle est née en mars*.",
+    },
   },
   {
     id: "rester",
     text: "rester",
     aux: "etre",
-    because:
-      "Rester est dans la liste même s’il ne dit aucun mouvement : il est resté chez lui.",
+    because: {
+      fr: "Rester est dans la liste même s’il ne dit aucun mouvement : il est resté chez lui.",
+      es: "*Rester* está en la lista aunque no exprese ningún movimiento: *il est resté chez lui*.",
+    },
   },
   {
     id: "tomber",
     text: "tomber",
     aux: "etre",
-    because: "Un déplacement : elle est tombée dans l’escalier.",
+    because: {
+      fr: "Un déplacement : elle est tombée dans l’escalier.",
+      es: "Un desplazamiento: *elle est tombée dans l’escalier*.",
+    },
   },
   {
     id: "se-lever",
     text: "se lever",
     aux: "etre",
-    because: "Tous les verbes pronominaux prennent être : je me suis levé.",
+    because: {
+      fr: "Tous les verbes pronominaux prennent être : je me suis levé.",
+      es: "Todos los verbos pronominales llevan *être*: *je me suis levé*.",
+    },
   },
   {
     id: "sortir-maison",
     text: "sortir de la maison",
     aux: "etre",
-    because:
-      "Sans complément d’objet, sortir prend être : elle est sortie de la maison.",
+    because: {
+      fr: "Sans complément d’objet, sortir prend être : elle est sortie de la maison.",
+      es: "Sin complemento directo, *sortir* lleva *être*: *elle est sortie de la maison*.",
+    },
   },
   {
     id: "manger",
     text: "manger",
     aux: "avoir",
-    because: "La grande majorité des verbes prennent avoir : j’ai mangé.",
+    because: {
+      fr: "La grande majorité des verbes prennent avoir : j’ai mangé.",
+      es: "La gran mayoría de los verbos llevan *avoir*: *j’ai mangé*.",
+    },
   },
   {
     id: "parler",
     text: "parler",
     aux: "avoir",
-    because: "La grande majorité des verbes prennent avoir : nous avons parlé.",
+    because: {
+      fr: "La grande majorité des verbes prennent avoir : nous avons parlé.",
+      es: "La gran mayoría de los verbos llevan *avoir*: *nous avons parlé*.",
+    },
   },
   {
     id: "finir",
     text: "finir",
     aux: "avoir",
-    because: "La grande majorité des verbes prennent avoir : ils ont fini.",
+    because: {
+      fr: "La grande majorité des verbes prennent avoir : ils ont fini.",
+      es: "La gran mayoría de los verbos llevan *avoir*: *ils ont fini*.",
+    },
   },
   {
     id: "prendre",
     text: "prendre",
     aux: "avoir",
-    because: "La grande majorité des verbes prennent avoir : elle a pris le train.",
+    because: {
+      fr: "La grande majorité des verbes prennent avoir : elle a pris le train.",
+      es: "La gran mayoría de los verbos llevan *avoir*: *elle a pris le train*.",
+    },
   },
   {
     id: "faire",
     text: "faire",
     aux: "avoir",
-    because: "La grande majorité des verbes prennent avoir : tu as fait le ménage.",
+    because: {
+      fr: "La grande majorité des verbes prennent avoir : tu as fait le ménage.",
+      es: "La gran mayoría de los verbos llevan *avoir*: *tu as fait le ménage*.",
+    },
   },
   {
     id: "attendre",
     text: "attendre",
     aux: "avoir",
-    because: "La grande majorité des verbes prennent avoir : j’ai attendu une heure.",
+    because: {
+      fr: "La grande majorité des verbes prennent avoir : j’ai attendu une heure.",
+      es: "La gran mayoría de los verbos llevan *avoir*: *j’ai attendu une heure*.",
+    },
   },
   {
     id: "voir",
     text: "voir",
     aux: "avoir",
-    because: "La grande majorité des verbes prennent avoir : nous avons vu le film.",
+    because: {
+      fr: "La grande majorité des verbes prennent avoir : nous avons vu le film.",
+      es: "La gran mayoría de los verbos llevan *avoir*: *nous avons vu le film*.",
+    },
   },
   {
     id: "sortir-poubelle",
     text: "sortir la poubelle",
     aux: "avoir",
-    because:
-      "Avec un complément d’objet, sortir prend avoir : elle a sorti la poubelle.",
+    because: {
+      fr: "Avec un complément d’objet, sortir prend avoir : elle a sorti la poubelle.",
+      es: "Con complemento directo, *sortir* lleva *avoir*: *elle a sorti la poubelle*.",
+    },
   },
 ];
 
@@ -160,111 +206,145 @@ const B1: VerbItem[] = [
     id: "monter-train",
     text: "monter dans le train",
     aux: "etre",
-    because:
-      "Sans complément d’objet, monter prend être : elle est montée dans le train.",
+    because: {
+      fr: "Sans complément d’objet, monter prend être : elle est montée dans le train.",
+      es: "Sin complemento directo, *monter* lleva *être*: *elle est montée dans le train*.",
+    },
   },
   {
     id: "descendre-bus",
     text: "descendre du bus",
     aux: "etre",
-    because:
-      "Sans complément d’objet, descendre prend être : il est descendu du bus.",
+    because: {
+      fr: "Sans complément d’objet, descendre prend être : il est descendu du bus.",
+      es: "Sin complemento directo, *descendre* lleva *être*: *il est descendu du bus*.",
+    },
   },
   {
     id: "passer-gare",
     text: "passer devant la gare",
     aux: "etre",
-    because:
-      "Sans complément d’objet, passer prend être : nous sommes passés devant la gare.",
+    because: {
+      fr: "Sans complément d’objet, passer prend être : nous sommes passés devant la gare.",
+      es: "Sin complemento directo, *passer* lleva *être*: *nous sommes passés devant la gare*.",
+    },
   },
   {
     id: "retourner-espagne",
     text: "retourner en Espagne",
     aux: "etre",
-    because:
-      "Sans complément d’objet, retourner prend être : elle est retournée en Espagne.",
+    because: {
+      fr: "Sans complément d’objet, retourner prend être : elle est retournée en Espagne.",
+      es: "Sin complemento directo, *retourner* lleva *être*: *elle est retournée en Espagne*.",
+    },
   },
   {
     id: "rentrer-maison",
     text: "rentrer à la maison",
     aux: "etre",
-    because:
-      "Sans complément d’objet, rentrer prend être : ils sont rentrés à la maison.",
+    because: {
+      fr: "Sans complément d’objet, rentrer prend être : ils sont rentrés à la maison.",
+      es: "Sin complemento directo, *rentrer* lleva *être*: *ils sont rentrés à la maison*.",
+    },
   },
   {
     id: "devenir",
     text: "devenir médecin",
     aux: "etre",
-    because: "Un changement d’état : elle est devenue médecin.",
+    because: {
+      fr: "Un changement d’état : elle est devenue médecin.",
+      es: "Un cambio de estado: *elle est devenue médecin*.",
+    },
   },
   {
     id: "se-souvenir",
     text: "se souvenir du code",
     aux: "etre",
-    because:
-      "Tous les verbes pronominaux prennent être : je me suis souvenu du code.",
+    because: {
+      fr: "Tous les verbes pronominaux prennent être : je me suis souvenu du code.",
+      es: "Todos los verbos pronominales llevan *être*: *je me suis souvenu du code*.",
+    },
   },
   {
     id: "s-apercevoir",
     text: "s’apercevoir de la faute",
     aux: "etre",
-    because:
-      "Tous les verbes pronominaux prennent être : elle s’est aperçue de la faute.",
+    because: {
+      fr: "Tous les verbes pronominaux prennent être : elle s’est aperçue de la faute.",
+      es: "Todos los verbos pronominales llevan *être*: *elle s’est aperçue de la faute*.",
+    },
   },
   {
     id: "monter-escalier",
     text: "monter l’escalier",
     aux: "avoir",
-    because:
-      "Avec un complément d’objet, monter prend avoir : elle a monté l’escalier.",
+    because: {
+      fr: "Avec un complément d’objet, monter prend avoir : elle a monté l’escalier.",
+      es: "Con complemento directo, *monter* lleva *avoir*: *elle a monté l’escalier*.",
+    },
   },
   {
     id: "descendre-valises",
     text: "descendre les valises",
     aux: "avoir",
-    because:
-      "Avec un complément d’objet, descendre prend avoir : il a descendu les valises.",
+    because: {
+      fr: "Avec un complément d’objet, descendre prend avoir : il a descendu les valises.",
+      es: "Con complemento directo, *descendre* lleva *avoir*: *il a descendu les valises*.",
+    },
   },
   {
     id: "passer-heure",
     text: "passer une heure au téléphone",
     aux: "avoir",
-    because:
-      "Avec un complément d’objet, passer prend avoir : nous avons passé une heure au téléphone.",
+    because: {
+      fr: "Avec un complément d’objet, passer prend avoir : nous avons passé une heure au téléphone.",
+      es: "Con complemento directo, *passer* lleva *avoir*: *nous avons passé une heure au téléphone*.",
+    },
   },
   {
     id: "retourner-crepe",
     text: "retourner la crêpe",
     aux: "avoir",
-    because:
-      "Avec un complément d’objet, retourner prend avoir : elle a retourné la crêpe.",
+    because: {
+      fr: "Avec un complément d’objet, retourner prend avoir : elle a retourné la crêpe.",
+      es: "Con complemento directo, *retourner* lleva *avoir*: *elle a retourné la crêpe*.",
+    },
   },
   {
     id: "rentrer-voiture",
     text: "rentrer la voiture",
     aux: "avoir",
-    because:
-      "Avec un complément d’objet, rentrer prend avoir : ils ont rentré la voiture.",
+    because: {
+      fr: "Avec un complément d’objet, rentrer prend avoir : ils ont rentré la voiture.",
+      es: "Con complemento directo, *rentrer* lleva *avoir*: *ils ont rentré la voiture*.",
+    },
   },
   {
     id: "courir",
     text: "courir dix kilomètres",
     aux: "avoir",
-    because:
-      "Courir dit un déplacement et prend pourtant avoir : elle a couru dix kilomètres.",
+    because: {
+      fr: "Courir dit un déplacement et prend pourtant avoir : elle a couru dix kilomètres.",
+      es: "*Courir* expresa un desplazamiento y aun así lleva *avoir*: *elle a couru dix kilomètres*.",
+    },
   },
   {
     id: "marcher",
     text: "marcher jusqu’au port",
     aux: "avoir",
-    because:
-      "Marcher dit un déplacement et prend pourtant avoir : nous avons marché jusqu’au port.",
+    because: {
+      fr: "Marcher dit un déplacement et prend pourtant avoir : nous avons marché jusqu’au port.",
+      es: "*Marcher* expresa un desplazamiento y aun así lleva *avoir*: *nous avons marché jusqu’au port*.",
+    },
   },
   {
     id: "vivre",
     text: "vivre à Lyon",
     aux: "avoir",
-    because: "Vivre prend avoir : ils ont vécu à Lyon pendant dix ans.",
+    because: {
+      fr: "Vivre prend avoir : ils ont vécu à Lyon pendant dix ans.",
+      es: "*Vivre* lleva *avoir*: *ils ont vécu à Lyon pendant dix ans*.",
+    },
   },
 ];
 

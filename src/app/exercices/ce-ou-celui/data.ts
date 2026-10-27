@@ -1,4 +1,5 @@
 import type { Level } from "@/data/navigation";
+import type { Bi } from "../bilingue";
 
 /**
  * « Ce ou celui ? » — les phrases à compléter, quatorze par niveau.
@@ -49,7 +50,7 @@ export interface PickItem {
   after: string;
   answer: Word;
   /** Montré seulement après coup, et il corrige au lieu de répéter la règle. */
-  because: string;
+  because: Bi;
 }
 
 const A2: PickItem[] = [
@@ -58,102 +59,140 @@ const A2: PickItem[] = [
     before: "Je prends ",
     after: " train de huit heures.",
     answer: "ce",
-    because: "« train » est masculin et commence par une consonne : ce train.",
+    because: {
+      fr: "« train » est masculin et commence par une consonne : ce train.",
+      es: "«*train*» es masculino y empieza por consonante: *ce train*.",
+    },
   },
   {
     id: "homme",
     before: "Tu connais ",
     after: " homme, au fond de la salle ?",
     answer: "cet",
-    because:
-      "Devant une voyelle, le masculin s’écrit cet : cet homme, comme cet arbre.",
+    because: {
+      fr: "Devant une voyelle, le masculin s’écrit cet : cet homme, comme cet arbre.",
+      es: "Delante de vocal, el masculino se escribe *cet*: *cet homme*, como *cet arbre*.",
+    },
   },
   {
     id: "rue",
     before: "Elle habite dans ",
     after: " rue depuis dix ans.",
     answer: "cette",
-    because: "« rue » est féminin : cette rue.",
+    because: {
+      fr: "« rue » est féminin : cette rue.",
+      es: "«*rue*» es femenino: *cette rue*.",
+    },
   },
   {
     id: "photos",
     before: "Range ",
     after: " photos dans la boîte.",
     answer: "ces",
-    because: "Le nom est au pluriel, et ces sert aux deux genres.",
+    because: {
+      fr: "Le nom est au pluriel, et ces sert aux deux genres.",
+      es: "El sustantivo está en plural, y *ces* sirve para los dos géneros.",
+    },
   },
   {
     id: "hotel",
     before: "Réservez ",
     after: " hôtel, il est moins cher.",
     answer: "cet",
-    because: "Le h de hôtel est muet, donc la voyelle compte : cet hôtel.",
+    because: {
+      fr: "Le h de hôtel est muet, donc la voyelle compte : cet hôtel.",
+      es: "La *h* de *hôtel* es muda, así que cuenta la vocal: *cet hôtel*.",
+    },
   },
   {
     id: "affiche",
     before: "Regarde ",
     after: " affiche : elle est magnifique.",
     answer: "cette",
-    because:
-      "« affiche » est féminin, et cet ne se met jamais devant un nom féminin : cette affiche.",
+    because: {
+      fr: "« affiche » est féminin, et cet ne se met jamais devant un nom féminin : cette affiche.",
+      es: "«*affiche*» es femenino, y *cet* nunca va delante de un sustantivo femenino: *cette affiche*.",
+    },
   },
   {
     id: "soir",
     before: "Nous partons ",
     after: " soir à sept heures.",
     answer: "ce",
-    because: "Ce soir désigne le soir d’aujourd’hui : ce, masculin singulier.",
+    because: {
+      fr: "Ce soir désigne le soir d’aujourd’hui : ce, masculin singulier.",
+      es: "*Ce soir* se refiere a la noche de hoy: *ce*, masculino singular.",
+    },
   },
   {
     id: "enfants",
     before: "Tu as vu ",
     after: " enfants dans la cour ?",
     answer: "ces",
-    because: "Le nom est au pluriel : ces enfants.",
+    because: {
+      fr: "Le nom est au pluriel : ces enfants.",
+      es: "El sustantivo está en plural: *ces enfants*.",
+    },
   },
   {
     id: "gateau",
     before: "Quel gâteau veux-tu ? Je prends ",
     after: "-là, au chocolat.",
     answer: "celui",
-    because:
-      "Le nom « gâteau » a déjà été dit, donc c’est le pronom : celui-là, masculin singulier.",
+    because: {
+      fr: "Le nom « gâteau » a déjà été dit, donc c’est le pronom : celui-là, masculin singulier.",
+      es: "El sustantivo «*gâteau*» ya se ha dicho, así que es el pronombre: *celui-là*, masculino singular.",
+    },
   },
   {
     id: "echarpe",
     before: "J’hésite entre ces deux écharpes : je prends ",
     after: "-ci, la bleue.",
     answer: "celle",
-    because: "« écharpe » est féminin singulier : celle-ci.",
+    because: {
+      fr: "« écharpe » est féminin singulier : celle-ci.",
+      es: "«*écharpe*» es femenino singular: *celle-ci*.",
+    },
   },
   {
     id: "velo",
     before: "Mon vélo est ",
     after: " de mon frère.",
     answer: "celui",
-    because: "Le pronom remplace « vélo », masculin singulier : celui de.",
+    because: {
+      fr: "Le pronom remplace « vélo », masculin singulier : celui de.",
+      es: "El pronombre sustituye a «*vélo*», masculino singular: *celui de*.",
+    },
   },
   {
     id: "cles",
     before: "Mes clés sont ",
     after: " du tiroir.",
     answer: "celles",
-    because: "Le pronom remplace « clés », féminin pluriel : celles du tiroir.",
+    because: {
+      fr: "Le pronom remplace « clés », féminin pluriel : celles du tiroir.",
+      es: "El pronombre sustituye a «*clés*», femenino plural: *celles du tiroir*.",
+    },
   },
   {
     id: "citron",
     before: "Parmi les gâteaux, je préfère ",
     after: " qui sont au citron.",
     answer: "ceux",
-    because:
-      "« sont » est au pluriel, et les gâteaux sont masculins : ceux qui sont.",
+    because: {
+      fr: "« sont » est au pluriel, et les gâteaux sont masculins : ceux qui sont.",
+      es: "«*sont*» está en plural, y *les gâteaux* son masculinos: *ceux qui sont*.",
+    },
   },
   {
     id: "veste",
     before: "Cette veste est trop grande : essaie ",
     after: "-là.",
     answer: "celle",
-    because: "Le pronom reprend « veste », féminin singulier : celle-là.",
+    because: {
+      fr: "Le pronom reprend « veste », féminin singulier : celle-là.",
+      es: "El pronombre retoma «*veste*», femenino singular: *celle-là*.",
+    },
   },
 ];
 
@@ -163,103 +202,140 @@ const B1: PickItem[] = [
     before: "Je ne sais pas ",
     after: " qui s’est passé hier soir.",
     answer: "ce",
-    because:
-      "La chose n’a pas de nom, donc le pronom est ce, et « qui » lui donne le sujet du verbe.",
+    because: {
+      fr: "La chose n’a pas de nom, donc le pronom est ce, et « qui » lui donne le sujet du verbe.",
+      es: "La cosa no tiene sustantivo, por eso el pronombre es *ce*, y «*qui*» es el sujeto del verbo.",
+    },
   },
   {
     id: "ecrit",
     before: "Je n’ai pas compris ",
     after: " que tu as écrit.",
     answer: "ce",
-    because: "Un sujet suit (« tu »), donc ce que, et non ce qui.",
+    because: {
+      fr: "Un sujet suit (« tu »), donc ce que, et non ce qui.",
+      es: "Sigue un sujeto («*tu*»), por tanto *ce que*, y no *ce qui*.",
+    },
   },
   {
     id: "besoin",
     before: "Dis-moi ",
     after: " dont tu as besoin pour demain.",
     answer: "ce",
-    because: "On a besoin de quelque chose : le verbe réclame de, donc ce dont.",
+    because: {
+      fr: "On a besoin de quelque chose : le verbe réclame de, donc ce dont.",
+      es: "Se necesita algo: el verbo pide *de*, por tanto *ce dont*.",
+    },
   },
   {
     id: "brille",
     before: "Tout ",
     after: " qui brille n’est pas or.",
     answer: "ce",
-    because: "Après tout, la forme ne change pas : tout ce qui, tout ce que.",
+    because: {
+      fr: "Après tout, la forme ne change pas : tout ce qui, tout ce que.",
+      es: "Después de *tout*, la forma no cambia: *tout ce qui*, *tout ce que*.",
+    },
   },
   {
     id: "candidats",
     before: "Parmi les candidats, ",
     after: " qui arrivent en retard ne passeront pas.",
     answer: "ceux",
-    because:
-      "Le pronom reprend « candidats », masculin pluriel, et « arrivent » le confirme.",
+    because: {
+      fr: "Le pronom reprend « candidats », masculin pluriel, et « arrivent » le confirme.",
+      es: "El pronombre retoma «*candidats*», masculino plural, y «*arrivent*» lo confirma.",
+    },
   },
   {
     id: "chambre",
     before: "Ma chambre est ",
     after: " du fond du couloir.",
     answer: "celle",
-    because: "Le pronom reprend « chambre », féminin singulier : celle du fond.",
+    because: {
+      fr: "Le pronom reprend « chambre », féminin singulier : celle du fond.",
+      es: "El pronombre retoma «*chambre*», femenino singular: *celle du fond*.",
+    },
   },
   {
     id: "grand-pere",
     before: "Ces photos sont ",
     after: " de mon grand-père.",
     answer: "celles",
-    because: "Le pronom reprend « photos », féminin pluriel : celles de.",
+    because: {
+      fr: "Le pronom reprend « photos », féminin pluriel : celles de.",
+      es: "El pronombre retoma «*photos*», femenino plural: *celles de*.",
+    },
   },
   {
     id: "midi",
     before: "Le train de midi et ",
     after: " de treize heures sont complets.",
     answer: "celui",
-    because:
-      "Le pronom reprend un seul train, masculin singulier : celui de treize heures.",
+    because: {
+      fr: "Le pronom reprend un seul train, masculin singulier : celui de treize heures.",
+      es: "El pronombre retoma un solo tren, masculino singular: *celui de treize heures*.",
+    },
   },
   {
     id: "exercices",
     before: "Ces exercices sont plus durs que ",
     after: " de la semaine dernière.",
     answer: "ceux",
-    because: "Le pronom reprend « exercices », masculin pluriel : ceux de.",
+    because: {
+      fr: "Le pronom reprend « exercices », masculin pluriel : ceux de.",
+      es: "El pronombre retoma «*exercices*», masculino plural: *ceux de*.",
+    },
   },
   {
     id: "robes",
     before: "De toutes ses robes, ",
     after: " qu’elle préfère est la bleue.",
     answer: "celle",
-    because:
-      "« la bleue » est au singulier : une seule robe est reprise, donc celle que.",
+    because: {
+      fr: "« la bleue » est au singulier : une seule robe est reprise, donc celle que.",
+      es: "«*la bleue*» está en singular: se retoma un solo vestido, por tanto *celle que*.",
+    },
   },
   {
     id: "manteau",
     before: "Prends ",
     after: " manteau-là, il est plus chaud.",
     answer: "ce",
-    because:
-      "Le nom « manteau » est encore là, donc c’est le déterminant : ce manteau-là.",
+    because: {
+      fr: "Le nom « manteau » est encore là, donc c’est le déterminant : ce manteau-là.",
+      es: "El sustantivo «*manteau*» sigue ahí, así que es el determinante: *ce manteau-là*.",
+    },
   },
   {
     id: "gare",
     before: "Tu te souviens de ",
     after: " homme-là, à la gare ?",
     answer: "cet",
-    because: "Le nom suit, masculin et devant une voyelle : cet homme-là.",
+    because: {
+      fr: "Le nom suit, masculin et devant une voyelle : cet homme-là.",
+      es: "Sigue el sustantivo, masculino y delante de vocal: *cet homme-là*.",
+    },
   },
   {
     id: "histoire",
     before: "Franchement, ",
     after: " histoire ne m’intéresse pas.",
     answer: "cette",
-    because: "« histoire » est féminin, malgré la voyelle : cette histoire.",
+    because: {
+      fr: "« histoire » est féminin, malgré la voyelle : cette histoire.",
+      es: "«*histoire*» es femenino, a pesar de la vocal: *cette histoire*.",
+    },
   },
   {
     id: "annees",
     before: "Nous avons passé ",
     after: " années-là en Espagne.",
     answer: "ces",
-    because: "Le nom est au pluriel, et -là le renvoie au récit : ces années-là.",
+    because: {
+      fr: "Le nom est au pluriel, et -là le renvoie au récit : ces années-là.",
+      es: "El sustantivo está en plural, y *-là* lo remite al relato: *ces années-là*.",
+    },
   },
 ];
 
@@ -289,7 +365,7 @@ for (const [level, bank] of Object.entries(BANKS)) {
     if (!POOL.includes(item.answer)) bad.push(at + ': réponse absente du tirage')
     if (item.before === '') bad.push(at + ': blanc en tête de phrase, la majuscule ne se pioche pas')
     if (!/[.?!]$/.test(item.after)) bad.push(at + ': la phrase ne finit pas')
-    if (item.because.length < 20) bad.push(at + ': correction trop courte')
+    if (item.because.fr.length < 20 || item.because.es.length < 20) bad.push(at + ': correction trop courte')
   }
   for (const word of POOL) if (!used.has(word)) bad.push(level + ': « ' + word + ' » n_est jamais la réponse')
   console.log('--- ' + level + ' : ' + bank.length + ' phrases')

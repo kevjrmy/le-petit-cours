@@ -6,12 +6,49 @@ const PATH = "/conversation/parler-du-travail";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102): CSS shows the
+   interface's. The words to say are French, written once and shared. */
+const WORDS = [
+  "les horaires",
+  "commencer",
+  "finir",
+  "tôt",
+  "tard",
+  "la pause déjeuner",
+  "la cantine",
+  "la machine à café",
+  "le badge",
+  "un collègue",
+  "le chef",
+  "une réunion",
+  "les congés",
+  "un jour férié",
+  "mon ancien travail",
+  "avant",
+  "pareil",
+  "presque la même chose",
+  "tutoyer",
+  "vouvoyer",
+];
+
+function Mots() {
+  return (
+    <ul className="mots">
+      {WORDS.map((w) => (
+        <li key={w} lang="fr">
+          {w}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>La situation</h2>
 
         <p>
@@ -25,7 +62,19 @@ export default function Page() {
         <Situations />
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>La situación</h2>
+        <p>
+          Es tu primera semana en una empresa en Francia. A mediodía, un
+          compañero se sienta a tu lado con su bandeja. Es él quien te acoge: te
+          enseña cómo funcionan las cosas aquí, y tiene curiosidad por saber
+          cómo se trabaja en España. Alguien hace de compañero; tú respondes y,
+          a tu vez, preguntas.
+        </p>
+        <Situations />
+      </section>
+
+      <section data-ui="fr">
         <h2>Les étapes</h2>
 
         <p>
@@ -53,7 +102,9 @@ export default function Page() {
         </div>
 
         <div className="astuce">
-          <p className="astuce-hook">Comparez avec un chiffre, pas avec un adjectif.</p>
+          <p className="astuce-hook">
+            Comparez avec un chiffre, pas avec un adjectif.
+          </p>
           <p>
             <span className="fr">Je commence à huit heures et demie</span> se
             comprend tout de suite ; <span className="fr">c’est très tôt</span>{" "}
@@ -64,7 +115,70 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>Las etapas</h2>
+        <p>
+          Una conversación entre compañeros no tiene un objetivo que alcanzar.
+          Avanza con pequeños intercambios, y cada uno da tanto como recibe.
+        </p>
+        <ol>
+          <li>Decir lo que haces y a qué hora.</li>
+          <li>Escuchar la diferencia y nombrarla con una cifra.</li>
+          <li>Pedir que te expliquen una palabra que no conoces.</li>
+          <li>
+            Contar tu antiguo trabajo, en{" "}
+            <span className="fr" lang="fr">
+              imparfait
+            </span>
+            .
+          </li>
+          <li>Hacer la misma pregunta a tu compañero.</li>
+        </ol>
+        <div className="attention">
+          En el trabajo,{" "}
+          <span className="fr" lang="fr">
+            tu
+          </span>{" "}
+          y{" "}
+          <span className="fr" lang="fr">
+            vous
+          </span>{" "}
+          no se eligen de una vez para siempre. Entre compañeros se pasa pronto
+          al{" "}
+          <span className="fr" lang="fr">
+            tu
+          </span>
+          : alguien pregunta{" "}
+          <span className="fr" lang="fr">
+            « on se tutoie ? »
+          </span>{" "}
+          y asunto resuelto. Con un cliente, o con alguien que acaba de llegar,
+          se mantiene{" "}
+          <span className="fr" lang="fr">
+            le vous
+          </span>{" "}
+          y se espera a que te propongan el otro.
+        </div>
+        <div className="astuce">
+          <p className="astuce-hook">
+            Compara con una cifra, no con un adjetivo.
+          </p>
+          <p>
+            <span className="fr" lang="fr">
+              Je commence à huit heures et demie
+            </span>{" "}
+            se entiende enseguida;{" "}
+            <span className="fr" lang="fr">
+              c’est très tôt
+            </span>{" "}
+            no le dice nada a alguien que no conoce tu horario. Una hora, un
+            número de días, un número de semanas: es también el francés más
+            fácil de producir.
+          </p>
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Les mots pour le dire</h2>
 
         <p>
@@ -72,28 +186,16 @@ export default function Page() {
           laissez le reste.
         </p>
 
-        <ul className="mots">
-          <li>les horaires</li>
-          <li>commencer</li>
-          <li>finir</li>
-          <li>tôt</li>
-          <li>tard</li>
-          <li>la pause déjeuner</li>
-          <li>la cantine</li>
-          <li>la machine à café</li>
-          <li>le badge</li>
-          <li>un collègue</li>
-          <li>le chef</li>
-          <li>une réunion</li>
-          <li>les congés</li>
-          <li>un jour férié</li>
-          <li>mon ancien travail</li>
-          <li>avant</li>
-          <li>pareil</li>
-          <li>presque la même chose</li>
-          <li>tutoyer</li>
-          <li>vouvoyer</li>
-        </ul>
+        <Mots />
+      </section>
+
+      <section data-ui="es" lang="es">
+        <h2>Las palabras para decirlo</h2>
+        <p>
+          Lo necesario para llevar la conversación en la mesa. Coge lo que te
+          sirva y deja el resto.
+        </p>
+        <Mots />
       </section>
     </article>
   );

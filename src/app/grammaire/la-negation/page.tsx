@@ -6,12 +6,152 @@ const PATH = "/grammaire/la-negation";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102): CSS shows the
+   interface's. The French taught is written once, below, and shared. */
+
+type Lang = "fr" | "es";
+
+function Frame() {
+  return (
+    <div className="example" lang="fr">
+      Je parle. → Je <strong>ne</strong> parle <strong>pas</strong>.
+      <br />
+      Elle travaille le dimanche. → Elle <strong>ne</strong> travaille{" "}
+      <strong>pas</strong> le dimanche.
+      <br />
+      Ils sont français. → Ils <strong>ne</strong> sont <strong>pas</strong>{" "}
+      français.
+    </div>
+  );
+}
+
+function Elision() {
+  return (
+    <div className="example" lang="fr">
+      Je <strong>n’</strong>aime pas le café. · Il <strong>n’</strong>habite
+      pas ici. · On <strong>n’</strong>a pas le temps.
+    </div>
+  );
+}
+
+function Swap() {
+  return (
+    <div className="example" lang="fr">
+      J’ai <strong>du</strong> pain. → Je n’ai plus <strong>de</strong> pain.
+      <br />
+      Je bois <strong>du</strong> café. → Je ne bois jamais <strong>de</strong>{" "}
+      café.
+    </div>
+  );
+}
+
+const ARTICLES = [
+  ["J’ai un vélo.", "Je n’ai pas de vélo."],
+  ["Elle a une voiture.", "Elle n’a pas de voiture."],
+  ["Nous avons des enfants.", "Nous n’avons pas d’enfants."],
+  ["Il boit du thé.", "Il ne boit pas de thé."],
+];
+
+const NEGATIONS = [
+  { form: "ne … plus", sense: { fr: "c’était vrai avant, c’est fini", es: "era verdad antes, ya se acabó" }, example: "Je ne fume plus." },
+  { form: "ne … jamais", sense: { fr: "zéro fois, aucune fois", es: "cero veces, ninguna vez" }, example: "Il ne ment jamais." },
+  { form: "ne … rien", sense: { fr: "aucune chose", es: "ninguna cosa" }, example: "Elle ne voit rien." },
+  { form: "ne … personne", sense: { fr: "aucune personne", es: "ninguna persona" }, example: "Nous ne connaissons personne." },
+];
+
+function ArticlesTable({ lang }: { lang: Lang }) {
+  const t =
+    lang === "fr"
+      ? {
+          caption: "Ce que l’article devient quand la phrase passe au négatif",
+          cols: ["Phrase affirmative", "Phrase négative"],
+        }
+      : {
+          caption: "Lo que pasa con el artículo cuando la frase se vuelve negativa",
+          cols: ["Frase afirmativa", "Frase negativa"],
+        };
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{t.caption}</caption>
+        <thead>
+          <tr>
+            {t.cols.map((c) => (
+              <th key={c} scope="col">
+                {c}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {ARTICLES.map(([yes, no]) => (
+            <tr key={yes}>
+              <th scope="row" className="fr" lang="fr">
+                {yes}
+              </th>
+              <td className="fr" lang="fr">
+                {no}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function NegationsTable({ lang }: { lang: Lang }) {
+  const t =
+    lang === "fr"
+      ? {
+          caption: "Les quatre négations qui remplacent « pas », et ce qu’elles disent de plus",
+          cols: ["Négation", "Sens", "Exemple"],
+        }
+      : {
+          caption: (
+            <>
+              Las cuatro negaciones que sustituyen a «<span lang="fr">pas</span>», y lo que dicen de más
+            </>
+          ),
+          cols: ["Negación", "Sentido", "Ejemplo"],
+        };
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{t.caption}</caption>
+        <thead>
+          <tr>
+            {t.cols.map((c) => (
+              <th key={c} scope="col">
+                {c}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {NEGATIONS.map((row) => (
+            <tr key={row.form}>
+              <th scope="row" className="fr" lang="fr">
+                {row.form}
+              </th>
+              <td>{row.sense[lang]}</td>
+              <td className="fr" lang="fr">
+                {row.example}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>Deux mots autour du verbe</h2>
 
         <div className="rule">
@@ -21,15 +161,7 @@ export default function Page() {
           les deux.
         </div>
 
-        <div className="example">
-          Je parle. → Je <strong>ne</strong> parle <strong>pas</strong>.
-          <br />
-          Elle travaille le dimanche. → Elle <strong>ne</strong> travaille{" "}
-          <strong>pas</strong> le dimanche.
-          <br />
-          Ils sont français. → Ils <strong>ne</strong> sont{" "}
-          <strong>pas</strong> français.
-        </div>
+        <Frame />
 
         <p>
           Devant une voyelle ou un <span className="fr">h</span> muet,{" "}
@@ -37,10 +169,7 @@ export default function Page() {
           <span className="fr">n’</span>.
         </p>
 
-        <div className="example">
-          Je <strong>n’</strong>aime pas le café. · Il <strong>n’</strong>habite
-          pas ici. · On <strong>n’</strong>a pas le temps.
-        </div>
+        <Elision />
 
         <div className="attention">
           Au passé composé, les deux morceaux encadrent{" "}
@@ -67,7 +196,53 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>Dos palabras alrededor del verbo</h2>
+
+        <div className="rule">
+          La negación francesa se escribe en <strong>dos trozos</strong>.{" "}
+          <span className="fr" lang="fr">ne</span> va antes del verbo conjugado,{" "}
+          <span className="fr" lang="fr">pas</span> va después. El verbo queda
+          entre los dos.
+        </div>
+
+        <Frame />
+
+        <p>
+          Delante de vocal o de <span className="fr" lang="fr">h</span> muda,{" "}
+          <span className="fr" lang="fr">ne</span> se convierte en{" "}
+          <span className="fr" lang="fr">n’</span>.
+        </p>
+
+        <Elision />
+
+        <div className="attention">
+          En el <span className="fr" lang="fr">passé composé</span>, los dos
+          trozos rodean <strong>al auxiliar</strong>, no al participio:{" "}
+          <span className="fr" lang="fr">je n’ai pas mangé</span>,{" "}
+          <span className="fr" lang="fr">elle n’est pas venue</span>. El
+          participio se queda fuera, después de{" "}
+          <span className="fr" lang="fr">pas</span>.
+        </div>
+
+        <div className="astuce">
+          <p className="astuce-hook">
+            Al hablar, el <span className="fr" lang="fr">ne</span> desaparece. Al
+            escribir, nunca.
+          </p>
+          <p>
+            Todos los días se oye{" "}
+            <span className="fr" lang="fr">je sais pas</span>,{" "}
+            <span className="fr" lang="fr">c’est pas grave</span>. Es francés
+            corriente y puedes decirlo. Pero una frase escrita sin{" "}
+            <span className="fr" lang="fr">ne</span> es una frase incorrecta: en
+            una carta, un mensaje profesional o un examen, los dos trozos son
+            obligatorios.
+          </p>
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Après la négation, l’article change</h2>
 
         <div className="rule">
@@ -81,45 +256,7 @@ export default function Page() {
           après une négation, quel que soit le genre et le nombre du nom.
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <caption>
-              Ce que l’article devient quand la phrase passe au négatif
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Phrase affirmative</th>
-                <th scope="col">Phrase négative</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr">
-                  J’ai un vélo.
-                </th>
-                <td className="fr">Je n’ai pas de vélo.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  Elle a une voiture.
-                </th>
-                <td className="fr">Elle n’a pas de voiture.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  Nous avons des enfants.
-                </th>
-                <td className="fr">Nous n’avons pas d’enfants.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  Il boit du thé.
-                </th>
-                <td className="fr">Il ne boit pas de thé.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <ArticlesTable lang="fr" />
 
         <p>
           Devant une voyelle, <span className="fr">de</span> s’élide à son tour
@@ -145,7 +282,51 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>Después de la negación, el artículo cambia</h2>
+
+        <div className="rule">
+          <span className="fr" lang="fr">un</span>,{" "}
+          <span className="fr" lang="fr">une</span>,{" "}
+          <span className="fr" lang="fr">des</span>,{" "}
+          <span className="fr" lang="fr">du</span>,{" "}
+          <span className="fr" lang="fr">de la</span>,{" "}
+          <span className="fr" lang="fr">de l’</span> se convierten en{" "}
+          <strong>
+            <span className="fr" lang="fr">de</span>
+          </strong>{" "}
+          después de una negación, sea cual sea el género y el número del
+          nombre.
+        </div>
+
+        <ArticlesTable lang="es" />
+
+        <p>
+          Delante de vocal, <span className="fr" lang="fr">de</span> se elide a
+          su vez y da <span className="fr" lang="fr">d’</span>:{" "}
+          <span className="fr" lang="fr">il n’y a pas d’eau dans le verre</span>.
+        </p>
+
+        <div className="exception">
+          El artículo definido no se mueve.{" "}
+          <span className="fr" lang="fr">le</span>,{" "}
+          <span className="fr" lang="fr">la</span>,{" "}
+          <span className="fr" lang="fr">les</span> se quedan como están:{" "}
+          <span className="fr" lang="fr">je n’aime pas le café</span>, nunca{" "}
+          <s className="fr" lang="fr">je n’aime pas de café</s>. Y después del
+          verbo <span className="fr" lang="fr">être</span> tampoco cambia nada:{" "}
+          <span className="fr" lang="fr">ce n’est pas un problème</span>. Las
+          dos excepciones caben en una línea en{" "}
+          <Link href="/astuces/pas-de">pas de ou pas un ?</Link>, y los
+          artículos en sí están en{" "}
+          <Link href="/grammaire/les-articles-partitifs">
+            Les articles partitifs
+          </Link>
+          .
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Quand « pas » cède sa place</h2>
 
         <p>
@@ -153,51 +334,7 @@ export default function Page() {
           deuxième morceau peut changer pour préciser le sens de la négation.
         </p>
 
-        <div className="table-wrap">
-          <table>
-            <caption>
-              Les quatre négations qui remplacent « pas », et ce qu’elles disent
-              de plus
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Négation</th>
-                <th scope="col">Sens</th>
-                <th scope="col">Exemple</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr">
-                  ne … plus
-                </th>
-                <td>c’était vrai avant, c’est fini</td>
-                <td className="fr">Je ne fume plus.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  ne … jamais
-                </th>
-                <td>zéro fois, aucune fois</td>
-                <td className="fr">Il ne ment jamais.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  ne … rien
-                </th>
-                <td>aucune chose</td>
-                <td className="fr">Elle ne voit rien.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">
-                  ne … personne
-                </th>
-                <td>aucune personne</td>
-                <td className="fr">Nous ne connaissons personne.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <NegationsTable lang="fr" />
 
         <p>
           <span className="fr">plus</span> et{" "}
@@ -207,13 +344,7 @@ export default function Page() {
           <span className="fr">pas</span>.
         </p>
 
-        <div className="example">
-          J’ai <strong>du</strong> pain. → Je n’ai plus <strong>de</strong>{" "}
-          pain.
-          <br />
-          Je bois <strong>du</strong> café. → Je ne bois jamais{" "}
-          <strong>de</strong> café.
-        </div>
+        <Swap />
 
         <p>
           Avec <span className="fr">rien</span> et{" "}
@@ -237,7 +368,53 @@ export default function Page() {
         </div>
       </section>
 
-      <div className="resume">
+      <section data-ui="es" lang="es">
+        <h2>
+          Cuando «<span className="fr" lang="fr">pas</span>» cede su sitio
+        </h2>
+
+        <p>
+          <span className="fr" lang="fr">ne</span> va siempre delante del verbo,
+          pero el segundo trozo puede cambiar para precisar el sentido de la
+          negación.
+        </p>
+
+        <NegationsTable lang="es" />
+
+        <p>
+          <span className="fr" lang="fr">plus</span> y{" "}
+          <span className="fr" lang="fr">jamais</span> mantienen la regla de la
+          sección anterior: el artículo se convierte en{" "}
+          <span className="fr" lang="fr">de</span> detrás de ellos exactamente
+          igual que detrás de <span className="fr" lang="fr">pas</span>.
+        </p>
+
+        <Swap />
+
+        <p>
+          Con <span className="fr" lang="fr">rien</span> y{" "}
+          <span className="fr" lang="fr">personne</span> no hay duda: ocupan el
+          lugar del nombre en vez de ir delante de él. No hay nada detrás de
+          ellos, así que no hay artículo que cambiar.
+        </p>
+
+        <div className="attention">
+          Estas palabras sustituyen a <span className="fr" lang="fr">pas</span>,
+          no se suman a él. Se dice{" "}
+          <span className="fr" lang="fr">je ne fume plus</span>, nunca{" "}
+          <s className="fr" lang="fr">je ne fume pas plus</s>.
+        </div>
+
+        <div className="exception">
+          En el <span className="fr" lang="fr">passé composé</span>,{" "}
+          <span className="fr" lang="fr">personne</span> va después del
+          participio, mientras que las otras tres van delante:{" "}
+          <span className="fr" lang="fr">je n’ai rien vu</span> pero{" "}
+          <span className="fr" lang="fr">je n’ai vu personne</span>.
+        </div>
+      </section>
+
+      <div className="resume" data-ui="fr">
         <h2>En résumé</h2>
         <ul>
           <li>
@@ -268,6 +445,45 @@ export default function Page() {
             <span className="fr">jamais</span>, <span className="fr">rien</span>
             , <span className="fr">personne</span> prennent la place de{" "}
             <span className="fr">pas</span> et ne s’ajoutent jamais à lui.
+          </li>
+        </ul>
+      </div>
+
+      <div className="resume" data-ui="es" lang="es">
+        <h2>En resumen</h2>
+        <ul>
+          <li>
+            <span className="fr" lang="fr">ne</span> antes del verbo conjugado,{" "}
+            <span className="fr" lang="fr">pas</span> después: el verbo queda
+            entre los dos.
+          </li>
+          <li>
+            Delante de vocal, <span className="fr" lang="fr">ne</span> se
+            convierte en <span className="fr" lang="fr">n’</span>.
+          </li>
+          <li>
+            En el <span className="fr" lang="fr">passé composé</span>, los dos
+            trozos rodean al auxiliar; el participio queda después.
+          </li>
+          <li>
+            <span className="fr" lang="fr">un</span>,{" "}
+            <span className="fr" lang="fr">une</span>,{" "}
+            <span className="fr" lang="fr">des</span>,{" "}
+            <span className="fr" lang="fr">du</span>,{" "}
+            <span className="fr" lang="fr">de la</span> y{" "}
+            <span className="fr" lang="fr">de l’</span> se convierten en{" "}
+            <span className="fr" lang="fr">de</span>, después de{" "}
+            <span className="fr" lang="fr">plus</span> y{" "}
+            <span className="fr" lang="fr">jamais</span> como después de{" "}
+            <span className="fr" lang="fr">pas</span>. El artículo definido, en
+            cambio, no cambia.
+          </li>
+          <li>
+            <span className="fr" lang="fr">plus</span>,{" "}
+            <span className="fr" lang="fr">jamais</span>,{" "}
+            <span className="fr" lang="fr">rien</span>,{" "}
+            <span className="fr" lang="fr">personne</span> ocupan el lugar de{" "}
+            <span className="fr" lang="fr">pas</span> y nunca se suman a él.
           </li>
         </ul>
       </div>

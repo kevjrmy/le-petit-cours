@@ -40,7 +40,7 @@ export default function Page() {
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>Le texte</h2>
 
         <p>
@@ -54,11 +54,29 @@ export default function Page() {
           passe pas, alors regardez d’abord où vous allez poser votre{" "}
           <span className="fr">ne</span>.
         </p>
+      </section>
 
-        <Traduction
-          lines={LINES}
-          model={MODEL}
-          note={
+      <section data-ui="es" lang="es">
+        <h2>El texto</h2>
+
+        <p>
+          Brad Bird · <em lang="fr">Ratatouille</em> · Pixar · 2007 · el
+          principio de la historia
+        </p>
+
+        <p>
+          Rémy es la rata cocinera de esta película: aquí tienes su historia,
+          resumida en cuatro frases. Dicen sobre todo lo que <em>no</em> pasa,
+          así que mira primero dónde vas a poner tu{" "}
+          <span className="fr" lang="fr">ne</span>.
+        </p>
+      </section>
+
+      <Traduction
+        lines={LINES}
+        model={MODEL}
+        note={{
+          fr: (
             <>
               Votre version n’a pas à être identique à celle-ci. «{" "}
               <span className="fr">Rémy</span> » ou «{" "}
@@ -76,9 +94,30 @@ export default function Page() {
               verbes : «{" "}
               <span className="fr">ils ne vont rien dire</span> ».
             </>
-          }
-        />
-      </section>
+          ),
+          es: (
+            <>
+              Tu versión no tiene por qué ser idéntica a esta.{" "}
+              <span className="fr" lang="fr">Rémy</span> o{" "}
+              <span className="fr" lang="fr">Remy</span>,{" "}
+              <span className="fr" lang="fr">il habite</span> o{" "}
+              <span className="fr" lang="fr">il vit</span>: da igual. Lo que
+              cuenta son las cuatro negaciones. Después de una negación, el
+              artículo cambia:{" "}
+              <span className="fr" lang="fr">il ne mange pas d’ordures</span>,
+              nunca <s className="fr" lang="fr">des ordures</s>.{" "}
+              <span className="fr" lang="fr">personne</span> es aquí el sujeto,
+              así que <span className="fr" lang="fr">ne</span> se queda delante
+              del verbo:{" "}
+              <span className="fr" lang="fr">personne ne veut</span>. Y en el{" "}
+              <span className="fr" lang="fr">futur proche</span>,{" "}
+              <span className="fr" lang="fr">rien</span> va entre los dos
+              verbos:{" "}
+              <span className="fr" lang="fr">ils ne vont rien dire</span>.
+            </>
+          ),
+        }}
+      />
     </article>
   );
 }

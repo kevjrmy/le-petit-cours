@@ -1,3 +1,5 @@
+import type { Bi } from "../bilingue";
+
 /**
  * « Mais, donc ou parce que ? » — un récit à trous, et un petit menu par trou.
  *
@@ -34,7 +36,7 @@ export interface Blank {
   /** Les trois choix, dans l'ordre où le menu les montre. */
   options: [string, string, string];
   /** Montré après coup, sous un trou raté : il dit le lien, pas la règle. */
-  because: string;
+  because: Bi;
 }
 
 /** Le texte, coupé aux trous : une chaîne est du texte, le reste est un trou. */
@@ -47,16 +49,20 @@ export const TEXT: Piece[][] = [
       id: "mais",
       answer: "mais",
       options: ["puis", "mais", "parce que"],
-      because:
-        "Bien chanter et être dangereux sont deux idées qui s’opposent : « mais ».",
+      because: {
+        fr: "Bien chanter et être dangereux sont deux idées qui s’opposent : « mais ».",
+        es: "Cantar bien y ser peligroso son dos ideas que se oponen: «*mais*».",
+      },
     },
     " leur chant est dangereux : les marins qui l’écoutent ne rentrent jamais chez eux. Ulysse connaît le danger. ",
     {
       id: "pourtant",
       answer: "Pourtant",
       options: ["Donc", "Parce que", "Pourtant"],
-      because:
-        "Il connaît le danger, et il veut quand même écouter. C’est une surprise, pas une conséquence : « pourtant ».",
+      because: {
+        fr: "Il connaît le danger, et il veut quand même écouter. C’est une surprise, pas une conséquence : « pourtant ».",
+        es: "Conoce el peligro y aun así quiere escuchar. Es una sorpresa, no una consecuencia: «*pourtant*».",
+      },
     },
     ", il veut entendre ce chant.",
   ],
@@ -66,14 +72,20 @@ export const TEXT: Piece[][] = [
       id: "dabord",
       answer: "D’abord",
       options: ["D’abord", "Enfin", "Pourtant"],
-      because: "C’est la première des deux choses qu’il prépare : « d’abord ».",
+      because: {
+        fr: "C’est la première des deux choses qu’il prépare : « d’abord ».",
+        es: "Es la primera de las dos cosas que prepara: «*d’abord*».",
+      },
     },
     ", il met de la cire dans les oreilles de ses hommes. ",
     {
       id: "ensuite",
       answer: "Ensuite",
       options: ["Pourtant", "Ensuite", "D’abord"],
-      because: "C’est la deuxième chose, l’action suivante : « ensuite ».",
+      because: {
+        fr: "C’est la deuxième chose, l’action suivante : « ensuite ».",
+        es: "Es la segunda cosa, la acción siguiente: «*ensuite*».",
+      },
     },
     ", il leur demande de l’attacher au mât du bateau.",
   ],
@@ -83,16 +95,20 @@ export const TEXT: Piece[][] = [
       id: "comme",
       answer: "Comme",
       options: ["Donc", "Enfin", "Comme"],
-      because:
-        "La cire est la cause, et elle vient au début de la phrase : « comme ».",
+      because: {
+        fr: "La cire est la cause, et elle vient au début de la phrase : « comme ».",
+        es: "La cera es la causa, y va al principio de la frase: «*comme*».",
+      },
     },
     " les hommes ont de la cire dans les oreilles, ils n’entendent rien. Ulysse, lui, entend tout. Il trouve le chant magnifique, ",
     {
       id: "donc",
       answer: "donc",
       options: ["pourtant", "donc", "mais"],
-      because:
-        "Il trouve le chant magnifique : vouloir y aller est la conséquence, « donc ».",
+      because: {
+        fr: "Il trouve le chant magnifique : vouloir y aller est la conséquence, « donc ».",
+        es: "Encuentra el canto magnífico: querer ir es la consecuencia, «*donc*».",
+      },
     },
     " il veut aller vers les Sirènes.",
   ],
@@ -102,16 +118,20 @@ export const TEXT: Piece[][] = [
       id: "meme-si",
       answer: "Même si",
       options: ["Comme", "Même si", "Donc"],
-      because:
-        "Ulysse est le chef, et cela ne change rien : les hommes n’obéissent pas. Un obstacle qui ne change rien, c’est « même si ».",
+      because: {
+        fr: "Ulysse est le chef, et cela ne change rien : les hommes n’obéissent pas. Un obstacle qui ne change rien, c’est « même si ».",
+        es: "*Ulysse* es el jefe, y eso no cambia nada: los hombres no obedecen. Un obstáculo que no cambia nada es «*même si*».",
+      },
     },
     " Ulysse est leur chef, les hommes ne lui obéissent pas : ils l’attachent plus fort. Ulysse ne peut pas bouger ",
     {
       id: "parce-que",
       answer: "parce que",
       options: ["pourquoi", "par contre", "parce que"],
-      because:
-        "Les cordes solides sont la cause : « parce que ». « Pourquoi » pose une question, il ne donne jamais la cause.",
+      because: {
+        fr: "Les cordes solides sont la cause : « parce que ». « Pourquoi » pose une question, il ne donne jamais la cause.",
+        es: "Las cuerdas sólidas son la causa: «*parce que*». «*Pourquoi*» plantea una pregunta, nunca da la causa.",
+      },
     },
     " les cordes sont solides.",
   ],
@@ -121,15 +141,20 @@ export const TEXT: Piece[][] = [
       id: "pour-ca",
       answer: "C’est pour ça que",
       options: ["C’est pour ça que", "Même si", "Parce que"],
-      because:
-        "Les hommes n’entendent rien : le bateau qui continue est la conséquence, « c’est pour ça que ».",
+      because: {
+        fr: "Les hommes n’entendent rien : le bateau qui continue est la conséquence, « c’est pour ça que ».",
+        es: "Los hombres no oyen nada: que el barco siga es la consecuencia, «*c’est pour ça que*».",
+      },
     },
     " le bateau continue sa route. ",
     {
       id: "enfin",
       answer: "Enfin",
       options: ["D’abord", "Pourtant", "Enfin"],
-      because: "C’est la dernière action du récit : « enfin ».",
+      because: {
+        fr: "C’est la dernière action du récit : « enfin ».",
+        es: "Es la última acción del relato: «*enfin*».",
+      },
     },
     ", quand l’île est loin, les hommes détachent Ulysse. Il connaît maintenant le chant des Sirènes, et il est vivant.",
   ],
@@ -156,7 +181,7 @@ TEXT.forEach((paragraph) => paragraph.forEach((piece, i) => {
   const b = piece
   if (b.options.filter(o => o === b.answer).length !== 1) bad.push(b.id + ': la réponse doit figurer une fois dans le menu')
   if (new Set(b.options).size !== 3) bad.push(b.id + ': choix en double')
-  if (b.because.length < 20) bad.push(b.id + ': correction trop courte')
+  if (b.because.fr.length < 20 || b.because.es.length < 20) bad.push(b.id + ': correction trop courte')
   places[b.options.indexOf(b.answer)]++
   const next = paragraph[i + 1]
   const elides = b.options.some(o => /(que|si)$/i.test(o))

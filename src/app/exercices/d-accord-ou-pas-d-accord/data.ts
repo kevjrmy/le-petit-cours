@@ -1,3 +1,5 @@
+import type { Bi } from "../bilingue";
+
 /**
  * « D’accord ou pas d’accord ? » — un dialogue à trous, et un petit menu par
  * trou. Le plateau est celui de `mais-donc-ou-parce-que`, avec le nom de la
@@ -42,7 +44,7 @@ export interface Blank {
   /** Les trois choix, dans l'ordre où le menu les montre. */
   options: [string, string, string];
   /** Montré après coup, sous un trou raté : il dit ce que fait la formule. */
-  because: string;
+  because: Bi;
 }
 
 /** Une réplique, coupée aux trous : une chaîne est du texte, le reste un trou. */
@@ -67,8 +69,10 @@ export const TEXT: Line[] = [
         id: "a-mon-avis",
         answer: "À mon avis",
         options: ["Dans mon opinion", "À mon avis", "Bref"],
-        because:
-          "Inès annonce son idée. La formule est « à mon avis » : « dans mon opinion » ne se dit pas.",
+        because: {
+          fr: "Inès annonce son idée. La formule est « à mon avis » : « dans mon opinion » ne se dit pas.",
+          es: "Inès anuncia su idea. La fórmula es «*à mon avis*»: «*dans mon opinion*» no se dice.",
+        },
       },
       ", les légumes du marché sont meilleurs, parce qu’ils sont plus frais.",
     ],
@@ -86,16 +90,20 @@ export const TEXT: Line[] = [
         id: "c-est-vrai",
         answer: "C’est vrai",
         options: ["C’est vrai", "En plus", "Bref"],
-        because:
-          "Inès accepte une partie de l’idée de Marc, puis elle ajoute son idée avec « mais » : « c’est vrai ».",
+        because: {
+          fr: "Inès accepte une partie de l’idée de Marc, puis elle ajoute son idée avec « mais » : « c’est vrai ».",
+          es: "Inès acepta una parte de la idea de Marc y luego añade la suya con «*mais*»: «*c’est vrai*».",
+        },
       },
       ", le marché est plus cher, mais j’achète moins. ",
       {
         id: "par-exemple",
         answer: "Par exemple",
         options: ["Pourtant", "Ça dépend", "Par exemple"],
-        because:
-          "Trois tomates, pas un kilo : c’est un cas précis de « j’achète moins ». Un cas précis s’annonce par « par exemple ».",
+        because: {
+          fr: "Trois tomates, pas un kilo : c’est un cas précis de « j’achète moins ». Un cas précis s’annonce par « par exemple ».",
+          es: "Tres tomates, no un kilo: es un caso concreto de «*j’achète moins*». Un caso concreto se anuncia con «*par exemple*».",
+        },
       },
       ", je prends trois tomates, pas un kilo.",
     ],
@@ -108,15 +116,20 @@ export const TEXT: Line[] = [
         id: "as-raison",
         answer: "as",
         options: ["es", "as", "fais"],
-        because: "« raison » va avec le verbe avoir : « tu as raison ».",
+        because: {
+          fr: "« raison » va avec le verbe avoir : « tu as raison ».",
+          es: "«*raison*» va con el verbo *avoir*: «*tu as raison*».",
+        },
       },
       " raison, on achète souvent trop. Mais je travaille jusqu’à dix-neuf heures, et le supermarché est ouvert le soir. ",
       {
         id: "en-plus",
         answer: "En plus",
         options: ["En plus", "Pourtant", "Bref"],
-        because:
-          "Marc a donné une première raison, le supermarché ouvert le soir. Il ajoute une deuxième raison : « en plus ».",
+        because: {
+          fr: "Marc a donné une première raison, le supermarché ouvert le soir. Il ajoute une deuxième raison : « en plus ».",
+          es: "Marc ha dado una primera razón, el supermercado abierto por las tardes. Añade una segunda razón: «*en plus*».",
+        },
       },
       ", il est à côté de chez moi.",
     ],
@@ -134,16 +147,20 @@ export const TEXT: Line[] = [
         id: "ca-depend",
         answer: "Ça dépend",
         options: ["Dépend", "C’est vrai", "Ça dépend"],
-        because:
-          "La réponse change avec les semaines. « dépend » garde toujours son « ça » : « ça dépend des semaines ».",
+        because: {
+          fr: "La réponse change avec les semaines. « dépend » garde toujours son « ça » : « ça dépend des semaines ».",
+          es: "La respuesta cambia según las semanas. «*Dépend*» siempre lleva su «*ça*»: «*ça dépend des semaines*».",
+        },
       },
       " des semaines. Et quand je ne travaille pas, je dors tard. Je ne suis pas sûr, mais ",
       {
         id: "je-crois-que",
         answer: "je crois que",
         options: ["je crois que", "je trouve que", "par exemple"],
-        because:
-          "Marc n’est pas sûr de l’heure. Quand on n’est pas tout à fait sûr, on dit « je crois que ». « Je trouve que » juge une chose qu’on connaît.",
+        because: {
+          fr: "Marc n’est pas sûr de l’heure. Quand on n’est pas tout à fait sûr, on dit « je crois que ». « Je trouve que » juge une chose qu’on connaît.",
+          es: "Marc no está seguro de la hora. Cuando no se está del todo seguro, se dice «*je crois que*». «*Je trouve que*» juzga algo que se conoce.",
+        },
       },
       " le marché ferme à treize heures.",
     ],
@@ -156,15 +173,20 @@ export const TEXT: Line[] = [
         id: "surtout",
         answer: "surtout",
         options: ["pourtant", "surtout", "donc"],
-        because:
-          "Les vendeurs sont la raison la plus importante pour Inès : « surtout ».",
+        because: {
+          fr: "Les vendeurs sont la raison la plus importante pour Inès : « surtout ».",
+          es: "Los vendedores son la razón más importante para Inès: «*surtout*».",
+        },
       },
       " pour les vendeurs : ils connaissent mon prénom. ",
       {
         id: "bref",
         answer: "Bref",
         options: ["Par exemple", "Pourtant", "Bref"],
-        because: "Inès ferme son avis en quelques mots : « bref ».",
+        because: {
+          fr: "Inès ferme son avis en quelques mots : « bref ».",
+          es: "Inès cierra su opinión en pocas palabras: «*bref*».",
+        },
       },
       ", je préfère le marché, et toi le supermarché.",
     ],
@@ -177,15 +199,20 @@ export const TEXT: Line[] = [
         id: "est-d-accord",
         answer: "est",
         options: ["est", "a", "fait"],
-        because: "« d’accord » va avec le verbe être : « on est d’accord ».",
+        because: {
+          fr: "« d’accord » va avec le verbe être : « on est d’accord ».",
+          es: "«*d’accord*» va con el verbo *être*: «*on est d’accord*».",
+        },
       },
       " rarement d’accord, mais on ne se fâche jamais. J’aime ",
       {
         id: "discuter",
         answer: "discuter",
         options: ["se disputer", "dépendre", "discuter"],
-        because:
-          "Ils ne se fâchent jamais : ils parlent ensemble, calmement. C’est « discuter ». « Se disputer », c’est se fâcher.",
+        because: {
+          fr: "Ils ne se fâchent jamais : ils parlent ensemble, calmement. C’est « discuter ». « Se disputer », c’est se fâcher.",
+          es: "No se enfadan nunca: hablan juntos, con calma. Es «*discuter*». «*Se disputer*» es enfadarse.",
+        },
       },
       " avec toi !",
     ],
@@ -213,7 +240,7 @@ TEXT.forEach(({ pieces }) => pieces.forEach((piece, i) => {
   const b = piece
   if (b.options.filter(o => o === b.answer).length !== 1) bad.push(b.id + ': la réponse doit figurer une fois dans le menu')
   if (new Set(b.options).size !== 3) bad.push(b.id + ': choix en double')
-  if (b.because.length < 20) bad.push(b.id + ': correction trop courte')
+  if (b.because.fr.length < 20 || b.because.es.length < 20) bad.push(b.id + ': correction trop courte')
   places[b.options.indexOf(b.answer)]++
   const before = pieces[i - 1]
   const next = pieces[i + 1]

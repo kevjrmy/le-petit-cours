@@ -41,7 +41,7 @@ export default function Page() {
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>Le texte</h2>
 
         <p>
@@ -50,11 +50,27 @@ export default function Page() {
           <em>à quelqu’un</em> ? La réponse décide du pronom, et le pronom
           décide de l’accord.
         </p>
+      </section>
 
-        <Traduction
-          lines={LINES}
-          model={MODEL}
-          note={
+      <section data-ui="es" lang="es">
+        <h2>El texto</h2>
+
+        <p>
+          Seis pronombres en cuatro frases. Para cada uno, una sola pregunta:
+          en francés, ¿el verbo lleva <span className="fr" lang="fr">à</span> o no? Con{" "}
+          <span className="fr" lang="fr">appeler</span> y{" "}
+          <span className="fr" lang="fr">entendre</span> no se pone nada; con{" "}
+          <span className="fr" lang="fr">écrire</span> y{" "}
+          <span className="fr" lang="fr">répondre</span> sí. La respuesta decide
+          el pronombre, y el pronombre decide la concordancia.
+        </p>
+      </section>
+
+      <Traduction
+        lines={LINES}
+        model={MODEL}
+        note={{
+          fr: (
             <>
               Regardez les deux participes : «{" "}
               <span className="fr">elle m’a entendue</span> » prend un{" "}
@@ -64,9 +80,22 @@ export default function Page() {
               s’accorde avec lui ; on répond <em>à quelqu’un</em>, donc il est
               COI et rien ne bouge. Même son, deux orthographes.
             </>
-          }
-        />
-      </section>
+          ),
+          es: (
+            <>
+              Mira los dos participios:{" "}
+              <span className="fr" lang="fr">elle m’a entendue</span> lleva una{" "}
+              <strong>e</strong>,{" "}
+              <span className="fr" lang="fr">elle m’a répondu</span> no. En
+              francés <span className="fr" lang="fr">entendre</span> no lleva
+              preposición, así que el pronombre es complemento directo y el
+              participio concuerda con él; <span className="fr" lang="fr">répondre</span>{" "}
+              lleva <span className="fr" lang="fr">à</span>, así que es
+              complemento indirecto y nada cambia. Mismo sonido, dos ortografías.
+            </>
+          ),
+        }}
+      />
     </article>
   );
 }

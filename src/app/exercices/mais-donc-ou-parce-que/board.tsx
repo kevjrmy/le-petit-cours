@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
+import { T } from "@/components/lang/T";
+import { useLang } from "@/hooks/useLang";
+import { Bilingue } from "../bilingue";
 import { ITEMS, TEXT, type Piece } from "./data";
 import board from "@/components/exercice/Board.module.css";
 
@@ -34,6 +37,8 @@ function around(paragraph: Piece[], index: number): { before: string; after: str
 }
 
 export function Board() {
+  const lang = useLang();
+  const es = lang === "es";
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [open, setOpen] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
@@ -91,12 +96,13 @@ export function Board() {
   return (
     <>
       <Instructions>
-        Touchez un trou, puis choisissez le connecteur. Lisez la phrase
-        d’avant et la phrase d’après : c’est le lien entre les deux idées qui
-        décide.
+        <T
+          fr="Touchez un trou, puis choisissez le connecteur. Lisez la phrase d’avant et la phrase d’après : c’est le lien entre les deux idées qui décide."
+          es="Toca un hueco y elige el conector. Lee la frase de antes y la de después: lo que decide es el vínculo entre las dos ideas."
+        />
       </Instructions>
 
-      <Meter value={filled.length} max={ITEMS.length} label="Trous remplis" />
+      <Meter value={filled.length} max={ITEMS.length} label={{ fr: "Trous remplis", es: "Huecos rellenados" }} />
 
       <div className={`card ${board.card} ${board.text}`}>
         {TEXT.map((paragraph, p) => (
@@ -131,9 +137,13 @@ export function Board() {
                     aria-haspopup="true"
                     aria-expanded={open === piece.id}
                     aria-label={
-                      chosen
-                        ? `Trou ${position + 1} sur ${ITEMS.length}, rempli avec ${chosen}`
-                        : `Trou ${position + 1} sur ${ITEMS.length}, à compléter`
+                      es
+                        ? chosen
+                          ? `Hueco ${position + 1} de ${ITEMS.length}, relleno con ${chosen}`
+                          : `Hueco ${position + 1} de ${ITEMS.length}, por completar`
+                        : chosen
+                          ? `Trou ${position + 1} sur ${ITEMS.length}, rempli avec ${chosen}`
+                          : `Trou ${position + 1} sur ${ITEMS.length}, à compléter`
                     }
                     onClick={() =>
                       setOpen((before) => (before === piece.id ? null : piece.id))
@@ -150,7 +160,11 @@ export function Board() {
                       ref={menu}
                       className={board.menu}
                       role="group"
-                      aria-label={`Choix pour le trou ${position + 1}`}
+                      aria-label={
+                        es
+                          ? `Opciones para el hueco ${position + 1}`
+                          : `Choix pour le trou ${position + 1}`
+                      }
                     >
                       {piece.options.map((option) => (
                         <button
@@ -181,9 +195,17 @@ export function Board() {
         {checked && (
           <>
             <p className={wrong.length === 0 ? "is-correct" : "is-wrong"}>
-              {wrong.length === 0
-                ? `✓ Les ${ITEMS.length} trous sont justes.`
-                : `✗ ${score} sur ${ITEMS.length}. Les trous marqués ✗ sont à revoir.`}
+              {wrong.length === 0 ? (
+                <T
+                  fr={`✓ Les ${ITEMS.length} trous sont justes.`}
+                  es={`✓ Los ${ITEMS.length} huecos están bien.`}
+                />
+              ) : (
+                <T
+                  fr={`✗ ${score} sur ${ITEMS.length}. Les trous marqués ✗ sont à revoir.`}
+                  es={`✗ ${score} de ${ITEMS.length}. Los huecos marcados con ✗ hay que repasarlos.`}
+                />
+              )}
             </p>
 
             {wrong.length > 0 && (
@@ -198,7 +220,9 @@ export function Board() {
                         {after.startsWith(",") ? "" : " "}
                         {after} …
                       </span>
-                      <span className={board.why}>{blank.because}</span>
+                      <span className={board.why}>
+                        <Bilingue text={blank.because} />
+                      </span>
                     </li>
                   );
                 })}
@@ -215,7 +239,7 @@ export function Board() {
             className="button button-primary"
             onClick={() => setFinished(true)}
           >
-            Voir mon score
+            <T fr="Voir mon score" es="Ver mi puntuación" />
           </button>
         ) : (
           <button
@@ -227,13 +251,13 @@ export function Board() {
               setChecked(true);
             }}
           >
-            Vérifier le texte
+            <T fr="Vérifier le texte" es="Comprobar el texto" />
           </button>
         )}
 
         {!checked && filled.length > 0 && (
           <button type="button" className="button" onClick={restart}>
-            Tout effacer
+            <T fr="Tout effacer" es="Borrar todo" />
           </button>
         )}
       </div>

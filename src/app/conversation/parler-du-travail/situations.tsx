@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { T } from "@/components/lang/T";
 
 /**
  * The constraint card, same contract as the two other role-plays: cycles in
@@ -20,27 +21,117 @@ import { useState } from "react";
  * is read from this array, so adding an entry here is the whole change.
  */
 const SITUATIONS = [
-  "Votre collègue vous demande à quelle heure vous commencez et à quelle heure vous finissez. Décrivez votre journée, heure par heure.",
-  "Votre collègue veut savoir ce qu’on fait à midi en Espagne : la pause, le repas, avec qui. Racontez-lui.",
-  "Votre collègue emploie un mot que vous ne connaissez pas : « les congés », « un jour férié », « la mutuelle ». Faites-le expliquer.",
-  "Racontez une journée dans votre ancien travail, en Espagne, à l’imparfait.",
-  "Votre collègue vous propose de vous montrer quelque chose : la cantine, la machine à café, le badge. Acceptez, et posez une question.",
-  "Trouvez trois choses qui se ressemblent dans les deux pays, pas seulement des différences.",
-  "Votre collègue vous dit « on se tutoie ? ». Répondez, puis continuez en tutoyant.",
+  {
+    fr: "Votre collègue vous demande à quelle heure vous commencez et à quelle heure vous finissez. Décrivez votre journée, heure par heure.",
+    es: (
+      <>
+        Tu compañero te pregunta a qué hora empiezas y a qué hora terminas.
+        Describe tu jornada, hora por hora.
+      </>
+    ),
+  },
+  {
+    fr: "Votre collègue veut savoir ce qu’on fait à midi en Espagne : la pause, le repas, avec qui. Racontez-lui.",
+    es: (
+      <>
+        Tu compañero quiere saber qué se hace a mediodía en España: la pausa, la
+        comida, con quién. Cuéntaselo.
+      </>
+    ),
+  },
+  {
+    fr: "Votre collègue emploie un mot que vous ne connaissez pas : « les congés », « un jour férié », « la mutuelle ». Faites-le expliquer.",
+    es: (
+      <>
+        Tu compañero usa una palabra que no conoces:{" "}
+        <span className="fr" lang="fr">
+          « les congés »
+        </span>
+        ,{" "}
+        <span className="fr" lang="fr">
+          « un jour férié »
+        </span>
+        ,{" "}
+        <span className="fr" lang="fr">
+          « la mutuelle »
+        </span>
+        . Pide que te la expliquen.
+      </>
+    ),
+  },
+  {
+    fr: "Racontez une journée dans votre ancien travail, en Espagne, à l’imparfait.",
+    es: (
+      <>
+        Cuenta una jornada de tu antiguo trabajo, en España, en{" "}
+        <span className="fr" lang="fr">
+          imparfait
+        </span>
+        .
+      </>
+    ),
+  },
+  {
+    fr: "Votre collègue vous propose de vous montrer quelque chose : la cantine, la machine à café, le badge. Acceptez, et posez une question.",
+    es: (
+      <>
+        Tu compañero te propone enseñarte algo:{" "}
+        <span className="fr" lang="fr">
+          la cantine
+        </span>
+        ,{" "}
+        <span className="fr" lang="fr">
+          la machine à café
+        </span>
+        ,{" "}
+        <span className="fr" lang="fr">
+          le badge
+        </span>
+        . Acepta y haz una pregunta.
+      </>
+    ),
+  },
+  {
+    fr: "Trouvez trois choses qui se ressemblent dans les deux pays, pas seulement des différences.",
+    es: (
+      <>
+        Encuentra tres cosas que se parezcan en los dos países, no solo
+        diferencias.
+      </>
+    ),
+  },
+  {
+    fr: "Votre collègue vous dit « on se tutoie ? ». Répondez, puis continuez en tutoyant.",
+    es: (
+      <>
+        Tu compañero te dice{" "}
+        <span className="fr" lang="fr">
+          « on se tutoie ? »
+        </span>
+        . Responde y sigue tuteando.
+      </>
+    ),
+  },
 ];
 
 export function Situations() {
   const [index, setIndex] = useState(0);
+  const { fr, es } = SITUATIONS[index];
 
   return (
     <div className="card">
       <p>
         <strong>
-          Situation {index + 1} sur {SITUATIONS.length}
+          <T
+            fr={`Situation ${index + 1} sur ${SITUATIONS.length}`}
+            es={`Situación ${index + 1} de ${SITUATIONS.length}`}
+          />
         </strong>
       </p>
 
-      <p aria-live="polite">{SITUATIONS[index]}</p>
+      <p aria-live="polite">
+        <T fr={fr} es={es} />
+      </p>
 
       <p>
         <button
@@ -48,7 +139,7 @@ export function Situations() {
           className="button"
           onClick={() => setIndex((i) => (i + 1) % SITUATIONS.length)}
         >
-          Autre situation
+          <T fr="Autre situation" es="Otra situación" />
         </button>
       </p>
     </div>

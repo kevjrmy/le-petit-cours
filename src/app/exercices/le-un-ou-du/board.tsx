@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
+import { T } from "@/components/lang/T";
+import { useLang } from "@/hooks/useLang";
+import { Bilingue } from "../bilingue";
 import type { Level } from "@/data/navigation";
 import { NOTHING, bankFor, blanksOf, type Piece } from "./data";
 import board from "@/components/exercice/Board.module.css";
@@ -41,6 +44,7 @@ function around(text: Piece[], index: number): { before: string; after: string }
 export function Board({ level }: { level: Level | null }) {
   /* Lu une seule fois : `drill.tsx` remonte ce composant quand le niveau
      change, donc le texte et le tirage changent ensemble (#68). */
+  const lang = useLang();
   const bank = bankFor(level);
   const blanks = blanksOf(bank);
 
@@ -85,11 +89,13 @@ export function Board({ level }: { level: Level | null }) {
   return (
     <>
       <Instructions>
-        Cliquez sur un trou, puis sur l’article qui convient. Le texte se lit
-        d’un bout à l’autre : c’est lui qui décide, pas le trou tout seul.
+        <T
+          fr="Cliquez sur un trou, puis sur l’article qui convient. Le texte se lit d’un bout à l’autre : c’est lui qui décide, pas le trou tout seul."
+          es="Haz clic en un hueco y luego en el artículo que corresponde. El texto se lee de principio a fin: es él quien decide, no el hueco por sí solo."
+        />
       </Instructions>
 
-      <Meter value={filled.length} max={blanks.length} label="Trous remplis" />
+      <Meter value={filled.length} max={blanks.length} label={{ fr: "Trous remplis", es: "Huecos rellenados" }} />
 
       <div className={`card ${board.card}`}>
         <p className={board.text}>
@@ -110,9 +116,13 @@ export function Board({ level }: { level: Level | null }) {
                 disabled={checked}
                 aria-pressed={active === piece.id && !checked}
                 aria-label={
-                  chosen
-                    ? `Trou ${position + 1} sur ${blanks.length}, rempli avec ${chosen}`
-                    : `Trou ${position + 1} sur ${blanks.length}, à compléter`
+                  lang === "es"
+                    ? chosen
+                      ? `Hueco ${position + 1} de ${blanks.length}, relleno con ${chosen}`
+                      : `Hueco ${position + 1} de ${blanks.length}, por completar`
+                    : chosen
+                      ? `Trou ${position + 1} sur ${blanks.length}, rempli avec ${chosen}`
+                      : `Trou ${position + 1} sur ${blanks.length}, à compléter`
                 }
                 onClick={() => setActive(piece.id)}
               >
@@ -122,7 +132,7 @@ export function Board({ level }: { level: Level | null }) {
           })}
         </p>
 
-        <div className={board.pool} role="group" aria-label="Les articles">
+        <div className={board.pool} role="group" aria-label={lang === "es" ? "Los artículos" : "Les articles"}>
           {bank.pool.map((word) => (
             <button
               key={word}
@@ -142,9 +152,17 @@ export function Board({ level }: { level: Level | null }) {
           {checked && (
             <>
               <p className={wrong.length === 0 ? "is-correct" : "is-wrong"}>
-                {wrong.length === 0
-                  ? `✓ Les ${blanks.length} trous sont justes.`
-                  : `✗ ${score} sur ${blanks.length}. Les trous marqués en rouge sont à revoir.`}
+                {wrong.length === 0 ? (
+                  <T
+                    fr={`✓ Les ${blanks.length} trous sont justes.`}
+                    es={`✓ Los ${blanks.length} huecos están bien.`}
+                  />
+                ) : (
+                  <T
+                    fr={`✗ ${score} sur ${blanks.length}. Les trous marqués en rouge sont à revoir.`}
+                    es={`✗ ${score} de ${blanks.length}. Los huecos marcados en rojo hay que repasarlos.`}
+                  />
+                )}
               </p>
 
               {wrong.length > 0 && (
@@ -161,7 +179,9 @@ export function Board({ level }: { level: Level | null }) {
                           </strong>{" "}
                           {after} …
                         </span>
-                        <span className={board.why}>{blank.because}</span>
+                        <span className={board.why}>
+                          <Bilingue text={blank.because} />
+                        </span>
                       </li>
                     );
                   })}
@@ -179,7 +199,7 @@ export function Board({ level }: { level: Level | null }) {
             className="button button-primary"
             onClick={() => setFinished(true)}
           >
-            Voir mon score
+            <T fr="Voir mon score" es="Ver mi puntuación" />
           </button>
         ) : (
           <button
@@ -188,13 +208,13 @@ export function Board({ level }: { level: Level | null }) {
             disabled={filled.length < blanks.length}
             onClick={() => setChecked(true)}
           >
-            Vérifier le texte
+            <T fr="Vérifier le texte" es="Comprobar el texto" />
           </button>
         )}
 
         {!checked && filled.length > 0 && (
           <button type="button" className="button" onClick={restart}>
-            Tout effacer
+            <T fr="Tout effacer" es="Borrar todo" />
           </button>
         )}
       </div>

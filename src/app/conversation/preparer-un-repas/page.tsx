@@ -7,12 +7,53 @@ const PATH = "/conversation/preparer-un-repas";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102): CSS shows the
+   interface's. The words to say are French, written once and shared. */
+const WORDS = [
+  "faire les courses",
+  "la liste",
+  "il faut",
+  "il reste",
+  "il n’y a plus de",
+  "du pain",
+  "du fromage",
+  "de la farine",
+  "de l’huile",
+  "des œufs",
+  "des tomates",
+  "un kilo",
+  "une douzaine",
+  "un paquet",
+  "une bouteille",
+  "assez de",
+  "trop de",
+  "une entrée",
+  "un plat",
+  "un dessert",
+  "je ne mange pas de",
+  "le marché",
+  "le supermarché",
+  "ça suffit",
+];
+
+function Mots() {
+  return (
+    <ul className="mots">
+      {WORDS.map((w) => (
+        <li key={w} lang="fr">
+          {w}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>La situation</h2>
 
         <p>
@@ -26,7 +67,18 @@ export default function Page() {
         <Situations />
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>La situación</h2>
+        <p>
+          Recibes a unos amigos y preparáis la comida entre dos. Otra persona
+          hace de quien cocina contigo: propone, cuenta, abre la nevera, lleva
+          la lista. Tú tienes que decidir qué se come, decir qué hay que comprar
+          y en qué cantidad, y salir con una lista que sirva.
+        </p>
+        <Situations />
+      </section>
+
+      <section data-ui="fr">
         <h2>Les étapes</h2>
 
         <p>
@@ -67,7 +119,70 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>Las etapas</h2>
+        <p>
+          La conversación sigue casi siempre el mismo orden, y cada etapa pide
+          una frase que solo tú puedes producir.
+        </p>
+        <ol>
+          <li>Decir cuántos seréis y lo que no come cada uno.</li>
+          <li>Proponer un plato y decir qué hace falta para hacerlo.</li>
+          <li>Hacer el inventario: lo que ya hay, lo que falta.</li>
+          <li>Fijar las cantidades, cosa por cosa.</li>
+          <li>Repartir la compra y decir quién compra qué.</li>
+        </ol>
+        <div className="attention">
+          Una nevera se describe sobre todo en forma negativa, y la negación
+          cambia el artículo:{" "}
+          <span className="fr" lang="fr">
+            il n’y a plus de lait
+          </span>
+          ,{" "}
+          <span className="fr" lang="fr">
+            il ne reste plus de beurre
+          </span>
+          . Nunca{" "}
+          <s className="fr" lang="fr">
+            plus du lait
+          </s>
+          . El atajo está en{" "}
+          <Link href="/astuces/pas-de" lang="fr">
+            pas de ou pas un ?
+          </Link>
+        </div>
+        <div className="astuce">
+          <p className="astuce-hook">
+            Mientras no se cuenta, es <strong lang="fr">du</strong>; en cuanto
+            se cuenta, es un número.
+          </p>
+          <p>
+            <span className="fr" lang="fr">
+              il faut de la farine
+            </span>{" "}
+            e{" "}
+            <span className="fr" lang="fr">
+              il faut trois œufs
+            </span>{" "}
+            se dicen en la misma frase sin contradecirse: la harina no se
+            cuenta, los huevos sí. Y en cuanto se da una cantidad, solo queda{" "}
+            <span className="fr" lang="fr">
+              de
+            </span>
+            :{" "}
+            <span className="fr" lang="fr">
+              un kilo de tomates
+            </span>
+            ,{" "}
+            <span className="fr" lang="fr">
+              une bouteille d’huile
+            </span>
+            .
+          </p>
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Les mots pour le dire</h2>
 
         <p>
@@ -75,32 +190,16 @@ export default function Page() {
           vous sert, laissez le reste.
         </p>
 
-        <ul className="mots">
-          <li>faire les courses</li>
-          <li>la liste</li>
-          <li>il faut</li>
-          <li>il reste</li>
-          <li>il n’y a plus de</li>
-          <li>du pain</li>
-          <li>du fromage</li>
-          <li>de la farine</li>
-          <li>de l’huile</li>
-          <li>des œufs</li>
-          <li>des tomates</li>
-          <li>un kilo</li>
-          <li>une douzaine</li>
-          <li>un paquet</li>
-          <li>une bouteille</li>
-          <li>assez de</li>
-          <li>trop de</li>
-          <li>une entrée</li>
-          <li>un plat</li>
-          <li>un dessert</li>
-          <li>je ne mange pas de</li>
-          <li>le marché</li>
-          <li>le supermarché</li>
-          <li>ça suffit</li>
-        </ul>
+        <Mots />
+      </section>
+
+      <section data-ui="es" lang="es">
+        <h2>Las palabras para decirlo</h2>
+        <p>
+          Lo necesario para llevar la conversación de la nevera a la lista. Coge
+          lo que te sirva y deja el resto.
+        </p>
+        <Mots />
       </section>
     </article>
   );

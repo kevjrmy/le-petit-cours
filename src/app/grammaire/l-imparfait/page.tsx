@@ -5,12 +5,108 @@ const PATH = "/grammaire/l-imparfait";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102): CSS shows the
+   interface's. The French taught is written once, below, and shared — the two
+   bodies can differ in what they explain, never in the French they show. */
+
+const SUBJECTS = ["je", "tu", "il / elle / on", "nous", "vous", "ils / elles"];
+
+const ENDINGS: Record<"parler" | "finir" | "prendre", string[]> = {
+  parler: ["parlais", "parlais", "parlait", "parlions", "parliez", "parlaient"],
+  finir: ["finissais", "finissais", "finissait", "finissions", "finissiez", "finissaient"],
+  prendre: ["prenais", "prenais", "prenait", "prenions", "preniez", "prenaient"],
+};
+
+const USES = [
+  { fr: "une description", es: "una descripción", example: "Il faisait froid et la maison était vide." },
+  { fr: "une habitude", es: "una costumbre", example: "Tous les étés, nous allions chez ma grand-mère." },
+  { fr: "une action qui durait", es: "una acción que duraba", example: "Je dormais quand tu as appelé." },
+];
+
+function Stems() {
+  return (
+    <div className="example" lang="fr">
+      nous parl<strong>ons</strong> → parl- → je parl<strong>ais</strong>
+      <br />
+      nous finiss<strong>ons</strong> → finiss- → je finiss
+      <strong>ais</strong>
+      <br />
+      nous pren<strong>ons</strong> → pren- → je pren<strong>ais</strong>
+    </div>
+  );
+}
+
+function EndingsTable({ caption, subject }: { caption: string; subject: string }) {
+  const verbs = Object.keys(ENDINGS) as (keyof typeof ENDINGS)[];
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{caption}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{subject}</th>
+            {verbs.map((verb) => (
+              <th key={verb} scope="col" className="fr" lang="fr">
+                {verb}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {SUBJECTS.map((pronoun, row) => (
+            <tr key={pronoun}>
+              <th scope="row" className="fr" lang="fr">
+                {pronoun}
+              </th>
+              {verbs.map((verb) => (
+                <td key={verb} className="fr" lang="fr">
+                  {ENDINGS[verb][row]}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function UsesTable({ lang }: { lang: "fr" | "es" }) {
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>
+          {lang === "fr"
+            ? "Les trois emplois courants de l’imparfait"
+            : "Los tres usos habituales del imperfecto"}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">{lang === "fr" ? "Emploi" : "Uso"}</th>
+            <th scope="col">{lang === "fr" ? "Exemple" : "Ejemplo"}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {USES.map((use) => (
+            <tr key={use.fr}>
+              <th scope="row">{use[lang]}</th>
+              <td className="fr" lang="fr">
+                {use.example}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>Former l’imparfait</h2>
 
         <div className="rule">
@@ -19,72 +115,9 @@ export default function Page() {
           terminaisons de l’imparfait.
         </div>
 
-        <div className="example">
-          nous parl<strong>ons</strong> → parl- → je parl<strong>ais</strong>
-          <br />
-          nous finiss<strong>ons</strong> → finiss- → je finiss
-          <strong>ais</strong>
-          <br />
-          nous pren<strong>ons</strong> → pren- → je pren<strong>ais</strong>
-        </div>
+        <Stems />
 
-        <div className="table-wrap">
-          <table>
-            <caption>Les terminaisons de l’imparfait, sur trois verbes</caption>
-            <thead>
-              <tr>
-                <th scope="col">Sujet</th>
-                <th scope="col" className="fr">
-                  parler
-                </th>
-                <th scope="col" className="fr">
-                  finir
-                </th>
-                <th scope="col" className="fr">
-                  prendre
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr">je</th>
-                <td className="fr">parlais</td>
-                <td className="fr">finissais</td>
-                <td className="fr">prenais</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">tu</th>
-                <td className="fr">parlais</td>
-                <td className="fr">finissais</td>
-                <td className="fr">prenais</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">il / elle / on</th>
-                <td className="fr">parlait</td>
-                <td className="fr">finissait</td>
-                <td className="fr">prenait</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">nous</th>
-                <td className="fr">parlions</td>
-                <td className="fr">finissions</td>
-                <td className="fr">prenions</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">vous</th>
-                <td className="fr">parliez</td>
-                <td className="fr">finissiez</td>
-                <td className="fr">preniez</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr">ils / elles</th>
-                <td className="fr">parlaient</td>
-                <td className="fr">finissaient</td>
-                <td className="fr">prenaient</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <EndingsTable caption="Les terminaisons de l’imparfait, sur trois verbes" subject="Sujet" />
 
         <div className="attention">
           Les terminaisons sont les mêmes pour <strong>tous</strong> les verbes
@@ -105,7 +138,40 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>Formar el imperfecto</h2>
+
+        <div className="rule">
+          Se parte del verbo conjugado con{" "}
+          <span className="fr" lang="fr">nous</span> en presente, se quita{" "}
+          <span className="fr" lang="fr">-ons</span> y se añaden las
+          terminaciones del imperfecto.
+        </div>
+
+        <Stems />
+
+        <EndingsTable caption="Las terminaciones del imperfecto, en tres verbos" subject="Sujeto" />
+
+        <div className="attention">
+          Las terminaciones son las mismas para <strong>todos</strong> los
+          verbos del francés. Cuatro de ellas se pronuncian igual:{" "}
+          <span className="fr" lang="fr">
+            je parlais, tu parlais, il parlait, ils parlaient
+          </span>
+          . Solo la ortografía las distingue, y depende del sujeto.
+        </div>
+
+        <div className="exception">
+          <span className="fr" lang="fr">être</span>. Su raíz no viene del{" "}
+          <span className="fr" lang="fr">nous</span> del presente:{" "}
+          <span className="fr" lang="fr">
+            j’étais, tu étais, il était, nous étions, vous étiez, ils étaient
+          </span>
+          . Es el único verbo irregular en este tiempo.
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Quand l’employer</h2>
 
         <p>
@@ -114,35 +180,7 @@ export default function Page() {
           une description. Trois emplois couvrent presque tout.
         </p>
 
-        <div className="table-wrap">
-          <table>
-            <caption>Les trois emplois courants de l’imparfait</caption>
-            <thead>
-              <tr>
-                <th scope="col">Emploi</th>
-                <th scope="col">Exemple</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">une description</th>
-                <td className="fr">
-                  Il faisait froid et la maison était vide.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">une habitude</th>
-                <td className="fr">
-                  Tous les étés, nous allions chez ma grand-mère.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">une action qui durait</th>
-                <td className="fr">Je dormais quand tu as appelé.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <UsesTable lang="fr" />
 
         <div className="astuce">
           <p className="astuce-hook">Trois phrases à garder toutes faites</p>
@@ -158,7 +196,33 @@ export default function Page() {
         </div>
       </section>
 
-      <div className="resume">
+      <section data-ui="es" lang="es">
+        <h2>Cuándo usarlo</h2>
+
+        <p>
+          El imperfecto no dice <em>cuándo</em> empezó una acción ni{" "}
+          <em>cuándo</em> terminó. Presenta una situación, una costumbre, una
+          descripción. Tres usos lo cubren casi todo.
+        </p>
+
+        <UsesTable lang="es" />
+
+        <div className="astuce">
+          <p className="astuce-hook">Tres frases para tener a mano</p>
+          <p>
+            <span className="fr" lang="fr">c’était</span>,{" "}
+            <span className="fr" lang="fr">il y avait</span>,{" "}
+            <span className="fr" lang="fr">il faisait</span> abren la mayoría de
+            las descripciones en pasado:{" "}
+            <span className="fr" lang="fr">C’était en 2019</span> ·{" "}
+            <span className="fr" lang="fr">Il y avait beaucoup de monde</span> ·{" "}
+            <span className="fr" lang="fr">Il faisait très chaud</span>. Con tres
+            formas aprendidas, el escenario está listo.
+          </p>
+        </div>
+      </section>
+
+      <div className="resume" data-ui="fr">
         <h2>En résumé</h2>
         <ul>
           <li>
@@ -180,6 +244,29 @@ export default function Page() {
           <li>
             Trois emplois : la description, l’habitude, l’action qui durait.
           </li>
+        </ul>
+      </div>
+
+      <div className="resume" data-ui="es" lang="es">
+        <h2>En resumen</h2>
+        <ul>
+          <li>
+            La raíz viene del <span className="fr" lang="fr">nous</span> del
+            presente, sin <span className="fr" lang="fr">-ons</span>.
+          </li>
+          <li>
+            Las terminaciones son las mismas para todos los verbos:{" "}
+            <span className="fr" lang="fr">-ais, -ais, -ait, -ions, -iez, -aient</span>.
+          </li>
+          <li>
+            Cuatro de ellas se pronuncian igual. Solo la ortografía las
+            distingue, y depende del sujeto.
+          </li>
+          <li>
+            <span className="fr" lang="fr">être</span> es el único verbo
+            irregular: <span className="fr" lang="fr">j’étais</span>.
+          </li>
+          <li>Tres usos: la descripción, la costumbre, la acción que duraba.</li>
         </ul>
       </div>
     </article>

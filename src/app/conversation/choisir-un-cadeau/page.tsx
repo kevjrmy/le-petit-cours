@@ -6,12 +6,51 @@ const PATH = "/conversation/choisir-un-cadeau";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102): CSS shows the
+   interface's. The words to say are French, written once and shared. */
+const WORDS = [
+  "un cadeau",
+  "c’est pour offrir",
+  "la vitrine",
+  "le rayon",
+  "vous pouvez me montrer",
+  "celui-ci",
+  "celui-là",
+  "celle-là",
+  "ceux-là",
+  "une écharpe",
+  "un portefeuille",
+  "un carnet",
+  "des boucles d’oreilles",
+  "la couleur",
+  "la taille",
+  "combien ça coûte",
+  "moins cher",
+  "plus joli",
+  "ça me plaît",
+  "je préfère",
+  "un paquet cadeau",
+  "par carte",
+];
+
+function Mots() {
+  return (
+    <ul className="mots">
+      {WORDS.map((w) => (
+        <li key={w} lang="fr">
+          {w}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>La situation</h2>
 
         <p>
@@ -25,7 +64,18 @@ export default function Page() {
         <Situations />
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>La situación</h2>
+        <p>
+          Entras en una tienda para comprar un regalo. Otra persona hace de
+          dependiente: enseña, compara, dice los precios, envuelve. Tú tienes
+          que decir para quién es, hacer que saque dos o tres objetos,
+          compararlos en voz alta y salir con el que has elegido.
+        </p>
+        <Situations />
+      </section>
+
+      <section data-ui="fr">
         <h2>Les étapes</h2>
 
         <p>
@@ -34,7 +84,10 @@ export default function Page() {
         </p>
 
         <ol>
-          <li>Dire pour qui est le cadeau, et à peu près ce que vous voulez mettre.</li>
+          <li>
+            Dire pour qui est le cadeau, et à peu près ce que vous voulez
+            mettre.
+          </li>
           <li>Faire sortir deux ou trois objets, en les montrant.</li>
           <li>Comparer deux objets, et dire ce qui les sépare.</li>
           <li>Choisir, et dire pourquoi celui-là plutôt que l’autre.</li>
@@ -58,14 +111,72 @@ export default function Page() {
           <p>
             Le verbe ne parle ni d’un prix ni d’une proposition commerciale :{" "}
             <span className="fr">j’offre un livre à ma sœur</span> veut dire que
-            le livre est un cadeau et qu’elle le garde. Dans une boutique,
-            c’est le mot juste pour expliquer ce que vous cherchez :{" "}
+            le livre est un cadeau et qu’elle le garde. Dans une boutique, c’est
+            le mot juste pour expliquer ce que vous cherchez :{" "}
             <span className="fr">c’est pour offrir</span>.
           </p>
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>Las etapas</h2>
+        <p>
+          El intercambio sigue casi siempre el mismo orden, y cada etapa pide
+          una frase que solo tú puedes producir.
+        </p>
+        <ol>
+          <li>
+            Decir para quién es el regalo y más o menos cuánto quieres gastar.
+          </li>
+          <li>Hacer que saque dos o tres objetos, señalándolos.</li>
+          <li>Comparar dos objetos y decir qué los distingue.</li>
+          <li>Elegir, y decir por qué ese y no el otro.</li>
+          <li>Pedir que te lo envuelvan para regalo y luego pagar.</li>
+        </ol>
+        <div className="attention">
+          <span className="fr" lang="fr">
+            celui-là
+          </span>{" "}
+          solo puede retomar un nombre ya dicho. Mientras nadie haya pronunciado
+          la palabra, quédate con el nombre:{" "}
+          <span className="fr" lang="fr">
+            cette écharpe-là
+          </span>
+          ,{" "}
+          <span className="fr" lang="fr">
+            ce carnet-là
+          </span>
+          . En cuanto el dependiente ha nombrado el objeto, el nombre desaparece
+          y solo queda{" "}
+          <span className="fr" lang="fr">
+            celui-là
+          </span>{" "}
+          o{" "}
+          <span className="fr" lang="fr">
+            celle-là
+          </span>
+          , con el género correcto.
+        </div>
+        <div className="astuce">
+          <p className="astuce-hook">
+            <strong lang="fr">offrir</strong> significa dar como regalo.
+          </p>
+          <p>
+            El verbo no habla de un precio ni de una oferta comercial:{" "}
+            <span className="fr" lang="fr">
+              j’offre un livre à ma sœur
+            </span>{" "}
+            quiere decir que el libro es un regalo y que ella se lo queda. En
+            una tienda es la palabra justa para explicar lo que buscas:{" "}
+            <span className="fr" lang="fr">
+              c’est pour offrir
+            </span>
+            .
+          </p>
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Les mots pour le dire</h2>
 
         <p>
@@ -73,30 +184,16 @@ export default function Page() {
           laissez le reste.
         </p>
 
-        <ul className="mots">
-          <li>un cadeau</li>
-          <li>c’est pour offrir</li>
-          <li>la vitrine</li>
-          <li>le rayon</li>
-          <li>vous pouvez me montrer</li>
-          <li>celui-ci</li>
-          <li>celui-là</li>
-          <li>celle-là</li>
-          <li>ceux-là</li>
-          <li>une écharpe</li>
-          <li>un portefeuille</li>
-          <li>un carnet</li>
-          <li>des boucles d’oreilles</li>
-          <li>la couleur</li>
-          <li>la taille</li>
-          <li>combien ça coûte</li>
-          <li>moins cher</li>
-          <li>plus joli</li>
-          <li>ça me plaît</li>
-          <li>je préfère</li>
-          <li>un paquet cadeau</li>
-          <li>par carte</li>
-        </ul>
+        <Mots />
+      </section>
+
+      <section data-ui="es" lang="es">
+        <h2>Las palabras para decirlo</h2>
+        <p>
+          Lo necesario para llevar el intercambio de principio a fin. Coge lo
+          que te sirva y deja el resto.
+        </p>
+        <Mots />
       </section>
     </article>
   );

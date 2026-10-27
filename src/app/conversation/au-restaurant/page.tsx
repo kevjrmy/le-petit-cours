@@ -6,12 +6,51 @@ const PATH = "/conversation/au-restaurant";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102): CSS shows the
+   interface's. The words to say are French, written once and shared. */
+const WORDS = [
+  "une table pour deux",
+  "réserver",
+  "la carte",
+  "le menu",
+  "la formule",
+  "le plat du jour",
+  "une entrée",
+  "un plat",
+  "un dessert",
+  "qu’est-ce qu’il y a dans",
+  "je vais prendre",
+  "sans viande",
+  "je suis allergique à",
+  "à point",
+  "saignant",
+  "une carafe d’eau",
+  "un verre de vin",
+  "c’est froid",
+  "l’addition",
+  "le service est compris",
+  "par carte",
+  "séparément",
+];
+
+function Mots() {
+  return (
+    <ul className="mots">
+      {WORDS.map((w) => (
+        <li key={w} lang="fr">
+          {w}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>La situation</h2>
 
         <p>
@@ -25,7 +64,18 @@ export default function Page() {
         <Situations />
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>La situación</h2>
+        <p>
+          Cenas en un restaurante con alguien. Otra persona hace de camarero:
+          recibe, explica la carta, toma nota del pedido y trae la cuenta. Tú
+          tienes que conseguir una mesa, entender lo que te proponen, pedir lo
+          que de verdad quieres comer e irte habiendo pagado lo que toca.
+        </p>
+        <Situations />
+      </section>
+
+      <section data-ui="fr">
         <h2>Les étapes</h2>
 
         <p>
@@ -65,7 +115,63 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>Las etapas</h2>
+        <p>
+          Una comida en un restaurante sigue casi siempre el mismo orden, y cada
+          etapa pide una frase que solo tú puedes producir.
+        </p>
+        <ol>
+          <li>Pedir una mesa y decir cuántos sois.</li>
+          <li>Hacer que te expliquen lo que no entiendes de la carta.</li>
+          <li>Pedir por orden: entrante, plato, bebida.</li>
+          <li>Decir lo que no comes o avisar de un problema.</li>
+          <li>Pedir la cuenta y decir cómo pagas.</li>
+        </ol>
+        <div className="attention">
+          <span className="fr" lang="fr">
+            la carte
+          </span>{" "}
+          y{" "}
+          <span className="fr" lang="fr">
+            le menu
+          </span>{" "}
+          no son lo mismo.{" "}
+          <span className="fr" lang="fr">
+            la carte
+          </span>{" "}
+          es la lista de todos los platos, con un precio por plato.{" "}
+          <span className="fr" lang="fr">
+            le menu
+          </span>{" "}
+          es un conjunto a precio fijo, a menudo un entrante, un plato y un
+          postre. Si pides{" "}
+          <span className="fr" lang="fr">
+            le menu
+          </span>{" "}
+          queriendo la lista, te propondrán una{" "}
+          <span className="fr" lang="fr">formule</span>: un menú cerrado.
+        </div>
+        <div className="astuce">
+          <p className="astuce-hook">
+            Una jarra de agua no se paga. Solo hay que pedirla.
+          </p>
+          <p>
+            En un restaurante de Francia, el agua del grifo se sirve gratis si
+            la pides:{" "}
+            <span className="fr" lang="fr">
+              une carafe d’eau, s’il vous plaît
+            </span>
+            . Si dices solo{" "}
+            <span className="fr" lang="fr">
+              de l’eau
+            </span>
+            , te traerán una botella, y saldrá en la cuenta.
+          </p>
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Les mots pour le dire</h2>
 
         <p>
@@ -73,30 +179,16 @@ export default function Page() {
           laissez le reste.
         </p>
 
-        <ul className="mots">
-          <li>une table pour deux</li>
-          <li>réserver</li>
-          <li>la carte</li>
-          <li>le menu</li>
-          <li>la formule</li>
-          <li>le plat du jour</li>
-          <li>une entrée</li>
-          <li>un plat</li>
-          <li>un dessert</li>
-          <li>qu’est-ce qu’il y a dans</li>
-          <li>je vais prendre</li>
-          <li>sans viande</li>
-          <li>je suis allergique à</li>
-          <li>à point</li>
-          <li>saignant</li>
-          <li>une carafe d’eau</li>
-          <li>un verre de vin</li>
-          <li>c’est froid</li>
-          <li>l’addition</li>
-          <li>le service est compris</li>
-          <li>par carte</li>
-          <li>séparément</li>
-        </ul>
+        <Mots />
+      </section>
+
+      <section data-ui="es" lang="es">
+        <h2>Las palabras para decirlo</h2>
+        <p>
+          Lo necesario para llevar la comida de principio a fin. Coge lo que te
+          sirva y deja el resto.
+        </p>
+        <Mots />
       </section>
     </article>
   );

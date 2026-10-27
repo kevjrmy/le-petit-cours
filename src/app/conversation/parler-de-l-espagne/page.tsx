@@ -6,12 +6,49 @@ const PATH = "/conversation/parler-de-l-espagne";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102): CSS shows the
+   interface's. The words to say are French, written once and shared. */
+const WORDS = [
+  "je viens de Valence",
+  "au bord de la mer",
+  "dans le nord",
+  "il fait chaud",
+  "il pleut",
+  "il neige",
+  "un plat",
+  "la paella",
+  "le dimanche, en famille",
+  "une fête",
+  "la rue",
+  "l’école",
+  "la récréation",
+  "quand j’étais petite",
+  "on finissait à cinq heures",
+  "je ne sais pas",
+  "peut-être",
+  "vous pouvez répéter ?",
+  "une chanson",
+  "plus connu que",
+];
+
+function Mots() {
+  return (
+    <ul className="mots">
+      {WORDS.map((w) => (
+        <li key={w} lang="fr">
+          {w}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>La situation</h2>
 
         <p>
@@ -23,7 +60,17 @@ export default function Page() {
         <Situations />
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>La situación</h2>
+        <p>
+          Te han invitado a un colegio, en Francia. Delante de ti, una clase de
+          niños de diez años. Saben que vienes de España y tienen preguntas.
+          Muchas preguntas.
+        </p>
+        <Situations />
+      </section>
+
+      <section data-ui="fr">
         <h2>Les étapes</h2>
 
         <p>
@@ -51,7 +98,35 @@ export default function Page() {
         </div>
       </section>
 
-      <section>
+      <section data-ui="es" lang="es">
+        <h2>Las etapas</h2>
+        <p>
+          Aquí no eres tú quien lleva la voz cantante: son ellos. Tú sostienes
+          la conversación.
+        </p>
+        <ol>
+          <li>Decir de dónde eres y dónde está.</li>
+          <li>Responder a la pregunta, con un ejemplo.</li>
+          <li>Pedir que repitan cuando no has entendido.</li>
+          <li>Decir que no lo sabes, cuando no lo sabes.</li>
+          <li>Hacer tú una pregunta a los niños.</li>
+        </ol>
+        <div className="astuce">
+          <p className="astuce-hook">
+            Responde con un ejemplo, no con una definición.
+          </p>
+          <p>
+            Un niño que pregunta{" "}
+            <span className="fr" lang="fr">
+              c’est comment, l’Espagne ?
+            </span>{" "}
+            espera una calle, un plato, una hora, no una frase general. Y es
+            mucho más fácil de decir en francés.
+          </p>
+        </div>
+      </section>
+
+      <section data-ui="fr">
         <h2>Les mots pour le dire</h2>
 
         <p>
@@ -59,28 +134,16 @@ export default function Page() {
           reste.
         </p>
 
-        <ul className="mots">
-          <li>je viens de Valence</li>
-          <li>au bord de la mer</li>
-          <li>dans le nord</li>
-          <li>il fait chaud</li>
-          <li>il pleut</li>
-          <li>il neige</li>
-          <li>un plat</li>
-          <li>la paella</li>
-          <li>le dimanche, en famille</li>
-          <li>une fête</li>
-          <li>la rue</li>
-          <li>l’école</li>
-          <li>la récréation</li>
-          <li>quand j’étais petite</li>
-          <li>on finissait à cinq heures</li>
-          <li>je ne sais pas</li>
-          <li>peut-être</li>
-          <li>vous pouvez répéter ?</li>
-          <li>une chanson</li>
-          <li>plus connu que</li>
-        </ul>
+        <Mots />
+      </section>
+
+      <section data-ui="es" lang="es">
+        <h2>Las palabras para decirlo</h2>
+        <p>
+          Lo necesario para responder a los niños. Coge lo que te sirva y deja
+          el resto.
+        </p>
+        <Mots />
       </section>
     </article>
   );

@@ -37,18 +37,29 @@ export default function Page() {
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section>
+      <section data-ui="fr">
         <h2>Le texte</h2>
 
         <p>
           Quatre phrases à écrire en français. Le texte revient quatre fois sur
           les mêmes choses : à vous de ne pas répéter les noms.
         </p>
+      </section>
 
-        <Traduction
-          lines={LINES}
-          model={MODEL}
-          note={
+      <section data-ui="es" lang="es">
+        <h2>El texto</h2>
+
+        <p>
+          Cuatro frases para escribir en francés. El texto vuelve cuatro veces
+          sobre las mismas cosas: a ti te toca no repetir los nombres.
+        </p>
+      </section>
+
+      <Traduction
+        lines={LINES}
+        model={MODEL}
+        note={{
+          fr: (
             <>
               Votre version n’a pas à être identique à celle-ci. «{" "}
               <span className="fr">à dix kilomètres d’ici</span> » peut se
@@ -62,9 +73,25 @@ export default function Page() {
               <span className="fr">celui</span> » tout seul à la fin, qui ne
               s’emploie jamais sans suite.
             </>
-          }
-        />
-      </section>
+          ),
+          es: (
+            <>
+              Tu versión no tiene por qué ser idéntica a esta.{" "}
+              <span className="fr" lang="fr">à dix kilomètres d’ici</span>{" "}
+              puede reducirse a{" "}
+              <span className="fr" lang="fr">à dix kilomètres</span>, y{" "}
+              <span className="fr" lang="fr">les meilleurs</span> vale como{" "}
+              <span className="fr" lang="fr">les plus beaux</span>. Dos cosas
+              no valen: escribir{" "}
+              <span className="fr" lang="fr">la maison de mes grands-parents</span>{" "}
+              en lugar de <span className="fr" lang="fr">celle de</span>, ya
+              que el nombre acaba de decirse, y dejar{" "}
+              <span className="fr" lang="fr">celui</span> solo al final, porque
+              nunca se usa sin lo que le sigue.
+            </>
+          ),
+        }}
+      />
     </article>
   );
 }
