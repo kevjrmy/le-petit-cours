@@ -1567,13 +1567,13 @@ export const chapters: Chapter[] = [
       /* Un texte rendu cette semaine et la séance construite dessus. Publié
          sans nom et sans rien qui désigne qui l'a écrit (`AGENTS.md` §9b). */
       {
-        id: "atelier-2026-10-13-le-barca-contre-getafe",
-        path: "/atelier/le-barca-contre-getafe",
-        title: "Le Barça contre Getafe",
-        subtitle: "Ta copie à corriger toi-même, tes fautes en quatre familles, et un quiz",
+        id: "atelier-2026-10-27-le-clasico",
+        path: "/atelier/le-clasico",
+        title: "Le Clasico",
+        subtitle: "Ta copie à corriger toi-même, tes fautes en quatre familles, et vingt Clasicos en quiz",
         level: null,
         delf: "Rendre compte par écrit d'un évènement qu'on a vu",
-        created: "2026-10-13",
+        created: "2026-10-27",
       },
     ],
   },
@@ -2638,9 +2638,9 @@ const handWrittenLinks: Record<string, string[]> = {
      **Cette clé part avec la page.** Une clé dont la source n'existe plus est
      la première chose que l'audit signale, ce qui est exactement le filet
      qu'on veut ici. */
-  "/atelier/le-barca-contre-getafe": [
+  "/atelier/le-clasico": [
     "/grammaire/le-passe-compose",
-    "/astuces/etre-ou-avoir",
+    "/orthographe/les-homophones",
     "/orthographe/les-terminaisons-verbales",
   ],
 };
