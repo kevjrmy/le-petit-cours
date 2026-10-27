@@ -8,8 +8,8 @@ clearing pages is `nav-wiring.md`** (« The atelier »).
 
 **The learner in front of the tutor**, not a profile (#80). So the page may say « tu » and restyle
 a shared pattern through `_texte/Page.module.css`, scoped to the atelier. **The course's own
-patterns never change for it.** The language follows the course's: Spanish explanation only at A1
-(#85).
+patterns never change for it.** **It stays French, with no Spanish twin** (#102): the class is
+taught in French, and the page is gone next week. A Spanish interface still shows it in French.
 
 ## Building a class
 

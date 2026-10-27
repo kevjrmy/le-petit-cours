@@ -14,6 +14,22 @@ instructions are in.
 **The failure mode is a drill that runs perfectly and teaches the wrong thing.** The build passes,
 the score screen appears, and the exercise confirms a mistake. You are the check.
 
+## Two languages (#102)
+
+**Every word around the French is written twice**, French and Spanish; the interface language shows
+one. The French taught — items, options, answers, `accept` lists, the French quoted in a feedback —
+is written once and never translated (an A1 drill's gloss is A1 material, kept in both).
+
+- **Data**: an explanation field is `Bi = { fr, es }` from `src/app/exercices/bilingue.tsx`, so an
+  item without both fails to compile. In `es`, French is `*…*`; in `fr`, Spanish is `~…~`;
+  `<Bilingue>` prints each with its `lang`. A data file's own check reads both halves.
+- **Board**: visible text `<T fr es>` (`@/components/lang/T`); an attribute or a verdict built in
+  code `useLang()` (`@/hooks/useLang`). `Drill`'s `Meter` takes `label={{ fr, es }}`; `Score`,
+  « Recommencer » and the verdict marks are already bilingual.
+- **Comprehension**: a question, option or `because` may be `string` (French, shared) or
+  `{ fr, es }`.
+- **Page**: the intro is a `data-ui` pair; the drill is mounted once, never inside a pair.
+
 ## Shape
 
 The page is a Server Component; the drill is a `'use client'` leaf it imports.

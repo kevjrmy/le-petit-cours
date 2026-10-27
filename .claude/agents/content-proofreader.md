@@ -26,19 +26,21 @@ section; a twin that says less, more or something else is a finding. Judge the S
 glosses and Spanish comparisons are allowed, in both bodies, and its French twin must stay very
 simple; check the manifest's `level` before judging — `"A1"` is an A1 page. **A literary
 work is the exception** (#92): its `level` is A1 because it holds an A1 body, but only `a1.tsx` is
-A1 (Spanish explanation, the course's Spanish under each French line); `a2.tsx` and `b1.tsx` are
-French only. In `a1.tsx`, check each Spanish line against its French line: faithful, nothing added.
+A1 (twinned explanation, the course's Spanish under each French line, a quiz whose prompts are
+`{ fr, es }`); `a2.tsx` and `b1.tsx` explain in French only, their text and quiz being the French
+read. In `a1.tsx`, check each Spanish line against its French line: faithful, nothing added.
 
 **The learner** reads French to learn French (`docs/levels/a2.md`):
 
-- **A Spanish word on a page above A1 is a defect** — gloss, column or *(es: …)*. The fix is a French
-  definition or example, not a better translation.
+- **A Spanish gloss of the French taught on a page above A1 is a defect** — a column, *(es: …)*,
+  or a Spanish word standing beside a French one as its translation, in either body. Spanish
+  *explanation* in the Spanish twin is the point; translating the example is not.
 - **On an A1 page, proofread the Spanish as closely as the French** (`docs/levels/a1.md`):
   peninsular, `tú` throughout, no French punctuation habit (`¿ ¡` present, no space before `?`).
   Report French *explanation* left untranslated, Spanish standing in for the French taught (an
   example with no French), and a gloss wrong for the sense taught.
 - **The explanation must be easier than the French taught.** A rule explained with a subjunctive, a
-  `dont` or three clauses is the most likely failure of the French-only policy — hunt it first.
+  `dont` or three clauses is the French body's most likely failure — hunt it first.
 - **An unflagged false friend** (*une robe*, *le sol*, *une chambre*, *rester*) introduced with no
   definition and example is worth reporting.
 - No C1 grammar vocabulary on a learner's page ("semi-voyelle", "complément circonstanciel"), no

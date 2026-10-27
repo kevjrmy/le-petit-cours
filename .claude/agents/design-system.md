@@ -341,7 +341,15 @@ from `localStorage` while `<head>` parses, before first paint
   three choices with a two-way toggle — a toggle can leave "système" but never re-enter it.
 - **A trap only in `next dev`**: Strict Mode's remount resets `<html>` to its JSX attributes,
   clearing the script's. It looks like the script failed; it did not. `AccountMenu` re-applies the
-  stored theme in a `useLayoutEffect`, a no-op in production.
+  stored theme and the language (`restoreLang`) in a `useLayoutEffect`, a no-op in production.
+
+**The language must not flash either** (#102). The same script sets `data-lang` (`LANG_SCRIPT` in
+`src/lib/lang.ts`), and the last rule of `globals.css` hides `[data-ui]` of the other language —
+three attributes and a pseudo-class, so no component's `display` outranks it. **Every piece of
+interface text is printed in both languages**: `<T fr es>` for a string, a `data-ui` pair for a
+block. `useLang()` answers « fr » during hydration, so it serves attributes and strings built after
+an action, never text visible at first paint. A pattern's own label (`.rule` « Règle » / « Regla »)
+switches on `:lang(es)`, not on `data-lang`: it follows its section.
 
 ## The shell's breakpoints
 

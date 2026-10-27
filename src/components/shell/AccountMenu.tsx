@@ -10,7 +10,7 @@ import { ChapterIcon } from "@/components/nav/ChapterIcon";
 import { displayName, useAccount } from "@/hooks/useAccount";
 import { useLang } from "@/hooks/useLang";
 import { saveLang } from "@/lib/account";
-import { applyLang, LANGS, type Lang } from "@/lib/lang";
+import { applyLang, LANGS, restoreLang, type Lang } from "@/lib/lang";
 import { T } from "@/components/lang/T";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import styles from "./AccountMenu.module.css";
@@ -149,11 +149,13 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
   const [langFailed, setLangFailed] = useState(false);
 
   /* Re-apply after React's Strict Mode remount in `next dev`, which resets
-     <html> to the attributes it manages from JSX and so clears the one the
-     inline script set. A no-op in production. */
+     <html> to the attributes it manages from JSX and so clears what the
+     inline script set — the theme and the language (#102). A no-op in
+     production. */
   useLayoutEffect(() => {
     const stored = readTheme();
     if (stored !== "system") document.documentElement.setAttribute("data-theme", stored);
+    restoreLang();
   }, []);
 
   useEffect(() => {

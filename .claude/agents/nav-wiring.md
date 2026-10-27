@@ -187,7 +187,8 @@ not a lookup key**: a lesson that moves chapter keeps the id it was born with. D
 malformed ids throw on import, so they fail the build and the audit.
 
 Optional keys: a rich label for superscripts, a subtitle (author, scenario), a short tag badge, the
-DELF descriptor, `created`.
+DELF descriptor, `created`. **Title, subtitle and DELF descriptor stay French in both interfaces**
+(#102). **A new badge needs its Spanish in `TAG_ES`**, or the manifest throws at import.
 
 **No entry before its `page.tsx`** (#51). An empty chapter is normal: `listedChapters()` hides it
 everywhere until its first lesson lands. **No placeholder entry, dimmed row or "planned" count.**
@@ -195,7 +196,7 @@ everywhere until its first lesson lands. **No placeholder entry, dimmed row or "
 ## Adding a chapter
 
 1. The `chapters` entry: slug, path, title, optional short title for the sidebar, blurb, lessons,
-   **and `icon`** — add the glyph to `src/components/nav/ChapterIcon.tsx` in the same change, and
+   **`es: { title, blurb }`** (the Spanish interface's, #102 — required) **and `icon`** — add the glyph to `src/components/nav/ChapterIcon.tsx` in the same change, and
    **never give that map a `default` entry** (#42). Three optional keys: `untracked` for pages sat,
    not ticked (`delf`, #82), `scratch` for the atelier alone (#80), `outbound` for its one link off
    the site. Test tracking with `isTracked()`, never either flag. The sommaire card draws the same
@@ -219,7 +220,8 @@ the format in the precache, or the images vanish offline without a build error.
 | `menu`   | the account popover                            | `icon`, **`signedOut`** |
 | `footer` | the line under the home page and its own pages | nothing — it is text    |
 
-`signedOut` is `"hide"` or `{ title }` (#47, #70). A title replaces the signed-in one where the page
+**Every annexe carries `titleEs`** (#102), and a `signedOut` title its `titleEs` too.
+`signedOut` is `"hide"` or `{ title, titleEs }` (#47, #70). A title replaces the signed-in one where the page
 is a different offer without an account, and **that row becomes the way in** — the popover appends
 `?suivant=`. There is no default.
 

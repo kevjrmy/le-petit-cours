@@ -34,6 +34,38 @@ export const LANG_SCRIPT = `try{var l=localStorage.getItem("${KEY}");if(l!=="fr"
 
 const listeners = new Set<() => void>();
 
+/**
+ * What `LANG_SCRIPT` decides, in TypeScript: the saved choice, else the first
+ * French or Spanish browser language, else French. The two must agree; the
+ * script stays a string because it runs before any bundle loads.
+ */
+function resolveLang(): Lang {
+  try {
+    const saved = localStorage.getItem(KEY);
+    if (saved === "fr" || saved === "es") return saved;
+  } catch {
+    /* blocked storage: fall through to the browser */
+  }
+  for (const tag of navigator.languages ?? [navigator.language ?? ""]) {
+    const primary = String(tag).slice(0, 2).toLowerCase();
+    if (primary === "fr" || primary === "es") return primary;
+  }
+  return "fr";
+}
+
+/**
+ * Puts `data-lang` back if something removed it — React's Strict Mode remount
+ * in `next dev` resets `<html>` to its JSX attributes, as it does the theme's
+ * (`AccountMenu`). Nothing is stored: a detected language is not a choice.
+ * A no-op in production.
+ */
+export function restoreLang() {
+  const root = document.documentElement;
+  if (root.hasAttribute("data-lang")) return;
+  root.setAttribute("data-lang", resolveLang());
+  for (const listener of listeners) listener();
+}
+
 /** Browser-only: the language the page is showing. */
 export function currentLang(): Lang {
   return document.documentElement.getAttribute("data-lang") === "es" ? "es" : "fr";

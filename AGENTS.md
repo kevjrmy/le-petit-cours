@@ -380,7 +380,7 @@ None of these fail a build; each reached a published page.
 **Content**
 
 - **Two or three sections** per lesson; more is two lessons.
-- **A prose lesson ends with `.resume`**: a written `<h2>En résumé</h2>` (« En resumen » at A1) and
+- **A prose lesson ends with `.resume`**: a written `<h2>En résumé</h2>` (« En resumen » on its Spanish twin) and
   four or five restating bullets, last in the `<article>` (#67). **No quiz on a prose lesson.**
 - **Tables**: `<caption>`, **four columns max**, an example-sentence column (#102); at A1 a gloss
   column may be added within the four.
