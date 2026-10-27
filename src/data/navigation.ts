@@ -1717,23 +1717,34 @@ export const annexes: Annexe[] = [
      account menu is about the account. The footer is under every page anyway,
      which is one link instead of two places offering the same one. */
   { path: "/a-propos", title: "À propos", level: null, where: "footer" },
+  /* Beside « À propos », for the same reason: it is about the site, not the
+     account (#101). */
+  { path: "/installer", title: "Installer l’application", level: null, where: "footer" },
 ];
 
 /**
  * Real routes that carry no manifest entry.
  *
- * Five pages are not part of the course: the home page, the results page, the
+ * Six pages are not part of the course: the home page, the results page, the
  * token specimen, the atelier's door (#81) — which is a route precisely
  * because it has to sit *outside* `/atelier`, where the proxy cannot intercept the
- * Server Function that opens it — and the onboarding a first sign-in passes
- * through (`/bienvenue`). Declaring them is what lets the `nav-wiring`
+ * Server Function that opens it — the onboarding a first sign-in passes
+ * through (`/bienvenue`), and `/installer` in Spanish (`/instalar`, #101),
+ * reached from the French page: a manifest title is French (#53). Declaring them is what lets the `nav-wiring`
  * audit report a route that is in neither the manifest nor this list, instead
  * of letting a page exist that nothing links to and nothing notices.
  *
  * It used to map each one to a breadcrumb label. The topbar no longer names the
  * page you are on — the `<h1>` does — so the labels went with that (#45).
  */
-export const unlistedPages: string[] = ["/", "/recherche", "/design", "/entrer", "/bienvenue"];
+export const unlistedPages: string[] = [
+  "/",
+  "/recherche",
+  "/design",
+  "/entrer",
+  "/bienvenue",
+  "/instalar",
+];
 
 /**
  * The chapters offered as shortcuts under the search field on the home page.

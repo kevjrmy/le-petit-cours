@@ -120,7 +120,8 @@ else**. The address is fake (`@lepetitcours.test`), so accounts are made by hand
 
 ## Platform
 
-- **Today: a PWA.** Installable, offline, one codebase — sufficient for a long time.
+- **Today: a PWA.** Installable, offline, one codebase — sufficient for a long time. Installing
+  has its page, `/installer` and `/instalar` in Spanish (#101); offline awaits Serwist (§2).
 - **Eventually: React Native.** Not scheduled, but the reason to keep content and logic free of
   DOM assumptions, and a weight toward content-as-data (#10).
 

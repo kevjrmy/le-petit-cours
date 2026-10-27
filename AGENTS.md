@@ -80,7 +80,8 @@ Language:
   is A1, which explains in Spanish and teaches in French** (#85, `docs/levels/a1.md`), the A1
   body of a literary work, Spanish under each French line (#92), and
   the account screens in the account's language, `fr` or `es` (#91: `/bienvenue`, `/compte`, the
-  account menu's own words and rows, « Mi progresión », « Cuenta »). Chrome and manifest titles are
+  account menu's own words and rows, « Mi progresión », « Cuenta »), and `/instalar`, `/installer`
+  in Spanish (#101: two pages, one component, changed together). Chrome and manifest titles are
   French at every level.
 - **On an A1 page `lang` is not optional**: `lang="es"` on each `<section>` and `.resume` (never
   `<article>`), `lang="fr"` back on every piece of French. Peninsular Spanish, `tú`.
@@ -151,6 +152,9 @@ Read `node_modules/next/dist/docs/` first. The traps:
 - **Speech is `useSpeech` alone** (#94): a French voice set on the utterance, or silence and a
   message. `lang` without a `voice` is read by the device's default voice, in its language.
 - **The shell lives in the root layout** so its state survives navigation; never mount it per page.
+- **`beforeinstallprompt` is caught by `src/lib/install.ts`, which the shell imports** (#101): it
+  fires once per load, on the landing page; a listener in `/installer` or `/instalar` would miss it. Never
+  `preventDefault()` it.
 
 ## 5. Design system
 

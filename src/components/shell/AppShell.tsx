@@ -10,6 +10,9 @@ import { AppSidebar } from "./AppSidebar";
 import { AppTopbar } from "./AppTopbar";
 import { Footer } from "./Footer";
 import styles from "./AppShell.module.css";
+/* For its listener alone: Chrome offers the install once per page load, on
+   whatever page that is, and `/installer` reads the offer later (#101). */
+import "@/lib/install";
 
 /**
  * The shell, and the only client boundary the chrome needs.

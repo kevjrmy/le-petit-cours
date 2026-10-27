@@ -92,6 +92,7 @@ than marking it superseded.
 | 98  | 2026-10-11 | An agent checks with lint and types; the build and the screenshot are asked for                  | Binding                                                |
 | 99  | 2026-10-12 | Contrast, focus and target size have numbers: WCAG 2.2 AA, checked                               | Binding · builds #96, #27                              |
 | 100 | 2026-10-15 | The look follows *Le Petit Prince*: paper by day, night blue, gold stars as the one ornament     | A first iteration · builds #27, #96, #99               |
+| 101 | 2026-10-27 | Installing has its page, French and Spanish: the browser's offer as one button, iOS steps        | Binding · narrows #53                                  |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -1376,3 +1377,37 @@ lettering and the covers are Gallimard's. The star and the planet are drawn for 
 (`public/etoile.svg`, `public/planete.svg`); no prince, no fox, no rose, no script wordmark. The
 reference photographs stay out of git, in `.private/design/`.
 
+## 101 · Installing has its page, French and Spanish: the browser's offer as one button, iOS steps
+**2026-10-27 · Binding · narrows #53**
+
+`/installer` (a `footer` annexe, beside « À propos ») shows **one button where the browser offers
+an install** — Chrome and Edge fire `beforeinstallprompt`, on Android and on a computer — **the
+share sheet's three steps on an iPhone or an iPad**, where no browser fires it, and the browser
+menu's steps everywhere else (Firefox, Samsung Internet, Chrome before the first tap it waits for,
+or after a « non »). Installed already, it says so.
+
+**Two pages, French and Spanish**: `/installer` and `/instalar`, one component
+(`src/components/install/InstallApp.tsx`) holding both texts, and a link from each to the other.
+Installing comes before any lesson, so it is said in the language the visitor reads, and each names
+the buttons a phone in that language prints. **The Spanish page is in `unlistedPages`**, reached
+from the French one: a manifest title is French (#53). The course's name stays French in it (#91).
+**Chosen against** following the account's language (#91): the page is for visitors before they
+have an account, and it prerenders.
+
+**The event is caught by the shell, not the page.** Chrome fires it once per page load, on whatever
+page the visitor landed on; a listener in `/installer`'s leaf would almost never hear it. So
+`src/lib/install.ts` listens at import, `AppShell` imports it, and the page reads the stored offer.
+
+**Against `preventDefault()`**: it would take the browser's own install offer off every page of the
+site. The page adds a button; the browser keeps its menu.
+
+**Against a banner or a popover offering the install**: it would interrupt a lesson to sell the
+container, and the course asks nothing of a visitor it does not need.
+
+**No service worker is needed for the button**: Chrome's install criteria (web.dev, 2024) are
+HTTPS, the manifest's name, 192 and 512 icons and `display`, and one tap on the page. Offline is
+still Serwist's (§2), not this page's.
+
+**Platform detection happens on the client only** (`useSyncExternalStore`, a `pending` server
+snapshot), so the page stays prerendered (§8). An iPad says it is a Mac; a touch screen gives it
+away.
