@@ -35,8 +35,8 @@ const SITUATIONS: { fr: ReactNode; es: ReactNode }[] = [
     fr: (
       <>
         Le vendeur vous montre <span className="fr">un gâteau</span> en deux
-        tailles, un grand et un petit. Choisissez avec <span className="fr">celui-ci</span> ou{" "}
-        <span className="fr">le grand</span>.
+        tailles, un grand et un petit. Choisissez en disant{" "}
+        <span className="fr">celui-ci</span> ou <span className="fr">le grand</span>.
       </>
     ),
     es: (

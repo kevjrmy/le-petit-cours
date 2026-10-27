@@ -123,7 +123,7 @@ export default function Page() {
 
         <p>
           Une présentation suit presque toujours le même ordre. À chaque étape,
-          vous devez dire une phrase que vous seul pouvez produire.
+          vous dites une phrase que personne ne peut dire à votre place.
         </p>
 
         <ol>
@@ -163,7 +163,7 @@ export default function Page() {
           </p>
           <p>
             Dites <Fr>vous</Fr> à une personne que vous ne connaissez pas, à une
-            personne âgée ou à quelqu’un qui vous sert (dans un magasin, un
+            personne âgée ou à quelqu’un qui vous sert (un vendeur, un
             professeur). Dites <Fr>tu</Fr> à des amis, à la famille, aux enfants
             et à la personne qui vous dit <Fr>tu</Fr>. Et <Fr>vous</Fr> est
             aussi le pluriel : <span lang="es">« vosotros », « ustedes »</span>.
@@ -220,7 +220,7 @@ export default function Page() {
           </p>
           <p>
             Usa <Fr>vous</Fr> con alguien que no conoces, con una persona mayor
-            o con quien te atiende (en una tienda, un profesor). Usa <Fr>tu</Fr>{" "}
+            o con quien te atiende (un dependiente, un profesor). Usa <Fr>tu</Fr>{" "}
             con amigos, familia, niños y con quien te habla de <Fr>tu</Fr>. Y{" "}
             <Fr>vous</Fr> es también el plural: «vosotros», «ustedes».
           </p>

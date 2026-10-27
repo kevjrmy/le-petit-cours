@@ -240,7 +240,7 @@ export default function Page() {
         </h2>
 
         <div className="rule">
-          En espagnol, on dit <em lang="es">hablo francés</em> sans «&nbsp;yo&nbsp;» :
+          En espagnol, on dit <em lang="es">hablo francés</em> sans «&nbsp;<span lang="es">yo</span>&nbsp;» :
           la terminaison dit qui parle. En français, non. Comme quatre formes
           se prononcent pareil, on dit toujours le sujet. On écrit{" "}
           <span className="fr">je parle français</span>, jamais «&nbsp;
@@ -248,7 +248,7 @@ export default function Page() {
         </div>
 
         <p>
-          Faux : <s className="fr">Parle français.</s> Juste :
+          Faux : <s className="fr">Parle français.</s> Correct :
         </p>
 
         <Subjects />

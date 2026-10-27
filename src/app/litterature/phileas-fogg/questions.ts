@@ -39,7 +39,7 @@ const A1: Question[] = [
       { fr: "À onze heures et demie", es: "A las once y media" },
     ],
     answer: 1,
-    because: { fr: "« Il ne rentrait chez lui que pour se coucher, à minuit précis. » « minuit », c’est 12 h de la nuit.", es: "« Il ne rentrait chez lui que pour se coucher, à minuit précis. » « minuit » es medianoche." },
+    because: { fr: "« Il ne rentrait chez lui que pour se coucher, à minuit précis. » « minuit », c’est le milieu de la nuit.", es: "« Il ne rentrait chez lui que pour se coucher, à minuit précis. » « minuit » es medianoche." },
   },
   {
     question: { fr: "Combien d’heures par jour passe-t-il chez lui ?", es: "¿Cuántas horas al día pasa en su casa?" },
@@ -52,7 +52,7 @@ const A1: Question[] = [
     because: "« Sur vingt-quatre heures, il en passait dix à son domicile. »",
   },
   {
-    question: { fr: "Fogg dit « John » au nouveau domestique. Quel nom dit le domestique ?", es: "Fogg le dice « John » al nuevo criado. ¿Qué nombre dice él?" },
+    question: { fr: "Fogg demande au nouveau domestique : « vous vous nommez John ? » Quel prénom donne le domestique ?", es: "Fogg le pregunta al nuevo criado: « vous vous nommez John ? ». ¿Qué nombre da el criado?" },
     options: [
       "« John »",
       "« Jean »",
@@ -79,7 +79,7 @@ const A1: Question[] = [
       { fr: "Elle avance de quatre minutes", es: "Adelanta cuatro minutos" },
     ],
     answer: 1,
-    because: { fr: "« Vous retardez de quatre minutes. » Il est onze heures vingt-six, et Passepartout commence à travailler à onze heures vingt-neuf.", es: "« Vous retardez de quatre minutes. » Son las once y veintiséis, y Passepartout empieza a trabajar a las once y veintinueve." },
+    because: { fr: "« Vous retardez de quatre minutes. » : la montre de Passepartout a quatre minutes de retard.", es: "« Vous retardez de quatre minutes. »: el reloj de Passepartout va cuatro minutos atrasado." },
   },
 ];
 

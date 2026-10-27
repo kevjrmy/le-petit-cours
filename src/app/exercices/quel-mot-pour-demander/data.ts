@@ -102,8 +102,8 @@ export const ITEMS: QuestionItem[] = [
     reply: "Je m’appelle Lucas.",
     answer: "comment",
     because: {
-      es: "Se pregunta por el nombre, «cómo»: *comment*. Ninguna de estas palabras lleva acento.",
-      fr: "On demande le nom, ~cómo~ : « comment ». Aucun de ces mots n’a d’accent.",
+      es: "Se pregunta por el nombre, «cómo»: *comment*. De estas palabras, solo *où* lleva acento.",
+      fr: "On demande le nom, ~cómo~ : « comment ». Seul « où » a un accent.",
     },
   },
   {
@@ -125,7 +125,7 @@ export const ITEMS: QuestionItem[] = [
     answer: "pourquoi",
     because: {
       es: "*Parce que* es la respuesta a una causa: la pregunta es *pourquoi*, «por qué». Se escribe en dos palabras, y *pourquoi* pregunta, *parce que* responde.",
-      fr: "« Parce que » répond à une cause : la question est « pourquoi », ~por qué~. « Pourquoi » est en un mot et il demande ; « parce que » est en deux mots et il répond.",
+      fr: "« Parce que » répond à une cause : la question est « pourquoi », ~por qué~. « Pourquoi » s’écrit en un mot et pose la question ; « parce que » s’écrit en deux mots et donne la réponse.",
     },
   },
   {

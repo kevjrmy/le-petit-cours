@@ -66,7 +66,7 @@ export default function Page() {
         <h2>La situation</h2>
 
         <p>
-          Vous venez de rencontrer quelqu’un et la conversation continue :
+          Vous rencontrez quelqu’un et la conversation continue :
           qu’est-ce que vous aimez ? Une autre personne joue ce rôle. Vous devez
           dire ce que vous aimez et ce que vous n’aimez pas, poser la même
           question à l’autre et réagir à sa réponse. Vous parlez de cuisine, de
@@ -86,9 +86,11 @@ export default function Page() {
           Acabas de conocer a alguien y la conversación sigue: ¿qué te gusta?
           Otra persona hace ese papel. Tienes que decir lo que te gusta y lo que
           no, preguntar lo mismo a la otra persona y reaccionar a lo que te
-          cuenta. Habláis de comida, de música, de deporte y del tiempo libre.
+          cuenta. Habláis de cocina, de música, de deporte y del tiempo libre.
           La gramática de la frase está en{" "}
-          <Link href="/grammaire/parler-de-ses-gouts">Parler de ses goûts</Link>
+          <Link href="/grammaire/parler-de-ses-gouts" lang="fr">
+            Parler de ses goûts
+          </Link>
           .
         </p>
 
@@ -113,7 +115,7 @@ export default function Page() {
 
         <div className="attention">
           <p>
-            Après <Fr>j’aime</Fr>, il y a l’article : <Fr>j’aime la musique</Fr>,
+            Après <Fr>j’aime</Fr>, on met l’article : <Fr>j’aime la musique</Fr>,
             pas <s className="fr">j’aime musique</s>. Avec un verbe, on utilise
             l’infinitif, sans rien d’autre : <Fr>j’aime lire</Fr> (
             <span lang="es">me gusta leer</span>). Pour dire non, le verbe est
@@ -128,8 +130,8 @@ export default function Page() {
           </p>
           <p>
             Quand vous répondez, posez la question à l’autre avec{" "}
-            <Fr>et toi ?</Fr>. Avec une personne que vous appelez <Fr>vous</Fr>,
-            on dit <Fr>et vous ?</Fr>. Si l’autre pense comme vous, une
+            <Fr>et toi ?</Fr>. Si vous dites <Fr>vous</Fr> à la personne, dites{" "}
+            <Fr>et vous ?</Fr>. Si l’autre pense comme vous, une
             expression courte suffit. Après une phrase positive, on dit{" "}
             <Fr>moi aussi</Fr> (<Fr>J’aime le jazz.</Fr> →{" "}
             <Fr>Moi aussi.</Fr>). Après une phrase négative, on dit{" "}
@@ -157,7 +159,11 @@ export default function Page() {
         <div className="attention">
           <p>
             Después de <Fr>j’aime</Fr> va el artículo: <Fr>j’aime la musique</Fr>
-            , no <Fr>j’aime musique</Fr>. Con un verbo se usa el infinitivo, sin
+            , no{" "}
+            <s className="fr" lang="fr">
+              j’aime musique
+            </s>
+            . Con un verbo se usa el infinitivo, sin
             nada más: <Fr>j’aime lire</Fr> (me gusta leer). Para decir que no,
             el verbo va entre <Fr>ne</Fr> y <Fr>pas</Fr>:{" "}
             <Fr>je n’aime pas le fromage</Fr>.

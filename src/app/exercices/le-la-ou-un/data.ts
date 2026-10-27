@@ -98,7 +98,7 @@ const ALL: ArticleItem[] = [
     kind: "défini",
     because: {
       es: "Es el armario del que se acaba de hablar: definido. *Armoire* empieza por vocal, así que *la* se convierte en *l’*: *l’armoire*.",
-      fr: "C’est l’armoire dont on vient de parler : article défini. « Armoire » commence par une voyelle, donc « la » devient « l’ » : « l’armoire ».",
+      fr: "On vient de parler de cette armoire : article défini. « Armoire » commence par une voyelle, donc « la » devient « l’ » : « l’armoire ».",
     },
   },
   {
@@ -145,8 +145,8 @@ const ALL: ArticleItem[] = [
     answer: "les",
     kind: "défini",
     because: {
-      es: "Son los dos vélos de los que se acaba de hablar: definido plural: *les vélos*. *Des* sería nuevo.",
-      fr: "Ce sont les deux vélos dont on vient de parler : article défini pluriel : « les vélos ». « Des » serait pour des vélos nouveaux.",
+      es: "Son las dos bicis de las que se acaba de hablar: definido plural: *les vélos*. *Des* sería nuevo.",
+      fr: "On vient de parler de ces deux vélos : article défini pluriel, « les vélos ». « Des » serait pour des vélos dont on n’a pas encore parlé.",
     },
   },
   {
@@ -256,7 +256,7 @@ const ALL: ArticleItem[] = [
     kind: "indéfini",
     because: {
       es: "Varias *étagères* nuevas: *des*. En francés el plural indefinido no se puede omitir, como sí haces en español.",
-      fr: "Plusieurs étagères nouvelles : « des ». En français, le pluriel indéfini ne peut pas disparaître, comme en espagnol.",
+      fr: "Plusieurs étagères dont on n’a pas encore parlé : « des ». En français, le pluriel indéfini ne disparaît jamais, alors qu’en espagnol on peut l’enlever.",
     },
   },
   {
@@ -280,7 +280,7 @@ const ALL: ArticleItem[] = [
     kind: "indéfini",
     because: {
       es: "Varios taxis nuevos. En *taxis* la -s final no se pronuncia; el plural se oye en el artículo: *des taxis*.",
-      fr: "Plusieurs taxis nouveaux. Dans « taxis », le -s final ne se prononce pas : le pluriel s’entend dans l’article : « des taxis ».",
+      fr: "Plusieurs taxis, pas encore nommés. Dans « taxis », le -s final ne se prononce pas : le pluriel s’entend dans l’article : « des taxis ».",
     },
   },
   {
@@ -292,7 +292,7 @@ const ALL: ArticleItem[] = [
     kind: "indéfini",
     because: {
       es: "Varios hoteles nuevos: *des hôtels*. *Hôtel* empieza por h muda: la s de *des* suena (*des‿hôtels*), pero se escribe igual.",
-      fr: "Plusieurs hôtels nouveaux : « des hôtels ». « Hôtel » commence par un h muet : le s de « des » se prononce (« des‿hôtels »), mais il s’écrit pareil.",
+      fr: "Plusieurs hôtels, pas encore nommés : « des hôtels ». « Hôtel » commence par un h muet : le « s » de « des » se prononce (« des‿hôtels »), mais on écrit toujours « des ».",
     },
   },
 ];

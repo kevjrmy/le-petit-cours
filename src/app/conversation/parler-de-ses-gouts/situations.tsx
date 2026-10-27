@@ -44,7 +44,7 @@ const SITUATIONS: { fr: ReactNode; es: ReactNode }[] = [
     ),
   },
   {
-    fr: "L’autre personne dit qu’elle aime le cinéma. Vous aussi. Dites-le, et dites aussi que vous n’aimez pas les films d’horreur.",
+    fr: "L’autre personne dit qu’elle aime le cinéma. Vous aimez aussi le cinéma : dites-le, et dites aussi que vous n’aimez pas les films d’horreur.",
     es: (
       <>
         La otra persona dice que le gusta el cine. A ti también. Díselo, y di

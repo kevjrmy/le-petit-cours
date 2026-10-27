@@ -251,7 +251,7 @@ export default function Page() {
           <span className="fr">chez moi</span>.
         </div>
 
-        <WordTable ui="fr" caption="Dix pièces de la maison, avec leur article" rows={ROOMS} />
+        <WordTable ui="fr" caption="Dix endroits de la maison, avec leur article" rows={ROOMS} />
 
         <ThereIs />
 
@@ -265,8 +265,8 @@ export default function Page() {
         <div className="attention">
           En espagnol, <span lang="es">« baño »</span> sert pour tout. En français, il y a deux mots
           : <span className="fr">la salle de bains</span> est la pièce pour se doucher, et{" "}
-          <span className="fr">les toilettes</span> est la pièce du <span lang="es">váter</span>.{" "}
-          <span className="fr">les toilettes</span> s’emploie toujours au pluriel :{" "}
+          <span className="fr">les toilettes</span>, c’est la pièce du <span lang="es">váter</span>. Le
+          mot <span className="fr">toilettes</span> s’emploie toujours au pluriel :{" "}
           <span className="fr">Où sont les toilettes ?</span>
         </div>
       </section>
@@ -343,7 +343,7 @@ export default function Page() {
         <h2>Les meubles</h2>
 
         <div className="rule">
-          Il y a ici des meubles et aussi quelques objets de la maison. Pour un seul objet, on dit{" "}
+          Cette liste a des meubles et aussi quelques objets de la maison. Pour un seul objet, on dit{" "}
           <span className="fr">un</span> ou <span className="fr">une</span> ; pour plusieurs,{" "}
           <span className="fr">des</span>. Le pluriel s’entend dans l’article, presque jamais dans
           le nom (<Link href="/grammaire/le-singulier-et-le-pluriel">Le singulier et le pluriel</Link>
@@ -454,7 +454,7 @@ export default function Page() {
           </li>
           <li>
             <span className="fr">la salle de bains</span> sert à se doucher ;{" "}
-            <span className="fr">les toilettes</span> s’emploie au pluriel.
+            le mot <span className="fr">toilettes</span> s’emploie au pluriel.
           </li>
           <li>
             <span className="fr">la chambre</span> est <span lang="es">el dormitorio</span>, pas{" "}
@@ -465,7 +465,7 @@ export default function Page() {
             <span className="fr">le bureau</span> est <span lang="es">el escritorio</span> et aussi{" "}
             <span lang="es">la oficina</span> ; <span className="fr">la cave</span> est{" "}
             <span lang="es">el sótano</span>, pas <span lang="es">la cueva</span> ;{" "}
-            <span className="fr">la cuisinière</span> est <span lang="es">la cocina</span> et aussi{" "}
+            <span className="fr">la cuisinière</span> est <span lang="es">la cocina de gas</span> et aussi{" "}
             <span lang="es">la cocinera</span>.
           </li>
         </ul>

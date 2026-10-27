@@ -29,8 +29,8 @@ export default function Page() {
           <span className="fr">le, la, l’, les</span>) ou de quelque chose de
           nouveau (<span className="fr">un, une, des</span>) ? Ensuite : le nom
           est-il masculin ou féminin, singulier ou pluriel, et commence-t-il par
-          une voyelle ? Attention : <span className="fr">des</span> ne peut pas
-          disparaître, comme en espagnol. Les règles sont dans{" "}
+          une voyelle ? Attention : en français, <span className="fr">des</span> ne
+          disparaît jamais, alors qu’en espagnol on peut l’enlever. Les règles sont dans{" "}
           <Link href="/grammaire/les-articles-definis">Les articles définis</Link>{" "}
           et dans{" "}
           <Link href="/grammaire/les-articles-indefinis">

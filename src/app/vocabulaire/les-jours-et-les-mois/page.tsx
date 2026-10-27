@@ -186,12 +186,12 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          En espagnol, <span lang="es">« el lunes »</span> est une seule fois et{" "}
-          <span lang="es">« los lunes »</span> est chaque semaine. En français, c’est pareil, mais
+          En espagnol, <span lang="es">« el lunes »</span> veut dire une seule fois et{" "}
+          <span lang="es">« los lunes »</span>, chaque semaine. En français, c’est pareil, mais
           avec l’article au singulier. Sans article, <F>lundi</F> est <strong>ce lundi</strong>,
           une seule fois (<span lang="es">el lunes</span>). Avec l’article, <F>le lundi</F> est{" "}
           <strong>tous les lundis</strong>, une habitude (<span lang="es">los lunes</span>). Les
-          phrases du dessus le montrent : <F>Lundi, je vais…</F> (lundi prochain) et{" "}
+          phrases ci-dessus le montrent : <F>Lundi, je vais…</F> (lundi prochain) et{" "}
           <F>Le lundi, je fais…</F> (chaque lundi).
         </div>
       </section>
@@ -235,7 +235,7 @@ export default function Page() {
         <div className="rule">
           Les mois s’écrivent aussi avec une minuscule et sont masculins. Pour dire{" "}
           <span lang="es">« en marzo »</span>, utilisez <F>en</F> + le mois : <F>en mars</F>. Avec
-          les saisons, <F>en</F> pour l’été, l’automne et l’hiver, mais <F>au</F> pour le
+          les saisons, on dit <F>en</F> pour l’été, l’automne et l’hiver, mais <F>au</F> pour le
           printemps : <F>au printemps</F>.
         </div>
 
@@ -300,7 +300,7 @@ export default function Page() {
         </p>
 
         <div className="exception">
-          Le premier jour se dit <F>le premier</F> : <F>le 1er mai</F> (<F>le premier mai</F>). Les
+          Le premier jour du mois se dit <F>le premier</F> : <F>le 1er mai</F> (<F>le premier mai</F>). Les
           autres jours utilisent le nombre normal : <F>le deux mai</F>, <F>le trois mai</F>. On ne
           dit pas <s className="fr">le un mai</s>.
         </div>
@@ -342,7 +342,11 @@ export default function Page() {
         <div className="exception">
           El día 1 se dice <Fr>le premier</Fr>: <Fr>le 1er mai</Fr> (
           <Fr>le premier mai</Fr>). Los demás días usan el número normal:{" "}
-          <Fr>le deux mai</Fr>, <Fr>le trois mai</Fr>. Nunca «le un mai».
+          <Fr>le deux mai</Fr>, <Fr>le trois mai</Fr>. Nunca{" "}
+          <s className="fr" lang="fr">
+            le un mai
+          </s>
+          .
         </div>
 
         <DateTable ui="es" />

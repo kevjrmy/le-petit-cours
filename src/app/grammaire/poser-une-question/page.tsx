@@ -363,8 +363,8 @@ export default function Page() {
         <p>
           À l’oral, les quatre formes se disent pareil : on les distingue
           seulement à l’écrit (sauf devant une voyelle, à cause de la liaison :{" "}
-          <span className="fr">quels‿amis</span>). On l’emploie aussi avec le
-          verbe <span lang="es">« ser »</span> pour dire{" "}
+          <span className="fr">quels‿amis</span>). <span className="fr">Quel</span> s’emploie aussi avec le verbe{" "}
+          <span className="fr">être</span> pour dire{" "}
           <span lang="es">« cuál »</span> :{" "}
           <span className="fr">Quelle est ton adresse&nbsp;?</span>{" "}
           (<span lang="es">¿cuál es tu dirección?</span>).

@@ -74,8 +74,8 @@ export const ITEMS: GoutItem[] = [
   },
   { id: "riz", before: "Ce soir, je mange", noun: "riz", after: ".", answer: "du", kind: "mange",
     because: {
-      es: "El arroz no se cuenta, y lo comes: partitivo. *Riz* es masculino: *du riz*, nunca *un riz*.",
-      fr: "Le riz ne se compte pas, et vous le mangez : article partitif. « Riz » est masculin : « du riz », jamais « un riz ».",
+      es: "El arroz no se cuenta, y se come: partitivo. *Riz* es masculino: *du riz*, nunca *un riz*.",
+      fr: "Le riz ne se compte pas, et on le mange : article partitif. « Riz » est masculin : « du riz », jamais « un riz ».",
     },
   },
   { id: "pluie", before: "Je n’aime pas", noun: "pluie", after: ".", answer: "la", kind: "négation",
@@ -117,7 +117,7 @@ export const ITEMS: GoutItem[] = [
   { id: "viande", before: "Le dimanche, elle mange", noun: "viande", after: ".", answer: "de la", kind: "mange",
     because: {
       es: "La carne no se cuenta, y la comes: partitivo femenino: *de la viande*, nunca *une viande*.",
-      fr: "La viande ne se compte pas, et elle la mange : partitif féminin : « de la viande », jamais « une viande ».",
+      fr: "La viande ne se compte pas, et elle la mange : c’est un partitif féminin, « de la viande », jamais « une viande ».",
     },
   },
   { id: "ete", before: "Il aime", noun: "été", after: ".", answer: "l’", kind: "goût",

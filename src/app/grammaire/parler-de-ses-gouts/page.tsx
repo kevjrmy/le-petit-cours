@@ -43,12 +43,12 @@ const ARTICLES = [
     gloss: "Le gustan los gatos.",
   },
   {
-    what: { fr: "une demande", es: "algo que pides" },
+    what: { fr: "une chose que vous demandez", es: "algo que pides" },
     example: "Je voudrais un café.",
     gloss: "Quisiera un café.",
   },
   {
-    what: { fr: "manger", es: "algo que comes" },
+    what: { fr: "une chose que vous mangez", es: "algo que comes" },
     example: "Je mange du chocolat.",
     gloss: "Como chocolate.",
   },
@@ -188,7 +188,7 @@ export default function Page() {
         <TastesTable lang="fr" />
 
         <p>
-          Pour comparer, <span className="fr">préférer</span> :{" "}
+          Pour comparer, on utilise <span className="fr">préférer</span> :{" "}
           <span className="fr">je préfère le thé</span>
           <Gloss lang="fr">prefiero el té</Gloss>. Avec deux choses, la
           deuxième prend <span className="fr">à</span> :{" "}
@@ -207,14 +207,15 @@ export default function Page() {
           <span className="fr">j’aime bien le café</span>. On ne dit pas{" "}
           <s className="fr">j’aime très le café</s>, même si en espagnol on dit{" "}
           <em lang="es">me gusta muchísimo</em>. Et{" "}
-          <span className="fr">aimer bien</span> est plus faible que{" "}
+          <span className="fr">aimer bien</span> est moins fort qu’
           <span className="fr">aimer</span> : ce n’est pas{" "}
           <span lang="es">« querer bien »</span>.
         </div>
 
         <div className="exception">
-          Avec une personne, <span className="fr">j’aime Paul</span> sonne comme
-          de l’amour. Pour dire que quelqu’un vous plaît bien, utilisez{" "}
+          Avec une personne, <span className="fr">j’aime Paul</span> veut dire
+          qu’on est amoureux. Pour dire que vous trouvez quelqu’un sympathique,
+          dites{" "}
           <span className="fr">j’aime bien Paul</span>.
         </div>
       </section>
@@ -299,7 +300,7 @@ export default function Page() {
           Avec la négation, l’article reste :{" "}
           <span className="fr">je n’aime pas le café</span>
           <Gloss lang="fr">no me gusta el café</Gloss>.{" "}
-          <span className="fr">je n’aime pas de café</span> est une erreur. Le
+          <s className="fr">je n’aime pas de café</s> est une erreur. Le
           passage à <span className="fr">de</span> (
           <span className="fr">je ne mange pas de chocolat</span>) est pour
           manger ou avoir, pas pour aimer. Voyez{" "}
@@ -354,7 +355,10 @@ export default function Page() {
         <p>
           Con la negación, el artículo se queda:{" "}
           <span className="fr" lang="fr">je n’aime pas le café</span> (no me
-          gusta el café). <span className="fr" lang="fr">je n’aime pas de café</span>{" "}
+          gusta el café).{" "}
+          <s className="fr" lang="fr">
+            je n’aime pas de café
+          </s>{" "}
           es un error. El cambio a <span className="fr" lang="fr">de</span> (
           <span className="fr" lang="fr">je ne mange pas de chocolat</span>) es
           para lo que comes o tienes, no para lo que te gusta. Mira{" "}

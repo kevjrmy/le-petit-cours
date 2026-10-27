@@ -252,7 +252,7 @@ export default function Page() {
         </h2>
 
         <div className="rule">
-          Le français n’a pas de mot propre pour 70, 80 et 90 (<span lang="es">setenta</span>,{" "}
+          Le français de France n’a pas de mot propre pour 70, 80 et 90 (<span lang="es">setenta</span>,{" "}
           <span lang="es">ochenta</span>, <span lang="es">noventa</span>). 70 se construit sur 60 :{" "}
           <strong>60 + 10</strong>. 80 et 90 se construisent sur 4 × 20 :{" "}
           <strong>4 × 20</strong> et <strong>80 + 10</strong>.
@@ -300,7 +300,7 @@ export default function Page() {
         </h2>
 
         <div className="rule">
-          El francés no tiene palabra propia para 70, 80 y 90 (setenta, ochenta,
+          El francés de Francia no tiene palabra propia para 70, 80 y 90 (setenta, ochenta,
           noventa). 70 se construye sobre 60:{" "}
           <strong>60 + 10</strong>. 80 y 90 se construyen sobre 4 × 20:{" "}
           <strong>4 × 20</strong> y <strong>80 + 10</strong>.
@@ -363,7 +363,7 @@ export default function Page() {
         <AgeExample />
 
         <div className="attention">
-          En espagnol, vous dites <span lang="es">« tengo treinta »</span> sans plus, mais en
+          En espagnol, vous dites <span lang="es">« tengo treinta »</span>, sans <span lang="es">« años »</span>, mais en
           français <span className="fr">ans</span> est obligatoire :{" "}
           <s className="fr">j’ai trente</s> est faux. Et le verbe de l’âge est toujours{" "}
           <span className="fr">avoir</span> (<span lang="es">tener</span>), jamais{" "}

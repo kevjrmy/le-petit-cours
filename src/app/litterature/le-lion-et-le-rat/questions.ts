@@ -106,7 +106,7 @@ const A1: Question[] = [
   },
   {
     question: {
-      fr: "Selon les deux derniers vers, qu’est-ce qui peut le plus ?",
+      fr: "Selon les deux derniers vers, qu’est-ce qui est le plus fort ?",
       es: "Según los dos últimos versos, ¿qué puede más?",
     },
     options: [

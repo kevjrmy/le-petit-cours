@@ -182,7 +182,7 @@ export default function Page() {
           Apprenez chaque pays avec son article, parce que l’article dit le genre. Les pays en{" "}
           <F>-e</F> sont féminins : <F>en</F> pour être quelque part, <F>de</F> (ou <F>d’</F>) pour
           venir. Les autres sont masculins : <F>au</F> et <F>du</F>, mais s’ils commencent par une
-          voyelle, on dit aussi <F>en</F> et <F>d’</F> (<F>en Équateur</F>). Si le nom est pluriel :{" "}
+          voyelle, on dit <F>en</F> et <F>d’</F> à la place (<F>en Équateur</F>). Si le nom est pluriel :{" "}
           <F>aux</F> et <F>des</F>. Avec une ville, toujours <F>à</F> et <F>de</F>. Tous les cas sont
           dans <Link href="/astuces/a-en-au-aux">À, en, au, aux</Link>.
         </div>
@@ -192,7 +192,7 @@ export default function Page() {
         <CityExample />
 
         <div className="exception">
-          <F>le Mexique</F> finit en <F>-e</F>, mais il est masculin : <F>au Mexique</F>,{" "}
+          <F>le Mexique</F> finit par <F>-e</F>, mais il est masculin : <F>au Mexique</F>,{" "}
           <F>du Mexique</F>. C’est pareil pour <F>le Cambodge</F> et <F>le Mozambique</F>. Attention à
           l’écriture : <F>Mexique</F> s’écrit avec un x, pas avec un j.
         </div>
@@ -246,7 +246,7 @@ export default function Page() {
         <div className="attention">
           Au féminin, on entend la consonne finale, muette au masculin : <F>français</F> finit
           presque par <span lang="es">« é »</span>, mais <F>française</F> finit par un s sonore,
-          comme le s de <span lang="es">« mismo »</span> (un bourdonnement). <F>italien</F> finit
+          comme le s de <span lang="es">« mismo »</span>. <F>italien</F> finit
           par une voyelle nasale (le n ne s’entend pas) ; <F>italienne</F> finit par « -ièn », avec
           le n bien prononcé. Avec <F>espagnol</F>, le son ne change pas, seulement l’écriture.
         </div>
@@ -297,8 +297,8 @@ export default function Page() {
           <span lang="es">« es español »</span> comme dans <span lang="es">« un español »</span>.
           En français, ce n’est pas pareil : l’adjectif prend une minuscule (<F>Il est espagnol</F>)
           et le nom une majuscule (<F>C’est un Espagnol</F>). Et attention à deux nationalités :{" "}
-          <F>anglais</F> est d’Angleterre (pour le Royaume-Uni, on dit <F>britannique</F>), et{" "}
-          <F>américain</F> est des États-Unis. Une personne de Colombie dit{" "}
+          <F>anglais</F> veut dire d’Angleterre (pour le Royaume-Uni, on dit <F>britannique</F>), et{" "}
+          <F>américain</F> veut dire des États-Unis. Une personne de Colombie dit{" "}
           <F>Je suis colombien</F> ou <F>Je suis colombienne</F>, jamais <F>américain</F>.
         </div>
       </section>

@@ -302,7 +302,7 @@ export default function Page() {
 
         <div className="rule">
           Pour choisir entre <span className="fr">un</span> et{" "}
-          <span className="fr">une</span>, il faut le genre du nom. La fin du
+          <span className="fr">une</span>, il faut connaître le genre du nom. La fin du
           mot le donne souvent.
         </div>
 
@@ -332,8 +332,8 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          Le genre n’est pas toujours celui de l’espagnol, même si le mot se
-          ressemble ou est le même : <em lang="es">el mar</em> se dit{" "}
+          Le genre n’est pas toujours celui de l’espagnol, même si les deux mots se
+          ressemblent ou sont identiques : <em lang="es">el mar</em> se dit{" "}
           <span className="fr">la mer</span> (féminin) et{" "}
           <em lang="es">la sal</em> se dit <span className="fr">le sel</span>{" "}
           (masculin). Quand la fin ne dit rien, apprenez le nom avec son

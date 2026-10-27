@@ -192,8 +192,8 @@ export default function Page() {
           En espagnol, on entend le pluriel : <em lang="es">casa</em>,{" "}
           <em lang="es">casas</em>. En français, presque jamais.{" "}
           <span className="fr">le chat</span> et{" "}
-          <span className="fr">les chats</span> se disent de la même façon dans
-          le nom : le <em>s</em> final ne se prononce pas. Le pluriel s’entend
+          <span className="fr">les chats</span> : le nom se dit pareil, car
+          le <em>s</em> final ne se prononce pas. Le pluriel s’entend
           dans l’article. Alors, écoutez toujours le petit mot :{" "}
           <span className="fr">le</span> ou <span className="fr">les</span>,{" "}
           <span className="fr">un</span> ou <span className="fr">des</span>.
@@ -303,7 +303,7 @@ export default function Page() {
           <span className="fr">les garçons</span>. La liaison s’entend
           seulement. Ainsi, le pluriel s’entend de nouveau :{" "}
           <span className="fr">un ami</span> et{" "}
-          <span className="fr">des‿amis</span> ont le même nom, mais on entend
+          <span className="fr">des‿amis</span> ont le même mot, mais on entend
           le <em>z</em> seulement dans le second.
         </p>
 

@@ -169,7 +169,7 @@ export const ITEMS: SituationItem[] = [
   {
     id: "porte",
     situation: {
-      es: "Le abres la puerta a un señor mayor que no conoces. Te dice « Merci, monsieur. » y tú le respondes con la fórmula más cortés.",
+      es: "Le abres la puerta a un señor mayor que no conoces. Te dice *Merci, monsieur.* y tú le respondes con la fórmula más cortés.",
       fr: "Vous ouvrez la porte à un monsieur âgé que vous ne connaissez pas. Il dit « Merci, monsieur. » et vous répondez avec la formule la plus polie.",
     },
     options: ["Je vous en prie.", "Salut.", "Désolé."],
@@ -182,7 +182,7 @@ export const ITEMS: SituationItem[] = [
   {
     id: "de-rien",
     situation: {
-      es: "Le prestas un bolígrafo a tu amigo Hugo, que te dice « Merci ! ». Le respondes como entre amigos.",
+      es: "Le prestas un bolígrafo a tu amigo Hugo, que te dice *Merci !* Le respondes como entre amigos.",
       fr: "Vous prêtez un stylo à votre ami Hugo, qui vous dit « Merci ! ». Vous répondez comme entre amis.",
     },
     options: ["De rien.", "Je vous en prie.", "Bonsoir."],
@@ -249,7 +249,7 @@ export const ITEMS: SituationItem[] = [
     answer: "Au revoir, madame.",
     because: {
       es: "*Au revoir* es el adiós que vale con cualquiera. *Bonjour* es para llegar, y *salut* no se dice a una desconocida.",
-      fr: "« Au revoir » est le mot qui va avec tout le monde. « Bonjour » est pour arriver, et « salut » ne se dit pas à une inconnue.",
+      fr: "« Au revoir » se dit à tout le monde. « Bonjour » est pour arriver, et « salut » ne se dit pas à une inconnue.",
     },
   },
 ];

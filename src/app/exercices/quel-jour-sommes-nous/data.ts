@@ -147,8 +147,8 @@ const ALL: DateItem[] = [
       fr: "C’est le 1er septembre.",
     },
     because: {
-      es: "El día 1 es el único ordinal: *le premier septembre*. Nunca *le un septembre*.",
-      fr: "Le jour 1 est le seul ordinal : « le premier septembre ». Jamais « le un septembre ».",
+      es: "Solo el día 1 se dice *premier*: *le premier septembre*. Nunca *le un septembre*.",
+      fr: "Seul le jour 1 se dit « premier » : « le premier septembre ». Jamais « le un septembre ».",
     },
   },
   {
@@ -161,8 +161,8 @@ const ALL: DateItem[] = [
       fr: "C’est le 1er mai.",
     },
     because: {
-      es: "Solo el día 1 dice *premier*: *le premier mai*. Los demás: *le deux*, *le trois*…",
-      fr: "Seul le jour 1 dit « premier » : « le premier mai ». Les autres : « le deux », « le trois »…",
+      es: "Solo el día 1 se dice *premier*: *le premier mai*. Los demás: *le deux*, *le trois*…",
+      fr: "Seul le jour 1 se dit « premier » : « le premier mai ». Les autres : « le deux », « le trois »…",
     },
   },
 

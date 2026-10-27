@@ -65,7 +65,7 @@ export default function Page() {
 
         <p>
           Vous entrez dans une boulangerie ou vous arrivez à un stand du marché.
-          Une autre personne joue le vendeur : il vous dit bonjour, il vous
+          Une autre personne joue le rôle du vendeur : il vous dit bonjour, il vous
           sert, il propose autre chose et il dit le prix. Vous devez demander ce
           que vous voulez avec la bonne quantité, comprendre le prix et payer.
         </p>
@@ -105,10 +105,10 @@ export default function Page() {
         </ol>
 
         <div className="attention">
-          On n’achète pas avec <Fr>je veux</Fr> : <Fr>je veux une baguette</Fr>{" "}
-          ressemble à un ordre. La forme polie est <Fr>je voudrais</Fr>. On
+          Pour acheter, on ne dit pas <Fr>je veux</Fr> :{" "}
+          <Fr>je veux une baguette</Fr> ressemble à un ordre. La forme polie est <Fr>je voudrais</Fr>. On
           l’utilise partout, dans un magasin comme dans un restaurant. Après une
-          quantité, le nom est avec <Fr>de</Fr> et sans article :{" "}
+          quantité, on met <Fr>de</Fr>, sans article :{" "}
           <Fr>un kilo de pommes</Fr>, pas{" "}
           <s className="fr">un kilo des pommes</s>.
         </div>
@@ -146,7 +146,11 @@ export default function Page() {
           como una orden. La forma educada es <Fr>je voudrais</Fr>, y se usa en
           todas partes, en una tienda igual que en un restaurante. Después de
           una cantidad, el nombre va con <Fr>de</Fr> y sin artículo:{" "}
-          <Fr>un kilo de pommes</Fr>, no <Fr>un kilo des pommes</Fr>.
+          <Fr>un kilo de pommes</Fr>, no{" "}
+          <s className="fr" lang="fr">
+            un kilo des pommes
+          </s>
+          .
         </div>
 
         <div className="astuce">

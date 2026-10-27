@@ -417,7 +417,7 @@ export default function Page() {
 
         <div className="attention">
           En espagnol, <span lang="es">« estación »</span> sert pour tout. En français, il y a deux
-          mots : <span className="fr">la gare</span> est la <span lang="es">estación de tren</span>{" "}
+          mots : <span className="fr">la gare</span> est <span lang="es">la estación de tren</span>{" "}
           et <span className="fr">la station</span> est celle du métro ou du tramway. Un train
           s’arrête à <span className="fr">la gare</span> ; un métro s’arrête à{" "}
           <span className="fr">la station</span>.
@@ -430,7 +430,7 @@ export default function Page() {
         </div>
 
         <div className="attention">
-          <span className="fr">le billet</span> est le <span lang="es">billete</span> de train ou
+          <span className="fr">le billet</span> est <span lang="es">el billete</span> de train ou
           d’avion ; <span className="fr">le ticket</span>, celui du métro ou du bus. Ce sont deux
           mots, pas un.
         </div>
@@ -523,8 +523,8 @@ export default function Page() {
           </li>
           <li>
             <span className="fr">en</span> si vous êtes dedans (<span className="fr">en voiture</span>,{" "}
-            <span className="fr">en train</span>) ; <span className="fr">à</span> à pied ou assis
-            dessus (<span className="fr">à pied</span>, <span className="fr">à vélo</span>,{" "}
+            <span className="fr">en train</span>) ; <span className="fr">à</span> si vous êtes à pied ou
+            assis dessus (<span className="fr">à pied</span>, <span className="fr">à vélo</span>,{" "}
             <span className="fr">à moto</span>). On entend <span className="fr">en vélo</span>, mais
             apprenez <span className="fr">à vélo</span>.
           </li>
@@ -534,8 +534,8 @@ export default function Page() {
           </li>
           <li>
             <span className="fr">la gare</span> est pour les trains, <span className="fr">la station</span>{" "}
-            pour le métro, <span className="fr">l’arrêt</span> pour le bus : la parada, pas el
-            arresto.
+            pour le métro, <span className="fr">l’arrêt</span> pour le bus : <span lang="es">la parada</span>, pas{" "}
+            <span lang="es">el arresto</span>.
           </li>
         </ul>
       </div>

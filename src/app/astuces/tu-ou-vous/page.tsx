@@ -69,7 +69,7 @@ function Table({
 }
 
 const TU_VOUS = [
-  { who: { fr: "un ami, un parent, un enfant", es: "un amigo, un familiar, un niño" }, say: "tu", ex: "Tu parles français ?", gloss: "¿Hablas francés?" },
+  { who: { fr: "un ami, la famille, un enfant", es: "un amigo, un familiar, un niño" }, say: "tu", ex: "Tu parles français ?", gloss: "¿Hablas francés?" },
   { who: { fr: "un inconnu, un vendeur, un professeur", es: "un desconocido, un vendedor, un profesor" }, say: "vous", ex: "Vous parlez français ?", gloss: "¿Habla usted francés?" },
   { who: { fr: "plusieurs personnes, même des amis", es: "varias personas, aunque sean amigas" }, say: "vous", ex: "Vous venez demain ?", gloss: "¿Venís mañana?" },
 ];
@@ -109,7 +109,7 @@ const GREETINGS = [
   { word: "bonjour", when: { fr: "le jour, avec tout le monde", es: "de día, con cualquiera" }, ex: "Bonjour, madame.", gloss: "Buenos días / buenas tardes, señora." },
   { word: "bonsoir", when: { fr: "en fin d’après-midi et le soir", es: "al caer la tarde y de noche" }, ex: "Bonsoir, monsieur.", gloss: "Buenas tardes / buenas noches, señor." },
   { word: "salut", when: null, ex: "Salut, Léa !", gloss: "¡Hola, Léa! / ¡Chao, Léa!" },
-  { word: "au revoir", when: { fr: "pour dire au revoir, avec tout le monde", es: "adiós, con cualquiera" }, ex: "Au revoir, monsieur.", gloss: "Adiós, señor." },
+  { word: "au revoir", when: { fr: "pour partir, avec tout le monde", es: "adiós, con cualquiera" }, ex: "Au revoir, monsieur.", gloss: "Adiós, señor." },
   { word: "bonne journée", when: { fr: "en partant, le jour", es: "al despedirte, de día" }, ex: "Merci, bonne journée !", gloss: "Gracias, ¡buen día!" },
 ];
 
@@ -134,7 +134,8 @@ function GreetingsTable({ ui }: { ui: Ui }) {
           r.when[ui]
         ) : ui === "fr" ? (
           <>
-            seulement avec « <Fr ui={ui}>tu</Fr> » : bonjour et au revoir
+            seulement avec « <Fr ui={ui}>tu</Fr> » : <Fr ui={ui}>bonjour</Fr> et{" "}
+            <Fr ui={ui}>au revoir</Fr>
           </>
         ) : (
           <>
@@ -151,7 +152,7 @@ function GreetingsTable({ ui }: { ui: Ui }) {
 const THANKS = [
   { word: "merci", when: { fr: "remercier", es: "dar las gracias" }, ex: "Merci beaucoup !", gloss: "¡Muchas gracias!" },
   { word: "de rien", when: null, ex: "Merci. – De rien.", gloss: "Gracias. – De nada." },
-  { word: "pardon", when: { fr: "un petit choc, un passage, une phrase non entendue", es: "un roce, un paso, no haber oído" }, ex: "Pardon ? Vous pouvez répéter ?", gloss: "¿Perdón? ¿Puede repetir?" },
+  { word: "pardon", when: { fr: "un petit choc, pour passer, une phrase mal entendue", es: "un roce, un paso, no haber oído" }, ex: "Pardon ? Vous pouvez répéter ?", gloss: "¿Perdón? ¿Puede repetir?" },
   { word: "excusez-moi", when: { fr: "attirer l’attention, déranger", es: "llamar la atención, molestar" }, ex: "Excusez-moi, où est la gare ?", gloss: "Perdone, ¿dónde está la estación?" },
   { word: "désolé", when: { fr: "regretter vraiment", es: "lamentar de verdad" }, ex: "Je suis désolé, je suis en retard.", gloss: "Lo siento, llego tarde." },
 ];
@@ -203,11 +204,11 @@ export default function Page() {
 
         <div className="astuce">
           <p className="astuce-hook">
-            Si ce n’est pas un ami, un parent ou un enfant, dites <strong>vous</strong>. Et si vous
+            Si ce n’est pas un ami, la famille ou un enfant, dites <strong>vous</strong>. Et si vous
             parlez à plusieurs personnes, dites aussi <strong>vous</strong>.
           </p>
           <p>
-            En Espagne, presque tout le monde se tutoie. Le <em lang="es">usted</em> sert peu. En
+            En Espagne, presque tout le monde se tutoie. Le mot <em lang="es">usted</em> sert peu. En
             France, c’est le contraire : avec un inconnu, dans un magasin, avec un professeur ou
             avec votre chef, on dit <span className="fr">vous</span>. Et{" "}
             <span className="fr">vous</span> est aussi le pluriel (<em lang="es">vosotros</em>) : il
@@ -219,17 +220,17 @@ export default function Page() {
 
         <p>
           L’erreur classique : à la boulangère, vous dites <span className="fr">Tu as du pain ?</span>{" "}
-          par habitude. C’est juste avec un ami, mais avec elle, cela paraît grossier. On dit{" "}
+          par habitude. C’est correct avec un ami, mais avec elle, cela paraît grossier. On dit{" "}
           <span className="fr">Vous avez du pain ?</span>
         </p>
 
         <div className="exception">
-          Entre jeunes, entre collègues et dans beaucoup de milieux informels, on dit{" "}
+          Entre jeunes, entre collègues et dans beaucoup de moments détendus, on dit{" "}
           <span className="fr">tu</span> même sans se connaître. Si vous hésitez, commencez par{" "}
           <span className="fr">vous</span>. Si le <span className="fr">tu</span> vous convient,
           l’autre personne vous le dira (<span className="fr">On peut se tutoyer ?</span>). Ne
-          commencez jamais par <span className="fr">tu</span> avec une personne âgée ou avec un
-          supérieur.
+          commencez jamais par <span className="fr">tu</span> avec une personne âgée ou avec votre
+          chef.
         </div>
       </section>
 
@@ -284,7 +285,8 @@ export default function Page() {
           <p>
             Entrer dans une boulangerie ou dans un cabinet sans dire{" "}
             <span className="fr">bonjour</span> paraît impoli, même si vous êtes aimable ensuite. En
-            sortant, on dit merci et au revoir.
+            sortant, on dit <span className="fr">merci</span> et{" "}
+            <span className="fr">au revoir</span>.
           </p>
         </div>
 

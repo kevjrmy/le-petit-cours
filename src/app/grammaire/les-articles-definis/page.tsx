@@ -124,12 +124,13 @@ function JoinsTable({ lang }: { lang: Lang }) {
             <th scope="col">{fr ? "L’article" : "El artículo"}</th>
             <th scope="col">
               {fr ? "Avec " : "Con "}
-              <span className="fr" lang="fr">à</span>
-              {" (a)"}
+              <span className="fr" lang="fr">à</span>{" "}
+              <span lang="es">(a)</span>
             </th>
             <th scope="col">
               {fr ? "Avec " : "Con "}
-              <span className="fr" lang="fr">de</span> (de)
+              <span className="fr" lang="fr">de</span>{" "}
+              <span lang="es">(de)</span>
             </th>
           </tr>
         </thead>
@@ -314,14 +315,14 @@ export default function Page() {
 
         <div className="astuce">
           <p className="astuce-hook">
-            <strong>du</strong> et <strong>des</strong> ont deux vies.
+            <strong>du</strong> et <strong>des</strong> ont deux sens.
           </p>
           <p>
             <span className="fr">la porte du garage</span>
             <Gloss lang="fr">la puerta del garaje</Gloss>, c’est{" "}
             <span className="fr">de</span> + <span className="fr">le</span>.
             Mais <span className="fr">je bois du café</span>
-            <Gloss lang="fr">bebo café</Gloss> est autre chose : c’est un autre
+            <Gloss lang="fr">bebo café</Gloss>, c’est autre chose : c’est un autre
             article. Il est expliqué dans{" "}
             <Link href="/grammaire/les-articles-partitifs" lang="fr">
               Les articles partitifs

@@ -54,18 +54,17 @@ const SITUATIONS: { fr: ReactNode; es: ReactNode }[] = [
   {
     fr: (
       <>
-        Une autre personne arrive. Présentez-la à votre interlocuteur : dites{" "}
-        <span className="fr">voici</span> et son nom, puis dites comment elle
-        s’appelle.
+        Une troisième personne arrive. Présentez-la : dites{" "}
+        <span className="fr">voici</span> et son nom.
       </>
     ),
     es: (
       <>
-        Llega otra persona. Preséntasela a tu interlocutor: di{" "}
+        Llega una tercera persona. Preséntala: di{" "}
         <span className="fr" lang="fr">
           voici
         </span>{" "}
-        y su nombre, y di cómo se llama.
+        y su nombre.
       </>
     ),
   },

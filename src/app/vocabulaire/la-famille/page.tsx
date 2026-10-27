@@ -344,8 +344,8 @@ export default function Page() {
           Pour unir deux personnes, le français utilise <span className="fr">de</span>, comme
           l’espagnol : <span className="fr">le frère de Marie</span> (
           <span lang="es">el hermano de Marie</span>), <span className="fr">la mère de mon ami</span>{" "}
-          (<span lang="es">la madre de mi amigo</span>). L’ordre est toujours le même : d’abord le
-          mot de la famille, puis le nom de l’autre personne.
+          (<span lang="es">la madre de mi amigo</span>). L’ordre est toujours le même : d’abord la
+          personne ou la chose, puis la personne à qui elle est liée.
         </div>
 
         <SameExample />
@@ -364,8 +364,9 @@ export default function Page() {
 
         <div className="attention">
           <span className="fr">mon</span>, <span className="fr">ton</span> et{" "}
-          <span className="fr">son</span> s’emploient devant un nom féminin, si ce nom commence par
-          une voyelle. On écrit <span className="fr">mon amie</span> et{" "}
+          <span className="fr">son</span> remplacent <span className="fr">ma</span>,{" "}
+          <span className="fr">ta</span> et <span className="fr">sa</span> devant un nom féminin qui
+          commence par une voyelle. On écrit <span className="fr">mon amie</span> et{" "}
           <span className="fr">son école</span>, jamais <s className="fr">ma amie</s>. Le nom reste
           féminin : <span className="fr">mon amie est espagnole</span> (
           <span lang="es">mi amiga es española</span>). Les formes complètes sont dans{" "}
@@ -451,7 +452,7 @@ export default function Page() {
 
         <div className="astuce">
           <p className="astuce-hook">
-            <span className="fr">mes parents</span> sont, par défaut, votre père et votre mère.
+            <span className="fr">mes parents</span>, ce sont d’abord mon père et ma mère.
           </p>
           <p>
             <span className="fr">Mes parents habitent à Lyon</span> (
@@ -493,8 +494,8 @@ export default function Page() {
 
         <div className="astuce">
           <p className="astuce-hook">
-            <span className="fr" lang="fr">mes parents</span> son, por defecto,
-            tu padre y tu madre.
+            <span className="fr" lang="fr">mes parents</span> son ante todo
+            mi padre y mi madre.
           </p>
           <p>
             <span className="fr" lang="fr">Mes parents habitent à Lyon</span>{" "}

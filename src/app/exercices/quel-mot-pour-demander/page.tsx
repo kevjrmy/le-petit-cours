@@ -26,8 +26,8 @@ export default function Page() {
         </h2>
 
         <p data-ui="fr">
-          Dans chaque question, il manque un mot. Lisez la réponse qui apparaît
-          dessous : elle vous dit ce qu’on demande (une personne, un lieu, un
+          Dans chaque question, il manque un mot. Lisez la réponse, sous la
+          question : elle vous dit ce qu’on demande (une personne, un lieu, un
           moment, une quantité, une cause…). Si la réponse est{" "}
           <span className="fr">oui</span> ou <span className="fr">non</span>, la
           question commence par <span className="fr">est-ce que</span>. Devant

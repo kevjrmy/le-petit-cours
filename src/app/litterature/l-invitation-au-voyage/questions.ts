@@ -29,7 +29,7 @@ const A1: Question[] = [
       { fr: "Rester dans la ville où ils habitent", es: "Quedarse en la ciudad donde viven" },
     ],
     answer: 0,
-    because: "« Songe à la douceur / D’aller là-bas vivre ensemble ! »: irse allí y vivir juntos.",
+    because: { fr: "« Songe à la douceur / D’aller là-bas vivre ensemble ! » : partir là-bas et vivre ensemble.", es: "« Songe à la douceur / D’aller là-bas vivre ensemble ! »: irse allí y vivir juntos." },
   },
   {
     question: { fr: "Que dit le poème de ce pays ?", es: "¿Qué dice el poema de ese país?" },
@@ -79,7 +79,7 @@ const A1: Question[] = [
       { fr: "Chanter", es: "Cantar" },
     ],
     answer: 1,
-    because: { fr: "« songer à » veut dire penser à quelque chose. Rêver en dormant se dit « rêver ».", es: "« songer à » parece « soñar », pero es pensar en algo. Soñar dormido es « rêver »." },
+    because: { fr: "« songer à » veut dire penser à quelque chose, l’imaginer. Pour le rêve de la nuit, on dit « rêver ».", es: "« songer à » parece « soñar », pero es pensar en algo. Soñar dormido es « rêver »." },
   },
 ];
 

@@ -185,7 +185,7 @@ export function A1() {
         <div className="attention">
           En el teatro, el nombre en negrita dice quién habla. Lo que va en
           cursiva dice lo que hace: no se lee en voz alta. <span lang="fr">Flanquin</span> y{" "}
-          <span lang="fr">Champagne</span>
+          <span lang="fr">Champagne</span>{" "}
           son los nombres de los dos lacayos.
         </div>
       </section>

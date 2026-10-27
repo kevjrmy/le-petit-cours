@@ -42,7 +42,7 @@ export default function Page() {
           respuesta correcta es <span lang="fr">∅</span> (nada). Fíjate en tres
           cosas: <span lang="fr">au printemps</span> pero{" "}
           <span lang="fr">en</span> con las demás estaciones y con los meses;
-          en una fecha no hay «de» ni «un» (el día 1 es{" "}
+          en una fecha no hay «de» ni «<span lang="fr">un</span>» (el día 1 es{" "}
           <span lang="fr">premier</span>); y <span lang="fr">lundi</span> es
           este lunes, mientras que <span lang="fr">le lundi</span> es todos los
           lunes. Cuando la frase tiene una pista en español, léela. Las reglas

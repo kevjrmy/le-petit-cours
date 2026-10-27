@@ -173,7 +173,7 @@ export default function Page() {
           Cela veut dire <span lang="es">« un bolígrafo »</span>,{" "}
           <span lang="es">« la estación »</span>,{" "}
           <span lang="es">« mi hermana »</span> et « Paul ». En espagnol, on
-          peut taire le sujet : <em lang="es">es un libro</em>. En français,
+          peut ne pas dire le sujet : <em lang="es">es un libro</em>. En français,
           non : <span className="fr">c’est un livre</span>.{" "}
           <s className="fr">est un livre</s> n’existe pas.
         </p>
@@ -342,7 +342,7 @@ export default function Page() {
           En espagnol, on dit <span lang="es">« es médico »</span> et aussi{" "}
           <span lang="es">« es un médico »</span>. En français, la phrase change
           de forme : sans petit mot, on dit{" "}
-          <span className="fr">il est médecin</span> ; avec lui,{" "}
+          <span className="fr">il est médecin</span> ; avec un article,{" "}
           <span className="fr">c’est un médecin</span>.{" "}
           <s className="fr">il est un médecin</s> n’existe pas, et{" "}
           <s className="fr">c’est médecin</s> non plus.
