@@ -176,7 +176,8 @@ export default function Page() {
         <h2>3. Le quiz</h2>
 
         <p>
-          Vingt Clasicos, de 1974 à 2025. Comme la semaine dernière, chaque
+          Vingt Clasicos, de 2006 jusqu’à celui de ta copie, le 25 octobre
+          2026. Comme la semaine dernière, chaque
           question arrive écrite de quatre façons, et une seule est sans
           faute. Trouve-la, et tu as le droit de répondre. Pour marquer le
           point, il faut les deux : la bonne écriture, puis la bonne réponse.
