@@ -20,18 +20,24 @@ patterns never change for it.** The language follows the course's: Spanish expla
 3. **The page, section by section.** Stop where the class will go on orally.
 
 The furniture exists, in folders that leave with the chapter: `_texte/` (`Copie`, `Corrige`) for
-the text and its correction, `_exercice/` (`Choix`, `Faute`, `Trous`, `Quiz`, and the « tu »
-`Bilan`) for the practice. **Clicks, never typing** — the answers carry accents a Spanish keyboard
+the text and its correction, `_exercice/` (`Choix`, `Faute`, `Trous`, `Quiz`, `Partie`, `Ordre`,
+and the « tu » `Bilan`) for the practice. **Clicks, never typing** — the answers carry accents a Spanish keyboard
 cannot type (§1) — and **no shuffle**: the items follow the text, and the page stays prerendered. A
 trick for a heritage speaker leans on the ear, not on a list to memorise.
 
-Two shapes have served. **A page of trucs**: the copy, a hunt aloud, the copy again with gaps
+Three shapes have served. **A page of trucs**: the copy, a hunt aloud, the copy again with gaps
 (`Trous`), the hidden corrigé, then one truc at a time, each with its own board (`Choix`), a défi
 (`Faute`) and « En résumé ». **A page of families**: the gaps first, the copy hidden under them
-(`Corrige` with `voir`), a table sorting the corrections into families, and a quiz.
+(`Corrige` with `voir`), a table sorting the corrections into families, and a quiz. **A page on
+how a text is built**, from the learner's last copy: its parts in a table, then easy to hard — the
+copy's own paragraphs back in order (`Ordre`), sentences sorted into their part (`Partie`), a short
+literary text from the course back in order — and the two texts side by side.
 
 - **A gap or a board never offers a second right answer** (§9): no well-formed passé simple beside
   a passé composé, no trap that differs from the right form by an agreement the page does not teach.
+- **`Ordre` and `Partie` need one defensible place per piece**: each carries its clue (« En
+  conclusion », « Ce lion », a minute). The scramble is written in the data, no piece already in
+  its place.
 - **`Quiz` is two clicks**: the well-written question among four, then the answer; the point needs
   both. A wrong writing is the question with **one** piece replaced (`juste` → `faux`), never retyped.
 - **A fact in a quiz is dated and checked against a source** (« en 2010 », « à l'Euro 2024 »): a

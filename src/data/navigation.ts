@@ -1575,6 +1575,15 @@ export const chapters: Chapter[] = [
         delf: "Rendre compte par écrit d'un évènement qu'on a vu",
         created: "2026-10-27",
       },
+      {
+        id: "atelier-2026-10-27-le-plan-d-un-texte",
+        path: "/atelier/le-plan-d-un-texte",
+        title: "Le plan d’un texte",
+        subtitle: "Introduction, développement, conclusion : ton Clasico et une fable de La Fontaine",
+        level: null,
+        delf: "Rendre compte par écrit d'un évènement qu'on a vu",
+        created: "2026-10-27",
+      },
     ],
   },
   /* Le DELF, et pourquoi il est le dernier chapitre : il ne s'apprend pas, il
@@ -2642,6 +2651,11 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/le-passe-compose",
     "/orthographe/les-homophones",
     "/orthographe/les-terminaisons-verbales",
+  ],
+  "/atelier/le-plan-d-un-texte": [
+    "/litterature/le-lion-et-le-rat",
+    "/grammaire/les-connecteurs",
+    "/exercices/mais-donc-ou-parce-que",
   ],
 };
 

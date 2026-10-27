@@ -1,0 +1,103 @@
+/* « Remets le texte dans l'ordre ». La carte et les boutons du bas viennent de
+   `Board.module.css` ; les états `.is-correct` et `.is-wrong` sont globaux et
+   doublés pour battre `.morceau` (`globals.css`) : aucune couleur d'état ici. */
+
+/* Le nom d'une zone, en sans : une consigne, pas du français à lire. Le même
+   que l'étape de `Quiz`. */
+.etape {
+  margin: 0;
+  font-size: var(--type-90);
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.suite {
+  margin-top: var(--space-24);
+}
+
+.pile {
+  margin-top: var(--space-12);
+  display: grid;
+  gap: var(--space-8);
+}
+
+/* Un morceau est une ligne entière, comme une écriture du quiz : des vers ou
+   un paragraphe se lisent mieux l'un sous l'autre que côte à côte.
+   `pre-line` garde les retours à la ligne des vers. */
+.morceau {
+  display: block;
+  width: 100%;
+  padding: var(--space-10) var(--space-14);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--text-1);
+  font-family: var(--font-serif);
+  font-size: var(--type-106);
+  line-height: 1.5;
+  text-align: left;
+  white-space: pre-line;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.morceau:hover:not(:disabled) {
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
+}
+
+.morceau:disabled {
+  cursor: default;
+}
+
+/* Ton texte : une liste numérotée à la main, pour que le numéro devienne la
+   marque ✓ ou ✗ à la correction. */
+.texte {
+  margin: var(--space-12) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--space-8);
+}
+
+.ligne {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-10);
+  margin: 0;
+}
+
+.numero {
+  flex: none;
+  min-width: 1.2rem;
+  font-size: var(--type-90);
+  font-weight: 600;
+  color: var(--text-2);
+  text-align: right;
+}
+
+.bon {
+  margin-top: var(--space-24);
+}
+
+.partie {
+  margin: 0;
+  font-size: var(--type-90);
+  font-weight: 600;
+  color: var(--accent-text);
+}
+
+.vers {
+  margin: var(--space-4) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--type-106);
+  line-height: 1.5;
+  white-space: pre-line;
+  color: var(--text-heading);
+}
+
+.indice {
+  margin: var(--space-4) 0 0;
+  font-size: var(--type-90);
+  color: var(--text-2);
+}

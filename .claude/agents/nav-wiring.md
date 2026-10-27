@@ -275,7 +275,7 @@ git rm -r src/app/atelier/<slug>          # for each page being cleared
 ```
 
 … and its `relatedPages` key, if any. The `_`-prefixed folders — `_exercice/` (`Choix`, `Faute`,
-`Trous`, `Quiz`, the « tu » `Bilan`) and `_texte/` (`Copie`, `Corrige`, the scoped styles) — go once the
+`Trous`, `Quiz`, `Partie`, `Ordre`, the « tu » `Bilan`) and `_texte/` (`Copie`, `Corrige`, the scoped styles) — go once the
 last page using them is gone; the underscore hides them from the router **and** the audit, so left
 behind they are dead code. No redirect. `grep -rn "/atelier/" src/` checks nothing permanent linked in.
 The chapter stays in the manifest with `lessons: []`.
