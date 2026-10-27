@@ -52,13 +52,25 @@ literary text from the course back in order — and the two texts side by side.
 - A page that cannot be written without saying whose it is stays out: a name can be reverted out
   of the tree, never out of anyone's clone. **If a local hook refuses a commit, fix the content;
   never `--no-verify`.**
+- **A family's message is the same material** (a voice note asking for a class): its transcript
+  stays in `.private/<date>/`, names removed, and the page says what was asked, never who asked.
+  **It never goes to a hosted service** — transcribe it on the machine.
+
+**Transcribing a voice note.** `faster-whisper` in a throwaway venv in the scratchpad, model
+`small` (one ~500 MB download), language left to detection; no ffmpeg needed. With PyAV 15 or
+later, faster-whisper 1.2's own decoder fails on `metadata_errors`, and no older PyAV builds on
+Python 3.13 without a compiler: decode with `av` yourself (resample to 16 kHz mono `s16`, divide
+by 32768) and pass the array. Then read the result for sense — it heard « ChatGPT » as « Chapter
+PT » and « les faits » as « l'effet ». Delete the scratch copy of the audio afterwards.
 
 ## What the chapter is not
 
 - **Not tracked.** No tick under the page or in its listing; `scratch: true` keeps it out of
   every parcours and `/ma-progression`.
 - **Not linked into** — the link would vanish at the reset. An atelier page may point out at
-  lessons.
+  lessons, and at another atelier page of the same weeks (« Le plan d'un texte » builds on « Le
+  Clasico »): the two leave together, or the link goes first — the audit's inline-link line
+  reports one left behind.
 - **Not promised.** Ids carry the date and are never reused (`atelier-2026-09-29-…`); a removed page gets
   no redirect; each page carries `noindex` of its own, whatever the site asks for itself (#95).
 - **Not listed, and lockable.** The chapter has a lock: `FRONTEND_PASSWORD` (#81), checked by

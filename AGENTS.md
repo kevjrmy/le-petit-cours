@@ -443,6 +443,8 @@ npx tsc --noEmit
 curl -s -o /dev/null -w '%{http_code}\n' http://localhost:3000/<route>   # each route touched
 ```
 
+- **A route removed → `npx next typegen` before `tsc`**: `.next/types` still imports the deleted
+  page, and `tsc` fails on a file that is gone.
 - **The dev server is the maintainer's**, usually running from their IDE. Check it (the `curl`
   above, on `/`) and use it. **Never start one, never pattern-kill node**; if nothing answers, ask.
 - **`npm run build` is the maintainer's to run — never on your own, and never while their dev
