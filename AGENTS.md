@@ -153,8 +153,8 @@ Read `node_modules/next/dist/docs/` first. The traps:
   message. `lang` without a `voice` is read by the device's default voice, in its language.
 - **The shell lives in the root layout** so its state survives navigation; never mount it per page.
 - **`beforeinstallprompt` is caught by `src/lib/install.ts`, which the shell imports** (#101): it
-  fires once per load, on the landing page; a listener in `/installer` or `/instalar` would miss it. Never
-  `preventDefault()` it.
+  fires once per load, on the landing page; a listener in `/installer` or `/instalar` would miss it. It
+  calls `preventDefault()`, so the browser's own pop-up never shows: our button is the one offer.
 
 ## 5. Design system
 

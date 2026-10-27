@@ -7,9 +7,10 @@
  * So this module listens at import, and **the shell imports it**: the event is
  * kept here and the page reads it whenever it mounts.
  *
- * **No `preventDefault()`.** It would take away the browser's own install
- * offer on every page of the site; the page adds a button, it does not
- * replace the browser's menu.
+ * **`preventDefault()`, on every page**: the browser's own pop-up (Chrome's
+ * mini-infobar on Android) never shows; the install is offered by our button
+ * alone. The browser's menu keeps its « Installer l'application », which no
+ * page can remove, and which the page's fallback steps point to.
  *
  * Safari fires none of this, on any device: an iPhone gets instructions.
  */
@@ -31,6 +32,7 @@ function emit() {
 
 if (typeof window !== "undefined") {
   window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
     offer = event as BeforeInstallPromptEvent;
     emit();
   });

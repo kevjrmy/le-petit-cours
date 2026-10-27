@@ -1398,8 +1398,11 @@ have an account, and it prerenders.
 page the visitor landed on; a listener in `/installer`'s leaf would almost never hear it. So
 `src/lib/install.ts` listens at import, `AppShell` imports it, and the page reads the stored offer.
 
-**Against `preventDefault()`**: it would take the browser's own install offer off every page of the
-site. The page adds a button; the browser keeps its menu.
+**`preventDefault()` on every page** (the maintainer's call, the same day): Chrome's own pop-up, the
+mini-infobar, never shows, and our button is the one offer. It was first left alone, so as not to
+take the browser's offer away; it is taken away on purpose, because a pop-up over a lesson is
+the interruption the next paragraph rules out. The browser's menu keeps « Installer
+l'application », which no page can remove, and the fallback steps point to it.
 
 **Against a banner or a popover offering the install**: it would interrupt a lesson to sell the
 container, and the course asks nothing of a visitor it does not need.
