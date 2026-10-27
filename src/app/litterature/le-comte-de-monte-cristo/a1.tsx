@@ -3,10 +3,147 @@ import { Quiz } from "./quiz";
 /* The A1 body (#85, #92): explained in Spanish, the Morrel–Dantès exchange
    in French with the course's own Spanish under each speech. The French is
    the A2 body's, checked against the Wikisource scan; not re-edited. */
+
+function Text() {
+  return (
+    <div className="example">
+      <p className="bilingue">
+        <span lang="fr">— Ah ! c’est vous, Dantès ! cria l’homme à la barque ; qu’est-il donc arrivé, et pourquoi cet air de tristesse répandu sur tout votre bord ?</span>
+        <span lang="es">—¡Ah, es usted, Dantès! —gritó el hombre de la barca—. ¿Qué ha pasado, y por qué está tan triste todo su barco?</span>
+      </p>
+      <p className="bilingue">
+        <span lang="fr">— Un grand malheur, monsieur Morrel ! répondit le jeune homme, un grand malheur, pour moi surtout : à la hauteur de Civita-Vecchia, nous avons perdu ce brave capitaine Leclère.</span>
+        <span lang="es">—¡Una gran desgracia, señor Morrel! —respondió el joven—. Una gran desgracia, sobre todo para mí: a la altura de Civitavecchia, hemos perdido al buen capitán Leclère.</span>
+      </p>
+      <p className="bilingue">
+        <span lang="fr">— Et le chargement ? demanda vivement l’armateur.</span>
+        <span lang="es">—¿Y la carga? —preguntó con viveza el armador.</span>
+      </p>
+      <p className="bilingue">
+        <span lang="fr">— Il est arrivé à bon port, monsieur Morrel, et je crois que vous serez content sous ce rapport ; mais ce pauvre capitaine Leclère…</span>
+        <span lang="es">—Ha llegado sin problemas, señor Morrel, y creo que en eso estará usted contento; pero el pobre capitán Leclère…</span>
+      </p>
+      <p className="bilingue">
+        <span lang="fr">— Que lui est-il donc arrivé ? demanda l’armateur d’un air visiblement soulagé ; que lui est-il donc arrivé, à ce brave capitaine ?</span>
+        <span lang="es">—Pero ¿qué le ha pasado? —preguntó el armador, que parecía aliviado—. ¿Qué le ha pasado a ese buen capitán?</span>
+      </p>
+      <p className="bilingue">
+        <span lang="fr">— Il est mort.</span>
+        <span lang="es">—Ha muerto.</span>
+      </p>
+      <p className="bilingue">
+        <span lang="fr">— Tombé à la mer ?</span>
+        <span lang="es">—¿Se ha caído al mar?</span>
+      </p>
+      <p className="bilingue">
+        <span lang="fr">— Non, monsieur ; mort d’une fièvre cérébrale, au milieu d’horribles souffrances.</span>
+        <span lang="es">—No, señor; ha muerto de una fiebre cerebral, entre dolores horribles.</span>
+      </p>
+    </div>
+  );
+}
+
+function Words({ lang }: { lang: "fr" | "es" }) {
+  const fr = lang === "fr";
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>
+          {fr
+            ? "Les mots dont vous avez besoin pour lire le dialogue"
+            : "Las palabras que necesitas para leer el diálogo"}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">{fr ? "Mot" : "Palabra"}</th>
+            <th scope="col">{fr ? "En espagnol" : "En español"}</th>
+            <th scope="col">{fr ? "Exemple" : "Ejemplo"}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" className="fr" lang="fr">la barque</th>
+            <td lang="es">
+              una barca pequeña. Cuidado: no es un barco grande; el barco
+              grande es <span className="fr" lang="fr">le bateau</span>
+            </td>
+            <td className="fr" lang="fr">
+              Morrel va vers le bateau dans une barque.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" className="fr" lang="fr">un armateur</th>
+            <td lang="es">el armador: la persona a quien pertenece el barco. Aquí, Morrel</td>
+            <td className="fr" lang="fr">L’armateur attend son bateau.</td>
+          </tr>
+          <tr>
+            <th scope="row" className="fr" lang="fr">le bord</th>
+            <td lang="es">
+              el barco y la gente que va en él;{" "}
+              <span className="fr" lang="fr">à bord</span>, en el barco
+            </td>
+            <td className="fr" lang="fr">Morrel monte à bord.</td>
+          </tr>
+          <tr>
+            <th scope="row" className="fr" lang="fr">brave</th>
+            <td lang="es">
+              delante del nombre, bueno, honrado. Cuidado: no quiere decir{" "}
+              <em>bravo</em> (feroz)
+            </td>
+            <td className="fr" lang="fr">C’est un brave capitaine.</td>
+          </tr>
+          <tr>
+            <th scope="row" className="fr" lang="fr">un malheur</th>
+            <td lang="es">una desgracia, una cosa muy triste</td>
+            <td className="fr" lang="fr">Un grand malheur est arrivé.</td>
+          </tr>
+          <tr>
+            <th scope="row" className="fr" lang="fr">le chargement</th>
+            <td lang="es">la carga: lo que lleva el barco para vender</td>
+            <td className="fr" lang="fr">Le bateau porte un gros chargement.</td>
+          </tr>
+          <tr>
+            <th scope="row" className="fr" lang="fr">à bon port</th>
+            <td lang="es">sin problemas, hasta el final del viaje</td>
+            <td className="fr" lang="fr">Tout est arrivé à bon port.</td>
+          </tr>
+          <tr>
+            <th scope="row" className="fr" lang="fr">soulagé</th>
+            <td lang="es">aliviado: tranquilo, porque el miedo se va</td>
+            <td className="fr" lang="fr">Morrel est soulagé.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export function A1() {
   return (
     <>
-      <section lang="es">
+      <section data-ui="fr">
+        <h2>Le texte</h2>
+
+        <p>
+          Alexandre Dumas · <em>Le Comte de Monte-Cristo</em> · 1844 · chapitre I, « Marseille. L’arrivée » · le dialogue entre Morrel et Dantès
+        </p>
+
+        <p>
+          Marseille, 1815. Un bateau, <em>le Pharaon</em>, revient d’un long voyage. Un jeune marin, Edmond Dantès, le dirige. Le propriétaire du bateau, monsieur Morrel, ne peut pas attendre : il monte dans une barque et va à sa rencontre. Lisez d’abord le français, et regardez l’espagnol seulement si vous ne comprenez pas.
+        </p>
+
+        <Text />
+
+        <div className="attention">
+          Dantès raconte au <span className="fr">passé composé</span>, comme l’espagnol <em lang="es">ha pasado</em>,{" "}
+          <em lang="es">ha muerto</em>. Mais le français a deux auxiliaires :{" "}
+          <span className="fr">nous avons perdu</span> avec <span className="fr">avoir</span>, et <span className="fr">il est arrivé</span>,{" "}
+          <span className="fr">il est mort</span> avec <span className="fr">être</span>. On ne dit pas «{" "}
+          <s className="fr">il a mort</s> ».
+        </div>
+      </section>
+
+      <section data-ui="es" lang="es">
         <h2>El texto</h2>
 
         <p>
@@ -23,40 +160,7 @@ export function A1() {
           pierdes.
         </p>
 
-        <div className="example">
-          <p className="bilingue">
-            <span lang="fr">— Ah ! c’est vous, Dantès ! cria l’homme à la barque ; qu’est-il donc arrivé, et pourquoi cet air de tristesse répandu sur tout votre bord ?</span>
-            <span lang="es">—¡Ah, es usted, Dantès! —gritó el hombre de la barca—. ¿Qué ha pasado, y por qué está tan triste todo su barco?</span>
-          </p>
-          <p className="bilingue">
-            <span lang="fr">— Un grand malheur, monsieur Morrel ! répondit le jeune homme, un grand malheur, pour moi surtout : à la hauteur de Civita-Vecchia, nous avons perdu ce brave capitaine Leclère.</span>
-            <span lang="es">—¡Una gran desgracia, señor Morrel! —respondió el joven—. Una gran desgracia, sobre todo para mí: a la altura de Civitavecchia, hemos perdido al buen capitán Leclère.</span>
-          </p>
-          <p className="bilingue">
-            <span lang="fr">— Et le chargement ? demanda vivement l’armateur.</span>
-            <span lang="es">—¿Y la carga? —preguntó con viveza el armador.</span>
-          </p>
-          <p className="bilingue">
-            <span lang="fr">— Il est arrivé à bon port, monsieur Morrel, et je crois que vous serez content sous ce rapport ; mais ce pauvre capitaine Leclère…</span>
-            <span lang="es">—Ha llegado sin problemas, señor Morrel, y creo que en eso estará usted contento; pero el pobre capitán Leclère…</span>
-          </p>
-          <p className="bilingue">
-            <span lang="fr">— Que lui est-il donc arrivé ? demanda l’armateur d’un air visiblement soulagé ; que lui est-il donc arrivé, à ce brave capitaine ?</span>
-            <span lang="es">—Pero ¿qué le ha pasado? —preguntó el armador, que parecía aliviado—. ¿Qué le ha pasado a ese buen capitán?</span>
-          </p>
-          <p className="bilingue">
-            <span lang="fr">— Il est mort.</span>
-            <span lang="es">—Ha muerto.</span>
-          </p>
-          <p className="bilingue">
-            <span lang="fr">— Tombé à la mer ?</span>
-            <span lang="es">—¿Se ha caído al mar?</span>
-          </p>
-          <p className="bilingue">
-            <span lang="fr">— Non, monsieur ; mort d’une fièvre cérébrale, au milieu d’horribles souffrances.</span>
-            <span lang="es">—No, señor; ha muerto de una fiebre cerebral, entre dolores horribles.</span>
-          </p>
-        </div>
+        <Text />
 
         <div className="attention">
           Dantès cuenta en <span className="fr" lang="fr">passé composé</span>,
@@ -71,86 +175,36 @@ export function A1() {
         </div>
       </section>
 
-      <section lang="es">
-        <h2>Las palabras del texto</h2>
+      <section data-ui="fr">
+        <h2>Les mots du texte</h2>
 
-        <div className="table-wrap">
-          <table>
-            <caption>Las palabras que necesitas para leer el diálogo</caption>
-            <thead>
-              <tr>
-                <th scope="col">Palabra</th>
-                <th scope="col">En español</th>
-                <th scope="col">Ejemplo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr" lang="fr">la barque</th>
-                <td>
-                  una barca pequeña. Cuidado: no es un barco grande; el barco
-                  grande es <span className="fr" lang="fr">le bateau</span>
-                </td>
-                <td className="fr" lang="fr">
-                  Morrel va vers le bateau dans une barque.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">un armateur</th>
-                <td>el armador: la persona a quien pertenece el barco. Aquí, Morrel</td>
-                <td className="fr" lang="fr">L’armateur attend son bateau.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">le bord</th>
-                <td>
-                  el barco y la gente que va en él;{" "}
-                  <span className="fr" lang="fr">à bord</span>, en el barco
-                </td>
-                <td className="fr" lang="fr">Morrel monte à bord.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">brave</th>
-                <td>
-                  delante del nombre, bueno, honrado. Cuidado: no quiere decir{" "}
-                  <em>bravo</em> (feroz)
-                </td>
-                <td className="fr" lang="fr">C’est un brave capitaine.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">un malheur</th>
-                <td>una desgracia, una cosa muy triste</td>
-                <td className="fr" lang="fr">Un grand malheur est arrivé.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">le chargement</th>
-                <td>la carga: lo que lleva el barco para vender</td>
-                <td className="fr" lang="fr">Le bateau porte un gros chargement.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">à bon port</th>
-                <td>sin problemas, hasta el final del viaje</td>
-                <td className="fr" lang="fr">Tout est arrivé à bon port.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">soulagé</th>
-                <td>aliviado: tranquilo, porque el miedo se va</td>
-                <td className="fr" lang="fr">Morrel est soulagé.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <Words lang="fr" />
       </section>
 
-      <section lang="es">
+      <section data-ui="es" lang="es">
+        <h2>Las palabras del texto</h2>
+
+        <Words lang="es" />
+      </section>
+
+      <section data-ui="fr">
+        <h2>Avez-vous compris ?</h2>
+
+        <p>
+          Répondez sans relire. Ensuite, retournez au texte pour les questions que vous avez ratées.
+        </p>
+      </section>
+
+      <section data-ui="es" lang="es">
         <h2>¿Lo has entendido?</h2>
 
         <p>
           Contesta sin volver a leer. Después, vuelve al texto para las
           preguntas que has fallado.
         </p>
-
-        <Quiz />
       </section>
+
+      <Quiz />
     </>
   );
 }

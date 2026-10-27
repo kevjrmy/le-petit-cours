@@ -15,62 +15,74 @@ import type { Question, QuestionSets } from "@/components/exercice/Comprehension
  */
 const A1: Question[] = [
   {
-    question: "¿Dónde pasa la escena?",
-    options: ["En un teatro", "En una iglesia", "En un mercado"],
-    answer: 0,
-    because:
-      "Es el « Hôtel de Bourgogne », un teatro: « On ne commence qu’à deux heures. Le parterre est vide. »",
-  },
-  {
-    question: "¿Cuánto cuesta la entrada?",
-    options: ["« quinze sols »", "« deux sols »", "« cinq sols »"],
-    answer: 0,
-    because: "El portero se lo pide al primer caballero: « Holà ! vos quinze sols ! »",
-  },
-  {
-    question: "¿Qué hace el primer caballero?",
-    options: ["Paga la entrada", "Entra sin pagar", "Se va del teatro"],
-    answer: 1,
-    because:
-      "« J’entre gratis ! » Y da su razón: « Je suis chevau-léger de la maison du Roi ! »",
-  },
-  {
-    question: "¿Por qué no paga el segundo caballero?",
+    question: { fr: "Où se passe la scène ?", es: "¿Dónde pasa la escena?" },
     options: [
-      "Porque no tiene dinero",
-      "Porque es amigo del portero",
-      "Porque es mosquetero",
+      { fr: "Dans un théâtre", es: "En un teatro" },
+      { fr: "Dans une église", es: "En una iglesia" },
+      { fr: "Dans un marché", es: "En un mercado" },
+    ],
+    answer: 0,
+    because: { fr: "C’est « l’Hôtel de Bourgogne », un théâtre : « On ne commence qu’à deux heures. Le parterre est vide. »", es: "Es el « Hôtel de Bourgogne », un teatro: « On ne commence qu’à deux heures. Le parterre est vide. »" },
+  },
+  {
+    question: { fr: "Combien coûte l’entrée ?", es: "¿Cuánto cuesta la entrada?" },
+    options: [
+      "« quinze sols »",
+      "« deux sols »",
+      "« cinq sols »",
+    ],
+    answer: 0,
+    because: { fr: "Le portier le demande au premier cavalier : « Holà ! vos quinze sols ! »", es: "El portero se lo pide al primer caballero: « Holà ! vos quinze sols ! »" },
+  },
+  {
+    question: { fr: "Que fait le premier cavalier ?", es: "¿Qué hace el primer caballero?" },
+    options: [
+      { fr: "Il paye l’entrée", es: "Paga la entrada" },
+      { fr: "Il entre sans payer", es: "Entra sin pagar" },
+      { fr: "Il quitte le théâtre", es: "Se va del teatro" },
+    ],
+    answer: 1,
+    because: { fr: "« J’entre gratis ! » Et il donne sa raison : « Je suis chevau-léger de la maison du Roi ! »", es: "« J’entre gratis ! » Y da su razón: « Je suis chevau-léger de la maison du Roi ! »" },
+  },
+  {
+    question: { fr: "Pourquoi le deuxième cavalier ne paye-t-il pas ?", es: "¿Por qué no paga el segundo caballero?" },
+    options: [
+      { fr: "Parce qu’il n’a pas d’argent", es: "Porque no tiene dinero" },
+      { fr: "Parce qu’il est ami du portier", es: "Porque es amigo del portero" },
+      { fr: "Parce qu’il est mousquetaire", es: "Porque es mosquetero" },
     ],
     answer: 2,
-    because: "« Je ne paye pas ! », y luego: « Je suis mousquetaire. »",
+    because: { fr: "« Je ne paye pas ! », puis : « Je suis mousquetaire. »", es: "« Je ne paye pas ! », y luego: « Je suis mousquetaire. »" },
   },
   {
-    question: "¿A qué hora empieza la obra?",
-    options: ["A mediodía", "A las dos", "A las ocho"],
-    answer: 1,
-    because: "« On ne commence qu’à deux heures. » No empiezan hasta las dos.",
-  },
-  {
-    question: "¿Qué hacen los dos caballeros mientras esperan?",
+    question: { fr: "À quelle heure commence la pièce ?", es: "¿A qué hora empieza la obra?" },
     options: [
-      "Juegan a las cartas",
-      "Comen en el suelo",
-      "Practican esgrima con el florete",
+      { fr: "À midi", es: "A mediodía" },
+      { fr: "À deux heures", es: "A las dos" },
+      { fr: "À huit heures", es: "A las ocho" },
+    ],
+    answer: 1,
+    because: { fr: "« On ne commence qu’à deux heures. » On ne commence pas avant deux heures.", es: "« On ne commence qu’à deux heures. » No empiezan hasta las dos." },
+  },
+  {
+    question: { fr: "Que font les deux cavaliers en attendant ?", es: "¿Qué hacen los dos caballeros mientras esperan?" },
+    options: [
+      { fr: "Ils jouent aux cartes", es: "Juegan a las cartas" },
+      { fr: "Ils mangent par terre", es: "Comen en el suelo" },
+      { fr: "Ils font de l’escrime avec des fleurets", es: "Practican esgrima con el florete" },
     ],
     answer: 2,
-    because:
-      "« Exerçons-nous au fleuret. » Luego: « Ils font des armes avec des fleurets qu’ils ont apportés. »",
+    because: { fr: "« Exerçons-nous au fleuret. » Ensuite : « Ils font des armes avec des fleurets qu’ils ont apportés. »", es: "« Exerçons-nous au fleuret. » Luego: « Ils font des armes avec des fleurets qu’ils ont apportés. »" },
   },
   {
-    question: "¿Y los dos lacayos?",
+    question: { fr: "Et les deux laquais ?", es: "¿Y los dos lacayos?" },
     options: [
-      "Juegan a las cartas y a los dados",
-      "Practican esgrima",
-      "Cobran la entrada",
+      { fr: "Ils jouent aux cartes et aux dés", es: "Juegan a las cartas y a los dados" },
+      { fr: "Ils font de l’escrime", es: "Practican esgrima" },
+      { fr: "Ils font payer l’entrée", es: "Cobran la entrada" },
     ],
     answer: 0,
-    because:
-      "Uno saca los juegos de su jubón: « Cartes. Dés. » Se sienta en el suelo y dice: « Jouons. »",
+    because: { fr: "L’un sort les jeux de son vêtement : « Cartes. Dés. » Il s’assied par terre et dit : « Jouons. »", es: "Uno saca los juegos de su jubón: « Cartes. Dés. » Se sienta en el suelo y dice: « Jouons. »" },
   },
 ];
 

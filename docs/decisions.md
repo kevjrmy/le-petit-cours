@@ -75,7 +75,7 @@ than marking it superseded.
 | 82  | 2026-09-27 | An épreuve is marked once, at the end, and a person reads the listening one aloud                | Binding · amends #78                                   |
 | 83  | 2026-09-27 | An épreuve may link a Commons photo as illustration, never as the answer                         | Binding · narrows §9                                   |
 | 84  | 2026-09-27 | A written copy is handed in by downloading it, never by storing it                               | Binding · extends #31, #82                             |
-| 85  | 2026-09-30 | An A1 page explains in Spanish; the French it teaches stays French                               | Binding · narrowed by #102                             |
+| 85  | 2026-09-30 | An A1 page explains in Spanish; the French it teaches stays French                               | Binding · amended by #102                              |
 | 86  | 2026-09-30 | A page has one level, and the learner chooses which levels they see                              | Binding · narrows #72, #85                             |
 | 87  | 2026-09-30 | A page holding sets shows the learner's default one, with no tabs                                | Binding · amended 2026-09-30 · narrows #68             |
 | 88  | 2026-09-30 | A parcours is a file of étapes, chosen in the account; « La suite » walks it                     | Binding · builds #14, amends #70                       |
@@ -636,7 +636,7 @@ would put their writing in a public repository. **Nothing about who made a mista
 commit or a doc** (the atelier's anonymous copy aside, #80).
 
 **The heritage profile widened** (#13) to a teenager at a Spanish school with Spanish writing
-habits; a page names the habit in French without printing the Spanish word (#102: the French taught is never glossed; an A1 page aside,
+habits; a page names the habit in French without printing the Spanish word (#102: the French taught is never glossed; an A1 page's gloss aside,
 #85). **A lesson may ship without a drill**; the drill comes when practice earns its place.
 
 ## 70 · « La suite » is the dashboard; signing in returns you where you were
@@ -901,7 +901,11 @@ migration for one class. It is the answer if copies must ever arrive unsent — 
 costs a public write route, a second secret (#81) and a second storage service (#8).
 
 ## 85 · An A1 page explains in Spanish; the French it teaches stays French
-**2026-09-30 · Binding · narrowed by #102**
+**2026-09-30 · Binding · amended by #102**
+
+**Amended by #102**: an A1 page now has a French twin too, and the interface language shows one.
+The Spanish is still written first — it is the one an A1 learner reads — and what follows is its
+how. Glosses and Spanish comparisons are A1 material, in both bodies.
 
 On a page whose floor is A1, **the explanation, the glosses and the instructions are in Spanish**;
 the French being taught — `.fr`, `.example`, a table's French column, a drill's items, a role-play's
@@ -1428,8 +1432,10 @@ answers — and, from A2, **no gloss or translation column on it** (the old rule
 a translation beside each example is dead weight, and it turns reading into decoding); lesson
 titles, subtitles and DELF descriptors, which name the French taught; a DELF épreuve's content and
 consignes (a DELF is sat in French); the atelier (#80, a class taught in French); the tab title and
-`<meta>` (switching them needs a server read, §8); the PWA manifest. **An A1 page explains in Spanish
-in both interfaces** (#85): no French explanation of A1 is written.
+`<meta>` (switching them needs a server read, §8); the PWA manifest. **An A1 page has both too**
+(amended the same day, at the maintainer's request): its Spanish is written first (#85), its French
+twin is as simple as French explanation can be, and its glosses and Spanish comparisons are shared
+by both bodies.
 
 **Kept from the old rule**: the serif is the French taught and the sans the explanation, in either language;
 the audience shapes what is explained, not the language; the French explanation stays easier than

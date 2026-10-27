@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
+import { T } from "@/components/lang/T";
+import { useLang } from "@/hooks/useLang";
 import { shuffle } from "@/lib/shuffle";
+import { Bilingue } from "../bilingue";
 import { ITEMS, full, glue, poolFor, shown } from "./data";
 import board from "@/components/exercice/Board.module.css";
 import styles from "./drill.module.css";
@@ -14,24 +17,12 @@ import styles from "./drill.module.css";
  * paradigme, on ne l'élimine pas. **Cliquer plutôt que taper** : la difficulté
  * est de choisir la terminaison, pas de trouver un accent (`AGENTS.md` §9).
  *
- * L'état garde les noms du brief. Les mots français d'une correction sont
- * entre astérisques : `lang="fr"` (#85).
+ * L’état garde les noms du brief. La consigne, les étiquettes et la correction
+ * existent en espagnol et en français (#85, #102) : `<T>` pour le texte
+ * visible, `useLang()` pour les attributs.
  */
-function french(text: string) {
-  return text
-    .split("*")
-    .map((run, i) =>
-      i % 2 ? (
-        <span key={i} lang="fr">
-          {run}
-        </span>
-      ) : (
-        run
-      ),
-    );
-}
-
 export function Board() {
+  const lang = useLang();
   const [deck, setDeck] = useState(() => shuffle(ITEMS));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
@@ -78,17 +69,17 @@ export function Board() {
   return (
     <div lang="fr">
       <Instructions>
-        <span lang="es">
-          Haz clic en lo que falta y comprueba. La terminación se escribe aunque
-          no se oiga.
-        </span>
+        <T
+          fr="Cliquez sur ce qui manque, puis vérifiez. La terminaison s’écrit même si on ne l’entend pas."
+          es="Haz clic en lo que falta y comprueba. La terminación se escribe aunque no se oiga."
+        />
       </Instructions>
 
-      <Meter value={currentIndex + 1} max={deck.length} label="Phrase en cours" />
+      <Meter value={currentIndex + 1} max={deck.length} label={{ fr: "Phrase en cours", es: "Frase en curso" }} />
 
       <div className={`card ${board.card}`}>
         <p>
-          <span lang="es">Verbo:</span> <span className={styles.verb}>{current.verb}</span>
+          <T fr="Verbe :" es="Verbo:" /> <span className={styles.verb}>{current.verb}</span>
         </p>
 
         <p className={board.sentence}>
@@ -103,7 +94,9 @@ export function Board() {
             ) : (
               <>
                 <span aria-hidden="true">{"  "}</span>
-                <span className="visually-hidden">blanc à compléter</span>
+                <span className="visually-hidden">
+                  <T fr="blanc à compléter" es="hueco por completar" />
+                </span>
               </>
             )}
           </span>
@@ -114,7 +107,11 @@ export function Board() {
         <div
           className={board.pool}
           role="group"
-          aria-label={current.kind === "fin" ? "Les terminaisons" : "Le sujet"}
+          aria-label={
+            current.kind === "fin"
+              ? lang === "es" ? "Las terminaciones" : "Les terminaisons"
+              : lang === "es" ? "El sujeto" : "Le sujet"
+          }
         >
           {pool.map((form) => (
             <button
@@ -136,14 +133,21 @@ export function Board() {
               className={`${board.verdict} ${right ? "is-correct" : "is-wrong"}`}
             >
               <p>
-                {right
-                  ? "✓ Juste."
-                  : `✗ La réponse : « ${current.kind === "fin" ? "-" : ""}${current.answer} ».`}
+                {right ? (
+                  <T fr="✓ Juste." es="✓ Correcto." />
+                ) : (
+                  <T
+                    fr={`✗ La réponse : « ${current.kind === "fin" ? "-" : ""}${current.answer} ».`}
+                    es={`✗ La respuesta: « ${current.kind === "fin" ? "-" : ""}${current.answer} ».`}
+                  />
+                )}
               </p>
               <p className={board.corrected}>
                 <strong>{full(current, current.answer)}</strong>
               </p>
-              <p lang="es">{french(current.because)}</p>
+              <p>
+                <Bilingue text={current.because} />
+              </p>
             </div>
           )}
         </div>
@@ -152,9 +156,11 @@ export function Board() {
       <div className={board.actions}>
         {checked ? (
           <button type="button" className="button button-primary" onClick={next}>
-            {currentIndex + 1 === deck.length
-              ? "Voir mon score"
-              : "Phrase suivante"}
+            {currentIndex + 1 === deck.length ? (
+              <T fr="Voir mon score" es="Ver mi puntuación" />
+            ) : (
+              <T fr="Phrase suivante" es="Frase siguiente" />
+            )}
           </button>
         ) : (
           <button
@@ -163,7 +169,7 @@ export function Board() {
             disabled={picked === null}
             onClick={verify}
           >
-            Vérifier
+            <T fr="Vérifier" es="Comprobar" />
           </button>
         )}
       </div>

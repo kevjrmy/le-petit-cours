@@ -12,81 +12,73 @@ import type { Question, QuestionSets } from "@/components/exercice/Comprehension
 /** A1: asked in Spanish on the Morrel–Dantès exchange; French in « » (`quotes="fr"`). */
 const A1: Question[] = [
   {
-    question: "¿Quién es el hombre de la barca?",
+    question: { fr: "Qui est l’homme de la barque ?", es: "¿Quién es el hombre de la barca?" },
     options: [
-      "El capitán Leclère",
-      "Edmond Dantès",
-      "El señor Morrel, el dueño del barco",
+      { fr: "Le capitaine Leclère", es: "El capitán Leclère" },
+      { fr: "Edmond Dantès", es: "Edmond Dantès" },
+      { fr: "Monsieur Morrel, le propriétaire du bateau", es: "El señor Morrel, el dueño del barco" },
     ],
     answer: 2,
-    because:
-      "Dantès le contesta « monsieur Morrel », y el texto lo llama « l’armateur »: el dueño del barco. El capitán Leclère ha muerto.",
+    because: { fr: "Dantès lui répond « monsieur Morrel », et le texte l’appelle « l’armateur » : le propriétaire du bateau. Le capitaine Leclère est mort.", es: "Dantès le contesta « monsieur Morrel », y el texto lo llama « l’armateur »: el dueño del barco. El capitán Leclère ha muerto." },
   },
   {
-    question: "¿Qué gran desgracia anuncia Dantès?",
+    question: { fr: "Quel grand malheur Dantès annonce-t-il ?", es: "¿Qué gran desgracia anuncia Dantès?" },
     options: [
-      "La carga se ha perdido",
-      "El capitán Leclère ha muerto",
-      "Un marinero se ha caído al mar",
+      { fr: "La cargaison est perdue", es: "La carga se ha perdido" },
+      { fr: "Le capitaine Leclère est mort", es: "El capitán Leclère ha muerto" },
+      { fr: "Un marin est tombé à la mer", es: "Un marinero se ha caído al mar" },
     ],
     answer: 1,
-    because:
-      "« nous avons perdu ce brave capitaine Leclère », y después: « Il est mort. »",
+    because: { fr: "« nous avons perdu ce brave capitaine Leclère », puis : « Il est mort. »", es: "« nous avons perdu ce brave capitaine Leclère », y después: « Il est mort. »" },
   },
   {
-    question: "Después de la noticia, ¿qué pregunta primero Morrel?",
+    question: { fr: "Après la nouvelle, que demande d’abord Morrel ?", es: "Después de la noticia, ¿qué pregunta primero Morrel?" },
     options: [
       "« Et le chargement ? »",
       "« Tombé à la mer ? »",
       "« Que lui est-il donc arrivé ? »",
     ],
     answer: 0,
-    because:
-      "« Et le chargement ? demanda vivement l’armateur. » Pregunta por la carga antes que por el capitán.",
+    because: { fr: "« Et le chargement ? demanda vivement l’armateur. » Il demande des nouvelles de la cargaison avant celles du capitaine.", es: "« Et le chargement ? demanda vivement l’armateur. » Pregunta por la carga antes que por el capitán." },
   },
   {
-    question: "¿Cómo ha llegado la carga?",
+    question: { fr: "Comment la cargaison est-elle arrivée ?", es: "¿Cómo ha llegado la carga?" },
     options: [
-      "Sin problemas",
-      "Se ha perdido en el mar",
-      "Se ha quedado en Civitavecchia",
+      { fr: "Sans problème", es: "Sin problemas" },
+      { fr: "Elle s’est perdue en mer", es: "Se ha perdido en el mar" },
+      { fr: "Elle est restée à Civitavecchia", es: "Se ha quedado en Civitavecchia" },
     ],
     answer: 0,
-    because:
-      "« Il est arrivé à bon port »: la carga ha llegado sin problemas, y Dantès añade: « vous serez content ».",
+    because: { fr: "« Il est arrivé à bon port » : la cargaison est arrivée sans problème, et Dantès ajoute : « vous serez content ».", es: "« Il est arrivé à bon port »: la carga ha llegado sin problemas, y Dantès añade: « vous serez content »." },
   },
   {
-    question: "¿De qué ha muerto el capitán?",
+    question: { fr: "De quoi le capitaine est-il mort ?", es: "¿De qué ha muerto el capitán?" },
     options: [
-      "Se ha caído al mar",
-      "De una fiebre",
-      "En una pelea",
+      { fr: "Il est tombé à la mer", es: "Se ha caído al mar" },
+      { fr: "D’une fièvre", es: "De una fiebre" },
+      { fr: "Dans une bagarre", es: "En una pelea" },
     ],
     answer: 1,
-    because:
-      "Morrel pregunta « Tombé à la mer ? » y Dantès contesta: « Non, monsieur ; mort d’une fièvre cérébrale ».",
+    because: { fr: "Morrel demande « Tombé à la mer ? » et Dantès répond : « Non, monsieur ; mort d’une fièvre cérébrale ».", es: "Morrel pregunta « Tombé à la mer ? » y Dantès contesta: « Non, monsieur ; mort d’une fièvre cérébrale »." },
   },
   {
-    question:
-      "Morrel pregunta por el capitán « d’un air visiblement soulagé ». ¿Por qué está aliviado?",
+    question: { fr: "Morrel demande des nouvelles du capitaine « d’un air visiblement soulagé ». Pourquoi est-il soulagé ?", es: "Morrel pregunta por el capitán « d’un air visiblement soulagé ». ¿Por qué está aliviado?" },
     options: [
-      "Porque el capitán no ha muerto",
-      "Porque la carga ha llegado bien",
-      "Porque Dantès se ha quedado en Civitavecchia",
+      { fr: "Parce que le capitaine n’est pas mort", es: "Porque el capitán no ha muerto" },
+      { fr: "Parce que la cargaison est bien arrivée", es: "Porque la carga ha llegado bien" },
+      { fr: "Parce que Dantès est resté à Civitavecchia", es: "Porque Dantès se ha quedado en Civitavecchia" },
     ],
     answer: 1,
-    because:
-      "Acaba de oír « Il est arrivé à bon port »: la carga está a salvo. El capitán sí ha muerto, y Dantès está en el barco, hablando con él.",
+    because: { fr: "Il vient d’entendre « Il est arrivé à bon port » : la cargaison est sauve. Le capitaine est bien mort, et Dantès est sur le bateau, en train de lui parler.", es: "Acaba de oír « Il est arrivé à bon port »: la carga está a salvo. El capitán sí ha muerto, y Dantès está en el barco, hablando con él." },
   },
   {
-    question: "Con « arriver » y « mourir », ¿qué auxiliar usa Dantès?",
+    question: { fr: "Avec « arriver » et « mourir », quel auxiliaire Dantès utilise-t-il ?", es: "Con « arriver » y « mourir », ¿qué auxiliar usa Dantès?" },
     options: [
       "« être »: « il est arrivé », « il est mort »",
       "« avoir »: « il a arrivé », « il a mort »",
     ],
     answer: 0,
-    because:
-      "« Il est arrivé à bon port », « Il est mort »: con « être ». En español siempre se usa haber; en francés, no.",
+    because: { fr: "« Il est arrivé à bon port », « Il est mort » : avec « être ». En espagnol, c’est toujours le même auxiliaire ; en français, non.", es: "« Il est arrivé à bon port », « Il est mort »: con « être ». En español siempre se usa haber; en francés, no." },
   },
 ];
 

@@ -231,8 +231,7 @@ function Slides({ account, next }: { account: Account; next: string }) {
           </li>
           <li>
             Les explications sont dans la langue choisie, le français ou
-            l&rsquo;espagnol. Au niveau A1, elles sont toujours en espagnol.
-            Le français étudié reste en français.
+            l&rsquo;espagnol. Le français étudié reste en français.
           </li>
           <li>Tout se change plus tard, dans «&nbsp;Compte&nbsp;».</li>
         </ul>
@@ -247,9 +246,8 @@ function Slides({ account, next }: { account: Account; next: string }) {
             siguiente» te da la siguiente.
           </li>
           <li>
-            Las explicaciones están en el idioma elegido, francés o español. En
-            el nivel A1, siempre en español. El francés que estudias sigue en
-            francés.
+            Las explicaciones están en el idioma elegido, francés o español. El
+            francés que estudias sigue en francés.
           </li>
           <li>Todo se puede cambiar después, en «Cuenta».</li>
         </ul>

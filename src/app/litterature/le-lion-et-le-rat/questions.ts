@@ -12,67 +12,110 @@ import type { Question, QuestionSets } from "@/components/exercice/Comprehension
 /** A1: asked in Spanish, answered from the French (#85); French sits in « ». */
 const A1: Question[] = [
   {
-    question: "¿Dónde sale de la tierra el ratón?",
+    question: {
+      fr: "Où le rat sort-il de terre ?",
+      es: "¿Dónde sale de la tierra el ratón?",
+    },
     options: [
-      "Dentro de una red",
-      "Entre las patas de un león",
-      "Lejos del león",
+      { fr: "Dans un filet", es: "Dentro de una red" },
+      { fr: "Entre les pattes d’un lion", es: "Entre las patas de un león" },
+      { fr: "Loin du lion", es: "Lejos del león" },
     ],
     answer: 1,
     because: "« Entre les pattes d’un lion / Un rat sortit de terre. »",
   },
   {
-    question: "¿Quién es « le roi des animaux »?",
-    options: ["El ratón", "El león", "Un cazador"],
-    answer: 1,
-    because:
-      "El rey de los animales es el león: es él quien tiene al ratón entre sus patas.",
-  },
-  {
-    question: "¿Qué hace el león con el ratón?",
-    options: ["Se lo come", "No lo ve", "Le perdona la vida"],
-    answer: 2,
-    because:
-      "« et lui donna la vie »: el león podía comérselo, y lo deja vivir.",
-  },
-  {
-    question: "¿Qué le pasa al león después?",
+    question: {
+      fr: "Qui est « le roi des animaux » ?",
+      es: "¿Quién es « le roi des animaux »?",
+    },
     options: [
-      "Se pone enfermo",
-      "Cae en una red",
-      "Se come al ratón",
+      { fr: "Le rat", es: "El ratón" },
+      { fr: "Le lion", es: "El león" },
+      { fr: "Un chasseur", es: "Un cazador" },
     ],
     answer: 1,
-    because: "« Ce lion fut pris dans des rets »: « des rets » es una red.",
+    because: {
+      fr: "Le roi des animaux, c’est le lion : c’est lui qui tient le rat entre ses pattes.",
+      es: "El rey de los animales es el león: es él quien tiene al ratón entre sus patas.",
+    },
   },
   {
-    question: "¿Cómo libera el ratón al león?",
+    question: {
+      fr: "Que fait le lion avec le rat ?",
+      es: "¿Qué hace el león con el ratón?",
+    },
     options: [
-      "Con los dientes: roe la red",
-      "Llama a los otros animales",
-      "Ruge muy fuerte",
+      { fr: "Il le mange", es: "Se lo come" },
+      { fr: "Il ne le voit pas", es: "No lo ve" },
+      { fr: "Il lui laisse la vie", es: "Le perdona la vida" },
+    ],
+    answer: 2,
+    because: {
+      fr: "« et lui donna la vie » : le lion pouvait le manger, et il le laisse vivre.",
+      es: "« et lui donna la vie »: el león podía comérselo, y lo deja vivir.",
+    },
+  },
+  {
+    question: {
+      fr: "Que se passe-t-il pour le lion après ?",
+      es: "¿Qué le pasa al león después?",
+    },
+    options: [
+      { fr: "Il tombe malade", es: "Se pone enfermo" },
+      { fr: "Il tombe dans un filet", es: "Cae en una red" },
+      { fr: "Il mange le rat", es: "Se come al ratón" },
+    ],
+    answer: 1,
+    because: {
+      fr: "« Ce lion fut pris dans des rets » : « des rets », c’est un filet.",
+      es: "« Ce lion fut pris dans des rets »: « des rets » es una red.",
+    },
+  },
+  {
+    question: {
+      fr: "Comment le rat libère-t-il le lion ?",
+      es: "¿Cómo libera el ratón al león?",
+    },
+    options: [
+      { fr: "Avec ses dents : il ronge le filet", es: "Con los dientes: roe la red" },
+      { fr: "Il appelle les autres animaux", es: "Llama a los otros animales" },
+      { fr: "Il rugit très fort", es: "Ruge muy fuerte" },
     ],
     answer: 0,
-    because:
-      "« fit tant par ses dents / Qu’une maille rongée emporta tout l’ouvrage »: trabaja solo, con los dientes.",
+    because: {
+      fr: "« fit tant par ses dents / Qu’une maille rongée emporta tout l’ouvrage » : il travaille seul, avec ses dents.",
+      es: "« fit tant par ses dents / Qu’une maille rongée emporta tout l’ouvrage »: trabaja solo, con los dientes.",
+    },
   },
   {
-    question: "En el primer verso, ¿qué quiere decir « obliger »?",
-    options: ["Obligar", "Ayudar, hacer un favor", "Castigar"],
-    answer: 1,
-    because:
-      "« Il faut, autant qu’on peut, obliger tout le monde »: hay que ayudar a todo el mundo. Hoy « obliger » es obligar, pero aquí no.",
-  },
-  {
-    question: "Según los dos últimos versos, ¿qué puede más?",
+    question: {
+      fr: "Dans le premier vers, que veut dire « obliger » ?",
+      es: "En el primer verso, ¿qué quiere decir « obliger »?",
+    },
     options: [
-      "La fuerza",
-      "La rabia",
-      "La paciencia y el tiempo",
+      { fr: "Forcer", es: "Obligar" },
+      { fr: "Aider, rendre service", es: "Ayudar, hacer un favor" },
+      { fr: "Punir", es: "Castigar" },
+    ],
+    answer: 1,
+    because: {
+      fr: "« Il faut, autant qu’on peut, obliger tout le monde » : il faut aider tout le monde. Aujourd’hui « obliger » veut dire forcer, mais pas ici.",
+      es: "« Il faut, autant qu’on peut, obliger tout le monde »: hay que ayudar a todo el mundo. Hoy « obliger » es obligar, pero aquí no.",
+    },
+  },
+  {
+    question: {
+      fr: "Selon les deux derniers vers, qu’est-ce qui peut le plus ?",
+      es: "Según los dos últimos versos, ¿qué puede más?",
+    },
+    options: [
+      { fr: "La force", es: "La fuerza" },
+      { fr: "La rage", es: "La rabia" },
+      { fr: "La patience et le temps", es: "La paciencia y el tiempo" },
     ],
     answer: 2,
-    because:
-      "« Patience et longueur de temps / Font plus que force ni que rage. »",
+    because: "« Patience et longueur de temps / Font plus que force ni que rage. »",
   },
 ];
 

@@ -12,77 +12,74 @@ import type { Question, QuestionSets } from "@/components/exercice/Comprehension
 /** A1: the first stanza and the refrain, asked in Spanish, every piece of French in « » (#85). */
 const A1: Question[] = [
   {
-    question: "« Mon enfant, ma sœur »: ¿con quién habla el poeta?",
+    question: { fr: "« Mon enfant, ma sœur » : à qui le poète parle-t-il ?", es: "« Mon enfant, ma sœur »: ¿con quién habla el poeta?" },
     options: [
-      "Con su hermana",
-      "Con su hija",
-      "Con la mujer que ama",
+      { fr: "À sa sœur", es: "Con su hermana" },
+      { fr: "À sa fille", es: "Con su hija" },
+      { fr: "À la femme qu’il aime", es: "Con la mujer que ama" },
     ],
     answer: 2,
-    because:
-      "« Mon enfant » y « ma sœur » no hablan de la familia: son palabras cariñosas para la mujer que ama.",
+    because: { fr: "« Mon enfant » et « ma sœur » ne parlent pas de la famille : ce sont des mots tendres pour la femme qu’il aime.", es: "« Mon enfant » y « ma sœur » no hablan de la familia: son palabras cariñosas para la mujer que ama." },
   },
   {
-    question: "¿Qué le propone a esa mujer?",
+    question: { fr: "Que propose-t-il à cette femme ?", es: "¿Qué le propone a esa mujer?" },
     options: [
-      "Irse a vivir allí con él",
-      "Esperarle mientras él viaja",
-      "Quedarse en la ciudad donde viven",
+      { fr: "Partir vivre là-bas avec lui", es: "Irse a vivir allí con él" },
+      { fr: "L’attendre pendant qu’il voyage", es: "Esperarle mientras él viaja" },
+      { fr: "Rester dans la ville où ils habitent", es: "Quedarse en la ciudad donde viven" },
     ],
     answer: 0,
-    because:
-      "« Songe à la douceur / D’aller là-bas vivre ensemble ! »: irse allí y vivir juntos.",
+    because: "« Songe à la douceur / D’aller là-bas vivre ensemble ! »: irse allí y vivir juntos.",
   },
   {
-    question: "¿Qué dice el poema de ese país?",
+    question: { fr: "Que dit le poème de ce pays ?", es: "¿Qué dice el poema de ese país?" },
     options: [
-      "Que está en el fin del mundo",
-      "Que se parece a ella",
-      "Que es el país donde nació él",
+      { fr: "Qu’il est au bout du monde", es: "Que está en el fin del mundo" },
+      { fr: "Qu’il lui ressemble", es: "Que se parece a ella" },
+      { fr: "Que c’est le pays où il est né", es: "Que es el país donde nació él" },
     ],
     answer: 1,
-    because:
-      "« Au pays qui te ressemble ! »: no dice nunca dónde está, solo que se parece a ella.",
+    because: { fr: "« Au pays qui te ressemble ! » : il ne dit jamais où il est, seulement qu’il lui ressemble.", es: "« Au pays qui te ressemble ! »: no dice nunca dónde está, solo que se parece a ella." },
   },
   {
-    question: "¿Cómo son los soles de ese país?",
+    question: { fr: "Comment sont les soleils de ce pays ?", es: "¿Cómo son los soles de ese país?" },
     options: [
-      "Muy calientes, en un cielo azul",
-      "Mojados, en cielos nublados",
-      "Rojos, al final del día",
+      { fr: "Très chauds, dans un ciel bleu", es: "Muy calientes, en un cielo azul" },
+      { fr: "Mouillés, dans des ciels brouillés", es: "Mojados, en cielos nublados" },
+      { fr: "Rouges, à la fin du jour", es: "Rojos, al final del día" },
     ],
     answer: 1,
-    because:
-      "« Les soleils mouillés / De ces ciels brouillés »: soles mojados en cielos llenos de nubes.",
+    because: { fr: "« Les soleils mouillés / De ces ciels brouillés » : des soleils mouillés dans des ciels pleins de nuages.", es: "« Les soleils mouillés / De ces ciels brouillés »: soles mojados en cielos llenos de nubes." },
   },
   {
-    question: "¿A qué se parecen esos soles, para el poeta?",
+    question: { fr: "À quoi ressemblent ces soleils, pour le poète ?", es: "¿A qué se parecen esos soles, para el poeta?" },
     options: [
-      "A los ojos de ella, que brillan entre lágrimas",
-      "A las flores de su jardín",
-      "A las estrellas de la noche",
+      { fr: "Aux yeux de la femme, qui brillent à travers ses larmes", es: "A los ojos de ella, que brillan entre lágrimas" },
+      { fr: "Aux fleurs de son jardin", es: "A las flores de su jardín" },
+      { fr: "Aux étoiles de la nuit", es: "A las estrellas de la noche" },
     ],
     answer: 0,
-    because:
-      "Tienen « les charmes / Si mystérieux / De tes traîtres yeux, / Brillant à travers leurs larmes ».",
+    because: { fr: "Ils ont « les charmes / Si mystérieux / De tes traîtres yeux, / Brillant à travers leurs larmes ».", es: "Tienen « les charmes / Si mystérieux / De tes traîtres yeux, / Brillant à travers leurs larmes »." },
   },
   {
-    question: "¿Qué dice el estribillo de ese lugar?",
+    question: { fr: "Que dit le refrain de cet endroit ?", es: "¿Qué dice el estribillo de ese lugar?" },
     options: [
-      "Que allí hay mucho ruido y fiesta",
-      "Que allí todo es orden, belleza, lujo, calma y placer",
-      "Que allí se trabaja mucho",
+      { fr: "Qu’on y trouve beaucoup de bruit et de fête", es: "Que allí hay mucho ruido y fiesta" },
+      { fr: "Que tout y est ordre, beauté, luxe, calme et volupté", es: "Que allí todo es orden, belleza, lujo, calma y placer" },
+      { fr: "Qu’on y travaille beaucoup", es: "Que allí se trabaja mucho" },
     ],
     answer: 1,
-    because:
-      "« Là, tout n’est qu’ordre et beauté, / Luxe, calme et volupté. »",
+    because: "« Là, tout n’est qu’ordre et beauté, / Luxe, calme et volupté. »",
   },
   {
-    question: "« Songe à la douceur »: ¿qué quiere decir « songer à »?",
-    options: ["Soñar dormido", "Pensar en, imaginar", "Cantar"],
+    question: { fr: "« Songe à la douceur » : que veut dire « songer à » ?", es: "« Songe à la douceur »: ¿qué quiere decir « songer à »?" },
+    options: [
+      { fr: "Rêver en dormant", es: "Soñar dormido" },
+      { fr: "Penser à, imaginer", es: "Pensar en, imaginar" },
+      { fr: "Chanter", es: "Cantar" },
+    ],
     answer: 1,
-    because:
-      "« songer à » parece « soñar », pero es pensar en algo. Soñar dormido es « rêver ».",
+    because: { fr: "« songer à » veut dire penser à quelque chose. Rêver en dormant se dit « rêver ».", es: "« songer à » parece « soñar », pero es pensar en algo. Soñar dormido es « rêver »." },
   },
 ];
 

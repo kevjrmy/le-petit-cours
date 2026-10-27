@@ -24,6 +24,8 @@
  * **Mélangé, donc `ssr: false`** (voir `drill.tsx`).
  */
 
+import type { Bi } from "../bilingue";
+
 export const POOL = [
   "le",
   "la",
@@ -46,39 +48,96 @@ export interface GoutItem {
   after: string;
   answer: Form;
   kind: "goût" | "demande" | "mange" | "négation";
-  /** Espagnol ; les mots français entre `*astérisques*` (`lang="fr"`). */
-  because: string;
+  /** Dans les deux langues ; l’espagnol marque son français entre
+   *  `*astérisques*`, le français son espagnol entre `~tildes~`. */
+  because: Bi;
 }
 
 export const ITEMS: GoutItem[] = [
   { id: "chocolat", before: "Elle aime beaucoup", noun: "chocolat", after: ".", answer: "le", kind: "goût",
-    because: "Con *aimer* se habla del chocolate en general: definido. *Chocolat* es masculino: *le chocolat*, no *du chocolat*." },
+    because: {
+      es: "Con *aimer* se habla del chocolate en general: definido. *Chocolat* es masculino: *le chocolat*, no *du chocolat*.",
+      fr: "Avec « aimer », on parle du chocolat en général : article défini. « Chocolat » est masculin : « le chocolat », pas « du chocolat ».",
+    },
+  },
   { id: "mer", before: "J’adore", noun: "mer", after: ".", answer: "la", kind: "goût",
-    because: "Después de *adorer* va el definido, y *mer* es femenino: *la mer*." },
+    because: {
+      es: "Después de *adorer* va el definido, y *mer* es femenino: *la mer*.",
+      fr: "Après « adorer », on met l’article défini, et « mer » est féminin : « la mer ».",
+    },
+  },
   { id: "table", before: "Au restaurant, je voudrais", noun: "table", after: " pour deux.", answer: "une", kind: "demande",
-    because: "Con *je voudrais* pides una cosa que se cuenta: indefinido. *Table* es femenino: *une table*." },
+    because: {
+      es: "Con *je voudrais* pides una cosa que se cuenta: indefinido. *Table* es femenino: *une table*.",
+      fr: "Avec « je voudrais », on demande une chose qui se compte : article indéfini. « Table » est féminin : « une table ».",
+    },
+  },
   { id: "riz", before: "Ce soir, je mange", noun: "riz", after: ".", answer: "du", kind: "mange",
-    because: "El arroz no se cuenta, y lo comes: partitivo. *Riz* es masculino: *du riz*, nunca *un riz*." },
+    because: {
+      es: "El arroz no se cuenta, y lo comes: partitivo. *Riz* es masculino: *du riz*, nunca *un riz*.",
+      fr: "Le riz ne se compte pas, et vous le mangez : article partitif. « Riz » est masculin : « du riz », jamais « un riz ».",
+    },
+  },
   { id: "pluie", before: "Je n’aime pas", noun: "pluie", after: ".", answer: "la", kind: "négation",
-    because: "En la negación con *aimer* el artículo se queda: *la pluie*. No existe *je n’aime pas de pluie*." },
+    because: {
+      es: "En la negación con *aimer* el artículo se queda: *la pluie*. No existe *je n’aime pas de pluie*.",
+      fr: "À la forme négative avec « aimer », l’article reste : « la pluie ». « Je n’aime pas de pluie » n’existe pas.",
+    },
+  },
   { id: "the", before: "Je préfère", noun: "thé", after: " au café.", answer: "le", kind: "goût",
-    because: "Después de *préférer*, definido: *le thé*." },
+    because: {
+      es: "Después de *préférer*, definido: *le thé*.",
+      fr: "Après « préférer », article défini : « le thé ».",
+    },
+  },
   { id: "sucre", before: "Je ne mange pas", noun: "sucre", after: ".", answer: "de", kind: "négation",
-    because: "Lo que comes, en la negación, pierde el artículo: *je mange du sucre* pasa a *je ne mange pas de sucre*." },
+    because: {
+      es: "Lo que comes, en la negación, pierde el artículo: *je mange du sucre* pasa a *je ne mange pas de sucre*.",
+      fr: "À la forme négative, ce qu’on mange perd son article : « je mange du sucre » devient « je ne mange pas de sucre ».",
+    },
+  },
   { id: "musique", before: "Tu aimes", noun: "musique", after: " ?", answer: "la", kind: "goût",
-    because: "Un gusto en general: definido. *Musique* es femenino: *la musique*." },
+    because: {
+      es: "Un gusto en general: definido. *Musique* es femenino: *la musique*.",
+      fr: "Un goût en général : article défini. « Musique » est féminin : « la musique ».",
+    },
+  },
   { id: "verre", before: "Il fait chaud. Je voudrais", noun: "verre", after: " d’eau.", answer: "un", kind: "demande",
-    because: "Un vaso se cuenta, y con *je voudrais* pides uno: *un verre*. *Verre* es masculino." },
+    because: {
+      es: "Un vaso se cuenta, y con *je voudrais* pides uno: *un verre*. *Verre* es masculino.",
+      fr: "Un verre se compte, et avec « je voudrais » on en demande un : « un verre ». « Verre » est masculin.",
+    },
+  },
   { id: "bruit", before: "Je déteste", noun: "bruit", after: ".", answer: "le", kind: "goût",
-    because: "Después de *détester*, definido: *le bruit*." },
+    because: {
+      es: "Después de *détester*, definido: *le bruit*.",
+      fr: "Après « détester », article défini : « le bruit ».",
+    },
+  },
   { id: "viande", before: "Le dimanche, elle mange", noun: "viande", after: ".", answer: "de la", kind: "mange",
-    because: "La carne no se cuenta, y la comes: partitivo femenino: *de la viande*, nunca *une viande*." },
+    because: {
+      es: "La carne no se cuenta, y la comes: partitivo femenino: *de la viande*, nunca *une viande*.",
+      fr: "La viande ne se compte pas, et elle la mange : partitif féminin : « de la viande », jamais « une viande ».",
+    },
+  },
   { id: "ete", before: "Il aime", noun: "été", after: ".", answer: "l’", kind: "goût",
-    because: "Definido delante de vocal: *le* se convierte en *l’*: *l’été*." },
+    because: {
+      es: "Definido delante de vocal: *le* se convierte en *l’*: *l’été*.",
+      fr: "Article défini devant une voyelle : « le » devient « l’ » : « l’été ».",
+    },
+  },
   { id: "lundis", before: "Il n’aime pas", noun: "lundis", after: ".", answer: "les", kind: "négation",
-    because: "En plural, con la negación, el definido se queda: *les lundis*, no *de lundis*." },
+    because: {
+      es: "En plural, con la negación, el definido se queda: *les lundis*, no *de lundis*.",
+      fr: "Au pluriel, avec la négation, l’article défini reste : « les lundis », pas « de lundis ».",
+    },
+  },
   { id: "chats", before: "Elle adore", noun: "chats", after: ".", answer: "les", kind: "goût",
-    because: "Los gatos en general: *les chats*. Después de *adorer* no va *des*." },
+    because: {
+      es: "Los gatos en general: *les chats*. Después de *adorer* no va *des*.",
+      fr: "Les chats en général : « les chats ». Après « adorer », on ne met pas « des ».",
+    },
+  },
 ];
 
 export const BANKS: Record<string, GoutItem[]> = { A1: ITEMS };
@@ -110,7 +169,7 @@ for (const it of ITEMS) {
   if (it.kind === 'goût' && !/aim|ador|déteste|préf/.test(it.before)) bad.push(it.id + ': pas un verbe de goût')
   if (['un','une'].includes(it.answer) && !/voudrais/.test(it.before)) bad.push(it.id + ': indéfini sans voudrais')
   if (['du','de la'].includes(it.answer) && !/mange/.test(it.before)) bad.push(it.id + ': partitif sans mange')
-  if (it.because.split('*').length % 2 === 0) bad.push(it.id + ': astérisque impair')
+  if (it.because.es.split('*').length % 2 === 0 || it.because.fr.split('~').length % 2 === 0) bad.push(it.id + ': astérisque impair')
   console.log(it.kind.padEnd(9), (it.before + ' [' + it.answer + ']' + glue(it.answer) + it.noun + it.after))
 }
 for (const f of POOL) if (!used.has(f)) bad.push('pastille jamais réponse : ' + f)

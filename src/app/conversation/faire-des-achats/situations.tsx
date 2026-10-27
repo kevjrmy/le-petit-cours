@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { T } from "@/components/lang/T";
 
 /**
  * The constraint card, same contract as the other role-plays: cycles in order,
@@ -16,50 +17,87 @@ import { useState, type ReactNode } from "react";
  * paying. The last one carries the only number the learner has to *understand*
  * rather than produce, which is why it is written as a price said out loud.
  */
-const SITUATIONS: ReactNode[] = [
-  <>Estás en la panadería. Pide dos baguettes y tres cruasanes.</>,
-  <>
-    En el mercado quieres manzanas. Pide un kilo de manzanas y pregunta el
-    precio.
-  </>,
-  <>
-    El vendedor te enseña dos tamaños de{" "}
-    <span className="fr" lang="fr">
-      un gâteau
-    </span>
-    , uno grande y uno pequeño. Elige uno con{" "}
-    <span className="fr" lang="fr">
-      celui-ci
-    </span>{" "}
-    o{" "}
-    <span className="fr" lang="fr">
-      le grand
-    </span>
-    .
-  </>,
-  <>
-    Te preguntan si quieres algo más. Añade seis huevos y di que eso es todo.
-  </>,
-  <>
-    El vendedor dice un precio y no lo has entendido. Pídele que lo repita y
-    paga.
-  </>,
-  <>No tienes monedas. Pregunta si puedes pagar con tarjeta.</>,
+const SITUATIONS: { fr: ReactNode; es: ReactNode }[] = [
+  {
+    fr: "Vous êtes à la boulangerie. Demandez deux baguettes et trois croissants.",
+    es: <>Estás en la panadería. Pide dos baguettes y tres cruasanes.</>,
+  },
+  {
+    fr: "Au marché, vous voulez des pommes. Demandez un kilo de pommes et demandez le prix.",
+    es: (
+      <>
+        En el mercado quieres manzanas. Pide un kilo de manzanas y pregunta el
+        precio.
+      </>
+    ),
+  },
+  {
+    fr: (
+      <>
+        Le vendeur vous montre <span className="fr">un gâteau</span> en deux
+        tailles, un grand et un petit. Choisissez avec <span className="fr">celui-ci</span> ou{" "}
+        <span className="fr">le grand</span>.
+      </>
+    ),
+    es: (
+      <>
+        El vendedor te enseña dos tamaños de{" "}
+        <span className="fr" lang="fr">
+          un gâteau
+        </span>
+        , uno grande y uno pequeño. Elige uno con{" "}
+        <span className="fr" lang="fr">
+          celui-ci
+        </span>{" "}
+        o{" "}
+        <span className="fr" lang="fr">
+          le grand
+        </span>
+        .
+      </>
+    ),
+  },
+  {
+    fr: "On vous demande si vous voulez autre chose. Ajoutez six œufs et dites que c’est tout.",
+    es: (
+      <>
+        Te preguntan si quieres algo más. Añade seis huevos y di que eso es
+        todo.
+      </>
+    ),
+  },
+  {
+    fr: "Le vendeur dit un prix et vous n’avez pas compris. Demandez-lui de le répéter, puis payez.",
+    es: (
+      <>
+        El vendedor dice un precio y no lo has entendido. Pídele que lo repita y
+        paga.
+      </>
+    ),
+  },
+  {
+    fr: "Vous n’avez pas de monnaie. Demandez si vous pouvez payer par carte.",
+    es: <>No tienes monedas. Pregunta si puedes pagar con tarjeta.</>,
+  },
 ];
 
 export function Situations() {
   const [index, setIndex] = useState(0);
+  const { fr, es } = SITUATIONS[index];
 
   return (
     <div className="card">
       <p>
         <strong>
-          Situación {index + 1} de {SITUATIONS.length}
+          <T
+            fr={`Situation ${index + 1} sur ${SITUATIONS.length}`}
+            es={`Situación ${index + 1} de ${SITUATIONS.length}`}
+          />
         </strong>
       </p>
 
-      <p aria-live="polite" lang="es">
-        {SITUATIONS[index]}
+      <p aria-live="polite">
+        <T fr={fr} es={es} />
       </p>
 
       <p>
@@ -68,7 +106,7 @@ export function Situations() {
           className="button"
           onClick={() => setIndex((i) => (i + 1) % SITUATIONS.length)}
         >
-          Otra situación
+          <T fr="Autre situation" es="Otra situación" />
         </button>
       </p>
     </div>

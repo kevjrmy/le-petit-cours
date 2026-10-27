@@ -25,6 +25,8 @@
  * mélangé avec `shuffle()` dans le plateau, chargé sans rendu serveur.
  */
 
+import type { Bi } from "../bilingue";
+
 export const POOL = [
   "qui",
   "où",
@@ -51,9 +53,10 @@ export interface QuestionItem {
   /** La réponse donnée, qui tranche. */
   reply: string;
   answer: Word;
-  /** Espagnol : la correction pointe la règle. Les mots français y sont
-   *  entre `*astérisques*` : le plateau leur donne `lang="fr"`. */
-  because: string;
+  /** La correction pointe la règle, dans les deux langues. L’espagnol marque
+   *  son français entre `*astérisques*`, le français son espagnol entre
+   *  `~tildes~` : le plateau leur donne leur `lang`. */
+  because: Bi;
 }
 
 const N = " "; // espace insécable avant « ? »
@@ -65,8 +68,10 @@ export const ITEMS: QuestionItem[] = [
     after: ` tu habites${N}?`,
     reply: "À Valence.",
     answer: "où",
-    because:
-      "La respuesta es un lugar (*À Valence*): se pregunta con *où*. Ojo: *où* lleva acento, y solo él.",
+    because: {
+      es: "La respuesta es un lugar (*À Valence*): se pregunta con *où*. Ojo: *où* lleva acento, y solo él.",
+      fr: "La réponse est un lieu (« À Valence ») : on demande avec « où ». Attention : « où » a un accent, et lui seul.",
+    },
   },
   {
     id: "parler-a",
@@ -74,7 +79,10 @@ export const ITEMS: QuestionItem[] = [
     after: `${N}?`,
     reply: "À ma sœur.",
     answer: "qui",
-    because: "La respuesta es una persona, «quién»: *qui*. Sin tilde, como todas.",
+    because: {
+      es: "La respuesta es una persona, «quién»: *qui*. Sin tilde, como todas.",
+      fr: "La réponse est une personne, ~quién~ : « qui ». Sans accent, comme tous les autres.",
+    },
   },
   {
     id: "partir",
@@ -82,7 +90,10 @@ export const ITEMS: QuestionItem[] = [
     after: `${N}?`,
     reply: "Demain.",
     answer: "quand",
-    because: "*Demain* es un momento, «cuándo»: *quand*.",
+    because: {
+      es: "*Demain* es un momento, «cuándo»: *quand*.",
+      fr: "« Demain » est un moment, ~cuándo~ : « quand ».",
+    },
   },
   {
     id: "appeler",
@@ -90,7 +101,10 @@ export const ITEMS: QuestionItem[] = [
     after: `${N}?`,
     reply: "Je m’appelle Lucas.",
     answer: "comment",
-    because: "Se pregunta por el nombre, «cómo»: *comment*. Ninguna de estas palabras lleva acento.",
+    because: {
+      es: "Se pregunta por el nombre, «cómo»: *comment*. Ninguna de estas palabras lleva acento.",
+      fr: "On demande le nom, ~cómo~ : « comment ». Aucun de ces mots n’a d’accent.",
+    },
   },
   {
     id: "prix",
@@ -98,7 +112,10 @@ export const ITEMS: QuestionItem[] = [
     after: `${N}?`,
     reply: "Dix euros.",
     answer: "combien",
-    because: "La respuesta es una cantidad, «cuánto»: *combien*.",
+    because: {
+      es: "La respuesta es una cantidad, «cuánto»: *combien*.",
+      fr: "La réponse est une quantité, ~cuánto~ : « combien ».",
+    },
   },
   {
     id: "etudier",
@@ -106,8 +123,10 @@ export const ITEMS: QuestionItem[] = [
     after: ` tu étudies le français${N}?`,
     reply: "Parce que j’aime ça.",
     answer: "pourquoi",
-    because:
-      "*Parce que* es la respuesta a una causa: la pregunta es *pourquoi*, «por qué». Se escribe en dos palabras, y *pourquoi* pregunta, *parce que* responde.",
+    because: {
+      es: "*Parce que* es la respuesta a una causa: la pregunta es *pourquoi*, «por qué». Se escribe en dos palabras, y *pourquoi* pregunta, *parce que* responde.",
+      fr: "« Parce que » répond à une cause : la question est « pourquoi », ~por qué~. « Pourquoi » est en un mot et il demande ; « parce que » est en deux mots et il répond.",
+    },
   },
   {
     id: "manger",
@@ -115,8 +134,10 @@ export const ITEMS: QuestionItem[] = [
     after: ` tu manges${N}?`,
     reply: "Une pomme.",
     answer: "qu’est-ce que",
-    because:
-      "Se pregunta por una cosa (*une pomme*) y la palabra va al principio: *qu’est-ce que*. Al principio de la frase no se dice *quoi*.",
+    because: {
+      es: "Se pregunta por una cosa (*une pomme*) y la palabra va al principio: *qu’est-ce que*. Al principio de la frase no se dice *quoi*.",
+      fr: "On demande une chose (« une pomme ») et le mot est au début : « qu’est-ce que ». Au début de la phrase, on ne dit pas « quoi ».",
+    },
   },
   {
     id: "age",
@@ -124,7 +145,10 @@ export const ITEMS: QuestionItem[] = [
     after: ` âge${N}?`,
     reply: "J’ai dix ans.",
     answer: "quel",
-    because: "«Qué» delante de un nombre es *quel*, no *que*. *Âge* es masculino singular: *quel âge*.",
+    because: {
+      es: "«Qué» delante de un nombre es *quel*, no *que*. *Âge* es masculino singular: *quel âge*.",
+      fr: "~Qué~ devant un nom, c’est « quel », pas « que ». « Âge » est masculin singulier : « quel âge ».",
+    },
   },
   {
     id: "bus",
@@ -132,7 +156,10 @@ export const ITEMS: QuestionItem[] = [
     after: ` bus${N}?`,
     reply: "Le bus 12.",
     answer: "quel",
-    because: "«Qué» delante de un nombre: *quel*. *Bus* es masculino singular: *quel bus*.",
+    because: {
+      es: "«Qué» delante de un nombre: *quel*. *Bus* es masculino singular: *quel bus*.",
+      fr: "~Qué~ devant un nom : « quel ». « Bus » est masculin singulier : « quel bus ».",
+    },
   },
   {
     id: "heure",
@@ -140,8 +167,10 @@ export const ITEMS: QuestionItem[] = [
     after: ` heure est-il${N}?`,
     reply: "Il est trois heures.",
     answer: "quelle",
-    because:
-      "*Heure* es femenino singular, así que *quelle*. *Que heure est-il* no existe: *quelle heure est-il*.",
+    because: {
+      es: "*Heure* es femenino singular, así que *quelle*. *Que heure est-il* no existe: *quelle heure est-il*.",
+      fr: "« Heure » est féminin singulier, donc « quelle ». « Que heure est-il » n’existe pas : « quelle heure est-il ».",
+    },
   },
   {
     id: "films",
@@ -149,7 +178,10 @@ export const ITEMS: QuestionItem[] = [
     after: ` films${N}?`,
     reply: "J’aime les films d’action.",
     answer: "quels",
-    because: "*Films* es masculino plural: *quels films*. Suena igual que *quel*, pero se escribe con -s.",
+    because: {
+      es: "*Films* es masculino plural: *quels films*. Suena igual que *quel*, pero se escribe con -s.",
+      fr: "« Films » est masculin pluriel : « quels films ». Il sonne comme « quel », mais s’écrit avec un -s.",
+    },
   },
   {
     id: "langues",
@@ -157,8 +189,10 @@ export const ITEMS: QuestionItem[] = [
     after: ` langues tu parles${N}?`,
     reply: "Le français et l’espagnol.",
     answer: "quelles",
-    because:
-      "*Langues* es femenino plural: *quelles langues*. Las cuatro formas suenan igual, solo se distinguen al escribir.",
+    because: {
+      es: "*Langues* es femenino plural: *quelles langues*. Las cuatro formas suenan igual, solo se distinguen al escribir.",
+      fr: "« Langues » est féminin pluriel : « quelles langues ». Les quatre formes sonnent pareil, on les distingue seulement à l’écrit.",
+    },
   },
   {
     id: "parler-francais",
@@ -166,8 +200,10 @@ export const ITEMS: QuestionItem[] = [
     after: ` tu parles français${N}?`,
     reply: "Oui, un peu.",
     answer: "est-ce que",
-    because:
-      "La respuesta es *oui*: es una pregunta de «sí o no», y *est-ce que* va al principio y no cambia el resto.",
+    because: {
+      es: "La respuesta es *oui*: es una pregunta de «sí o no», y *est-ce que* va al principio y no cambia el resto.",
+      fr: "La réponse est « oui » : c’est une question ~de sí o no~, et « est-ce que » se place au début sans changer le reste.",
+    },
   },
   {
     id: "frere",
@@ -175,8 +211,10 @@ export const ITEMS: QuestionItem[] = [
     after: ` ton frère habite à Paris${N}?`,
     reply: "Non, à Lyon.",
     answer: "est-ce que",
-    because:
-      "La respuesta empieza por *non*: pregunta de «sí o no», con *est-ce que* al principio.",
+    because: {
+      es: "La respuesta empieza por *non*: pregunta de «sí o no», con *est-ce que* al principio.",
+      fr: "La réponse commence par « non » : question ~de sí o no~, avec « est-ce que » au début.",
+    },
   },
 ];
 
@@ -204,7 +242,7 @@ const gender = { âge: 'quel', bus: 'quel', heure: 'quelle', films: 'quels', lan
 for (const it of ITEMS) {
   used.add(it.answer)
   if (!POOL.includes(it.answer)) bad.push(it.id + ': réponse absente du tirage')
-  if (it.because.split('*').length % 2 === 0) bad.push(it.id + ': astérisque impair')
+  if (it.because.es.split('*').length % 2 === 0 || it.because.fr.split('~').length % 2 === 0) bad.push(it.id + ': astérisque impair')
   if (it.answer === 'est-ce que' && /^ [aeiouyéèêhâî]/i.test(it.after)) bad.push(it.id + ': est-ce que devant voyelle (il faudrait qu’)')
   if (!it.reply) bad.push(it.id + ': pas de réponse donnée')
   if (it.answer.startsWith('quel')) {

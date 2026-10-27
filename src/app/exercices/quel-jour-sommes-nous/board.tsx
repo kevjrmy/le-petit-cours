@@ -2,34 +2,25 @@
 
 import { useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
+import { T } from "@/components/lang/T";
+import { useLang } from "@/hooks/useLang";
 import { shuffle } from "@/lib/shuffle";
+import { Bilingue } from "../bilingue";
 import { ITEMS, POOL, label, sentence, type Form } from "./data";
 import board from "@/components/exercice/Board.module.css";
 import styles from "./drill.module.css";
-
-/** Les mots français d'une correction sont entre astérisques : `lang="fr"`. */
-function french(text: string) {
-  return text
-    .split("*")
-    .map((run, i) =>
-      i % 2 ? (
-        <span key={i} lang="fr">
-          {run}
-        </span>
-      ) : (
-        run
-      ),
-    );
-}
 
 /**
  * Une phrase à la fois, les sept pastilles toujours à l'écran dans le même
  * ordre. **Cliquer plutôt que taper** : rien à orthographier, la difficulté
  * est de choisir (`AGENTS.md` §9). Le tirage des phrases est mélangé une fois
  * par partie, avec l'unique `shuffle()` ; le plateau n'est donc jamais rendu
- * sur le serveur (`drill.tsx`). L'état garde les noms du brief.
+ * sur le serveur (`drill.tsx`). L’état garde les noms du brief. La consigne, les
+ * étiquettes, la pista et la correction existent en espagnol et en français
+ * (#85, #102) : `<T>` pour le texte visible, `useLang()` pour les attributs.
  */
 export function Board() {
+  const lang = useLang();
   const [deck, setDeck] = useState(() => shuffle(ITEMS));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [picked, setPicked] = useState<Form | null>(null);
@@ -83,7 +74,9 @@ export function Board() {
       ) : (
         <>
           <span aria-hidden="true">{"    "}</span>
-          <span className="visually-hidden">blanc à compléter</span>
+          <span className="visually-hidden">
+            <T fr="blanc à compléter" es="hueco por completar" />
+          </span>
         </>
       )}
     </span>
@@ -92,19 +85,30 @@ export function Board() {
   return (
     <div lang="fr">
       <Instructions>
-        <span lang="es">
-          Haz clic en lo que completa la frase, y comprueba. <span lang="fr">∅</span>{" "}
-          significa que no falta nada. Las pastillas se quedan siempre en el
-          mismo orden.
-        </span>
+        <T
+          fr={
+            <>
+              Cliquez sur ce qui complète la phrase, puis vérifiez.{" "}
+              <span lang="fr">∅</span> veut dire qu’il ne manque rien. Les
+              pastilles restent toujours dans le même ordre.
+            </>
+          }
+          es={
+            <>
+              Haz clic en lo que completa la frase, y comprueba.{" "}
+              <span lang="fr">∅</span> significa que no falta nada. Las
+              pastillas se quedan siempre en el mismo orden.
+            </>
+          }
+        />
       </Instructions>
 
-      <Meter value={currentIndex + 1} max={deck.length} label="Phrase en cours" />
+      <Meter value={currentIndex + 1} max={deck.length} label={{ fr: "Phrase en cours", es: "Frase en curso" }} />
 
       <div className={`card ${board.card}`}>
         {current.hint && (
-          <p className={styles.hint} lang="es">
-            {current.hint}
+          <p className={styles.hint}>
+            <Bilingue text={current.hint} />
           </p>
         )}
         <p className={board.sentence}>
@@ -113,7 +117,7 @@ export function Board() {
           {` ${current.after}`}
         </p>
 
-        <div className={board.pool} role="group" aria-label="Les sept possibilités">
+        <div className={board.pool} role="group" aria-label={lang === "es" ? "Las siete posibilidades" : "Les sept possibilités"}>
           {POOL.map((form) => (
             <button
               key={form}
@@ -121,7 +125,11 @@ export function Board() {
               className={`${board.chip} ${picked === form ? "is-chosen" : ""}`}
               disabled={checked}
               aria-pressed={picked === form}
-              aria-label={form === "rien" ? "rien, aucun mot" : undefined}
+              aria-label={
+                form === "rien"
+                  ? lang === "es" ? "rien, ninguna palabra" : "rien, aucun mot"
+                  : undefined
+              }
               onClick={() => setPicked(form)}
             >
               {label(form)}
@@ -135,12 +143,19 @@ export function Board() {
               className={`${board.verdict} ${right ? "is-correct" : "is-wrong"}`}
             >
               <p>
-                {right
-                  ? "✓ Juste."
-                  : `✗ La réponse : « ${label(current.answer)} ».`}
+                {right ? (
+                  <T fr="✓ Juste." es="✓ Correcto." />
+                ) : (
+                  <T
+                    fr={`✗ La réponse : « ${label(current.answer)} ».`}
+                    es={`✗ La respuesta: « ${label(current.answer)} ».`}
+                  />
+                )}
               </p>
               <p className={board.corrected}>{sentence(current, current.answer)}</p>
-              <p lang="es">{french(current.because)}</p>
+              <p>
+                <Bilingue text={current.because} />
+              </p>
             </div>
           )}
         </div>
@@ -149,9 +164,11 @@ export function Board() {
       <div className={board.actions}>
         {checked ? (
           <button type="button" className="button button-primary" onClick={next}>
-            {currentIndex + 1 === deck.length
-              ? "Voir mon score"
-              : "Phrase suivante"}
+            {currentIndex + 1 === deck.length ? (
+              <T fr="Voir mon score" es="Ver mi puntuación" />
+            ) : (
+              <T fr="Phrase suivante" es="Frase siguiente" />
+            )}
           </button>
         ) : (
           <button
@@ -160,7 +177,7 @@ export function Board() {
             disabled={picked === null}
             onClick={verify}
           >
-            Vérifier
+            <T fr="Vérifier" es="Comprobar" />
           </button>
         )}
       </div>

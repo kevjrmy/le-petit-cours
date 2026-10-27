@@ -37,12 +37,12 @@ through a relative pronoun: two A1 pages opened with *« un nom dont on sait dé
 s'agit »*, and `dont` is taught at B1. **Read every `.rule` against the page's level** (the limits
 are in `docs/levels/a2.md`). Two short sentences always fit.
 
-**An A1 page explains in Spanish** (#85), in both interfaces: read `docs/levels/a1.md` for which
-piece is in which language and how `lang` marks them. It gets no French twin.
+**An A1 page is written Spanish first** (#85) and gets a French twin like every page (#102): read
+`docs/levels/a1.md` for which piece is in which language and how `lang` marks them.
 
 ## Two languages (#102)
 
-**From A2, every explanation is written twice, French and Spanish**, and the learner's interface
+**Every explanation is written twice, French and Spanish**, and the learner's interface
 language shows one (`AGENTS.md` §1). The model is `grammaire/l-imparfait`; read it first.
 
 - **Pair each `<section>` and the `.resume`**: `<section data-ui="fr">…</section>` then

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
 
@@ -6,12 +7,180 @@ const PATH = "/grammaire/les-verbes-en-er";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102). The French taught
+   is written once, below, and shared. */
+
+type Lang = "fr" | "es";
+
+/* A Spanish gloss in brackets: in the French body it is marked as Spanish. */
+function Gloss({ lang, children }: { lang: Lang; children: ReactNode }) {
+  return <> ({lang === "fr" ? <span lang="es">{children}</span> : children})</>;
+}
+
+const PARLER = [
+  { subject: "je", written: "parle", heard: "«parl»", example: "Je parle français." },
+  { subject: "tu", written: "parles", heard: "«parl»", example: "Tu parles vite." },
+  { subject: "il, elle", written: "parle", heard: "«parl»", example: "Elle parle avec Paul." },
+  { subject: "nous", written: "parlons", heard: "«parlon»", example: "Nous parlons ensemble." },
+  { subject: "vous", written: "parlez", heard: "«parlé»", example: "Vous parlez trop bas." },
+  { subject: "ils, elles", written: "parlent", heard: "«parl»", example: "Ils parlent beaucoup." },
+];
+
+const OTHERS = [
+  { verb: "habiter", gloss: "vivir" },
+  { verb: "travailler", gloss: "trabajar" },
+  { verb: "aimer", gloss: "querer, gustar" },
+  { verb: "regarder", gloss: "mirar" },
+  { verb: "écouter", gloss: "escuchar" },
+  { verb: "manger", gloss: "comer" },
+];
+
+function ParlerTable({ lang }: { lang: Lang }) {
+  const fr = lang === "fr";
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>
+          {fr ? "Le présent de « " : "El presente de «"}
+          <span className="fr" lang="fr">parler</span>
+          {fr ? " » (" : "» ("}
+          <span lang={fr ? "es" : undefined}>hablar</span>
+          {fr ? ") : ce qu’on écrit et ce qu’on entend" : "): lo que se escribe y lo que se oye"}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">{fr ? "Sujet" : "Sujeto"}</th>
+            <th scope="col">{fr ? "On écrit" : "Se escribe"}</th>
+            <th scope="col">{fr ? "On entend" : "Se oye"}</th>
+            <th scope="col">{fr ? "Exemple" : "Ejemplo"}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {PARLER.map((row) => (
+            <tr key={row.subject}>
+              <th scope="row" className="fr" lang="fr">{row.subject}</th>
+              <td className="fr" lang="fr">{row.written}</td>
+              <td>{row.heard}</td>
+              <td className="fr" lang="fr">{row.example}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function OthersList({ lang }: { lang: Lang }) {
+  return (
+    <>
+      {OTHERS.map((item, i) => (
+        <span key={item.verb}>
+          <span className="fr" lang="fr">{item.verb}</span>
+          <Gloss lang={lang}>{item.gloss}</Gloss>
+          {i < OTHERS.length - 2 ? ", " : ""}
+          {i === OTHERS.length - 2 ? (lang === "fr" ? " et " : " y ") : ""}
+        </span>
+      ))}
+    </>
+  );
+}
+
+function Subjects() {
+  return (
+    <div className="example" lang="fr">
+      Je parle français.
+      <br />
+      Tu travailles à Lyon.
+      <br />
+      Elle aime la musique.
+    </div>
+  );
+}
+
+function Elision() {
+  return (
+    <div className="example" lang="fr">
+      J’habite à Madrid.
+      <br />
+      J’écoute la radio.
+      <br />
+      J’aime le café.
+    </div>
+  );
+}
+
+function Liaisons() {
+  return (
+    <div className="example" lang="fr">
+      Nous‿habitons ici. Vous‿aimez le thé ?
+      <br />
+      Ils‿habitent à Nantes. Elles‿écoutent la radio.
+    </div>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section lang="es">
+      <section data-ui="fr">
+        <h2>Quatre formes se prononcent pareil</h2>
+
+        <div className="rule">
+          En espagnol, chaque personne sonne différemment :{" "}
+          <em lang="es">hablo</em>, <em lang="es">hablas</em>,{" "}
+          <em lang="es">habla</em>, <em lang="es">hablan</em>. En français, avec
+          les verbes en <span className="fr">-er</span>, quatre formes se
+          prononcent pareil. Les terminaisons <span className="fr">-e</span>,{" "}
+          <span className="fr">-es</span>, <span className="fr">-e</span>,{" "}
+          <span className="fr">-ent</span> s’écrivent, mais ne se prononcent
+          pas. On entend seulement <span className="fr">nous</span> et{" "}
+          <span className="fr">vous</span>.
+        </div>
+
+        <ParlerTable lang="fr" />
+
+        <p>
+          Dans <span className="fr">parlons</span>, le <em>n</em> ne se
+          prononce pas comme en espagnol : <span className="fr">-on</span> est
+          une voyelle nasale, et l’air passe aussi par le nez.
+        </p>
+
+        <p>
+          C’est la même chose pour <OthersList lang="fr" />. On enlève{" "}
+          <span className="fr">-er</span> et on ajoute les mêmes terminaisons.
+          La fiche complète d’un verbe est dans{" "}
+          <Link href="/conjugaison/parler" lang="fr">
+            Conjuguer parler
+          </Link>
+          .
+        </p>
+
+        <div className="attention">
+          <span className="fr">ils parlent</span> ne se lit pas «&nbsp;
+          <span className="fr">parlènt</span>&nbsp;». Le <span className="fr">-ent</span>{" "}
+          du pluriel est muet, comme le <em>s</em> de{" "}
+          <span className="fr">tu parles</span>. Dans une phrase parlée, «&nbsp;
+          <span className="fr">il parle</span>&nbsp;» et «&nbsp;
+          <span className="fr">ils parlent</span>&nbsp;» se disent pareil.
+        </div>
+
+        <div className="exception">
+          Avec <span className="fr">manger</span>, on écrit{" "}
+          <span className="fr">nous mangeons</span>, avec un <em>e</em> muet. Ce{" "}
+          <em>e</em> garde au <em>g</em> le même son que le{" "}
+          <span className="fr">j</span> de <span className="fr">je</span>. C’est
+          pareil pour <span className="fr">voyager</span>
+          <Gloss lang="fr">viajar</Gloss>. Voyez{" "}
+          <Link href="/conjugaison/manger" lang="fr">
+            Conjuguer manger
+          </Link>
+          .
+        </div>
+      </section>
+
+      <section data-ui="es" lang="es">
         <h2>Cuatro formas suenan igual</h2>
 
         <div className="rule">
@@ -28,72 +197,14 @@ export default function Page() {
           <span className="fr" lang="fr">vous</span>.
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <caption>
-              El presente de «<span className="fr" lang="fr">parler</span>» (hablar): lo que se escribe y lo que se oye
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Sujeto</th>
-                <th scope="col">Se escribe</th>
-                <th scope="col">Se oye</th>
-                <th scope="col">Ejemplo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr" lang="fr">je</th>
-                <td className="fr" lang="fr">parle</td>
-                <td>«parl»</td>
-                <td className="fr" lang="fr">Je parle français.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">tu</th>
-                <td className="fr" lang="fr">parles</td>
-                <td>«parl»</td>
-                <td className="fr" lang="fr">Tu parles vite.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">il, elle</th>
-                <td className="fr" lang="fr">parle</td>
-                <td>«parl»</td>
-                <td className="fr" lang="fr">Elle parle avec Paul.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">nous</th>
-                <td className="fr" lang="fr">parlons</td>
-                <td>«parlon»</td>
-                <td className="fr" lang="fr">Nous parlons ensemble.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">vous</th>
-                <td className="fr" lang="fr">parlez</td>
-                <td>«parlé»</td>
-                <td className="fr" lang="fr">Vous parlez trop bas.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">ils, elles</th>
-                <td className="fr" lang="fr">parlent</td>
-                <td>«parl»</td>
-                <td className="fr" lang="fr">Ils parlent beaucoup.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <ParlerTable lang="es" />
 
         <p>
           En <span className="fr" lang="fr">parlons</span> la <em>n</em> no se pronuncia como en español: <span className="fr" lang="fr">-on</span> es una vocal nasal, y el aire sale también por la nariz.
         </p>
 
         <p>
-          Lo mismo vale para{" "}
-          <span className="fr" lang="fr">habiter</span> (vivir),{" "}
-          <span className="fr" lang="fr">travailler</span> (trabajar),{" "}
-          <span className="fr" lang="fr">aimer</span> (querer, gustar),{" "}
-          <span className="fr" lang="fr">regarder</span> (mirar),{" "}
-          <span className="fr" lang="fr">écouter</span> (escuchar) y{" "}
-          <span className="fr" lang="fr">manger</span> (comer). Quitas{" "}
+          Lo mismo vale para <OthersList lang="es" />. Quitas{" "}
           <span className="fr" lang="fr">-er</span> y añades las mismas
           terminaciones. La ficha completa de un verbo está en{" "}
           <Link href="/conjugaison/parler" lang="fr">
@@ -122,7 +233,73 @@ export default function Page() {
         </div>
       </section>
 
-      <section lang="es">
+      <section data-ui="fr">
+        <h2>
+          Le sujet est obligatoire, et <span className="fr">je</span> devient{" "}
+          <span className="fr">j’</span>
+        </h2>
+
+        <div className="rule">
+          En espagnol, on dit <em lang="es">hablo francés</em> sans «&nbsp;yo&nbsp;» :
+          la terminaison dit qui parle. En français, non. Comme quatre formes
+          se prononcent pareil, on dit toujours le sujet. On écrit{" "}
+          <span className="fr">je parle français</span>, jamais «&nbsp;
+          <s className="fr">parle français</s>&nbsp;».
+        </div>
+
+        <p>
+          Faux : <s className="fr">Parle français.</s> Juste :
+        </p>
+
+        <Subjects />
+
+        <p>
+          Devant une voyelle ou un h muet, <span className="fr">je</span>{" "}
+          devient <span className="fr">j’</span>, avec une apostrophe, comme{" "}
+          <span className="fr">le</span> devient <span className="fr">l’</span>{" "}
+          dans{" "}
+          <Link href="/grammaire/les-articles-definis" lang="fr">
+            Les articles définis
+          </Link>
+          . Seul <span className="fr">je</span> change ; les autres sujets ne
+          bougent pas.
+        </p>
+
+        <Elision />
+
+        <p>
+          Avec <span className="fr">nous</span>, <span className="fr">vous</span>,{" "}
+          <span className="fr">ils</span> et <span className="fr">elles</span>,
+          la liaison s’entend devant une voyelle : le <em>s</em> se colle au
+          verbe et sonne comme un <em>s</em> sonore, comme celui de{" "}
+          <em lang="es">mismo</em> ou de <em lang="es">desde</em> : un
+          bourdonnement. On écrit comme toujours. La liaison est expliquée
+          dans{" "}
+          <Link href="/grammaire/le-singulier-et-le-pluriel" lang="fr">
+            Le singulier et le pluriel
+          </Link>
+          .
+        </p>
+
+        <Liaisons />
+
+        <p>
+          Ici, la liaison aide : dans <span className="fr">il habite</span>, le{" "}
+          <em>l</em> de <span className="fr">il</span> s’entend toujours et
+          s’unit à la voyelle ; dans <span className="fr">ils‿habitent</span>,
+          un <em>s</em> sonore s’ajoute : c’est la liaison. Le pluriel
+          s’entend, même si <span className="fr">-ent</span> est muet.
+        </p>
+
+        <div className="exception">
+          Devant une consonne, il n’y a pas de liaison, et{" "}
+          <span className="fr">il parle</span> et{" "}
+          <span className="fr">ils parlent</span> sonnent pareil. Seul le
+          contexte dit s’il y en a un ou plusieurs.
+        </div>
+      </section>
+
+      <section data-ui="es" lang="es">
         <h2>
           El sujeto es obligatorio, y <span className="fr" lang="fr">je</span>{" "}
           pasa a <span className="fr" lang="fr">j’</span>
@@ -140,13 +317,7 @@ export default function Page() {
           Mal: <s className="fr" lang="fr">Parle français.</s> Bien:
         </p>
 
-        <div className="example" lang="fr">
-          Je parle français.
-          <br />
-          Tu travailles à Lyon.
-          <br />
-          Elle aime la musique.
-        </div>
+        <Subjects />
 
         <p>
           Delante de una vocal o de una h muda,{" "}
@@ -161,13 +332,7 @@ export default function Page() {
           sujetos no se tocan.
         </p>
 
-        <div className="example" lang="fr">
-          J’habite à Madrid.
-          <br />
-          J’écoute la radio.
-          <br />
-          J’aime le café.
-        </div>
+        <Elision />
 
         <p>
           Con <span className="fr" lang="fr">nous</span>,{" "}
@@ -183,11 +348,7 @@ export default function Page() {
           .
         </p>
 
-        <div className="example" lang="fr">
-          Nous‿habitons ici. Vous‿aimez le thé ?
-          <br />
-          Ils‿habitent à Nantes. Elles‿écoutent la radio.
-        </div>
+        <Liaisons />
 
         <p>
           Aquí la liaison sí ayuda: en{" "}
@@ -206,7 +367,38 @@ export default function Page() {
         </div>
       </section>
 
-      <div className="resume" lang="es">
+      <div className="resume" data-ui="fr">
+        <h2>En résumé</h2>
+        <ul>
+          <li>
+            On enlève <span className="fr">-er</span> et on ajoute{" "}
+            <span className="fr">-e</span>, <span className="fr">-es</span>,{" "}
+            <span className="fr">-e</span>, <span className="fr">-ons</span>,{" "}
+            <span className="fr">-ez</span>, <span className="fr">-ent</span>.
+          </li>
+          <li>
+            <span className="fr">-e</span>, <span className="fr">-es</span> et{" "}
+            <span className="fr">-ent</span> s’écrivent et ne s’entendent pas :{" "}
+            <span className="fr">je parle</span> et{" "}
+            <span className="fr">ils parlent</span> se disent pareil.
+          </li>
+          <li>
+            On entend seulement <span className="fr">nous parlons</span> et{" "}
+            <span className="fr">vous parlez</span>.
+          </li>
+          <li>
+            Le sujet est obligatoire : <span className="fr">je parle</span>,
+            jamais «&nbsp;<s className="fr">parle</s>&nbsp;».
+          </li>
+          <li>
+            <span className="fr">je</span> devient <span className="fr">j’</span>{" "}
+            devant une voyelle ou un h muet : <span className="fr">j’habite</span>.
+            Avec <span className="fr">ils‿habitent</span>, on entend la liaison.
+          </li>
+        </ul>
+      </div>
+
+      <div className="resume" data-ui="es" lang="es">
         <h2>En resumen</h2>
         <ul>
           <li>

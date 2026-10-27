@@ -24,7 +24,7 @@ drop the text.
   `conjugaison`). Wrong when spoken: the learner's (`grammaire`, `vocabulaire`).
 - **Its cause, when there is one.** A Spanish writing habit (one accent, a single consonant, no space
   before `? ! : ;`) is named on the page without the Spanish word, in both bodies (#102) — unless the
-  page is A1, which explains in Spanish (#85).
+  page is A1, where printing the Spanish is allowed (#85).
 - **The smallest rule that fixes it.** « Les homophones » is too wide; « `ces` / `ses` » is not.
 
 ## 2. Look for what exists

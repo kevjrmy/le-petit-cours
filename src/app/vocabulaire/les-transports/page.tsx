@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { lessonMetadata } from "@/components/lesson/metadata";
 import { PageHeader } from "@/components/lesson/PageHeader";
@@ -6,12 +7,149 @@ const PATH = "/vocabulaire/les-transports";
 
 export const metadata = lessonMetadata(PATH);
 
+/* Two bodies, French and Spanish, section by section (#102). The French taught
+   and the Spanish glosses are written once, below, and shared; captions and
+   column heads are passed in each language. In the French body a Spanish piece
+   says lang="es". */
+
+type Ui = "fr" | "es";
+
+/* A Spanish gloss: in the French body it needs its own lang. */
+function Es({ ui, children }: { ui: Ui; children: ReactNode }) {
+  return ui === "fr" ? <span lang="es">{children}</span> : <>{children}</>;
+}
+
+type Row = { word: string; es: string; ex: string; gloss?: string };
+
+const VEHICLES: Row[] = [
+  { word: "la voiture", es: "el coche", ex: "Ma voiture est petite." },
+  { word: "le bus", es: "el autobús", ex: "Le bus est grand." },
+  { word: "le car", es: "el autocar", ex: "Le car va à Lyon." },
+  { word: "le métro", es: "el metro", ex: "Je prends le métro." },
+  { word: "le tramway", es: "el tranvía", ex: "Le tramway est nouveau." },
+  { word: "le train", es: "el tren", ex: "Le train est rapide." },
+  { word: "le vélo", es: "la bicicleta", ex: "Le vélo est dans le jardin." },
+  { word: "la moto", es: "la moto", ex: "La moto est devant la maison." },
+  { word: "l’avion (m.)", es: "el avión", ex: "L’avion est très grand." },
+  { word: "le bateau", es: "el barco", ex: "Le bateau est petit." },
+  { word: "le taxi", es: "el taxi", ex: "Le taxi est devant la maison." },
+];
+
+const WAYS: Row[] = [
+  { word: "en voiture", es: "en coche", ex: "Je vais au travail en voiture." },
+  { word: "en bus", es: "en autobús", ex: "Je vais au travail en bus." },
+  { word: "en métro", es: "en metro", ex: "Je vais au travail en métro." },
+  { word: "en train", es: "en tren", ex: "Je vais à Lyon en train." },
+  { word: "en‿avion", es: "en avión", ex: "Je vais à Paris en‿avion." },
+  { word: "en taxi", es: "en taxi", ex: "Elle va au travail en taxi." },
+  { word: "à pied", es: "a pie", ex: "Je vais au travail à pied." },
+  { word: "à vélo", es: "en bicicleta", ex: "Elle va au travail à vélo." },
+  { word: "à moto", es: "en moto", ex: "Il va au travail à moto." },
+];
+
+const STATION: Row[] = [
+  { word: "la gare", es: "la estación de tren", ex: "Le train est à la gare." },
+  { word: "la station", es: "la estación de metro (o de tranvía)", ex: "La station de métro est à côté de la maison." },
+  { word: "l’arrêt (m.)", es: "la parada", ex: "L’arrêt de bus est devant la gare." },
+  { word: "le quai", es: "el andén", ex: "Le train est sur le quai." },
+  { word: "le billet", es: "el billete", ex: "Un billet pour Lyon, s’il vous plaît.", gloss: "Un billete para Lyon, por favor." },
+  { word: "le ticket", es: "el billete de metro o de autobús", ex: "J’ai un ticket de métro." },
+];
+
+function WordTable({
+  ui,
+  caption,
+  rows,
+}: {
+  ui: Ui;
+  caption: ReactNode;
+  rows: Row[];
+}) {
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{caption}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{ui === "fr" ? "Mot" : "Palabra"}</th>
+            <th scope="col">{ui === "fr" ? "En espagnol" : "En español"}</th>
+            <th scope="col">{ui === "fr" ? "Exemple" : "Ejemplo"}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row.word}>
+              <th scope="row" className="fr" lang="fr">
+                {row.word}
+              </th>
+              <td>
+                <Es ui={ui}>{row.es}</Es>
+              </td>
+              {row.gloss ? (
+                <td>
+                  <span className="fr" lang="fr">
+                    {row.ex}
+                  </span>{" "}
+                  (<Es ui={ui}>{row.gloss}</Es>)
+                </td>
+              ) : (
+                <td className="fr" lang="fr">
+                  {row.ex}
+                </td>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+const TrainExample = () => (
+  <div className="example" lang="fr">
+    Le train est rapide.
+    <br />
+    Ma voiture est devant la maison.
+  </div>
+);
+
+const WayExample = () => (
+  <div className="example" lang="fr">
+    Je vais au travail en bus.
+    <br />
+    Mon père va à Lyon en train.
+  </div>
+);
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section lang="es">
+      <section data-ui="fr">
+        <h2>Les moyens de transport</h2>
+
+        <div className="rule">
+          Apprenez chaque nom avec son article. Quand le nom commence par une voyelle,{" "}
+          <span className="fr">l’</span> cache le genre : j’ajoute (f.) ou (m.). Ici, seuls deux
+          noms portent la marque : <span className="fr">l’avion</span> (m.) et{" "}
+          <span className="fr">l’arrêt</span> (m.). Pour dire ce que vous prenez :{" "}
+          <span className="fr">Je prends le bus.</span> (<span lang="es">cojo el autobús</span>).
+        </div>
+
+        <WordTable ui="fr" caption="Onze moyens de transport, avec leur article" rows={VEHICLES} />
+
+        <TrainExample />
+
+        <div className="attention">
+          <span className="fr">le car</span> est <span lang="es">el autocar</span> : il va d’une
+          ville à une autre, ou en excursion. Ce n’est pas <span lang="es">el coche</span> :{" "}
+          <span lang="es">el coche</span> se dit <span className="fr">la voiture</span>.{" "}
+          <span className="fr">Le car est grand</span> (<span lang="es">el autocar es grande</span>).
+        </div>
+      </section>
+
+      <section data-ui="es" lang="es">
         <h2>
           Los medios de transporte:{" "}
           <span className="fr" lang="fr">
@@ -41,125 +179,9 @@ export default function Page() {
           (cojo el autobús).
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <caption>Once medios de transporte, con su artículo</caption>
-            <thead>
-              <tr>
-                <th scope="col">Palabra</th>
-                <th scope="col">En español</th>
-                <th scope="col">Ejemplo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  la voiture
-                </th>
-                <td>el coche</td>
-                <td className="fr" lang="fr">
-                  Ma voiture est petite.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  le bus
-                </th>
-                <td>el autobús</td>
-                <td className="fr" lang="fr">
-                  Le bus est grand.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  le car
-                </th>
-                <td>el autocar</td>
-                <td className="fr" lang="fr">
-                  Le car va à Lyon.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  le métro
-                </th>
-                <td>el metro</td>
-                <td className="fr" lang="fr">
-                  Je prends le métro.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  le tramway
-                </th>
-                <td>el tranvía</td>
-                <td className="fr" lang="fr">
-                  Le tramway est nouveau.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  le train
-                </th>
-                <td>el tren</td>
-                <td className="fr" lang="fr">
-                  Le train est rapide.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  le vélo
-                </th>
-                <td>la bicicleta</td>
-                <td className="fr" lang="fr">
-                  Le vélo est dans le jardin.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  la moto
-                </th>
-                <td>la moto</td>
-                <td className="fr" lang="fr">
-                  La moto est devant la maison.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  l’avion (m.)
-                </th>
-                <td>el avión</td>
-                <td className="fr" lang="fr">
-                  L’avion est très grand.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  le bateau
-                </th>
-                <td>el barco</td>
-                <td className="fr" lang="fr">
-                  Le bateau est petit.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  le taxi
-                </th>
-                <td>el taxi</td>
-                <td className="fr" lang="fr">
-                  Le taxi est devant la maison.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <WordTable ui="es" caption="Once medios de transporte, con su artículo" rows={VEHICLES} />
 
-        <div className="example" lang="fr">
-          Le train est rapide.
-          <br />
-          Ma voiture est devant la maison.
-        </div>
+        <TrainExample />
 
         <div className="attention">
           <span className="fr" lang="fr">
@@ -178,7 +200,57 @@ export default function Page() {
         </div>
       </section>
 
-      <section lang="es">
+      <section data-ui="fr">
+        <h2>
+          Comment vous voyagez : <span className="fr">en</span> ou <span className="fr">à</span>
+        </h2>
+
+        <div className="rule">
+          Avec <span className="fr">en</span>, vous êtes dedans : <span className="fr">en voiture</span>,{" "}
+          <span className="fr">en bus</span>, <span className="fr">en métro</span>,{" "}
+          <span className="fr">en train</span>, <span className="fr">en‿avion</span>,{" "}
+          <span className="fr">en taxi</span>. Avec <span className="fr">à</span>, vous êtes sur vos
+          pieds ou assis sur le vélo ou sur la moto : <span className="fr">à pied</span>,{" "}
+          <span className="fr">à vélo</span>, <span className="fr">à moto</span>. Exemple :{" "}
+          <span className="fr">Je vais au travail en bus.</span> (
+          <span lang="es">voy al trabajo en autobús</span>). Le <span className="fr">n</span> de{" "}
+          <span className="fr">en</span> s’entend devant une voyelle :{" "}
+          <span className="fr">en‿avion</span>. C’est une liaison (
+          <Link href="/grammaire/le-singulier-et-le-pluriel">Le singulier et le pluriel</Link>).
+        </div>
+
+        <WordTable
+          ui="fr"
+          caption={
+            <>
+              Neuf façons de voyager, avec « <span lang="fr">en</span> » ou « <span lang="fr">à</span> »
+            </>
+          }
+          rows={WAYS}
+        />
+
+        <WayExample />
+
+        <p>
+          Avec <span className="fr">prendre</span> (<span lang="es">coger</span>), il n’y a pas de
+          préposition : <span className="fr">Je prends le métro.</span> (
+          <span lang="es">cojo el metro</span>), <span className="fr">Il prend le train.</span> (
+          <span lang="es">coge el tren</span>). Comparez :{" "}
+          <span className="fr">Je vais au travail en métro</span> et{" "}
+          <span className="fr">Je prends le métro</span> disent presque la même chose. Plus sur{" "}
+          <span className="fr">au</span> dans{" "}
+          <Link href="/grammaire/les-articles-definis">Les articles définis</Link>.
+        </p>
+
+        <div className="exception">
+          Dans la rue, on entend souvent <span className="fr">en vélo</span> et{" "}
+          <span className="fr">en moto</span>. Apprenez <span className="fr">à</span>, et ne soyez pas
+          surpris si vous entendez <span className="fr">en</span>.{" "}
+          <span className="fr">à pied</span> ne change jamais.
+        </div>
+      </section>
+
+      <section data-ui="es" lang="es">
         <h2>
           Cómo viajas:{" "}
           <span className="fr" lang="fr">
@@ -258,110 +330,18 @@ export default function Page() {
           ).
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <caption>
+        <WordTable
+          ui="es"
+          caption={
+            <>
               Nueve maneras de viajar, con «<span lang="fr">en</span>» o «
               <span lang="fr">à</span>»
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Palabra</th>
-                <th scope="col">En español</th>
-                <th scope="col">Ejemplo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  en voiture
-                </th>
-                <td>en coche</td>
-                <td className="fr" lang="fr">
-                  Je vais au travail en voiture.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  en bus
-                </th>
-                <td>en autobús</td>
-                <td className="fr" lang="fr">
-                  Je vais au travail en bus.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  en métro
-                </th>
-                <td>en metro</td>
-                <td className="fr" lang="fr">
-                  Je vais au travail en métro.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  en train
-                </th>
-                <td>en tren</td>
-                <td className="fr" lang="fr">
-                  Je vais à Lyon en train.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  en‿avion
-                </th>
-                <td>en avión</td>
-                <td className="fr" lang="fr">
-                  Je vais à Paris en‿avion.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  en taxi
-                </th>
-                <td>en taxi</td>
-                <td className="fr" lang="fr">
-                  Elle va au travail en taxi.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  à pied
-                </th>
-                <td>a pie</td>
-                <td className="fr" lang="fr">
-                  Je vais au travail à pied.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  à vélo
-                </th>
-                <td>en bicicleta</td>
-                <td className="fr" lang="fr">
-                  Elle va au travail à vélo.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  à moto
-                </th>
-                <td>en moto</td>
-                <td className="fr" lang="fr">
-                  Il va au travail à moto.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+            </>
+          }
+          rows={WAYS}
+        />
 
-        <div className="example" lang="fr">
-          Je vais au travail en bus.
-          <br />
-          Mon père va à Lyon en train.
-        </div>
+        <WayExample />
 
         <p>
           Con{" "}
@@ -420,7 +400,43 @@ export default function Page() {
         </div>
       </section>
 
-      <section lang="es">
+      <section data-ui="fr">
+        <h2>Les mots de la gare</h2>
+
+        <div className="rule">
+          Ces six mots servent chaque jour dans le train, le métro et le bus. Trois se confondent
+          facilement : <span className="fr">la gare</span>, <span className="fr">la station</span> et{" "}
+          <span className="fr">l’arrêt</span>. Voyez-les dans les encadrés ci-dessous.
+        </div>
+
+        <WordTable
+          ui="fr"
+          caption="Six mots de la gare et de l’arrêt, avec une phrase"
+          rows={STATION}
+        />
+
+        <div className="attention">
+          En espagnol, <span lang="es">« estación »</span> sert pour tout. En français, il y a deux
+          mots : <span className="fr">la gare</span> est la <span lang="es">estación de tren</span>{" "}
+          et <span className="fr">la station</span> est celle du métro ou du tramway. Un train
+          s’arrête à <span className="fr">la gare</span> ; un métro s’arrête à{" "}
+          <span className="fr">la station</span>.
+        </div>
+
+        <div className="attention">
+          <span className="fr">l’arrêt</span> est <span lang="es">la parada</span> :{" "}
+          <span className="fr">l’arrêt de bus</span>. Ce n’est pas <span lang="es">el arresto</span>{" "}
+          de la police.
+        </div>
+
+        <div className="attention">
+          <span className="fr">le billet</span> est le <span lang="es">billete</span> de train ou
+          d’avion ; <span className="fr">le ticket</span>, celui du métro ou du bus. Ce sont deux
+          mots, pas un.
+        </div>
+      </section>
+
+      <section data-ui="es" lang="es">
         <h2>
           Las palabras de la estación:{" "}
           <span className="fr" lang="fr">
@@ -445,79 +461,11 @@ export default function Page() {
           . Míralas en los recuadros de abajo.
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <caption>
-              Seis palabras de la estación y de la parada, con una frase
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Palabra</th>
-                <th scope="col">En español</th>
-                <th scope="col">Ejemplo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  la gare
-                </th>
-                <td>la estación de tren</td>
-                <td className="fr" lang="fr">
-                  Le train est à la gare.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  la station
-                </th>
-                <td>la estación de metro (o de tranvía)</td>
-                <td className="fr" lang="fr">
-                  La station de métro est à côté de la maison.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  l’arrêt (m.)
-                </th>
-                <td>la parada</td>
-                <td className="fr" lang="fr">
-                  L’arrêt de bus est devant la gare.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  le quai
-                </th>
-                <td>el andén</td>
-                <td className="fr" lang="fr">
-                  Le train est sur le quai.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  le billet
-                </th>
-                <td>el billete</td>
-                <td>
-                  <span className="fr" lang="fr">
-                    Un billet pour Lyon, s’il vous plaît.
-                  </span>{" "}
-                  (Un billete para Lyon, por favor.)
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  le ticket
-                </th>
-                <td>el billete de metro o de autobús</td>
-                <td className="fr" lang="fr">
-                  J’ai un ticket de métro.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <WordTable
+          ui="es"
+          caption="Seis palabras de la estación y de la parada, con una frase"
+          rows={STATION}
+        />
 
         <div className="attention">
           En español «estación» sirve para todo. En francés hay dos palabras:{" "}
@@ -562,7 +510,37 @@ export default function Page() {
         </div>
       </section>
 
-      <div className="resume" lang="es">
+      <div className="resume" data-ui="fr">
+        <h2>En résumé</h2>
+        <ul>
+          <li>
+            Apprenez chaque moyen avec son article : <span className="fr">la voiture</span>,{" "}
+            <span className="fr">le train</span>, <span className="fr">l’avion</span> (m.).
+          </li>
+          <li>
+            <span className="fr">le car</span> est <span lang="es">el autocar</span> ;{" "}
+            <span lang="es">el coche</span> se dit <span className="fr">la voiture</span>.
+          </li>
+          <li>
+            <span className="fr">en</span> si vous êtes dedans (<span className="fr">en voiture</span>,{" "}
+            <span className="fr">en train</span>) ; <span className="fr">à</span> à pied ou assis
+            dessus (<span className="fr">à pied</span>, <span className="fr">à vélo</span>,{" "}
+            <span className="fr">à moto</span>). On entend <span className="fr">en vélo</span>, mais
+            apprenez <span className="fr">à vélo</span>.
+          </li>
+          <li>
+            Avec <span className="fr">prendre</span>, il n’y a pas de préposition :{" "}
+            <span className="fr">Je prends le métro.</span>
+          </li>
+          <li>
+            <span className="fr">la gare</span> est pour les trains, <span className="fr">la station</span>{" "}
+            pour le métro, <span className="fr">l’arrêt</span> pour le bus : la parada, pas el
+            arresto.
+          </li>
+        </ul>
+      </div>
+
+      <div className="resume" data-ui="es" lang="es">
         <h2>En resumen</h2>
         <ul>
           <li>

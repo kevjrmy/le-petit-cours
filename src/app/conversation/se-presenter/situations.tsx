@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { T } from "@/components/lang/T";
 
 /**
  * The constraint card, same contract as the other role-plays: cycles in order,
@@ -18,44 +19,87 @@ import { useState, type ReactNode } from "react";
  * scene for — asking someone to repeat, to spell, to speak more slowly — and
  * they are the two that keep a real conversation alive.
  */
-const SITUATIONS: ReactNode[] = [
-  <>
-    Es la primera clase. Preséntate al grupo con cuatro frases: tu nombre, tu
-    país, tu ciudad y tu trabajo.
-  </>,
-  <>
-    No has entendido el nombre de la persona. Pídele que lo repita y después que
-    lo deletree.
-  </>,
-  <>
-    La persona habla demasiado deprisa. Pídele que hable más despacio y sigue
-    con la conversación.
-  </>,
-  <>Te preguntan de dónde eres. Responde y haz tú la misma pregunta.</>,
-  <>
-    Llega otra persona. Preséntasela a tu interlocutor: di{" "}
-    <span className="fr" lang="fr">
-      voici
-    </span>{" "}
-    y su nombre, y di cómo se llama.
-  </>,
-  <>Te preguntan tu edad y a qué te dedicas. Responde y pregunta lo mismo.</>,
-  <>La conversación ha terminado. Da las gracias y despídete.</>,
+const SITUATIONS: { fr: ReactNode; es: ReactNode }[] = [
+  {
+    fr: "C’est le premier cours. Présentez-vous au groupe en quatre phrases : votre nom, votre pays, votre ville et votre travail.",
+    es: (
+      <>
+        Es la primera clase. Preséntate al grupo con cuatro frases: tu nombre,
+        tu país, tu ciudad y tu trabajo.
+      </>
+    ),
+  },
+  {
+    fr: "Vous n’avez pas compris le nom de la personne. Demandez-lui de le répéter, puis de l’épeler.",
+    es: (
+      <>
+        No has entendido el nombre de la persona. Pídele que lo repita y después
+        que lo deletree.
+      </>
+    ),
+  },
+  {
+    fr: "La personne parle trop vite. Demandez-lui de parler plus lentement, puis continuez la conversation.",
+    es: (
+      <>
+        La persona habla demasiado deprisa. Pídele que hable más despacio y
+        sigue con la conversación.
+      </>
+    ),
+  },
+  {
+    fr: "On vous demande d’où vous êtes. Répondez, puis posez la même question.",
+    es: <>Te preguntan de dónde eres. Responde y haz tú la misma pregunta.</>,
+  },
+  {
+    fr: (
+      <>
+        Une autre personne arrive. Présentez-la à votre interlocuteur : dites{" "}
+        <span className="fr">voici</span> et son nom, puis dites comment elle
+        s’appelle.
+      </>
+    ),
+    es: (
+      <>
+        Llega otra persona. Preséntasela a tu interlocutor: di{" "}
+        <span className="fr" lang="fr">
+          voici
+        </span>{" "}
+        y su nombre, y di cómo se llama.
+      </>
+    ),
+  },
+  {
+    fr: "On vous demande votre âge et votre métier. Répondez, puis posez les mêmes questions.",
+    es: (
+      <>
+        Te preguntan tu edad y a qué te dedicas. Responde y pregunta lo mismo.
+      </>
+    ),
+  },
+  {
+    fr: "La conversation est finie. Dites merci et au revoir.",
+    es: <>La conversación ha terminado. Da las gracias y despídete.</>,
+  },
 ];
 
 export function Situations() {
   const [index, setIndex] = useState(0);
+  const { fr, es } = SITUATIONS[index];
 
   return (
     <div className="card">
       <p>
         <strong>
-          Situación {index + 1} de {SITUATIONS.length}
+          <T
+            fr={`Situation ${index + 1} sur ${SITUATIONS.length}`}
+            es={`Situación ${index + 1} de ${SITUATIONS.length}`}
+          />
         </strong>
       </p>
 
-      <p aria-live="polite" lang="es">
-        {SITUATIONS[index]}
+      <p aria-live="polite">
+        <T fr={fr} es={es} />
       </p>
 
       <p>
@@ -64,7 +108,7 @@ export function Situations() {
           className="button"
           onClick={() => setIndex((i) => (i + 1) % SITUATIONS.length)}
         >
-          Otra situación
+          <T fr="Autre situation" es="Otra situación" />
         </button>
       </p>
     </div>

@@ -22,6 +22,8 @@
  * Le trou est toujours juste avant le nom, pour que `d’` se colle à lui.
  */
 
+import type { Bi } from "../bilingue";
+
 export const POOL = ["en", "au", "aux", "à", "d’", "de", "du", "des"] as const;
 
 export type Kind = "lieu" | "origine" | "nationalité";
@@ -38,8 +40,9 @@ export interface Item {
   /** Les formes proposées : `POOL` pour un lieu, [masculin, féminin] sinon. */
   options: readonly string[];
   answer: string;
-  /** Espagnol ; les mots français entre `*astérisques*` (`lang="fr"`). */
-  because: string;
+  /** Dans les deux langues ; l’espagnol marque son français entre
+   *  `*astérisques*`, le français son espagnol entre `~tildes~`. */
+  because: Bi;
 }
 
 const lieu = (
@@ -48,7 +51,7 @@ const lieu = (
   noun: string,
   after: string,
   answer: string,
-  because: string,
+  because: Bi,
 ): Item => ({ id, kind: "lieu", before, noun, after, options: POOL, answer, because });
 
 const origine = (
@@ -57,7 +60,7 @@ const origine = (
   noun: string,
   after: string,
   answer: string,
-  because: string,
+  because: Bi,
 ): Item => ({ id, kind: "origine", before, noun, after, options: POOL, answer, because });
 
 const nationalite = (
@@ -66,7 +69,7 @@ const nationalite = (
   masculin: string,
   feminin: string,
   answer: "m" | "f",
-  because: string,
+  because: Bi,
 ): Item => ({
   id,
   kind: "nationalité",
@@ -80,37 +83,53 @@ const nationalite = (
 
 export const ITEMS: Item[] = [
   lieu("fr", "J’habite", "France", ".", "en",
-    "*France* es femenino (la France): *en France*."),
+    { es: "*France* es femenino (la France): *en France*.",
+      fr: "« France » est féminin (la France) : « en France »." }),
   lieu("pt", "Elle habite", "Portugal", ".", "au",
-    "*Portugal* es masculino (le Portugal): *au Portugal*."),
+    { es: "*Portugal* es masculino (le Portugal): *au Portugal*.",
+      fr: "« Portugal » est masculin (le Portugal) : « au Portugal »." }),
   lieu("us", "J’habite", "États-Unis", ".", "aux",
-    "*États-Unis* es plural: *aux États-Unis*."),
+    { es: "*États-Unis* es plural: *aux États-Unis*.",
+      fr: "« États-Unis » est pluriel : « aux États-Unis »." }),
   lieu("mx", "Elle habite", "Mexique", ".", "au",
-    "*Mexique* acaba en -e pero es masculino: *au Mexique*, no *en Mexique*."),
+    { es: "*Mexique* acaba en -e pero es masculino: *au Mexique*, no *en Mexique*.",
+      fr: "« Mexique » finit par -e, mais il est masculin : « au Mexique », pas « en Mexique »." }),
   lieu("lyon", "Tu habites où ? J’habite", "Lyon", ", en France.", "à",
-    "Con una ciudad, siempre *à*: *à Lyon*."),
+    { es: "Con una ciudad, siempre *à*: *à Lyon*.",
+      fr: "Avec une ville, toujours « à » : « à Lyon »." }),
   lieu("chine", "Elle habite", "Chine", ".", "en",
-    "*Chine* es femenino (la Chine): *en Chine*."),
+    { es: "*Chine* es femenino (la Chine): *en Chine*.",
+      fr: "« Chine » est féminin (la Chine) : « en Chine »." }),
   origine("es", "Je viens", "Espagne", ".", "d’",
-    "País femenino que empieza por vocal: *de* pierde la e, *d’Espagne*."),
+    { es: "País femenino que empieza por vocal: *de* pierde la e, *d’Espagne*.",
+      fr: "Pays féminin qui commence par une voyelle : « de » perd son e, « d’Espagne »." }),
   origine("co", "Je viens", "Colombie", ".", "de",
-    "País femenino que empieza por consonante: *de Colombie*."),
+    { es: "País femenino que empieza por consonante: *de Colombie*.",
+      fr: "Pays féminin qui commence par une consonne : « de Colombie »." }),
   origine("ma", "Il vient", "Maroc", ".", "du",
-    "*Maroc* es masculino (le Maroc): *de + le* da *du Maroc*."),
+    { es: "*Maroc* es masculino (le Maroc): *de + le* da *du Maroc*.",
+      fr: "« Maroc » est masculin (le Maroc) : « de + le » donne « du Maroc »." }),
   origine("us2", "Je viens", "États-Unis", ".", "des",
-    "*États-Unis* es plural: *de + les* da *des États-Unis*."),
+    { es: "*États-Unis* es plural: *de + les* da *des États-Unis*.",
+      fr: "« États-Unis » est pluriel : « de + les » donne « des États-Unis »." }),
   origine("lima", "Il vient", "Lima", ", au Pérou.", "de",
-    "Con una ciudad, siempre *de*: *de Lima*."),
+    { es: "Con una ciudad, siempre *de*: *de Lima*.",
+      fr: "Avec une ville, toujours « de » : « de Lima »." }),
   nationalite("n-es", "Elle vient d’Espagne. Elle est", "espagnol", "espagnole", "f",
-    "*Elle* pide el femenino: *espagnole*."),
+    { es: "*Elle* pide el femenino: *espagnole*.",
+      fr: "« Elle » demande le féminin : « espagnole »." }),
   nationalite("n-fr", "Il habite en France. Il est", "français", "française", "m",
-    "*Il* pide el masculino: *français*."),
+    { es: "*Il* pide el masculino: *français*.",
+      fr: "« Il » demande le masculin : « français »." }),
   nationalite("n-it", "Elle vient d’Italie. Elle est", "italien", "italienne", "f",
-    "*Elle* pide el femenino: *italienne*."),
+    { es: "*Elle* pide el femenino: *italienne*.",
+      fr: "« Elle » demande le féminin : « italienne »." }),
   nationalite("n-cn", "Elle habite en Chine. Elle est", "chinois", "chinoise", "f",
-    "*Elle* pide el femenino: *chinoise*."),
+    { es: "*Elle* pide el femenino: *chinoise*.",
+      fr: "« Elle » demande le féminin : « chinoise »." }),
   nationalite("n-mx", "Il habite au Mexique. Il est", "mexicain", "mexicaine", "m",
-    "*Il* pide el masculino: *mexicain*."),
+    { es: "*Il* pide el masculino: *mexicain*.",
+      fr: "« Il » demande le masculin : « mexicain »." }),
 ];
 
 export const BANKS: Record<string, Item[]> = { A1: ITEMS };
@@ -157,7 +176,7 @@ for (const it of ITEMS) {
     if (it.kind === 'lieu' && !/habite/.test(it.before)) bad.push(it.id+': lieu sans habiter')
     if (it.kind === 'origine' && !/vien|venons/.test(it.before)) bad.push(it.id+': origine sans venir')
   }
-  if (it.because.split('*').length % 2 === 0) bad.push(it.id+': astérisque impair')
+  if (it.because.es.split('*').length % 2 === 0 || it.because.fr.split('~').length % 2 === 0) bad.push(it.id+': astérisque impair')
   console.log(it.kind.padEnd(12), (it.before+' '+it.answer+glue(it.answer,it)+it.noun+it.after))
 }
 for (const f of POOL) if (!used.has(f)) bad.push('pastille jamais réponse : '+f)

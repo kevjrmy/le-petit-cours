@@ -12,61 +12,74 @@ import type { Question, QuestionSets } from "@/components/exercice/Comprehension
 /** A1: the hours of a life that never varies, and the four minutes between two watches. */
 const A1: Question[] = [
   {
-    question: "¿Cómo vive Phileas Fogg?",
+    question: { fr: "Comment vit Phileas Fogg ?", es: "¿Cómo vive Phileas Fogg?" },
     options: [
-      "Con su mujer y sus hijos",
-      "Solo, con un criado",
-      "Con sus amigos del club",
+      { fr: "Avec sa femme et ses enfants", es: "Con su mujer y sus hijos" },
+      { fr: "Seul, avec un domestique", es: "Solo, con un criado" },
+      { fr: "Avec ses amis du club", es: "Con sus amigos del club" },
     ],
     answer: 1,
-    because:
-      "« Phileas Fogg vivait seul » y « Un seul domestique suffisait à le servir. » No tiene ni mujer ni hijos, ni familia ni amigos.",
+    because: { fr: "« Phileas Fogg vivait seul » et « Un seul domestique suffisait à le servir. » Il n’a ni femme, ni enfants, ni famille, ni amis.", es: "« Phileas Fogg vivait seul » y « Un seul domestique suffisait à le servir. » No tiene ni mujer ni hijos, ni familia ni amigos." },
   },
   {
-    question: "¿Dónde come y cena Phileas Fogg?",
-    options: ["En su casa", "En el club", "En casa de sus amigos"],
+    question: { fr: "Où Phileas Fogg déjeune-t-il et dîne-t-il ?", es: "¿Dónde come y cena Phileas Fogg?" },
+    options: [
+      { fr: "Chez lui", es: "En su casa" },
+      { fr: "Au club", es: "En el club" },
+      { fr: "Chez ses amis", es: "En casa de sus amigos" },
+    ],
     answer: 1,
-    because:
-      "« Déjeunant, dînant au club »: « déjeuner » es comer a mediodía, no desayunar.",
+    because: { fr: "« Déjeunant, dînant au club » : « déjeuner », c’est manger à midi, pas prendre le petit déjeuner.", es: "« Déjeunant, dînant au club »: « déjeuner » es comer a mediodía, no desayunar." },
   },
   {
-    question: "¿A qué hora vuelve a su casa para acostarse?",
-    options: ["A las diez", "A medianoche en punto", "A las once y media"],
+    question: { fr: "À quelle heure rentre-t-il chez lui pour se coucher ?", es: "¿A qué hora vuelve a su casa para acostarse?" },
+    options: [
+      { fr: "À dix heures", es: "A las diez" },
+      { fr: "À minuit précis", es: "A medianoche en punto" },
+      { fr: "À onze heures et demie", es: "A las once y media" },
+    ],
     answer: 1,
-    because:
-      "« Il ne rentrait chez lui que pour se coucher, à minuit précis. » « minuit » es medianoche.",
+    because: { fr: "« Il ne rentrait chez lui que pour se coucher, à minuit précis. » « minuit », c’est 12 h de la nuit.", es: "« Il ne rentrait chez lui que pour se coucher, à minuit précis. » « minuit » es medianoche." },
   },
   {
-    question: "¿Cuántas horas al día pasa en su casa?",
-    options: ["Diez", "Veinticuatro", "Cuatro"],
+    question: { fr: "Combien d’heures par jour passe-t-il chez lui ?", es: "¿Cuántas horas al día pasa en su casa?" },
+    options: [
+      { fr: "Dix", es: "Diez" },
+      { fr: "Vingt-quatre", es: "Veinticuatro" },
+      { fr: "Quatre", es: "Cuatro" },
+    ],
     answer: 0,
-    because:
-      "« Sur vingt-quatre heures, il en passait dix à son domicile. »",
+    because: "« Sur vingt-quatre heures, il en passait dix à son domicile. »",
   },
   {
-    question: "Fogg le dice « John » al nuevo criado. ¿Qué nombre dice él?",
-    options: ["« John »", "« Jean »", "« Phileas »"],
+    question: { fr: "Fogg dit « John » au nouveau domestique. Quel nom dit le domestique ?", es: "Fogg le dice « John » al nuevo criado. ¿Qué nombre dice él?" },
+    options: [
+      "« John »",
+      "« Jean »",
+      "« Phileas »",
+    ],
     answer: 1,
-    because:
-      "« Jean, n’en déplaise à monsieur »: es francés, y Jean es su nombre en francés.",
+    because: { fr: "« Jean, n’en déplaise à monsieur » : c’est son prénom en français.", es: "« Jean, n’en déplaise à monsieur »: es francés, y Jean es su nombre en francés." },
   },
   {
-    question: "¿Qué hora marca el reloj de Passepartout?",
+    question: { fr: "Quelle heure la montre de Passepartout indique-t-elle ?", es: "¿Qué hora marca el reloj de Passepartout?" },
     options: [
       "« Onze heures vingt-deux »",
       "« Onze heures vingt-neuf »",
       "« Minuit »",
     ],
     answer: 0,
-    because:
-      "Saca su reloj de plata y contesta: « Onze heures vingt-deux. »",
+    because: { fr: "Il sort sa montre en argent et répond : « Onze heures vingt-deux. »", es: "Saca su reloj de plata y contesta: « Onze heures vingt-deux. »" },
   },
   {
-    question: "Según Fogg, ¿cómo va el reloj de Passepartout?",
-    options: ["Va bien", "Atrasa cuatro minutos", "Adelanta cuatro minutos"],
+    question: { fr: "Selon Fogg, comment va la montre de Passepartout ?", es: "Según Fogg, ¿cómo va el reloj de Passepartout?" },
+    options: [
+      { fr: "Elle est à l’heure", es: "Va bien" },
+      { fr: "Elle retarde de quatre minutes", es: "Atrasa cuatro minutos" },
+      { fr: "Elle avance de quatre minutes", es: "Adelanta cuatro minutos" },
+    ],
     answer: 1,
-    because:
-      "« Vous retardez de quatre minutes. » Son las once y veintiséis, y Passepartout empieza a trabajar a las once y veintinueve.",
+    because: { fr: "« Vous retardez de quatre minutes. » Il est onze heures vingt-six, et Passepartout commence à travailler à onze heures vingt-neuf.", es: "« Vous retardez de quatre minutes. » Son las once y veintiséis, y Passepartout empieza a trabajar a las once y veintinueve." },
   },
 ];
 

@@ -25,15 +25,23 @@ import styles from "./Comprehension.module.css";
  * learner who cannot tell the green from the red (`AGENTS.md` §5).
  */
 export interface Question {
-  /** The question, in French. */
-  question: string;
+  /** The question, in French (or in both languages, on an A1 page). */
+  question: Text;
   /** Two to four options, in a fixed order — nothing here shuffles. */
-  options: string[];
+  options: Text[];
   /** Index into `options` of the one right answer. */
   answer: number;
   /** One line saying *why*, shown once she has answered. */
-  because: string;
+  because: Text;
 }
+
+/**
+ * A piece of the quiz: a plain string (a French lecture, or French the A1
+ * learner reads whatever the interface language), or `{ fr, es }` where the
+ * words are the course's explanation and follow the interface language (#102).
+ * An A1 set writes its Spanish prompts as pairs; the French in « » stays the same.
+ */
+export type Text = string | { fr: string; es: string };
 
 /**
  * A set of questions per level, for a text whose task scales with the rung.
@@ -73,6 +81,12 @@ function inLang(text: string, quotes: "fr" | undefined) {
     .map((part, i) => (part.startsWith("«") ? <span key={i} lang={quotes}>{part}</span> : part));
 }
 
+/** A `Text` for the screen: a pair prints both languages through `<T>`. */
+function show(text: Text, quotes: "fr" | undefined) {
+  if (typeof text === "string") return inLang(text, quotes);
+  return <T fr={text.fr} es={inLang(text.es, quotes)} />;
+}
+
 /**
  * « ✓ Juste. » or « ✗ Non : » and the right option, in the interface's
  * language (#102): `<T>` prints both and each half carries its own `lang`, so
@@ -84,10 +98,10 @@ function inLang(text: string, quotes: "fr" | undefined) {
  * is, never wrapped in guillemets that `inLang` would then read as French, and
  * a French one keeps the guillemets it already carries.
  */
-function verdict(right: boolean, option: string, quotes: "fr" | undefined) {
+function verdict(right: boolean, option: Text, quotes: "fr" | undefined) {
   if (right) return <><T fr="✓ Juste." es="✓ Correcto." /> </>;
-  if (quotes) {
-    return <><T fr="✗ Non :" es="✗ No:" /> {inLang(option, quotes)}. </>;
+  if (quotes || typeof option !== "string") {
+    return <><T fr="✗ Non :" es="✗ No:" /> {show(option, quotes)}. </>;
   }
   const quoted = option.startsWith("«");
   return (
@@ -145,13 +159,13 @@ export function Comprehension(props: ComprehensionProps) {
           const right = answer === item.answer;
 
           return (
-            <li key={item.question} className={styles.item}>
-              <p className={styles.question}>{inLang(item.question, props.quotes)}</p>
+            <li key={index} className={styles.item}>
+              <p className={styles.question}>{show(item.question, props.quotes)}</p>
 
               <div className={styles.options}>
                 {item.options.map((option, position) => (
                   <button
-                    key={option}
+                    key={position}
                     type="button"
                     className="button"
                     disabled={answered}
@@ -161,7 +175,7 @@ export function Comprehension(props: ComprehensionProps) {
                       )
                     }
                   >
-                    {inLang(option, props.quotes)}
+                    {show(option, props.quotes)}
                   </button>
                 ))}
               </div>
@@ -179,7 +193,7 @@ export function Comprehension(props: ComprehensionProps) {
                 {answered && (
                   <>
                     {verdict(right, item.options[item.answer], props.quotes)}
-                    {inLang(item.because, props.quotes)}
+                    {show(item.because, props.quotes)}
                   </>
                 )}
               </p>

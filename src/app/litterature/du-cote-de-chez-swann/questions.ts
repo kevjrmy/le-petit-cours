@@ -15,68 +15,74 @@ import type { Question, QuestionSets } from "@/components/exercice/Comprehension
  */
 const A1: Question[] = [
   {
-    question: "¿Cuándo se acostaba el narrador?",
-    options: ["Muy tarde, por la noche", "Temprano", "A mediodía"],
+    question: { fr: "Quand le narrateur se couchait-il ?", es: "¿Cuándo se acostaba el narrador?" },
+    options: [
+      { fr: "Très tard, la nuit", es: "Muy tarde, por la noche" },
+      { fr: "Tôt", es: "Temprano" },
+      { fr: "À midi", es: "A mediodía" },
+    ],
     answer: 1,
-    because:
-      "« Longtemps, je me suis couché de bonne heure. » « De bonne heure » quiere decir temprano.",
+    because: { fr: "« Longtemps, je me suis couché de bonne heure. » « De bonne heure » veut dire tôt.", es: "« Longtemps, je me suis couché de bonne heure. » « De bonne heure » quiere decir temprano." },
   },
   {
-    question: "¿Cuándo se le cierran los ojos?",
+    question: { fr: "Quand ses yeux se ferment-ils ?", es: "¿Cuándo se le cierran los ojos?" },
     options: [
-      "Nada más apagar la vela",
-      "Media hora después de apagar la vela",
-      "Nunca: deja la vela encendida y no duerme",
+      { fr: "Dès que la bougie est éteinte", es: "Nada más apagar la vela" },
+      { fr: "Une demi-heure après avoir éteint la bougie", es: "Media hora después de apagar la vela" },
+      { fr: "Jamais : il laisse la bougie allumée et ne dort pas", es: "Nunca: deja la vela encendida y no duerme" },
     ],
     answer: 0,
-    because:
-      "« à peine ma bougie éteinte, mes yeux se fermaient »: « la bougie » es la vela, y los ojos se le cierran en cuanto la apaga.",
+    because: { fr: "« à peine ma bougie éteinte, mes yeux se fermaient » : « la bougie » donne la lumière, et ses yeux se ferment dès qu’il l’éteint.", es: "« à peine ma bougie éteinte, mes yeux se fermaient »: « la bougie » es la vela, y los ojos se le cierran en cuanto la apaga." },
   },
   {
-    question: "¿Qué hacía en la cama antes de dormirse?",
-    options: ["Visitaba una iglesia", "Leía un libro", "Escuchaba un cuarteto"],
-    answer: 1,
-    because:
-      "Quiere dejar « le volume que je croyais avoir encore dans les mains »: leía. La iglesia y el cuarteto son « ce dont parlait l’ouvrage », lo que cuenta el libro.",
-  },
-  {
-    question: "¿Cómo se duerme?",
+    question: { fr: "Que faisait-il dans son lit avant de s’endormir ?", es: "¿Qué hacía en la cama antes de dormirse?" },
     options: [
-      "Despacio, poco a poco",
-      "Diciéndose « Je m’endors »",
-      "Muy deprisa",
+      { fr: "Il visitait une église", es: "Visitaba una iglesia" },
+      { fr: "Il lisait un livre", es: "Leía un libro" },
+      { fr: "Il écoutait un quatuor", es: "Escuchaba un cuarteto" },
+    ],
+    answer: 1,
+    because: { fr: "Il veut poser « le volume que je croyais avoir encore dans les mains » : il lisait. L’église et le quatuor sont « ce dont parlait l’ouvrage », ce que raconte le livre.", es: "Quiere dejar « le volume que je croyais avoir encore dans les mains »: leía. La iglesia y el cuarteto son « ce dont parlait l’ouvrage », lo que cuenta el libro." },
+  },
+  {
+    question: { fr: "Comment s’endort-il ?", es: "¿Cómo se duerme?" },
+    options: [
+      { fr: "Lentement, peu à peu", es: "Despacio, poco a poco" },
+      { fr: "En se disant « Je m’endors »", es: "Diciéndose « Je m’endors »" },
+      { fr: "Très vite", es: "Muy deprisa" },
     ],
     answer: 2,
-    because:
-      "« mes yeux se fermaient si vite que je n’avais pas le temps de me dire : Je m’endors »: se duerme tan deprisa que no tiene tiempo de decirse « Je m’endors », me duermo.",
+    because: { fr: "« mes yeux se fermaient si vite que je n’avais pas le temps de me dire : Je m’endors » : il s’endort si vite qu’il n’a pas le temps de se dire « Je m’endors ».", es: "« mes yeux se fermaient si vite que je n’avais pas le temps de me dire : Je m’endors »: se duerme tan deprisa que no tiene tiempo de decirse « Je m’endors », me duermo." },
   },
   {
-    question: "¿Cuándo se despierta?",
-    options: ["Por la mañana", "Dos horas después", "Media hora después"],
+    question: { fr: "Quand se réveille-t-il ?", es: "¿Cuándo se despierta?" },
+    options: [
+      { fr: "Le matin", es: "Por la mañana" },
+      { fr: "Deux heures après", es: "Dos horas después" },
+      { fr: "Une demi-heure après", es: "Media hora después" },
+    ],
     answer: 2,
     because: "« Et, une demi-heure après, la pensée qu’il était temps de chercher le sommeil m’éveillait »",
   },
   {
-    question: "Al despertarse, ¿qué quiere hacer?",
+    question: { fr: "En se réveillant, que veut-il faire ?", es: "Al despertarse, ¿qué quiere hacer?" },
     options: [
-      "Dejar el libro y apagar la vela",
-      "Encender la vela y seguir leyendo",
-      "Coger el libro para empezar a leer",
+      { fr: "Poser le livre et éteindre la bougie", es: "Dejar el libro y apagar la vela" },
+      { fr: "Allumer la bougie et continuer à lire", es: "Encender la vela y seguir leyendo" },
+      { fr: "Prendre le livre pour commencer à lire", es: "Coger el libro para empezar a leer" },
     ],
     answer: 0,
-    because:
-      "« je voulais poser le volume […] et souffler ma lumière »: quiere dejar el libro, no cogerlo, y apagar la vela, no encenderla.",
+    because: { fr: "« je voulais poser le volume […] et souffler ma lumière » : il veut poser le livre, pas le prendre, et éteindre la bougie, pas l’allumer.", es: "« je voulais poser le volume […] et souffler ma lumière »: quiere dejar el libro, no cogerlo, y apagar la vela, no encenderla." },
   },
   {
-    question: "Dormido, ¿qué cree ser?",
+    question: { fr: "Endormi, que croit-il être ?", es: "Dormido, ¿qué cree ser?" },
     options: [
-      "Solo un niño en su cama",
-      "Lo que cuenta el libro que leía",
-      "El que ha escrito el libro",
+      { fr: "Seulement un enfant dans son lit", es: "Solo un niño en su cama" },
+      { fr: "Ce que raconte le livre qu’il lisait", es: "Lo que cuenta el libro que leía" },
+      { fr: "Celui qui a écrit le livre", es: "El que ha escrito el libro" },
     ],
     answer: 1,
-    because:
-      "« Il me semblait que j’étais moi-même ce dont parlait l’ouvrage : une église, un quatuor »: cree ser aquello de lo que habla el libro, una iglesia, un cuarteto.",
+    because: { fr: "« Il me semblait que j’étais moi-même ce dont parlait l’ouvrage : une église, un quatuor » : il croit être ce que raconte le livre, une église, un quatuor.", es: "« Il me semblait que j’étais moi-même ce dont parlait l’ouvrage : une église, un quatuor »: cree ser aquello de lo que habla el libro, una iglesia, un cuarteto." },
   },
 ];
 

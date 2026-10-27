@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
+import { T } from "@/components/lang/T";
+import { useLang } from "@/hooks/useLang";
 import { shuffle } from "@/lib/shuffle";
+import { Bilingue } from "../bilingue";
 import { bankFor, type SituationItem } from "./data";
 import board from "@/components/exercice/Board.module.css";
 import styles from "./drill.module.css";
@@ -16,22 +19,9 @@ import styles from "./drill.module.css";
  * serveur (`drill.tsx`). L'état garde les noms du brief : `deck`,
  * `currentIndex`, `checked`, `score`, `finished`.
  *
- * La situation et la correction sont en espagnol (#85), les formules en
- * français (`lang="fr"`).
+ * La situation, la consigne et la correction existent en espagnol et en
+ * français (#85, #102) ; les formules sont en français (`lang="fr"`).
  */
-function french(text: string) {
-  return text
-    .split("*")
-    .map((run, i) =>
-      i % 2 ? (
-        <span key={i} lang="fr">
-          {run}
-        </span>
-      ) : (
-        run
-      ),
-    );
-}
 
 function deal(): SituationItem[] {
   return shuffle(bankFor()).map((item) => ({
@@ -41,6 +31,7 @@ function deal(): SituationItem[] {
 }
 
 export function Board() {
+  const lang = useLang();
   const [deck, setDeck] = useState(deal);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
@@ -87,19 +78,20 @@ export function Board() {
   return (
     <div lang="fr">
       <Instructions>
-        <span lang="es">
-          Lee la situación, haz clic en lo que dirías y comprueba.
-        </span>
+        <T
+          fr="Lisez la situation, cliquez sur ce que vous diriez, puis vérifiez."
+          es="Lee la situación, haz clic en lo que dirías y comprueba."
+        />
       </Instructions>
 
-      <Meter value={currentIndex + 1} max={deck.length} label="Situation en cours" />
+      <Meter value={currentIndex + 1} max={deck.length} label={{ fr: "Situation en cours", es: "Situación en curso" }} />
 
       <div className={`card ${board.card}`}>
-        <p className={styles.situation} lang="es">
-          {current.situation}
+        <p className={styles.situation}>
+          <Bilingue text={current.situation} />
         </p>
 
-        <div className={`${board.pool} ${styles.pool}`} role="group" aria-label="Que dites-vous ?">
+        <div className={`${board.pool} ${styles.pool}`} role="group" aria-label={lang === "es" ? "¿Qué dices?" : "Que dites-vous ?"}>
           {current.options.map((option) => {
             const state = checked
               ? option === current.answer
@@ -129,9 +121,18 @@ export function Board() {
               className={`${board.verdict} ${right ? "is-correct" : "is-wrong"}`}
             >
               <p>
-                {right ? "✓ Juste." : `✗ La réponse : « ${current.answer} »`}
+                {right ? (
+                  <T fr="✓ Juste." es="✓ Correcto." />
+                ) : (
+                  <T
+                    fr={`✗ La réponse : « ${current.answer} »`}
+                    es={`✗ La respuesta: « ${current.answer} »`}
+                  />
+                )}
               </p>
-              <p lang="es">{french(current.because)}</p>
+              <p>
+                <Bilingue text={current.because} />
+              </p>
             </div>
           )}
         </div>
@@ -140,7 +141,11 @@ export function Board() {
       <div className={board.actions}>
         {checked ? (
           <button type="button" className="button button-primary" onClick={next}>
-            {last ? "Voir mon score" : "Situation suivante"}
+            {last ? (
+              <T fr="Voir mon score" es="Ver mi puntuación" />
+            ) : (
+              <T fr="Situation suivante" es="Situación siguiente" />
+            )}
           </button>
         ) : (
           <button
@@ -149,7 +154,7 @@ export function Board() {
             disabled={picked === null}
             onClick={verify}
           >
-            Vérifier
+            <T fr="Vérifier" es="Comprobar" />
           </button>
         )}
       </div>

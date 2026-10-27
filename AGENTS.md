@@ -40,8 +40,9 @@ Count content in `src/data/navigation.ts`, never in prose.
 
 - **Decided, not built**: #89's syllabus as data (its épreuves are built); #86's manifest split,
   one file per chapter. Until they land, nothing measures coverage.
-- **#102 is built for every A2+ page** (2026-10-27). `grep -L 'data-ui' src/app/*/*/page.tsx` lists
-  the rest, on purpose: A1 pages, `litterature`, `delf`, `atelier`, and a drill with no prose. **A page with sets shows the
+- **#102 is built for every page, A1 included** (2026-10-27). `grep -L 'data-ui' src/app/*/*/page.tsx` lists
+  the rest, on purpose: `litterature` (its A1 body is twinned in `a1.tsx`), `delf`, `atelier`, the
+  verb sheets (their notes are data) and a drill with no prose. **A page with sets shows the
   parcours's level, and no tabs** (#87 amended).
 - **The four parcours are first drafts** from the pages that existed on 2026-09-30; the teaching
   order awaits the maintainer's review.
@@ -88,9 +89,9 @@ Language:
   A page with French sections only shows them in both interfaces (§0).
 - **French in both interfaces**: the French taught (no gloss, no translation column from A2), lesson
   titles, subtitles and DELF descriptors, a DELF épreuve's content, the atelier, the tab title and
-  `<meta>`, the PWA manifest. Spanish in both: a `traduction` source (#55), **an A1 page's
-  explanation** (#85, `docs/levels/a1.md`), the A1 body of a literary work (#92), and `/instalar`
-  (#101). Chapter and annexe titles and badges have Spanish twins in the manifest (`es`,
+  `<meta>`, the PWA manifest. Spanish in both: a `traduction` source (#55), an A1 page's glosses
+  and its literary text's Spanish lines (#85, #92, `docs/levels/a1.md`), and `/instalar` (#101).
+  An A1 page's explanation is twinned like any other, Spanish written first. Chapter and annexe titles and badges have Spanish twins in the manifest (`es`,
   `titleEs`, `tagEs`), required.
 - **In Spanish text `lang` is not optional**: `lang="es"` on each Spanish `<section>`, `.resume`
   and `data-ui="es"` element (never `<article>`), `lang="fr"` back on every piece of French.

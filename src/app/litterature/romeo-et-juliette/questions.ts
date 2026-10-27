@@ -12,62 +12,74 @@ import type { Question, QuestionSets } from "@/components/exercice/Comprehension
 /** A1: seven questions on the prologue, in Spanish, the French in « » (#85). */
 const A1: Question[] = [
   {
-    question: "¿En qué ciudad pasa la obra?",
-    options: ["En Venecia", "En Verona", "En París"],
-    answer: 1,
-    because: "« Dans la belle Vérone, où nous plaçons notre scène »: la escena está en Verona.",
-  },
-  {
-    question: "¿Cuántas familias hay en el prólogo?",
-    options: ["Una", "Dos", "Tres"],
-    answer: 1,
-    because: "« Deux familles, égales en noblesse »: son dos familias.",
-  },
-  {
-    question: "¿Qué hacen las dos familias?",
+    question: { fr: "Dans quelle ville se passe la pièce ?", es: "¿En qué ciudad pasa la obra?" },
     options: [
-      "Se pelean por viejos rencores",
-      "Viven en paz desde hace años",
-      "Preparan una boda juntas",
+      { fr: "À Venise", es: "En Venecia" },
+      { fr: "À Vérone", es: "En Verona" },
+      { fr: "À Paris", es: "En París" },
+    ],
+    answer: 1,
+    because: { fr: "« Dans la belle Vérone, où nous plaçons notre scène » : la scène est à Vérone.", es: "« Dans la belle Vérone, où nous plaçons notre scène »: la escena está en Verona." },
+  },
+  {
+    question: { fr: "Combien de familles y a-t-il dans le prologue ?", es: "¿Cuántas familias hay en el prólogo?" },
+    options: [
+      { fr: "Une", es: "Una" },
+      { fr: "Deux", es: "Dos" },
+      { fr: "Trois", es: "Tres" },
+    ],
+    answer: 1,
+    because: { fr: "« Deux familles, égales en noblesse » : il y a deux familles.", es: "« Deux familles, égales en noblesse »: son dos familias." },
+  },
+  {
+    question: { fr: "Que font les deux familles ?", es: "¿Qué hacen las dos familias?" },
+    options: [
+      { fr: "Elles se battent à cause de vieilles haines", es: "Se pelean por viejos rencores" },
+      { fr: "Elles vivent en paix depuis des années", es: "Viven en paz desde hace años" },
+      { fr: "Elles préparent un mariage ensemble", es: "Preparan una boda juntas" },
     ],
     answer: 0,
-    because:
-      "« entraînées par d’anciennes rancunes à des rixes nouvelles »: los viejos rencores las llevan a nuevas peleas.",
+    because: { fr: "« entraînées par d’anciennes rancunes à des rixes nouvelles » : les vieilles haines les mènent à de nouvelles bagarres.", es: "« entraînées par d’anciennes rancunes à des rixes nouvelles »: los viejos rencores las llevan a nuevas peleas." },
   },
   {
-    question: "¿Qué mancha las manos de los ciudadanos?",
-    options: ["El vino", "La tierra", "La sangre de otros ciudadanos"],
-    answer: 2,
-    because: "« le sang des citoyens souille les mains des citoyens »: es sangre.",
-  },
-  {
-    question: "¿De dónde vienen los dos enamorados?",
+    question: { fr: "Qu’est-ce qui salit les mains des citoyens ?", es: "¿Qué mancha las manos de los ciudadanos?" },
     options: [
-      "De otra ciudad",
-      "De las dos familias enemigas",
-      "De una sola de las dos familias",
+      { fr: "Le vin", es: "El vino" },
+      { fr: "La terre", es: "La tierra" },
+      { fr: "Le sang d’autres citoyens", es: "La sangre de otros ciudadanos" },
+    ],
+    answer: 2,
+    because: { fr: "« le sang des citoyens souille les mains des citoyens » : c’est du sang.", es: "« le sang des citoyens souille les mains des citoyens »: es sangre." },
+  },
+  {
+    question: { fr: "D’où viennent les deux amoureux ?", es: "¿De dónde vienen los dos enamorados?" },
+    options: [
+      { fr: "D’une autre ville", es: "De otra ciudad" },
+      { fr: "Des deux familles ennemies", es: "De las dos familias enemigas" },
+      { fr: "D’une seule des deux familles", es: "De una sola de las dos familias" },
     ],
     answer: 1,
-    because:
-      "« Des entrailles prédestinées de ces deux ennemies »: nacen de las dos familias, uno de cada familia.",
+    because: { fr: "« Des entrailles prédestinées de ces deux ennemies » : ils naissent des deux familles, un de chaque famille.", es: "« Des entrailles prédestinées de ces deux ennemies »: nacen de las dos familias, uno de cada familia." },
   },
   {
-    question: "Según el prólogo, ¿qué entierra la tumba de los enamorados?",
+    question: { fr: "Selon le prologue, qu’est-ce que la tombe des amoureux enterre ?", es: "Según el prólogo, ¿qué entierra la tumba de los enamorados?" },
     options: [
-      "El odio de sus padres",
-      "Las espadas de la ciudad",
-      "El oro de las dos familias",
+      { fr: "La haine de leurs parents", es: "El odio de sus padres" },
+      { fr: "Les épées de la ville", es: "Las espadas de la ciudad" },
+      { fr: "L’or des deux familles", es: "El oro de las dos familias" },
     ],
     answer: 0,
-    because:
-      "« Doit ensevelir dans leur tombe l’animosité de leurs parents »: su muerte entierra el odio de sus padres.",
+    because: { fr: "« Doit ensevelir dans leur tombe l’animosité de leurs parents » : leur mort enterre la haine de leurs parents.", es: "« Doit ensevelir dans leur tombe l’animosité de leurs parents »: su muerte entierra el odio de sus padres." },
   },
   {
-    question: "¿Cuál es el sujeto de « A pris naissance »?",
-    options: ["« ces deux ennemies »", "« des étoiles contraires »", "« un couple d’amoureux »"],
+    question: { fr: "Quel est le sujet de « A pris naissance » ?", es: "¿Cuál es el sujeto de « A pris naissance »?" },
+    options: [
+      "« ces deux ennemies »",
+      "« des étoiles contraires »",
+      "« un couple d’amoureux »",
+    ],
     answer: 2,
-    because:
-      "Llega al final de la línea: « un couple d’amoureux a pris naissance », una pareja de enamorados ha nacido.",
+    because: { fr: "Il arrive à la fin de la ligne : « un couple d’amoureux a pris naissance », c’est-à-dire un couple d’amoureux est né.", es: "Llega al final de la línea: « un couple d’amoureux a pris naissance », una pareja de enamorados ha nacido." },
   },
 ];
 

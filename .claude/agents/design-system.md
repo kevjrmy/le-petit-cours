@@ -312,7 +312,7 @@ anywhere.
 `.fr` is redundant inside `.example`. An `.example` keeps its `<p>`s tight, for dialogue and verse;
 a récit in paragraphs takes `.example.recit`, which spaces them.
 
-**An A1 page explains in Spanish** (#85): the Spanish sits in `lang="es"` sections and every `.fr`
+**Spanish explanation** (#85, #102 — an A1 page, or any page's Spanish twin): the Spanish sits in `lang="es"` sections and every `.fr`
 takes `lang="fr"` back, so a screen reader does not read French with a Spanish accent:
 
 ```html

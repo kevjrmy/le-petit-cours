@@ -38,6 +38,11 @@ const SAISONS: [string, string, string, string][] = [
   ["l’hiver (m.)", "el invierno", "en hiver", "En hiver, il fait nuit tôt."],
 ];
 
+/* Two bodies, French and Spanish (#102). The French taught and the Spanish
+   gloss columns are written once and shared. */
+
+type Ui = "fr" | "es";
+
 function Fr({ children }: { children: React.ReactNode }) {
   return (
     <span className="fr" lang="fr">
@@ -46,12 +51,152 @@ function Fr({ children }: { children: React.ReactNode }) {
   );
 }
 
+/* In the French body, lang is inherited. */
+function F({ children }: { children: React.ReactNode }) {
+  return <span className="fr">{children}</span>;
+}
+
+function WordTable({ ui, caption, rows }: { ui: Ui; caption: string; rows: [string, string, string][] }) {
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{caption}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{ui === "fr" ? "Mot" : "Palabra"}</th>
+            <th scope="col">{ui === "fr" ? "En espagnol" : "En español"}</th>
+            <th scope="col">{ui === "fr" ? "Exemple" : "Ejemplo"}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(([fr, es, ex]) => (
+            <tr key={fr}>
+              <th scope="row" className="fr" lang="fr">
+                {fr}
+              </th>
+              <td lang={ui === "fr" ? "es" : undefined}>{es}</td>
+              <td className="fr" lang="fr">
+                {ex}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function SeasonsTable({ ui }: { ui: Ui }) {
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>
+          {ui === "fr" ? "Les quatre saisons et comment dire « en… »" : "Las cuatro estaciones y cómo decir «en…»"}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">{ui === "fr" ? "Mot" : "Palabra"}</th>
+            <th scope="col">{ui === "fr" ? "En espagnol" : "En español"}</th>
+            <th scope="col">{ui === "fr" ? "« En… »" : "«En…»"}</th>
+            <th scope="col">{ui === "fr" ? "Exemple" : "Ejemplo"}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {SAISONS.map(([fr, es, en, ex]) => (
+            <tr key={fr}>
+              <th scope="row" className="fr" lang="fr">
+                {fr}
+              </th>
+              <td lang={ui === "fr" ? "es" : undefined}>{es}</td>
+              <td className="fr" lang="fr">
+                {en}
+              </td>
+              <td className="fr" lang="fr">
+                {ex}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+const DATE_QUESTIONS: [string, string, string, string][] = [
+  ["Quel jour sommes-nous ?", "¿Qué día es hoy?", "más formal", "Nous sommes le 3 mars."],
+  ["On est le combien ?", "¿A cuántos estamos?", "muy frecuente", "On est le 3 mars."],
+  ["C’est quand, ton anniversaire ?", "¿Cuándo es tu cumpleaños?", "", "C’est le 14 juillet."],
+];
+
+const NOTES_FR: Record<string, string> = { "más formal": "plus formel", "muy frecuente": "très fréquent" };
+
+function DateTable({ ui }: { ui: Ui }) {
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>{ui === "fr" ? "Demander et donner la date" : "Preguntar y dar la fecha"}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{ui === "fr" ? "Question" : "Pregunta"}</th>
+            <th scope="col">{ui === "fr" ? "En espagnol" : "Se pregunta…"}</th>
+            <th scope="col">{ui === "fr" ? "Réponse" : "Respuesta"}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {DATE_QUESTIONS.map(([q, es, note, a]) => (
+            <tr key={q}>
+              <th scope="row" className="fr" lang="fr">
+                {q}
+              </th>
+              <td>
+                {ui === "fr" ? <span lang="es">{es}</span> : es}
+                {note ? (ui === "fr" ? " (" + NOTES_FR[note] + ")" : " (" + note + ")") : ""}
+              </td>
+              <td className="fr" lang="fr">
+                {a}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export default function Page() {
   return (
     <article className="prose">
       <PageHeader path={PATH} />
 
-      <section lang="es">
+      <section data-ui="fr">
+        <h2>Les jours de la semaine</h2>
+
+        <div className="rule">
+          Bonne nouvelle : comme en espagnol, les jours s’écrivent avec une{" "}
+          <strong>minuscule</strong>. Ils sont tous masculins. La semaine commence par{" "}
+          <F>lundi</F>.
+        </div>
+
+        <WordTable ui="fr" caption="Les sept jours de la semaine, avec une phrase" rows={JOURS} />
+
+        <div className="example">
+          Lundi, je vais chez le médecin.
+          <br />
+          Le lundi, je fais du sport.
+        </div>
+
+        <div className="attention">
+          En espagnol, <span lang="es">« el lunes »</span> est une seule fois et{" "}
+          <span lang="es">« los lunes »</span> est chaque semaine. En français, c’est pareil, mais
+          avec l’article au singulier. Sans article, <F>lundi</F> est <strong>ce lundi</strong>,
+          une seule fois (<span lang="es">el lunes</span>). Avec l’article, <F>le lundi</F> est{" "}
+          <strong>tous les lundis</strong>, une habitude (<span lang="es">los lunes</span>). Les
+          phrases du dessus le montrent : <F>Lundi, je vais…</F> (lundi prochain) et{" "}
+          <F>Le lundi, je fais…</F> (chaque lundi).
+        </div>
+      </section>
+
+      <section data-ui="es" lang="es">
         <h2>
           Los días de la semana:{" "}
           <span className="fr" lang="fr">
@@ -65,31 +210,7 @@ export default function Page() {
           en <Fr>lundi</Fr>.
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <caption>Los siete días de la semana, con una frase</caption>
-            <thead>
-              <tr>
-                <th scope="col">Palabra</th>
-                <th scope="col">En español</th>
-                <th scope="col">Ejemplo</th>
-              </tr>
-            </thead>
-            <tbody>
-              {JOURS.map(([fr, es, ex]) => (
-                <tr key={fr}>
-                  <th scope="row" className="fr" lang="fr">
-                    {fr}
-                  </th>
-                  <td>{es}</td>
-                  <td className="fr" lang="fr">
-                    {ex}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <WordTable ui="es" caption="Los siete días de la semana, con una frase" rows={JOURS} />
 
         <div className="example" lang="fr">
           Lundi, je vais chez le médecin.
@@ -108,7 +229,28 @@ export default function Page() {
         </div>
       </section>
 
-      <section lang="es">
+      <section data-ui="fr">
+        <h2>Les mois et les saisons</h2>
+
+        <div className="rule">
+          Les mois s’écrivent aussi avec une minuscule et sont masculins. Pour dire{" "}
+          <span lang="es">« en marzo »</span>, utilisez <F>en</F> + le mois : <F>en mars</F>. Avec
+          les saisons, <F>en</F> pour l’été, l’automne et l’hiver, mais <F>au</F> pour le
+          printemps : <F>au printemps</F>.
+        </div>
+
+        <WordTable ui="fr" caption="Les douze mois de l’année, avec une phrase" rows={MOIS} />
+
+        <SeasonsTable ui="fr" />
+
+        <div className="attention">
+          <F>août</F> ne se prononce pas comme il s’écrit : il sonne comme le <strong>u</strong>{" "}
+          espagnol de <em lang="es">uno</em> (certains disent « ut »), et le <F>a</F> ne s’entend
+          pas. C’est le seul mois avec un accent circonflexe.
+        </div>
+      </section>
+
+      <section data-ui="es" lang="es">
         <h2>
           Los meses y las estaciones:{" "}
           <span className="fr" lang="fr">
@@ -123,61 +265,9 @@ export default function Page() {
           <Fr>au</Fr> para la primavera: <Fr>au printemps</Fr>.
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <caption>Los doce meses del año, con una frase</caption>
-            <thead>
-              <tr>
-                <th scope="col">Palabra</th>
-                <th scope="col">En español</th>
-                <th scope="col">Ejemplo</th>
-              </tr>
-            </thead>
-            <tbody>
-              {MOIS.map(([fr, es, ex]) => (
-                <tr key={fr}>
-                  <th scope="row" className="fr" lang="fr">
-                    {fr}
-                  </th>
-                  <td>{es}</td>
-                  <td className="fr" lang="fr">
-                    {ex}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <WordTable ui="es" caption="Los doce meses del año, con una frase" rows={MOIS} />
 
-        <div className="table-wrap">
-          <table>
-            <caption>Las cuatro estaciones y cómo decir «en…»</caption>
-            <thead>
-              <tr>
-                <th scope="col">Palabra</th>
-                <th scope="col">En español</th>
-                <th scope="col">«En…»</th>
-                <th scope="col">Ejemplo</th>
-              </tr>
-            </thead>
-            <tbody>
-              {SAISONS.map(([fr, es, en, ex]) => (
-                <tr key={fr}>
-                  <th scope="row" className="fr" lang="fr">
-                    {fr}
-                  </th>
-                  <td>{es}</td>
-                  <td className="fr" lang="fr">
-                    {en}
-                  </td>
-                  <td className="fr" lang="fr">
-                    {ex}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <SeasonsTable ui="es" />
 
         <div className="attention">
           <Fr>août</Fr> no se pronuncia como se escribe: suena como la{" "}
@@ -187,7 +277,38 @@ export default function Page() {
         </div>
       </section>
 
-      <section lang="es">
+      <section data-ui="fr">
+        <h2>Dire la date</h2>
+
+        <div className="rule">
+          Une date française, c’est <F>le</F> + nombre + mois. En espagnol, vous dites{" "}
+          <span lang="es">« 3 de marzo »</span> ; en français, <strong>il n’y a pas de « de »</strong>{" "}
+          : <F>le 3 mars</F>. Les nombres sont dans{" "}
+          <Link href="/vocabulaire/les-nombres">Les nombres</Link>.
+        </div>
+
+        <div className="example">
+          Nous sommes le 3 mars.
+          <br />
+          On est le 25 décembre.
+          <br />
+          Nous sommes mercredi 30 septembre.
+        </div>
+
+        <p>
+          Avec le jour de la semaine, <F>le</F> disparaît : <F>Nous sommes mercredi 30 septembre</F>.
+        </p>
+
+        <div className="exception">
+          Le premier jour se dit <F>le premier</F> : <F>le 1er mai</F> (<F>le premier mai</F>). Les
+          autres jours utilisent le nombre normal : <F>le deux mai</F>, <F>le trois mai</F>. On ne
+          dit pas <s className="fr">le un mai</s>.
+        </div>
+
+        <DateTable ui="fr" />
+      </section>
+
+      <section data-ui="es" lang="es">
         <h2>
           Decir la fecha:{" "}
           <span className="fr" lang="fr">
@@ -224,50 +345,33 @@ export default function Page() {
           <Fr>le deux mai</Fr>, <Fr>le trois mai</Fr>. Nunca «le un mai».
         </div>
 
-        <div className="table-wrap">
-          <table>
-            <caption>Preguntar y dar la fecha</caption>
-            <thead>
-              <tr>
-                <th scope="col">Pregunta</th>
-                <th scope="col">Se pregunta…</th>
-                <th scope="col">Respuesta</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  Quel jour sommes-nous ?
-                </th>
-                <td>¿Qué día es hoy? (más formal)</td>
-                <td className="fr" lang="fr">
-                  Nous sommes le 3 mars.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  On est le combien ?
-                </th>
-                <td>¿A cuántos estamos? (muy frecuente)</td>
-                <td className="fr" lang="fr">
-                  On est le 3 mars.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">
-                  C’est quand, ton anniversaire ?
-                </th>
-                <td>¿Cuándo es tu cumpleaños?</td>
-                <td className="fr" lang="fr">
-                  C’est le 14 juillet.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <DateTable ui="es" />
       </section>
 
-      <div className="resume" lang="es">
+      <div className="resume" data-ui="fr">
+        <h2>En résumé</h2>
+        <ul>
+          <li>
+            Les jours et les mois s’écrivent avec une minuscule et sont masculins :{" "}
+            <F>lundi</F>, <F>mars</F>.
+          </li>
+          <li>
+            <F>lundi</F> est ce lundi ; <F>le lundi</F> est tous les lundis.
+          </li>
+          <li>
+            « En… » : <F>en mars</F>, <F>en été</F>, mais <F>au printemps</F>.
+          </li>
+          <li>
+            La date, c’est <F>le</F> + nombre + mois, sans « de » : <F>le 3 mars</F>.
+          </li>
+          <li>
+            Seul le premier jour est un ordinal : <F>le premier mai</F>. On demande{" "}
+            <F>On est le combien ?</F> ou <F>C’est quand, ton anniversaire ?</F>
+          </li>
+        </ul>
+      </div>
+
+      <div className="resume" data-ui="es" lang="es">
         <h2>En resumen</h2>
         <ul>
           <li>

@@ -24,6 +24,8 @@
  * Aucun `-ger` autre que *manger*, aucun verbe irrégulier.
  */
 
+import type { Bi } from "../bilingue";
+
 export const ENDINGS = ["e", "es", "ons", "eons", "ez", "ent"] as const;
 export const SUBJECTS = ["je", "j’"] as const;
 
@@ -38,41 +40,102 @@ export interface VerbItem {
   /** Le verbe à l’infinitif, montré à côté de la phrase. */
   verb: string;
   answer: string;
-  /** Espagnol ; les mots français entre `*astérisques*` (`lang="fr"`). */
-  because: string;
+  /** Dans les deux langues ; l’espagnol marque son français entre
+   *  `*astérisques*`, le français son espagnol entre `~tildes~`. */
+  because: Bi;
 }
 
 export const ITEMS: VerbItem[] = [
   { id: "je-parle", kind: "fin", before: "Je parl", after: " français.", verb: "parler", answer: "e",
-    because: "Con *je*, la terminación es *-e*: *je parle*. No se oye, pero se escribe." },
+    because: {
+      es: "Con *je*, la terminación es *-e*: *je parle*. No se oye, pero se escribe.",
+      fr: "Avec « je », la terminaison est « -e » : « je parle ». On ne l’entend pas, mais on l’écrit.",
+    },
+  },
   { id: "tu-travailles", kind: "fin", before: "Tu travaill", after: " à Lyon.", verb: "travailler", answer: "es",
-    because: "Con *tu*, siempre *-es*: *tu travailles*. La *-s* no suena, como la de *tu parles*." },
+    because: {
+      es: "Con *tu*, siempre *-es*: *tu travailles*. La *-s* no suena, como la de *tu parles*.",
+      fr: "Avec « tu », toujours « -es » : « tu travailles ». Le -s ne s’entend pas, comme dans « tu parles ».",
+    },
+  },
   { id: "il-parle", kind: "fin", before: "Il parl", after: " avec Paul.", verb: "parler", answer: "e",
-    because: "*Il* es singular: *-e*, sin *-nt*. *Il parle* e *ils parlent* suenan igual, pero se escriben distinto." },
+    because: {
+      es: "*Il* es singular: *-e*, sin *-nt*. *Il parle* e *ils parlent* suenan igual, pero se escriben distinto.",
+      fr: "« Il » est singulier : « -e », sans « -nt ». « Il parle » et « ils parlent » sonnent pareil, mais ne s’écrivent pas pareil.",
+    },
+  },
   { id: "mere-aime", kind: "fin", before: "Ma mère aim", after: " le café.", verb: "aimer", answer: "e",
-    because: "*Ma mère* es una sola persona, como *elle*: *-e*. *Elle aime le café*." },
+    because: {
+      es: "*Ma mère* es una sola persona, como *elle*: *-e*. *Elle aime le café*.",
+      fr: "« Ma mère » est une seule personne, comme « elle » : « -e ». « Elle aime le café. »",
+    },
+  },
   { id: "nous-mangeons", kind: "fin", before: "Nous mang", after: " ensemble.", verb: "manger", answer: "eons",
-    because: "Con *manger*, *nous mangeons*: la *e* que no suena mantiene suave la *g*. No es *mangons*." },
+    because: {
+      es: "Con *manger*, *nous mangeons*: la *e* que no suena mantiene suave la *g*. No es *mangons*.",
+      fr: "Avec « manger », « nous mangeons » : le e, qu’on n’entend pas, garde le g doux. Ce n’est pas « mangons ».",
+    },
+  },
   { id: "vous-ecoutez", kind: "fin", before: "Vous écout", after: " la radio.", verb: "écouter", answer: "ez",
-    because: "Con *vous*, *-ez*: *vous écoutez*. Con *nous* y *vous* la terminación sí se oye." },
+    because: {
+      es: "Con *vous*, *-ez*: *vous écoutez*. Con *nous* y *vous* la terminación sí se oye.",
+      fr: "Avec « vous », « -ez » : « vous écoutez ». Avec « nous » et « vous », on entend la terminaison.",
+    },
+  },
   { id: "ils-habitent", kind: "fin", before: "Ils habit", after: " à Nantes.", verb: "habiter", answer: "ent",
-    because: "*Ils* es plural: *-ent*, que no suena. Se oye la liaison, *ils‿habitent*, pero la terminación se escribe." },
+    because: {
+      es: "*Ils* es plural: *-ent*, que no suena. Se oye la liaison, *ils‿habitent*, pero la terminación se escribe.",
+      fr: "« Ils » est pluriel : « -ent », qu’on n’entend pas. On entend la liaison, « ils‿habitent », mais la terminaison s’écrit.",
+    },
+  },
   { id: "elles-regardent", kind: "fin", before: "Elles regard", after: " le jardin.", verb: "regarder", answer: "ent",
-    because: "*Elles* es plural: *-ent*. *Elles regardent* suena igual que *elle regarde*; el sujeto dice cuántas son." },
+    because: {
+      es: "*Elles* es plural: *-ent*. *Elles regardent* suena igual que *elle regarde*; el sujeto dice cuántas son.",
+      fr: "« Elles » est pluriel : « -ent ». « Elles regardent » sonne comme « elle regarde » ; le sujet dit combien elles sont.",
+    },
+  },
   { id: "tu-manges", kind: "fin", before: "Tu mang", after: " un croissant ?", verb: "manger", answer: "es",
-    because: "Con *tu*, *-es*: *tu manges*. La *e* extra de *nous mangeons* solo aparece con *nous*." },
+    because: {
+      es: "Con *tu*, *-es*: *tu manges*. La *e* extra de *nous mangeons* solo aparece con *nous*.",
+      fr: "Avec « tu », « -es » : « tu manges ». Le e en plus de « nous mangeons » n’apparaît qu’avec « nous ».",
+    },
+  },
   { id: "nous-travaillons", kind: "fin", before: "Nous travaill", after: " ensemble.", verb: "travailler", answer: "ons",
-    because: "Con *nous*, *-ons*: *nous travaillons*. Con *travailler* no hay *e* extra; solo *manger* la lleva." },
+    because: {
+      es: "Con *nous*, *-ons*: *nous travaillons*. Con *travailler* no hay *e* extra; solo *manger* la lleva.",
+      fr: "Avec « nous », « -ons » : « nous travaillons ». Avec « travailler », pas de e en plus ; seul « manger » en a un.",
+    },
+  },
   { id: "parents-travaillent", kind: "fin", before: "Mes parents travaill", after: " à Lyon.", verb: "travailler", answer: "ent",
-    because: "*Mes parents* son varias personas, como *ils*: *-ent*. *Mes parents travaillent*." },
+    because: {
+      es: "*Mes parents* son varias personas, como *ils*: *-ent*. *Mes parents travaillent*.",
+      fr: "« Mes parents » sont plusieurs personnes, comme « ils » : « -ent ». « Mes parents travaillent. »",
+    },
+  },
   { id: "j-habite", kind: "sujet", before: "", after: "habite à Madrid.", verb: "habiter", answer: "j’",
-    because: "*Habite* empieza por h muda, así que *je* pasa a *j’*: *j’habite*." },
+    because: {
+      es: "*Habite* empieza por h muda, así que *je* pasa a *j’*: *j’habite*.",
+      fr: "« Habite » commence par un h muet, donc « je » devient « j’ » : « j’habite ».",
+    },
+  },
   { id: "je-parle-sujet", kind: "sujet", before: "", after: "parle avec Marie.", verb: "parler", answer: "je",
-    because: "*Parle* empieza por consonante: *je parle*, sin apóstrofo." },
+    because: {
+      es: "*Parle* empieza por consonante: *je parle*, sin apóstrofo.",
+      fr: "« Parle » commence par une consonne : « je parle », sans apostrophe.",
+    },
+  },
   { id: "j-ecoute", kind: "sujet", before: "", after: "écoute la radio.", verb: "écouter", answer: "j’",
-    because: "*Écoute* empieza por vocal: *j’écoute*." },
+    because: {
+      es: "*Écoute* empieza por vocal: *j’écoute*.",
+      fr: "« Écoute » commence par une voyelle : « j’écoute ».",
+    },
+  },
   { id: "je-regarde", kind: "sujet", before: "", after: "regarde le jardin.", verb: "regarder", answer: "je",
-    because: "*Regarde* empieza por consonante: *je regarde*, sin apóstrofo." },
+    because: {
+      es: "*Regarde* empieza por consonante: *je regarde*, sin apóstrofo.",
+      fr: "« Regarde » commence par une consonne : « je regarde », sans apostrophe.",
+    },
+  },
 ];
 
 export const BANKS: Record<string, VerbItem[]> = { A1: ITEMS };
@@ -118,7 +181,7 @@ for (const it of ITEMS) {
   const pool = poolFor(it)
   if (!pool.includes(it.answer)) bad.push(it.id + ': réponse absente du tirage')
   if (new Set(pool).size !== pool.length) bad.push(it.id + ': doublon')
-  if (it.because.split('*').length % 2 === 0) bad.push(it.id + ': astérisque impair')
+  if (it.because.es.split('*').length % 2 === 0 || it.because.fr.split('~').length % 2 === 0) bad.push(it.id + ': astérisque impair')
   if (it.kind === 'fin') {
     const subj = it.before.split(' ')[0].toLowerCase()
     if (!want[subj].includes(it.answer)) bad.push(it.id + ': terminaison non conforme à ' + subj)

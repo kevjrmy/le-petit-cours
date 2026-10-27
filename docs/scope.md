@@ -95,7 +95,7 @@ fonctions**, mapped against the lessons in each level's file in `docs/levels/`.
 
 **The interface and the explanations follow the learner's language, French or Spanish** (#102):
 the device's language by default, French when it is neither, a switch for everyone. From A2 every
-explanation has both; **an A1 page explains in Spanish** in both and teaches in French (#85); a
+explanation has both, A1 included, whose Spanish is written first and glosses its French (#85); a
 `traduction` page's source text is Spanish as material (#55). The French taught is never
 translated. **English is never used.** The rules are in `AGENTS.md` §1.
 

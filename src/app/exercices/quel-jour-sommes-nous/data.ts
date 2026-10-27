@@ -31,6 +31,8 @@
  * chargé sans rendu serveur (`drill.tsx`).
  */
 
+import type { Bi } from "../bilingue";
+
 export const POOL = ["au", "en", "le", "de", "premier", "un", "rien"] as const;
 export type Form = (typeof POOL)[number];
 
@@ -42,12 +44,13 @@ export interface DateItem {
   /** Ce qui suit le trou, ponctuation comprise. Jamais vide. */
   after: string;
   answer: Form;
-  /** Espagnol, optionnel : le contexte qui départage *lundi* / *le lundi*
-   *  ou donne le jour du 1er. */
-  hint?: string;
-  /** Espagnol : la correction pointe la règle. Les mots français y sont
-   *  entre `*astérisques*` : le plateau leur donne `lang="fr"`. */
-  because: string;
+  /** Optionnel, dans les deux langues : le contexte qui départage *lundi* /
+   *  *le lundi* ou donne le jour du 1er. */
+  hint?: Bi;
+  /** La correction pointe la règle, dans les deux langues. L’espagnol marque
+   *  son français entre `*astérisques*`, le français son espagnol entre
+   *  `~tildes~` : le plateau leur donne leur `lang`. */
+  because: Bi;
 }
 
 const ALL: DateItem[] = [
@@ -57,36 +60,50 @@ const ALL: DateItem[] = [
     before: "",
     after: "printemps, il y a des fleurs.",
     answer: "au",
-    because:
-      "La primavera es la excepción: *au printemps*. Con las otras tres estaciones se usa *en*.",
+    because: {
+      es: "La primavera es la excepción: *au printemps*. Con las otras tres estaciones se usa *en*.",
+      fr: "Le printemps est l’exception : « au printemps ». Avec les trois autres saisons, on dit « en ».",
+    },
   },
   {
     id: "ete",
     before: "Je vais à la plage",
     after: "été.",
     answer: "en",
-    because: "Verano, otoño e invierno llevan *en*: *en été*. Solo la primavera es *au*.",
+    because: {
+      es: "Verano, otoño e invierno llevan *en*: *en été*. Solo la primavera es *au*.",
+      fr: "L’été, l’automne et l’hiver prennent « en » : « en été ». Seul le printemps prend « au ».",
+    },
   },
   {
     id: "hiver",
     before: "",
     after: "hiver, il fait nuit tôt.",
     answer: "en",
-    because: "El invierno lleva *en*: *en hiver*, no *au hiver*.",
+    because: {
+      es: "El invierno lleva *en*: *en hiver*, no *au hiver*.",
+      fr: "L’hiver prend « en » : « en hiver », pas « au hiver ».",
+    },
   },
   {
     id: "automne",
     before: "Il pleut souvent",
     after: "automne.",
     answer: "en",
-    because: "El otoño lleva *en*: *en automne*.",
+    because: {
+      es: "El otoño lleva *en*: *en automne*.",
+      fr: "L’automne prend « en » : « en automne ».",
+    },
   },
   {
     id: "mars",
     before: "Mon anniversaire est",
     after: "mars.",
     answer: "en",
-    because: "Con un mes se usa *en*: *en mars*, como «en marzo».",
+    because: {
+      es: "Con un mes se usa *en*: *en mars*, como «en marzo».",
+      fr: "Avec un mois, on dit « en » : « en mars », comme ~en marzo~.",
+    },
   },
 
   /* — La date : le + nombre + mois, sans « de ». — */
@@ -95,40 +112,58 @@ const ALL: DateItem[] = [
     before: "Nous sommes",
     after: "3 mars.",
     answer: "le",
-    because: "La fecha empieza por *le*: *Nous sommes le 3 mars*.",
+    because: {
+      es: "La fecha empieza por *le*: *Nous sommes le 3 mars*.",
+      fr: "La date commence par « le » : « Nous sommes le 3 mars ».",
+    },
   },
   {
     id: "noel",
     before: "On est le 25",
     after: "décembre.",
     answer: "rien",
-    because:
-      "En francés no hay «de» entre el número y el mes: *le 25 décembre*, no *le 25 de décembre*.",
+    because: {
+      es: "En francés no hay «de» entre el número y el mes: *le 25 décembre*, no *le 25 de décembre*.",
+      fr: "En français, il n’y a pas de « de » entre le nombre et le mois : « le 25 décembre », pas « le 25 de décembre ».",
+    },
   },
   {
     id: "quatorze",
     before: "C’est quand, ton anniversaire ? C’est le 14",
     after: "juillet.",
     answer: "rien",
-    because:
-      "Sin «de»: *le 14 juillet*. Es un calco del español («14 de julio») que hay que evitar.",
+    because: {
+      es: "Sin «de»: *le 14 juillet*. Es un calco del español («14 de julio») que hay que evitar.",
+      fr: "Pas de « de » : « le 14 juillet ». C’est un calque de l’espagnol (~14 de julio~) à éviter.",
+    },
   },
   {
     id: "premier-septembre",
     before: "Le cours commence le",
     after: "septembre.",
     answer: "premier",
-    hint: "Es el día 1 de septiembre.",
-    because:
-      "El día 1 es el único ordinal: *le premier septembre*. Nunca *le un septembre*.",
+    hint: {
+      es: "Es el día 1 de septiembre.",
+      fr: "C’est le 1er septembre.",
+    },
+    because: {
+      es: "El día 1 es el único ordinal: *le premier septembre*. Nunca *le un septembre*.",
+      fr: "Le jour 1 est le seul ordinal : « le premier septembre ». Jamais « le un septembre ».",
+    },
   },
   {
     id: "premier-mai",
     before: "Le",
     after: "mai, je ne travaille pas.",
     answer: "premier",
-    hint: "Es el día 1 de mayo.",
-    because: "Solo el día 1 dice *premier*: *le premier mai*. Los demás: *le deux*, *le trois*…",
+    hint: {
+      es: "Es el día 1 de mayo.",
+      fr: "C’est le 1er mai.",
+    },
+    because: {
+      es: "Solo el día 1 dice *premier*: *le premier mai*. Los demás: *le deux*, *le trois*…",
+      fr: "Seul le jour 1 dit « premier » : « le premier mai ». Les autres : « le deux », « le trois »…",
+    },
   },
 
   /* — lundi (este lunes) ou le lundi (todos los lunes). — */
@@ -137,34 +172,56 @@ const ALL: DateItem[] = [
     before: "",
     after: "lundi, je fais du sport.",
     answer: "le",
-    hint: "Todos los lunes, es una costumbre.",
-    because:
-      "Una costumbre lleva artículo: *le lundi* = todos los lunes. Sin artículo sería solo este lunes.",
+    hint: {
+      es: "Todos los lunes, es una costumbre.",
+      fr: "Tous les lundis : c’est une habitude.",
+    },
+    because: {
+      es: "Una costumbre lleva artículo: *le lundi* = todos los lunes. Sin artículo sería solo este lunes.",
+      fr: "Une habitude prend l’article : « le lundi » = tous les lundis. Sans article, ce serait seulement ce lundi.",
+    },
   },
   {
     id: "lundi-once",
     before: "",
     after: "lundi, je vais chez le médecin.",
     answer: "rien",
-    hint: "Este lunes, una sola vez.",
-    because:
-      "Un día concreto va sin artículo: *lundi* = este lunes. Con *le* sería cada lunes.",
+    hint: {
+      es: "Este lunes, una sola vez.",
+      fr: "Ce lundi, une seule fois.",
+    },
+    because: {
+      es: "Un día concreto va sin artículo: *lundi* = este lunes. Con *le* sería cada lunes.",
+      fr: "Un jour précis se dit sans article : « lundi » = ce lundi. Avec « le », ce serait chaque lundi.",
+    },
   },
   {
     id: "jeudi-habitude",
     before: "Je vais au marché",
     after: "jeudi.",
     answer: "le",
-    hint: "Todos los jueves.",
-    because: "Todos los jueves: *le jeudi*. Se usa el artículo para decir que se repite.",
+    hint: {
+      es: "Todos los jueves.",
+      fr: "Tous les jeudis.",
+    },
+    because: {
+      es: "Todos los jueves: *le jeudi*. Se usa el artículo para decir que se repite.",
+      fr: "Tous les jeudis : « le jeudi ». On met l’article pour dire que cela se répète.",
+    },
   },
   {
     id: "samedi-once",
     before: "Nous partons",
     after: "samedi.",
     answer: "rien",
-    hint: "Este sábado.",
-    because: "Este sábado, una sola vez: *samedi*, sin artículo.",
+    hint: {
+      es: "Este sábado.",
+      fr: "Ce samedi.",
+    },
+    because: {
+      es: "Este sábado, una sola vez: *samedi*, sin artículo.",
+      fr: "Ce samedi, une seule fois : « samedi », sans article.",
+    },
   },
 ];
 
@@ -204,9 +261,9 @@ for (const it of ITEMS) {
   if (new Set(POOL).size !== POOL.length) bad.push('tirage en double')
   const day = /\b(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\b/.test(it.after)
   if ((day || it.answer === 'premier') && !it.hint) bad.push(it.id + ': jour ou 1er sans hint')
-  if (it.because.split('*').length % 2 === 0) bad.push(it.id + ': astérisque impair')
+  if (it.because.es.split('*').length % 2 === 0 || it.because.fr.split('~').length % 2 === 0) bad.push(it.id + ': astérisque impair')
   if (/^[aeiouyéèêâîôûàh]/i.test(it.after) && ['le'].includes(it.answer)) bad.push(it.id + ': élision')
-  console.log(sentence(it, it.answer), it.hint ? '   [' + it.hint + ']' : '')
+  console.log(sentence(it, it.answer), it.hint ? '   [' + it.hint.es + ']' : '')
 }
 if (new Set(ITEMS.map(i => i.id)).size !== ITEMS.length) bad.push('id en double')
 console.log('items vérifiés:', ITEMS.length, '| pastilles jamais réponse:', POOL.filter(f => !used.has(f)))

@@ -28,6 +28,8 @@
  * celui de la leçon (six définis, six indéfinis, puis les deux en alternance).
  */
 
+import type { Bi } from "../bilingue";
+
 export const POOL = ["le", "la", "l’", "les", "un", "une", "des"] as const;
 export type Form = (typeof POOL)[number];
 
@@ -43,9 +45,10 @@ export interface ArticleItem {
   answer: Form;
   /** Pour le tri et la vérification : ce que l'item fait travailler. */
   kind: "défini" | "indéfini";
-  /** Espagnol : la correction pointe la règle. Les mots français y sont
-   *  entre `*astérisques*` : le plateau leur donne `lang="fr"`. */
-  because: string;
+  /** La correction pointe la règle, dans les deux langues. Les mots français de
+   *  l’espagnol y sont entre `*astérisques*`, l’espagnol du français entre
+   *  `~tildes~` : le plateau leur donne leur `lang`. */
+  because: Bi;
 }
 
 const ALL: ArticleItem[] = [
@@ -57,8 +60,10 @@ const ALL: ArticleItem[] = [
     after: " est petite.",
     answer: "la",
     kind: "défini",
-    because:
-      "Ya se ha hablado de la silla, así que va con el definido. *Chaise* es femenino: *la chaise*.",
+    because: {
+      es: "Ya se ha hablado de la silla, así que va con el definido. *Chaise* es femenino: *la chaise*.",
+      fr: "On a déjà parlé de la chaise : article défini. « Chaise » est féminin : « la chaise ».",
+    },
   },
   {
     id: "car",
@@ -67,8 +72,10 @@ const ALL: ArticleItem[] = [
     after: " est grand.",
     answer: "le",
     kind: "défini",
-    because:
-      "Ya se ha hablado del autocar: definido. Y *car* es masculino, no como *la voiture*: *le car*.",
+    because: {
+      es: "Ya se ha hablado del autocar: definido. Y *car* es masculino, no como *la voiture*: *le car*.",
+      fr: "On a déjà parlé du car : article défini. « Car » est masculin, pas comme « la voiture » : « le car ».",
+    },
   },
   {
     id: "voiture",
@@ -77,7 +84,10 @@ const ALL: ArticleItem[] = [
     after: " est petite.",
     answer: "la",
     kind: "défini",
-    because: "Ya se conoce el coche: definido, y *voiture* es femenino: *la voiture*.",
+    because: {
+      es: "Ya se conoce el coche: definido, y *voiture* es femenino: *la voiture*.",
+      fr: "On connaît déjà la voiture : article défini. « Voiture » est féminin : « la voiture ».",
+    },
   },
   {
     id: "armoire",
@@ -86,8 +96,10 @@ const ALL: ArticleItem[] = [
     after: ".",
     answer: "l’",
     kind: "défini",
-    because:
-      "Es el armario del que se acaba de hablar: definido. *Armoire* empieza por vocal, así que *la* se convierte en *l’*: *l’armoire*.",
+    because: {
+      es: "Es el armario del que se acaba de hablar: definido. *Armoire* empieza por vocal, así que *la* se convierte en *l’*: *l’armoire*.",
+      fr: "C’est l’armoire dont on vient de parler : article défini. « Armoire » commence par une voyelle, donc « la » devient « l’ » : « l’armoire ».",
+    },
   },
   {
     id: "avion",
@@ -96,8 +108,10 @@ const ALL: ArticleItem[] = [
     after: " est très grand.",
     answer: "l’",
     kind: "défini",
-    because:
-      "Ya se ha hablado del avión: definido. Delante de vocal, *le* se convierte en *l’*: *l’avion*.",
+    because: {
+      es: "Ya se ha hablado del avión: definido. Delante de vocal, *le* se convierte en *l’*: *l’avion*.",
+      fr: "On a déjà parlé de l’avion : article défini. Devant une voyelle, « le » devient « l’ » : « l’avion ».",
+    },
   },
   {
     id: "arret-defini",
@@ -106,8 +120,10 @@ const ALL: ArticleItem[] = [
     after: " est petit.",
     answer: "l’",
     kind: "défini",
-    because:
-      "Ya se ha hablado de la parada: definido, y *arrêt* empieza por vocal: *l’arrêt*.",
+    because: {
+      es: "Ya se ha hablado de la parada: definido, y *arrêt* empieza por vocal: *l’arrêt*.",
+      fr: "On a déjà parlé de l’arrêt : article défini. « Arrêt » commence par une voyelle : « l’arrêt ».",
+    },
   },
   {
     id: "heros",
@@ -116,8 +132,10 @@ const ALL: ArticleItem[] = [
     after: " est grand.",
     answer: "le",
     kind: "défini",
-    because:
-      "*Héros* empieza por h aspirada, y delante de ella no hay apóstrofo: *le héros*, nunca *l’héros*.",
+    because: {
+      es: "*Héros* empieza por h aspirada, y delante de ella no hay apóstrofo: *le héros*, nunca *l’héros*.",
+      fr: "« Héros » commence par un h aspiré. Devant lui, pas d’apostrophe : « le héros », jamais « l’héros ».",
+    },
   },
   {
     id: "velos",
@@ -126,8 +144,10 @@ const ALL: ArticleItem[] = [
     after: " sont dans le jardin.",
     answer: "les",
     kind: "défini",
-    because:
-      "Son los dos vélos de los que se acaba de hablar: definido plural: *les vélos*. *Des* sería nuevo.",
+    because: {
+      es: "Son los dos vélos de los que se acaba de hablar: definido plural: *les vélos*. *Des* sería nuevo.",
+      fr: "Ce sont les deux vélos dont on vient de parler : article défini pluriel : « les vélos ». « Des » serait pour des vélos nouveaux.",
+    },
   },
   {
     id: "toilettes-les",
@@ -136,8 +156,10 @@ const ALL: ArticleItem[] = [
     after: " sont à gauche.",
     answer: "les",
     kind: "défini",
-    because:
-      "*Toilettes* va siempre en plural, y aquí son unas concretas, las de la casa: *les toilettes*.",
+    because: {
+      es: "*Toilettes* va siempre en plural, y aquí son unas concretas, las de la casa: *les toilettes*.",
+      fr: "« Toilettes » est toujours au pluriel. Ici, ce sont celles de la maison, des toilettes précises : « les toilettes ».",
+    },
   },
   {
     id: "france",
@@ -146,8 +168,10 @@ const ALL: ArticleItem[] = [
     after: " est grande.",
     answer: "la",
     kind: "défini",
-    because:
-      "Los nombres de país llevan artículo: *la France*.",
+    because: {
+      es: "Los nombres de país llevan artículo: *la France*.",
+      fr: "Les noms de pays ont un article : « la France ».",
+    },
   },
 
   /* — Les indéfinis : `il y a` présente, il ne désigne pas. — */
@@ -158,8 +182,10 @@ const ALL: ArticleItem[] = [
     after: ".",
     answer: "un",
     kind: "indéfini",
-    because:
-      "Con *il y a* se presenta algo nuevo: indefinido. *Canapé* es masculino: *un canapé*.",
+    because: {
+      es: "Con *il y a* se presenta algo nuevo: indefinido. *Canapé* es masculino: *un canapé*.",
+      fr: "Avec « il y a », on présente quelque chose de nouveau : article indéfini. « Canapé » est masculin : « un canapé ».",
+    },
   },
   {
     id: "lampe",
@@ -168,8 +194,10 @@ const ALL: ArticleItem[] = [
     after: ".",
     answer: "une",
     kind: "indéfini",
-    because:
-      "*Il y a* presenta algo nuevo: indefinido. *Lampe* es femenino: *une lampe*.",
+    because: {
+      es: "*Il y a* presenta algo nuevo: indefinido. *Lampe* es femenino: *une lampe*.",
+      fr: "« Il y a » présente quelque chose de nouveau : article indéfini. « Lampe » est féminin : « une lampe ».",
+    },
   },
   {
     id: "balcon",
@@ -178,7 +206,10 @@ const ALL: ArticleItem[] = [
     after: " avec deux chaises.",
     answer: "un",
     kind: "indéfini",
-    because: "*Il y a* presenta algo nuevo, y *balcon* es masculino: *un balcon*.",
+    because: {
+      es: "*Il y a* presenta algo nuevo, y *balcon* es masculino: *un balcon*.",
+      fr: "« Il y a » présente quelque chose de nouveau, et « balcon » est masculin : « un balcon ».",
+    },
   },
   {
     id: "armoire-une",
@@ -187,8 +218,10 @@ const ALL: ArticleItem[] = [
     after: " et un lit.",
     answer: "une",
     kind: "indéfini",
-    because:
-      "Se enumera lo que hay, sin haberlo mencionado: indefinido. *Armoire* es femenino, y *une* no pierde la vocal: *une armoire*.",
+    because: {
+      es: "Se enumera lo que hay, sin haberlo mencionado: indefinido. *Armoire* es femenino, y *une* no pierde la vocal: *une armoire*.",
+      fr: "On dit ce qu’il y a, sans en avoir parlé avant : article indéfini. « Armoire » est féminin, et « une » ne perd pas sa voyelle : « une armoire ».",
+    },
   },
   {
     id: "arret-un",
@@ -197,8 +230,10 @@ const ALL: ArticleItem[] = [
     after: ".",
     answer: "un",
     kind: "indéfini",
-    because:
-      "*Il y a* presenta algo nuevo, y *un* no se elide nunca: *un arrêt* (masculino), no *l’arrêt*.",
+    because: {
+      es: "*Il y a* presenta algo nuevo, y *un* no se elide nunca: *un arrêt* (masculino), no *l’arrêt*.",
+      fr: "« Il y a » présente quelque chose de nouveau, et « un » ne s’élide jamais : « un arrêt » (masculin), pas « l’arrêt ».",
+    },
   },
   {
     id: "etagere",
@@ -207,8 +242,10 @@ const ALL: ArticleItem[] = [
     after: ".",
     answer: "une",
     kind: "indéfini",
-    because:
-      "*Il y a* presenta algo nuevo, y *étagère* es femenino: *une étagère*. Ni *la* ni *l’*, que serían definidos.",
+    because: {
+      es: "*Il y a* presenta algo nuevo, y *étagère* es femenino: *une étagère*. Ni *la* ni *l’*, que serían definidos.",
+      fr: "« Il y a » présente quelque chose de nouveau, et « étagère » est féminin : « une étagère ». Ni « la » ni « l’ » : ce sont des articles définis.",
+    },
   },
   {
     id: "etageres",
@@ -217,8 +254,10 @@ const ALL: ArticleItem[] = [
     after: ".",
     answer: "des",
     kind: "indéfini",
-    because:
-      "Varias *étagères* nuevas: *des*. En francés el plural indefinido no se puede omitir, como sí haces en español.",
+    because: {
+      es: "Varias *étagères* nuevas: *des*. En francés el plural indefinido no se puede omitir, como sí haces en español.",
+      fr: "Plusieurs étagères nouvelles : « des ». En français, le pluriel indéfini ne peut pas disparaître, comme en espagnol.",
+    },
   },
   {
     id: "toilettes-des",
@@ -227,8 +266,10 @@ const ALL: ArticleItem[] = [
     after: ".",
     answer: "des",
     kind: "indéfini",
-    because:
-      "*Toilettes* es siempre plural, y aquí se presentan unas nuevas: *des toilettes*.",
+    because: {
+      es: "*Toilettes* es siempre plural, y aquí se presentan unas nuevas: *des toilettes*.",
+      fr: "« Toilettes » est toujours au pluriel, et ici on en présente de nouvelles : « des toilettes ».",
+    },
   },
   {
     id: "taxis",
@@ -237,8 +278,10 @@ const ALL: ArticleItem[] = [
     after: ".",
     answer: "des",
     kind: "indéfini",
-    because:
-      "Varios taxis nuevos. En *taxis* la -s final no se pronuncia; el plural se oye en el artículo: *des taxis*.",
+    because: {
+      es: "Varios taxis nuevos. En *taxis* la -s final no se pronuncia; el plural se oye en el artículo: *des taxis*.",
+      fr: "Plusieurs taxis nouveaux. Dans « taxis », le -s final ne se prononce pas : le pluriel s’entend dans l’article : « des taxis ».",
+    },
   },
   {
     id: "hotels",
@@ -247,8 +290,10 @@ const ALL: ArticleItem[] = [
     after: ".",
     answer: "des",
     kind: "indéfini",
-    because:
-      "Varios hoteles nuevos: *des hôtels*. *Hôtel* empieza por h muda: la s de *des* suena (*des‿hôtels*), pero se escribe igual.",
+    because: {
+      es: "Varios hoteles nuevos: *des hôtels*. *Hôtel* empieza por h muda: la s de *des* suena (*des‿hôtels*), pero se escribe igual.",
+      fr: "Plusieurs hôtels nouveaux : « des hôtels ». « Hôtel » commence par un h muet : le s de « des » se prononce (« des‿hôtels »), mais il s’écrit pareil.",
+    },
   },
 ];
 
@@ -304,10 +349,10 @@ for (const it of ITEMS) {
   if (it.kind === 'indéfini' && !['un','une','des'].includes(it.answer)) bad.push(it.id + ': indéfini sans un/une/des')
   if (it.kind === 'défini' && !['le','la','l’','les'].includes(it.answer)) bad.push(it.id + ': défini sans le/la/l’/les')
   if (['un','une','des'].includes(it.answer) && it.kind === 'indéfini' && !/il y a/.test(it.before)) bad.push(it.id + ': rien ne force l’indéfini')
-  if (it.because.split('*').length % 2 === 0) bad.push(it.id + ': astérisque impair')
+  if (it.because.es.split('*').length % 2 === 0 || it.because.fr.split('~').length % 2 === 0) bad.push(it.id + ': astérisque impair')
   if (['la','le','les','l’'].includes(it.answer) && it.before && !/ (un|une|deux) |^La salle/.test(it.before + ' ')) bad.push(it.id + ': rien ne force le défini')
   if (!pages.includes(it.noun.toLowerCase().replace(/s$/, ''))) bad.push(it.id + ': « ' + it.noun + ' » absent des cinq pages')
-  if (it.because.length < 30) bad.push(it.id + ': correction trop courte')
+  if (it.because.es.length < 30 || it.because.fr.length < 30) bad.push(it.id + ': correction trop courte')
   console.log(it.kind.padEnd(8), (it.before + ' ' + it.answer + glue(it.answer) + it.noun + it.after).trim())
 }
 for (const f of POOL) if (!used.has(f)) bad.push('pastille jamais réponse : ' + f)

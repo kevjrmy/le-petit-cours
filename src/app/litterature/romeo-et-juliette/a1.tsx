@@ -3,10 +3,150 @@ import { Quiz } from "./quiz";
 /* The A1 body (#85, #92): explained in Spanish, the prologue in Hugo's
    French with the course's own Spanish beside each line, translated from
    the French (#60). The French lines are the A2 body's, word for word. */
+
+function Text() {
+  return (
+    <div className="example">
+      <p className="bilingue">
+        <span lang="fr">Deux familles, égales en noblesse,</span>
+        <span lang="es">Dos familias, iguales en nobleza,</span>
+      </p>
+      <p className="bilingue">
+        <span lang="fr">Dans la belle Vérone, où nous plaçons notre scène,</span>
+        <span lang="es">en la bella Verona, donde situamos nuestra escena,</span>
+      </p>
+      <p className="bilingue">
+        <span lang="fr">Sont entraînées par d’anciennes rancunes à des rixes nouvelles</span>
+        <span lang="es">son arrastradas por viejos rencores a nuevas peleas</span>
+      </p>
+      <p className="bilingue">
+        <span lang="fr">Où le sang des citoyens souille les mains des citoyens.</span>
+        <span lang="es">donde la sangre de los ciudadanos mancha las manos de los ciudadanos.</span>
+      </p>
+      <p className="bilingue">
+        <span lang="fr">Des entrailles prédestinées de ces deux ennemies</span>
+        <span lang="es">De las entrañas predestinadas de estas dos enemigas</span>
+      </p>
+      <p className="bilingue">
+        <span lang="fr">A pris naissance, sous des étoiles contraires, un couple d’amoureux</span>
+        <span lang="es">ha nacido, bajo estrellas contrarias, una pareja de enamorados</span>
+      </p>
+      <p className="bilingue">
+        <span lang="fr">Dont la ruine néfaste et lamentable</span>
+        <span lang="es">cuya ruina funesta y lamentable</span>
+      </p>
+      <p className="bilingue">
+        <span lang="fr">Doit ensevelir dans leur tombe l’animosité de leurs parents.</span>
+        <span lang="es">debe enterrar en su tumba el odio de sus padres.</span>
+      </p>
+    </div>
+  );
+}
+
+function Words({ lang }: { lang: "fr" | "es" }) {
+  const fr = lang === "fr";
+  return (
+    <div className="table-wrap">
+      <table>
+        <caption>
+          {fr
+            ? "Les mots dont vous avez besoin pour lire le prologue"
+            : "Las palabras que necesitas para leer el prólogo"}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">{fr ? "Mot" : "Palabra"}</th>
+            <th scope="col">{fr ? "En espagnol" : "En español"}</th>
+            <th scope="col">{fr ? "Exemple" : "Ejemplo"}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" className="fr" lang="fr">la rancune</th>
+            <td lang="es">el rencor, un enfado antiguo que se guarda mucho tiempo</td>
+            <td className="fr" lang="fr">
+              Les deux familles gardent une vieille rancune.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" className="fr" lang="fr">la rixe</th>
+            <td lang="es">la pelea, la riña en la calle</td>
+            <td className="fr" lang="fr">La rixe commence sur la place.</td>
+          </tr>
+          <tr>
+            <th scope="row" className="fr" lang="fr">le sang</th>
+            <td lang="es">
+              la sangre; en francés es masculino:{" "}
+              <span className="fr" lang="fr">le sang</span>
+            </td>
+            <td className="fr" lang="fr">Il a du sang sur les mains.</td>
+          </tr>
+          <tr>
+            <th scope="row" className="fr" lang="fr">souiller</th>
+            <td lang="es">manchar, ensuciar</td>
+            <td className="fr" lang="fr">Le sang souille ses mains.</td>
+          </tr>
+          <tr>
+            <th scope="row" className="fr" lang="fr">un amoureux</th>
+            <td lang="es">
+              un enamorado; <span className="fr" lang="fr">une amoureuse</span>,
+              una enamorada
+            </td>
+            <td className="fr" lang="fr">Roméo et Juliette sont amoureux.</td>
+          </tr>
+          <tr>
+            <th scope="row" className="fr" lang="fr">ensevelir</th>
+            <td lang="es">enterrar, poner bajo tierra</td>
+            <td className="fr" lang="fr">On ensevelit les morts.</td>
+          </tr>
+          <tr>
+            <th scope="row" className="fr" lang="fr">la tombe</th>
+            <td lang="es">la tumba</td>
+            <td className="fr" lang="fr">
+              Les deux amoureux sont dans la même tombe.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" className="fr" lang="fr">les parents</th>
+            <td lang="es">
+              el padre y la madre, no los <em>parientes</em>. Los parientes
+              son <span className="fr" lang="fr">la famille</span>
+            </td>
+            <td className="fr" lang="fr">
+              Les parents de Juliette sont des Capulets.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export function A1() {
   return (
     <>
-      <section lang="es">
+      <section data-ui="fr">
+        <h2>Le texte</h2>
+
+        <p>
+          William Shakespeare · <em>Roméo et Juliette</em> · vers 1595 · traduit en français par François-Victor Hugo, 1868 · le prologue
+        </p>
+
+        <p>
+          Shakespeare n’a pas écrit en français : le texte que vous lisez est la traduction de François-Victor Hugo, le fils de Victor Hugo. Avant la pièce, un acteur vient devant le rideau et raconte toute l’histoire : à Vérone, deux familles, les Capulets et les Montagues, se détestent. Un garçon et une fille de ces deux familles tombent amoureux, et leur mort met fin à la haine.
+        </p>
+
+        <Text />
+
+        <div className="attention">
+          Aux lignes 5 et 6, le sujet arrive à la fin. Dans l’ordre normal :{" "}
+          <span className="fr">un couple d’amoureux a pris naissance</span> (en espagnol :{" "}
+          <span lang="es">una pareja de enamorados ha nacido</span>). C’est un
+          ordre de poésie ; quand on parle, le sujet est devant le verbe.
+        </div>
+      </section>
+
+      <section data-ui="es" lang="es">
         <h2>El texto</h2>
 
         <p>
@@ -24,40 +164,7 @@ export function A1() {
           el odio.
         </p>
 
-        <div className="example">
-          <p className="bilingue">
-            <span lang="fr">Deux familles, égales en noblesse,</span>
-            <span lang="es">Dos familias, iguales en nobleza,</span>
-          </p>
-          <p className="bilingue">
-            <span lang="fr">Dans la belle Vérone, où nous plaçons notre scène,</span>
-            <span lang="es">en la bella Verona, donde situamos nuestra escena,</span>
-          </p>
-          <p className="bilingue">
-            <span lang="fr">Sont entraînées par d’anciennes rancunes à des rixes nouvelles</span>
-            <span lang="es">son arrastradas por viejos rencores a nuevas peleas</span>
-          </p>
-          <p className="bilingue">
-            <span lang="fr">Où le sang des citoyens souille les mains des citoyens.</span>
-            <span lang="es">donde la sangre de los ciudadanos mancha las manos de los ciudadanos.</span>
-          </p>
-          <p className="bilingue">
-            <span lang="fr">Des entrailles prédestinées de ces deux ennemies</span>
-            <span lang="es">De las entrañas predestinadas de estas dos enemigas</span>
-          </p>
-          <p className="bilingue">
-            <span lang="fr">A pris naissance, sous des étoiles contraires, un couple d’amoureux</span>
-            <span lang="es">ha nacido, bajo estrellas contrarias, una pareja de enamorados</span>
-          </p>
-          <p className="bilingue">
-            <span lang="fr">Dont la ruine néfaste et lamentable</span>
-            <span lang="es">cuya ruina funesta y lamentable</span>
-          </p>
-          <p className="bilingue">
-            <span lang="fr">Doit ensevelir dans leur tombe l’animosité de leurs parents.</span>
-            <span lang="es">debe enterrar en su tumba el odio de sus padres.</span>
-          </p>
-        </div>
+        <Text />
 
         <div className="attention">
           En las líneas 5 y 6, el sujeto llega al final. En orden normal:{" "}
@@ -69,90 +176,36 @@ export function A1() {
         </div>
       </section>
 
-      <section lang="es">
-        <h2>Las palabras del texto</h2>
+      <section data-ui="fr">
+        <h2>Les mots du texte</h2>
 
-        <div className="table-wrap">
-          <table>
-            <caption>Las palabras que necesitas para leer el prólogo</caption>
-            <thead>
-              <tr>
-                <th scope="col">Palabra</th>
-                <th scope="col">En español</th>
-                <th scope="col">Ejemplo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" className="fr" lang="fr">la rancune</th>
-                <td>el rencor, un enfado antiguo que se guarda mucho tiempo</td>
-                <td className="fr" lang="fr">
-                  Les deux familles gardent une vieille rancune.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">la rixe</th>
-                <td>la pelea, la riña en la calle</td>
-                <td className="fr" lang="fr">La rixe commence sur la place.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">le sang</th>
-                <td>
-                  la sangre; en francés es masculino:{" "}
-                  <span className="fr" lang="fr">le sang</span>
-                </td>
-                <td className="fr" lang="fr">Il a du sang sur les mains.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">souiller</th>
-                <td>manchar, ensuciar</td>
-                <td className="fr" lang="fr">Le sang souille ses mains.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">un amoureux</th>
-                <td>
-                  un enamorado; <span className="fr" lang="fr">une amoureuse</span>,
-                  una enamorada
-                </td>
-                <td className="fr" lang="fr">Roméo et Juliette sont amoureux.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">ensevelir</th>
-                <td>enterrar, poner bajo tierra</td>
-                <td className="fr" lang="fr">On ensevelit les morts.</td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">la tombe</th>
-                <td>la tumba</td>
-                <td className="fr" lang="fr">
-                  Les deux amoureux sont dans la même tombe.
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" className="fr" lang="fr">les parents</th>
-                <td>
-                  el padre y la madre, no los <em>parientes</em>. Los parientes
-                  son <span className="fr" lang="fr">la famille</span>
-                </td>
-                <td className="fr" lang="fr">
-                  Les parents de Juliette sont des Capulets.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <Words lang="fr" />
       </section>
 
-      <section lang="es">
+      <section data-ui="es" lang="es">
+        <h2>Las palabras del texto</h2>
+
+        <Words lang="es" />
+      </section>
+
+      <section data-ui="fr">
+        <h2>Avez-vous compris ?</h2>
+
+        <p>
+          Répondez sans relire. Ensuite, retournez au texte pour les questions que vous avez ratées.
+        </p>
+      </section>
+
+      <section data-ui="es" lang="es">
         <h2>¿Lo has entendido?</h2>
 
         <p>
           Contesta sin volver a leer. Después, vuelve al texto para las
           preguntas que has fallado.
         </p>
-
-        <Quiz />
       </section>
+
+      <Quiz />
     </>
   );
 }

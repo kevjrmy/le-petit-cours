@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import { Instructions, Meter, Score } from "@/components/exercice/Drill";
+import { T } from "@/components/lang/T";
+import { useLang } from "@/hooks/useLang";
 import { shuffle } from "@/lib/shuffle";
+import { Bilingue } from "../bilingue";
 import { ITEMS, glue } from "./data";
 import board from "@/components/exercice/Board.module.css";
 
@@ -16,25 +19,12 @@ import board from "@/components/exercice/Board.module.css";
  * Le lot est fixe, donc rien à mélanger et pas de `ssr: false`. L'état garde
  * les noms du brief : `deck`, `currentIndex`, `checked`, `score`, `finished`.
  *
- * Le plateau est en français (`lang="fr"`) ; seules la consigne et la
- * correction, qui explique, sont en espagnol (#85).
+ * Le plateau est en français (`lang="fr"`) ; la consigne, les étiquettes et la
+ * correction, qui explique, existent en espagnol et en français (#85, #102) :
+ * `<T>` pour le texte visible, `useLang()` pour les attributs.
  */
-/** Les mots français d'une correction sont entre astérisques : `lang="fr"`. */
-function french(text: string) {
-  return text
-    .split("*")
-    .map((run, i) =>
-      i % 2 ? (
-        <span key={i} lang="fr">
-          {run}
-        </span>
-      ) : (
-        run
-      ),
-    );
-}
-
 export function Board() {
+  const lang = useLang();
   /* Mélangé dans l'initialiseur : le drill est chargé avec `ssr: false`. */
   const [deck, setDeck] = useState(() => shuffle(ITEMS));
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -81,14 +71,13 @@ export function Board() {
   return (
     <div lang="fr">
       <Instructions>
-        <span lang="es">
-          Haz clic en la palabra que completa la frase, y comprueba. Las ocho
-          preposiciones se quedan siempre en el mismo orden; con una
-          nacionalidad, solo hay dos formas.
-        </span>
+        <T
+          fr="Cliquez sur le mot qui complète la phrase, puis vérifiez. Les huit prépositions restent toujours dans le même ordre ; avec une nationalité, il n’y a que deux formes."
+          es="Haz clic en la palabra que completa la frase, y comprueba. Las ocho preposiciones se quedan siempre en el mismo orden; con una nacionalidad, solo hay dos formas."
+        />
       </Instructions>
 
-      <Meter value={currentIndex + 1} max={deck.length} label="Phrase en cours" />
+      <Meter value={currentIndex + 1} max={deck.length} label={{ fr: "Phrase en cours", es: "Frase en curso" }} />
 
       <div className={`card ${board.card}`}>
         <p className={board.sentence}>
@@ -105,7 +94,9 @@ export function Board() {
             ) : (
               <>
                 <span aria-hidden="true">{"    "}</span>
-                <span className="visually-hidden">blanc à compléter</span>
+                <span className="visually-hidden">
+                  <T fr="blanc à compléter" es="hueco por completar" />
+                </span>
               </>
             )}
           </span>
@@ -114,7 +105,11 @@ export function Board() {
           {current.after}
         </p>
 
-        <div className={board.pool} role="group" aria-label={current.kind === "nationalité" ? "Les deux formes" : "Les huit prépositions"}>
+        <div className={board.pool} role="group" aria-label={
+            current.kind === "nationalité"
+              ? lang === "es" ? "Las dos formas" : "Les deux formes"
+              : lang === "es" ? "Las ocho preposiciones" : "Les huit prépositions"
+          }>
           {current.options.map((form) => (
             <button
               key={form}
@@ -135,9 +130,14 @@ export function Board() {
               className={`${board.verdict} ${right ? "is-correct" : "is-wrong"}`}
             >
               <p>
-                {right
-                  ? "✓ Juste."
-                  : `✗ La réponse : « ${current.answer} ».`}
+                {right ? (
+                  <T fr="✓ Juste." es="✓ Correcto." />
+                ) : (
+                  <T
+                    fr={`✗ La réponse : « ${current.answer} ».`}
+                    es={`✗ La respuesta: « ${current.answer} ».`}
+                  />
+                )}
               </p>
               <p className={board.corrected}>
                 {`${current.before} `}
@@ -146,7 +146,9 @@ export function Board() {
                 {current.noun}
                 {current.after}
               </p>
-              <p lang="es">{french(current.because)}</p>
+              <p>
+                <Bilingue text={current.because} />
+              </p>
             </div>
           )}
         </div>
@@ -155,9 +157,11 @@ export function Board() {
       <div className={board.actions}>
         {checked ? (
           <button type="button" className="button button-primary" onClick={next}>
-            {currentIndex + 1 === deck.length
-              ? "Voir mon score"
-              : "Phrase suivante"}
+            {currentIndex + 1 === deck.length ? (
+              <T fr="Voir mon score" es="Ver mi puntuación" />
+            ) : (
+              <T fr="Phrase suivante" es="Frase siguiente" />
+            )}
           </button>
         ) : (
           <button
@@ -166,7 +170,7 @@ export function Board() {
             disabled={picked === null}
             onClick={verify}
           >
-            Vérifier
+            <T fr="Vérifier" es="Comprobar" />
           </button>
         )}
       </div>
