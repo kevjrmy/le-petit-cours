@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, use, useState, type ReactNode } from "react";
+import { T } from "@/components/lang/T";
 import styles from "./Redaction.module.css";
 
 /**
@@ -14,6 +15,9 @@ import styles from "./Redaction.module.css";
  * **Il ne dit jamais « faux ».** Trop court ou trop long, c'est dit en toutes
  * lettres et sans le rouge, qui dans ce cours signale une faute de français
  * (`AGENTS.md` §5) : la longueur est une consigne, pas une erreur de langue.
+ *
+ * Le compte est dit dans les deux langues (#102) ; `libelle` et `placeholder`
+ * viennent de l'épreuve et restent en français.
  */
 export const compterMots = (texte: string) =>
   texte.split(/\s+/).filter((mot) => /[\p{L}\p{N}]/u.test(mot)).length;
@@ -30,6 +34,10 @@ export const compterMots = (texte: string) =>
  * **Une copie rendue ne se modifie plus**, comme une feuille ramassée : les
  * champs passent en lecture seule, et seul le téléchargement se refait. Un
  * rechargement de la page rend une copie vierge, puisque rien n'est gardé.
+ *
+ * **Le fichier est en français, quelle que soit la langue de l'interface**
+ * (#102) : il part chez la personne qui corrige un DELF, qui se passe en
+ * français. Seuls les messages à l'écran sont dans les deux langues.
  */
 /** Un texte de la copie, dans l'ordre du sujet : le fichier les suit, même
  *  si le candidat commence par le second ou n'écrit jamais le premier. */
@@ -91,6 +99,10 @@ const heure = (date: Date) =>
     .toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
     .replace(":", " h ");
 
+/** L'heure à l'espagnole, pour l'écran : « 14:05 ». */
+const hora = (date: Date) =>
+  date.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+
 function telecharger(
   epreuve: string,
   date: Date,
@@ -151,13 +163,31 @@ export function Redaction({
   const copie = use(Contexte);
   const [mots, setMots] = useState(0);
 
-  let bilan: string;
-  if (mots === 0) bilan = `${min} à ${max} mots demandés.`;
+  /* Chaque langue a sa phrase entière, et son pluriel : « 0 mot » en
+     français, « 0 palabras » en espagnol. */
+  const manque = min - mots;
+  const trop = mots - max;
+  let bilan: { fr: string; es: string };
+  if (mots === 0)
+    bilan = {
+      fr: `${min} à ${max} mots demandés.`,
+      es: `Se piden de ${min} a ${max} palabras.`,
+    };
   else if (mots < min)
-    bilan = `Encore ${min - mots} mot${min - mots > 1 ? "s" : ""} pour arriver à ${min}.`;
+    bilan = {
+      fr: `Encore ${manque} mot${manque > 1 ? "s" : ""} pour arriver à ${min}.`,
+      es: `${manque > 1 ? "Faltan" : "Falta"} ${manque} palabra${manque > 1 ? "s" : ""} para llegar a ${min}.`,
+    };
   else if (mots > max)
-    bilan = `${mots - max} mot${mots - max > 1 ? "s" : ""} de trop : ${max} au maximum.`;
-  else bilan = `Dans la longueur demandée, ${min} à ${max}.`;
+    bilan = {
+      fr: `${trop} mot${trop > 1 ? "s" : ""} de trop : ${max} au maximum.`,
+      es: `${trop} palabra${trop > 1 ? "s" : ""} de más: ${max} como máximo.`,
+    };
+  else
+    bilan = {
+      fr: `Dans la longueur demandée, ${min} à ${max}.`,
+      es: `Dentro de la longitud pedida, de ${min} a ${max}.`,
+    };
 
   return (
     <>
@@ -173,10 +203,24 @@ export function Redaction({
         }}
       />
       <p className={styles.compte}>
-        <strong>
-          {mots} mot{mots > 1 ? "s" : ""}
-        </strong>{" "}
-        · {bilan}
+        <T
+          fr={
+            <>
+              <strong>
+                {mots} mot{mots > 1 ? "s" : ""}
+              </strong>{" "}
+              · {bilan.fr}
+            </>
+          }
+          es={
+            <>
+              <strong>
+                {mots} palabra{mots === 1 ? "" : "s"}
+              </strong>{" "}
+              · {bilan.es}
+            </>
+          }
+        />
       </p>
     </>
   );
@@ -196,12 +240,20 @@ export function Rendre() {
           onClick={copie.rendre}
           disabled={copie.vide}
         >
-          Rendre ma copie
+          <T fr="Rendre ma copie" es="Entregar mi examen" />
         </button>
         <p className={styles.aide}>
-          {copie.vide
-            ? "Écrivez d’abord vos textes."
-            : "Vos deux textes sont enregistrés dans un fichier, sur cet appareil. Ensuite, on ne peut plus les modifier."}
+          {copie.vide ? (
+            <T
+              fr="Écrivez d’abord vos textes."
+              es="Escribe primero tus textos."
+            />
+          ) : (
+            <T
+              fr="Vos deux textes sont enregistrés dans un fichier, sur cet appareil. Ensuite, on ne peut plus les modifier."
+              es="Tus dos textos se guardan en un archivo, en este dispositivo. Después ya no se pueden modificar."
+            />
+          )}
         </p>
       </div>
     );
@@ -209,14 +261,22 @@ export function Rendre() {
 
   return (
     <div className="card" role="status">
-      <p>
+      <p data-ui="fr">
         <strong>Copie rendue à {heure(copie.rendue)}.</strong> Le fichier est
         dans vos téléchargements : envoyez-le à la personne qui corrige. Il
         n’est enregistré nulle part ailleurs.
       </p>
+      <p data-ui="es" lang="es">
+        <strong>Examen entregado a las {hora(copie.rendue)}.</strong> El
+        archivo está en tus descargas: envíaselo a la persona que corrige. No se
+        guarda en ningún otro sitio.
+      </p>
       <p>
         <button type="button" className="button" onClick={copie.rendre}>
-          Télécharger encore le fichier
+          <T
+            fr="Télécharger encore le fichier"
+            es="Volver a descargar el archivo"
+          />
         </button>
       </p>
     </div>

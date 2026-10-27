@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { signInHref } from "@/components/account/ReturnTo";
+import { T } from "@/components/lang/T";
 import type { Lesson, Level } from "@/data/navigation";
 import { useProgress } from "@/hooks/useProgress";
 import styles from "./DoneTick.module.css";
@@ -54,7 +55,7 @@ export function DoneTick({
           className={`button ${styles.control}`}
         >
           <Mark done={false} />
-          J&rsquo;ai terminé
+          <T fr="J’ai terminé" es="He terminado" />
         </Link>
       </aside>
     );
@@ -74,7 +75,11 @@ export function DoneTick({
         onClick={() => toggle(lesson, level)}
       >
         <Mark done={done} />
-        {done ? "Leçon terminée" : "J’ai terminé"}
+        {done ? (
+          <T fr="Leçon terminée" es="Lección terminada" />
+        ) : (
+          <T fr="J’ai terminé" es="He terminado" />
+        )}
       </button>
     </aside>
   );

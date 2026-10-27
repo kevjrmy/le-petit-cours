@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type ReactNode } from "react";
+import { T } from "@/components/lang/T";
 import { cleDe, useCopie } from "./Copie";
 import styles from "./Associer.module.css";
 
@@ -37,6 +38,10 @@ type Zone = number | "reserve";
  * **Un panneau peut recevoir plusieurs phrases**, comme une lettre peut être
  * écrite deux fois sur le papier : l'empêcher dirait déjà qu'une réponse est
  * fausse.
+ *
+ * **Les phrases et les panneaux restent en français** : c'est l'épreuve, et un
+ * DELF se passe en français. Seuls les mots du mécanisme autour (la réserve,
+ * ce que lit un lecteur d'écran) suivent la langue de l'interface (#102).
  */
 export function Associer({
   groupe,
@@ -155,9 +160,14 @@ export function Associer({
         {marque}
         {phrase.enonce}
         <span className="visually-hidden">
-          {place === undefined
-            ? " — pas encore posée"
-            : ` — sur le panneau ${documents[place].lettre}`}
+          {place === undefined ? (
+            <T fr=" — pas encore posée" es=" — todavía sin colocar" />
+          ) : (
+            <T
+              fr={` — sur le panneau ${documents[place].lettre}`}
+              es={` — en el cartel ${documents[place].lettre}`}
+            />
+          )}
         </span>
       </button>
     );
@@ -178,7 +188,12 @@ export function Associer({
         ].join(" ")}
       >
         {enReserve.length === 0 ? (
-          <span className={styles.vide}>Toutes les phrases sont posées.</span>
+          <span className={styles.vide}>
+            <T
+              fr="Toutes les phrases sont posées."
+              es="Todas las frases están colocadas."
+            />
+          </span>
         ) : (
           enReserve.map((p) => pastille(p.id))
         )}
@@ -189,7 +204,7 @@ export function Associer({
             className="button"
             onClick={() => mettre(choisie, "reserve")}
           >
-            Remettre dans la réserve
+            <T fr="Remettre dans la réserve" es="Devolver a la reserva" />
           </button>
         )}
       </div>
@@ -216,7 +231,10 @@ export function Associer({
               {choisie && (
                 <span className="visually-hidden">
                   {" "}
-                  — poser la phrase choisie ici
+                  <T
+                    fr="— poser la phrase choisie ici"
+                    es="— colocar aquí la frase elegida"
+                  />
                 </span>
               )}
             </button>

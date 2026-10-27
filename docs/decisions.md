@@ -30,7 +30,7 @@ than marking it superseded.
 | 18  | 2026-09-05 | All content is public; an account buys only the learning path                                    | Binding                                                |
 | 21  | 2026-09-05 | No key that bypasses RLS lives anywhere, and RLS is the authorization model                      | Binding                                                |
 | 22  | 2026-09-05 | A progress row *is* the tick; the level never keys progress                                      | Binding · narrowed by #68                              |
-| 24  | 2026-09-05 | IndexedDB is the local store; `localStorage` is for pre-paint values only                        | Binding                                                |
+| 24  | 2026-09-05 | IndexedDB is the local store; `localStorage` is for pre-paint values only                        | Binding · amended by #102                              |
 | 26  | 2026-09-05 | Sign-in is a route, `/compte`, never a modal                                                     | Binding                                                |
 | 27  | 2026-09-05 | The accent is the wordmark's blue; the serif carries the French                                  | Binding                                                |
 | 29  | 2026-09-05 | Chapter landing pages are one generated route, not one file per chapter                          | Binding                                                |
@@ -49,7 +49,6 @@ than marking it superseded.
 | 49  | 2026-09-06 | The shell draws the end of a lesson: the tick, then the links                                    | Binding                                                |
 | 50  | 2026-09-06 | Progress is keyed by a permanent lesson id, never by the route path                              | Binding                                                |
 | 51  | 2026-09-06 | The course announces nothing it has not written                                                  | Binding                                                |
-| 53  | 2026-09-06 | One language of instruction, and it is French                                                    | Binding · narrowed by #85, #91                         |
 | 54  | 2026-09-06 | A conversation page is a guided role-play, graded nowhere                                        | Binding                                                |
 | 55  | 2026-09-06 | A `traduction` chapter — Spanish as material, never as explanation                               | Binding                                                |
 | 56  | 2026-09-06 | The conjugation sheets: one data file, one route, the imparfait included                         | Binding                                                |
@@ -76,15 +75,15 @@ than marking it superseded.
 | 82  | 2026-09-27 | An épreuve is marked once, at the end, and a person reads the listening one aloud                | Binding · amends #78                                   |
 | 83  | 2026-09-27 | An épreuve may link a Commons photo as illustration, never as the answer                         | Binding · narrows §9                                   |
 | 84  | 2026-09-27 | A written copy is handed in by downloading it, never by storing it                               | Binding · extends #31, #82                             |
-| 85  | 2026-09-30 | An A1 page explains in Spanish; the French it teaches stays French                               | Binding · narrows #53                                  |
+| 85  | 2026-09-30 | An A1 page explains in Spanish; the French it teaches stays French                               | Binding · narrowed by #102                             |
 | 86  | 2026-09-30 | A page has one level, and the learner chooses which levels they see                              | Binding · narrows #72, #85                             |
 | 87  | 2026-09-30 | A page holding sets shows the learner's default one, with no tabs                                | Binding · amended 2026-09-30 · narrows #68             |
 | 88  | 2026-09-30 | A parcours is a file of étapes, chosen in the account; « La suite » walks it                     | Binding · builds #14, amends #70                       |
 | 89  | 2026-09-30 | The syllabus is data, and a parcours ends on its épreuves                                        | Binding · syllabus not built · builds #15, extends #88 |
-| 90  | 2026-09-30 | A first sign-in passes through `/bienvenue`, in French or Spanish                                | Binding · amends #88, narrows #53, amended by #91      |
-| 91  | 2026-09-30 | The account screens speak the account's language, French or Spanish                              | Binding · amends #90, #31 · narrows #53                |
-| 92  | 2026-09-30 | A literary work is one page whose body follows the level; at A1 the Spanish sits under each line | Binding · narrows #72, #86, #87, #53                   |
-| 93  | 2026-10-05 | A cited form is marked by weight, a wrong one by a line                                          | Binding · builds #27, #53                              |
+| 90  | 2026-09-30 | A first sign-in passes through `/bienvenue`, in French or Spanish                                | Binding · amends #88, amended by #91                   |
+| 91  | 2026-09-30 | The account screens speak the account's language, French or Spanish                              | Binding · amends #90, #31 · amended by #102            |
+| 92  | 2026-09-30 | A literary work is one page whose body follows the level; at A1 the Spanish sits under each line | Binding · narrows #72, #86, #87                        |
+| 93  | 2026-10-05 | A cited form is marked by weight, a wrong one by a line                                          | Binding · builds #27, #102                             |
 | 94  | 2026-10-07 | The course speaks with the device's French voice, or not at all                                  | Binding · a trial · builds #51, #82                    |
 | 95  | 2026-10-11 | The site is public and asks not to be indexed, or translated                                     | Binding · extends #18, #77                             |
 | 96  | 2026-10-11 | Every size, space, radius, layer and shadow is a token; the page is flat                         | Binding · builds #6, #27 · the one shadow inferred     |
@@ -92,7 +91,8 @@ than marking it superseded.
 | 98  | 2026-10-11 | An agent checks with lint and types; the build and the screenshot are asked for                  | Binding                                                |
 | 99  | 2026-10-12 | Contrast, focus and target size have numbers: WCAG 2.2 AA, checked                               | Binding · builds #96, #27                              |
 | 100 | 2026-10-15 | The look follows *Le Petit Prince*: paper by day, night blue, gold stars as the one ornament     | A first iteration · builds #27, #96, #99               |
-| 101 | 2026-10-27 | Installing has its page, French and Spanish: the browser's offer as one button, iOS steps        | Binding · narrows #53                                  |
+| 101 | 2026-10-27 | Installing has its page, French and Spanish: the browser's offer as one button, iOS steps        | Binding                                                |
+| 102 | 2026-10-27 | The interface and the explanations follow the learner: French or Spanish                         | Binding · replaces #53 · amends #24, #85, #91          |
 
 ## 1 · No PDF export, no print stylesheet
 **2026-08-26 · Binding**
@@ -225,9 +225,9 @@ Progress and the level live in **IndexedDB**, keyed by account id. **Chosen over
 durability:** that is the first storage cleared under pressure, blocked in some privacy modes, capped
 at 5 MB for the origin. The async cost is absorbed by the `load()` / `save()` seam.
 
-**`localStorage` has exactly two jobs: the theme and the collapsed sidebar.** The test: a value that
-must be correct **before first paint**, applied by an inline script, and a short string nobody would
-mourn. Progress and the level fail the first clause.
+**`localStorage` has exactly three jobs: the theme, the collapsed sidebar and the interface language
+(#102).** The test: a value that must be correct **before first paint**, applied by an inline script,
+and a short string nobody would mourn. Progress and the level fail the first clause.
 
 ## 26 · Sign-in is a route, `/compte`
 **2026-09-05 · Binding**
@@ -458,23 +458,6 @@ state** — the same experience, better mannered.
 **Every chapter stays declared** and every URL answers; only the offer is filtered. **Search hides
 an empty chapter rather than grouping it**: it has nothing behind it.
 
-## 53 · One language of instruction, and it is French
-**2026-09-06 · Binding · narrowed by #85, #91**
-
-Everything is French (`AGENTS.md` §1), **except a `traduction` page's source text** (#55), **an A1
-page's explanation** (#85) **and the account screens, in the account's language** (#91).
-
-**Decided against splitting by reader** (Spanish for the learner, French for the heritage speaker):
-a Spanish gloss is dead weight for any other reader, and shared pages cannot be Spanish-first and
-French-first at once.
-
-**The audience shapes what is explained, not the language.** **The explanation's French stays
-easier than the French taught** — this decision's failure mode, which `content-proofreader` hunts
-first.
-
-**The cost:** a rule in a language not yet had is harder — survivable from A2, not at A1 (#85). From
-A2, drills lengthen the sentence instead of glossing. **English stays forbidden.**
-
 ## 54 · A conversation page is a guided role-play, graded nowhere
 **2026-09-06 · Binding**
 
@@ -491,7 +474,7 @@ order, never random**, which differs between server and client.
 **2026-09-06 · Binding**
 
 A short Spanish source, a place to write the French, the model version. Spanish is **material, never
-explanation**, so #53 holds. **One component, `Traduction.tsx`, not one per page**, or every page
+explanation**, so the French-only rule of the day held (now #102). **One component, `Traduction.tsx`, not one per page**, or every page
 forks with bespoke CSS. How a page is written is `lesson-author.md`'s.
 
 ## 56 · The conjugation sheets: one data file, one route
@@ -653,7 +636,7 @@ would put their writing in a public repository. **Nothing about who made a mista
 commit or a doc** (the atelier's anonymous copy aside, #80).
 
 **The heritage profile widened** (#13) to a teenager at a Spanish school with Spanish writing
-habits; a page names the habit in French without printing the Spanish word (#53; an A1 page aside,
+habits; a page names the habit in French without printing the Spanish word (#102: the French taught is never glossed; an A1 page aside,
 #85). **A lesson may ship without a drill**; the drill comes when practice earns its place.
 
 ## 70 · « La suite » is the dashboard; signing in returns you where you were
@@ -918,11 +901,11 @@ migration for one class. It is the answer if copies must ever arrive unsent — 
 costs a public write route, a second secret (#81) and a second storage service (#8).
 
 ## 85 · An A1 page explains in Spanish; the French it teaches stays French
-**2026-09-30 · Binding · narrows #53**
+**2026-09-30 · Binding · narrowed by #102**
 
 On a page whose floor is A1, **the explanation, the glosses and the instructions are in Spanish**;
 the French being taught — `.fr`, `.example`, a table's French column, a drill's items, a role-play's
-cloud — stays French. From A2 up, #53 holds. The how-to is `docs/levels/a1.md`'s.
+cloud — stays French. From A2 up the explanation is in the interface language (#102). The how-to is `docs/levels/a1.md`'s.
 
 **Why**: #74 made A1 choosable, and a rule stated in a language the reader does not have yet is a rule
 they cannot use. The monolingual FLE textbook assumes a teacher in the room; this course is read
@@ -1065,7 +1048,7 @@ only the last chapter. **Chosen against a coverage gate in the build**, which wo
 commit of a level being written.
 
 ## 90 · A first sign-in passes through `/bienvenue`, in French or Spanish
-**2026-09-30 · Binding · amends #88 · narrows #53**
+**2026-09-30 · Binding · amends #88**
 
 An account that never answered is sent, **at sign-in only**, to `/bienvenue`: four slides — what
 the course is, how it works, the parcours, the view — then on to `?suivant=` or `/`.
@@ -1088,21 +1071,25 @@ the course is, how it works, the parcours, the view — then on to `?suivant=` o
 against a stored `onboarded` flag, a new thing an account holds for no gain over absent keys.
 
 ## 91 · The account screens speak the account's language, French or Spanish
-**2026-09-30 · Binding · amends #90, #31 · narrows #53**
+**2026-09-30 · Binding · amends #90, #31 · amended by #102**
+
+**Amended by #102**: the account's `lang` is now the whole interface's language, lessons included,
+and `null` until chosen, when the device decides. What follows is the screens' own behaviour.
 
 An account holds a **language**, `fr` or `es`, in user metadata (`lang`, #36). **French is the
 default and the fallback**: anything but `"es"` reads as French (`readLang`).
 
 - **It reaches the account screens only**: `/bienvenue`, `/compte` signed in, and the account
   menu's own words. Lessons, the sidebar, the topbar, ticks, search and every manifest title stay
-  French for everyone (#53). Signed out there is no account to ask, so the sign-in form is French.
+  French for everyone (then; #102 now switches them all). Signed out there is no account to ask, so the sign-in form is French.
 - **Asked first in `/bienvenue`**, before anything else, as two cards with their flags, each
   language named in itself; saved with the view and the parcours at « Terminer » (#90). In
   `/compte` it is the first section, and in the account menu a « Langue » submenu beside the
   theme, signed in only; both share one writer (`saveLang`), saved on the press.
-- **Names stay French in Spanish text**, marked `lang="fr"` — parcours, levels, « La suite »,
-  « Sommaire » (#90) — **except the account menu's own rows**, « Mi progresión » and « Cuenta »,
-  which the onboarding and `/compte`'s heading then call by the same names. A Spanish screen carries `lang="es"` on each `<section>`.
+- **Names follow the interface** (#102): the Spanish screens say *recorrido*, *Lo siguiente*,
+  *Índice*, « Mi progresión », « Cuenta », as the Spanish menus do. (They were French, marked
+  `lang="fr"`, while the chrome was French.) A Spanish screen carries `lang="es"` on each
+  `<section>`.
 - **It does not count as having answered** (`readChosen`): it can be set in `/compte` alone.
 
 **Chosen against** translating the chrome: the lessons prerender in French, so a Spanish shell
@@ -1111,7 +1098,7 @@ would flip on every page load unless the language were cached before paint — a
 on.
 
 ## 92 · A literary work is one page whose body follows the level; at A1 the Spanish sits under each line
-**2026-09-30 · Binding · narrows #72, #86, #87, #53**
+**2026-09-30 · Binding · narrows #72, #86, #87**
 
 **One page per work, a body per level.** A `litterature` page holds `sets` (A1, A2, B1 where
 written), and each set is a whole body: its own text, its own word table, its own questions, in
@@ -1123,7 +1110,7 @@ it.** A page with no parcours shows A2 when it has it (#74), so a visitor reads 
   companion text when the A2 one is whole (the second fable La Fontaine announces, Baudelaire's
   prose version).
 - **A1 reads the same work with the Spanish under each French line** (`.bilingue`): the course's own
-  translation, one pair per verse or sentence, the explanation in Spanish (#85). This narrows #53's
+  translation, one pair per verse or sentence, the explanation in Spanish (#85). This narrowed the French-only rule's
   "no translation column" for A1 literary texts only, and #72's "a text has a floor": the
   translation is the floor.
 
@@ -1136,10 +1123,10 @@ rows and two ticks for one work, and a B1 page a learner must find. **Ticks did 
 stay `id@A2` and `id@B1`, and A1 adds `id@A1` (#68).
 
 ## 93 · A cited form is marked by weight, a wrong one by a line
-**2026-10-05 · Binding · builds #27, #53**
+**2026-10-05 · Binding · builds #27, #102**
 
 **A French form cited inside a sentence of explanation is semi-bold** (`span.fr`, Spectral 600), the
-weight a table's row head and a `<strong>` in an `.example` already had. The serif alone (#27, #53)
+weight a table's row head and a `<strong>` in an `.example` already had. The serif alone (#27, #102)
 did not detach it at reading size: « puis se place avant l'action » read as one run of text. Inside
 `.example` and `ul.mots`, where everything is French, the span keeps the block's weight.
 
@@ -1378,7 +1365,7 @@ lettering and the covers are Gallimard's. The star and the planet are drawn for 
 reference photographs stay out of git, in `.private/design/`.
 
 ## 101 · Installing has its page, French and Spanish: the browser's offer as one button, iOS steps
-**2026-10-27 · Binding · narrows #53**
+**2026-10-27 · Binding**
 
 `/installer` (a `footer` annexe, beside « À propos ») shows **one button where the browser offers
 an install** — Chrome and Edge fire `beforeinstallprompt`, on Android and on a computer — **the
@@ -1390,7 +1377,7 @@ or after a « non »). Installed already, it says so.
 (`src/components/install/InstallApp.tsx`) holding both texts, and a link from each to the other.
 Installing comes before any lesson, so it is said in the language the visitor reads, and each names
 the buttons a phone in that language prints. **The Spanish page is in `unlistedPages`**, reached
-from the French one: a manifest title is French (#53). The course's name stays French in it (#91).
+from the French one: a manifest title is French (#102: lesson titles stay French). The course's name stays French in it (#91).
 **Chosen against** following the account's language (#91): the page is for visitors before they
 have an account, and it prerenders.
 
@@ -1414,3 +1401,46 @@ still Serwist's (§2), not this page's.
 **Platform detection happens on the client only** (`useSyncExternalStore`, a `pending` server
 snapshot), so the page stays prerendered (§8). An iPad says it is a Mac; a touch screen gives it
 away.
+
+## 102 · The interface and the explanations follow the learner: French or Spanish
+**2026-10-27 · Binding · replaces #53 · amends #24, #85, #91**
+
+**The maintainer dropped « French only »**: some learners want the course in Spanish. The interface
+and every explanation now exist in **French and Spanish**, and the learner's language picks one.
+The old rule (#53, folded here) had chosen one language of instruction, French, against splitting
+by reader; that is reversed for the explanation, not for the French taught.
+
+**Which language.** The account's `lang` when it chose one (#91); else the choice saved on this
+device (`localStorage` `lang`, the third pre-paint key, #24); else the first of the browser's
+languages that is French or Spanish; else French. The head script sets `<html data-lang>` before
+paint (`src/lib/lang.ts`). The switch is in the account menu for everyone, and in `/compte` and
+`/bienvenue`; signed in, it is saved on the account too, so other devices follow.
+
+**Every page prints both languages** and `globals.css` hides the one not chosen (`[data-ui]`).
+Short text is `<T fr es>`; a block is a pair of elements, `data-ui="fr"` and `data-ui="es"
+lang="es"`; **a lesson pairs each `<section>` and its `.resume`**, and writes the French it teaches
+once, shared by both (a table's rows, an example). `useLang()` is for attributes and strings built
+in code; for visible text at first paint it would flash French, since it reads « fr » during
+hydration. `html lang` stays `fr`; a Spanish element says `lang="es"` itself.
+
+**Stays French in both:** the French taught — examples, forms, a table's French cells, drill items,
+answers — and, from A2, **no gloss or translation column on it** (the old rule's reasoning still holds there:
+a translation beside each example is dead weight, and it turns reading into decoding); lesson
+titles, subtitles and DELF descriptors, which name the French taught; a DELF épreuve's content and
+consignes (a DELF is sat in French); the atelier (#80, a class taught in French); the tab title and
+`<meta>` (switching them needs a server read, §8); the PWA manifest. **An A1 page explains in Spanish
+in both interfaces** (#85): no French explanation of A1 is written.
+
+**Kept from the old rule**: the serif is the French taught and the sans the explanation, in either language;
+the audience shapes what is explained, not the language; the French explanation stays easier than
+the French it teaches; **English, never**. The Spanish is Peninsular, `tú`, as short as the French.
+
+**Chosen against:** language routes (`/es/…`), which double every URL, need redirects and a proxy
+reading every request (§8, #81); a client-side swap after hydration, which shows French first on
+every load — #91's reason for keeping the chrome French; and dropping the French explanation, which
+a French device, and every visitor whose browser is neither, still reads first.
+
+**The cost:** every page ships both languages, and **every explanation has two copies that must
+change together** — a page edited in one language only is the new silent failure, which
+`content-proofreader` checks. A lesson not yet converted has French sections only and shows them
+in both interfaces (`AGENTS.md` §0).

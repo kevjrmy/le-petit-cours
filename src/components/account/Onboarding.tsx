@@ -10,9 +10,12 @@ import { saveChoices, SaveSettingError, type Lang, type SaveProblem } from "@/li
 import { Flag, LANG_NAME } from "./Flag";
 import { FALLBACK, safePath } from "./ReturnTo";
 import { Choice, toggleLevel } from "./ViewChooser";
-import { Fr, LEVEL_BLURB, parcoursBlurb, parcoursSize, WORDS } from "./words";
+import { LEVEL_BLURB, parcoursSize, parcoursWords, WORDS } from "./words";
+import { T } from "@/components/lang/T";
 import settings from "./AccountSettings.module.css";
 import styles from "./Onboarding.module.css";
+import { useLang } from "@/hooks/useLang";
+import { applyLang } from "@/lib/lang";
 
 /**
  * The onboarding a first sign-in passes through (`ReturnTo`): the language,
@@ -24,10 +27,10 @@ import styles from "./Onboarding.module.css";
  * **The parcours pre-selects the view** until the learner touches it (#88);
  * in `/compte` the two stay independent.
  *
- * **The language comes first** (#91), French pre-selected: the level is not
- * known yet, so an A1 learner needs the Spanish (#85). It is saved with the
- * rest, as the account's language. **Names stay French** — parcours, levels,
- * « La suite » — because that is what the rest of the site calls them.
+ * **The language comes first** (#91), pre-selected from the device (#102),
+ * and shown at once across the whole site; it is saved with the rest, as the
+ * account's language. The Spanish slides use the Spanish interface's names —
+ * recorrido, Lo siguiente, Índice — as the rest of the site now does.
  */
 export function Onboarding() {
   const account = useAccount();
@@ -45,11 +48,18 @@ export function Onboarding() {
 function SignedOut() {
   return (
     <>
-      <h1>Bienvenue</h1>
-      <p>Connectez-vous d’abord&nbsp;: ces questions règlent votre compte.</p>
+      <h1>
+        <T fr="Bienvenue" es="Te damos la bienvenida" />
+      </h1>
+      <p>
+        <T
+          fr="Connectez-vous d’abord : ces questions règlent votre compte."
+          es="Inicia sesión primero: estas preguntas configuran tu cuenta."
+        />
+      </p>
       <p>
         <Link className="button button-primary" href="/compte">
-          Se connecter
+          <T fr="Se connecter" es="Iniciar sesión" />
         </Link>
       </p>
     </>
@@ -67,7 +77,7 @@ const UI = {
     forward: "Suivant",
     finish: "Terminer",
     later: "Plus tard",
-    pickParcours: "Choisissez un parcours, ou « Aucun parcours ».",
+    pickParcours: "Choisissez un parcours, ou « Aucun parcours ».",
     suggested: "Choisi d’après votre parcours. Changez-le si vous voulez.",
     problem: {
       unavailable: WORDS.fr.unavailable,
@@ -81,8 +91,8 @@ const UI = {
     forward: "Siguiente",
     finish: "Terminar",
     later: "Más tarde",
-    pickParcours: "Elige un parcours, o « Aucun parcours ».",
-    suggested: "Elegido según tu parcours. Cámbialo si quieres.",
+    pickParcours: "Elige un recorrido, o «Ningún recorrido».",
+    suggested: "Elegido según tu recorrido. Cámbialo si quieres.",
     problem: {
       unavailable: WORDS.es.unavailable,
       "no-session": WORDS.es.noSession,
@@ -100,8 +110,9 @@ function suggestedView(parcours: Parcours | null): View {
 
 function Slides({ account, next }: { account: Account; next: string }) {
   const router = useRouter();
-  /* The account's language, French until chosen (#91). */
-  const [lang, setLang] = useState<Lang>(account.lang);
+  /* Choosing a language shows the whole site in it at once (#102); the
+     account's copy is written with the other answers at « Terminer ». */
+  const lang = useLang();
   const [step, setStep] = useState(0);
   /* `undefined` until picked: « Aucun parcours » is an answer, not a default.
      Someone re-running the onboarding starts from what they have. */
@@ -162,8 +173,8 @@ function Slides({ account, next }: { account: Account; next: string }) {
       <>
         <p>
           {lang === "fr"
-            ? "Dans quelle langue voulez-vous ces questions et votre compte ? Les leçons restent en français."
-            : "¿En qué idioma quieres estas preguntas y tu cuenta? Las lecciones siguen en francés."}
+            ? "Dans quelle langue voulez-vous le site ? Vous pourrez en changer dans « Compte »."
+            : "¿En qué idioma quieres el sitio? Podrás cambiarlo en «Cuenta»."}
         </p>
         <ul className={settings.choices}>
           {LANGS.map((option) => (
@@ -175,7 +186,7 @@ function Slides({ account, next }: { account: Account; next: string }) {
                 blurb=""
                 pressed={lang === option}
                 disabled={saving}
-                onPress={() => setLang(option)}
+                onPress={() => applyLang(option)}
               />
             </li>
           ))}
@@ -219,51 +230,47 @@ function Slides({ account, next }: { account: Account; next: string }) {
             «&nbsp;La suite&nbsp;» vous donne la prochaine.
           </li>
           <li>
-            Les explications sont en français. Au niveau A1, elles sont en
-            espagnol.
+            Les explications sont dans la langue choisie, le français ou
+            l&rsquo;espagnol. Au niveau A1, elles sont toujours en espagnol.
+            Le français étudié reste en français.
           </li>
           <li>Tout se change plus tard, dans «&nbsp;Compte&nbsp;».</li>
         </ul>
       ) : (
         <ul className={styles.points}>
           <li>
-            ¿Has terminado una lección? Pulsa <Fr>«&nbsp;J’ai terminé&nbsp;»</Fr>,
-            al final de la página. «&nbsp;Mi progresión&nbsp;» guarda
-            la lista, en todos tus dispositivos.
+            ¿Has terminado una lección? Pulsa «He terminado», al final de la
+            página. «Mi progresión» guarda la lista, en todos tus dispositivos.
           </li>
           <li>
-            Un <Fr>parcours</Fr> ordena las lecciones. En la página de inicio,{" "}
-            <Fr>«&nbsp;La suite&nbsp;»</Fr> te da la siguiente.
+            Un recorrido ordena las lecciones. En la página de inicio, «Lo
+            siguiente» te da la siguiente.
           </li>
-          <li>Las explicaciones están en francés. En el nivel A1, están en español.</li>
           <li>
-            Todo se puede cambiar después, en «&nbsp;Cuenta&nbsp;».
+            Las explicaciones están en el idioma elegido, francés o español. En
+            el nivel A1, siempre en español. El francés que estudias sigue en
+            francés.
           </li>
+          <li>Todo se puede cambiar después, en «Cuenta».</li>
         </ul>
       );
   } else if (step === 3) {
-    title = lang === "fr" ? "Votre parcours" : "Tu parcours";
+    title = lang === "fr" ? "Votre parcours" : "Tu recorrido";
     body = (
       <>
         <p>
-          {lang === "fr" ? (
-            "Un parcours, c’est un chemin : des leçons, étape par étape."
-          ) : (
-            <>
-              Un <Fr>parcours</Fr> es un camino: lecciones, etapa por etapa.
-            </>
-          )}
+          {lang === "fr"
+            ? "Un parcours, c’est un chemin : des leçons, étape par étape."
+            : "Un recorrido es un camino: lecciones, etapa por etapa."}
         </p>
         <ul className={settings.choices}>
           {PARCOURS.map((p) => {
-            const blurb = parcoursBlurb(p, lang);
+            const words = parcoursWords(p, lang);
             return (
               <li key={p.id}>
                 <Choice
-                  name={p.title}
-                  nameLang="fr"
-                  blurb={blurb.text}
-                  blurbLang={blurb.lang}
+                  name={words.title}
+                  blurb={words.blurb}
                   meta={parcoursSize(p, lang)}
                   pressed={parcoursId === p.id}
                   disabled={saving}
@@ -274,8 +281,7 @@ function Slides({ account, next }: { account: Account; next: string }) {
           })}
           <li>
             <Choice
-              name="Aucun parcours"
-              nameLang="fr"
+              name={WORDS[lang].noParcoursName}
               blurb={WORDS[lang].noParcours}
               pressed={parcoursId === null}
               disabled={saving}
@@ -290,20 +296,14 @@ function Slides({ account, next }: { account: Account; next: string }) {
     body = (
       <>
         <p>
-          {lang === "fr" ? (
-            "Le sommaire et le menu ne montrent que ces niveaux. Une leçon reste toujours lisible."
-          ) : (
-            <>
-              El <Fr>«&nbsp;Sommaire&nbsp;»</Fr> y el menú solo muestran estos
-              niveles. Una lección siempre se puede leer.
-            </>
-          )}
+          {lang === "fr"
+            ? "Le sommaire et le menu ne montrent que ces niveaux. Une leçon reste toujours lisible."
+            : "El índice y el menú solo muestran estos niveles. Una lección siempre se puede leer."}
         </p>
         <ul className={settings.choices}>
           <li>
             <Choice
-              name="Tout"
-              nameLang="fr"
+              name={WORDS[lang].allName}
               blurb={WORDS[lang].allLevels}
               pressed={view === "all"}
               disabled={saving}

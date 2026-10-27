@@ -11,8 +11,9 @@ You write the actual course. Read `AGENTS.md` §1, §4, §7 and §9 first, then 
 page's floor** (`docs/levels/a1.md` … `b2.md`), or `docs/atelier.md` for a class page. This brief
 is the how-to; `docs/decisions.md` has the *why*.
 
-**Every lesson is written from scratch** (#4) — nothing adapted, ported or translated. The last
-page carried across brought four misquotes of a public-domain poem with it.
+**Every lesson is written from scratch** (#4) — nothing adapted or ported from an older page. The last
+page carried across brought four misquotes of a public-domain poem with it. (The Spanish twin of a
+page's explanation is not a port: it is written in the same change as the French, below.)
 
 ## Who you are writing for
 
@@ -29,15 +30,43 @@ condescension. School grammar vocabulary — *terminaison*, *radical*, *accord d
 allowed **here and only here**. Their ear is a resource the learner lacks, so « Écoutez la
 différence » works on their page and not on the learner's. Examples suit a teenager and an adult at
 once; a Spanish writing habit behind a mistake is named in French, without printing the Spanish
-word (#53, #69).
+word (#69).
 
 **Keep the explanation easier than the example.** The `.rule` box is where that fails, usually
 through a relative pronoun: two A1 pages opened with *« un nom dont on sait déjà de quoi il
 s'agit »*, and `dont` is taught at B1. **Read every `.rule` against the page's level** (the limits
 are in `docs/levels/a2.md`). Two short sentences always fit.
 
-**An A1 page explains in Spanish** (#85): read `docs/levels/a1.md` for which piece is in which
-language and how `lang` marks them. The rest of this brief holds unchanged.
+**An A1 page explains in Spanish** (#85), in both interfaces: read `docs/levels/a1.md` for which
+piece is in which language and how `lang` marks them. It gets no French twin.
+
+## Two languages (#102)
+
+**From A2, every explanation is written twice, French and Spanish**, and the learner's interface
+language shows one (`AGENTS.md` §1). The model is `grammaire/l-imparfait`; read it first.
+
+- **Pair each `<section>` and the `.resume`**: `<section data-ui="fr">…</section>` then
+  `<section data-ui="es" lang="es">…</section>`, French first, the two side by side. Pair at that
+  level and no lower — `globals.css` spaces siblings (`section + section`, `li + li`), and a
+  hidden element between two shown ones still counts as a sibling. A paragraph straight in the
+  `<article>` (an intro) is paired the same way. `<PageHeader>` is not paired.
+- **The French taught is written once and shared.** A table's rows, an `.example`, a list of forms:
+  a `const` or a small function at the top of the file, rendered in both sections, its captions
+  and headers passed in each language. The two bodies may differ in how they explain, never in
+  the French they show.
+- **Inside the Spanish section, every piece of French says `lang="fr"`** — `span.fr`, `.example`,
+  a table's French cells, `<s className="fr">`. The section's `lang="es"` would otherwise make a
+  screen reader and the hyphenator read them as Spanish.
+- **The Spanish is a twin, not a gloss**: the same sections, the same callouts, the same number of
+  résumé bullets, the same counts, in plain Peninsular Spanish with `tú`. Never add a translation
+  of the French examples (from A2 the French taught has none). « En résumé » is « En resumen »; the
+  callouts print their own Spanish label under `:lang(es)` (« Regla », « Recuerda », « Excepto »,
+  « Truco: »). An `.astuce-hook` is written in each language.
+- **Printing the Spanish that causes a mistake stays A1's** (§1): from A2 the Spanish body explains
+  what the French one does, without *son las tres*.
+- **Change both or neither.** Any later edit to one body is made to the other in the same commit.
+
+## The page
 
 ## The page
 
@@ -71,7 +100,7 @@ Order inside a section: **rule → table → examples → one key exception.**
 
 ### Marking the French
 
-The serif carries the French being taught, the sans the instruction (#27, #53).
+The serif carries the French being taught, the sans the instruction, in either language (#27, #102).
 
 - `.fr` on a French word inside instruction prose; `.example` for a block of French, serif
   throughout, so `.fr` inside it is redundant. A `<span className="fr">` in a sentence is drawn
@@ -83,7 +112,8 @@ The serif carries the French being taught, the sans the instruction (#27, #53).
   not a spoken form the page allows (*je sais pas*). The sentence still says it is wrong in words.
 - A table's French column takes it per cell, **including `<th scope="row">`**.
 - **`lang` does not travel with `.fr`** — `<html lang="fr">` covers it. Keep it only where an
-  element is pronounced on its own (and on A1 pages, per `docs/levels/a1.md`).
+  element is pronounced on its own, and **everywhere inside Spanish text** — an A1 page
+  (`docs/levels/a1.md`) or a `data-ui="es"` section.
 - **A liaison is marked `‿`** (U+203F), no spaces: *les‿amis*, *en‿avion* — only an obligatory
   one. A page may mark none; **a block that marks one marks every obligatory one**, or an unmarked
   one reads as silent. Introduced by

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { findLesson, type Level } from "@/data/navigation";
 import { useLessonVariant } from "@/hooks/useLessonVariant";
+import { T } from "@/components/lang/T";
 import styles from "./Comprehension.module.css";
 
 /**
@@ -73,21 +74,30 @@ function inLang(text: string, quotes: "fr" | undefined) {
 }
 
 /**
- * « ✓ Juste. » or « ✗ Non : » and the right option.
+ * « ✓ Juste. » or « ✗ Non : » and the right option, in the interface's
+ * language (#102): `<T>` prints both and each half carries its own `lang`, so
+ * the A1 case no longer needs the French label marked by hand.
  *
- * On a French quiz the option is quoted back in guillemets. On an A1 quiz
- * (`quotes`) the label is the shared furniture and stays French, so it is
- * marked `lang="fr"`; a Spanish option is given back as it is, never wrapped
- * in guillemets that `inLang` would then read as French, and a French one keeps
- * the guillemets it already carries.
+ * On a French quiz the option is French, quoted back in guillemets — French
+ * ones with a space inside, Spanish ones without — and kept `lang="fr"` inside
+ * the Spanish sentence. On an A1 quiz (`quotes`) the option is given back as it
+ * is, never wrapped in guillemets that `inLang` would then read as French, and
+ * a French one keeps the guillemets it already carries.
  */
 function verdict(right: boolean, option: string, quotes: "fr" | undefined) {
-  if (!quotes) {
-    if (right) return "✓ Juste. ";
-    return `✗ Non : ${option.startsWith("«") ? option : `« ${option} »`}. `;
+  if (right) return <><T fr="✓ Juste." es="✓ Correcto." /> </>;
+  if (quotes) {
+    return <><T fr="✗ Non :" es="✗ No:" /> {inLang(option, quotes)}. </>;
   }
-  if (right) return <><span lang={quotes}>✓ Juste.</span> </>;
-  return <><span lang={quotes}>✗ Non :</span> {inLang(option, quotes)}. </>;
+  const quoted = option.startsWith("«");
+  return (
+    <>
+      <T
+        fr={<>✗ Non : {quoted ? option : `« ${option} »`}.</>}
+        es={<>✗ No: <span lang="fr">{quoted ? option : `«${option}»`}</span>.</>}
+      />{" "}
+    </>
+  );
 }
 
 export function Comprehension(props: ComprehensionProps) {
@@ -182,13 +192,17 @@ export function Comprehension(props: ComprehensionProps) {
         <div className="card" role="status">
           <p>
             <strong>
-              {score} réponse{score > 1 ? "s" : ""} juste{score > 1 ? "s" : ""}{" "}
-              sur {questions.length}.
+              <T
+                fr={`${score} réponse${score > 1 ? "s" : ""} juste${score > 1 ? "s" : ""} sur ${questions.length}.`}
+                es={`${score} acierto${score === 1 ? "" : "s"} de ${questions.length}.`}
+              />
             </strong>
           </p>
           <p>
-            Rien n’est enregistré. Relisez le texte et recommencez autant de
-            fois que vous voulez.
+            <T
+              fr="Rien n’est enregistré. Relisez le texte et recommencez autant de fois que vous voulez."
+              es="Nada se guarda. Vuelve a leer el texto y empieza de nuevo tantas veces como quieras."
+            />
           </p>
           <p>
             <button
@@ -196,7 +210,7 @@ export function Comprehension(props: ComprehensionProps) {
               className="button"
               onClick={() => record(questions.map(() => null))}
             >
-              Recommencer
+              <T fr="Recommencer" es="Empezar de nuevo" />
             </button>
           </p>
         </div>

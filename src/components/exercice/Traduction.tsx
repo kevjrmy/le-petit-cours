@@ -1,6 +1,8 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { isValidElement, useRef, useState, type ReactNode } from "react";
+import { T } from "@/components/lang/T";
+import { useLang } from "@/hooks/useLang";
 import { AccentBar } from "./AccentBar";
 import styles from "./Traduction.module.css";
 
@@ -37,7 +39,11 @@ function Hint({ es, fr }: { es: string; fr: string }) {
       >
         {es}
         <span className="visually-hidden">
-          {open ? " : cacher le mot français" : " : voir le mot français"}
+          {open ? (
+            <T fr=" : cacher le mot français" es=": ocultar la palabra francesa" />
+          ) : (
+            <T fr=" : voir le mot français" es=": ver la palabra francesa" />
+          )}
         </span>
       </button>
       {open && (
@@ -50,6 +56,18 @@ function Hint({ es, fr }: { es: string; fr: string }) {
   );
 }
 
+function isPair(
+  note: ReactNode | { fr: ReactNode; es: ReactNode },
+): note is { fr: ReactNode; es: ReactNode } {
+  return (
+    typeof note === "object" &&
+    note !== null &&
+    !isValidElement(note) &&
+    "fr" in note &&
+    "es" in note
+  );
+}
+
 export function Traduction({
   lines,
   model,
@@ -59,16 +77,23 @@ export function Traduction({
   lines: Part[][];
   /** The model version, line by line. Shown only once she asks for it. */
   model: string[];
-  /** What to compare and what to ignore, for this text in particular. */
-  note: ReactNode;
+  /**
+   * What to compare and what to ignore, for this text in particular. Pass
+   * `{ fr, es }` for both interface languages (#102): each gets its own
+   * `.attention` box, the Spanish one `lang="es"`, so its label reads
+   * « Recuerda ». A bare node is French.
+   */
+  note: ReactNode | { fr: ReactNode; es: ReactNode };
 }) {
   const [revealed, setRevealed] = useState(false);
   const field = useRef<HTMLTextAreaElement>(null);
+  /* For the placeholder, an attribute (#102). */
+  const lang = useLang();
 
   return (
     <>
-      {/* The source, and the only Spanish in the course (#55): material to be
-          translated, never explanation, so it carries its own `lang`. */}
+      {/* The source (#55): material to be translated, not explanation, so it
+          stays Spanish in both interface languages and carries its own `lang`. */}
       <div className="card" lang="es">
         {lines.map((line, index) => (
           <p key={index} className={styles.line}>
@@ -83,13 +108,17 @@ export function Traduction({
         ))}
       </div>
 
-      <p>
+      <p data-ui="fr">
         Trois mots sont surlignés. Cliquez dessus si vous bloquez : ils donnent
         le mot français, jamais la phrase.
       </p>
+      <p data-ui="es" lang="es">
+        Hay tres palabras resaltadas. Haz clic en ellas si te atascas: te dan la
+        palabra francesa, nunca la frase.
+      </p>
 
       <label className="visually-hidden" htmlFor="traduction">
-        Votre traduction
+        <T fr="Votre traduction" es="Tu traducción" />
       </label>
 
       <AccentBar target={field} />
@@ -101,7 +130,9 @@ export function Traduction({
         rows={6}
         spellCheck
         lang="fr"
-        placeholder="Écrivez votre version ici."
+        placeholder={
+          lang === "es" ? "Escribe aquí tu versión." : "Écrivez votre version ici."
+        }
       />
 
       <div className={styles.controls}>
@@ -111,7 +142,7 @@ export function Traduction({
           onClick={() => setRevealed(true)}
           disabled={revealed}
         >
-          Voir la correction
+          <T fr="Voir la correction" es="Ver la corrección" />
         </button>
       </div>
 
@@ -123,7 +154,18 @@ export function Traduction({
             ))}
           </div>
 
-          <div className="attention">{note}</div>
+          {isPair(note) ? (
+            <>
+              <div className="attention" data-ui="fr">
+                {note.fr}
+              </div>
+              <div className="attention" data-ui="es" lang="es">
+                {note.es}
+              </div>
+            </>
+          ) : (
+            <div className="attention">{note}</div>
+          )}
         </>
       )}
     </>

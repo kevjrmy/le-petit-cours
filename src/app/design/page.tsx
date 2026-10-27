@@ -228,7 +228,7 @@ export default function DesignPage() {
       <section className={styles.section}>
         <h2>Le français en serif, l’explication en sans</h2>
         <p>
-          Tout le cours est écrit en français (#53) : les deux familles ne
+          Une explication peut être en français (#102) : les deux familles ne
           séparent donc plus deux langues, mais deux rôles. Le serif porte la
           langue étudiée — <span className="fr">une robe</span>,{" "}
           <span className="fr">le sol</span> — et le sans porte la phrase qui

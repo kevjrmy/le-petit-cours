@@ -48,8 +48,9 @@ are in [`AGENTS.md`](AGENTS.md); the `#nn` numbers point into
 - **Two readers, not one** ([`docs/scope.md`](docs/scope.md)): a Spanish speaker learning from
   zero, and a heritage speaker who speaks French and needs to learn to *write* it — not a higher
   level (#13).
-- **French only from A2 up** (#53): no Spanish gloss, no translation column, no bilingual page.
-  Spanish appears only as a `traduction` page's source text (#55), as an A1 page's explanation
+- **Two languages, the learner's** (#102): from A2 every explanation is written in French **and**
+  Spanish, section by section (`data-ui` pairs, see `grammaire/l-imparfait`), and the interface
+  language shows one. The French taught has no gloss and no translation column. Spanish is also shown in both interfaces as a `traduction` page's source text (#55), as an A1 page's explanation
   (#85), and in the A1 body of a literary work, the course's Spanish under each French line
   (`a1.tsx`, #92); anywhere else it is a bug.
 - **The explanation's French is simpler than the French taught**: define false friends rather than

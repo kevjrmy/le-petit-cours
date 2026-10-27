@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { T } from "@/components/lang/T";
 
 /**
  * What an épreuve keeps hidden until it is asked for (#78, #82). Today that is
@@ -25,17 +26,20 @@ import { useState, type ReactNode } from "react";
  *
  * **Nothing here scores and nothing is stored** (#2). A compréhension épreuve
  * is marked by `<Correction>` instead (#82); this block only reveals.
+ *
+ * **The labels are nodes, so a page can pass `<T fr="…" es="…" />`** (#102);
+ * the defaults already are. A plain string stays as it is.
  */
 export function Corrige({
   children,
   id = "corrige",
-  ouvrir = "Voir les corrections",
-  fermer = "Cacher les corrections",
+  ouvrir = <T fr="Voir les corrections" es="Ver las correcciones" />,
+  fermer = <T fr="Cacher les corrections" es="Ocultar las correcciones" />,
 }: {
   children: ReactNode;
   id?: string;
-  ouvrir?: string;
-  fermer?: string;
+  ouvrir?: ReactNode;
+  fermer?: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
 

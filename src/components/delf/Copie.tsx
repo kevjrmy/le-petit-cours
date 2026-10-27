@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, use, useState, type ReactNode } from "react";
+import { T } from "@/components/lang/T";
 import { enPoints, pointsDe, type CopieEpreuve } from "./copie-data";
 import styles from "./Copie.module.css";
 
@@ -21,6 +22,10 @@ import styles from "./Copie.module.css";
  *
  * **Rien n'est enregistré, et rien ne coche la leçon** (#2). La note vit dans
  * cet état et disparaît au rechargement.
+ *
+ * **Questions et propositions en français, mécanique dans les deux langues**
+ * (#102) : un DELF se passe en français, mais le bouton, la note et ce qu'elle
+ * dit suivent la langue de l'interface, par `<T>`.
  */
 
 type Reponses = Record<string, number>;
@@ -104,8 +109,12 @@ export function Questions({ groupe }: { groupe: string }) {
           <span className="enonce">
             <span>{question.enonce}</span>
             <span className="points">
-              {enPoints(pointsDe(question))} point
-              {pointsDe(question) > 1 ? "s" : ""}
+              {/* L'espagnol met au pluriel tout ce qui n'est pas 1 :
+                  « 0,5 puntos ». */}
+              <T
+                fr={`${enPoints(pointsDe(question))} point${pointsDe(question) > 1 ? "s" : ""}`}
+                es={`${enPoints(pointsDe(question))} punto${pointsDe(question) === 1 ? "" : "s"}`}
+              />
             </span>
           </span>
 
@@ -209,12 +218,20 @@ export function Correction({ children }: { children?: ReactNode }) {
           className="button button-primary"
           onClick={corriger}
         >
-          Corriger ma copie
+          <T fr="Corriger ma copie" es="Corregir mi examen" />
         </button>
         <p className={styles.reste}>
-          {sansReponse === 0
-            ? "Toutes les réponses sont données."
-            : `${sansReponse} réponse${sansReponse > 1 ? "s" : ""} sans croix : ${sansReponse > 1 ? "elles comptent" : "elle compte"} zéro.`}
+          {sansReponse === 0 ? (
+            <T
+              fr="Toutes les réponses sont données."
+              es="Has respondido a todas las preguntas."
+            />
+          ) : (
+            <T
+              fr={`${sansReponse} réponse${sansReponse > 1 ? "s" : ""} sans croix : ${sansReponse > 1 ? "elles comptent" : "elle compte"} zéro.`}
+              es={`${sansReponse} pregunta${sansReponse > 1 ? "s" : ""} sin marcar: ${sansReponse > 1 ? "cuentan" : "cuenta"} cero.`}
+            />
+          )}
         </p>
       </div>
     );
@@ -226,16 +243,22 @@ export function Correction({ children }: { children?: ReactNode }) {
   return (
     <div className="corrige" role="status">
       <h3>
-        Votre note : {enPoints(note)} sur {enPoints(total)}
+        <T
+          fr={`Votre note : ${enPoints(note)} sur ${enPoints(total)}`}
+          es={`Tu nota: ${enPoints(note)} de ${enPoints(total)}`}
+        />
       </h3>
       <ul className={styles.detail}>
         {copie.exercices.map(({ numero, points }) => (
           <li key={numero}>
-            Exercice {numero} : {enPoints(noteDe(numero))} sur {points}
+            <T
+              fr={`Exercice ${numero} : ${enPoints(noteDe(numero))} sur ${points}`}
+              es={`Ejercicio ${numero}: ${enPoints(noteDe(numero))} de ${points}`}
+            />
           </li>
         ))}
       </ul>
-      <p>
+      <p data-ui="fr">
         Dans la copie, ✓ marque une bonne réponse, ✗ une mauvaise, et + la bonne
         réponse que vous n’avez pas donnée.{" "}
         {total === 25 &&
@@ -243,10 +266,18 @@ export function Correction({ children }: { children?: ReactNode }) {
             ? "Vous avez les 5 points qu’il faut au minimum dans chaque épreuve."
             : "Il faut au moins 5 points sur 25 dans chaque épreuve : celle-ci ne les a pas.")}
       </p>
+      <p data-ui="es" lang="es">
+        En el examen, ✓ marca una respuesta correcta, ✗ una incorrecta, y + la
+        respuesta correcta que no diste.{" "}
+        {total === 25 &&
+          (note >= 5
+            ? "Tienes los 5 puntos mínimos que se exigen en cada prueba."
+            : "Hacen falta al menos 5 puntos de 25 en cada prueba, y en esta no los tienes.")}
+      </p>
       {children}
       <p>
         <button type="button" className="button" onClick={recommencer}>
-          Recommencer
+          <T fr="Recommencer" es="Empezar de nuevo" />
         </button>
       </p>
     </div>

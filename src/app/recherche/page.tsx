@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { T } from "@/components/lang/T";
 import { SearchBox } from "@/components/search/SearchBox";
 import { SearchResults } from "@/components/search/SearchResults";
 import styles from "./page.module.css";
@@ -30,7 +31,9 @@ export default function RecherchePage() {
       <Suspense
         fallback={
           <>
-            <h1 className={styles.title}>Recherche</h1>
+            <h1 className={styles.title}>
+              <T fr="Recherche" es="Búsqueda" />
+            </h1>
             <SearchBox />
           </>
         }

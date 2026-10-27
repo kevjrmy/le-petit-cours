@@ -4,7 +4,9 @@
  * The shape earned its place over thirty verbs in an earlier version of this
  * course, and is kept. Three things differ from it:
  *
- * 1. **No Spanish gloss.** There is no `es` field (`docs/decisions.md` #53).
+ * 1. **No Spanish gloss of a form.** A verb form is never translated; only the
+ *    explanations around them (`note`, `imperatifNote`, the group's name) have
+ *    a Spanish twin, for the interface in Spanish (#102).
  * 2. **The imparfait is here.** It used to live only in `grammaire/l-imparfait`,
  *    so the one tense whose forms are perfectly regular was the one tense you
  *    could not look up.
@@ -40,7 +42,8 @@
  *   slug       — route segment, ASCII (`etre`, not `être`)
  *   infinitif  — display name, accented
  *   groupe     — '1er groupe' | '2e groupe' | '3e groupe'
- *   note       — one line under the header, where the verb has a trap worth naming
+ *   note       — one line under the header, where the verb has a trap worth
+ *                naming; `{ fr, es }` (see `Explication`)
  *   aux        — 'avoir' | 'être', the passé composé auxiliary
  *   participe  — past participle, masculine singular
  *   ppresent   — participe présent, with the stem/ending split
@@ -51,7 +54,7 @@
  *   futur      — the futur simple stem
  *   imperatif  — [tu, nous, vous], or null when the verb has none
  *   imperatifNote — replaces the default "pas d'impératif" line, when the forms
- *                exist on paper but are not used
+ *                exist on paper but are not used; `{ fr, es }` too
  *
  * `|` marks where the ending begins. A form with no `|` is all stem (`ai`,
  * `va`), which is a fact about the verb and not a missing split.
@@ -60,11 +63,33 @@
 export type Groupe = "1er groupe" | "2e groupe" | "3e groupe";
 export type Auxiliaire = "avoir" | "être";
 
+/** The group's name in Spanish. A `Record`, so a fourth `Groupe` without one
+ *  fails to compile. */
+export const GROUPE_ES: Record<Groupe, string> = {
+  "1er groupe": "1.er grupo",
+  "2e groupe": "2.º grupo",
+  "3e groupe": "3.er grupo",
+};
+
+/**
+ * An explanation in both interface languages (#102). Both are required, so a
+ * note written in French alone fails to compile.
+ *
+ * In `es`, **`{…}` marks French** — a form, an example, a letter, a tense's
+ * name: `ConjugationSheet` prints it without the braces, in `lang="fr"`, so a
+ * screen reader does not read « nous mangeons » with a Spanish voice. `fr`
+ * needs no mark: it is French throughout.
+ */
+export interface Explication {
+  fr: string;
+  es: string;
+}
+
 export interface Verb {
   slug: string;
   infinitif: string;
   groupe: Groupe;
-  note?: string;
+  note?: Explication;
   aux: Auxiliaire;
   participe: string;
   ppresent: string;
@@ -73,7 +98,7 @@ export interface Verb {
   imparfaitDevantA?: string;
   futur: string;
   imperatif: [string, string, string] | null;
-  imperatifNote?: string;
+  imperatifNote?: Explication;
 }
 
 export const PRONOUNS = {
@@ -114,7 +139,10 @@ export const verbs: Verb[] = [
     slug: "etre",
     infinitif: "être",
     groupe: "3e groupe",
-    note: "Auxiliaire. Sert à former le passé composé des verbes de mouvement et de tous les verbes pronominaux.",
+    note: {
+      fr: "Auxiliaire. Sert à former le passé composé des verbes de mouvement et de tous les verbes pronominaux.",
+      es: "Auxiliar. Sirve para formar el {passé composé} de los verbos de movimiento y de todos los verbos pronominales.",
+    },
     aux: "avoir",
     participe: "été",
     ppresent: "ét|ant",
@@ -127,7 +155,10 @@ export const verbs: Verb[] = [
     slug: "avoir",
     infinitif: "avoir",
     groupe: "3e groupe",
-    note: "Auxiliaire. C’est lui qui sert au passé composé de la grande majorité des verbes.",
+    note: {
+      fr: "Auxiliaire. C’est lui qui sert au passé composé de la grande majorité des verbes.",
+      es: "Auxiliar. Es el que forma el {passé composé} de la gran mayoría de los verbos.",
+    },
     aux: "avoir",
     participe: "eu",
     ppresent: "ay|ant",
@@ -142,7 +173,10 @@ export const verbs: Verb[] = [
     slug: "parler",
     infinitif: "parler",
     groupe: "1er groupe",
-    note: "Modèle du 1er groupe : tous les verbes en -er se conjuguent ainsi, sauf aller.",
+    note: {
+      fr: "Modèle du 1er groupe : tous les verbes en -er se conjuguent ainsi, sauf aller.",
+      es: "Modelo del 1.er grupo: todos los verbos en {-er} se conjugan así, menos {aller}.",
+    },
     aux: "avoir",
     participe: "parlé",
     ppresent: "parl|ant",
@@ -155,7 +189,10 @@ export const verbs: Verb[] = [
     slug: "finir",
     infinitif: "finir",
     groupe: "2e groupe",
-    note: "Modèle du 2e groupe : le -iss- apparaît au pluriel, et il reste à l’imparfait (nous finissions).",
+    note: {
+      fr: "Modèle du 2e groupe : le -iss- apparaît au pluriel, et il reste à l’imparfait (nous finissions).",
+      es: "Modelo del 2.º grupo: {-iss-} aparece en plural y se mantiene en el imperfecto ({nous finissions}).",
+    },
     aux: "avoir",
     participe: "fini",
     ppresent: "finiss|ant",
@@ -177,7 +214,10 @@ export const verbs: Verb[] = [
     slug: "manger",
     infinitif: "manger",
     groupe: "1er groupe",
-    note: "Verbe en -ger : le e se maintient devant a et o pour garder le son doux du g (nous mangeons, je mangeais), et il disparaît devant i (nous mangions).",
+    note: {
+      fr: "Verbe en -ger : le e se maintient devant a et o pour garder le son doux du g (nous mangeons, je mangeais), et il disparaît devant i (nous mangions).",
+      es: "Verbo en {-ger}: la {e} se mantiene delante de {a} y de {o} para que la {g} siga sonando como en {manger} ({nous mangeons}, {je mangeais}), y desaparece delante de {i} ({nous mangions}).",
+    },
     aux: "avoir",
     participe: "mangé",
     ppresent: "mange|ant",
@@ -191,7 +231,10 @@ export const verbs: Verb[] = [
     slug: "commencer",
     infinitif: "commencer",
     groupe: "1er groupe",
-    note: "Verbe en -cer : la cédille garde le son [s] devant a et o (nous commençons, je commençais), et elle disparaît devant i (nous commencions).",
+    note: {
+      fr: "Verbe en -cer : la cédille garde le son [s] devant a et o (nous commençons, je commençais), et elle disparaît devant i (nous commencions).",
+      es: "Verbo en {-cer}: la cedilla mantiene el sonido [s] delante de {a} y de {o} ({nous commençons}, {je commençais}), y desaparece delante de {i} ({nous commencions}).",
+    },
     aux: "avoir",
     participe: "commencé",
     ppresent: "commenç|ant",
@@ -214,7 +257,10 @@ export const verbs: Verb[] = [
     slug: "aller",
     infinitif: "aller",
     groupe: "3e groupe",
-    note: "Seul verbe en -er du 3e groupe. Se conjugue avec être au passé composé.",
+    note: {
+      fr: "Seul verbe en -er du 3e groupe. Se conjugue avec être au passé composé.",
+      es: "El único verbo en {-er} del 3.er grupo. Se conjuga con {être} en el {passé composé}.",
+    },
     aux: "être",
     participe: "allé",
     ppresent: "all|ant",
@@ -227,7 +273,10 @@ export const verbs: Verb[] = [
     slug: "faire",
     infinitif: "faire",
     groupe: "3e groupe",
-    note: "Attention à « vous faites », et non « vous faisez », et à « ils font ».",
+    note: {
+      fr: "Attention à « vous faites », et non « vous faisez », et à « ils font ».",
+      es: "Cuidado con {« vous faites »}, y no {« vous faisez »}, y con {« ils font »}.",
+    },
     aux: "avoir",
     participe: "fait",
     ppresent: "fais|ant",
@@ -240,7 +289,10 @@ export const verbs: Verb[] = [
     slug: "prendre",
     infinitif: "prendre",
     groupe: "3e groupe",
-    note: "Le d disparaît au pluriel (nous prenons) et le n double à la 3e personne (ils prennent).",
+    note: {
+      fr: "Le d disparaît au pluriel (nous prenons) et le n double à la 3e personne (ils prennent).",
+      es: "La {d} desaparece en plural ({nous prenons}) y la {n} se duplica en la 3.ª persona del plural ({ils prennent}).",
+    },
     aux: "avoir",
     participe: "pris",
     ppresent: "pren|ant",
@@ -253,7 +305,10 @@ export const verbs: Verb[] = [
     slug: "venir",
     infinitif: "venir",
     groupe: "3e groupe",
-    note: "Se conjugue avec être au passé composé. Le radical double le n au singulier et à la 3e personne du pluriel.",
+    note: {
+      fr: "Se conjugue avec être au passé composé. Le radical devient vien- au singulier et à la 3e personne du pluriel, où le n double (ils viennent).",
+      es: "Se conjuga con {être} en el {passé composé}. La raíz pasa a {vien-} en singular y en la 3.ª persona del plural, donde además la {n} se duplica ({ils viennent}).",
+    },
     aux: "être",
     participe: "venu",
     ppresent: "ven|ant",
@@ -266,7 +321,10 @@ export const verbs: Verb[] = [
     slug: "partir",
     infinitif: "partir",
     groupe: "3e groupe",
-    note: "Se conjugue avec être au passé composé. Le radical perd son t au singulier du présent : je pars, nous partons.",
+    note: {
+      fr: "Se conjugue avec être au passé composé. Le radical perd son t à je et tu : je pars, tu pars, mais il part, nous partons.",
+      es: "Se conjuga con {être} en el {passé composé}. La raíz pierde la {t} en {je} y {tu}: {je pars}, {tu pars}, pero {il part}, {nous partons}.",
+    },
     aux: "être",
     participe: "parti",
     ppresent: "part|ant",
@@ -279,7 +337,10 @@ export const verbs: Verb[] = [
     slug: "pouvoir",
     infinitif: "pouvoir",
     groupe: "3e groupe",
-    note: "Verbe modal : il est suivi d’un infinitif (je peux venir).",
+    note: {
+      fr: "Verbe modal : il est suivi d’un infinitif (je peux venir).",
+      es: "Verbo modal: va seguido de un infinitivo ({je peux venir}).",
+    },
     aux: "avoir",
     participe: "pu",
     ppresent: "pouv|ant",
@@ -292,7 +353,10 @@ export const verbs: Verb[] = [
     slug: "vouloir",
     infinitif: "vouloir",
     groupe: "3e groupe",
-    note: "Verbe modal. Son impératif est rare, sauf « veuillez », très courant par politesse.",
+    note: {
+      fr: "Verbe modal. Son impératif est rare, sauf « veuillez », très courant par politesse.",
+      es: "Verbo modal. Su imperativo es raro, salvo {« veuillez »}, muy frecuente por cortesía.",
+    },
     aux: "avoir",
     participe: "voulu",
     ppresent: "voul|ant",
@@ -305,7 +369,10 @@ export const verbs: Verb[] = [
     slug: "devoir",
     infinitif: "devoir",
     groupe: "3e groupe",
-    note: "Verbe modal : il est suivi d’un infinitif (je dois partir). Son participe porte un accent circonflexe au masculin singulier seulement : dû, mais due, dus, dues.",
+    note: {
+      fr: "Verbe modal : il est suivi d’un infinitif (je dois partir). Son participe porte un accent circonflexe au masculin singulier seulement : dû, mais due, dus, dues.",
+      es: "Verbo modal: va seguido de un infinitivo ({je dois partir}). Su participio lleva acento circunflejo solo en masculino singular: {dû}, pero {due}, {dus}, {dues}.",
+    },
     aux: "avoir",
     participe: "dû",
     ppresent: "dev|ant",
@@ -313,8 +380,10 @@ export const verbs: Verb[] = [
     imparfait: "dev",
     futur: "devr",
     imperatif: null,
-    imperatifNote:
-      "Les formes existent (dois, devons, devez) mais ne s’emploient pas : on dit « tu dois partir », pas « pars, tu le dois ».",
+    imperatifNote: {
+      fr: "Les formes existent (dois, devons, devez) mais ne s’emploient pas : on dit « tu dois partir », pas « pars, tu le dois ».",
+      es: "Las formas existen ({dois}, {devons}, {devez}), pero no se usan: se dice {« tu dois partir »}, no {« pars, tu le dois »}.",
+    },
   },
 ];
 

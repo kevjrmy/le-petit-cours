@@ -11,6 +11,7 @@ import {
   type View,
 } from "@/data/navigation";
 import { PageRow } from "@/components/nav/PageRow";
+import { T } from "@/components/lang/T";
 import { Vide } from "@/components/ornement/Planete";
 import { RowTick } from "@/components/progress/RowTick";
 import { useAccount } from "@/hooks/useAccount";
@@ -69,8 +70,10 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
       return (
         <Vide>
           <p className="message">
-            Rien ici pour l’instant. Les pages d’une séance arrivent dans ce
-            chapitre le jour du cours, et en repartent après.
+            <T
+              fr="Rien ici pour l’instant. Les pages d’une séance arrivent dans ce chapitre le jour du cours, et en repartent après."
+              es="Por ahora no hay nada. Las páginas de una sesión llegan a este capítulo el día de la clase, y se van después."
+            />
           </p>
         </Vide>
       );
@@ -79,8 +82,10 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
     return (
       <Vide>
         <p className="message">
-          Ce chapitre n’a pas encore de leçon. Il en aura : c’est un chapitre du
-          cours, pas une page en attente.
+          <T
+            fr="Ce chapitre n’a pas encore de leçon. Il en aura : c’est un chapitre du cours, pas une page en attente."
+            es="Este capítulo todavía no tiene lecciones. Las tendrá: es un capítulo del curso, no una página en espera."
+          />
         </p>
       </Vide>
     );
@@ -90,8 +95,10 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
     return (
       <Vide>
         <p className="message">
-          Rien dans ce chapitre aux niveaux que vous avez choisis. Les autres
-          leçons restent lisibles, elles ne sont simplement pas proposées ici.
+          <T
+            fr="Rien dans ce chapitre aux niveaux que vous avez choisis. Les autres leçons restent lisibles, elles ne sont simplement pas proposées ici."
+            es="No hay nada en este capítulo en los niveles que has elegido. Las demás lecciones se pueden leer; simplemente no se proponen aquí."
+          />
         </p>
       </Vide>
     );
@@ -149,9 +156,16 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
             <svg className={styles.chevron} viewBox="0 0 24 24" aria-hidden="true">
               <path d="M9 5l7 7-7 7" />
             </svg>
-            <span className={styles.label}>{group.level ?? "Tous niveaux"}</span>
+            <span className={styles.label}>
+              {group.level ?? <T fr="Tous niveaux" es="Todos los niveles" />}
+            </span>
             <span className={styles.count}>
-              {group.lessons.length} {group.lessons.length === 1 ? "leçon" : "leçons"}
+              {/* Each language's whole phrase, never one built from the
+                  other's pieces (#102). */}
+              <T
+                fr={`${group.lessons.length} ${group.lessons.length === 1 ? "leçon" : "leçons"}`}
+                es={`${group.lessons.length} ${group.lessons.length === 1 ? "lección" : "lecciones"}`}
+              />
             </span>
           </summary>
           <ul className={styles.list}>{group.lessons.map((lesson) => row(lesson, false))}</ul>

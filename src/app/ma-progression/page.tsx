@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { T } from "@/components/lang/T";
 import { Progression } from "@/components/progress/Progression";
 
 export const metadata: Metadata = {
@@ -13,7 +14,9 @@ export const metadata: Metadata = {
 export default function MaProgressionPage() {
   return (
     <article className="prose">
-      <h1>Ma progression</h1>
+      <h1>
+        <T fr="Ma progression" es="Mi progresión" />
+      </h1>
       <Progression />
     </article>
   );

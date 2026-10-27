@@ -10,9 +10,14 @@ export const A2: Parcours = {
   title: "Parcours A2",
   blurb: "Vous vous débrouillez. Le quotidien, raconter au passé, parler de ses projets.",
   level: "A2",
+  es: {
+    title: "Recorrido A2",
+    blurb: "Te defiendes. La vida diaria, contar en pasado, hablar de tus planes.",
+  },
   etapes: [
     {
       title: "Ce qu’on mange, ce qu’on n’a pas",
+      es: { title: "Lo que comemos, lo que no tenemos" },
       lessons: [
         "gram-articles-partitifs",
         "gram-negation",
@@ -25,10 +30,12 @@ export const A2: Parcours = {
     },
     {
       title: "L’heure, les jours, les rendez-vous",
+      es: { title: "La hora, los días, las citas" },
       lessons: ["voc-heure", "voc-jours-et-date", "conv-rendez-vous-medecin"],
     },
     {
       title: "Se déplacer, décrire un lieu",
+      es: { title: "Moverse, describir un lugar" },
       lessons: [
         "astuce-a-en-au-aux",
         "conv-demander-son-chemin",
@@ -39,6 +46,7 @@ export const A2: Parcours = {
     },
     {
       title: "Montrer, choisir, commander",
+      es: { title: "Señalar, elegir, pedir" },
       lessons: [
         "gram-pronoms-demonstratifs",
         "ex-ce-ou-celui",
@@ -48,6 +56,7 @@ export const A2: Parcours = {
     },
     {
       title: "Raconter ce qui s’est passé",
+      es: { title: "Contar lo que pasó" },
       lessons: [
         "gram-passe-compose",
         "astuce-etre-ou-avoir",
@@ -58,6 +67,7 @@ export const A2: Parcours = {
     },
     {
       title: "Raconter comment c’était",
+      es: { title: "Contar cómo era" },
       lessons: [
         "gram-imparfait",
         "gram-pc-ou-imparfait",
@@ -68,6 +78,7 @@ export const A2: Parcours = {
     },
     {
       title: "Relier ses idées",
+      es: { title: "Enlazar las ideas" },
       lessons: [
         "gram-connecteurs",
         "lect-ulysse-cyclope",
@@ -79,6 +90,7 @@ export const A2: Parcours = {
     },
     {
       title: "Le travail et les projets",
+      es: { title: "El trabajo y los planes" },
       lessons: [
         "gram-futur-proche",
         "voc-travail",
@@ -89,10 +101,12 @@ export const A2: Parcours = {
     },
     {
       title: "Ne pas répéter le nom",
+      es: { title: "No repetir el nombre" },
       lessons: ["gram-pronoms-cod-coi", "lect-cosette-bois"],
     },
     {
       title: "Lire et relire",
+      es: { title: "Leer y releer" },
       lessons: [
         "lect-lion-et-rat",
         "lect-phileas-fogg",

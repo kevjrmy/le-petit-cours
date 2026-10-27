@@ -93,9 +93,11 @@ fonctions**, mapped against the lessons in each level's file in `docs/levels/`.
 
 ## Language of instruction
 
-**From A2 up, everything is written in French** (#53); **an A1 page explains in Spanish** and
-teaches in French (#85); a `traduction` page's source text is Spanish as material (#55). The
-interface stays French at every level. **English is never used.** The rules are in `AGENTS.md` §1.
+**The interface and the explanations follow the learner's language, French or Spanish** (#102):
+the device's language by default, French when it is neither, a switch for everyone. From A2 every
+explanation has both; **an A1 page explains in Spanish** in both and teaches in French (#85); a
+`traduction` page's source text is Spanish as material (#55). The French taught is never
+translated. **English is never used.** The rules are in `AGENTS.md` §1.
 
 The reader being a Spanish speaker decides *what gets explained and how plainly* — false friends
 defined, interference errors printed wrong-then-right — not which language explains. One language

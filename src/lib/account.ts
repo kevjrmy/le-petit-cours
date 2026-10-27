@@ -1,5 +1,6 @@
 import { CHOOSABLE_LEVELS, LADDER, type Level, type View } from "@/data/navigation";
 import { findParcours, type Parcours } from "@/data/parcours";
+import type { Lang } from "@/lib/lang";
 import { getSupabaseClient } from "@/lib/supabase/client";
 
 /**
@@ -150,15 +151,13 @@ export function readParcours(raw: unknown): Parcours | null {
 }
 
 /**
- * The language of the account's own screens (#91): `/bienvenue`, `/compte` and
- * the account menu. **Never the lessons, the sidebar or a title** — those are
- * French for everyone (#53). French is the default and the fallback, so
- * anything but `"es"` reads as French.
+ * The interface language the account chose (#91, #102), or `null` when it
+ * never chose: then the device's languages decide (`src/lib/lang.ts`).
  */
-export type Lang = "fr" | "es";
+export type { Lang };
 
-export function readLang(raw: unknown): Lang {
-  return raw === "es" ? "es" : "fr";
+export function readLang(raw: unknown): Lang | null {
+  return raw === "es" || raw === "fr" ? raw : null;
 }
 
 /**

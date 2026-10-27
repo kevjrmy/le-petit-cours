@@ -4,7 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { listedChapters, iconAnnexes, type IconAnnexe } from "@/data/navigation";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
+import { T } from "@/components/lang/T";
 import { useAccount } from "@/hooks/useAccount";
+import { useLang } from "@/hooks/useLang";
 import { useRestoreRail } from "@/hooks/useShellMode";
 import { AccountMenu } from "./AccountMenu";
 import styles from "./AppSidebar.module.css";
@@ -24,6 +26,9 @@ import styles from "./AppSidebar.module.css";
 export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: () => void }) {
   const pathname = usePathname();
   const account = useAccount();
+  /* For the names on the links (an attribute); the visible labels are `<T>`,
+     right before paint (#102). */
+  const lang = useLang();
   useRestoreRail();
 
   /* Either list can be empty — nothing but the manifest decides what is in
@@ -38,7 +43,9 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
   /* One row, wherever the annexe sits. Written once because the two lists are
      the same row in two places, and the day one grows an active state or a
      badge the other has to have it too. */
-  const annexeRow = (page: IconAnnexe) => (
+  const annexeRow = (page: IconAnnexe) => {
+    const name = lang === "es" ? page.titleEs : page.title;
+    return (
     <li key={page.path}>
       <Link
         href={page.path}
@@ -48,15 +55,18 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
            hides the text — an icon-only control must still say what it is
            (`AGENTS.md` §5). `title` gives the sighted rail user the same thing
            on hover. */
-        aria-label={page.title}
-        title={page.title}
+        aria-label={name}
+        title={name}
         onClick={onNavigate}
       >
         <ChapterIcon name={page.icon} />
-        <span className={styles.label}>{page.title}</span>
+        <span className={styles.label}>
+          <T fr={page.title} es={page.titleEs} />
+        </span>
       </Link>
     </li>
-  );
+    );
+  };
 
   return (
     <div
@@ -78,7 +88,10 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
         </Link>
       </div>
 
-      <nav className={styles.tree} aria-label="Sommaire du cours">
+      <nav
+        className={styles.tree}
+        aria-label={lang === "es" ? "Índice del curso" : "Sommaire du cours"}
+      >
         {/* Above the chapters, because it is the way into them. */}
         {topAnnexes.length > 0 && (
           /* The rule under this list separates it from the chapters. With none
@@ -94,6 +107,10 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
                in here saying where you are. */
             const active =
               pathname === chapter.path || pathname.startsWith(`${chapter.path}/`);
+            /* A short title is a French abbreviation; the Spanish title is
+               the whole one, and short enough for the row. */
+            const titleFr = chapter.shortTitle ?? chapter.title;
+            const name = lang === "es" ? chapter.es.title : titleFr;
 
             return (
               <li key={chapter.slug}>
@@ -105,13 +122,13 @@ export function AppSidebar({ open, onNavigate }: { open: boolean; onNavigate: ()
                      the rail hides the text (`AGENTS.md` §5). It repeats the
                      visible label rather than elaborating on it — a different
                      accessible name is what breaks voice control. */
-                  aria-label={chapter.shortTitle ?? chapter.title}
-                  title={chapter.shortTitle ?? chapter.title}
+                  aria-label={name}
+                  title={name}
                   onClick={onNavigate}
                 >
                   <ChapterIcon name={chapter.icon} />
                   <span className={styles.chapterTitle}>
-                    {chapter.shortTitle ?? chapter.title}
+                    <T fr={titleFr} es={chapter.es.title} />
                   </span>
                 </Link>
               </li>

@@ -3,7 +3,7 @@
 import { useState, type ReactNode } from "react";
 import { CHOOSABLE_LEVELS, LADDER, type Level, type View } from "@/data/navigation";
 import { SaveSettingError, saveView, type Lang } from "@/lib/account";
-import { Fr, LEVEL_BLURB, WORDS } from "./words";
+import { LEVEL_BLURB, WORDS } from "./words";
 import styles from "./AccountSettings.module.css";
 
 /*
@@ -31,8 +31,8 @@ const UI = {
     title: "Lo que ves",
     intro: (
       <>
-        El <Fr>«&nbsp;Sommaire&nbsp;»</Fr>, los capítulos y el menú solo muestran los
-        niveles elegidos aquí. Las páginas sin nivel, como las tablas de
+        El índice, los capítulos y el menú solo muestran los niveles elegidos
+        aquí. Las páginas sin nivel, como las tablas de
         conjugación, siempre están. Nada está bloqueado: una lección se puede
         leer si llegas a ella.
       </>
@@ -82,8 +82,7 @@ export function ViewChooser({ current, lang }: { current: View; lang: Lang }) {
       <ul className={styles.choices}>
         <li>
           <Choice
-            name="Tout"
-            nameLang={lang === "es" ? "fr" : undefined}
+            name={WORDS[lang].allName}
             blurb={WORDS[lang].allLevels}
             pressed={current === "all"}
             disabled={saving}
@@ -139,7 +138,6 @@ export function Choice({
   disabled,
   onPress,
   nameLang,
-  blurbLang,
 }: {
   name: string;
   blurb: string;
@@ -149,10 +147,9 @@ export function Choice({
   pressed: boolean;
   disabled: boolean;
   onPress: () => void;
-  /** `"fr"` when the card sits in Spanish text: the names are French (§1). */
+  /** The name's own language, when it differs from the text around it — each
+      language in the language chooser is named in itself. */
   nameLang?: string;
-  /** Likewise for a blurb left in French. */
-  blurbLang?: string;
 }) {
   return (
     <button
@@ -171,9 +168,7 @@ export function Choice({
         {meta && <span className={styles.choiceMeta}>{meta}</span>}
       </span>
       {blurb && (
-        <span className={styles.choiceBlurb} lang={blurbLang}>
-          {blurb}
-        </span>
+        <span className={styles.choiceBlurb}>{blurb}</span>
       )}
     </button>
   );

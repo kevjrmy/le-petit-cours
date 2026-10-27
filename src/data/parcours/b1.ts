@@ -9,17 +9,24 @@ export const B1: Parcours = {
   title: "Parcours B1",
   blurb: "Vous suivez une conversation. Raconter en détail, imaginer, lire de près.",
   level: "B1",
+  es: {
+    title: "Recorrido B1",
+    blurb: "Sigues una conversación. Contar con detalle, imaginar, leer de cerca.",
+  },
   etapes: [
     {
       title: "Raconter dans l’ordre",
+      es: { title: "Contar en orden" },
       lessons: ["gram-plus-que-parfait", "ex-etre-ou-avoir", "lect-monte-cristo"],
     },
     {
       title: "Imaginer, demander poliment",
+      es: { title: "Imaginar, pedir con educación" },
       lessons: ["gram-conditionnel-present", "lect-cyrano"],
     },
     {
       title: "Reprendre sans nommer",
+      es: { title: "Retomar sin nombrar" },
       lessons: [
         "gram-ce-qui-ce-que",
         "ex-ce-ou-celui",
@@ -29,6 +36,7 @@ export const B1: Parcours = {
     },
     {
       title: "Lire de près",
+      es: { title: "Leer de cerca" },
       lessons: [
         "lect-swann",
         "lect-romeo-juliette",

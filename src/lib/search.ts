@@ -1,4 +1,13 @@
-import { annexes, chapters, inView, listedAt, type Level, type PageEntry, type View } from "@/data/navigation";
+import {
+  annexes,
+  chapters,
+  inView,
+  listedAt,
+  tagEs,
+  type Level,
+  type PageEntry,
+  type View,
+} from "@/data/navigation";
 
 /**
  * Searching the course, over the manifest and nothing else.
@@ -39,8 +48,13 @@ export function fold(value: string): string {
 export interface SearchHit {
   path: string;
   title: string;
+  /** A chapter's or an annexe's title in the Spanish interface (#102). A
+   *  lesson has none: its title names the French it teaches. */
+  titleEs?: string;
   titleHtml?: string;
   subtitle?: string;
+  /** A chapter's blurb in the Spanish interface. */
+  subtitleEs?: string;
   tag?: string;
   /** The page's own rung, drawn as its badge; `null` for none. */
   level: Level | null;
@@ -48,31 +62,42 @@ export interface SearchHit {
   listedAt: Level[];
   /** Where the hit sits in the course — « Grammaire », « Chapitre », « Le site ». */
   where: string;
+  /** The same in the Spanish interface — « Gramática », « Capítulo », « El sitio ». */
+  whereEs: string;
 }
 
 interface Entry extends SearchHit {
-  /** The title, folded. Scored on its own: a title match beats a blurb match. */
-  title_: string;
+  /** The titles, folded — French, and Spanish where there is one, so a
+   *  Spanish speaker typing « conjugación » finds the chapter (#102). Scored
+   *  on their own: a title match beats a blurb match. */
+  titles_: string[];
   /** Every other searchable field, folded and joined. */
   rest_: string;
 }
 
 function entry(
-  page: PageEntry & { sets?: Level[] },
-  where: string,
+  page: PageEntry & { sets?: Level[]; titleEs?: string; subtitleEs?: string },
+  where: { fr: string; es: string },
   rest: string[] = [],
 ): Entry {
   return {
     path: page.path,
     title: page.title,
+    titleEs: page.titleEs,
     titleHtml: page.titleHtml,
     subtitle: page.subtitle,
+    subtitleEs: page.subtitleEs,
     tag: page.tag,
     level: page.level,
     listedAt: listedAt(page),
-    where,
-    title_: fold(page.title),
-    rest_: fold([page.subtitle, page.tag, page.delf, ...rest].filter(Boolean).join(" ")),
+    where: where.fr,
+    whereEs: where.es,
+    titles_: [page.title, page.titleEs].filter((title) => title !== undefined).map(fold),
+    rest_: fold(
+      [page.subtitle, page.subtitleEs, page.tag, page.tag && tagEs(page.tag), page.delf, ...rest]
+        .filter(Boolean)
+        .join(" "),
+    ),
   };
 }
 
@@ -91,16 +116,27 @@ const listed = chapters.filter((chapter) => chapter.lessons.length > 0);
 const index: Entry[] = [
   ...listed.map((chapter) =>
     entry(
-      { path: chapter.path, title: chapter.title, subtitle: chapter.blurb, level: null },
-      "Chapitre",
+      {
+        path: chapter.path,
+        title: chapter.title,
+        titleEs: chapter.es.title,
+        subtitle: chapter.blurb,
+        subtitleEs: chapter.es.blurb,
+        level: null,
+      },
+      { fr: "Chapitre", es: "Capítulo" },
     ),
   ),
   ...listed.flatMap((chapter) =>
     chapter.lessons.map((lesson) =>
-      entry(lesson, chapter.shortTitle ?? chapter.title, [chapter.title]),
+      entry(
+        lesson,
+        { fr: chapter.shortTitle ?? chapter.title, es: chapter.es.title },
+        [chapter.title, chapter.es.title],
+      ),
     ),
   ),
-  ...annexes.map((page) => entry(page, "Le site")),
+  ...annexes.map((page) => entry(page, { fr: "Le site", es: "El sitio" })),
 ];
 
 /**
@@ -111,17 +147,21 @@ const index: Entry[] = [
  * an `.some()` would quietly get backwards.
  */
 function score(row: Entry, query: string, terms: string[]): number {
-  const all = `${row.title_} ${row.rest_}`;
+  const all = `${row.titles_.join(" ")} ${row.rest_}`;
   if (!terms.every((term) => all.includes(term))) return 0;
 
-  let points = 5; /* matched, but only away from the title */
-  if (row.title_ === query) points = 100;
-  else if (row.title_.startsWith(query)) points = 60;
-  else if (` ${row.title_}`.includes(` ${query}`)) points = 40;
-  else if (row.title_.includes(query)) points = 25;
-  else if (terms.every((term) => row.title_.includes(term))) points = 15;
+  /* matched, but only away from the title */
+  return Math.max(5, ...row.titles_.map((title) => titleScore(title, query, terms)));
+}
 
-  return points;
+/** How well one folded title answers the query; `0` when it does not. */
+function titleScore(title: string, query: string, terms: string[]): number {
+  if (title === query) return 100;
+  if (title.startsWith(query)) return 60;
+  if (` ${title}`.includes(` ${query}`)) return 40;
+  if (title.includes(query)) return 25;
+  if (terms.every((term) => title.includes(term))) return 15;
+  return 0;
 }
 
 /**

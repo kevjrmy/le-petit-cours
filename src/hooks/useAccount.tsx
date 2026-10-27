@@ -10,6 +10,7 @@ import {
   readView,
   type Lang,
 } from "@/lib/account";
+import { applyLang } from "@/lib/lang";
 import { getSupabaseClient, SUPABASE_CONFIGURED } from "@/lib/supabase/client";
 import type { View } from "@/data/navigation";
 import type { Parcours } from "@/data/parcours";
@@ -44,10 +45,11 @@ export interface Account {
   /** The levels they chose to see listed, or `"all"` (#86). */
   view: View;
   /**
-   * The language of the account's own screens, French unless they chose
-   * Spanish (#91). Lessons and chrome ignore it (#53).
+   * The interface language they chose, or `null`: then the device decides
+   * (#91, #102). The provider applies it to the page; read the language
+   * through `useLang()`, never from here.
    */
-  lang: Lang;
+  lang: Lang | null;
   /** The path they follow, or `null` for none (#88). Never set by the view. */
   parcours: Parcours | null;
   /**
@@ -122,12 +124,19 @@ export function AccountProvider({ children }: { children: ReactNode }) {
          no constraints, so a malformed value can exist; the interface simply
          does not believe it (#36). */
       const meta = user.user_metadata ?? {};
+
+      /* The account's language wins over the device's, and is copied to this
+         device so the next load is right before paint (#102). Never chosen,
+         the device keeps deciding. */
+      const lang = readLang(meta.lang);
+      if (lang) applyLang(lang);
+
       setAccount({
         id: user.id,
         username: readUsername(meta.username, user.email),
         email: user.email,
         displayName: readDisplayName(meta.display_name),
-        lang: readLang(meta.lang),
+        lang,
         view: readView(meta.view, meta.level),
         parcours: readParcours(meta.parcours),
         chosen: readChosen(meta),

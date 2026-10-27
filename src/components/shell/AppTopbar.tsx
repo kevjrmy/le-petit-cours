@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { findLesson } from "@/data/navigation";
+import { T } from "@/components/lang/T";
+import { useLang } from "@/hooks/useLang";
 import { setRail, type ShellMode } from "@/hooks/useShellMode";
 import { PanelIcon } from "./PanelIcon";
 import styles from "./AppTopbar.module.css";
@@ -44,6 +46,7 @@ export function AppTopbar({
   onToggle: () => void;
 }) {
   const pathname = usePathname();
+  const lang = useLang();
   const found = findLesson(pathname);
   const parent = found?.chapter ?? null;
 
@@ -54,13 +57,14 @@ export function AppTopbar({
   /* One button, but not one verb: a drawer is opened and closed, a panel is
      réduit and développé. Saying « Ouvrir » of a rail that is already on screen
      would describe the wrong thing to the one user who depends on the label. */
-  const label = drawer
-    ? open
-      ? "Fermer le menu"
-      : "Ouvrir le menu"
-    : expanded
-      ? "Réduire le menu"
-      : "Développer le menu";
+  const verb = drawer ? (open ? "close" : "open") : expanded ? "collapse" : "expand";
+  const LABELS = {
+    close: { fr: "Fermer le menu", es: "Cerrar el menú" },
+    open: { fr: "Ouvrir le menu", es: "Abrir el menú" },
+    collapse: { fr: "Réduire le menu", es: "Contraer el menú" },
+    expand: { fr: "Développer le menu", es: "Desplegar el menú" },
+  };
+  const label = LABELS[verb];
 
   return (
     <header className={styles.topbar}>
@@ -70,16 +74,25 @@ export function AppTopbar({
         aria-expanded={expanded}
         aria-controls="sidebar"
         onClick={() => (drawer ? onToggle() : setRail(!railed))}
-        title={label}
+        /* `title` is an attribute, read from the hook; the hidden name is
+           `<T>`, right before paint (#102). */
+        title={label[lang]}
       >
-        <span className="visually-hidden">{label}</span>
+        <span className="visually-hidden">
+          <T fr={label.fr} es={label.es} />
+        </span>
         <PanelIcon expanded={expanded} />
       </button>
 
       {parent && (
         <div className={styles.trail}>
-          <nav className={styles.crumbs} aria-label="Fil d'Ariane">
-            <Link href={parent.path}>{parent.shortTitle ?? parent.title}</Link>
+          <nav
+            className={styles.crumbs}
+            aria-label={lang === "es" ? "Ruta de navegación" : "Fil d'Ariane"}
+          >
+            <Link href={parent.path}>
+              <T fr={parent.shortTitle ?? parent.title} es={parent.es.title} />
+            </Link>
           </nav>
         </div>
       )}

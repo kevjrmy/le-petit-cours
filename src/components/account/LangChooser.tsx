@@ -1,36 +1,40 @@
 "use client";
 
 import { useState } from "react";
-import { SaveSettingError, saveLang, type Lang } from "@/lib/account";
+import { SaveSettingError, saveLang } from "@/lib/account";
+import { applyLang, LANGS, type Lang } from "@/lib/lang";
 import { Flag, LANG_NAME } from "./Flag";
 import { Choice } from "./ViewChooser";
 import { WORDS } from "./words";
 import styles from "./AccountSettings.module.css";
 
-const LANGS: Lang[] = ["fr", "es"];
-
 const UI = {
   fr: {
     title: "Langue",
-    intro: "La langue de cette page et du menu du compte. Les leçons restent en français.",
+    intro: "La langue du site et des leçons, sur tous vos appareils.",
   },
   es: {
     title: "Idioma",
-    intro: "El idioma de esta página y del menú de la cuenta. Las lecciones siguen en francés.",
+    intro: "El idioma del sitio y de las lecciones, en todos tus dispositivos.",
   },
 } satisfies Record<Lang, Record<string, string>>;
 
 /**
- * The language of the account screens (#91): French or Spanish, each named in
- * itself beside its flag. **Saved on the press**, like the view; the page
- * switches when `USER_UPDATED` comes back through the provider.
+ * The interface language (#91, #102): French or Spanish, each named in itself
+ * beside its flag. **Shown at once and saved on the press**, like the view.
+ *
+ * `current` is the language on screen (`useLang`); `saved` is the account's
+ * copy, `null` while it never chose. Pressing the language already shown still
+ * saves it when the account holds none, so the device's guess becomes the
+ * account's choice and follows it to the next device.
  */
-export function LangChooser({ current }: { current: Lang }) {
+export function LangChooser({ current, saved }: { current: Lang; saved: Lang | null }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function choose(lang: Lang) {
-    if (lang === current) return;
+    if (lang === current && lang === saved) return;
+    applyLang(lang);
     setSaving(true);
     setError(null);
     try {

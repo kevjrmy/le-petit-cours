@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { PageRow } from "@/components/nav/PageRow";
+import { T } from "@/components/lang/T";
 import { Planete } from "@/components/ornement/Planete";
 import { useAccount } from "@/hooks/useAccount";
 import { atView, searchCourse } from "@/lib/search";
@@ -37,7 +38,11 @@ export function SearchResults() {
   return (
     <>
       <h1 className={styles.title}>
-        {query ? <>Résultats pour «&nbsp;{query}&nbsp;»</> : "Recherche"}
+        {query ? (
+          <T fr={<>Résultats pour «&nbsp;{query}&nbsp;»</>} es={<>Resultados para «{query}»</>} />
+        ) : (
+          <T fr="Recherche" es="Búsqueda" />
+        )}
       </h1>
 
       <SearchBox defaultValue={query} />
@@ -45,11 +50,19 @@ export function SearchResults() {
       {/* Announced politely rather than not at all: a screen reader user who
           submits the form needs to be told the count changed. */}
       <p className={styles.count} role="status">
-        {!query
-          ? "Cherchez une leçon, un chapitre ou une page du site."
-          : hits.length === 0
-            ? `Aucun résultat pour « ${query} ».`
-            : `${hits.length} résultat${hits.length > 1 ? "s" : ""}`}
+        {!query ? (
+          <T
+            fr="Cherchez une leçon, un chapitre ou une page du site."
+            es="Busca una lección, un capítulo o una página del sitio."
+          />
+        ) : hits.length === 0 ? (
+          <T fr={`Aucun résultat pour « ${query} ».`} es={`Ningún resultado para «${query}».`} />
+        ) : (
+          <T
+            fr={`${hits.length} résultat${hits.length > 1 ? "s" : ""}`}
+            es={`${hits.length} resultado${hits.length > 1 ? "s" : ""}`}
+          />
+        )}
       </p>
 
       {here.length > 0 && (
@@ -62,11 +75,26 @@ export function SearchResults() {
 
       {elsewhere.length > 0 && (
         <section className={styles.other}>
-          <h2 className="label">À d’autres niveaux</h2>
+          <h2 className="label">
+            <T fr="À d’autres niveaux" es="En otros niveles" />
+          </h2>
           <p className={styles.otherNote}>
-            {here.length > 0 ? "Ces pages ne sont pas" : "Ce que vous cherchez n’est pas"} aux
-            niveaux que vous avez choisis, mais elles se lisent normalement.{" "}
-            <Link href="/compte#vue">Changer</Link>
+            <T
+              fr={
+                <>
+                  {here.length > 0 ? "Ces pages ne sont pas" : "Ce que vous cherchez n’est pas"}{" "}
+                  aux niveaux que vous avez choisis, mais elles se lisent normalement.
+                </>
+              }
+              es={
+                here.length > 0
+                  ? "Estas páginas no están en los niveles que has elegido, pero se pueden leer con normalidad."
+                  : "Lo que buscas no está en los niveles que has elegido, pero se puede leer con normalidad."
+              }
+            />{" "}
+            <Link href="/compte#vue">
+              <T fr="Changer" es="Cambiar" />
+            </Link>
           </p>
           <ul className={styles.list}>
             {elsewhere.map((hit) => (
@@ -80,8 +108,10 @@ export function SearchResults() {
         <div className={styles.empty}>
           <Planete />
           <p>
-            La recherche porte sur les titres du cours, pas encore sur le texte
-            des leçons. Essayez un mot plus court, ou parcourez le cours.
+            <T
+              fr="La recherche porte sur les titres du cours, pas encore sur le texte des leçons. Essayez un mot plus court, ou parcourez le cours."
+              es="La búsqueda mira los títulos del curso, todavía no el texto de las lecciones. Prueba con una palabra más corta, o explora el curso."
+            />
           </p>
           <StartPills />
         </div>

@@ -39,7 +39,9 @@ renumber; add inside a section.
 Count content in `src/data/navigation.ts`, never in prose.
 
 - **Decided, not built**: #89's syllabus as data (its épreuves are built); #86's manifest split,
-  one file per chapter. Until they land, nothing measures coverage. **A page with sets shows the
+  one file per chapter. Until they land, nothing measures coverage.
+- **#102 is built for every A2+ page** (2026-10-27). `grep -L 'data-ui' src/app/*/*/page.tsx` lists
+  the rest, on purpose: A1 pages, `litterature`, `delf`, `atelier`, and a drill with no prose. **A page with sets shows the
   parcours's level, and no tabs** (#87 amended).
 - **The four parcours are first drafts** from the pages that existed on 2026-09-30; the teaching
   order awaits the maintainer's review.
@@ -75,24 +77,34 @@ Two profiles needing opposite things (`docs/scope.md`, #13):
 
 Language:
 
-- **French only, from A2 up** (#53): explanations, tables, callouts, instructions, chrome. No gloss,
-  no translation column. **Exceptions**: a `traduction` source text (#55), **a page whose floor
-  is A1, which explains in Spanish and teaches in French** (#85, `docs/levels/a1.md`), the A1
-  body of a literary work, Spanish under each French line (#92), and
-  the account screens in the account's language, `fr` or `es` (#91: `/bienvenue`, `/compte`, the
-  account menu's own words and rows, « Mi progresión », « Cuenta »), and `/instalar`, `/installer`
-  in Spanish (#101: two pages, one component, changed together). Chrome and manifest titles are
-  French at every level.
-- **On an A1 page `lang` is not optional**: `lang="es"` on each `<section>` and `.resume` (never
-  `<article>`), `lang="fr"` back on every piece of French. Peninsular Spanish, `tú`.
-- **The explanation is easier than the French it teaches.** Short sentences; wrong-then-right
+- **Two languages, the learner's** (#102): the interface and every explanation exist in French
+  **and** Spanish; `<html data-lang>` picks one before paint (account, else this device's choice,
+  else the browser, else French). **Every page prints both; CSS hides one** (`[data-ui]`).
+- **Text in two languages is `<T fr es>` or a `data-ui` pair, never `useLang()`** — it reads
+  « fr » during hydration, so visible text flashes French. `useLang()` is for attributes and
+  strings built in code. **A lesson pairs each `<section>` and its `.resume`**
+  (`data-ui="fr"`, `data-ui="es" lang="es"`); the French it teaches is written once, shared.
+- **Two copies, one change**: an explanation edited in one language only is the silent failure.
+  A page with French sections only shows them in both interfaces (§0).
+- **French in both interfaces**: the French taught (no gloss, no translation column from A2), lesson
+  titles, subtitles and DELF descriptors, a DELF épreuve's content, the atelier, the tab title and
+  `<meta>`, the PWA manifest. Spanish in both: a `traduction` source (#55), **an A1 page's
+  explanation** (#85, `docs/levels/a1.md`), the A1 body of a literary work (#92), and `/instalar`
+  (#101). Chapter and annexe titles and badges have Spanish twins in the manifest (`es`,
+  `titleEs`, `tagEs`), required.
+- **In Spanish text `lang` is not optional**: `lang="es"` on each Spanish `<section>`, `.resume`
+  and `data-ui="es"` element (never `<article>`), `lang="fr"` back on every piece of French.
+  Peninsular Spanish, `tú`; the French says `vous`.
+- **The explanation is easier than the French it teaches**, and the Spanish one as plain. Short
+  sentences; wrong-then-right
   (« il est trois » is corrected; *son las tres* is printed only at A1). No literary tenses; no
   metalanguage beyond *verbe, sujet, adjectif, accord* except on heritage pages.
 - **A false friend gets a definition and an example**, never just a translation.
 - **English, never** — no gloss, no mnemonic (never DR & MRS VANDERTRAMP).
 - **Both profiles type on a Spanish keyboard**: `é è ê` cost a detour, `œ ç` cannot be typed (§9).
 - **Words**: « le cours », never « le livre »; **leçon** a page, **chapitre**, **sommaire**,
-  **parcours** an ordered path, **programme** a level's syllabus. In English, *the course*.
+  **parcours** an ordered path, **programme** a level's syllabus. In Spanish: *curso, lección,
+  capítulo, Índice, recorrido, Lo siguiente* (« La suite »). In English, *the course*.
 
 Levels (per-level detail: `docs/levels/`):
 
@@ -145,8 +157,8 @@ Read `node_modules/next/dist/docs/` first. The traps:
   button.
 - **No browser storage during render** (hydration error). Use a lazy `useState` in a leaf, or — only
   for a pre-paint value — an inline `<head>` script + `suppressHydrationWarning`. Progress and level
-  are in IndexedDB. **`localStorage` holds the theme and the collapsed sidebar, and nothing else**
-  (#24, #42).
+  are in IndexedDB. **`localStorage` holds the theme, the collapsed sidebar and the interface language, and
+  nothing else** (#24, #42, #102).
 - **The theme must not flash**: inline script sets `data-theme` before paint.
 - **`window`, `document`, `navigator`, `speechSynthesis`** exist only in effects and handlers.
 - **Speech is `useSpeech` alone** (#94): a French voice set on the utterance, or silence and a
@@ -155,6 +167,8 @@ Read `node_modules/next/dist/docs/` first. The traps:
 - **`beforeinstallprompt` is caught by `src/lib/install.ts`, which the shell imports** (#101): it
   fires once per load, on the landing page; a listener in `/installer` or `/instalar` would miss it. It
   calls `preventDefault()`, so the browser's own pop-up never shows: our button is the one offer.
+- **`html lang` stays `fr`** (#102): the French taught inherits it. Never switch it with the
+  interface; a Spanish element carries `lang="es"` itself.
 
 ## 5. Design system
 
@@ -175,8 +189,8 @@ day, night blue by night, text in blue ink in both.
   only where a size follows its surroundings (`.fr`, a box's label).
 - **So is a raw margin, padding or gap**: seventeen steps, `--space-2` to `--space-88`. A measured
   alignment keeps its number and says « measured » on its line.
-- **Serif = the French taught** (`.fr`, `.example`), **sans = the explanation** (#53). `lang="fr"`
-  is inherited — repeat it only for an element pronounced alone, and on A1 pages (§1).
+- **Serif = the French taught** (`.fr`, `.example`), **sans = the explanation**, in either language (#102). `lang="fr"`
+  is inherited — repeat it only for an element pronounced alone, and inside Spanish text (§1).
   **Inside `.rule`, `.attention`, `.exception` and `.astuce` a `.fr` takes the box's sans**: weight
   marks the right form there, italic and strike the wrong one.
 - **A cited form is `span.fr`, semi-bold; a wrong one is `<s className="fr">`, italic and struck
@@ -250,7 +264,7 @@ folder is a 404, a folder without an entry is unreachable — `nav-wiring` audit
 - **Annexe position is a manifest field** (`where: top | tree | menu | footer`, #47). The footer
   draws only on `/` and on its own pages (#63), so a `footer` annexe is unreachable from a lesson.
 - **`featuredChapterSlugs` is the one hand-kept list**; fails soft.
-- **Search reads the manifest only, folds accents, groups by level.** `/recherche` stays static:
+- **Search reads the manifest only, folds accents, groups by level**, and matches the Spanish twins too. `/recherche` stays static:
   `useSearchParams` in a leaf inside `Suspense`.
 - **A route outside the course goes in `unlistedPages`** (the audit reads it).
 - **The site asks not to be indexed** (#95): `X-Robots-Tag: noindex` on every response
@@ -367,7 +381,7 @@ None of these fail a build; each reached a published page.
 - **Two or three sections** per lesson; more is two lessons.
 - **A prose lesson ends with `.resume`**: a written `<h2>En résumé</h2>` (« En resumen » at A1) and
   four or five restating bullets, last in the `<article>` (#67). **No quiz on a prose lesson.**
-- **Tables**: `<caption>`, **four columns max**, an example-sentence column (#53); at A1 a gloss
+- **Tables**: `<caption>`, **four columns max**, an example-sentence column (#102); at A1 a gloss
   column may be added within the four.
 - **No PDF export, no print stylesheet** (#1).
 - **Lecture quizzes use `<button>` options**, never hidden radios.

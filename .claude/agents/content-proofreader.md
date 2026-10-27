@@ -18,7 +18,11 @@ and the bug classes to hunt; the passes below are how.
 
 ## Who the text is for
 
-Two profiles (§1, #13), and **French only from A2 up** (#53). **A page whose floor is A1 explains in
+Two profiles (§1, #13), and **two languages from A2 up** (#102): each section has a French and a
+Spanish twin (`data-ui`). **Check parity first**: the same sections, callouts, résumé bullets and
+counts in both, the same French shown, `lang="fr"` on every piece of French inside the Spanish
+section; a twin that says less, more or something else is a finding. Judge the Spanish too
+(Peninsular, `tú`, plain). **A page whose floor is A1 explains in
 Spanish** (#85); check the manifest's `level` before judging — `"A1"` is an A1 page. **A literary
 work is the exception** (#92): its `level` is A1 because it holds an A1 body, but only `a1.tsx` is
 A1 (Spanish explanation, the course's Spanish under each French line); `a2.tsx` and `b1.tsx` are

@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { signIn, SignInError, type SignInProblem } from "@/lib/account";
 import { Planete } from "@/components/ornement/Planete";
+import { T } from "@/components/lang/T";
 import styles from "./AccountSettings.module.css";
 
 type State =
   | { kind: "idle" }
   | { kind: "signing" }
-  | { kind: "error"; message: string };
+  | { kind: "error"; problem: SignInProblem };
 
 /**
  * Username and password, the classic way in.
@@ -27,17 +28,31 @@ type State =
  * the browser client, `signInWithPassword` returns a session directly, and
  * there is no redirect to come back from. That is what let `/auth/callback`
  * and the server client be deleted with it.
+ *
+ * **Both languages through `<T>`** (#102): signed out, `/compte` prerenders
+ * this form, so its words must be right before paint, not after hydration.
  */
-const PROBLEM: Record<SignInProblem, string> = {
-  unavailable: "La connexion n’est pas configurée sur ce site.",
-  credentials: "Identifiant ou mot de passe incorrect.",
+const PROBLEM: Record<SignInProblem, { fr: string; es: string }> = {
+  unavailable: {
+    fr: "La connexion n’est pas configurée sur ce site.",
+    es: "El inicio de sesión no está configurado en este sitio.",
+  },
+  credentials: {
+    fr: "Identifiant ou mot de passe incorrect.",
+    es: "Identificador o contraseña incorrectos.",
+  },
   /* Not the learner's mistake: it means the account was created without
      « Auto Confirm User » and no mail can reach a fake address, so it can only
      be fixed in the dashboard (#37). Without naming it, this surfaces as a
      generic failure on correct credentials — miserable to debug. */
-  unconfirmed:
-    "Ce compte n’a pas été activé. Signalez-le à la personne qui vous l’a donné.",
-  failed: "La connexion n’a pas abouti. Réessayez dans un instant.",
+  unconfirmed: {
+    fr: "Ce compte n’a pas été activé. Signalez-le à la personne qui vous l’a donné.",
+    es: "Esta cuenta no se ha activado. Avisa a la persona que te la dio.",
+  },
+  failed: {
+    fr: "La connexion n’a pas abouti. Réessayez dans un instant.",
+    es: "No se ha podido iniciar sesión. Vuelve a intentarlo en un momento.",
+  },
 };
 export function SignInForm() {
   const [username, setUsername] = useState("");
@@ -57,8 +72,7 @@ export function SignInForm() {
     } catch (error) {
       setState({
         kind: "error",
-        message:
-          error instanceof SignInError ? PROBLEM[error.problem] : PROBLEM.failed,
+        problem: error instanceof SignInError ? error.problem : "failed",
       });
       setPassword("");
     }
@@ -71,16 +85,22 @@ export function SignInForm() {
        same reason — there is nothing here for a section to be one of. */
     <>
       <Planete />
-      <h1>Se connecter</h1>
-      <p>
+      <h1>
+        <T fr="Se connecter" es="Iniciar sesión" />
+      </h1>
+      <p data-ui="fr">
         Un compte garde vos leçons cochées, votre niveau et le nom sous lequel
         le site vous appelle, d&rsquo;un appareil à l&rsquo;autre.
+      </p>
+      <p data-ui="es" lang="es">
+        Una cuenta guarda tus lecciones marcadas, tu nivel y el nombre con el
+        que te llama el sitio, de un dispositivo a otro.
       </p>
 
       <form className={styles.form} onSubmit={onSubmit} noValidate>
         <div className={styles.field}>
           <label className={`label ${styles.label}`} htmlFor="username">
-            Identifiant ou adresse électronique
+            <T fr="Identifiant ou adresse électronique" es="Identificador o correo electrónico" />
           </label>
           <input
             id="username"
@@ -101,7 +121,7 @@ export function SignInForm() {
 
         <div className={styles.field}>
           <label className={`label ${styles.label}`} htmlFor="password">
-            Mot de passe
+            <T fr="Mot de passe" es="Contraseña" />
           </label>
           <input
             id="password"
@@ -127,7 +147,11 @@ export function SignInForm() {
               password === ""
             }
           >
-            {state.kind === "signing" ? "Connexion…" : "Se connecter"}
+            {state.kind === "signing" ? (
+              <T fr="Connexion…" es="Iniciando sesión…" />
+            ) : (
+              <T fr="Se connecter" es="Iniciar sesión" />
+            )}
           </button>
         </div>
 
@@ -141,11 +165,16 @@ export function SignInForm() {
               empty — until now the page said so nowhere. The no-break space is
               the idle placeholder: `.help` reserves 1.2em, and an empty <p>
               would collapse the line the message appears on. */}
-          {state.kind === "error"
-            ? state.message
-            : username.trim() === "" || password === ""
-              ? "Saisissez votre identifiant et votre mot de passe."
-              : " "}
+          {state.kind === "error" ? (
+            <T {...PROBLEM[state.problem]} />
+          ) : username.trim() === "" || password === "" ? (
+            <T
+              fr="Saisissez votre identifiant et votre mot de passe."
+              es="Escribe tu identificador y tu contraseña."
+            />
+          ) : (
+            " "
+          )}
         </p>
       </form>
 
@@ -157,10 +186,15 @@ export function SignInForm() {
           du site est en accès libre » and this one closed with the same fact in
           other words, which is the page telling a stranger twice that they do
           not need what they are looking at. */}
-      <p className={styles.aside}>
+      <p className={styles.aside} data-ui="fr">
         Les comptes ne se créent pas depuis le site&nbsp;: ils sont attribués.
         Sans compte, tout le cours se lit et se fait quand même&nbsp;; seule la
         progression d&rsquo;un appareil à l&rsquo;autre en demande un.
+      </p>
+      <p className={styles.aside} data-ui="es" lang="es">
+        Las cuentas no se crean desde el sitio: se asignan. Sin cuenta, todo el
+        curso se puede leer y hacer igualmente; solo la progresión de un
+        dispositivo a otro necesita una.
       </p>
     </>
   );

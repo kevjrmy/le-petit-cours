@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Spectral } from "next/font/google";
 import { AppShell } from "@/components/shell/AppShell";
+import { LANG_SCRIPT } from "@/lib/lang";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -89,16 +90,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             does not prevent the flash, and a cookie read on the server would
             cost prerendering.
 
-            **Two jobs, and only these two** (decisions.md #24, #42). Both have
-            to be correct before anything is painted — a theme that arrives late
-            flashes white, and a sidebar that arrives late renders open and
-            snaps shut, which is worse because it moves the page. Both are one
-            short string nobody would mourn. The chosen view and progress are
-            in IndexedDB, which is async and cannot be read here at all; that is
-            the line, not the count. */}
+            **Three jobs, and only these three** (decisions.md #24, #42, #102).
+            Each has to be correct before anything is painted — a theme that
+            arrives late flashes white, a sidebar that arrives late renders open
+            and snaps shut, and a language that arrives late shows a Spanish
+            visitor the French first. Each is one short string nobody would
+            mourn. The chosen view and progress are in IndexedDB, which is async
+            and cannot be read here at all; that is the line, not the count.
+            The language's half is `LANG_SCRIPT`, kept beside the code that
+            writes the same key. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var d=document.documentElement;try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")d.setAttribute("data-theme",t);var r=localStorage.getItem("rail");if(r==="0"||r==="1")d.setAttribute("data-rail",r)}catch(e){}})()`,
+            __html: `(function(){var d=document.documentElement;try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")d.setAttribute("data-theme",t);var r=localStorage.getItem("rail");if(r==="0"||r==="1")d.setAttribute("data-rail",r)}catch(e){}${LANG_SCRIPT}})()`,
           }}
         />
       </head>

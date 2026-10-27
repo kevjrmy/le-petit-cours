@@ -1,13 +1,17 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { T } from "@/components/lang/T";
+import { useLang } from "@/hooks/useLang";
 import {
   AGREEMENT,
+  GROUPE_ES,
   IMPERATIF_PERSONS,
   PRONOUNS,
   futurForms,
   imparfaitForms,
   plain,
+  type Explication,
   type Verb,
 } from "@/data/conjugaisons";
 import styles from "./ConjugationSheet.module.css";
@@ -26,6 +30,11 @@ import styles from "./ConjugationSheet.module.css";
  *
  * A form is stored as `radical|terminaison` and drawn in two pieces, so the
  * pattern down a column is visible before any of the words are read.
+ *
+ * **Bilingual chrome, French forms** (#102): every label, title and note is
+ * printed in both languages and `globals.css` hides one before paint; the
+ * forms are French in both. A block is paired whole (`data-ui`), a heading
+ * too — « Index » skips the hidden one rather than reading « PrésentPresente ».
  */
 type Segment = { text: string; kind?: "person" | "stem" | "end" | "neg" | "accord" };
 
@@ -57,9 +66,46 @@ function negation(next: string): string {
   return VOWELS.test(next) ? "n’" : "ne ";
 }
 
+/** A Spanish explanation, its `{…}` French put back in `lang="fr"`. */
+function french(text: string): ReactNode {
+  return text.split(/(\{[^}]*\})/).map((part, i) =>
+    part.startsWith("{") ? (
+      <span key={i} lang="fr">
+        {part.slice(1, -1)}
+      </span>
+    ) : (
+      part
+    ),
+  );
+}
+
+/** One explanation as a pair of blocks, the Spanish one `lang="es"`. */
+function Paired({
+  text,
+  className,
+  as: Tag = "div",
+}: {
+  text: Explication;
+  className?: string;
+  as?: "div" | "p";
+}) {
+  return (
+    <>
+      <Tag className={className} data-ui="fr">
+        {text.fr}
+      </Tag>
+      <Tag className={className} data-ui="es" lang="es">
+        {french(text.es)}
+      </Tag>
+    </>
+  );
+}
+
 export function ConjugationSheet({ verb }: { verb: Verb }) {
   const [negative, setNegative] = useState(false);
   const [feminine, setFeminine] = useState(false);
+  /* The two toggles' names are attributes, so not a `<T>` (#102). */
+  const es = useLang() === "es";
 
   const pronouns = feminine ? PRONOUNS.feminin : PRONOUNS.masculin;
   const agreement = feminine ? AGREEMENT.feminin : AGREEMENT.masculin;
@@ -127,102 +173,162 @@ export function ConjugationSheet({ verb }: { verb: Verb }) {
     <>
       <dl className={styles.meta}>
         <div>
-          <dt className="label">Groupe</dt>
-          <dd>{verb.groupe}</dd>
+          <dt className="label">
+            <T fr="Groupe" es="Grupo" />
+          </dt>
+          <dd>
+            <T fr={verb.groupe} es={GROUPE_ES[verb.groupe]} />
+          </dd>
         </div>
         <div>
-          <dt className="label">Auxiliaire</dt>
+          <dt className="label">
+            <T fr="Auxiliaire" es="Auxiliar" />
+          </dt>
           <dd>{verb.aux}</dd>
         </div>
         <div>
-          <dt className="label">Participe passé</dt>
+          <dt className="label">
+            <T fr="Participe passé" es="Participio pasado" />
+          </dt>
           <dd>{verb.participe}</dd>
         </div>
         <div>
-          <dt className="label">Participe présent</dt>
+          <dt className="label">
+            <T fr="Participe présent" es="Participio presente" />
+          </dt>
           <dd>{plain(verb.ppresent)}</dd>
         </div>
       </dl>
 
-      {verb.note && <div className="attention">{verb.note}</div>}
+      {/* Two boxes, so the Spanish one's label reads « Recuerda » (`:lang(es)`). */}
+      {verb.note && <Paired text={verb.note} className="attention" />}
 
       <div className={styles.controls}>
-        <div className={styles.toggle} role="group" aria-label="Forme">
+        <div
+          className={styles.toggle}
+          role="group"
+          aria-label={es ? "Forma" : "Forme"}
+        >
           <button
             type="button"
             aria-pressed={!negative}
             onClick={() => setNegative(false)}
           >
-            Affirmatif
+            <T fr="Affirmatif" es="Afirmativo" />
           </button>
           <button
             type="button"
             aria-pressed={negative}
             onClick={() => setNegative(true)}
           >
-            Négatif
+            <T fr="Négatif" es="Negativo" />
           </button>
         </div>
 
-        <div className={styles.toggle} role="group" aria-label="Genre du sujet">
+        <div
+          className={styles.toggle}
+          role="group"
+          aria-label={es ? "Género del sujeto" : "Genre du sujet"}
+        >
           <button
             type="button"
             aria-pressed={!feminine}
             onClick={() => setFeminine(false)}
           >
-            Masculin
+            <T fr="Masculin" es="Masculino" />
           </button>
           <button
             type="button"
             aria-pressed={feminine}
             onClick={() => setFeminine(true)}
           >
-            Féminin
+            <T fr="Féminin" es="Femenino" />
           </button>
         </div>
       </div>
 
       {feminine && genderIsInert && (
-        <p className="message">
-          Avec l’auxiliaire <strong>avoir</strong>, le participe passé ne
-          s’accorde pas : le genre ne change que les pronoms.
-        </p>
+        <>
+          <p className="message" data-ui="fr">
+            Avec l’auxiliaire <strong>avoir</strong>, le participe passé ne
+            s’accorde pas : le genre ne change que les pronoms.
+          </p>
+          <p className="message" data-ui="es" lang="es">
+            Con el auxiliar <strong lang="fr">avoir</strong>, el participio
+            pasado no concuerda: el género solo cambia los pronombres.
+          </p>
+        </>
       )}
 
+      {/* One list, each item bilingual: never two lists alternating. */}
       <ul className={styles.legend}>
-        <li className={styles.stem}>radical</li>
-        <li className={styles.end}>terminaison</li>
-        {negative && <li className={styles.neg}>négation</li>}
-        {verb.aux === "être" && <li className={styles.accord}>accord</li>}
+        <li className={styles.stem}>
+          <T fr="radical" es="raíz" />
+        </li>
+        <li className={styles.end}>
+          <T fr="terminaison" es="terminación" />
+        </li>
+        {negative && (
+          <li className={styles.neg}>
+            <T fr="négation" es="negación" />
+          </li>
+        )}
+        {verb.aux === "être" && (
+          <li className={styles.accord}>
+            <T fr="accord" es="concordancia" />
+          </li>
+        )}
       </ul>
 
       <div className={styles.grid}>
-        <Tense title="Présent" lines={present} />
-        <Tense title="Imparfait" lines={imparfait} />
+        <Tense title={{ fr: "Présent", es: "Presente" }} lines={present} />
+        <Tense title={{ fr: "Imparfait", es: "Imperfecto" }} lines={imparfait} />
         <Tense
-          title="Passé composé"
+          /* Named by its French name in Spanish too: the learner meets it
+             under that name everywhere else. */
+          title={{ fr: "Passé composé", es: "Passé composé" }}
           lines={passeCompose}
           /* The `vous` line above reads as several people. Said to one person
              out of politeness — which is most of the time, for a learner — the
              participle is singular, and nothing else on the sheet shows that. */
           note={
-            verb.aux === "être" ? (
-              <>
-                Un « vous » de politesse s’adresse à une seule personne : le
-                participe reste alors au singulier, «{" "}
-                <span className={styles.stem}>
-                  vous êtes {verb.participe}
-                  {feminine ? "e" : ""}
-                </span>{" "}
-                ».
-              </>
-            ) : undefined
+            verb.aux === "être"
+              ? {
+                  fr: (
+                    <>
+                      Un « vous » de politesse s’adresse à une seule personne :
+                      le participe reste alors au singulier, «{" "}
+                      <span className={styles.stem}>
+                        vous êtes {verb.participe}
+                        {feminine ? "e" : ""}
+                      </span>{" "}
+                      ».
+                    </>
+                  ),
+                  es: (
+                    <>
+                      Un <span lang="fr">« vous »</span> de cortesía (el «usted»
+                      del español) se dirige a una sola persona: entonces el
+                      participio queda en singular,{" "}
+                      <span lang="fr">
+                        «{" "}
+                        <span className={styles.stem}>
+                          vous êtes {verb.participe}
+                          {feminine ? "e" : ""}
+                        </span>{" "}
+                        »
+                      </span>
+                      .
+                    </>
+                  ),
+                }
+              : undefined
           }
         />
-        <Tense title="Futur simple" lines={futur} />
+        <Tense title={{ fr: "Futur simple", es: "Futuro simple" }} lines={futur} />
 
         <section className={styles.tense}>
-          <h2>Impératif</h2>
+          <Heading title={{ fr: "Impératif", es: "Imperativo" }} />
           {verb.imperatif ? (
             <ol>
               {verb.imperatif.map((form, i) => (
@@ -242,10 +348,31 @@ export function ConjugationSheet({ verb }: { verb: Verb }) {
               ))}
             </ol>
           ) : (
-            <p>{verb.imperatifNote ?? "Ce verbe n’a pas d’impératif."}</p>
+            <Paired
+              as="p"
+              text={
+                verb.imperatifNote ?? {
+                  fr: "Ce verbe n’a pas d’impératif.",
+                  es: "Este verbo no tiene imperativo.",
+                }
+              }
+            />
           )}
         </section>
       </div>
+    </>
+  );
+}
+
+/** A tense's title, one `h2` per language; a name both share is one `h2`. */
+function Heading({ title }: { title: Explication }) {
+  if (title.fr === title.es) return <h2>{title.fr}</h2>;
+  return (
+    <>
+      <h2 data-ui="fr">{title.fr}</h2>
+      <h2 data-ui="es" lang="es">
+        {title.es}
+      </h2>
     </>
   );
 }
@@ -255,13 +382,13 @@ function Tense({
   lines,
   note,
 }: {
-  title: string;
+  title: Explication;
   lines: Segment[][];
-  note?: ReactNode;
+  note?: { fr: ReactNode; es: ReactNode };
 }) {
   return (
     <section className={styles.tense}>
-      <h2>{title}</h2>
+      <Heading title={title} />
       <ol>
         {lines.map((line, i) => (
           <li key={i}>
@@ -276,7 +403,16 @@ function Tense({
           </li>
         ))}
       </ol>
-      {note && <p className={styles.footnote}>{note}</p>}
+      {note && (
+        <>
+          <p className={styles.footnote} data-ui="fr">
+            {note.fr}
+          </p>
+          <p className={styles.footnote} data-ui="es" lang="es">
+            {note.es}
+          </p>
+        </>
+      )}
     </section>
   );
 }

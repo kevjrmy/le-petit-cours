@@ -22,6 +22,7 @@ import { getSupabaseClient } from "@/lib/supabase/client";
 import { SignInForm } from "./SignInForm";
 import { WORDS } from "./words";
 import styles from "./AccountSettings.module.css";
+import { useLang } from "@/hooks/useLang";
 
 /**
  * The signed-in half of `/compte`.
@@ -31,15 +32,18 @@ import styles from "./AccountSettings.module.css";
  * dynamic, and the habit is what would eventually make a lesson dynamic too
  * (`AGENTS.md` §8).
  *
- * **In the account's language** (#91), French unless they chose Spanish.
- * Signed out there is no account to ask, so `SignInForm` stays French.
+ * **In the interface's language** (#102): the account's choice once it has
+ * one, else the device's. Signed out, `SignInForm` speaks both through `<T>`,
+ * because it prerenders and must be right before paint.
  */
 export function AccountSettings() {
   const account = useAccount();
+  /* The interface language (#102): the account's choice once it has one,
+     applied to the page by the provider, else the device's. */
+  const lang = useLang();
 
   if (!account) return <SignInForm />;
 
-  const lang = account.lang;
   const t = UI[lang];
 
   return (
@@ -60,7 +64,7 @@ export function AccountSettings() {
           then what the listings show (#86): the two a learner sets on
           arrival. The language goes first, as in the onboarding (#91): it is
           what makes the rest readable. */}
-      <LangChooser current={lang} />
+      <LangChooser current={lang} saved={account.lang} />
       <ParcoursChooser current={account.parcours} lang={lang} />
       <ViewChooser current={account.view} lang={lang} />
       <UsernameField initial={account.username} lang={lang} />

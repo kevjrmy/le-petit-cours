@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { relatedFor } from "@/data/navigation";
+import { findLesson, relatedFor } from "@/data/navigation";
+import { T } from "@/components/lang/T";
 import styles from "./RelatedLinks.module.css";
 
 /**
@@ -18,13 +19,17 @@ export function RelatedLinks({ path }: { path: string }) {
   return (
     <nav className={styles.related} aria-labelledby="pour-aller-plus-loin">
       <h2 id="pour-aller-plus-loin" className={styles.heading}>
-        Pour aller plus loin
+        <T fr="Pour aller plus loin" es="Para ir más allá" />
       </h2>
       <ul>
         {links.map((link) => (
           <li key={link.path}>
             <Link href={link.path}>
-              <span className={styles.chapter}>{link.chapter}</span>
+              <span className={styles.chapter}>
+                {/* The chapter is interface text; the lesson's title names the
+                    French taught and stays French (#102). */}
+                <T fr={link.chapter} es={findLesson(link.path)?.chapter.es.title ?? link.chapter} />
+              </span>
               <span className={styles.title}>{link.title}</span>
             </Link>
           </li>

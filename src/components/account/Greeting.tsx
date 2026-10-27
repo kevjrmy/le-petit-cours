@@ -1,6 +1,7 @@
 "use client";
 
 import { displayName, useAccount } from "@/hooks/useAccount";
+import { T } from "@/components/lang/T";
 import styles from "./Greeting.module.css";
 
 /**
@@ -28,12 +29,17 @@ export function Greeting() {
   const account = useAccount();
 
   if (!account) {
-    return <p className={styles.line}>Apprendre le français petit à petit</p>;
+    return (
+      <p className={styles.line}>
+        <T fr="Apprendre le français petit à petit" es="Aprender francés poco a poco" />
+      </p>
+    );
   }
 
+  const name = <strong className={styles.name}>{displayName(account)}</strong>;
   return (
     <p className={styles.line}>
-      Bonjour, <strong className={styles.name}>{displayName(account)}</strong>
+      <T fr={<>Bonjour, {name}</>} es={<>Hola, {name}</>} />
     </p>
   );
 }

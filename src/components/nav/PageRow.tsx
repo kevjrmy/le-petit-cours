@@ -1,19 +1,29 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import type { Level } from "@/data/navigation";
+import { tagEs, type Level } from "@/data/navigation";
+import { T } from "@/components/lang/T";
 import styles from "./PageRow.module.css";
 
 export interface PageRowProps {
   path: string;
   title: string;
+  /** The title in the Spanish interface (#102) — a chapter's or an annexe's.
+   *  A lesson has none: its title names the French it teaches. */
+  titleEs?: string;
   titleHtml?: string;
   subtitle?: string;
+  /** The subtitle in the Spanish interface, where there is one (a chapter's
+   *  blurb). A lesson's subtitle stays French. */
+  subtitleEs?: string;
   tag?: string;
   /** The page's rung, drawn as a badge; `null` draws none — see the note below. */
   level: Level | null;
   /** Where the page sits in the course. Shown only where the list is not already
    *  one chapter's — a search result needs it, a chapter's own list does not. */
   where?: string;
+  /** `where` in the Spanish interface: « Chapitre » or a chapter's name is
+   *  interface text (#102). */
+  whereEs?: string;
   /**
    * Ticked, not ticked, or `undefined` — no record to report, so no tint and no
    * control. It is the *row's* half of the state: the ground, the border and the
@@ -56,11 +66,14 @@ export interface PageRowProps {
 export function PageRow({
   path,
   title,
+  titleEs,
   titleHtml,
   subtitle,
+  subtitleEs,
   tag,
   level,
   where,
+  whereEs,
   done,
   tick,
 }: PageRowProps) {
@@ -75,13 +88,32 @@ export function PageRow({
       <Link href={path} className={styles.row}>
         <span className={styles.main}>
           <span className={styles.title}>
-            {titleHtml ? <span dangerouslySetInnerHTML={{ __html: titleHtml }} /> : title}
+            {titleHtml ? (
+              <span dangerouslySetInnerHTML={{ __html: titleHtml }} />
+            ) : titleEs ? (
+              <T fr={title} es={titleEs} />
+            ) : (
+              title
+            )}
           </span>
-          {subtitle && <span className={styles.subtitle}>{subtitle}</span>}
+          {subtitle && (
+            <span className={styles.subtitle}>
+              {subtitleEs ? <T fr={subtitle} es={subtitleEs} /> : subtitle}
+            </span>
+          )}
         </span>
         <span className={styles.meta}>
-          {where && <span className={styles.where}>{where}</span>}
-          {tag && <span className={styles.tag}>{tag}</span>}
+          {where && (
+            <span className={styles.where}>
+              <T fr={where} es={whereEs ?? where} />
+            </span>
+          )}
+          {/* Badges are a closed set, translated once in the manifest (#102). */}
+          {tag && (
+            <span className={styles.tag}>
+              <T fr={tag} es={tagEs(tag)} />
+            </span>
+          )}
           {level && <span className={styles.level}>{level}</span>}
         </span>
       </Link>

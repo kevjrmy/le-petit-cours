@@ -195,6 +195,12 @@ export interface Chapter {
   shortTitle?: string;
   blurb: string;
   /**
+   * The chapter in the Spanish interface (#102). **Required**, so a chapter
+   * added without it does not compile. Lesson titles have no twin: a lesson's
+   * title names the French it teaches, and stays French in both.
+   */
+  es: { title: string; blurb: string };
+  /**
    * Un lien qui sort du cours, dessiné sous les leçons du chapitre.
    *
    * **Il existe pour ce que ce dépôt ne peut pas publier** (#78, `AGENTS.md`
@@ -206,7 +212,7 @@ export interface Chapter {
    * Ce lien ne marche pas hors ligne, et c'est pour cela qu'il ne porte rien
    * dont une épreuve ait besoin : les trois épreuves sont entières sans lui.
    */
-  outbound?: { href: string; label: string; note: string };
+  outbound?: { href: string; label: string; note: string; es: { label: string; note: string } };
   /**
    * Set when the chapter is **scratch space**, emptied and refilled on a
    * schedule rather than written once (#80). `atelier` is the only one.
@@ -302,6 +308,11 @@ export const chapters: Chapter[] = [
     title: "Grammaire",
     blurb:
       "Les règles essentielles : les mots, leur accord et la construction de la phrase.",
+    es: {
+      title: "Gramática",
+      blurb:
+        "Las reglas esenciales: las palabras, su concordancia y la construcción de la frase.",
+    },
     /* Ordered as a course, not alphabetically: word classes first, then the
        tenses in teaching order, then pronouns. */
     lessons: [
@@ -521,6 +532,11 @@ export const chapters: Chapter[] = [
     title: "Conjugaison",
     blurb:
       "Les tableaux des verbes les plus utiles, du présent au futur, à l’affirmatif comme au négatif.",
+    es: {
+      title: "Conjugación",
+      blurb:
+        "Las tablas de los verbos más útiles, del presente al futuro, en afirmativo y en negativo.",
+    },
     lessons: [
       {
         id: "conj-etre",
@@ -657,6 +673,11 @@ export const chapters: Chapter[] = [
     title: "Orthographe",
     blurb:
       "Accorder en genre et en nombre, choisir le bon déterminant, ne plus confondre les homophones.",
+    es: {
+      title: "Ortografía",
+      blurb:
+        "Concordar en género y número, elegir el determinante correcto, no volver a confundir los homófonos.",
+    },
     /* The literacy chapter: what a reader who already speaks French gets wrong
        in writing, and what a learner gets wrong for the same reason — the
        forms sound identical. */
@@ -723,6 +744,11 @@ export const chapters: Chapter[] = [
     path: "/vocabulaire",
     title: "Vocabulaire",
     blurb: "Les mots du quotidien, par thème, avec des exemples pour les employer.",
+    es: {
+      title: "Vocabulario",
+      blurb:
+        "Las palabras del día a día, por temas, con ejemplos para usarlas.",
+    },
     lessons: [
       /* L'A1 s'insère avant l'A2, jamais à la suite (#72) : la liste non
          filtrée est celle que voit un visiteur déconnecté, et « l'heure »
@@ -833,6 +859,11 @@ export const chapters: Chapter[] = [
     title: "Astuces",
     blurb:
       "Un truc à retenir, ses exceptions, et un lien vers la leçon qui l'explique en entier.",
+    es: {
+      title: "Trucos",
+      blurb:
+        "Un truco para recordar, sus excepciones y un enlace a la lección que lo explica entera.",
+    },
     lessons: [
       {
         id: "astuce-tu-ou-vous",
@@ -890,6 +921,11 @@ export const chapters: Chapter[] = [
     path: "/exercices",
     title: "Exercices",
     blurb: "Mettre la théorie en pratique. Chaque exercice se corrige tout seul.",
+    es: {
+      title: "Ejercicios",
+      blurb:
+        "Poner la teoría en práctica. Cada ejercicio se corrige solo.",
+    },
     /* Un exercice par mécanique, pas par leçon : le tri montre la famille des
        verbes en être d'un coup d'œil, la correction fait chercher la faute. */
     lessons: [
@@ -1084,6 +1120,11 @@ export const chapters: Chapter[] = [
     title: "Jeux",
     blurb:
       "Des parties courtes qui rebrassent le vocabulaire du cours. Rien n'est noté, tout se rejoue.",
+    es: {
+      title: "Juegos",
+      blurb:
+        "Partidas cortas que repasan el vocabulario del curso. Nada se puntúa, todo se vuelve a jugar.",
+    },
     lessons: [],
   },
   {
@@ -1092,6 +1133,11 @@ export const chapters: Chapter[] = [
     path: "/dictees",
     title: "Dictées",
     blurb: "Écouter, écrire, comparer. Avec le texte et ses points de vigilance.",
+    es: {
+      title: "Dictados",
+      blurb:
+        "Escuchar, escribir, comparar. Con el texto y sus puntos delicados.",
+    },
     lessons: [],
   },
   {
@@ -1101,6 +1147,11 @@ export const chapters: Chapter[] = [
     title: "Conversation",
     blurb:
       "Des situations de la vie quotidienne à jouer à deux, avec des aides à regarder ou à ignorer.",
+    es: {
+      title: "Conversación",
+      blurb:
+        "Situaciones de la vida diaria para representar en pareja, con ayudas que puedes mirar o ignorar.",
+    },
     lessons: [
       /* Les deux scènes A1, avant les scènes A2 (#72). Chaque niveau a la
          sienne : une scène ne se partage pas comme un texte de lecture, parce
@@ -1235,6 +1286,11 @@ export const chapters: Chapter[] = [
     title: "Traduction",
     blurb:
       "De courts textes à écrire en français, avec trois indices quand vous bloquez.",
+    es: {
+      title: "Traducción",
+      blurb:
+        "Textos cortos para escribir en francés, con tres pistas cuando te atascas.",
+    },
     lessons: [
       {
         id: "trad-une-journee",
@@ -1307,6 +1363,11 @@ export const chapters: Chapter[] = [
     title: "Lecture",
     blurb:
       "Un texte écrit pour ce cours, avec des questions pour vérifier ce que vous avez compris.",
+    es: {
+      title: "Lectura",
+      blurb:
+        "Un texto escrito para este curso, con preguntas para comprobar lo que has entendido.",
+    },
     lessons: [
       {
         id: "lect-entretien-embauche",
@@ -1345,6 +1406,11 @@ export const chapters: Chapter[] = [
     title: "Littérature",
     blurb:
       "De grands textes de la littérature, en français, avec des questions pour vérifier ce que vous avez compris.",
+    es: {
+      title: "Literatura",
+      blurb:
+        "Grandes textos de la literatura, en francés, con preguntas para comprobar lo que has entendido.",
+    },
     lessons: [
       {
         id: "lect-lion-et-rat",
@@ -1480,6 +1546,11 @@ export const chapters: Chapter[] = [
     path: "/musique",
     title: "Musique",
     blurb: "Apprendre en chantant : vocabulaire et contexte, extrait par extrait.",
+    es: {
+      title: "Música",
+      blurb:
+        "Aprender cantando: vocabulario y contexto, fragmento a fragmento.",
+    },
     lessons: [
       {
         id: "mus-vie-en-rose",
@@ -1506,6 +1577,11 @@ export const chapters: Chapter[] = [
     path: "/prononciation",
     title: "Prononciation",
     blurb: "Entendre le français écrit : un mot ou une phrase, lus à voix haute.",
+    es: {
+      title: "Pronunciación",
+      blurb:
+        "Oír el francés escrito: una palabra o una frase, leídas en voz alta.",
+    },
     untracked: true,
     lessons: [
       {
@@ -1525,6 +1601,11 @@ export const chapters: Chapter[] = [
     path: "/culture",
     title: "Culture",
     blurb: "Le pays derrière la langue : ses régions, ses villes, ses habitudes.",
+    es: {
+      title: "Cultura",
+      blurb:
+        "El país detrás de la lengua: sus regiones, sus ciudades, sus costumbres.",
+    },
     lessons: [],
   },
   /* L'atelier : le seul chapitre qui se vide (#80).
@@ -1562,6 +1643,11 @@ export const chapters: Chapter[] = [
     title: "Atelier",
     blurb:
       "Les pages d’une séance : écrites pour un cours en particulier, remplacées chaque semaine.",
+    es: {
+      title: "Taller",
+      blurb:
+        "Las páginas de una sesión: escritas para una clase concreta, cambiadas cada semana.",
+    },
     scratch: true,
     lessons: [
       /* Un texte rendu cette semaine et la séance construite dessus. Publié
@@ -1603,10 +1689,19 @@ export const chapters: Chapter[] = [
     title: "DELF",
     blurb:
       "La forme de l’examen, et des épreuves entières à faire en conditions réelles.",
+    es: {
+      title: "DELF",
+      blurb:
+        "El formato del examen, y pruebas enteras para hacer en condiciones reales.",
+    },
     outbound: {
       href: "https://www.france-education-international.fr/diplome/delf-tout-public/niveau-a2/exemples-sujets",
       label: "les exemples de sujets de France Éducation international",
       note: "Les épreuves ci-dessus sont écrites pour ce cours. Pour lire un sujet officiel complet, avec les enregistrements de la compréhension de l’oral, téléchargez",
+      es: {
+        label: "los ejemplos de examen de France Éducation international",
+        note: "Las pruebas de arriba están escritas para este curso. Para leer un examen oficial completo, con las grabaciones de la comprensión oral, descarga",
+      },
     },
     lessons: [
       /* L'ordre du jour de l'examen : l'oral collectif d'abord, puis les
@@ -1676,10 +1771,16 @@ export const chapters: Chapter[] = [
  * an account — `/compte` is the settings when you have one and the way in when
  * you do not. Required, so a row added later cannot quietly inherit either.
  */
-export type Annexe = PageEntry &
-  (
+export type Annexe = PageEntry & {
+  /** Its title in the Spanish interface (#102). Required, like a chapter's. */
+  titleEs: string;
+} & (
     | { where: "top" | "tree"; icon: IconName }
-    | { where: "menu"; icon: IconName; signedOut: "hide" | { title: string } }
+    | {
+        where: "menu";
+        icon: IconName;
+        signedOut: "hide" | { title: string; titleEs: string };
+      }
     | { where: "footer" }
   );
 
@@ -1690,7 +1791,14 @@ export const annexes: Annexe[] = [
   /* Above the chapters, not below them with the other annexes: the sommaire is
      the way into the course rather than something beside it, and the foot of a
      long list is not where you look for the list's own overview. */
-  { path: "/sommaire", title: "Sommaire", level: null, where: "top", icon: "sommaire" },
+  {
+    path: "/sommaire",
+    title: "Sommaire",
+    titleEs: "Índice",
+    level: null,
+    where: "top",
+    icon: "sommaire",
+  },
   /* The marks are the ones the popover already shows elsewhere: the tick the
      listings record, and the glyph on the account control itself.
 
@@ -1700,6 +1808,7 @@ export const annexes: Annexe[] = [
   {
     path: "/ma-progression",
     title: "Ma progression",
+    titleEs: "Mi progresión",
     level: null,
     where: "menu",
     icon: "progression",
@@ -1708,18 +1817,25 @@ export const annexes: Annexe[] = [
   {
     path: "/compte",
     title: "Compte",
+    titleEs: "Cuenta",
     level: null,
     where: "menu",
     icon: "compte",
-    signedOut: { title: "Se connecter" },
+    signedOut: { title: "Se connecter", titleEs: "Iniciar sesión" },
   },
   /* In the footer rather than the popover: it is a page about the site, and the
      account menu is about the account. The footer is under every page anyway,
      which is one link instead of two places offering the same one. */
-  { path: "/a-propos", title: "À propos", level: null, where: "footer" },
+  { path: "/a-propos", title: "À propos", titleEs: "Acerca de", level: null, where: "footer" },
   /* Beside « À propos », for the same reason: it is about the site, not the
      account (#101). */
-  { path: "/installer", title: "Installer l’application", level: null, where: "footer" },
+  {
+    path: "/installer",
+    title: "Installer l’application",
+    titleEs: "Instalar la aplicación",
+    level: null,
+    where: "footer",
+  },
 ];
 
 /**
@@ -1730,7 +1846,7 @@ export const annexes: Annexe[] = [
  * because it has to sit *outside* `/atelier`, where the proxy cannot intercept the
  * Server Function that opens it — the onboarding a first sign-in passes
  * through (`/bienvenue`), and `/installer` in Spanish (`/instalar`, #101),
- * reached from the French page: a manifest title is French (#53). Declaring them is what lets the `nav-wiring`
+ * reached from the French page: its Spanish title would be a manifest title, and lesson titles stay French (#102). Declaring them is what lets the `nav-wiring`
  * audit report a route that is in neither the manifest nor this list, instead
  * of letting a page exist that nothing links to and nothing notices.
  *
@@ -1856,6 +1972,7 @@ assertSets();
 export interface MenuRow {
   path: string;
   title: string;
+  titleEs: string;
   icon: IconName;
   /**
    * Whether this row is the way in — a page offered *because* there is no
@@ -1877,10 +1994,13 @@ export function menuAnnexes(signedIn: boolean): MenuRow[] {
   return annexes.flatMap((page): MenuRow[] => {
     if (page.where !== "menu") return [];
     if (signedIn) {
-      return [{ path: page.path, title: page.title, icon: page.icon, wayIn: false }];
+      return [
+        { path: page.path, title: page.title, titleEs: page.titleEs, icon: page.icon, wayIn: false },
+      ];
     }
     if (page.signedOut === "hide") return [];
-    return [{ path: page.path, title: page.signedOut.title, icon: page.icon, wayIn: true }];
+    const { title, titleEs } = page.signedOut;
+    return [{ path: page.path, title, titleEs, icon: page.icon, wayIn: true }];
   });
 }
 
@@ -2700,3 +2820,40 @@ export function relatedFor(routePath: string): RelatedLink[] {
     })
     .filter((row): row is RelatedLink => row !== null);
 }
+
+/**
+ * A lesson's badge in the Spanish interface (#102). Badges are a closed set of
+ * labels, unlike titles, so they are translated here once; `assertTags()`
+ * below fails the import on a badge with no twin, so a new one cannot ship
+ * French-only.
+ */
+const TAG_ES: Record<string, string> = {
+  "1er groupe": "1.er grupo",
+  "2e groupe": "2.º grupo",
+  "3e groupe": "3.er grupo",
+  Auxiliaire: "Auxiliar",
+  Choix: "Elección",
+  Compréhension: "Comprensión",
+  Correction: "Corrección",
+  "Jeu de rôle": "Juego de rol",
+  Outil: "Herramienta",
+  Pioche: "Al azar",
+  Relecture: "Revisión",
+  Saisie: "Escritura",
+  Tableau: "Tabla",
+  Texte: "Texto",
+  Traduction: "Traducción",
+  Tri: "Clasificación",
+  Épreuve: "Prueba",
+};
+
+export function tagEs(tag: string): string {
+  return TAG_ES[tag] ?? tag;
+}
+
+(function assertTags() {
+  for (const chapter of chapters)
+    for (const lesson of chapter.lessons)
+      if (lesson.tag && !(lesson.tag in TAG_ES))
+        throw new Error(`Badge sans traduction (TAG_ES) : « ${lesson.tag} » sur ${lesson.path}`);
+})();

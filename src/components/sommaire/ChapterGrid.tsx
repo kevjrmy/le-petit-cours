@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { listedChapters } from "@/data/navigation";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
+import { T } from "@/components/lang/T";
 import { Vide } from "@/components/ornement/Planete";
 import { useAccount } from "@/hooks/useAccount";
 import styles from "./ChapterGrid.module.css";
@@ -33,9 +34,16 @@ export function ChapterGrid() {
     return (
       <Vide>
         <p className="message">
-          Aucune leçon n&rsquo;est encore publiée. Le cours s&rsquo;écrit en ce
-          moment, en commençant par le niveau A2 : les chapitres apparaîtront ici
-          au fur et à mesure, avec leurs leçons.
+          <T
+            fr={
+              <>
+                Aucune leçon n&rsquo;est encore publiée. Le cours s&rsquo;écrit en
+                ce moment, en commençant par le niveau A2&nbsp;: les chapitres
+                apparaîtront ici au fur et à mesure, avec leurs leçons.
+              </>
+            }
+            es="Todavía no hay ninguna lección publicada. El curso se está escribiendo, empezando por el nivel A2: los capítulos irán apareciendo aquí, con sus lecciones."
+          />
         </p>
       </Vide>
     );
@@ -52,8 +60,12 @@ export function ChapterGrid() {
               <ChapterIcon name={chapter.icon} />
             </span>
             <span className={styles.body}>
-              <span className={styles.cardTitle}>{chapter.title}</span>
-              <span className={styles.blurb}>{chapter.blurb}</span>
+              <span className={styles.cardTitle}>
+                <T fr={chapter.title} es={chapter.es.title} />
+              </span>
+              <span className={styles.blurb}>
+                <T fr={chapter.blurb} es={chapter.es.blurb} />
+              </span>
             </span>
           </Link>
         </li>

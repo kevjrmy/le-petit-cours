@@ -36,6 +36,12 @@ export interface Parcours {
    * the set a page holding several opens on (#87).
    */
   level: Level | null;
+  /**
+   * The path in the Spanish interface (#102): its name and its blurb.
+   * **Required**, like a chapter's `es`, so a parcours added without it does
+   * not compile; `assertParcours` refuses an empty one.
+   */
+  es: { title: string; blurb: string };
   etapes: Etape[];
   /**
    * The épreuves the path ends on (#89): pages of `delf` at the path's level.
@@ -47,6 +53,8 @@ export interface Parcours {
 
 export interface Etape {
   title: string;
+  /** The étape's name in the Spanish interface (#102). Required. */
+  es: { title: string };
   lessons: LessonId[];
 }
 
@@ -65,6 +73,7 @@ export interface Step {
 /** An étape with its lessons resolved against the manifest. */
 export interface ResolvedEtape {
   title: string;
+  es: { title: string };
   steps: Step[];
 }
 
@@ -76,6 +85,7 @@ function resolve(id: LessonId): Step {
 export function etapesOf(parcours: Parcours): ResolvedEtape[] {
   return parcours.etapes.map((etape) => ({
     title: etape.title,
+    es: etape.es,
     steps: etape.lessons.map(resolve),
   }));
 }
@@ -96,8 +106,8 @@ export function tallyOf(parcours: Parcours, isDone: IsDone): { done: number; tot
 }
 
 export type NextStep =
-  /** The first unticked lesson, and whether anything before it is ticked. */
-  | { kind: "lesson"; step: Step; etape: string; started: boolean }
+  /** The first unticked lesson, its étape, and whether anything before it is ticked. */
+  | { kind: "lesson"; step: Step; etape: Pick<Etape, "title" | "es">; started: boolean }
   /** Every étape ticked, and épreuves to sit (#89). */
   | { kind: "exam"; steps: Step[] }
   /** Every étape ticked, and nothing after. */
@@ -121,14 +131,14 @@ export type NextStep =
  */
 export function nextUp(parcours: Parcours, isDone: IsDone): NextStep {
   let started = false;
-  let first: { step: Step; etape: string } | null = null;
+  let first: { step: Step; etape: Pick<Etape, "title" | "es"> } | null = null;
 
   /* The whole path, not an early return: a learner who ticked lesson five and
      skipped lesson one is still a learner who has started. */
   for (const etape of etapesOf(parcours)) {
     for (const step of etape.steps) {
       if (isDone(step.lesson, parcours.level)) started = true;
-      else if (!first) first = { step, etape: etape.title };
+      else if (!first) first = { step, etape: { title: etape.title, es: etape.es } };
     }
   }
 
@@ -154,10 +164,16 @@ function assertParcours(): void {
     if (!PARCOURS_ID_SHAPE.test(parcours.id)) throw new Error(`${where}: malformed id.`);
     if (ids.has(parcours.id)) throw new Error(`${where}: id used twice.`);
     ids.add(parcours.id);
+    if (!parcours.es.title.trim() || !parcours.es.blurb.trim()) {
+      throw new Error(`${where}: its Spanish title or blurb is empty.`);
+    }
 
     const seen = new Set<LessonId>();
     for (const etape of parcours.etapes) {
       if (etape.lessons.length === 0) throw new Error(`${where}: étape « ${etape.title} » is empty.`);
+      if (!etape.es.title.trim()) {
+        throw new Error(`${where}: étape « ${etape.title} » has no Spanish title.`);
+      }
       for (const id of etape.lessons) {
         const found = findLessonById(id);
         if (!found) throw new Error(`${where}: no lesson has the id « ${id} ».`);

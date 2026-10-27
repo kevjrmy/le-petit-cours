@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { chapters } from "@/data/navigation";
+import { T } from "@/components/lang/T";
 import { ChapterLessons } from "@/components/sommaire/ChapterLessons";
 import styles from "./page.module.css";
 
@@ -34,8 +35,12 @@ export default async function ChapterPage({ params }: PageProps<"/[chapitre]">) 
   return (
     <div className="prose">
       <header className={styles.head}>
-        <h1>{chapter.title}</h1>
-        <p className={styles.blurb}>{chapter.blurb}</p>
+        <h1>
+          <T fr={chapter.title} es={chapter.es.title} />
+        </h1>
+        <p className={styles.blurb}>
+          <T fr={chapter.blurb} es={chapter.es.blurb} />
+        </p>
       </header>
 
       <ChapterLessons chapter={chapter} />
@@ -44,8 +49,20 @@ export default async function ChapterPage({ params }: PageProps<"/[chapitre]">) 
           ailleurs le déclare, et cette route reste la même pour tous. */}
       {chapter.outbound ? (
         <p className={styles.outbound}>
-          {chapter.outbound.note}{" "}
-          <a href={chapter.outbound.href}>{chapter.outbound.label}</a>.
+          <T
+            fr={
+              <>
+                {chapter.outbound.note}{" "}
+                <a href={chapter.outbound.href}>{chapter.outbound.label}</a>.
+              </>
+            }
+            es={
+              <>
+                {chapter.outbound.es.note}{" "}
+                <a href={chapter.outbound.href}>{chapter.outbound.es.label}</a>.
+              </>
+            }
+          />
         </p>
       ) : null}
     </div>

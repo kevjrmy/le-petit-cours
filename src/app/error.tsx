@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { T } from "@/components/lang/T";
 
 /**
  * The error boundary for everything under the root layout. It has to be a
@@ -14,17 +15,32 @@ import Link from "next/link";
 export default function Error({ reset }: { error: Error; reset: () => void }) {
   return (
     <article className="prose">
-      <h1>Quelque chose s&rsquo;est mal passé</h1>
+      <h1>
+        <T fr={<>Quelque chose s&rsquo;est mal passé</>} es="Algo ha salido mal" />
+      </h1>
       <section>
         <p>
-          La page n&rsquo;a pas pu s&rsquo;afficher. Ce n&rsquo;est pas de votre
-          fait.
+          <T
+            fr={<>La page n&rsquo;a pas pu s&rsquo;afficher. Ce n&rsquo;est pas de votre fait.</>}
+            es="La página no se ha podido mostrar. No es culpa tuya."
+          />
         </p>
         <p>
           <button type="button" className="button" onClick={reset}>
-            Réessayer
+            <T fr="Réessayer" es="Volver a intentarlo" />
           </button>{" "}
-          ou <Link href="/">revenir au sommaire</Link>.
+          <T
+            fr={
+              <>
+                ou <Link href="/">revenir au sommaire</Link>.
+              </>
+            }
+            es={
+              <>
+                o <Link href="/">volver al índice</Link>.
+              </>
+            }
+          />
         </p>
       </section>
     </article>

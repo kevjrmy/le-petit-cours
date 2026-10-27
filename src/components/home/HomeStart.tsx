@@ -8,8 +8,9 @@ import styles from "./HomeStart.module.css";
  * Which home page this is: the welcome, or the app.
  *
  * **The two views are Server Components, handed in as props.** Nothing here
- * imports them, so `SearchBox`, `StartPills` and `Welcome` all stay on the
- * server and this file is the only JavaScript the swap costs. Both trees are
+ * imports them, so `StartPills` and `Welcome` stay on the server and this file
+ * is the only JavaScript the swap costs (`SearchBox` is a client leaf of its
+ * own since #102: its placeholder follows the interface language). Both trees are
  * rendered once and travel in the payload; only one is ever in the DOM.
  *
  * **The prerendered `/` is the welcome**, because `useAccount()` is `null` on

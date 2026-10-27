@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { T } from "@/components/lang/T";
 import {
   ATELIER_COOKIE,
   ATELIER_VERROUILLE,
@@ -94,9 +95,14 @@ export default async function Page({ searchParams }: PageProps<"/entrer">) {
   return (
     <article className="prose">
       <header className={styles.header}>
-        <h1>Atelier</h1>
+        <h1>
+          <T fr="Atelier" es="Taller" />
+        </h1>
         <p className={styles.blurb}>
-          Ce chapitre sert un cours en particulier. Il demande un mot de passe.
+          <T
+            fr="Ce chapitre sert un cours en particulier. Il demande un mot de passe."
+            es="Este capítulo es para una clase en concreto. Pide una contraseña."
+          />
         </p>
       </header>
 
@@ -105,7 +111,7 @@ export default async function Page({ searchParams }: PageProps<"/entrer">) {
           <input type="hidden" name="vers" value={vers} />
 
           <label className={`label ${styles.label}`} htmlFor="motdepasse">
-            Mot de passe
+            <T fr="Mot de passe" es="Contraseña" />
           </label>
           <div className={styles.row}>
             <input
@@ -118,13 +124,13 @@ export default async function Page({ searchParams }: PageProps<"/entrer">) {
               aria-describedby={erreur ? "erreur" : undefined}
             />
             <button type="submit" className="button button-primary">
-              Entrer
+              <T fr="Entrer" es="Entrar" />
             </button>
           </div>
 
           {erreur && (
             <p id="erreur" className={styles.erreur} role="alert">
-              Ce n’est pas le bon mot de passe.
+              <T fr="Ce n’est pas le bon mot de passe." es="No es la contraseña correcta." />
             </p>
           )}
         </form>
@@ -133,19 +139,33 @@ export default async function Page({ searchParams }: PageProps<"/entrer">) {
            variable chercher. Le nom ne s'affiche qu'en développement, où le
            seul lecteur est celui qui doit la poser. */
         <div className="attention">
-          L’atelier est fermé pour le moment.
+          <T fr="L’atelier est fermé pour le moment." es="El taller está cerrado por ahora." />
           {process.env.NODE_ENV === "development" && (
             <>
               {" "}
-              En développement : la variable <code>FRONTEND_PASSWORD</code>{" "}
-              manque dans <code>.env</code>.
+              <T
+                fr={
+                  <>
+                    En développement&nbsp;: la variable <code>FRONTEND_PASSWORD</code>{" "}
+                    manque dans <code>.env</code>.
+                  </>
+                }
+                es={
+                  <>
+                    En desarrollo: falta la variable <code>FRONTEND_PASSWORD</code> en{" "}
+                    <code>.env</code>.
+                  </>
+                }
+              />
             </>
           )}
         </div>
       )}
 
       <p className={styles.sortie}>
-        <Link href="/">Retourner au cours</Link>
+        <Link href="/">
+          <T fr="Retourner au cours" es="Volver al curso" />
+        </Link>
       </p>
     </article>
   );

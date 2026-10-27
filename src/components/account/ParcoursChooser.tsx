@@ -4,7 +4,7 @@ import { useState, type ReactNode } from "react";
 import { PARCOURS, type Parcours } from "@/data/parcours";
 import { SaveSettingError, saveParcours, type Lang } from "@/lib/account";
 import { Choice } from "./ViewChooser";
-import { Fr, parcoursBlurb, parcoursSize, WORDS } from "./words";
+import { parcoursSize, parcoursWords, WORDS } from "./words";
 import styles from "./AccountSettings.module.css";
 
 const UI = {
@@ -22,14 +22,13 @@ const UI = {
     rejected: "Ce parcours n’existe plus.",
   },
   es: {
-    current: "Tu parcours",
-    choose: "Elige un parcours",
+    current: "Tu recorrido",
+    choose: "Elige un recorrido",
     intro: (
       <>
-        Un <Fr>parcours</Fr> ordena en etapas lecciones de todos los capítulos,
-        en el orden en que hacerlas, y <Fr>«&nbsp;La suite&nbsp;»</Fr> te da la
-        siguiente. Una lección marcada lo está en todos los <Fr>parcours</Fr>:
-        cambiar no te hace perder nada.
+        Un recorrido ordena en etapas lecciones de todos los capítulos, en el
+        orden en que hacerlas, y «Lo siguiente» te da la siguiente. Una lección
+        marcada lo está en todos los recorridos: cambiar no te hace perder nada.
       </>
     ),
     rejected: "Esta opción ya no existe. Elige otra.",
@@ -80,14 +79,12 @@ export function ParcoursChooser({
 
       <ul className={styles.choices}>
         {PARCOURS.map((parcours) => {
-          const blurb = parcoursBlurb(parcours, lang);
+          const words = parcoursWords(parcours, lang);
           return (
             <li key={parcours.id}>
               <Choice
-                name={parcours.title}
-                nameLang={lang === "es" ? "fr" : undefined}
-                blurb={blurb.text}
-                blurbLang={blurb.lang}
+                name={words.title}
+                blurb={words.blurb}
                 meta={parcoursSize(parcours, lang)}
                 pressed={current?.id === parcours.id}
                 disabled={saving}
@@ -98,8 +95,7 @@ export function ParcoursChooser({
         })}
         <li>
           <Choice
-            name="Aucun parcours"
-            nameLang={lang === "es" ? "fr" : undefined}
+            name={WORDS[lang].noParcoursName}
             blurb={WORDS[lang].noParcours}
             pressed={current === null}
             disabled={saving}

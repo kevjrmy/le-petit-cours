@@ -1,6 +1,7 @@
 "use client";
 
 import type { Lesson, Level } from "@/data/navigation";
+import { useLang } from "@/hooks/useLang";
 import { useProgress } from "@/hooks/useProgress";
 import styles from "./RowTick.module.css";
 
@@ -38,6 +39,9 @@ export function RowTick({
   done: boolean;
 }) {
   const { toggle } = useProgress();
+  /* Attributes, which `<T>` cannot switch (#102). Drawn only once the record
+     has answered, after hydration, so the language is already the real one. */
+  const lang = useLang();
 
   return (
     <button
@@ -48,8 +52,18 @@ export function RowTick({
          hidden « , terminée » it used to. The label names the lesson, because a
          list of these is otherwise a list of identical buttons. */
       aria-pressed={done}
-      aria-label={`Terminé : ${lesson.title}`}
-      title={done ? "Marquer comme non terminée" : "Marquer comme terminée"}
+      aria-label={
+        lang === "es" ? `Terminada: ${lesson.title}` : `Terminé : ${lesson.title}`
+      }
+      title={
+        lang === "es"
+          ? done
+            ? "Marcar como no terminada"
+            : "Marcar como terminada"
+          : done
+            ? "Marquer comme non terminée"
+            : "Marquer comme terminée"
+      }
       onClick={() => toggle(lesson, level)}
     >
       {/* A mark as well as a fill (`AGENTS.md` §5). */}

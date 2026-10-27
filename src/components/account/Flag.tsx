@@ -2,7 +2,7 @@ import type { Lang } from "@/lib/account";
 import styles from "./Flag.module.css";
 
 /**
- * The flag of a language the account screens speak (#91). Decorative: it sits
+ * The flag of a language the interface speaks (#91, #102). Decorative: it sits
  * beside the language's name, never alone. Both at 3:2, no arms at this size.
  * Their colours are palette tokens kept for this one use (`globals.css`).
  */

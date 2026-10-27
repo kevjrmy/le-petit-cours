@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
+import { T } from "@/components/lang/T";
 import styles from "./Welcome.module.css";
 
 /**
@@ -35,7 +36,9 @@ import styles from "./Welcome.module.css";
  *
  * A Server Component, passed to `HomeStart` as a prop, so the prerendered HTML
  * of `/` is this page — which is what most arrivals are, and what a search
- * engine reads.
+ * engine reads. Its words are `<T>`, and the row is named by a hidden heading
+ * through `aria-labelledby` rather than `aria-label`, so the name follows the
+ * interface language without a client hook (#102).
  */
 export function Welcome() {
   return (
@@ -47,25 +50,35 @@ export function Welcome() {
           and « lecture » are kinds of page rather than chapters, and all three
           exist: nothing here announces a page that is not written (#51). */}
       <p className={styles.blurb}>
-        Des leçons courtes à lire, des exercices à faire, et de la lecture pour
-        s&rsquo;entraîner. Tout est gratuit et fonctionne hors ligne.
+        <T
+          fr={
+            <>
+              Des leçons courtes à lire, des exercices à faire, et de la lecture
+              pour s&rsquo;entraîner. Tout est gratuit et fonctionne hors ligne.
+            </>
+          }
+          es="Lecciones cortas para leer, ejercicios para hacer y lecturas para practicar. Todo es gratis y funciona sin conexión."
+        />
       </p>
 
       {/* Not « Par où commencer », which is the pills' own label: this row
           holds a way into the account as well as two ways into the course,
           and the two rows are never on screen together anyway. */}
-      <nav className={styles.row} aria-label="Commencer">
+      <nav className={styles.row} aria-labelledby="commencer">
+        <span id="commencer" className="visually-hidden">
+          <T fr="Commencer" es="Empezar" />
+        </span>
         <Link href="/sommaire" className="button button-primary">
           <ChapterIcon name="sommaire" />
-          Tout le cours
+          <T fr="Tout le cours" es="Todo el curso" />
         </Link>
         <Link href="/recherche" className="button">
           <ChapterIcon name="recherche" />
-          Rechercher
+          <T fr="Rechercher" es="Buscar" />
         </Link>
         <Link href="/compte" className="button">
           <ChapterIcon name="compte" />
-          Se connecter
+          <T fr="Se connecter" es="Iniciar sesión" />
         </Link>
       </nav>
     </div>

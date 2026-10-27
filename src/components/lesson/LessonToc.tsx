@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useLang } from "@/hooks/useLang";
 import { useLessonVariant } from "@/hooks/useLessonVariant";
+import { T } from "@/components/lang/T";
 import { findLesson } from "@/data/navigation";
 import { fold } from "@/lib/search";
 import styles from "./LessonToc.module.css";
@@ -46,6 +48,9 @@ export function LessonToc() {
   /* A page with a body per level (#92) swaps its headings once the account
      answers, so the outline is read again when the level in view changes. */
   const variant = useLessonVariant(found?.lesson ?? null);
+  /* A lesson prints a body per language and CSS hides one (#102): the
+     outline is the shown body's, read again when the language changes. */
+  const lang = useLang();
   /* The outline carries the path it was read from, so a lesson never shows the
      previous one's sections for the frame between navigation and the effect.
      Stale is derived away here rather than cleared in the effect — clearing
@@ -60,15 +65,21 @@ export function LessonToc() {
   useEffect(() => {
     if (!isLesson) return;
 
+    /* No box means hidden: the other language's body. */
     const headings = Array.from(
       document.querySelectorAll<HTMLElement>("main .prose h2"),
-    );
+    ).filter((heading) => heading.getClientRects().length > 0);
 
     const seen = new Set<string>();
     const entries = headings.map((heading, index) => {
       const text = heading.textContent?.trim() ?? "";
       let id = heading.id || slug(text) || `section-${index + 1}`;
-      while (seen.has(id)) id = `${id}-${index + 1}`;
+      /* The hidden body may hold the same heading, already given this id. */
+      const taken = (candidate: string) => {
+        const owner = document.getElementById(candidate);
+        return seen.has(candidate) || (owner !== null && owner !== heading);
+      };
+      while (taken(id)) id = `${id}-${index + 1}`;
       seen.add(id);
       heading.id = id;
       return { id, text };
@@ -131,7 +142,7 @@ export function LessonToc() {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };
-  }, [path, isLesson, variant]);
+  }, [path, isLesson, variant, lang]);
 
   if (items.length < 2) return null;
   /* Before the first mark there is still a section being read: the first one. */
@@ -140,7 +151,7 @@ export function LessonToc() {
   return (
     <nav className={styles.toc} aria-labelledby="index-de-la-page">
       <p className={`label ${styles.label}`} id="index-de-la-page">
-        Index
+        <T fr="Index" es="En esta página" />
       </p>
       <ol>
         {items.map((item) => (

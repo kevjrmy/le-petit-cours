@@ -8,9 +8,15 @@ export const A1: Parcours = {
   title: "Parcours A1",
   blurb: "Vous commencez. Se présenter, parler des siens et de ses goûts, compter, acheter, dire la date, décrire où l'on habite et comment on se déplace.",
   level: "A1",
+  es: {
+    title: "Recorrido A1",
+    blurb:
+      "Empiezas. Presentarte, hablar de los tuyos y de tus gustos, contar, comprar, decir la fecha, describir dónde vives y cómo te mueves.",
+  },
   etapes: [
     {
       title: "Dire qui on est",
+      es: { title: "Decir quién eres" },
       lessons: [
         "conj-etre",
         "conj-avoir",
@@ -24,6 +30,7 @@ export const A1: Parcours = {
     },
     {
       title: "Parler des siens",
+      es: { title: "Hablar de los tuyos" },
       lessons: [
         "gram-articles-definis",
         "gram-articles-indefinis",
@@ -33,6 +40,7 @@ export const A1: Parcours = {
     },
     {
       title: "Ma vie, mes goûts",
+      es: { title: "Mi vida, mis gustos" },
       lessons: [
         "gram-verbes-er-a1",
         "ex-verbes-er-a1",
@@ -45,10 +53,12 @@ export const A1: Parcours = {
     },
     {
       title: "Compter et acheter",
+      es: { title: "Contar y comprar" },
       lessons: ["voc-nombres", "voc-jours-mois-a1", "ex-date-a1", "conv-faire-des-achats"],
     },
     {
       title: "Chez soi et en ville",
+      es: { title: "En casa y en la ciudad" },
       lessons: ["voc-maison", "voc-transports", "ex-articles-a1"],
     },
   ],

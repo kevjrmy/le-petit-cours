@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { T } from "@/components/lang/T";
 import { ChapterGrid } from "@/components/sommaire/ChapterGrid";
 import { LevelNotice } from "@/components/sommaire/LevelNotice";
 import { SearchBox } from "@/components/search/SearchBox";
@@ -33,14 +34,18 @@ export default function Sommaire() {
   return (
     <div className={styles.page}>
       <header className={styles.hero}>
-        <h1>Sommaire</h1>
+        <h1>
+          <T fr="Sommaire" es="Índice" />
+        </h1>
       </header>
 
       {/* The field again, because arriving here and not finding the chapter you
           wanted should not mean going back to the home page for the search. */}
       <SearchBox />
 
-      <h2 className={`label ${styles.sectionTitle}`}>Les chapitres</h2>
+      <h2 className={`label ${styles.sectionTitle}`}>
+        <T fr="Les chapitres" es="Los capítulos" />
+      </h2>
       <LevelNotice />
       <ChapterGrid />
     </div>

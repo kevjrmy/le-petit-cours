@@ -108,7 +108,11 @@
   margin-top: 0;
 }
 
-.tense h2 {
+/* Doubled: a tense's title is two `h2`s, one per language (#102), and the
+   global `.prose section > h2 + *` would give the second its top margin —
+   the Spanish titles would drop out of line with « Passé composé », which is
+   one `h2` in both. */
+.tense.tense h2 {
   margin: 0 0 var(--space-8);
 }
 

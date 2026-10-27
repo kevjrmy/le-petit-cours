@@ -4,6 +4,9 @@ import Link from "next/link";
 import { trackedChapters, type Chapter, type Lesson } from "@/data/navigation";
 import { etapesOf, examOf, nextUp, tallyOf, type IsDone, type Parcours } from "@/data/parcours";
 import { useAccount } from "@/hooks/useAccount";
+import { useLang } from "@/hooks/useLang";
+import { T } from "@/components/lang/T";
+import type { Lang } from "@/lib/lang";
 import { useProgress } from "@/hooks/useProgress";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
 import { signInHref } from "@/components/account/ReturnTo";
@@ -34,9 +37,14 @@ import styles from "./Progression.module.css";
  * carry no tick anywhere, so counting them would put the total permanently out
  * of reach — and they are gone by next week, which would then move the
  * denominator under a record that is supposed to only grow.
+ *
+ * **Both languages through `<T>`** (#102); lesson titles stay French in both.
+ * `useLang` only for the date, which `Intl` formats in code: the record draws
+ * after the account has loaded, so the language is already the real one.
  */
 export function Progression() {
   const account = useAccount();
+  const lang = useLang();
   const { ready, signedIn, isDone, doneAt } = useProgress();
   /* The set a page holding several is counted at: the parcours's (#87). */
   const parcours = account?.parcours ?? null;
@@ -45,7 +53,13 @@ export function Progression() {
   if (!signedIn) return <SignedOut />;
   /* Not "nothing done" — not known yet. Saying zero here and three a moment
      later is worse than saying nothing for that moment. */
-  if (!ready) return <p className={styles.loading}>Chargement…</p>;
+  if (!ready) {
+    return (
+      <p className={styles.loading}>
+        <T fr="Chargement…" es="Cargando…" />
+      </p>
+    );
+  }
 
   /* The lessons are not filtered by view — that is what this page is (#48) —
      but a lesson carrying a tick per set still has to be asked about one, and
@@ -66,9 +80,16 @@ export function Progression() {
   if (total === 0) {
     return (
       <p className="message">
-        Le cours n&rsquo;a pas encore de leçon à cocher. Dès qu&rsquo;il y en
-        aura une, «&nbsp;J&rsquo;ai terminé&nbsp;» au bas de la page la rangera
-        ici.
+        <T
+          fr={
+            <>
+              Le cours n&rsquo;a pas encore de leçon à cocher. Dès qu&rsquo;il y
+              en aura une, «&nbsp;J&rsquo;ai terminé&nbsp;» au bas de la page la
+              rangera ici.
+            </>
+          }
+          es="El curso todavía no tiene ninguna lección para marcar. En cuanto haya una, «He terminado», al final de la página, la guardará aquí."
+        />
       </p>
     );
   }
@@ -84,16 +105,30 @@ export function Progression() {
       {parcours && <ParcoursRecord parcours={parcours} isDone={isDone} />}
 
       <section className={styles.summary}>
-        {parcours && <h2 className={`label ${styles.part}`}>Tout le cours</h2>}
-        <p className={styles.count}>
-          <strong>{finished}</strong> {finished === 1 ? "leçon terminée" : "leçons terminées"} sur{" "}
-          {total}
-        </p>
+        {parcours && (
+          <h2 className={`label ${styles.part}`}>
+            <T fr="Tout le cours" es="Todo el curso" />
+          </h2>
+        )}
+        <Count done={finished} total={total} />
         <Bar done={finished} total={total} />
         {finished === 0 && (
           <p className={styles.empty}>
-            Rien de coché pour l&rsquo;instant. Au bas de chaque leçon, «&nbsp;J&rsquo;ai
-            terminé&nbsp;» la range ici. <Link href="/sommaire">Voir le cours</Link>.
+            <T
+              fr={
+                <>
+                  Rien de coché pour l&rsquo;instant. Au bas de chaque leçon,
+                  «&nbsp;J&rsquo;ai terminé&nbsp;» la range ici.{" "}
+                  <Link href="/sommaire">Voir le cours</Link>.
+                </>
+              }
+              es={
+                <>
+                  Nada marcado por ahora. Al final de cada lección, «He terminado»
+                  la guarda aquí. <Link href="/sommaire">Ver el curso</Link>.
+                </>
+              }
+            />
           </p>
         )}
       </section>
@@ -106,11 +141,13 @@ export function Progression() {
                 <ChapterIcon name={chapter.icon} />
               </span>
               <Link href={chapter.path} className={styles.name}>
-                {chapter.title}
+                <T fr={chapter.title} es={chapter.es.title} />
               </Link>
               <span className={styles.tally}>
                 {done.length}<span aria-hidden="true">/</span>
-                <span className={styles.sr}> sur </span>
+                <span className={styles.sr}>
+                  <T fr=" sur " es=" de " />
+                </span>
                 {lessons.length}
               </span>
             </div>
@@ -125,6 +162,7 @@ export function Progression() {
                     lesson={lesson}
                     chapter={chapter}
                     at={doneAt(lesson, level)}
+                    lang={lang}
                   />
                 ))}
               </ul>
@@ -134,9 +172,22 @@ export function Progression() {
       </ul>
 
       <p className={styles.footnote}>
-        Cochées par {account ? <strong>{account.username}</strong> : "vous"}, et gardées
-        d&rsquo;un appareil à l&rsquo;autre. Rien d&rsquo;autre n&rsquo;est enregistré : ni
-        note, ni temps passé, ni page visitée.
+        <T
+          fr={
+            <>
+              Cochées par {account ? <strong>{account.username}</strong> : "vous"}, et
+              gardées d&rsquo;un appareil à l&rsquo;autre. Rien d&rsquo;autre n&rsquo;est
+              enregistré&nbsp;: ni note, ni temps passé, ni page visitée.
+            </>
+          }
+          es={
+            <>
+              Marcadas por {account ? <strong>{account.username}</strong> : "ti"}, y
+              guardadas de un dispositivo a otro. No se guarda nada más: ni notas, ni
+              tiempo dedicado, ni páginas visitadas.
+            </>
+          }
+        />
       </p>
     </>
   );
@@ -151,15 +202,15 @@ export function Progression() {
 function ParcoursRecord({ parcours, isDone }: { parcours: Parcours; isDone: IsDone }) {
   const { done, total } = tallyOf(parcours, isDone);
   const next = nextUp(parcours, isDone);
-  const current = next.kind === "lesson" ? next.etape : null;
+  const current = next.kind === "lesson" ? next.etape.title : null;
   const exam = examOf(parcours);
 
   return (
     <section className={styles.summary}>
-      <h2 className={`label ${styles.part}`}>{parcours.title}</h2>
-      <p className={styles.count}>
-        <strong>{done}</strong> {done === 1 ? "leçon terminée" : "leçons terminées"} sur {total}
-      </p>
+      <h2 className={`label ${styles.part}`}>
+        <T fr={parcours.title} es={parcours.es.title} />
+      </h2>
+      <Count done={done} total={total} />
       <Bar done={done} total={total} />
 
       <ol className={styles.etapes}>
@@ -171,7 +222,9 @@ function ParcoursRecord({ parcours, isDone }: { parcours: Parcours; isDone: IsDo
               <details className={styles.etape} open={etape.title === current}>
                 <summary className={styles.etapeHead}>
                   <span className={styles.etapeNumber}>{index + 1}</span>
-                  <span className={styles.etapeTitle}>{etape.title}</span>
+                  <span className={styles.etapeTitle}>
+                    <T fr={etape.title} es={etape.es.title} />
+                  </span>
                   <span className={styles.tally}>
                     {finished && (
                       <svg className={styles.check} viewBox="0 0 24 24" aria-hidden="true">
@@ -180,7 +233,9 @@ function ParcoursRecord({ parcours, isDone }: { parcours: Parcours; isDone: IsDo
                     )}
                     {ticked.length}
                     <span aria-hidden="true">/</span>
-                    <span className={styles.sr}> sur </span>
+                    <span className={styles.sr}>
+                  <T fr=" sur " es=" de " />
+                </span>
                     {etape.steps.length}
                   </span>
                 </summary>
@@ -202,17 +257,23 @@ function ParcoursRecord({ parcours, isDone }: { parcours: Parcours; isDone: IsDo
 
       {exam.length > 0 && (
         <div className={styles.exam}>
-          <h3 className={styles.examTitle}>L’examen blanc</h3>
+          <h3 className={styles.examTitle}>
+            <T fr="L’examen blanc" es="El simulacro de examen" />
+          </h3>
           <p className={styles.empty}>
-            Pour finir le parcours, dans l’ordre de l’examen. Une épreuve ne se coche
-            pas : elle se repasse autant qu’il le faut.
+            <T
+              fr="Pour finir le parcours, dans l’ordre de l’examen. Une épreuve ne se coche pas : elle se repasse autant qu’il le faut."
+              es="Para terminar el recorrido, en el orden del examen. Una prueba no se marca: se repite tantas veces como haga falta."
+            />
           </p>
           <ul className={styles.lessons}>
             {exam.map(({ chapter, lesson }) => (
               <li key={lesson.id}>
                 <Link href={lesson.path} className={styles.lesson}>
                   <span className={styles.lessonTitle}>{lesson.title}</span>
-                  <span className={styles.sr}>, {chapter.title}</span>
+                  <span className={styles.sr}>
+                    , <T fr={chapter.title} es={chapter.es.title} />
+                  </span>
                   {lesson.subtitle && <span className={styles.when}>{lesson.subtitle}</span>}
                 </Link>
               </li>
@@ -238,15 +299,31 @@ function Step({ lesson, chapter, done }: { lesson: Lesson; chapter: Chapter; don
         )}
         <span className={styles.lessonTitle}>{lesson.title}</span>
         <span className={styles.sr}>
-          , {chapter.title}, {done ? "terminée" : "pas encore terminée"}
+          ,{" "}
+          <T
+            fr={`${chapter.title}, ${done ? "terminée" : "pas encore terminée"}`}
+            es={`${chapter.es.title}, ${done ? "terminada" : "todavía sin terminar"}`}
+          />
         </span>
-        <span className={styles.when}>{chapter.shortTitle ?? chapter.title}</span>
+        <span className={styles.when}>
+          <T fr={chapter.shortTitle ?? chapter.title} es={chapter.es.title} />
+        </span>
       </Link>
     </li>
   );
 }
 
-function Done({ lesson, chapter, at }: { lesson: Lesson; chapter: Chapter; at?: string }) {
+function Done({
+  lesson,
+  chapter,
+  at,
+  lang,
+}: {
+  lesson: Lesson;
+  chapter: Chapter;
+  at?: string;
+  lang: Lang;
+}) {
   return (
     <li>
       <Link href={lesson.path} className={styles.lesson}>
@@ -256,14 +333,38 @@ function Done({ lesson, chapter, at }: { lesson: Lesson; chapter: Chapter; at?: 
           <path d="M5 12.5l4.5 4.5L19 7.5" />
         </svg>
         <span className={styles.lessonTitle}>{lesson.title}</span>
-        <span className={styles.sr}>, {chapter.title}</span>
+        <span className={styles.sr}>
+          , <T fr={chapter.title} es={chapter.es.title} />
+        </span>
         {at && (
           <time className={styles.when} dateTime={at}>
-            {formatted(at)}
+            {formatted(at, lang)}
           </time>
         )}
       </Link>
     </li>
+  );
+}
+
+/** « 3 leçons terminées sur 7 », each language's whole sentence. */
+function Count({ done, total }: { done: number; total: number }) {
+  return (
+    <p className={styles.count}>
+      <T
+        fr={
+          <>
+            <strong>{done}</strong> {done === 1 ? "leçon terminée" : "leçons terminées"} sur{" "}
+            {total}
+          </>
+        }
+        es={
+          <>
+            <strong>{done}</strong> {done === 1 ? "lección terminada" : "lecciones terminadas"} de{" "}
+            {total}
+          </>
+        }
+      />
+    </p>
   );
 }
 
@@ -281,34 +382,47 @@ function Bar({ done, total }: { done: number; total: number }) {
   );
 }
 
-/* Dates are formatted in French, like the rest of the chrome. Built on each
-   render rather than hoisted: this is a client component and the constructor
-   would run on the server too, where the locale data may differ. */
-function formatted(iso: string): string {
+/* Dates are formatted in the interface's language, like the rest of the
+   chrome (#102). Built on each render rather than hoisted: this is a client
+   component and the constructor would run on the server too, where the locale
+   data may differ. */
+function formatted(iso: string, lang: Lang): string {
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return "";
-  return new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "short" }).format(date);
+  return new Intl.DateTimeFormat(lang === "es" ? "es-ES" : "fr-FR", {
+    day: "numeric",
+    month: "short",
+  }).format(date);
 }
 
 function SignedOut() {
   return (
     <section className={styles.summary}>
-      <p>
+      <p data-ui="fr">
         Cette page garde la trace des leçons que vous avez terminées. Elle a besoin
-        d&rsquo;un compte : les leçons cochées vous suivent d&rsquo;un appareil à
+        d&rsquo;un compte&nbsp;: les leçons cochées vous suivent d&rsquo;un appareil à
         l&rsquo;autre, ce qu&rsquo;un navigateur seul ne sait pas faire.
+      </p>
+      <p data-ui="es" lang="es">
+        Esta página guarda el registro de las lecciones que has terminado. Necesita
+        una cuenta: las lecciones marcadas te siguen de un dispositivo a otro, algo
+        que un navegador por sí solo no sabe hacer.
       </p>
       <p className={styles.actions}>
         {/* Not the literal `?suivant=%2Fma-progression` this used to hold:
             one writer, so the encoding and the fallback rule cannot drift
             (#70). */}
         <Link href={signInHref("/ma-progression")} className="button button-primary">
-          Se connecter
+          <T fr="Se connecter" es="Iniciar sesión" />
         </Link>
       </p>
-      <p className={styles.empty}>
-        Tout le reste du site se lit et se fait sans compte. Rien n&rsquo;est fermé :
-        c&rsquo;est seulement la mémoire qui demande un compte.
+      <p className={styles.empty} data-ui="fr">
+        Tout le reste du site se lit et se fait sans compte. Rien n&rsquo;est
+        fermé&nbsp;: c&rsquo;est seulement la mémoire qui demande un compte.
+      </p>
+      <p className={styles.empty} data-ui="es" lang="es">
+        Todo lo demás del sitio se puede leer y hacer sin cuenta. Nada está cerrado:
+        solo la memoria necesita una cuenta.
       </p>
     </section>
   );

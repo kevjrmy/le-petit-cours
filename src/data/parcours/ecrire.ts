@@ -10,17 +10,24 @@ export const ECRIRE: Parcours = {
   title: "Écrire le français",
   blurb: "Vous le parlez déjà. Écrire ce que vous savez dire : accents, homophones, terminaisons.",
   level: null,
+  es: {
+    title: "Escribir en francés",
+    blurb: "Ya lo hablas. Escribir lo que sabes decir: acentos, homófonos, terminaciones.",
+  },
   etapes: [
     {
       title: "Les accents",
+      es: { title: "Los acentos" },
       lessons: ["orth-accents"],
     },
     {
       title: "Les mots qui se prononcent pareil",
+      es: { title: "Las palabras que suenan igual" },
       lessons: ["orth-homophones", "ex-trouve-la-faute"],
     },
     {
       title: "ce, se, ces, ses",
+      es: { title: "ce, se, ces, ses" },
       lessons: [
         "orth-homophones-demonstratif",
         "astuce-ces-ou-ses",
@@ -30,10 +37,12 @@ export const ECRIRE: Parcours = {
     },
     {
       title: "L’article et ses sosies",
+      es: { title: "El artículo y sus dobles" },
       lessons: ["orth-homophones-article", "ex-relisez-le-paragraphe"],
     },
     {
       title: "La fin du verbe",
+      es: { title: "El final del verbo" },
       lessons: [
         "orth-terminaisons-verbales",
         "conj-parler",
@@ -46,6 +55,7 @@ export const ECRIRE: Parcours = {
     },
     {
       title: "Les verbes qui changent",
+      es: { title: "Los verbos que cambian" },
       lessons: [
         "conj-manger",
         "conj-commencer",

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { T } from "@/components/lang/T";
 import styles from "./Tirage.module.css";
 
 /**
@@ -14,6 +15,10 @@ import styles from "./Tirage.module.css";
  * premier se lit comme un bouton qui ne marche pas. Un seul nombre au hasard,
  * au clic, jamais au rendu, donc rien qui diffère entre le serveur et le
  * client.
+ *
+ * **Les sujets restent en français** (un DELF se passe en français) ; le
+ * bouton et ce qu'il annonce suivent la langue de l'interface (#102), le sujet
+ * gardant `lang="fr"` dans la phrase espagnole.
  */
 export function Tirage({ sujets }: { sujets: string[] }) {
   const [tire, setTire] = useState<number | null>(null);
@@ -34,17 +39,37 @@ export function Tirage({ sujets }: { sujets: string[] }) {
           >
             <span>{sujet}</span>
             <span className="lettre">
-              {index === tire ? `Sujet tiré · ${index + 1}` : index + 1}
+              {index === tire ? (
+                <T
+                  fr={`Sujet tiré · ${index + 1}`}
+                  es={`Tema sorteado · ${index + 1}`}
+                />
+              ) : (
+                index + 1
+              )}
             </span>
           </li>
         ))}
       </ul>
       <p className={styles.ligne}>
         <button type="button" className="button" onClick={tirer}>
-          {tire === null ? "Tirer un sujet" : "Tirer un autre sujet"}
+          {tire === null ? (
+            <T fr="Tirer un sujet" es="Sortear un tema" />
+          ) : (
+            <T fr="Tirer un autre sujet" es="Sortear otro tema" />
+          )}
         </button>
         <span role="status">
-          {tire === null ? "" : `Sujet ${tire + 1} : ${sujets[tire]}`}
+          {tire !== null && (
+            <T
+              fr={`Sujet ${tire + 1} : ${sujets[tire]}`}
+              es={
+                <>
+                  Tema {tire + 1}: <span lang="fr">{sujets[tire]}</span>
+                </>
+              }
+            />
+          )}
         </span>
       </p>
     </>

@@ -191,7 +191,7 @@ expressed this way at all.
 blank is followed by a vowel or a mute h.
 
 **Two defensible answers means the item is broken.** Fix it with a French cue inside the item (from
-A2 there is no gloss, #53; an A1 drill may gloss, #85): *« il ___ prend dans ses bras »* takes *me*
+A2 the French taught has no gloss, #102; an A1 drill may gloss, #85): *« il ___ prend dans ses bras »* takes *me*
 and *te* until the sentence names the person — *« Viens, il ___ prend dans ses bras », dit ma mère
 en me tendant les siens*. Lengthening is usually cheaper than replacing.
 

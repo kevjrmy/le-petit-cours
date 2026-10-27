@@ -1,6 +1,7 @@
 "use client";
 
 import type { RefObject } from "react";
+import { useLang } from "@/hooks/useLang";
 import styles from "./AccentBar.module.css";
 
 /**
@@ -38,6 +39,10 @@ export function AccentBar({
    */
   target: RefObject<HTMLTextAreaElement | HTMLInputElement | null>;
 }) {
+  /* Attributes only, so `useLang` rather than `<T>` (#102): a screen reader
+     hears them, nobody sees them flash. */
+  const es = useLang() === "es";
+
   function insert(character: string) {
     const field = target.current;
     if (!field) return;
@@ -57,7 +62,11 @@ export function AccentBar({
   }
 
   return (
-    <div className={styles.bar} role="group" aria-label="Lettres accentuées">
+    <div
+      className={styles.bar}
+      role="group"
+      aria-label={es ? "Letras acentuadas" : "Lettres accentuées"}
+    >
       {GROUPS.map((group, index) => (
         <div key={group[0]} className={styles.bar}>
           {index > 0 && <span className={styles.gap} aria-hidden="true" />}
@@ -66,7 +75,7 @@ export function AccentBar({
               key={character}
               type="button"
               className={styles.key}
-              aria-label={`Insérer ${character}`}
+              aria-label={es ? `Insertar ${character}` : `Insérer ${character}`}
               /* Keeps the caret in the field: without this the mousedown moves
                  focus to the button first, and the field scrolls away on a
                  phone just as the character lands. */

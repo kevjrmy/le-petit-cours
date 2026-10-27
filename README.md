@@ -1,7 +1,7 @@
 # Le Petit Cours
 
 **A free, open French course written for Spanish speakers** — a PWA that installs to your home
-screen, works offline, and teaches French **in French** from A2 up. Also, for readers who already speak French
+screen, works offline, and explains French in French or in Spanish, as the reader prefers. Also, for readers who already speak French
 at home, a track that teaches them to write it.
 
 [![Licence: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)

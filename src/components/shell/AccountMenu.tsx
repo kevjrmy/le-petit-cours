@@ -8,7 +8,10 @@ import { Flag, LANG_NAME } from "@/components/account/Flag";
 import { signInHref } from "@/components/account/ReturnTo";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
 import { displayName, useAccount } from "@/hooks/useAccount";
-import { saveLang, type Lang } from "@/lib/account";
+import { useLang } from "@/hooks/useLang";
+import { saveLang } from "@/lib/account";
+import { applyLang, LANGS, type Lang } from "@/lib/lang";
+import { T } from "@/components/lang/T";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import styles from "./AccountMenu.module.css";
 
@@ -16,30 +19,27 @@ type ThemeChoice = "light" | "dark" | "system";
 
 const THEMES: ThemeChoice[] = ["light", "dark", "system"];
 
-const LANGS: Lang[] = ["fr", "es"];
-
 type Panel = "root" | "theme" | "lang";
 
-/* The menu's own words, in the account's language (#91); signed out, French.
-   The rows that are pages keep their manifest titles, French for everyone. */
+/* The menu's own words, in the interface language (#102). It opens on a
+   click, after hydration, so reading the language in code cannot flash. The
+   page rows' titles are the manifest's (`MenuRow.titleEs`), not written here. */
 const UI = {
   fr: {
     theme: "Thème",
     themes: { light: "Clair", dark: "Sombre", system: "Système" },
     lang: "Langue",
-    langFailed: "Non enregistré. Vérifiez votre connexion.",
+    langFailed: "Non enregistré sur le compte. Vérifiez votre connexion.",
     signOut: "Se déconnecter",
-    rows: {} as Record<string, string>,
+    menu: "Compte",
   },
   es: {
     theme: "Tema",
     themes: { light: "Claro", dark: "Oscuro", system: "Sistema" },
     lang: "Idioma",
-    langFailed: "No se ha guardado. Comprueba tu conexión.",
+    langFailed: "No se ha guardado en la cuenta. Comprueba tu conexión.",
     signOut: "Cerrar sesión",
-    /* The menu's page rows, by path. The manifest's titles are French for
-       everyone (§1); a row missing here keeps its French title, marked. */
-    rows: { "/ma-progression": "Mi progresión", "/compte": "Cuenta" } as Record<string, string>,
+    menu: "Cuenta",
   },
 } satisfies Record<
   Lang,
@@ -48,7 +48,7 @@ const UI = {
     themes: Record<ThemeChoice, string>;
     lang: string;
     langFailed: string;
-    rows: Record<string, string>;
+    menu: string;
     signOut: string;
   }
 >;
@@ -86,7 +86,7 @@ function applyTheme(choice: ThemeChoice) {
  * The account control at the foot of the sidebar, and the popover it opens.
  *
  * It holds what belongs to the account and nothing else: the annexes marked
- * `where: "menu"`, the theme, and — signed in — the language (#91) and signing
+ * `where: "menu"`, the theme, the language (#102), and — signed in — signing
  * out. « À propos » and
  * the link to the source are about the site rather than the account, and both
  * are reachable from the footer under every page.
@@ -97,7 +97,8 @@ function applyTheme(choice: ThemeChoice) {
  * removed over (#42). The theme and signing out are not pages and cannot name
  * one, so they are drawn below.
  *
- * **Signed out the panel is two rows**, « Se connecter » and the theme (#47).
+ * **Signed out the panel is three rows**, « Se connecter », the theme and the
+ * language (#47, #102).
  * Which pages that leaves is the manifest's answer, not this component's.
  *
  * **« Se connecter » carries the page they are on**, so signing in returns them
@@ -127,7 +128,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
      the line beneath: once a display name has replaced the username, it is the
      one field that still tells two accounts apart. */
   const name = account ? displayName(account) : null;
-  const lang = account?.lang ?? "fr";
+  const lang = useLang();
   const t = UI[lang];
 
   const [open, setOpen] = useState(false);
@@ -206,10 +207,12 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
     setView("root");
   }
 
-  /* Saved on the account (#91); the menu relabels itself when USER_UPDATED
-     comes back through the provider. */
+  /* Shown at once and kept on this device; signed in, saved on the account
+     too (#91, #102), so their other devices follow. */
   async function chooseLang(next: Lang) {
     if (next === lang) return;
+    applyLang(next);
+    if (!account) return;
     setLangSaving(true);
     setLangFailed(false);
     try {
@@ -231,7 +234,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
       {open && (
         <div className={styles.menu} lang={lang}>
           {view === "root" ? (
-            <div role="menu" aria-label="Compte">
+            <div role="menu" aria-label={t.menu}>
               {/* No header: the trigger directly beneath the panel already
                   carries the name and the address, and a popover anchored to
                   the control it opened does not need to restate it. */}
@@ -248,9 +251,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
                       }}
                     >
                       <ChapterIcon name={page.icon} />
-                      {t.rows[page.path] ?? (
-                        <span lang={lang === "es" ? "fr" : undefined}>{page.title}</span>
-                      )}
+                      {lang === "es" ? page.titleEs : page.title}
                     </Link>
                   </li>
                 ))}
@@ -280,38 +281,36 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
                     </svg>
                   </button>
                 </li>
-                {/* The language lives on the account, so signed out there is
-                    nowhere to keep it: the row is not drawn. */}
-                {account && (
-                  <li role="none">
-                    <button
-                      type="button"
-                      ref={langRowRef}
-                      className={`${styles.item} ${styles.submenuRow}`}
-                      role="menuitem"
-                      aria-haspopup="menu"
-                      aria-expanded={false}
-                      onClick={() => {
-                        setLangFailed(false);
-                        setView("lang");
-                      }}
-                    >
-                      {/* A globe: the language, not one of the two flags. */}
-                      <svg className={styles.mark} viewBox="0 0 24 24" aria-hidden="true">
-                        <circle cx="12" cy="12" r="8.5" />
-                        <path d="M3.5 12h17" />
-                        <path d="M12 3.5c2.4 2.4 3.6 5.2 3.6 8.5s-1.2 6.1-3.6 8.5c-2.4-2.4-3.6-5.2-3.6-8.5s1.2-6.1 3.6-8.5Z" />
-                      </svg>
-                      {t.lang}
-                      <span className={styles.value} lang={lang}>
-                        {LANG_NAME[lang]}
-                      </span>
-                      <svg className={styles.into} viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M9 5l7 7-7 7" />
-                      </svg>
-                    </button>
-                  </li>
-                )}
+                {/* For everyone: signed out the choice is kept on this device
+                    (#102). */}
+                <li role="none">
+                  <button
+                    type="button"
+                    ref={langRowRef}
+                    className={`${styles.item} ${styles.submenuRow}`}
+                    role="menuitem"
+                    aria-haspopup="menu"
+                    aria-expanded={false}
+                    onClick={() => {
+                      setLangFailed(false);
+                      setView("lang");
+                    }}
+                  >
+                    {/* A globe: the language, not one of the two flags. */}
+                    <svg className={styles.mark} viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="12" cy="12" r="8.5" />
+                      <path d="M3.5 12h17" />
+                      <path d="M12 3.5c2.4 2.4 3.6 5.2 3.6 8.5s-1.2 6.1-3.6 8.5c-2.4-2.4-3.6-5.2-3.6-8.5s1.2-6.1 3.6-8.5Z" />
+                    </svg>
+                    {t.lang}
+                    <span className={styles.value} lang={lang}>
+                      {LANG_NAME[lang]}
+                    </span>
+                    <svg className={styles.into} viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </li>
                 {/* Signed out there is nothing to sign out of, and the row
                     would read as the way *in* — « Compte » above is that. */}
                 {account && (
@@ -448,11 +447,13 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
           )}
         </span>
         <span className={styles.triggerText}>
-          <span className={styles.triggerTitle}>{name ?? "Compte"}</span>
+          <span className={styles.triggerTitle}>
+            {name ?? <T fr="Compte" es="Cuenta" />}
+          </span>
           {/* An offer, not a state. « Non connecté » would report the absence
               of something the site does not require. */}
           <span className={styles.triggerSub}>
-            {account ? account.email : "Se connecter"}
+            {account ? account.email : <T fr="Se connecter" es="Iniciar sesión" />}
           </span>
         </span>
         <svg className={styles.chevron} viewBox="0 0 24 24" aria-hidden="true">

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { annexes } from "@/data/navigation";
+import { T } from "@/components/lang/T";
 import styles from "./Footer.module.css";
 
 /**
@@ -35,7 +36,7 @@ export function Footer() {
   if (pathname !== "/" && !onFooterAnnexe) return null;
 
   const links = [
-    ...(onFooterAnnexe ? [{ path: "/", title: "Accueil" }] : []),
+    ...(onFooterAnnexe ? [{ path: "/", title: "Accueil", titleEs: "Inicio" }] : []),
     ...footerAnnexes.filter((page) => page.path !== pathname),
   ];
 
@@ -46,11 +47,24 @@ export function Footer() {
       <p>
         {links.map((page) => (
           <span key={page.path}>
-            <Link href={page.path}>{page.title}</Link>
+            <Link href={page.path}>
+              <T fr={page.title} es={page.titleEs} />
+            </Link>
             <span className={styles.sep} aria-hidden="true"> · </span>
           </span>
         ))}
-        Code MIT, contenu <span className={styles.nowrap}>CC BY-SA 4.0</span>
+        <T
+          fr={
+            <>
+              Code MIT, contenu <span className={styles.nowrap}>CC BY-SA 4.0</span>
+            </>
+          }
+          es={
+            <>
+              Código MIT, contenido <span className={styles.nowrap}>CC BY-SA 4.0</span>
+            </>
+          }
+        />
       </p>
     </footer>
   );
