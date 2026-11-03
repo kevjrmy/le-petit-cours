@@ -11,6 +11,10 @@ a shared pattern through `_texte/Page.module.css`, scoped to the atelier. **The 
 patterns never change for it.** **It stays French, with no Spanish twin** (#102): the class is
 taught in French, and the page is gone next week. A Spanish interface still shows it in French.
 
+**A heritage learner is French.** Never « un Français dirait » or « comme un Français » for the right
+form: say « en français, on dit… ». A calque from Spanish is two languages meeting, never a fault of
+origin.
+
 ## Building a class
 
 **One page is one class**, built in steps, each agreed before the next:
@@ -25,13 +29,22 @@ and the « tu » `Bilan`) for the practice. **Clicks, never typing** — the ans
 cannot type (§1) — and **no shuffle**: the items follow the text, and the page stays prerendered. A
 trick for a heritage speaker leans on the ear, not on a list to memorise.
 
-Three shapes have served. **A page of trucs**: the copy, a hunt aloud, the copy again with gaps
+Four shapes have served. **A page of quick drills**: the gaps with five forms each (`Trous`, three
+pièges), the corrigé hidden under them, then one short board per mistake (`Choix`) under an
+explanation of two or three sentences, and « En résumé ». **A page of trucs**: the copy, a hunt aloud, the copy again with gaps
 (`Trous`), the hidden corrigé, then one truc at a time, each with its own board (`Choix`), a défi
 (`Faute`) and « En résumé ». **A page of families**: the gaps first, the copy hidden under them
 (`Corrige` with `voir`), a table sorting the corrections into families, and a quiz. **A page on
 how a text is built**, from the learner's last copy: its parts in a table, then easy to hard — the
 copy's own paragraphs back in order (`Ordre`), sentences sorted into their part (`Partie`), a short
 literary text from the course back in order — and the two texts side by side.
+
+- **A truc that has had its board is not drilled again.** A mistake that comes back goes into the
+  gaps, and the drills go to what is new (avait ou était and a ou à, 2026-11-03).
+- **What can be defended stays as written**, with no gap: a phrase heard everywhere in speech
+  (« pour moi personnellement ») is not a mistake. Only its spelling can be.
+- **The blocklist matches famous names too**: a footballer's age, a racing driver's first name.
+  Write the surname alone (« Verstappen »); never bypass the hook.
 
 - **A gap or a board never offers a second right answer** (§9): no well-formed passé simple beside
   a passé composé, no trap that differs from the right form by an agreement the page does not teach.

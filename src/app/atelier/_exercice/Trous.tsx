@@ -6,11 +6,11 @@ import { Bilan } from "./Bilan";
 import board from "@/components/exercice/Board.module.css";
 import styles from "./Trous.module.css";
 
-/** Un trou : la forme juste, celle que la copie portait, et deux pièges. */
+/** Un trou : la forme juste, celle que la copie portait, et deux ou trois pièges. */
 export interface Trou {
   juste: string;
   copie: string;
-  pieges: [string, string];
+  pieges: [string, string] | [string, string, string];
 }
 
 /** Un paragraphe est une suite de texte et de trous. */
@@ -19,8 +19,9 @@ export type Morceau = string | Trou;
 /**
  * Un texte à trous où l'élève corrige sa propre copie (#80).
  *
- * **On touche un trou, un petit menu s'ouvre sous lui avec quatre formes** :
- * la juste, celle que la copie portait et deux pièges, dans l'ordre
+ * **On touche un trou, un petit menu s'ouvre sous lui avec quatre ou cinq
+ * formes** : la juste, celle que la copie portait et deux ou trois pièges
+ * (la page choisit, un nombre pour tous ses trous), dans l'ordre
  * alphabétique, qui ne dit rien de laquelle est laquelle. Choisir remplit le trou et ferme le menu ;
  * toucher le mot à nouveau rouvre le menu pour changer d'avis. Un seul menu
  * ouvert à la fois ; Échap ou un toucher ailleurs le ferment.

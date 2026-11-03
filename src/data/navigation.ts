@@ -1653,22 +1653,22 @@ export const chapters: Chapter[] = [
       /* Un texte rendu cette semaine et la séance construite dessus. Publié
          sans nom et sans rien qui désigne qui l'a écrit (`AGENTS.md` §9b). */
       {
-        id: "atelier-2026-10-27-le-clasico",
-        path: "/atelier/le-clasico",
-        title: "Le Clasico",
-        subtitle: "Ta copie à corriger toi-même, tes fautes en quatre familles, et vingt Clasicos en quiz",
+        id: "atelier-2026-11-03-la-sorciere-du-placard-aux-balais",
+        path: "/atelier/la-sorciere-du-placard-aux-balais",
+        title: "La sorcière du placard aux balais",
+        subtitle: "Ton texte à corriger, un petit plateau par faute, et l’essentiel à retenir",
         level: null,
-        delf: "Rendre compte par écrit d'un évènement qu'on a vu",
-        created: "2026-10-27",
+        delf: "Raconter une histoire au passé, à l'écrit",
+        created: "2026-11-03",
       },
       {
-        id: "atelier-2026-10-27-le-plan-d-un-texte",
-        path: "/atelier/le-plan-d-un-texte",
-        title: "Le plan d’un texte",
-        subtitle: "Introduction, développement, conclusion : ton Clasico et une fable de La Fontaine",
+        id: "atelier-2026-11-03-le-grand-prix-du-mexique",
+        path: "/atelier/le-grand-prix-du-mexique",
+        title: "Le Grand Prix du Mexique",
+        subtitle: "Ton compte rendu à corriger, un petit plateau par faute, et l’essentiel à retenir",
         level: null,
         delf: "Rendre compte par écrit d'un évènement qu'on a vu",
-        created: "2026-10-27",
+        created: "2026-11-03",
       },
     ],
   },
@@ -2778,15 +2778,16 @@ const handWrittenLinks: Record<string, string[]> = {
      **Cette clé part avec la page.** Une clé dont la source n'existe plus est
      la première chose que l'audit signale, ce qui est exactement le filet
      qu'on veut ici. */
-  "/atelier/le-clasico": [
-    "/grammaire/le-passe-compose",
-    "/orthographe/les-homophones",
+  "/atelier/la-sorciere-du-placard-aux-balais": [
+    "/grammaire/l-imparfait",
     "/orthographe/les-terminaisons-verbales",
+    "/astuces/etre-ou-avoir",
+    "/orthographe/les-homophones",
   ],
-  "/atelier/le-plan-d-un-texte": [
-    "/litterature/le-lion-et-le-rat",
-    "/grammaire/les-connecteurs",
-    "/exercices/mais-donc-ou-parce-que",
+  "/atelier/le-grand-prix-du-mexique": [
+    "/grammaire/le-passe-compose",
+    "/astuces/etre-ou-avoir",
+    "/vocabulaire/l-opinion",
   ],
 };
 

@@ -127,13 +127,23 @@ export function Faute({
         {answered && (
           <div className={styles.verdict} role="status">
             <p className={styles.corrected}>
-              {current.mots.map((mot, at) =>
-                at === current.fautif ? (
-                  <strong key={at}>{current.correction} </strong>
+              {current.mots.map((mot, at) => {
+                /* Une correction qui commence par un point (« . Il ») se colle
+                   au mot d'avant : pas d'espace devant un point en français. */
+                const colle = at === current.fautif && /^[.,]/.test(current.correction);
+                const espace = at === 0 || colle ? "" : " ";
+                return at === current.fautif ? (
+                  <strong key={at}>
+                    {espace}
+                    {current.correction}
+                  </strong>
                 ) : (
-                  <span key={at}>{mot} </span>
-                ),
-              )}
+                  <span key={at}>
+                    {espace}
+                    {mot}
+                  </span>
+                );
+              })}
             </p>
             <p className={styles.pourquoi}>
               <strong>{right ? "Trouvée." : "Ce n’était pas celui-là."}</strong>{" "}
