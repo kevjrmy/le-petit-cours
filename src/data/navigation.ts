@@ -1670,6 +1670,17 @@ export const chapters: Chapter[] = [
         delf: "Rendre compte par écrit d'un évènement qu'on a vu",
         created: "2026-11-03",
       },
+      /* Un jeu sur un texte écrit pour l'atelier, pas sur une copie : le
+         plan d'un compte rendu et les fautes qui reviennent. */
+      {
+        id: "atelier-2026-11-03-le-grand-prix-d-austin",
+        path: "/atelier/le-grand-prix-d-austin",
+        title: "Le Grand Prix d’Austin",
+        subtitle: "Un jeu : remets le compte rendu dans l’ordre, et corrige-le tour par tour",
+        level: null,
+        delf: "Rendre compte par écrit d'un évènement qu'on a vu",
+        created: "2026-11-03",
+      },
     ],
   },
   /* Le DELF, et pourquoi il est le dernier chapitre : il ne s'apprend pas, il

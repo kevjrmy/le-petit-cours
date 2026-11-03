@@ -1,0 +1,79 @@
+/* « La course ». La carte, les mots et les boutons du bas viennent de
+   `Board.module.css`, le morceau de la grille d'`Ordre.module.css`, les formes
+   de `Choix.module.css`. Ce module ne place que le tableau de bord, le texte
+   déjà couru et l'arrivée. Les états `.is-*` sont globaux et doublés
+   (`globals.css`) : aucune couleur d'état ici. */
+
+/* Les pénalités, sous la jauge des tours : une consigne, pas du français à
+   lire, donc en sans. */
+.chrono {
+  margin: var(--space-8) 0 0;
+  font-size: var(--type-95);
+  color: var(--text-2);
+}
+
+.chrono strong {
+  color: var(--text-heading);
+}
+
+/* Le texte déjà couru : propre, sans bouton, l'un sous l'autre. */
+.course {
+  margin-top: var(--space-8);
+  display: grid;
+  gap: var(--space-8);
+}
+
+.ligne {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--type-106);
+  line-height: 1.6;
+  color: var(--text-heading);
+}
+
+/* Le morceau au stand : un paragraphe de mots-boutons, plus aéré que la
+   phrase seule du plateau, pour que deux lignes ne se touchent pas. */
+.morceau {
+  margin: var(--space-12) 0 0;
+  line-height: 2;
+}
+
+.indice {
+  margin: var(--space-16) 0 0;
+  font-size: var(--type-95);
+  color: var(--text-2);
+}
+
+.arrivee {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-12);
+}
+
+.arrivee > p {
+  margin: 0;
+}
+
+/* La place, comme le score d'un plateau (`Drill.module.css`). */
+.place {
+  font-family: var(--font-serif);
+  font-size: var(--type-150);
+  color: var(--text-heading);
+}
+
+.place span {
+  font-family: var(--font-sans);
+  font-size: var(--type-100);
+  color: var(--text-3);
+}
+
+.propre {
+  display: grid;
+  gap: var(--space-16);
+  width: 100%;
+}
+
+.propre .ligne + .ligne {
+  margin-top: var(--space-8);
+}

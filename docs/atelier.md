@@ -25,11 +25,11 @@ origin.
 
 The furniture exists, in folders that leave with the chapter: `_texte/` (`Copie`, `Corrige`) for
 the text and its correction, `_exercice/` (`Choix`, `Faute`, `Trous`, `Quiz`, `Partie`, `Ordre`,
-and the « tu » `Bilan`) for the practice. **Clicks, never typing** — the answers carry accents a Spanish keyboard
+`Course`, and the « tu » `Bilan`) for the practice. **Clicks, never typing** — the answers carry accents a Spanish keyboard
 cannot type (§1) — and **no shuffle**: the items follow the text, and the page stays prerendered. A
 trick for a heritage speaker leans on the ear, not on a list to memorise.
 
-Four shapes have served. **A page of quick drills**: the gaps with five forms each (`Trous`, three
+Five shapes have served. **A page of quick drills**: the gaps with five forms each (`Trous`, three
 pièges), the corrigé hidden under them, then one short board per mistake (`Choix`) under an
 explanation of two or three sentences, and « En résumé ». **A page of trucs**: the copy, a hunt aloud, the copy again with gaps
 (`Trous`), the hidden corrigé, then one truc at a time, each with its own board (`Choix`), a défi
@@ -38,6 +38,11 @@ explanation of two or three sentences, and « En résumé ». **A page of trucs*
 how a text is built**, from the learner's last copy: its parts in a table, then easy to hard — the
 copy's own paragraphs back in order (`Ordre`), sentences sorted into their part (`Partie`), a short
 literary text from the course back in order — and the two texts side by side.
+**A page that is a game** (`Course`), on a text written for the page rather than a copy: a
+report in the learner's own voice, cut into pieces, each carrying one or two of his recurring
+mistakes. Lap by lap, he picks the piece that comes next, then finds its mistakes and picks the
+right form among three; each error costs five seconds, and the seconds give a place at the
+finish. Its facts are sourced in the data like a quiz's.
 
 - **A truc that has had its board is not drilled again.** A mistake that comes back goes into the
   gaps, and the drills go to what is new (avait ou était and a ou à, 2026-11-03).
