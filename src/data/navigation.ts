@@ -850,6 +850,15 @@ export const chapters: Chapter[] = [
         delf: "Donner son avis, dire son accord ou son désaccord et développer une idée",
         created: "2026-10-11",
       },
+      {
+        id: "voc-vacances",
+        path: "/vocabulaire/les-vacances",
+        title: "Les vacances",
+        subtitle: "Partir, visiter, raconter son séjour",
+        level: "A2",
+        delf: "Raconter ses vacances : le départ, le logement, ce qu’on a fait, le temps et ses impressions",
+        created: "2026-11-07",
+      },
     ],
   },
   {
@@ -1101,6 +1110,18 @@ export const chapters: Chapter[] = [
         delf: "Choisir la formule qui donne un avis, y répond ou le développe",
         created: "2026-10-11",
       },
+      /* Un récit à trous sur `gram-passe-compose` et `voc-vacances` :
+         le temps (un indice dans chaque phrase) et le mot juste. */
+      {
+        id: "ex-raconter-ses-vacances",
+        path: "/exercices/raconter-ses-vacances",
+        title: "Raconter ses vacances",
+        subtitle: "Un récit à trous : passé composé, imparfait et mot juste",
+        tag: "Texte",
+        level: "A2",
+        delf: "Raconter un séjour au passé : choisir entre passé composé et imparfait",
+        created: "2026-11-07",
+      },
       {
         id: "ex-relisez-le-paragraphe",
         path: "/exercices/relisez-le-paragraphe",
@@ -1276,6 +1297,16 @@ export const chapters: Chapter[] = [
         level: "A2",
         delf: "Donner son opinion, la justifier par une raison et un exemple, réagir à celle de l’autre.",
         created: "2026-10-11",
+      },
+      {
+        id: "conv-raconter-ses-vacances",
+        path: "/conversation/raconter-ses-vacances",
+        title: "Raconter ses vacances",
+        subtitle: "Lundi matin, à un ami qui n’est pas parti",
+        tag: "Jeu de rôle",
+        level: "A2",
+        delf: "Raconter un séjour au passé, décrire un lieu et le temps, dire ce qui a plu ou déçu.",
+        created: "2026-11-07",
       },
     ],
   },
@@ -2375,8 +2406,28 @@ const handWrittenLinks: Record<string, string[]> = {
   "/grammaire/passe-compose-ou-imparfait": [
     "/grammaire/le-passe-compose",
     "/grammaire/l-imparfait",
+    "/exercices/raconter-ses-vacances",
     "/conjugaison/etre",
-    "/conjugaison/avoir",
+  ],
+  /* Les vacances : un mot, un récit à trous, une scène. Les trois pages se
+     renvoient l'une à l'autre, puis chacune à ce qui la soutient. */
+  "/vocabulaire/les-vacances": [
+    "/exercices/raconter-ses-vacances",
+    "/conversation/raconter-ses-vacances",
+    "/grammaire/passe-compose-ou-imparfait",
+    "/astuces/a-en-au-aux",
+  ],
+  "/exercices/raconter-ses-vacances": [
+    "/grammaire/passe-compose-ou-imparfait",
+    "/vocabulaire/les-vacances",
+    "/conversation/raconter-ses-vacances",
+    "/astuces/etre-ou-avoir",
+  ],
+  "/conversation/raconter-ses-vacances": [
+    "/vocabulaire/les-vacances",
+    "/exercices/raconter-ses-vacances",
+    "/grammaire/les-connecteurs",
+    "/conversation/decrire-sa-ville",
   ],
   /* Les connecteurs servent d'abord à raconter : la page renvoie au choix du
      temps, puis à deux endroits où le récit se pratique. */
