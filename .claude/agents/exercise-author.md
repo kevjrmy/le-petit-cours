@@ -211,6 +211,13 @@ A2 the French taught has no gloss, #102; an A1 drill may gloss, #85): *« il ___
 and *te* until the sentence names the person — *« Viens, il ___ prend dans ses bras », dit ma mère
 en me tendant les siens*. Lengthening is usually cheaper than replacing.
 
+**A passé composé / imparfait gap is ambiguous by default.** An action the next sentence interrupts
+(« soudain », « quand ») takes the imparfait too: *« un jour, nous faisions une randonnée. Soudain… »*
+is the course's own rule. And « pendant que » fixes only its own clause. Close each gap with a bounded
+duration or an hour, which forces the passé composé, or a « tous les… », which forces the imparfait.
+Then read the corrections as rules: « il a chaud » is French, about a person
+(`exercices/raconter-ses-vacances`, 2026-11-07).
+
 **A check counts what it matched** (§9): one reported clean on 101 of 102 nouns. Compare the hit
 count to the row count.
 
