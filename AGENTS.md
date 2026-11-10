@@ -429,6 +429,7 @@ commit messages included.
 | Song lyrics               | Short excerpts for commentary; never a full lyric.                                                                                        |
 | Photographs               | CC0, PD, CC BY, CC BY-SA; local; credited per image.                                                                                      |
 | A learner's own text      | **Anonymous, atelier only** (#80): no name, age, school, town or class anywhere, commit messages included; originals stay in `.private/`. |
+| A press article or a company's page | **Never copied** (#103): a text written for the course from its facts, short quotes credited, the link; the original stays in `.private/`. |
 | Anything else             | Ask in an issue first.                                                                                                                    |
 
 **`CONTRIBUTING.md` repeats these rules on purpose** — change both together.

@@ -273,6 +273,7 @@ just its manifest entry.
 
 ```bash
 git rm -r src/app/atelier/<slug>          # for each page being cleared
+git rm -r public/atelier/<slug>           # its images, if it had any
 # then delete its entry from the `atelier` chapter's `lessons` array
 ```
 

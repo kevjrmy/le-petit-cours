@@ -1450,3 +1450,23 @@ a French device, and every visitor whose browser is neither, still reads first.
 change together** — a page edited in one language only is the new silent failure, which
 `content-proofreader` checks. A lesson not yet converted has French sections only and shows them
 in both interfaces (`AGENTS.md` §0).
+
+## 103 · An atelier page may be built on a press article, never by copying it
+**2026-11-10 · Binding · extends #80 · applies `AGENTS.md` §9b**
+
+A family asked for classes built on press articles rather than on the learner's own text. The
+article is copyrighted, and the course is a public site and a public repository: **its text is never
+on the page or in the repo**, whoever owns the class. The full copy stays in
+`.private/<date>/`, gitignored, where it is read before anything is planned.
+
+**Decided against hosting the transcript** so the learner need not leave the site: publishing it
+would copy it for everyone, not for two learners. The page carries instead **a text written for
+the course** — the article's facts, in an order and words of its own — credited « d'après » the
+article with its link; a line or two may be quoted for discussion. Facts the source states but
+that its own subject contradicts (the Vasa museum against « un mille marin ») are left out, and
+the data module says which.
+
+**Decided against treating a company's page as press**: EDF on its own dam is reliable on how it
+works and silent on what it costs. Such a source is allowed and named as what it is; the page asks
+« qui parle ? ». Many French publishers refuse automated readers, so an agent asks the maintainer
+to paste the text — and **reads it whole before pitching it**, never from a search summary.

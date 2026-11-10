@@ -86,7 +86,8 @@ are in [`AGENTS.md`](AGENTS.md); the `#nn` numbers point into
   it (#50).
 - **No copyrighted text.** Public-domain works or original writing; song lyrics as short excerpts
   only; images CC0, public domain, CC BY or CC BY-SA, credited and stored locally (#83 is the one
-  linked exception).
+  linked exception). A press article or a company's page is never copied: write a text of your own
+  from its facts, quote a line or two with credit, and link to it (#103).
 - **No exam paper, including the free official DELF sujets** (#78): describe the format, copy
   nothing, and add none to `public/` — anything there is published.
 

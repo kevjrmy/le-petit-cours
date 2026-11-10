@@ -29,7 +29,7 @@ the text and its correction, `_exercice/` (`Choix`, `Faute`, `Trous`, `Quiz`, `P
 cannot type (§1) — and **no shuffle**: the items follow the text, and the page stays prerendered. A
 trick for a heritage speaker leans on the ear, not on a list to memorise.
 
-Five shapes have served. **A page of quick drills**: the gaps with five forms each (`Trous`, three
+Six shapes have served. **A page of quick drills**: the gaps with five forms each (`Trous`, three
 pièges), the corrigé hidden under them, then one short board per mistake (`Choix`) under an
 explanation of two or three sentences, and « En résumé ». **A page of trucs**: the copy, a hunt aloud, the copy again with gaps
 (`Trous`), the hidden corrigé, then one truc at a time, each with its own board (`Choix`), a défi
@@ -43,6 +43,22 @@ report in the learner's own voice, cut into pieces, each carrying one or two of 
 mistakes. Lap by lap, he picks the piece that comes next, then finds its mistakes and picks the
 right form among three; each error costs five seconds, and the seconds give a place at the
 finish. Its facts are sourced in the data like a quiz's.
+
+**A page on a press article or a document** (#103), when the class reads rather than corrects: the
+words first (a table, a false friend flagged), then **a text written for the course** from the
+article's facts, cut into short parts under `h3`s, each in `.example.recit` with its images; a
+`Quiz` whose wrong writings carry the learner's mistakes; the gaps on a summary written for the
+page; one new truc; and the subject of the next copy. For an older learner, « qui parle ? » and two
+figures that disagree make a part of their own, said aloud.
+
+- **The article is read whole before it is pitched.** A search summary once sold a fossils article
+  as korrigans and Carnac. Publishers that refuse automated readers are pasted in by the
+  maintainer, into `.private/<date>/article-*.md`, with source, author, date and access.
+- **Its facts are checked against the subject's own source** (the museum, the operator); what
+  disagrees stays out, listed in the data module's comment.
+- **Images** go in `public/atelier/<slug>/`, at most 1000 px, under 200 KB, looked at; their credits
+  in `images.ts` beside the page, one entry per image, and a `.credits` line at the foot.
+  `_texte/Page.module.css` places them: `.figure`, and `.paire` for two to compare.
 
 - **A truc that has had its board is not drilled again.** A mistake that comes back goes into the
   gaps, and the drills go to what is new (avait ou était and a ou à, 2026-11-03).
