@@ -31,3 +31,47 @@
 .page :global(.resume) li + li {
   margin-top: var(--space-8);
 }
+
+/* Une illustration d'atelier : l'image, puis sa légende. Une image en hauteur
+   (une gravure, un fossile debout) ne doit pas remplir tout l'écran partagé :
+   sa hauteur est plafonnée et elle se centre. Une image absente (hors ligne)
+   laisse un fond plutôt qu'un trou.
+
+   30rem : mesuré, pour qu'une image en hauteur et sa légende tiennent ensemble
+   sur un écran d'ordinateur portable. */
+.figure {
+  margin: var(--space-24) 0;
+}
+
+.figure img {
+  width: auto;
+  max-height: 30rem;
+  margin-inline: auto;
+  border-radius: var(--radius-sm);
+  background: var(--surface-3);
+  color: var(--text-1);
+}
+
+.figure figcaption {
+  margin-top: var(--space-8);
+  font-size: var(--type-95);
+  color: var(--text-2);
+}
+
+/* Deux images à comparer, côte à côte à toutes les largeurs : c'est la
+   comparaison qui compte (le même fossile, en 1726 et aujourd'hui). */
+.paire {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-16);
+  align-items: start;
+}
+
+.paire .figure {
+  margin: 0;
+}
+
+.paire .figure img {
+  width: 100%;
+  max-height: none;
+}

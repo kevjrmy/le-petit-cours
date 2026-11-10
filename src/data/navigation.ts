@@ -1681,36 +1681,27 @@ export const chapters: Chapter[] = [
     },
     scratch: true,
     lessons: [
-      /* Un texte rendu cette semaine et la séance construite dessus. Publié
-         sans nom et sans rien qui désigne qui l'a écrit (`AGENTS.md` §9b). */
+      /* Une séance bâtie sur un article de presse, pas sur une copie : l'élève
+         le lit chez le journal, la page ne le recopie pas (`AGENTS.md` §9b). */
       {
-        id: "atelier-2026-11-03-la-sorciere-du-placard-aux-balais",
-        path: "/atelier/la-sorciere-du-placard-aux-balais",
-        title: "La sorcière du placard aux balais",
-        subtitle: "Ton texte à corriger, un petit plateau par faute, et l’essentiel à retenir",
+        id: "atelier-2026-11-11-le-vasa",
+        path: "/atelier/le-vasa",
+        title: "Le Vasa",
+        subtitle: "Un article de journal : ses mots, ses images, un quiz et un résumé à trous",
         level: null,
-        delf: "Raconter une histoire au passé, à l'écrit",
-        created: "2026-11-03",
+        delf: "Lire un article de presse et en comprendre l'essentiel",
+        created: "2026-11-11",
       },
+      /* Un document d'entreprise, pas un article : la page le dit, et en fait
+         une leçon de lecture (qui parle ?). */
       {
-        id: "atelier-2026-11-03-le-grand-prix-du-mexique",
-        path: "/atelier/le-grand-prix-du-mexique",
-        title: "Le Grand Prix du Mexique",
-        subtitle: "Ton compte rendu à corriger, un petit plateau par faute, et l’essentiel à retenir",
+        id: "atelier-2026-11-11-le-barrage-de-la-rance",
+        path: "/atelier/le-barrage-de-la-rance",
+        title: "Le barrage de la Rance",
+        subtitle: "La page d’EDF : ses mots, un quiz, qui parle, un résumé à trous et ton avis",
         level: null,
-        delf: "Rendre compte par écrit d'un évènement qu'on a vu",
-        created: "2026-11-03",
-      },
-      /* Un jeu sur un texte écrit pour l'atelier, pas sur une copie : le
-         plan d'un compte rendu et les fautes qui reviennent. */
-      {
-        id: "atelier-2026-11-03-le-grand-prix-d-austin",
-        path: "/atelier/le-grand-prix-d-austin",
-        title: "Le Grand Prix d’Austin",
-        subtitle: "Un jeu : remets le compte rendu dans l’ordre, et corrige-le tour par tour",
-        level: null,
-        delf: "Rendre compte par écrit d'un évènement qu'on a vu",
-        created: "2026-11-03",
+        delf: "Lire un document, le juger, et donner son avis par écrit",
+        created: "2026-11-11",
       },
     ],
   },
@@ -2840,16 +2831,17 @@ const handWrittenLinks: Record<string, string[]> = {
      **Cette clé part avec la page.** Une clé dont la source n'existe plus est
      la première chose que l'audit signale, ce qui est exactement le filet
      qu'on veut ici. */
-  "/atelier/la-sorciere-du-placard-aux-balais": [
+  "/atelier/le-barrage-de-la-rance": [
+    "/grammaire/les-connecteurs",
+    "/vocabulaire/l-opinion",
+    "/astuces/etre-ou-avoir",
+    "/grammaire/le-passe-compose",
+  ],
+  "/atelier/le-vasa": [
     "/grammaire/l-imparfait",
     "/orthographe/les-terminaisons-verbales",
-    "/astuces/etre-ou-avoir",
     "/orthographe/les-homophones",
-  ],
-  "/atelier/le-grand-prix-du-mexique": [
-    "/grammaire/le-passe-compose",
-    "/astuces/etre-ou-avoir",
-    "/vocabulaire/l-opinion",
+    "/grammaire/le-singulier-et-le-pluriel",
   ],
 };
 
