@@ -1338,6 +1338,17 @@ back the same day; gold is for the interface's marks, and a heading keeps its pa
 passed on every pair (#99); the sheet and the hover had to stay light enough for `--text-3` and
 `--border-control`.
 
+**The night, muted** (2026-11-11, at the maintainer's request: « keep the dark blue but more
+subtle »). The first night was an indigo near 56% saturation (`#0B1027`); it glowed around every
+line of text. It is now a navy near 40% (`#111828`), a hair lighter, every `--night-*` step and
+every dark tint moved with it, and `layout.tsx`'s dark `themeColor` with the page. **The inks
+moved the other way**: `--text-1` is an off-white (`#E6E9F2`, 14:1, no glare), and the two muted
+inks were lifted, `--text-2` from 7.3 to 8.2:1 at worst and `--text-3` from 5.0 to 5.9:1, so a
+gloss or a label reads without effort. `--blue-400`, the dark accent, went from `#5795EC` to
+`#6AA0EE`, the same hue, to keep a link above 5:1 on the lighter hover; `#0044AA` is untouched.
+**Chosen against** a neutral grey-black (the book's cover is blue) and against pure white text
+(it halos on a dark ground).
+
 **Gold is ornament, for the interface and nothing else.** `--star` colours `.ciel`, a few stars and a planet round a
 block's edges: the home page's title, and `/design`. It marks no state, so it has no contrast
 floor and never enters a lesson, where a gold mark would be read as a signal next to amber's

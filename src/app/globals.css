@@ -24,7 +24,7 @@
   --blue-700: #0044AA;   /* brand · accent in light mode · 8.7:1 on white */
   --blue-600: #0B58C7;
   --blue-500: #2472E0;
-  --blue-400: #5795EC;   /* accent in dark mode · 6.1:1 on --surface-app */
+  --blue-400: #6AA0EE;   /* accent in dark mode · 6.6:1 on --surface-app */
   --blue-300: #8DB8F4;
   --blue-200: #BFD8FA;
   --blue-100: #E1EDFD;
@@ -101,14 +101,16 @@
 
   /* Nuit — the dark theme's ground, after the night-blue cover of the same
      book (#100). Blue enough to read as a sky, dark enough that text sits on
-     it as on a black. */
-  --night-975: #080C20;   /* the sidebar */
-  --night-950: #0B1027;   /* the page */
-  --night-900: #10173A;   /* a sheet */
-  --night-850: #141C42;
-  --night-800: #1A234D;   /* a hover */
-  --night-700: #222C58;   /* a line */
-  --night-600: #313D70;   /* a strong line */
+     it as on a black. **Muted, not saturated** (second pass): a navy at ~40%
+     saturation, a hair above black. The first night, at ~56%, glowed indigo
+     around every line of text. */
+  --night-975: #0C1221;   /* the sidebar */
+  --night-950: #111828;   /* the page */
+  --night-900: #161E31;   /* a sheet */
+  --night-850: #1A2337;
+  --night-800: #202A42;   /* a hover */
+  --night-700: #2A3551;   /* a line */
+  --night-600: #3A4665;   /* a strong line */
 
   /* Or — the stars on that cover. **For the interface's marks, never for
      text** (#100): a star, a planet, the dot of the logo's « i ». It carries
@@ -144,15 +146,18 @@
   --surface-overlay: light-dark(rgb(8 12 19 / 0.42),     rgb(0 0 0 / 0.62));
 
   /* Text */
-  --text-1:         light-dark(var(--grey-900), #E8EAF3);
-  --text-2:         light-dark(var(--grey-600), #ADB4CD);
+  /* Dark mode reads in an off-white, never pure white: 14:1 on the page
+     without the glare. The two muted inks sit closer to it than they did
+     (#100, second pass): a gloss or a label is read too, at 8:1 and 6:1. */
+  --text-1:         light-dark(var(--grey-900), #E6E9F2);
+  --text-2:         light-dark(var(--grey-600), #BDC5D8);
   /* Muted, and still text: 4.5:1 on every surface and every soft tint, in both
      themes, so it may sit anywhere `--text-2` may. `scripts/contrast.mjs`
      checks it; lighten it and a label on a hovered row is the first to fail. */
-  --text-3:         light-dark(var(--grey-500), #8F98BA);
+  --text-3:         light-dark(var(--grey-500), #9DA7C1);
   /* Blue ink in both themes. Never gold: gold marks the interface, not text
      (#100). */
-  --text-heading:   light-dark(var(--blue-900), #CBDFF9);
+  --text-heading:   light-dark(var(--blue-900), #C9DBF5);
   /* Text on a filled accent. It is **not** always white: --accent is a deep
      blue in light mode (white on it is 8.7:1) and a light blue in dark mode
      (white on it is ~3:1, which fails AA). The ink flips with the accent. */
@@ -165,32 +170,32 @@
   /* The edge of what is known by its edge alone: a field, a blank, an empty
      tick. 3:1 against every surface (WCAG 1.4.11). The three above divide
      things that would be read without them; this one is the control. */
-  --border-control: light-dark(var(--grey-400), #6672A3);
+  --border-control: light-dark(var(--grey-400), #6E7A9A);
 
   /* Accent — the brand blue. Links, the current page, primary buttons. */
   --accent:        light-dark(var(--blue-700), var(--blue-400));
   --accent-hover:  light-dark(var(--blue-800), var(--blue-300));
-  --accent-soft:   light-dark(var(--blue-100), #15244F);
-  --accent-subtle: light-dark(var(--blue-50),  #121B43);
-  --accent-line:   light-dark(var(--blue-200), #2A4280);
+  --accent-soft:   light-dark(var(--blue-100), #1D2A4B);
+  --accent-subtle: light-dark(var(--blue-50),  #18223E);
+  --accent-line:   light-dark(var(--blue-200), #2D4274);
   --accent-text:   light-dark(var(--blue-800), var(--blue-300));
 
   /* Danger — a wrong answer. */
   --danger:        light-dark(var(--red-700), var(--red-500));
-  --danger-soft:   light-dark(var(--red-100), #2C1417);
-  --danger-line:   light-dark(var(--red-200), #571F25);
+  --danger-soft:   light-dark(var(--red-100), #2D1B21);
+  --danger-line:   light-dark(var(--red-200), #5A2A32);
   --danger-text:   light-dark(var(--red-800), #F2998F);
 
   /* Warn — « à retenir », and an astuce that has exceptions. */
   --warn:          light-dark(var(--amber-500), var(--amber-400));
-  --warn-soft:     light-dark(var(--amber-100), #2A2112);
-  --warn-line:     light-dark(#F0DAB4,          #4B3A1A);
+  --warn-soft:     light-dark(var(--amber-100), #2A2318);
+  --warn-line:     light-dark(#F0DAB4,          #4D3D22);
   --warn-text:     light-dark(var(--amber-700), var(--amber-300));
 
   /* Success — a correct answer, and the astuce's box. */
   --success:       light-dark(var(--green-600), var(--green-500));
-  --success-soft:  light-dark(var(--green-100), #11241A);
-  --success-line:  light-dark(var(--green-300), #2A5733);
+  --success-soft:  light-dark(var(--green-100), #152820);
+  --success-line:  light-dark(var(--green-300), #2C5539);
   --success-text:  light-dark(var(--green-700), var(--green-300));
   /* Flips like --text-on-accent: white on green-500 fails AA in dark. */
   --text-on-success: light-dark(var(--white), var(--grey-950));

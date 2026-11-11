@@ -175,7 +175,7 @@ Read `node_modules/next/dist/docs/` first. The traps:
 
 `globals.css` owns tokens, reset, typography and every content pattern; `/design` renders them all.
 Accent `#0044AA`, **Spectral** + **Inter** (#27). The look follows *Le Petit Prince* (#100): paper by
-day, night blue by night, text in blue ink in both.
+day, a muted night blue by night, text in blue ink in both.
 
 - **A raw colour in a component is a bug.** Exceptions: `viewport.themeColor` (`layout.tsx`) and
   `theme_color`/`background_color` (`manifest.ts`) — keep them equal to `--surface-app`.
