@@ -46,7 +46,10 @@ divide things that would be read without them: a card, a row, a chip with its wo
 and holds 3:1 on every surface. Never lighten a field to match a card.
 
 **The grounds are the book's** (#100): `--paper-*` by day, `--night-*` by night, after the covers of
-*Le Petit Prince*; the inks and the accent are unchanged. **The night is muted**: a navy near 40%
+*Le Petit Prince*; the inks and the accent keep their hues. **The tints are steeped in the ground**
+(fourth pass): a soft or a line token is the role's hue at a low saturation, the cream's by day
+and the night's by night, never a screen pastel; a new one is matched to its ground's lightness and
+checked with `contrast.mjs`. **The night is muted**: a navy near 40%
 saturation, a hair above black, read in an off-white (`--text-1`, never `#FFF`), with the muted
 inks close behind it (`--text-2` 8:1, `--text-3` 6:1). A more saturated night glows around text;
 a whiter ink glares. **Gold is for the interface, never text**,

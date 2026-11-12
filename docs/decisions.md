@@ -1293,10 +1293,9 @@ passed on every pair (#99); the sheet and the hover had to stay light enough for
 subtle »). The first night was an indigo near 56% saturation (`#0B1027`); it glowed around every
 line of text. It is now a navy near 40% (`#111828`), a hair lighter, every `--night-*` step and
 every dark tint moved with it, and `layout.tsx`'s dark `themeColor` with the page. **The inks
-moved the other way**: `--text-1` is an off-white (`#E6E9F2`, 14:1, no glare), and the two muted
+moved the other way**: `--text-1` is an off-white, and the two muted
 inks were lifted, `--text-2` from 7.3 to 8.2:1 at worst and `--text-3` from 5.0 to 5.9:1, so a
-gloss or a label reads without effort. `--blue-400`, the dark accent, went from `#5795EC` to
-`#6AA0EE`, the same hue, to keep a link above 5:1 on the lighter hover; `#0044AA` is untouched.
+gloss or a label reads without effort. `#0044AA` is untouched.
 **Chosen against** a neutral grey-black (the book's cover is blue) and against pure white text
 (it halos on a dark ground).
 
@@ -1313,6 +1312,22 @@ few stars, `Planete.tsx`, in `--accent`, `--planet` and `--star`. It goes where 
 to show (a chapter or a search with nothing in it, the 404, through `Vide`) and over the sign-in
 form. **Not over a lesson or a listing that has rows**: there it would compete with the content it
 decorates.
+**Steeped, not pasted** (fourth pass, 2026-11-12, at the maintainer's request: « easy on the eyes
+and elegant, not flashy »). Same grounds, same hues; what sat on them was the screen's, not the
+book's. **By day** the tints (`--blue-50…200`, `--red-100/200`, `--amber-100`, `--green-100/300`,
+`--warn-line`) lost their saturation toward the cream at the same lightness, so a « Règle » reads
+as a wash on the page rather than a pastel sticker on it; the ink is a printed black (`#1A2130`,
+14.7:1) instead of a screen's (`#0E141E`, 16.8:1). **By night** the accent is a powder blue
+(`--blue-400` `#80A9E2`, hover `#A4C2EA`): less saturated than `#6AA0EE` and *more* legible, 5.9:1 on
+every night ground where the old one fell to 5.35; the ink steps down to `#DDE2EC` (13.6:1), the
+headings to `#C6D4EA`, every dark tint moves toward the night at its own lightness, and the star is
+candle-warm (`--gold-300` `#EACB7A`) rather than lemon. And the browser's own widgets take the
+course's colours: `accent-color`, `scrollbar-color`, the field's caret, and `::selection` in
+`--accent-line`. **Chosen against** a neutral, unsaturated palette (the boxes are told apart by
+their hue as well as their label) and against lowering contrast for softness: every pair still
+clears `scripts/contrast.mjs`, and the floor's tightest pair (`--text-3` on `--accent-soft` by day,
+4.57) is what set how far the « Règle » tint could move.
+
 
 **The wordmark is written with a pen** (third pass, same day). The same Playwrite FR Trad outlines,
 swept along a short segment at 40°, as a broad nib draws: thick across the pen, thin along it, the

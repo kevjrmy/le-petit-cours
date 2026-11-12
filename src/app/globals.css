@@ -24,11 +24,15 @@
   --blue-700: #0044AA;   /* brand · accent in light mode · 8.7:1 on white */
   --blue-600: #0B58C7;
   --blue-500: #2472E0;
-  --blue-400: #6AA0EE;   /* accent in dark mode · 6.6:1 on --surface-app */
-  --blue-300: #8DB8F4;
-  --blue-200: #BFD8FA;
-  --blue-100: #E1EDFD;
-  --blue-50:  #F2F7FE;
+  /* The light end is steeped in the paper rather than the screen (#100,
+     fourth pass): the same hue, less saturated, so a tint on the cream reads
+     as ink washed on a page and not as a sticker. The dark end is the night's
+     accent, a powder blue that does not glow. */
+  --blue-400: #80A9E2;   /* accent in dark mode · 5.9:1 on every night ground */
+  --blue-300: #A4C2EA;
+  --blue-200: #C6D6EC;
+  --blue-100: #E6EDF7;
+  --blue-50:  #F1F4F8;
 
   /* Rouge — "wrong answer" and nothing else. Never decoration: in a course of
      graded drills, red means you got it wrong, and a red used ornamentally
@@ -39,8 +43,8 @@
   --red-600: #C92433;
   --red-500: #E03A43;
   --red-400: #F0776F;
-  --red-200: #F9C9C5;
-  --red-100: #FDE8E6;
+  --red-200: #F2C8C2;
+  --red-100: #FBE7E3;
   --red-50:  #FEF5F4;
 
   /* Ambre — « à retenir » callouts, and "careful, there are exceptions". */
@@ -50,7 +54,7 @@
   --amber-500: #CE8A10;
   --amber-400: #E3A93F;
   --amber-300: #EFC57C;
-  --amber-100: #FBEFD9;
+  --amber-100: #F8EDD6;
   --amber-50:  #FEF9EF;
 
   /* Drapeaux — the two flags of the language chooser (#91), and nothing
@@ -68,14 +72,14 @@
   --green-600: #287A3C;
   --green-500: #3D9A52;
   --green-400: #6FBE80;
-  --green-300: #9DD5A8;
-  --green-100: #E2F4E6;
+  --green-300: #A8D0AF;
+  --green-100: #E5F1E5;
   --green-50:  #F1FAF3;
 
   /* Neutres — tinted toward the brand blue so they sit under it rather than
      beside it. A pure grey next to #0044AA reads as slightly warm. */
   --grey-950: #080C13;
-  --grey-900: #0E141E;
+  --grey-900: #1A2130;   /* the ink in light mode · 14.7:1 on the page, a printed black, not a screen's */
   --grey-850: #141C28;
   --grey-800: #1B2432;
   --grey-700: #283242;
@@ -116,7 +120,7 @@
      text** (#100): a star, a planet, the dot of the logo's « i ». It carries
      no state either, so it is never a right, a wrong or an « à retenir »,
      and amber keeps those. */
-  --gold-300: #F2D06A;   /* a star on the night */
+  --gold-300: #EACB7A;   /* a star on the night: candle-warm, not lemon */
   --gold-500: #C4962C;   /* a star on the paper */
 }
 
@@ -146,10 +150,10 @@
   --surface-overlay: light-dark(rgb(8 12 19 / 0.42),     rgb(0 0 0 / 0.62));
 
   /* Text */
-  /* Dark mode reads in an off-white, never pure white: 14:1 on the page
+  /* Dark mode reads in an off-white, never pure white: 13:1 on the page
      without the glare. The two muted inks sit closer to it than they did
      (#100, second pass): a gloss or a label is read too, at 8:1 and 6:1. */
-  --text-1:         light-dark(var(--grey-900), #E6E9F2);
+  --text-1:         light-dark(var(--grey-900), #DDE2EC);
   --text-2:         light-dark(var(--grey-600), #BDC5D8);
   /* Muted, and still text: 4.5:1 on every surface and every soft tint, in both
      themes, so it may sit anywhere `--text-2` may. `scripts/contrast.mjs`
@@ -157,7 +161,7 @@
   --text-3:         light-dark(var(--grey-500), #9DA7C1);
   /* Blue ink in both themes. Never gold: gold marks the interface, not text
      (#100). */
-  --text-heading:   light-dark(var(--blue-900), #C9DBF5);
+  --text-heading:   light-dark(var(--blue-900), #C6D4EA);
   /* Text on a filled accent. It is **not** always white: --accent is a deep
      blue in light mode (white on it is 8.7:1) and a light blue in dark mode
      (white on it is ~3:1, which fails AA). The ink flips with the accent. */
@@ -175,26 +179,26 @@
   /* Accent — the brand blue. Links, the current page, primary buttons. */
   --accent:        light-dark(var(--blue-700), var(--blue-400));
   --accent-hover:  light-dark(var(--blue-800), var(--blue-300));
-  --accent-soft:   light-dark(var(--blue-100), #1D2A4B);
-  --accent-subtle: light-dark(var(--blue-50),  #18223E);
-  --accent-line:   light-dark(var(--blue-200), #2D4274);
+  --accent-soft:   light-dark(var(--blue-100), #1C2742);
+  --accent-subtle: light-dark(var(--blue-50),  #172038);
+  --accent-line:   light-dark(var(--blue-200), #2B3A5E);
   --accent-text:   light-dark(var(--blue-800), var(--blue-300));
 
   /* Danger — a wrong answer. */
   --danger:        light-dark(var(--red-700), var(--red-500));
-  --danger-soft:   light-dark(var(--red-100), #2D1B21);
+  --danger-soft:   light-dark(var(--red-100), #2A1C25);
   --danger-line:   light-dark(var(--red-200), #5A2A32);
   --danger-text:   light-dark(var(--red-800), #F2998F);
 
   /* Warn — « à retenir », and an astuce that has exceptions. */
   --warn:          light-dark(var(--amber-500), var(--amber-400));
-  --warn-soft:     light-dark(var(--amber-100), #2A2318);
-  --warn-line:     light-dark(#F0DAB4,          #4D3D22);
+  --warn-soft:     light-dark(var(--amber-100), #27241F);
+  --warn-line:     light-dark(#EBD5AE,          #4D3D22);
   --warn-text:     light-dark(var(--amber-700), var(--amber-300));
 
   /* Success — a correct answer, and the astuce's box. */
   --success:       light-dark(var(--green-600), var(--green-500));
-  --success-soft:  light-dark(var(--green-100), #152820);
+  --success-soft:  light-dark(var(--green-100), #17272A);
   --success-line:  light-dark(var(--green-300), #2C5539);
   --success-text:  light-dark(var(--green-700), var(--green-300));
   /* Flips like --text-on-accent: white on green-500 fails AA in dark. */
@@ -412,6 +416,20 @@ html {
      scroll to the top. See AGENTS.md §3. */
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* What the browser draws itself takes the course's colours rather than its
+     own: a checkbox, a radio and a range in the accent, and a scrollbar in
+     the page's strong line over its own ground — quiet in both themes, where
+     the default is a grey slab that is lighter than the night. */
+  accent-color: var(--accent);
+  scrollbar-color: var(--border-strong) var(--surface-app);
+}
+
+/* A selection is the accent's line under the text's own ink: visible on the
+   paper, on a sheet and inside a tinted box, and never the system's saturated
+   blue, which in dark mode turned a selected paragraph into a lit panel. */
+::selection {
+  background: var(--accent-line);
+  color: var(--text-1);
 }
 
 body {
@@ -709,6 +727,7 @@ a.button:hover { text-decoration: none; }
   border-radius: var(--radius-sm);
   background: var(--surface-1);
   color: var(--text-1);
+  caret-color: var(--accent);
   font-size: var(--type-100);
 }
 
