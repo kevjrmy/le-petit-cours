@@ -59,3 +59,12 @@
   line-height: 1.5;
   color: var(--text-2);
 }
+
+/* On a phone the grid is one column of fourteen, about two thousand pixels of
+   scroll. The blurb stays (it is what a first visitor reads to choose), so
+   what gives is the air: a tighter gap and a control's padding, which took
+   the page from 2011 to 1826px at 430 wide. */
+@media (max-width: 30rem) {
+  .grid { gap: var(--space-8); }
+  .card { gap: var(--space-12); padding: var(--space-12) var(--space-14); }
+}

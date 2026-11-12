@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { PageRow } from "@/components/nav/PageRow";
+import { PageRow, PageRowList } from "@/components/nav/PageRow";
 import { T } from "@/components/lang/T";
 import { Planete } from "@/components/ornement/Planete";
 import { useAccount } from "@/hooks/useAccount";
@@ -66,11 +66,11 @@ export function SearchResults() {
       </p>
 
       {here.length > 0 && (
-        <ul className={styles.list}>
+        <PageRowList>
           {here.map((hit) => (
             <PageRow key={hit.path} {...hit} />
           ))}
-        </ul>
+        </PageRowList>
       )}
 
       {elsewhere.length > 0 && (
@@ -96,11 +96,11 @@ export function SearchResults() {
               <T fr="Changer" es="Cambiar" />
             </Link>
           </p>
-          <ul className={styles.list}>
+          <PageRowList>
             {elsewhere.map((hit) => (
               <PageRow key={hit.path} {...hit} />
             ))}
-          </ul>
+          </PageRowList>
         </section>
       )}
 

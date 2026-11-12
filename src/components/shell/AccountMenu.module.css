@@ -153,20 +153,10 @@ a.item:hover {
 .choice:hover,
 .action:hover { background: var(--surface-3); }
 
-/* The two rows that are not pages draw their own mark, on the same 24-grid and
-   at the same size as `ChapterIcon` — they cannot come from the manifest, where
-   only a page can name an icon (#42). */
-.mark {
-  flex: 0 0 auto;
-  width: 1.35em;
-  height: 1.35em;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
+/* The two rows that are not pages draw their own mark, and wear
+   `ChapterIcon`'s class to do it (`iconStyles.icon` in the component): the
+   same 24-grid, size and stroke, from the one rule that defines them. They
+   cannot come from the manifest, where only a page can name an icon (#42). */
 .half { fill: currentColor; stroke: none; }
 
 /* Signing out sits under a rule: it is the one row that does something instead

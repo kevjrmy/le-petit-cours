@@ -127,33 +127,6 @@
   background: var(--accent-subtle);
 }
 
-
-/* The verdict is a mark as well as a tint, so a learner who cannot tell the
-   green from the red still reads the result (`AGENTS.md` §5). */
-.mark {
-  font-family: var(--font-sans);
-  font-size: var(--type-80);
-  font-weight: 700;
-}
-
-.corrections {
-  margin-top: var(--space-20);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-8);
-}
-
-.corrections li {
-  margin-top: 0;
-  font-size: var(--type-90);
-}
-
-.corrections .verb {
-  font-family: var(--font-serif);
-  color: var(--text-heading);
-}
-
-
 .remaining {
   font-size: var(--type-85);
   color: var(--text-3);

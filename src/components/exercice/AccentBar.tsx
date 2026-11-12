@@ -67,9 +67,8 @@ export function AccentBar({
       role="group"
       aria-label={es ? "Letras acentuadas" : "Lettres accentuées"}
     >
-      {GROUPS.map((group, index) => (
-        <div key={group[0]} className={styles.bar}>
-          {index > 0 && <span className={styles.gap} aria-hidden="true" />}
+      {GROUPS.map((group) => (
+        <div key={group[0]} className={styles.group}>
           {group.map((character) => (
             <button
               key={character}

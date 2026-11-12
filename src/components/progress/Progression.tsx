@@ -145,7 +145,7 @@ export function Progression() {
               </Link>
               <span className={styles.tally}>
                 {done.length}<span aria-hidden="true">/</span>
-                <span className={styles.sr}>
+                <span className="visually-hidden">
                   <T fr=" sur " es=" de " />
                 </span>
                 {lessons.length}
@@ -231,12 +231,17 @@ function ParcoursRecord({ parcours, isDone }: { parcours: Parcours; isDone: IsDo
                         <path d="M5 12.5l4.5 4.5L19 7.5" />
                       </svg>
                     )}
-                    {ticked.length}
-                    <span aria-hidden="true">/</span>
-                    <span className={styles.sr}>
-                  <T fr=" sur " es=" de " />
-                </span>
-                    {etape.steps.length}
+                    {/* One box for the count, so the tally's gap (for the
+                        check) does not also space the slash: « 2/7 », like
+                        the chapters' tallies below, not « 2 / 7 ». */}
+                    <span>
+                      {ticked.length}
+                      <span aria-hidden="true">/</span>
+                      <span className="visually-hidden">
+                        <T fr=" sur " es=" de " />
+                      </span>
+                      {etape.steps.length}
+                    </span>
                   </span>
                 </summary>
                 <ul className={styles.lessons}>
@@ -271,7 +276,7 @@ function ParcoursRecord({ parcours, isDone }: { parcours: Parcours; isDone: IsDo
               <li key={lesson.id}>
                 <Link href={lesson.path} className={styles.lesson}>
                   <span className={styles.lessonTitle}>{lesson.title}</span>
-                  <span className={styles.sr}>
+                  <span className="visually-hidden">
                     , <T fr={chapter.title} es={chapter.es.title} />
                   </span>
                   {lesson.subtitle && <span className={styles.when}>{lesson.subtitle}</span>}
@@ -298,7 +303,7 @@ function Step({ lesson, chapter, done }: { lesson: Lesson; chapter: Chapter; don
           <span className={styles.ring} aria-hidden="true" />
         )}
         <span className={styles.lessonTitle}>{lesson.title}</span>
-        <span className={styles.sr}>
+        <span className="visually-hidden">
           ,{" "}
           <T
             fr={`${chapter.title}, ${done ? "terminée" : "pas encore terminée"}`}
@@ -333,7 +338,7 @@ function Done({
           <path d="M5 12.5l4.5 4.5L19 7.5" />
         </svg>
         <span className={styles.lessonTitle}>{lesson.title}</span>
-        <span className={styles.sr}>
+        <span className="visually-hidden">
           , <T fr={chapter.title} es={chapter.es.title} />
         </span>
         {at && (

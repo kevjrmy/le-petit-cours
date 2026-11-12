@@ -14,6 +14,7 @@ import { applyLang, LANGS, restoreLang, type Lang } from "@/lib/lang";
 import { T } from "@/components/lang/T";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import styles from "./AccountMenu.module.css";
+import iconStyles from "@/components/nav/ChapterIcon.module.css";
 
 type ThemeChoice = "light" | "dark" | "system";
 
@@ -272,7 +273,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
                     {/* Half the disc filled. The control is three-way, so a sun
                         or a moon would put one of the three choices on the row
                         that opens all of them. */}
-                    <svg className={styles.mark} viewBox="0 0 24 24" aria-hidden="true">
+                    <svg className={iconStyles.icon} viewBox="0 0 24 24" aria-hidden="true">
                       <circle cx="12" cy="12" r="8.5" />
                       <path className={styles.half} d="M12 3.5a8.5 8.5 0 0 1 0 17Z" />
                     </svg>
@@ -299,7 +300,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
                     }}
                   >
                     {/* A globe: the language, not one of the two flags. */}
-                    <svg className={styles.mark} viewBox="0 0 24 24" aria-hidden="true">
+                    <svg className={iconStyles.icon} viewBox="0 0 24 24" aria-hidden="true">
                       <circle cx="12" cy="12" r="8.5" />
                       <path d="M3.5 12h17" />
                       <path d="M12 3.5c2.4 2.4 3.6 5.2 3.6 8.5s-1.2 6.1-3.6 8.5c-2.4-2.4-3.6-5.2-3.6-8.5s1.2-6.1 3.6-8.5Z" />
@@ -335,7 +336,7 @@ export function AccountMenu({ onNavigate }: { onNavigate: () => void }) {
                     >
                       {/* A door and the way out of it, sharing `traduction`'s
                           arrow so the set stays one hand. */}
-                      <svg className={styles.mark} viewBox="0 0 24 24" aria-hidden="true">
+                      <svg className={iconStyles.icon} viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M13 4.5H7A1.5 1.5 0 0 0 5.5 6v12A1.5 1.5 0 0 0 7 19.5h6" />
                         <path d="M13.5 12h7" />
                         <path d="M17.6 9l3 3-3 3" />

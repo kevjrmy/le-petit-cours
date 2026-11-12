@@ -13,7 +13,7 @@ import styles from "./Welcome.module.css";
  * field back.
  *
  * **« Tout le cours » is the primary action, not « Se connecter ».** There is no
- * sign-up form anywhere and public sign-up is off (`AGENTS.md` §0) — accounts
+ * sign-up form anywhere and public sign-up is off (`docs/operations.md`) — accounts
  * are made by hand — so for a first visitor the account is a door they cannot
  * open. Emphasising it would sell the one thing this site does not offer. The
  * link is still here, quietly, because this page is the PWA's `start_url`: the

@@ -1,3 +1,18 @@
+/* The list the rows stand in, wherever it is: a chapter's lessons, search
+   results, `/design`. Doubled to beat `.prose ul` (0,1,1) and `.prose li + li`
+   (0,1,2): a listing inside a page's prose once took the first's 20px indent
+   and the second's 6px on top of its own gap, and the search results built
+   of the same rows did not (`design-system.md`, « Two rules that tie »). */
+.list.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding-left: 0;
+  list-style: none;
+}
+
+.list.list > li { margin-top: 0; }
+
 /* The card is the list item, because the row holds two controls: the link, and
    the tick that marks the lesson done (#79). The border, the ground and the
    hover therefore sit out here, where they cover both. */
@@ -33,12 +48,18 @@
   background: var(--success-soft);
 }
 
+/* The badges wrap under the title rather than squeeze it. On a phone a search
+   result carries a chapter, a kind and a level — wider than half the row — and
+   held on one line they pushed a two-word title into a column of one word per
+   line. `.main`'s basis is the floor the title keeps; below it, the badges take
+   a line of their own. */
 .row {
   flex: 1 1 auto;
   min-width: 0;
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: var(--space-16);
+  gap: var(--space-4) var(--space-16);
   padding: var(--space-12) var(--space-14);
   color: inherit;
 }
@@ -59,7 +80,7 @@ a.row:hover { text-decoration: none; }
 .itemDone .row { border-inline-end-color: var(--success-line); }
 
 .main {
-  flex: 1 1 auto;
+  flex: 1 1 10rem;
   min-width: 0;
   display: flex;
   flex-wrap: wrap;
@@ -75,6 +96,24 @@ a.row:hover { text-decoration: none; }
 }
 
 .subtitle { font-size: var(--type-80); color: var(--text-3); }
+
+/* The row is a container so the next rule can ask how wide *it* is, not the
+   viewport: the same row sits in a chapter's list and in search results. */
+.item { container-type: inline-size; }
+
+/* On a phone-wide row a subtitle beside its title or under it depended only
+   on its length, so one list mixed both and read ragged. Narrow, it always
+   goes under; wide, it stays beside, as before. */
+@container (max-width: 30rem) {
+  .subtitle { flex-basis: 100%; }
+
+  /* And a row with a subtitle puts its badges last, on their own line: held
+     beside the title they squeezed the subtitle into a column three lines
+     deep, and whether they fitted depended on the language's word for the
+     chapter. Title, subtitle, badges, every time. A row with no subtitle (a
+     verb sheet) keeps them beside its title, so a long list stays short. */
+  .row:has(.subtitle) > .meta { flex-basis: 100%; }
+}
 
 .meta { flex: 0 0 auto; display: flex; align-items: center; gap: var(--space-6); }
 

@@ -71,7 +71,9 @@ and `LessonEnd` its tick and cross-links.
 `src/components/exercice/Drill.tsx` (the thresholds live in `Score`), `AccentBar` beside it, and the
 one `shuffle()` in `src/lib/shuffle.ts`. **The board is shared too**: `Board.module.css`, imported
 as `board`, places the card (the global `.card`) and holds the sentence and its blank, the text with
-several blanks and its menu, the clickable words, the pool, the verdict and the actions; the four
+several blanks and its menu, a type-in blank (`.typed`: the drill gives its width and size), the
+clickable words, the pool, the verdict, the corrections (`.corrections`: a fragment above its
+reason; `.lines`: one line each, with `.mark` beside a judged blank) and the actions; the four
 answer states are global. **A drill's own module holds only what its mechanic adds**, and a class
 there that resizes a shared one is doubled (`.slot.slot`), or the two modules tie. Feedback colours
 are the global states, never restated.
@@ -90,7 +92,7 @@ The **mechanic is level-independent**; only the deck moves (#68). A harder level
 on the same page, never a second page (upward only: an A1 version is a new page, #72).
 
 - **`data.ts` exports `BANKS`**, keyed by level, plus `bankFor(level)` falling back to the first
-  bank. Its keys must equal the manifest's `sets` — the `nav-wiring` audit's fifth line checks it,
+  bank. Its keys must equal the manifest's `sets` — `scripts/nav-audit.mjs`'s fifth line checks it,
   so keep the export named.
 - **`drill.tsx` keys the board on the level** (#87). `useLessonVariant` gives the learner's default
   set; `<Board key={level} level={level} />` remounts on a change, which is the whole
@@ -304,12 +306,11 @@ It belongs to `lesson-author` (#54, #57). A gap-fill there would be a drill in `
 
 ## Wiring — same change
 
-1. `src/app/exercices/{slug}/page.tsx` plus its client drill.
-2. Cross-links back to the lesson it practises, and forward from that lesson.
-3. The manifest entry (`nav-wiring.md` « Adding a lesson »), with its permanent `id`
-   (`ex-etre-ou-avoir`, #50) and a tag naming the mechanic (`Tri`, `Correction`, `Tableau`, `Pioche`,
-   `Saisie`, `Texte`, `Relecture`…).
-4. The score screen, shown then forgotten — a drill writes no progress (#2, #22).
+`nav-wiring.md` « Adding a lesson », all four steps: the page and its client drill, the manifest
+entry, the cross-links (back to the lesson it practises, and forward from it), the parcours. Two
+things are a drill's own: **a tag naming the mechanic** (`Tri`, `Correction`, `Tableau`, `Pioche`,
+`Saisie`, `Texte`, `Relecture`…), and **a score screen shown then forgotten** — a drill writes no
+progress (#2, #22).
 
 Finish with §11's checks (no build of your own), then **play the drill through once in both themes,
 including the score screen** — the part nobody tests.

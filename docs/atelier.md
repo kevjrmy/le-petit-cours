@@ -107,10 +107,8 @@ PT » and « les faits » as « l'effet ». Delete the scratch copy of the audio
   reports one left behind.
 - **Not promised.** Ids carry the date and are never reused (`atelier-2026-09-29-…`); a removed page gets
   no redirect; each page carries `noindex` of its own, whatever the site asks for itself (#95).
-- **Not listed, and lockable.** The chapter has a lock: `FRONTEND_PASSWORD` (#81), checked by
-  `src/proxy.ts`, which matches `/atelier` alone and reads no session. **It is lifted since
-  2026-10-06** (`ATELIER_VERROUILLE` in `src/lib/atelier.ts`), so anyone with a link reads a page.
-  **Do not widen the matcher, and never write the password anywhere** but `.env` and Vercel.
+- **Listed, but lockable.** Its row draws like any chapter's (#80); a shared password can close
+  it (#81), lifted since 2026-10-06. The lock and the secret: `docs/operations.md`.
 - **Not a place to keep things.** A page worth keeping is rewritten into its chapter as **a new page
   with a new id** and a real `level`. Pages piling up for months mean the chapter is misfiled
   (#80).

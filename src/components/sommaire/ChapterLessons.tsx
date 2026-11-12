@@ -10,7 +10,7 @@ import {
   type Level,
   type View,
 } from "@/data/navigation";
-import { PageRow } from "@/components/nav/PageRow";
+import { PageRow, PageRowList } from "@/components/nav/PageRow";
 import { T } from "@/components/lang/T";
 import { Vide } from "@/components/ornement/Planete";
 import { RowTick } from "@/components/progress/RowTick";
@@ -137,7 +137,7 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
   const groups = groupByLevel(lessons, view, level);
 
   if (groups.length < 2) {
-    return <ul className={styles.list}>{lessons.map((lesson) => row(lesson, true))}</ul>;
+    return <PageRowList>{lessons.map((lesson) => row(lesson, true))}</PageRowList>;
   }
 
   const open = groups.some((group) => group.level === level && level !== null)
@@ -168,7 +168,7 @@ export function ChapterLessons({ chapter }: { chapter: Chapter }) {
               />
             </span>
           </summary>
-          <ul className={styles.list}>{group.lessons.map((lesson) => row(lesson, false))}</ul>
+          <PageRowList>{group.lessons.map((lesson) => row(lesson, false))}</PageRowList>
         </details>
       ))}
     </div>

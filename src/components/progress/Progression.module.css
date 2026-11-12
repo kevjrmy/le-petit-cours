@@ -111,6 +111,24 @@
   gap: var(--space-2);
 }
 
+/* The page's lists sit inside `.prose`, whose `ul` indent (0,1,1) and
+   `li + li` margin (0,1,2) outrank a single class: the étapes and chapters
+   sat 20px in from the counts above them, against their declared
+   `padding-left: 0`, and every list ran 6px wider than its gap. Doubled, so
+   what is written here is what draws (`design-system.md`, « Two rules that
+   tie »).
+
+   The lessons keep an indent, now declared rather than inherited: it is what
+   lines each lesson up under its étape's or chapter's title. */
+.etapes.etapes,
+.chapters.chapters { padding-left: 0; }
+
+.lessons.lessons { padding-left: var(--space-20); }
+
+.etapes.etapes > li,
+.chapters.chapters > li,
+.lessons.lessons > li { margin-top: 0; }
+
 .lesson {
   display: flex;
   align-items: baseline;
@@ -160,19 +178,6 @@
   line-height: 1.55;
   color: var(--text-3);
   max-width: 52ch;
-}
-
-/* Available to a screen reader, absent from the page. The tally reads « 3/7 »
-   on screen, which a reader would say as "three seven". */
-.sr {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }
 
 /* ── the parcours (#88) ──────────────────────────────────────────────────── */

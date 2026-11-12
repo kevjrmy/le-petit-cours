@@ -116,7 +116,7 @@ export function Board() {
           <input
             ref={field}
             type="text"
-            className={`${styles.field} ${
+            className={`${board.typed} ${styles.field} ${
               checked ? (right ? "is-correct" : "is-wrong") : ""
             }`}
             value={typed}

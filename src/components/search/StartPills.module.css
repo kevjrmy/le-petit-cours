@@ -1,14 +1,20 @@
-/* The five pills are meant to sit on one line at the column's full 36rem, and
-   they clear it by about 18px — the gap and the side padding below are sized
-   for that, not chosen for their own sake. Measure before widening either:
-   with the labels as they stand the row needs ~540px of 576. It still wraps
-   rather than overflowing, so a longer label costs a second line, not a
-   broken layout. */
+/* The five pills are meant to sit on one line under the field. With the
+   labels as they stand (2026-11-12) the row needs 641px, and the home page's
+   column is 576 (36rem), so it had become four and one, « Tout le cours »
+   alone under the rest. Where the shell has room (the drawer breakpoint and
+   up) the row reaches 2.5rem past the field on each side: 656px, centred, so
+   it overhangs symmetrically and only when it needs to. Below that it wraps,
+   three and two, rather than overflowing. Measure again before lengthening a
+   label or adding a pill. */
 .pills {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-6);
+}
+
+@media (min-width: 56.25rem) {
+  .pills { margin-inline: calc(-1 * var(--space-40)); }
 }
 
 /* Rounded rectangles rather than lozenges, so they agree with the field above

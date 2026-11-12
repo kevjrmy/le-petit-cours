@@ -19,10 +19,10 @@ at home, a track that teaches them to write it.
 ## What it is
 
 Most French courses are written for English speakers. This one is written for **hispanophones** —
-which shapes *what gets explained* more than the language it is written in. From A2 up, everything
-is explained in French simple enough to read at the level being taught; an A1 page explains in
-Spanish and teaches in French, because a beginner cannot use a rule stated in a language they do
-not have yet. False friends (`robe`, `sol`, `carte`) are defined where they appear, the mistakes
+which shapes *what gets explained* more than the language it is written in. Every explanation is
+written twice, in French simple enough to read at the level being taught and in Spanish, and the
+reader picks one; at A1 the Spanish is written first, because a beginner cannot use a rule stated
+in a language they do not have yet. The French being taught is never translated. False friends (`robe`, `sol`, `carte`) are defined where they appear, the mistakes
 Spanish pulls a reader towards are printed wrong-then-right, and the drills assume a **Spanish
 keyboard** — `œ` and `ç` cannot be typed on one — so they prefer clicking to typing.
 
@@ -77,12 +77,15 @@ npm run build    # must pass before a change is done
 npm run lint
 ```
 
-Three scripts, all dependency-free; the first two need Node 22+ and `google-chrome` on PATH:
+Dependency-free scripts; the first two need Node 22+ and `google-chrome` on PATH:
 
 ```sh
 node scripts/shot.mjs http://localhost:3000/ shot.png --full --dark   # themed screenshots
 node scripts/make-icons.mjs                                           # every icon, from one SVG
 node scripts/contrast.mjs                                             # colour tokens against WCAG AA
+node scripts/nav-audit.mjs                                            # manifest, routes and links agree
+node scripts/check-tokens.mjs                                         # no raw colour, size or space in CSS
+node scripts/check-quizzes.mjs                                        # reading quizzes are well formed
 ```
 
 Two environment variables — `NEXT_PUBLIC_SUPABASE_URL` and
@@ -130,6 +133,7 @@ for.
 | [`.claude/agents/*.md`](.claude/agents/) | the how-to for each recurring job (design, lessons, drills, wiring, auditing, proofreading) |
 | [`docs/levels/`](docs/levels/)           | one file per level: its language, its tags, its syllabus and what it still needs            |
 | [`docs/atelier.md`](docs/atelier.md)     | how a page for a class in progress is built                                                 |
+| [`docs/operations.md`](docs/operations.md) | the deployment and Supabase settings the repo cannot enforce, and how to check them       |
 | [`docs/decisions.md`](docs/decisions.md) | why the project is shaped this way; what is still open is [`AGENTS.md` §12](AGENTS.md)      |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md)     | how to propose a change                                                                     |
 

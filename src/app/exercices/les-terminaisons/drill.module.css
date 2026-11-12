@@ -229,41 +229,7 @@
    never hint at the length of the answer. */
 .field {
   width: 7ch;
-  padding: var(--space-2) var(--space-6);
-  border: 1px solid var(--border-control);
-  border-radius: var(--radius-sm);
-  background: var(--surface-2);
-  color: var(--accent-text);
-  font-family: var(--font-serif);
   font-size: var(--form);
-  font-weight: 600;
-}
-
-/* The focused blank, marked without a ring.
-
-   **`outline: none` is only safe because something replaces it**, and here the
-   field already owns a border and a fill to say it with: both go accent, which
-   on a row of twenty-seven identical blanks reads better than a ring drawn
-   outside the box anyway. **Two pixels of accent, like the ring it stands
-   for**: the border and one more inside it. Everything else on the board keeps
-   the global `:focus-visible` outline from `globals.css` (`AGENTS.md` §5). */
-.field:focus-visible {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: inset 0 0 0 1px var(--accent);
-  background: var(--accent-subtle);
-}
-
-.field:disabled {
-  cursor: default;
-}
-
-/* The verdict is a mark as well as a tint, so a learner who cannot tell the
-   green from the red still reads the result (`AGENTS.md` §5). */
-.mark {
-  font-family: var(--font-sans);
-  font-size: var(--type-80);
-  font-weight: 700;
 }
 
 /* The accent row and its heading. */
@@ -283,25 +249,6 @@
   font-size: var(--type-80);
   color: var(--text-3);
 }
-
-.corrections {
-  margin-top: var(--space-20);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-8);
-}
-
-.corrections li {
-  margin-top: 0;
-  font-size: var(--type-90);
-}
-
-.corrections .verb {
-  font-family: var(--font-serif);
-  color: var(--text-heading);
-}
-
-
 
 /* Below the drawer breakpoint the strip keeps only the tense you are on, so it
    reads « ‹ Imparfait › » and never wraps to three lines. The names are still

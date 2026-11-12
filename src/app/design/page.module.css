@@ -114,3 +114,15 @@
   border-radius: var(--radius-xs);
   background: var(--accent);
 }
+
+/* A type-in blank's own box, as a drill gives it (`les-terminaisons`): the
+   board's `.typed` draws it, the specimen sizes it. */
+.typed {
+  width: 11ch;
+  font-size: var(--type-106);
+  text-align: center;
+}
+
+/* The `inert` wrapper around a specimen tick: it must not become a box of its
+   own, or the tick stops stretching to the row's height. */
+.inert { display: contents; }

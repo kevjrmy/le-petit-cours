@@ -10,10 +10,10 @@ make, and they need no code at all.**
 that is not standard, an example that contradicts the rule above it. If something reads wrong to a
 native or advanced speaker, that is worth an issue on its own — you do not have to propose the fix.
 
-**2. Unflagged false friends.** From A2 up the course is written entirely in French, so a word a
-Spanish speaker reads wrong has to be defended *in French*, where it appears: *une robe* with no
-example making the wrong reading impossible is worth an issue. Corrections to the Spanish of an A1
-page are welcome on the same terms.
+**2. Unflagged false friends.** The French being taught carries no translation, so a word a
+Spanish speaker reads wrong has to be defended where it appears: *une robe* with no example making
+the wrong reading impossible is worth an issue. Corrections to the Spanish explanations are welcome
+on the same terms.
 
 **3. Facts.** Dates, authors, works, chefs-lieux, historical claims. Cheap to check and
 embarrassing to get wrong in a course.
@@ -71,8 +71,8 @@ are in [`AGENTS.md`](AGENTS.md); the `#nn` numbers point into
 - **Contrast, focus and target size are WCAG 2.2 AA** (#99): change a colour token and
   `node scripts/contrast.mjs` must still print « 0 under their floor »; never remove a focus ring;
   nothing a finger hits is under 24px.
-- **The serif marks the French taught** (`<span className="fr">`); on an A1 page the section is
-  `lang="es"` and every piece of French takes `lang="fr"` back (#85). A form cited as wrong is
+- **The serif marks the French taught** (`<span className="fr">`); inside a Spanish section
+  (`lang="es"`) every piece of French takes `lang="fr"` back (#102). A form cited as wrong is
   `<s className="fr">`, struck through, never a span.
 - **Every lesson declares one `level`**, or `null` for a page that answers to no rung (#86). A
   lower level gets a new, simpler page, never a second tag (#72).
@@ -81,7 +81,8 @@ are in [`AGENTS.md`](AGENTS.md); the `#nn` numbers point into
   per level and never tabs (#92).
 - **Changing `level` is free; adding or removing `sets` is a data migration** (#68).
 - **A parcours names lessons by id** (`src/data/parcours/`, #88): a lesson removed or re-id'd
-  leaves every parcours first, or the build fails.
+  leaves every parcours first, or the build fails. **A level's parcours holds the whole level**: a
+  new page goes in the parcours of its level (and of each of its `sets`), or the build fails.
 - **A lesson's `id` is permanent** (`chapitre-nom`): changing it silently erases everyone's tick on
   it (#50).
 - **No copyrighted text.** Public-domain works or original writing; song lyrics as short excerpts
@@ -111,9 +112,7 @@ Before you open the pull request:
 2. Any page you touched renders correctly in **light and dark**, at desktop width, at 1000 px (the
    rail) and at 430 px. `node scripts/shot.mjs <url> out.png --full --dark` photographs it; browser
    flags for dark mode no longer work.
-3. If you touched navigation, the audit in
-   [`.claude/agents/nav-wiring.md`](.claude/agents/nav-wiring.md) reports `none` on all six
-   lines.
+3. If you touched navigation, `node scripts/nav-audit.mjs` reports `none` on all six lines.
 4. If you touched a drill, you **played it through once**, including the score screen — which is
    the part nobody tests.
 5. If you touched a rule rather than just content, the documentation moved with it.

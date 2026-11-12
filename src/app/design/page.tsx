@@ -6,6 +6,9 @@ import type { CopieEpreuve } from "@/components/delf/copie-data";
 import { Redaction } from "@/components/delf/Redaction";
 import { Tirage } from "@/components/delf/Tirage";
 import board from "@/components/exercice/Board.module.css";
+import { PageRow, PageRowList } from "@/components/nav/PageRow";
+import { RowTick } from "@/components/progress/RowTick";
+import { findLesson } from "@/data/navigation";
 import { Vide } from "@/components/ornement/Planete";
 import styles from "./page.module.css";
 
@@ -105,6 +108,11 @@ const SPECIMEN_ASSOCIER: CopieEpreuve = {
     },
   ],
 };
+
+/* Two real lessons, so the specimen rows carry real ids; a renamed path
+   drops its row rather than breaking the page. */
+const passeCompose = findLesson("/grammaire/le-passe-compose")?.lesson;
+const imparfait = findLesson("/grammaire/l-imparfait")?.lesson;
 
 export default function DesignPage() {
   return (
@@ -416,12 +424,70 @@ export default function DesignPage() {
         </div>
       </section>
 
+      {/* The rows of a listing, in the three states a learner meets: signed
+          out (no tick), signed in before the tick, and done (#79). The ticks
+          are the real `RowTick`, made `inert`: on this page a click from a
+          signed-in maintainer would tick a real lesson in their record. */}
+      <section className={styles.section}>
+        <h2>Lignes d’une liste</h2>
+        <p>
+          Une ligne par page, la même dans un chapitre et dans la recherche
+          (<code>PageRow</code>). Connecté, la coche a sa colonne ; une leçon
+          terminée teinte toute la ligne. Étroite, le sous-titre passe sous le
+          titre et les badges sous le tout.
+        </p>
+        <PageRowList>
+          <PageRow
+            path="/grammaire/le-passe-compose"
+            title="Le passé composé"
+            subtitle="Raconter un événement passé"
+            level={null}
+          />
+          {passeCompose && (
+            <PageRow
+              path={passeCompose.path}
+              title={passeCompose.title}
+              subtitle="Raconter un événement passé"
+              level={null}
+              done={false}
+              tick={
+                <div inert className={styles.inert}>
+                  <RowTick lesson={passeCompose} level={passeCompose.level} done={false} />
+                </div>
+              }
+            />
+          )}
+          {imparfait && (
+            <PageRow
+              path={imparfait.path}
+              title={imparfait.title}
+              subtitle="Décrire une habitude au passé"
+              level={null}
+              done
+              tick={
+                <div inert className={styles.inert}>
+                  <RowTick lesson={imparfait} level={imparfait.level} done />
+                </div>
+              }
+            />
+          )}
+          <PageRow
+            path="/conversation/au-restaurant"
+            title="Au restaurant"
+            subtitle="Commander un repas, poser une question sur un plat, payer"
+            where="Conversation"
+            tag="Jeu de rôle"
+            level="A2"
+          />
+        </PageRowList>
+      </section>
+
       <section className={styles.section}>
         <h2>Le plateau d’exercice</h2>
         <p>
           Un seul plateau pour tous les exercices
           (<code>Board.module.css</code>) : la carte, la phrase et son trou, le
-          tirage, le verdict. Un exercice n’écrit que ce que sa mécanique
+          trou à écrire (<code>.typed</code>), le tirage, le verdict. Un exercice n’écrit que ce que sa mécanique
           ajoute.
         </p>
         <div className={`card ${board.card}`} lang="fr">
@@ -461,6 +527,24 @@ export default function DesignPage() {
               {"\u00a0"}
             </button>{" "}
             il est en retard.
+          </p>
+        </div>
+        <div className={`card ${board.card}`} lang="fr">
+          <p className={board.sentence}>
+            Nous{" "}
+            <input
+              className={`${board.typed} ${styles.typed}`}
+              aria-label="Trou à écrire, spécimen"
+              defaultValue=""
+            />{" "}
+            le bus, ils{" "}
+            <input
+              className={`${board.typed} ${styles.typed} is-correct`}
+              aria-label="Trou corrigé, spécimen"
+              defaultValue="prennent"
+              disabled
+            />{" "}
+            le train.
           </p>
         </div>
         <p className={board.words} lang="fr">

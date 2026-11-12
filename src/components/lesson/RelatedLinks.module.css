@@ -25,7 +25,11 @@
 .related ul {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  /* Four is the maximum (#49), and 11rem lets four share one row at the
+     reading measure (4 × 11 + 3 × 2 = 50 < 52): at 14rem the fourth sat alone
+     under three. On a phone the same floor makes two columns, not a stack of
+     four. `min()` keeps one column from overflowing the narrowest screen. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
   column-gap: var(--space-32);
   row-gap: var(--space-2);
 }

@@ -1,10 +1,9 @@
-.list { list-style: none; display: flex; flex-direction: column; gap: var(--space-6); }
-
 /* ── the level groups (#86) ─────────────────────────────────────────────── */
 
 .groups { display: flex; flex-direction: column; gap: var(--space-10); }
 
-.group > .list { margin-top: var(--space-8); }
+/* The rows' list is `PageRowList`; this is only its place under the head. */
+.group > ul { margin-top: var(--space-8); }
 
 /* The head reads as a heading over the rows, not as another row: no card, the
    level in the serif, the count in the sans beside it. */

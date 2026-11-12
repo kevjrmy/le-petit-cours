@@ -749,6 +749,18 @@ textarea.input {
   padding: var(--space-20) var(--space-24);
 }
 
+/* On a phone 24px a side is a tenth of the column, and paid twice where one
+   paper holds another (an épreuve's email inside its exercise): the text in
+   it ran a third narrower than the page's. The sheet keeps its edge and a
+   phone's gutter inside it. */
+@media (max-width: 30rem) {
+  .card,
+  .exercice,
+  .document {
+    padding: var(--space-16);
+  }
+}
+
 /* A block of French examples. Serif throughout — no .fr needed inside. */
 .example {
   background: var(--accent-subtle);
@@ -1216,8 +1228,15 @@ caption {
   padding-bottom: var(--space-8);
 }
 
+/* A row reads from its first line. Centred, a one-line head floated between
+   the lines of a three-line example beside it, and the eye had to hunt for
+   which line started the row; on the first baseline, every cell starts on
+   one line. The body's 1.7 is a paragraph's leading; a wrapped cell is a
+   phrase, and at 1.7 its lines came apart. */
 th, td {
   text-align: left;
+  vertical-align: baseline;
+  line-height: 1.5;
   padding: var(--space-8) var(--space-14);
   border-bottom: 1px solid var(--border-soft);
 }
@@ -1230,6 +1249,13 @@ thead th {
 }
 
 tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+
+/* On a phone a three-column table has about 370px to share, and 28px of it
+   per column was padding: the example column broke every three words. The
+   row lines and the column heads still separate the cells at 10. */
+@media (max-width: 30rem) {
+  th, td { padding-inline: var(--space-10); }
+}
 
 /* Feedback states for drills. Each carries a mark as well as a colour, so the
    state is never signalled by colour alone.

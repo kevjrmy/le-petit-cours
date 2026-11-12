@@ -77,6 +77,13 @@
   padding-left: 0;
 }
 
+/* Doubled: `.prose ul` (0,1,1) and `.prose li + li` (0,1,2) outrank a single
+   class, so the 0 above never applied — the cards sat 20px in from the text
+   that names them, 6px further apart than the gap (`design-system.md`,
+   « Two rules that tie »). */
+.choices.choices { padding-left: 0; }
+.choices.choices > li { margin-top: 0; }
+
 .choice {
   width: 100%;
   display: flex;

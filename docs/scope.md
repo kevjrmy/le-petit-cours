@@ -74,8 +74,8 @@ student-management system » below and with an account that holds nothing about 
   (#78). It is the last chapter because it teaches nothing: it asks for everything above it at
   once, in the exam's own time.
 - **A parcours** — an ordered path through the same lessons, in étapes (#14, #88), chosen at
-  first sign-in (`/bienvenue`, #90) and changed in the account; « La suite » walks it. `Parcours A1`, `A2` and `B1` follow the DELF syllabus, A2 ending
-  on its épreuves (#89); « Écrire le français » walks the orthography and conjugation pages in
+  first sign-in (`/bienvenue`, #90) and changed in the account; « La suite » walks it. `Parcours A1`, `A2` and `B1` follow the DELF syllabus, each
+  holding every page written at its level, A2 ending on its épreuves (#88, #89); « Écrire le français » walks the orthography and conjugation pages in
   remediation order — the heritage speaker's door, with no level.
 
 One library, several orderings: a level is a filter the learner sets, not a fork in the codebase,
@@ -94,14 +94,14 @@ fonctions**, mapped against the lessons in each level's file in `docs/levels/`.
 ## Language of instruction
 
 **The interface and the explanations follow the learner's language, French or Spanish** (#102):
-the device's language by default, French when it is neither, a switch for everyone. From A2 every
-explanation has both, A1 included, whose Spanish is written first and glosses its French (#85); a
+the device's language by default, French when it is neither, a switch for everyone. Every
+explanation has both; at A1 the Spanish is written first and may gloss the French (#85); a
 `traduction` page's source text is Spanish as material (#55). The French taught is never
 translated. **English is never used.** The rules are in `AGENTS.md` §1.
 
 The reader being a Spanish speaker decides *what gets explained and how plainly* — false friends
-defined, interference errors printed wrong-then-right — not which language explains. One language
-from A2 also keeps the course usable by a Brazilian, Italian or Moroccan reader.
+defined, interference errors printed wrong-then-right — not only which language explains. The
+French explanation also keeps the course usable by a Brazilian, Italian or Moroccan reader.
 
 ## Accounts and access
 

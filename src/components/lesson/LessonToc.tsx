@@ -160,13 +160,21 @@ export function LessonToc() {
               href={`#${item.id}`}
               aria-current={current === item.id ? "true" : undefined}
             >
-              {item.text}
+              {unbreakGuillemets(item.text)}
             </a>
           </li>
         ))}
       </ol>
     </nav>
   );
+}
+
+/* A guillemet never ends or starts a line apart from its word, but most of
+   the course's sources type a plain space inside them, and in an 11rem column
+   « Le passé composé avec « avoir » » broke after the opening one. The entry is
+   built here, so the space is made unbreakable here; the slug is unaffected. */
+function unbreakGuillemets(text: string): string {
+  return text.replace(/« /g, "«\u00a0").replace(/ »/g, "\u00a0»");
 }
 
 /* `fold` already strips the accents and lowercases (`src/lib/search.ts`); what

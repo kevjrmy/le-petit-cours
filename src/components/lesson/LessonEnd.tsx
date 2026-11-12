@@ -1,6 +1,6 @@
 "use client";
 
-import { findLesson, isTracked } from "@/data/navigation";
+import { findLesson, isTracked, relatedFor } from "@/data/navigation";
 import { useLessonVariant } from "@/hooks/useLessonVariant";
 import { DoneTick } from "@/components/progress/DoneTick";
 import { RelatedLinks } from "./RelatedLinks";
@@ -40,13 +40,20 @@ export function LessonEnd() {
   const level = useLessonVariant(found?.lesson ?? null);
   if (!found) return null;
 
+  /* The rule above is the line between the page and what follows it, so with
+     nothing to follow — a tool (#94) with no tick and no cross-links — it is
+     a line under nothing, and it is not drawn. `relatedFor` is what
+     `RelatedLinks` reads, so the two cannot disagree. */
+  const tracked = isTracked(found.chapter);
+  if (!tracked && relatedFor(path).length === 0) return null;
+
   return (
     <div className={styles.end}>
       {/* The tick names the set on screen — the parcours's level when the page
           has it (#87) — and the questions above and the tick below read the
           same hook, so they cannot disagree. Every lesson serving one level resolves
           to it, and `progressKey` ignores it. */}
-      {isTracked(found.chapter) && (
+      {tracked && (
         <DoneTick lesson={found.lesson} level={level} path={path} />
       )}
       <RelatedLinks path={path} />

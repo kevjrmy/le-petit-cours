@@ -55,17 +55,25 @@ printing the Spanish word (#69).
 
 Seconds each; run them across `src/app` before reading.
 
-**A Spanish word left on a page above A1.** `lang="es"` is legitimate in exactly three places —
-`Traduction.tsx`, `src/app/design/page.tsx`, a page whose `level` is A1 (#85), and a literary
-work's `a1.tsx` (#92), never its `a2.tsx` or `b1.tsx`:
+**Twin parity and `lang`** (#102). Every page pairs its sections, so the two counts match, and
+every Spanish twin says so; both commands print nothing on a clean tree:
 
 ```bash
-grep -rln 'lang="es"' src/app src/components    # each file: Traduction.tsx, /design, or an A1 page in the manifest
-grep -rniE '\(es ?:|traducci|español|en espagnol' src/app --include=*.tsx
+for f in src/app/*/*/page.tsx src/app/*/*/a1.tsx; do [ -f "$f" ] || continue
+  fr=$(grep -o 'data-ui="fr"' "$f" | wc -l); es=$(grep -o 'data-ui="es"' "$f" | wc -l)
+  [ "$fr" = "$es" ] || echo "$f fr=$fr es=$es"; done
+grep -rn 'data-ui="es"' src/app src/components --include=*.tsx | grep -v 'lang="es"'
 ```
 
-**On an A1 page, every `.fr`, `.example` and French cell inside a `lang="es"` section needs
-`lang="fr"` back** — count them; the number without it should be zero.
+Then, by eye, **every `.fr`, `.example` and French cell inside a Spanish section carries
+`lang="fr"`** — nothing checks it.
+
+**A Spanish gloss of the French taught, above A1** — a column, *(es: …)*, a translation beside an
+example:
+
+```bash
+grep -rniE '\(es ?:|español|en espagnol' src/app --include=*.tsx
+```
 
 **Missing œ ligature** (§9). The one legitimate hit is a dictée tip saying the reader may type `soeur`.
 

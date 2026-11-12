@@ -219,7 +219,7 @@ export function Board() {
                   .join(" ")}
               </p>
 
-              <ul className={styles.corrections}>
+              <ul className={board.lines}>
                 {current.faults.map((fault) => (
                   <li key={fault.at}>
                     <span className={styles.swap}>

@@ -1,6 +1,9 @@
 import {
+  CHOOSABLE_LEVELS,
+  chapters,
   findLessonById,
   isTracked,
+  listedAt,
   type Chapter,
   type Lesson,
   type LessonId,
@@ -156,6 +159,14 @@ const PARCOURS_ID_SHAPE = /^[a-z0-9][a-z0-9-]{0,62}[a-z0-9]$/;
  * chapter (a scratch page or an épreuve could never be ticked, and would be a
  * permanent first hole in « La suite », #80, #82) and appears once in the
  * path; every `exam` entry is an untracked épreuve at the path's level.
+ *
+ * **A level's parcours is the whole of that level** (#88, amended): a path
+ * with a level names only pages written at it — their `level`, one of their
+ * `sets`, or none — since a page names its body by the path's level (#87) and
+ * would otherwise open on another rung's; and every tracked page is named by
+ * the parcours of each level it is written at, as every épreuve is by that
+ * level's `exam`. Both slips were silent: eight A1 bodies and four A2 ones of
+ * the literary works were written (#92) and walked by no path.
  */
 function assertParcours(): void {
   const ids = new Set<string>();
@@ -181,6 +192,15 @@ function assertParcours(): void {
           throw new Error(`${where}: « ${id} » cannot be ticked, so it cannot be an étape.`);
         }
         if (seen.has(id)) throw new Error(`${where}: « ${id} » is named twice.`);
+        if (
+          parcours.level &&
+          found.lesson.level !== null &&
+          !listedAt(found.lesson).includes(parcours.level)
+        ) {
+          throw new Error(
+            `${where}: « ${id} » is not written at ${parcours.level}, so it would open on another level's body.`,
+          );
+        }
         seen.add(id);
       }
     }
@@ -190,6 +210,35 @@ function assertParcours(): void {
       if (!found) throw new Error(`${where}: no épreuve has the id « ${id} ».`);
       if (!found.chapter.untracked || found.lesson.level !== parcours.level) {
         throw new Error(`${where}: « ${id} » is not an épreuve at ${parcours.level}.`);
+      }
+    }
+  }
+
+  /* A level offered in the chooser has a path, or « La suite » has nothing to
+     say to whoever chooses it — the first thing opening B2 forgets
+     (`docs/levels/b2.md`). */
+  for (const level of CHOOSABLE_LEVELS) {
+    if (!PARCOURS.some((parcours) => parcours.level === level)) {
+      throw new Error(`${level} is choosable and no parcours has it as its level.`);
+    }
+  }
+
+  /* The other direction: nothing written at a level is left off its path. */
+  for (const chapter of chapters) {
+    if (chapter.scratch) continue;
+    for (const lesson of chapter.lessons) {
+      for (const level of listedAt(lesson)) {
+        const path = PARCOURS.find((parcours) => parcours.level === level);
+        const named = isTracked(chapter)
+          ? path?.etapes.some((etape) => etape.lessons.includes(lesson.id))
+          : path?.exam?.includes(lesson.id);
+        if (!named) {
+          throw new Error(
+            `« ${lesson.id} » is written at ${level} and the ${level} parcours does not name it: ` +
+              `place it in src/data/parcours/${level.toLowerCase()}.ts, ` +
+              (isTracked(chapter) ? "in teaching order." : "in its `exam`."),
+          );
+        }
       }
     }
   }

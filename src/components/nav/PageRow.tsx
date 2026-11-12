@@ -108,8 +108,10 @@ export function PageRow({
               <T fr={where} es={whereEs ?? where} />
             </span>
           )}
-          {/* Badges are a closed set, translated once in the manifest (#102). */}
-          {tag && (
+          {/* Badges are a closed set, translated once in the manifest (#102).
+              A kind that only repeats the chapter beside it (« Traduction » in
+              Traduction) says nothing twice, so it is dropped. */}
+          {tag && tag !== where && (
             <span className={styles.tag}>
               <T fr={tag} es={tagEs(tag)} />
             </span>
@@ -120,4 +122,13 @@ export function PageRow({
       {tick}
     </li>
   );
+}
+
+/**
+ * The list a set of `PageRow`s stands in. One definition, so a chapter's
+ * lessons and the search results cannot drift apart on their spacing, and the
+ * guard against `.prose`'s list rhythm is written once.
+ */
+export function PageRowList({ children }: { children: ReactNode }) {
+  return <ul className={styles.list}>{children}</ul>;
 }

@@ -19,20 +19,15 @@ nobody will look at in dark mode.
 
 ## A value is a token, or it is a bug
 
-Colour, size, space, radius, layer, shadow (#96). Run all four before you finish any task:
+Colour, size, space, radius, layer, shadow (#96). Before you finish any task:
 
 ```bash
-grep -rnE "#[0-9a-fA-F]{3,8}\b|: *(white|black)\b" src --include=*.css --include=*.ts \
-  --include=*.tsx | grep -v "src/app/globals.css"
-grep -rnE "font-size:\s*[0-9.]+(rem|px)" src --include=*.css | grep -v "  --type-"
-grep -rnE "(margin|padding|gap)[a-z-]*:[^;]*[0-9.]+rem" src --include=*.css | grep -v measured
-grep -rnE "^\s*(z-index|border-radius|transition|animation|box-shadow)[a-z-]*:[^;]*[0-9]" src \
-  --include=*.css | grep -v "var(--\|!important"
+node scripts/check-tokens.mjs      # four checks, comments ignored; exits 1 on a finding
 ```
 
-The first prints `viewport.themeColor` (`layout.tsx`), `theme_color` / `background_color`
-(`manifest.ts`) and prose in comments. A token cannot reach those two files: keep their values equal
-to `--surface-app`. The other three print nothing.
+It lists `viewport.themeColor` (`layout.tsx`) and `theme_color` / `background_color`
+(`manifest.ts`) apart, as excepted: a token cannot reach those two files, so keep their values equal
+to `--surface-app`. A measured alignment says « measured » on its line and passes.
 
 ### Colours: two layers, not three
 
@@ -230,6 +225,7 @@ One look per state, by what the thing is. `/design` shows each.
   tick, `aria-pressed`) keeps its rule and lists its own `:hover` in it.
 - **Current, in navigation, is not chosen**: `--accent-soft`, `--accent-text`, weight 600, no
   border (the sidebar's row, a tab, the tense toggle). « Index » marks it with a line instead.
+- **Done, in a listing**: the row wears `--success-soft` and `--success-line` (#79).
 - **Under a dragged chip**: `--accent-subtle`, `--accent` border. The chip left behind is
   `--opacity-lifted`.
 - **Disabled is two things.** Cannot be used: `--opacity-disabled` and `cursor: not-allowed`, with
@@ -269,9 +265,9 @@ A chip, a button or a card carries words and keeps its quiet line. The search fi
 - **A field pulls the ring in** (`.input`: `outline-offset: 1px`, the border goes accent with it).
 - **A blank typed into, in a row of its kind, may replace the ring** with its own edge: the border
   in accent **and one more pixel inside it** (`box-shadow: inset 0 0 0 1px var(--accent)`), plus
-  the subtle fill. One pixel of colour change is not a focus mark. Two drills do it
-  (`les-terminaisons`, `les-homophones-du-demonstratif`); the search box does the same on its
-  frame, with a halo outside.
+  the subtle fill. One pixel of colour change is not a focus mark. It is the board's `.typed`
+  (`Board.module.css`), worn by every type-in blank; the search box does the same on its frame,
+  with a halo outside.
 - **A ring is never clipped.** `overflow: hidden` goes on the element that owns the ring, not on
   its parent (the topbar's crumb); inside a bordered row the ring is inset (`RowTick`).
 - A heading that takes focus by script when a slide changes shows no ring (`Onboarding`). It is
@@ -376,6 +372,17 @@ read `--sidebar-now`, so they cannot disagree.
 - « Index » adds 81.25rem and 93.75rem (`LessonToc.module.css`, #66). Two drill boards fold at
   30rem. A new breakpoint is a decision, not a convenience.
 
+## Faces, wordmark and icons
+
+- **Spectral is loaded at 400 and 600 only**: a serif `700` silently renders 600.
+- **A brand glyph is a CSS mask over a token**, never an `<img>` in a colour. The drawn wordmark is
+  `.logo` (#100: a broad-nib `logo.svg`, the « i »'s dot a gold star placed against its viewBox),
+  the home page's `<h1>` and the open sidebar's head; the rail shows the P badge
+  (`logo-mark.svg`, the same pen). **The link's name is hidden text, never the drawing.**
+- **Icons come from `node scripts/make-icons.mjs`** — never hand-edit one. Opaque; only the
+  maskable pays the safe zone.
+- **Never set `metadata.icons`**: it drops `icon.svg`.
+
 ## Keep interactivity at the leaves
 
 The account menu, sidebar and drawer are Client Components; the layout holding them is not. Never
@@ -397,8 +404,7 @@ add `'use client'` to a layout or a lesson — lift the control out (§4).
 
 ## Verifying
 
-§11 is the rule (#98): the token checks above, `npm run lint`, `npx tsc --noEmit`, and each touched
-route answering 200 on the maintainer's dev server. **You run no build and start no server.**
+§11 is the rule (#98), plus the token checks above. **You run no build and start no server.**
 
 - **Say what the build still has to show.** A visual change is rarely done before it: CSS order
   differs in production, so name any rule you left tied or doubled, and ask for the build.
@@ -408,13 +414,8 @@ route answering 200 on the maintainer's dev server. **You run no build and start
 - **No screenshot by default** (§11). Hand over a short list instead: the page, the theme, the
   shell, and what could have broken there. `/design` first, since every pattern is on it; then one
   real page per pattern touched; **the rail is the shell everyone forgets.**
-- **When you do take one**, `scripts/shot.mjs` (Node 22+, `google-chrome` on PATH), and **read the
-  PNG back** — a stretched flex child or a collapsed image does not show in the DOM.
-
-  ```bash
-  node scripts/shot.mjs http://localhost:3000/design dark.png --full --dark
-  node scripts/shot.mjs http://localhost:3000/design rail.png --width=1000
-  ```
+- **When you do take one** (§11's flags), **read the PNG back** — a stretched flex child or a
+  collapsed image does not show in the DOM.
 - **Measure before you fix an alignment, and after you move a scale.** Three "a bit off"s were three
   different rules. `--eval="…"` runs in the page before the shutter and prints what it returns:
   compare `getBoundingClientRect()` numbers, not pictures.

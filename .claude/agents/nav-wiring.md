@@ -27,130 +27,17 @@ page nothing links to, and neither fails a build.
 
 ## The audit
 
-Run this whenever you touch navigation, and before reporting done:
+Run it whenever you touch navigation, and before reporting done:
 
 ```bash
-node --experimental-strip-types --input-type=module -e "
-import { readdirSync, readFileSync, existsSync } from 'node:fs'
-import { chapters, annexes, relatedPages, featuredChapterSlugs, unlistedPages } from './src/data/navigation.ts'
-
-// Routes on disk: every directory under src/app holding a page.tsx. Dynamic
-// segments are skipped here and resolved from the manifest just below.
-const routes = new Set()
-;(function walk(dir, url) {
-  for (const e of readdirSync(dir, { withFileTypes: true })) {
-    if (!e.isDirectory() || e.name.startsWith('_') || e.name.startsWith('(') || e.name.startsWith('[')) continue
-    const next = url + '/' + e.name
-    if (existsSync(dir + '/' + e.name + '/page.tsx')) routes.add(next)
-    walk(dir + '/' + e.name, next)
-  }
-})('src/app', '')
-if (existsSync('src/app/page.tsx')) routes.add('/')
-
-// Every chapter landing page comes from one generated route.
-if (existsSync('src/app/[chapitre]/page.tsx')) for (const c of chapters) routes.add(c.path)
-
-// So does every verb sheet (#56). A chapter whose pages are generated from a
-// data file needs a line here, or its lessons read as missing on every run —
-// the walk above skips [verbe] along with every other dynamic segment.
-if (existsSync('src/app/conjugaison/[verbe]/page.tsx'))
-  for (const l of chapters.find(c => c.slug === 'conjugaison').lessons) routes.add(l.path)
-
-// Real routes with no manifest entry, by design — the home page, the results
-// page, the specimen, the atelier's door, the onboarding (/bienvenue) and /instalar. The list is unlistedPages in the manifest rather
-// than a copy here, so adding such a route is a manifest edit like any other.
-// (The sommaire *is* in the manifest, as an annexe, because the sidebar links
-// it.)
-const allowed = new Set(unlistedPages)
-
-const declared = [...chapters.flatMap(c => [c, ...c.lessons]), ...annexes]
-const missing = declared.filter(l => !routes.has(l.path)).map(l => l.path)
-const orphan  = [...routes].filter(p => !allowed.has(p) && !declared.some(l => l.path === p))
-
-// Cross-links fail soft — an unresolvable target is dropped rather than
-// rendered — so nothing but this surfaces a stale one.
-const paths = new Set(declared.map(l => l.path))
-const stale = Object.entries(relatedPages).flatMap(([from, tos]) => [
-  ...(paths.has(from) ? [] : [from + ' (source)']),
-  ...tos.filter(t => !paths.has(t)).map(t => from + ' -> ' + t),
-])
-
-// The home page's pills are the one hand-kept list in the manifest, and they
-// fail soft in the same way — a slug that resolves to nothing costs a pill and
-// says so nowhere.
-const slugs = new Set(chapters.map(c => c.slug))
-const pills = featuredChapterSlugs.filter(s => !slugs.has(s))
-
-// A page with sets holds one body of work per level, in a module beside
-// its page.tsx (#68, #87): questions.ts exporting SETS for a reading quiz,
-// data.ts exporting BANKS for a drill. Its keys and the manifest's sets are
-// two lists that must say the same thing, and the manifest wins where they
-// differ — so a level tagged with nothing behind it serves another level's
-// material rather than failing. Nothing else says so.
-//
-// The other direction is the one that costs a tick: several sets and no
-// no sets in the manifest means two bodies of work sharing one circle, and adding the flag
-// later moves every tick on the page. A single set with no flag is the ordinary
-// case and fine -- the module is just where that page keeps its data.
-//
-// No backticks in these comments: the whole script is a double-quoted bash
-// string, so bash would run their contents as commands before node sees it.
-const sets = []
-for (const l of declared) {
-  const levels = l.sets ?? []
-  let keys = null
-  for (const [file, name] of [['/questions.ts', 'SETS'], ['/data.ts', 'BANKS']]) {
-    const path = './src/app' + l.path + file
-    if (!existsSync(path)) continue
-    const map = (await import(path))[name]
-    if (map) { keys = Object.keys(map).sort(); break }
-  }
-  if (keys === null) {
-    if (l.sets) sets.push(l.path + ' -> sets, no per-level module')
-    continue
-  }
-  if (!l.sets) {
-    if (keys.length > 1) sets.push(l.path + ' -> ' + keys.length + ' sets [' + keys + '], no sets in the manifest')
-    continue
-  }
-  const want = [...levels].sort().join(',')
-  if (keys.join(',') !== want) sets.push(l.path + ' -> module [' + keys + '] vs manifest [' + want + ']')
-  // A literary work draws a body per set through ByLevel (#92): a1.tsx,
-  // a2.tsx, b1.tsx beside its page. A set with no body shows the first one,
-  // silently, so the files must say what the manifest says.
-  const bodies = ['A1', 'A2', 'B1', 'B2'].filter(v => existsSync('./src/app' + l.path + '/' + v.toLowerCase() + '.tsx'))
-  if (bodies.length && bodies.join(',') !== want) sets.push(l.path + ' -> bodies [' + bodies + '] vs manifest [' + want + ']')
-}
-
-// Cross-links are declared in the manifest and checked above. An inline
-// Link inside a lesson's prose is not: it is hand-written beside the rule it
-// belongs to, nothing resolves it, and a typo there is a 404 that the build
-// does not see and the shell cannot fail soft around. /connexion is reachable
-// without being a route -- it is a redirect in next.config.ts, matched before
-// the filesystem (#26).
-const sources = []
-;(function collect(dir) {
-  for (const e of readdirSync(dir, { withFileTypes: true })) {
-    const full = dir + '/' + e.name
-    if (e.isDirectory()) collect(full)
-    else if (e.name.endsWith('.tsx')) sources.push(full)
-  }
-})('src')
-const reachable = new Set([...paths, ...allowed, '/connexion'])
-const dead = []
-for (const file of sources)
-  for (const m of readFileSync(file, 'utf8').matchAll(/href=\"(\/[^\"]*)\"/g))
-    if (!reachable.has(m[1].split('?')[0].split('#')[0]))
-      dead.push(file.replace('src/app', '') + ' -> ' + m[1])
-
-console.log('in the manifest, no page.tsx:', missing.length ? missing : 'none')
-console.log('page.tsx, not in the manifest:', orphan.length ? orphan : 'none')
-console.log('cross-links that resolve to nothing:', stale.length ? stale : 'none')
-console.log('home pills that resolve to nothing:', pills.length ? pills : 'none')
-console.log('per-level material that disagrees with the manifest:', sets.length ? sets : 'none')
-console.log('inline links that resolve to nothing:', dead.length ? dead : 'none')
-"
+node scripts/nav-audit.mjs
 ```
+
+It prints six lines — manifest entries with no `page.tsx`, `page.tsx` with no entry, stale
+cross-links, stale home pills, per-level material (`SETS`, `BANKS`, `a1.tsx`…) disagreeing with the
+manifest's `sets`, and inline `href`s that resolve to nothing — and exits 1 unless each says `none`.
+A chapter generated from a data file (like the verb sheets) needs a line in the script, or its
+lessons read as missing.
 
 All six lines must read `none`.
 
@@ -172,6 +59,10 @@ that it is owed.
    *is* the display order (§6, #72). Carry its `created` date: recency reads it, so a wrong date puts
    the page in the wrong place or nowhere.
 3. Its cross-links, and a link back from whatever relates to it.
+4. Its place in the parcours of its level, and of each of its `sets` (`src/data/parcours/`, #88),
+   in teaching order; an épreuve goes in its level's `exam`. **A level's parcours is the whole
+   level**: a page written at a level and left off its path fails the import, and so does a path
+   naming a page written at another rung.
 
 **`level`** is required: the rung the page is written at, or `null` for none (#86). **`sets`** is the
 separate claim of one body of work per level: written out in ladder order, the first equal to
@@ -252,9 +143,10 @@ In the **same commit**:
 
 **Splitting a page** is the same, plus a redirect from the old path to whichever half inherits it.
 
-**Removing a page** means the folder, the manifest entry, the `AGENTS.md` line, and **every
-cross-link array that named it** — its own key and the ones pointing at it. Removing a chapter is
-just its manifest entry.
+**Removing a page** means the folder, the manifest entry, every parcours naming its id, **every
+cross-link array that named it** — its own key and the ones pointing at it — and any doc that cites
+it (`grep -rn "<id>\|<slug>" docs .claude`). Then `npx next typegen` before `tsc` (§11). Removing a
+chapter is just its manifest entry.
 
 ## The atelier — adding and clearing scratch pages
 

@@ -851,6 +851,15 @@ export const chapters: Chapter[] = [
         created: "2026-10-11",
       },
       {
+        id: "voc-critique",
+        path: "/vocabulaire/la-critique",
+        title: "La critique",
+        subtitle: "Dire ce qui ne va pas, et dire non avec douceur",
+        level: "A2",
+        delf: "Critiquer un objet, un lieu ou un spectacle, et exprimer son désaccord avec politesse",
+        created: "2026-11-12",
+      },
+      {
         id: "voc-vacances",
         path: "/vocabulaire/les-vacances",
         title: "Les vacances",
@@ -2443,8 +2452,16 @@ const handWrittenLinks: Record<string, string[]> = {
   "/vocabulaire/l-opinion": [
     "/exercices/d-accord-ou-pas-d-accord",
     "/conversation/donner-son-avis",
+    "/vocabulaire/la-critique",
     "/grammaire/les-connecteurs",
-    "/exercices/mais-donc-ou-parce-que",
+  ],
+  /* La critique suit l'avis : elle renvoie à lui, au jeu de rôle où elle se
+     dit, et à la règle de « trop de », qu'elle ne réexplique pas. */
+  "/vocabulaire/la-critique": [
+    "/vocabulaire/l-opinion",
+    "/conversation/donner-son-avis",
+    "/exercices/d-accord-ou-pas-d-accord",
+    "/grammaire/les-articles-partitifs",
   ],
   "/exercices/d-accord-ou-pas-d-accord": [
     "/vocabulaire/l-opinion",
@@ -2452,6 +2469,7 @@ const handWrittenLinks: Record<string, string[]> = {
   ],
   "/conversation/donner-son-avis": [
     "/vocabulaire/l-opinion",
+    "/vocabulaire/la-critique",
     "/exercices/d-accord-ou-pas-d-accord",
     "/grammaire/les-connecteurs",
   ],

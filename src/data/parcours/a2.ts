@@ -3,8 +3,10 @@ import type { Parcours } from "./index";
 /* The A2 pages as the DELF A2 asks for them: the everyday first, then time and
    place, then the past — told, then described, then linked into a story with
    its reasons and an opinion to defend — then plans, and the readings last because they spend all of it. Each étape pairs the rule with the scene,
-   the drill or the translation that makes it work. The four épreuves close it
-   (#89). */
+   the drill or the translation that makes it work. A reading sits earlier only
+   where its A2 body is about the étape's point: Dantès's « nous avons perdu »
+   against « il est arrivé », Proust's childhood told at the imparfait, Ulysse's
+   connecteurs, Cosette's pronouns. The four épreuves close it (#89). */
 export const A2: Parcours = {
   id: "a2",
   title: "Parcours A2",
@@ -61,6 +63,7 @@ export const A2: Parcours = {
         "gram-passe-compose",
         "astuce-etre-ou-avoir",
         "ex-etre-ou-avoir",
+        "lect-monte-cristo",
         "trad-hier-dans-la-rue",
         "trad-week-end-plage",
       ],
@@ -72,6 +75,7 @@ export const A2: Parcours = {
         "gram-imparfait",
         "gram-pc-ou-imparfait",
         "ex-terminaisons",
+        "lect-swann",
         "voc-vacances",
         "ex-raconter-ses-vacances",
         "conv-raconter-ses-vacances",
@@ -88,6 +92,7 @@ export const A2: Parcours = {
         "ex-mais-donc-parce-que",
         "voc-opinion",
         "ex-d-accord-ou-pas",
+        "voc-critique",
         "conv-donner-son-avis",
       ],
     },
@@ -114,6 +119,8 @@ export const A2: Parcours = {
         "lect-lion-et-rat",
         "lect-phileas-fogg",
         "lect-invitation-voyage",
+        "lect-cyrano",
+        "lect-romeo-juliette",
         "ex-trouve-la-faute",
       ],
     },

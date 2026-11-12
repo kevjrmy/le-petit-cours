@@ -62,11 +62,7 @@ language shows one (`AGENTS.md` §1). The model is `grammaire/l-imparfait`; read
   of the French examples (from A2 the French taught has none). « En résumé » is « En resumen »; the
   callouts print their own Spanish label under `:lang(es)` (« Regla », « Recuerda », « Excepto »,
   « Truco: »). An `.astuce-hook` is written in each language.
-- **Printing the Spanish that causes a mistake stays A1's** (§1): from A2 the Spanish body explains
-  what the French one does, without *son las tres*.
 - **Change both or neither.** Any later edit to one body is made to the other in the same commit.
-
-## The page
 
 ## The page
 
@@ -175,7 +171,7 @@ outside its `<span className="fr" lang="fr">` (model: `conv-se-presenter`).
 **Two callouts at most.** One that grows a paradigm table has become a lesson. **Write the scene so
 the grammar just learnt is unavoidable**, not merely mentioned.
 
-### Traduction — the one place Spanish is allowed
+### Traduction — Spanish as the source text
 
 A short Spanish source, a place to write, the model (#55). `Traduction.tsx` renders it; the page is
 data — `lines`, `model`, `note`. No component, no CSS.
@@ -245,7 +241,7 @@ Same reading, same vocabulary table, same tick, harder questions (#59, #68).
 `lecture/un-entretien-d-embauche` is the worked example.
 
 - **`questions.ts` exports `SETS`, imports types only**, and `quiz.tsx` is `<Comprehension
-  sets={SETS} />`. Its keys must match the manifest's `sets` (§8; the `nav-wiring` audit's fifth
+  sets={SETS} />`. Its keys must match the manifest's `sets` (§8; `scripts/nav-audit.mjs`'s fifth
   line).
 - **The harder set asks more of the same page, never more pages.** A word read from context instead
   of the table, an adverb that judges the speaker, a cut sentence to reconstruct, a compliment given
@@ -261,34 +257,7 @@ Same reading, same vocabulary table, same tick, harder questions (#59, #68).
 Nothing in `npm run build` reads a question. Run this and read the count as well as the verdict (§9):
 
 ```bash
-node --experimental-strip-types --input-type=module -e "
-import { readdirSync, existsSync } from 'node:fs'
-let files = 0, items = 0
-const bad = []
-for (const d of ['lecture', 'litterature'].flatMap(c => readdirSync('src/app/' + c).map(n => c + '/' + n))) {
-  const f = './src/app/' + d + '/questions.ts'
-  if (!existsSync(f)) { bad.push(d + ': no questions.ts'); continue }
-  files++
-  const { SETS } = await import(f)
-  for (const [level, qs] of Object.entries(SETS)) {
-    if (!Array.isArray(qs) || qs.length === 0) { bad.push(d + '/' + level + ': empty set'); continue }
-    for (const q of qs) {
-      items++
-      const at = d + '/' + level + ' ' + q.question.slice(0, 36)
-      if (!Number.isInteger(q.answer) || q.answer < 0 || q.answer >= q.options.length) bad.push(at + ': answer out of range')
-      if (q.options.length < 2 || q.options.length > 4) bad.push(at + ': ' + q.options.length + ' options')
-      if (new Set(q.options).size !== q.options.length) bad.push(at + ': duplicate options')
-      if (!q.because || q.because.length < 20) bad.push(at + ': because too short')
-      for (const t of [q.question, q.because, ...q.options]) {
-        if (/[*_]/.test(t)) bad.push(at + ': markdown character in rendered text')
-        if (/[\p{L}\p{N}] — /u.test(t)) bad.push(at + ': em dash used as prose punctuation')
-      }
-    }
-  }
-}
-console.log('files checked:', files, '/ questions checked:', items)
-console.log('problems:', bad.length ? bad : 'none')
-"
+node scripts/check-quizzes.mjs     # every SETS in lecture/ and litterature/; exits 1 on a problem
 ```
 
 It catches mechanical faults only. **It cannot see an option the text does not actually contradict,
@@ -320,7 +289,7 @@ One page is one épreuve (#78, #82). `delf/a2-comprehension-des-ecrits` is the w
   `.corrige`, `.credits` in `globals.css`, components in `src/components/delf/`, all on `/design`.
   **No CSS on the page.**
 
-### Culture — the only pages with local photographs
+### Culture — local photographs
 
 An ordinary lesson; the images bring §9's rules (local files, free licences credited in the same
 data entry, look at what you downloaded). Also:
@@ -365,11 +334,10 @@ writing `<td>` for either, you are in the wrong file.**
 
 ## Wiring — same change
 
-The page, its manifest entry and its cross-links, as `nav-wiring.md` « Adding a lesson » describes:
-the `id` is permanent (#50), `level` required (#86), plus the DELF descriptor and `created`. Put it in the parcours of its level, in teaching order (`src/data/parcours/`, #88). Update
-`AGENTS.md` if the change touches a rule. **Never hand-write a chapter landing page** (#29).
+The page, its manifest entry, its cross-links and its place in the parcours: `nav-wiring.md`
+« Adding a lesson », all four steps. Update `AGENTS.md` if the change touches a rule.
 
-Finish with §11's checks (no build of your own), the `nav-wiring` audit (**all six lines `none`**),
+Finish with §11's checks (no build of your own), `node scripts/nav-audit.mjs` (**all six lines `none`**),
 and the page named for the maintainer in **both themes** at **all three shells**.
 
 ## French correctness

@@ -402,7 +402,7 @@ export function Board({ level }: { level: Level | null }) {
                             fields.current[cell.key] = element;
                           }}
                           type="text"
-                          className={`${styles.field} ${
+                          className={`${board.typed} ${styles.field} ${
                             checked ? (right ? "is-correct" : "is-wrong") : ""
                           }`}
                           value={typed}
@@ -423,7 +423,7 @@ export function Board({ level }: { level: Level | null }) {
                           aria-label={`${TENSES[tense].label}, ${cell.subject} ${cell.stem}, terminaison`}
                         />
                         {checked && (
-                          <span className={styles.mark} aria-hidden="true">
+                          <span className={board.mark} aria-hidden="true">
                             {right ? "✓" : "✗"}
                           </span>
                         )}
@@ -485,10 +485,10 @@ export function Board({ level }: { level: Level | null }) {
             )}
           </p>
           {wrongHere.length > 0 && (
-            <ul className={styles.corrections}>
+            <ul className={board.lines}>
               {wrongHere.map((cell) => (
                 <li key={cell.key}>
-                  <span className={styles.verb}>{cell.whole}</span>{" "}
+                  <span className={board.verb}>{cell.whole}</span>{" "}
                   · <span lang="fr">{TENSES[cell.tense].label.toLowerCase()}</span>,{" "}
                   <T fr="terminaison" es="terminación" />{" "}
                   <span className="fr">-{cell.ending}</span>

@@ -1,8 +1,17 @@
+/* The groups (é è ê ë · à â · …) are a reading aid, not structure: the row
+   sets them apart with a wider column gap than the keys inside one. Not a
+   spacer element: a spacer wraps with its group, and on a phone the second
+   line started indented by it. */
 .bar {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-4);
+  gap: var(--space-6) var(--space-16);
   margin-bottom: var(--space-8);
+}
+
+.group {
+  display: flex;
+  gap: var(--space-4);
 }
 
 .key {
@@ -38,10 +47,4 @@
     min-width: 2.75rem;
     min-height: 2.75rem;
   }
-}
-
-/* A gap in the row rather than a separator rule: the groups are a reading aid,
-   not structure, and a vertical line at this size reads as another key. */
-.gap {
-  width: 0.55rem;
 }

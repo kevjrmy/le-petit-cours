@@ -220,7 +220,7 @@ export function Board({ level }: { level: Level | null }) {
         }}
       >
         {checked && (
-          <span className={styles.mark} aria-hidden="true">
+          <span className={board.mark} aria-hidden="true">
             {right ? "✓" : "✗"}
           </span>
         )}
@@ -337,10 +337,10 @@ export function Board({ level }: { level: Level | null }) {
             )}
           </p>
           {wrong.length > 0 && (
-            <ul className={styles.corrections}>
+            <ul className={board.lines}>
               {wrong.map((verb) => (
                 <li key={verb.id}>
-                  <span className={styles.verb}>{verb.text}</span> →{" "}
+                  <span className={board.verb}>{verb.text}</span> →{" "}
                   <span className="fr">
                     {verb.aux === "etre" ? "être" : "avoir"}
                   </span>{" "}

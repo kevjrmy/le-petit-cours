@@ -77,9 +77,7 @@ once, at mount, and never in a screenshot.
 ## 3. Raw values and redrawn patterns
 
 A raw colour breaks dark mode; a raw size, space, radius, layer or shadow is the same bug (§5, #96).
-**Run the four checks that open `.claude/agents/design-system.md`**, kept there alone. The first
-prints `viewport.themeColor` and the manifest's two colours; the other three print nothing. Any
-other hit is a defect. Also flag:
+**Run `node scripts/check-tokens.mjs`**: anything it reports outside « excepted » is a defect. Also flag:
 
 - a **surface** token used as a text colour — white-on-accent needs `--text-on-accent`;
 - a token defined outside the single `light-dark()` value on `:root`, or a per-theme block (§5);
@@ -151,7 +149,7 @@ background or `position: sticky` on it is a regression (#43).
 
 ## 8. Manifest / filesystem drift
 
-Run the audit in `nav-wiring.md` §The audit. All six lines must be `none`.
+`node scripts/nav-audit.mjs` — all six lines must be `none`.
 
 ## Reporting
 

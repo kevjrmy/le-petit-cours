@@ -11,8 +11,6 @@
   color: var(--text-3);
 }
 
-.list { list-style: none; display: flex; flex-direction: column; gap: var(--space-6); }
-
 .other {
   margin-top: var(--space-32);
   padding-top: var(--space-20);

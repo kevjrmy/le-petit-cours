@@ -25,3 +25,14 @@
      for the three, the row wraps and stays centred: the words never go. */
   gap: var(--space-6);
 }
+
+/* On a phone the three do not fit one line, and wrapping them as they come
+   left « Se connecter » alone and centred under the other two, which read as
+   an afterthought. So the row is laid out on purpose: the primary action takes
+   the first line at full width, the two others share the second. Growing is
+   harmless above this width: the row is only as wide as its buttons there. */
+@media (max-width: 30rem) {
+  .row { align-self: stretch; }
+  .row > a { flex: 1 1 auto; justify-content: center; }
+  .row > a:first-of-type { flex-basis: 100%; }
+}

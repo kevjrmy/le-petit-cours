@@ -3,10 +3,11 @@
    flush against each other.
 
    The floor is the signed-in view measured, not a round number: the field is
-   67px, « La suite » reserves 1.6rem, the pills take 84px, and two of the
-   page's 1.25rem gaps sit between them — 217px, so 13.6rem. The welcome is
-   106px (176 on a phone, where the blurb takes a third line and the third
-   button wraps; measured 2026-10-15) and sits at the top of the box rather
+   67px, « La suite » reserves 1.6rem, the pills take 84px on a phone (two
+   lines; one, from the drawer breakpoint up), and two of the page's 1.25rem
+   gaps sit between them — 217px, so 13.6rem. The welcome is 106px (176 on a
+   phone, where the blurb takes a third line and the buttons two rows;
+   measured again 2026-11-12) and sits at the top of the box rather
    than centred in it: the blurb and the field then start
    at the same line, so the swap has a fixed edge and the spare height falls
    where nothing is drawn. **Measure again
@@ -19,4 +20,11 @@
   justify-content: flex-start;
   gap: var(--space-20);
   min-block-size: 13.6rem;
+}
+
+/* At 320px both halves outgrow it: the pills take three lines (257px signed
+   in) and the welcome's buttons three rows (246px), so a cold launch moved the
+   footer 12px on a short phone. The taller of the two, measured 2026-11-12. */
+@media (max-width: 22.5rem) {
+  .slot { min-block-size: 16.1rem; } /* measured: the signed-in view at 320px */
 }
