@@ -99,6 +99,9 @@ apart up to 16, 4px up to 32, then wider. **Every margin, padding and gap is one
   Change what one of them was measured against and measure again.
 - **The phone's gutter is `--space-16` and three things follow it**: `.content`, the footer, and
   the topbar at 0.5rem less, which puts the menu glyph on the text's left edge.
+- **Below 30rem the paper pads at `--space-16`** (`.card`, `.exercice`, `.document`, one rule) and
+  a table's cells at `--space-10` a side: 24px was a tenth of the column, paid twice where one
+  paper holds another. A component that tightens on a phone uses the same `max-width: 30rem`.
 - **The prose rhythm is on the scale but is its own system** (`globals.css` §6): siblings 16,
   sections 80, « En résumé » 88 — more than any section break, on purpose. Do not close that gap.
 - Pick the step the neighbours use (the comment beside each says who). A value between two steps
@@ -149,6 +152,7 @@ All in `globals.css` §2 and §3, each with a comment saying what it is for.
 | the answer, after the check               | the board's `.verdict`; `.corrige` in an épreuve |
 | French to pick                            | the board's `.chip`: a neutral pill, serif       |
 | French offered: a menu's choice, a word   | a tinted pill: board `.option`, `ul.mots li`     |
+| a list of pages: a chapter's, search      | `PageRow` rows in `PageRowList`, never a new one |
 | a level or a kind, beside a title         | `PageRow`'s badge: no border, `.label`'s voice   |
 | a way into a chapter, on the home page    | `StartPills`: a rounded rectangle, sans          |
 | a place to drop a chip                    | a dashed `--border-strong` box, `--radius`       |
@@ -190,7 +194,12 @@ never edit a global rule for one component. The four ways it has happened:
   | `.prose ul, .prose ol`     | 0,1,1       | indented a flex legend away from its column      |
   | `.prose li + li`           | 0,1,2       | put a gap between two items set side by side     |
 
-  `.legend` (0,1,0) loses; `.tense ol` (0,1,1) ties and wins on injection order.
+  `.legend` (0,1,0) loses; `.tense ol` (0,1,1) ties and wins on injection order. **A list a
+  module styles inside `.prose` therefore doubles its class and zeroes its items** —
+  `.list.list { padding-left: 0 }`, `.list.list > li { margin-top: 0 }` — because a single class's
+  `padding-left: 0` or `li { margin-top: 0 }` loses without a sound: a dozen lists shipped 20px in
+  from their heading and 6px wider than their gap (`PageRowList`, the board's `.corrections` and
+  `.lines`, `/compte`'s cards, `/ma-progression`). An indent a list wants is declared, not inherited.
 - **A shared state landing on a component's class.** `.is-correct` tied with a drill's `.chip` and
   lost, so the first drill showed ✓ and ✗ with no colour. The three verdict states are doubled in
   `globals.css` (§5) and `.is-chosen` is worth three; a drill growing its own state is the same bug

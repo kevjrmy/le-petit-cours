@@ -295,7 +295,8 @@ dynamic lesson in `next build` is a regression** (only `/entrer` is dynamic).
   (`BANKS`), type-only imports, **export names kept** — `scripts/nav-audit.mjs` reads them.
 - **Storage goes through `load()`/`save()`**; IndexedDB keyed by account (#24) is the read path;
   offline is a queue of operations (#48).
-- **`LessonEnd` draws the tick and cross-links** (#49); a lesson renders its prose only.
+- **`LessonEnd` draws the tick and cross-links** (#49), and nothing, rule included, when it has
+  neither; a lesson renders its prose only.
 - **A listing's `RowTick` sits beside the row's link, never inside it** (#79). Read the state once
   and hand it to both halves; omit the slot when there is nothing to report.
 - **`/ma-progression` does not filter by view** (#48): it walks `trackedChapters()`, the parcours
@@ -325,6 +326,11 @@ None of these fail a build; each reached a published page.
 - **Write real characters**: `sœur`, `français`, never the keyboard's substitutes.
 - **An ornament never touches text** (#100): `.ciel` places its stars in `rem`, never in `%` of a
   box that text can grow.
+
+**Styles**
+
+- **A module's list inside `.prose` doubles its class and zeroes its items**, or `.prose ul` and
+  `li + li` add 20px and 6px it never asked for (`design-system.md`, « Two rules that tie »).
 
 **Images** (a DELF épreuve, the atelier, `culture/` later)
 
