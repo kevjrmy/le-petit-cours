@@ -1113,7 +1113,8 @@ chapter moved below `musique` at the maintainer's word.
 holds what that reopens. **This does not settle the sound sheets' data shape** (§12.2).
 
 **The numbers pages carry a second tool** (2026-11-12): `NumberSpeaker`
-(`src/components/speech/`), at the top of `voc-nombres` and `voc-grands-nombres`. A number typed in
+(`src/components/speech/`), at the top of `voc-nombres`, `voc-grands-nombres` and `orth-nombres`
+(where it doubles as a spelling check: it writes the traditional spelling). A number typed in
 figures is written in French **as it is typed**, and the buttons only make it heard: reading
 *soixante et onze* appear under « 71 » is half of what it teaches. **The voice reads the words, never
 the figures** — a device left to read « 81 » chooses its own way, and the page shows what is said.

@@ -2,7 +2,8 @@ import type { Parcours } from "./index";
 
 /* The heritage speaker's path (#13): they say all of this already, and write
    it wrong. Remediation order — the accents first, because every later page
-   leans on them; then the words that sound alike, pair by pair; then the end
+   leans on them; then the words that sound alike, pair by pair; then the
+   numbers, whose « s » and hyphens no one hears; then the end
    of the verb, which is where a spoken French hides its spelling; then the
    irregular sheets to check against. No level: literacy is not a rung. */
 export const ECRIRE: Parcours = {
@@ -39,6 +40,11 @@ export const ECRIRE: Parcours = {
       title: "L’article et ses sosies",
       es: { title: "El artículo y sus dobles" },
       lessons: ["orth-homophones-article", "ex-relisez-le-paragraphe"],
+    },
+    {
+      title: "Les nombres en lettres",
+      es: { title: "Los números en letras" },
+      lessons: ["orth-nombres"],
     },
     {
       title: "La fin du verbe",

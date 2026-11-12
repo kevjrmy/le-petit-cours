@@ -736,6 +736,15 @@ export const chapters: Chapter[] = [
         delf: "Écrire la terminaison du verbe sans se fier à l’oreille",
         created: "2026-09-17",
       },
+      {
+        id: "orth-nombres",
+        path: "/orthographe/ecrire-les-nombres",
+        title: "Écrire les nombres",
+        subtitle: "vingt et un · quatre-vingts · deux cents · mille",
+        level: null,
+        delf: "Écrire un nombre en lettres : traits d’union, pluriels, « mille »",
+        created: "2026-11-12",
+      },
     ],
   },
   {
@@ -2653,6 +2662,14 @@ const handWrittenLinks: Record<string, string[]> = {
     "/vocabulaire/les-nombres",
     "/vocabulaire/les-jours-et-la-date",
     "/vocabulaire/les-quantites",
+    "/orthographe/ecrire-les-nombres",
+  ],
+  /* L'orthographe des nombres renvoie aux deux pages qui les apprennent à
+     dire, puis à l'autre page sur un pluriel qu'on n'entend pas. */
+  "/orthographe/ecrire-les-nombres": [
+    "/vocabulaire/les-nombres",
+    "/vocabulaire/les-grands-nombres",
+    "/grammaire/le-singulier-et-le-pluriel",
   ],
   "/vocabulaire/les-quantites": [
     "/vocabulaire/les-grands-nombres",
