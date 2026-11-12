@@ -808,6 +808,15 @@ export const chapters: Chapter[] = [
         created: "2026-09-30",
       },
       {
+        id: "voc-grands-nombres",
+        path: "/vocabulaire/les-grands-nombres",
+        title: "Les grands nombres",
+        subtitle: "Cent, mille, une année, le premier",
+        level: "A2",
+        delf: "Dire un grand nombre, une année, un rang",
+        created: "2026-11-12",
+      },
+      {
         id: "voc-heure",
         path: "/vocabulaire/l-heure",
         title: "L’heure",
@@ -867,6 +876,15 @@ export const chapters: Chapter[] = [
         level: "A2",
         delf: "Raconter ses vacances : le départ, le logement, ce qu’on a fait, le temps et ses impressions",
         created: "2026-11-07",
+      },
+      {
+        id: "voc-quantites",
+        path: "/vocabulaire/les-quantites",
+        title: "Les quantités",
+        subtitle: "Environ, la moitié, 20 %, une hausse",
+        level: "B1",
+        delf: "Donner un ordre de grandeur, une proportion et une évolution",
+        created: "2026-11-12",
       },
     ],
   },
@@ -2624,10 +2642,21 @@ const handWrittenLinks: Record<string, string[]> = {
     "/vocabulaire/la-recette-des-croissants",
   ],
   "/vocabulaire/les-nombres": [
+    "/vocabulaire/les-grands-nombres",
     "/vocabulaire/l-heure",
-    "/vocabulaire/les-jours-et-la-date",
     "/conversation/faire-des-achats",
     "/conversation/se-presenter",
+  ],
+  /* Les nombres en trois marches : l'A1 compte jusqu'à cent, l'A2 va au-delà
+     et dit l'année et le rang, le B1 arrondit, partage et compare. */
+  "/vocabulaire/les-grands-nombres": [
+    "/vocabulaire/les-nombres",
+    "/vocabulaire/les-jours-et-la-date",
+    "/vocabulaire/les-quantites",
+  ],
+  "/vocabulaire/les-quantites": [
+    "/vocabulaire/les-grands-nombres",
+    "/grammaire/les-articles-partitifs",
   ],
   /* Les formes complètes des possessifs sont sur la page d'orthographe, qui
      les possède : celle-ci n'en donne que l'emploi, et pointe. */

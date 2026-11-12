@@ -138,7 +138,8 @@ Read `node_modules/next/dist/docs/` first. The traps:
 - **The theme must not flash**: an inline script sets `data-theme` before paint.
 - **`window`, `document`, `navigator`, `speechSynthesis`** exist only in effects and handlers.
 - **Speech is `useSpeech` alone** (#94): a French voice set on the utterance, or silence and a
-  message. `lang` without a `voice` is read in the device's default language.
+  message (`SpeechProblemMessage`, never a copy). `lang` without a `voice` is read in the device's
+  default language.
 - **The shell lives in the root layout** so its state survives navigation; never mount it per page.
 - **`beforeinstallprompt` is caught by `src/lib/install.ts`, imported by the shell** (#101): it
   fires once per load, on the landing page, so a listener in `/installer` would miss it. Its

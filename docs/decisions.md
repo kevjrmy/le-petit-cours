@@ -1112,6 +1112,16 @@ chapter moved below `musique` at the maintainer's word.
 #21). The maintainer wants one later, speech-to-text included, tied to an LLM: `AGENTS.md` §12.6
 holds what that reopens. **This does not settle the sound sheets' data shape** (§12.2).
 
+**The numbers pages carry a second tool** (2026-11-12): `NumberSpeaker`
+(`src/components/speech/`), at the top of `voc-nombres` and `voc-grands-nombres`. A number typed in
+figures is written in French **as it is typed**, and the buttons only make it heard: reading
+*soixante et onze* appear under « 71 » is half of what it teaches. **The voice reads the words, never
+the figures** — a device left to read « 81 » chooses its own way, and the page shows what is said.
+The words come from `numberToFrench` (`src/lib/numbers.ts`): France's 70, 80 and 90, the
+traditional spelling, the plural rules of *vingt* and *cent*. **Chosen against a link to
+`/prononciation/ecouter`**: typing « 81 » there leaves the reading to the device, and shows no
+spelling. Why `useSpeech` said nothing is one component, `SpeechProblemMessage`, for both tools.
+
 **Seen on the first try** (desktop Linux): Chrome reads well, and every voice it lists is one of
 Google's online ones, its default German; Brave lists none at all, so there is nothing to fall back
 to inside the browser. A fallback voice is one the course brings (`AGENTS.md` §12.6).

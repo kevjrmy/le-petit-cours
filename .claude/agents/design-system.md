@@ -385,7 +385,8 @@ read `--sidebar-now`, so they cannot disagree.
 - **The rail's look is a container query on the panel** (`@container sidebar`), not a third copy of
   a width.
 - « Index » adds 81.25rem and 93.75rem (`LessonToc.module.css`, #66). Two drill boards fold at
-  30rem. A new breakpoint is a decision, not a convenience.
+  30rem. `NumberSpeaker` folds at 26rem of its own width (`@container`), so it behaves alike in
+  all three shells. A new breakpoint is a decision, not a convenience.
 
 ## Faces, wordmark and icons
 

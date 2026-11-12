@@ -1,0 +1,190 @@
+/* The tool stands before a lesson's first section, where `.prose > * + *`
+   leaves only 24px over the heading's accent bar. Its own bottom margin
+   collapses with that one, so the gap is this one — and nothing else in the
+   course (an atelier page's intro) moves with it.
+
+   A container: the row folds on the tool's own width, not the window's, so it
+   does the right thing in all three shells and wherever else it is placed. */
+.speaker {
+  container-type: inline-size;
+  margin-bottom: var(--space-56);
+}
+
+.speaker > * + * {
+  margin-top: var(--space-12);
+}
+
+/* The tool's name, with the pronunciation chapter's mark in front: the same
+   sound bars the sidebar shows, so the tool says where it comes from. */
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  color: var(--accent-text);
+}
+
+/* Field and both buttons on one row: the buttons sit right after the number,
+   never across the column from it. Stretched, so the buttons take the field's
+   height — placed, not redrawn: `.button` centres its own content. */
+.row {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-8);
+}
+
+/* Sized to what it holds: a number is fifteen characters at most, and a field
+   the width of the column read as a search bar. */
+.fieldWrap {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  max-width: 16rem;
+  min-width: 0;
+}
+
+/* Figures, so sans and tabular. Room on the right for the clear button.
+   Doubled to beat `.input`. */
+.field.field {
+  width: 100%;
+  min-width: 0;
+  padding-right: var(--space-40);
+  font-size: var(--type-112);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The cross inside the field's right end. 32px square: over the 24px floor
+   (§5), and small enough to stay inside a 49px field. */
+.clear {
+  position: absolute;
+  top: 50%;
+  right: var(--space-6);
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-3);
+  cursor: pointer;
+  transition: color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.clear:hover {
+  background: var(--surface-2);
+  color: var(--text-1);
+}
+
+.actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: var(--space-8);
+}
+
+/* An icon beside its word, in the button's ink: the word stays, so a snail
+   is never asked to say « slowly » on its own. */
+.icon {
+  flex: 0 0 auto;
+  width: 1.2em;
+  height: 1.2em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* A phone, or any column too narrow for the row: the field takes the whole
+   line, and the two buttons share the next one half and half — two thumbs'
+   worth of target instead of two words squeezed beside a shrunken field. */
+@container (max-width: 26rem) {
+  .row {
+    flex-wrap: wrap;
+  }
+
+  .fieldWrap {
+    flex-basis: 100%;
+    max-width: none;
+  }
+
+  .actions {
+    flex: 1 1 100%;
+  }
+
+  .actions > * {
+    flex: 1 1 0;
+    justify-content: center;
+  }
+}
+
+/* The line under the field: the examples, the French or what is wrong, one at
+   a time. Its floor is the French's line, so swapping one for another does not
+   move the page; a long number wraps and grows it. */
+.line {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem; /* measured: the French on one line, 38px, and air */
+}
+
+/* The French, at a heading's size: it is what the tool is for, so it is the
+   largest thing in it. While the voice speaks it takes the accent; « Arrêter »
+   says so in words too. */
+.words {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--type-150);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-1);
+  overflow-wrap: anywhere;
+  transition: color var(--dur-fast) ease;
+}
+
+.words[data-long] {
+  font-size: var(--type-120);
+}
+
+.words[data-speaking] {
+  color: var(--accent-text);
+}
+
+/* What is wrong, in a sentence beside the field's red edge: colour is never
+   the only carrier, and the box of a `.message` would outweigh the tool. */
+.wrong {
+  margin: 0;
+  font-size: var(--type-90);
+  color: var(--danger-text);
+}
+
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.try {
+  margin-right: var(--space-4);
+  font-size: var(--type-85);
+  color: var(--text-3);
+}
+
+/* A number to hear in one click. A chip, not a button: it belongs to the
+   field, and five full buttons would outweigh « Écouter ». ≥ 24px tall. */
+.chip {
+  padding: var(--space-4) var(--space-12);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-pill);
+  background: var(--accent-subtle);
+  color: var(--accent-text);
+  font-size: var(--type-90);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) ease;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+}

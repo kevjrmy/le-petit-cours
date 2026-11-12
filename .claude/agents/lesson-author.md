@@ -310,7 +310,9 @@ client leaf; the page stays a Server Component.
 Audio goes through `useSpeech` (`src/hooks/useSpeech.ts`, #94) — **never hand-roll
 `SpeechSynthesisUtterance`**. It resolves a French voice lazily (`getVoices()` is empty until
 `voiceschanged`) and speaks with that voice or not at all: `problem` says why, **after the first
-play**. It exposes a `speaking` flag and cancels on unmount. `prononciation/ecouter` is the pattern.
+play**. It exposes a `speaking` flag and cancels on unmount. `prononciation/ecouter` is the pattern;
+`SpeechProblemMessage` is the one wording of `problem`. A tool on a lesson page (`NumberSpeaker`,
+#94) sits after `<PageHeader>`, outside the paired sections, and prints both languages itself.
 
 The comparator lowercases, folds curly apostrophes, strips punctuation and collapses whitespace.
 **Keep the apostrophe out of the punctuation class**: elision (`d'aller`) is orthography. Accent-

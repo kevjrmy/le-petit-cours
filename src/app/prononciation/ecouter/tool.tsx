@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { AccentBar } from "@/components/exercice/AccentBar";
 import { T } from "@/components/lang/T";
+import { SpeechProblemMessage } from "@/components/speech/SpeechProblemMessage";
 import { useLang } from "@/hooks/useLang";
 import { useSpeech } from "@/hooks/useSpeech";
 import styles from "./tool.module.css";
@@ -84,32 +85,7 @@ export function ListenTool() {
       </div>
 
       <div className={styles.status} role="status">
-        {problem === "no-voice" && (
-          <>
-            <p className="message" data-ui="fr">
-              Cet appareil n’a pas de voix française : rien n’a été lu. Une voix
-              d’une autre langue prononcerait mal le français. Essayez un autre
-              navigateur, ou un téléphone.
-            </p>
-            <p className="message" data-ui="es" lang="es">
-              Este dispositivo no tiene voz francesa: no se ha leído nada. Una
-              voz de otro idioma pronunciaría mal el francés. Prueba con otro
-              navegador o con un teléfono.
-            </p>
-          </>
-        )}
-        {problem === "unsupported" && (
-          <>
-            <p className="message" data-ui="fr">
-              Ce navigateur ne sait pas lire un texte à voix haute. Essayez un
-              autre navigateur.
-            </p>
-            <p className="message" data-ui="es" lang="es">
-              Este navegador no sabe leer un texto en voz alta. Prueba con otro
-              navegador.
-            </p>
-          </>
-        )}
+        {problem && <SpeechProblemMessage problem={problem} />}
         {!problem && voiceName && (
           <p className={styles.voice}>
             <T fr={`Voix : ${voiceName}`} es={`Voz: ${voiceName}`} />

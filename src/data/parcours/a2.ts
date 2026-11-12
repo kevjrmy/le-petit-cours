@@ -33,7 +33,12 @@ export const A2: Parcours = {
     {
       title: "L’heure, les jours, les rendez-vous",
       es: { title: "La hora, los días, las citas" },
-      lessons: ["voc-heure", "voc-jours-et-date", "conv-rendez-vous-medecin"],
+      lessons: [
+        "voc-grands-nombres",
+        "voc-heure",
+        "voc-jours-et-date",
+        "conv-rendez-vous-medecin",
+      ],
     },
     {
       title: "Se déplacer, décrire un lieu",
