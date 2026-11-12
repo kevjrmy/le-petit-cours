@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { chapters } from "@/data/navigation";
+import { chapters, isChapterPage } from "@/data/navigation";
 import { T } from "@/components/lang/T";
 import { ChapterLessons } from "@/components/sommaire/ChapterLessons";
 import styles from "./page.module.css";
 
 /* Every chapter landing page, generated from the manifest. There is
    deliberately no hand-written one: a bespoke page drifts the moment a lesson
-   is added (`.claude/agents/nav-wiring.md`). */
+   is added (`.claude/agents/nav-wiring.md`).
+
+   Save a chapter that is its own page (`isChapterPage`, #94): its address is
+   that page's folder, and a static segment wins over this one. Leaving it out
+   here keeps the two from both claiming `/prononciation`. */
 export function generateStaticParams() {
-  return chapters.map((chapter) => ({ chapitre: chapter.slug }));
+  return chapters
+    .filter((chapter) => !isChapterPage(chapter))
+    .map((chapter) => ({ chapitre: chapter.slug }));
 }
 
 /* Only the slugs above exist. Anything else 404s instead of being rendered on

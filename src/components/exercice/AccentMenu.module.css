@@ -1,0 +1,67 @@
+/* The button and the menu it opens. */
+.place {
+  position: relative;
+}
+
+/* The shared `.button`, its word replaced by the letters it offers: three
+   glyphs say « accents » in either interface, and the field's serif says they
+   are French. The chevron says it opens. */
+.trigger {
+  gap: var(--space-4);
+}
+
+.trigger[aria-expanded="true"] {
+  border-color: var(--accent-line);
+  background: var(--accent-subtle);
+  color: var(--accent-text);
+}
+
+.glyphs {
+  font-family: var(--font-serif);
+  font-size: var(--type-106);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.chevron {
+  width: 1em;
+  height: 1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--dur-fast) ease;
+}
+
+.trigger[aria-expanded="true"] .chevron {
+  transform: rotate(180deg);
+}
+
+/* Under the button, on the edge `align` names: a button ending a row opens
+   leftward, one starting it rightward — always inward. Narrow enough that
+   `AccentBar` lays its keys out as its two-row keyboard; never wider than a
+   phone's column. The drill menu's
+   paper (`Board.module.css`): what floats takes the one shadow (§5). */
+.menu {
+  position: absolute;
+  top: calc(100% + var(--space-6));
+  right: 0;
+  z-index: var(--z-content);
+  width: min(21rem, calc(100vw - var(--space-32)));
+  padding: var(--space-8);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+  box-shadow: var(--shadow);
+}
+
+.menu[data-align="start"] {
+  right: auto;
+  left: 0;
+}
+
+/* Doubled to beat `AccentBar`'s own margin, whatever order the modules load. */
+.keys.keys {
+  margin: 0;
+}

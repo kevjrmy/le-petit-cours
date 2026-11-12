@@ -124,6 +124,15 @@ export interface PageEntry {
 export interface Lesson extends PageEntry {
   id: LessonId;
   /**
+   * The title and subtitle in the Spanish interface — **only for a page whose
+   * title is not French being taught**: a tool (`/prononciation`, #94), named
+   * like an annexe. A lesson's title names the French it teaches and stays
+   * French in both interfaces (#102); never give one of those a twin. The tab
+   * title stays French either way (`lessonMetadata`).
+   */
+  titleEs?: string;
+  subtitleEs?: string;
+  /**
    * The levels this page holds **one body of work** for — a `lecture` text with
    * a question set per level, an `exercices` drill with an item bank per level
    * (#68, #87). Written out, in ladder order, at least two, and `level` is its
@@ -1634,6 +1643,12 @@ export const chapters: Chapter[] = [
      l'appareil lit. Les fiches de sons attendent toujours la forme de leurs
      données (`AGENTS.md` §12.2).
 
+     **L'outil est la page du chapitre** : son `path` est celui du chapitre,
+     donc `/prononciation` ouvre l'outil plutôt qu'une liste d'une ligne
+     (`isChapterPage`). Le jour où une fiche arrive, l'outil reprend une
+     adresse à lui et le chapitre sa page de liste — `assertChapterPages`
+     refuse une deuxième page sous un chapitre qui n'en montre qu'une.
+
      `untracked` parce qu'un outil ne se termine pas : une coche dessous dirait
      « terminé » d'une page où l'on revient à chaque mot. **À revoir le jour où
      une fiche arrive ici** : le drapeau est au chapitre, et il priverait la
@@ -1653,9 +1668,11 @@ export const chapters: Chapter[] = [
     lessons: [
       {
         id: "pron-ecouter",
-        path: "/prononciation/ecouter",
+        path: "/prononciation",
         title: "Comment ça se prononce ?",
+        titleEs: "¿Cómo se pronuncia?",
         subtitle: "Écrivez un mot ou une phrase, puis écoutez",
+        subtitleEs: "Escribe una palabra o una frase y escúchala",
         tag: "Outil",
         level: null,
         created: "2026-10-07",
@@ -2036,6 +2053,36 @@ function assertSets(): void {
 }
 
 assertSets();
+
+/**
+ * A chapter whose address is one of its own pages (#94): `prononciation`,
+ * whose one page is the listening tool. Its landing is that page, written by
+ * hand in `src/app/{slug}/page.tsx`, and `[chapitre]` generates nothing for
+ * it — a list of one line to click through would only delay the tool.
+ */
+export function isChapterPage(chapter: Chapter): boolean {
+  return chapter.lessons.some((lesson) => lesson.path === chapter.path);
+}
+
+/**
+ * Such a chapter holds that page alone. A second one would be in the manifest,
+ * in search and in a parcours, and on no listing at all: the chapter's
+ * address shows the first page, never a list. Checked at import, so it fails
+ * the build rather than a learner.
+ */
+function assertChapterPages(): void {
+  for (const chapter of chapters) {
+    if (isChapterPage(chapter) && chapter.lessons.length > 1) {
+      throw new Error(
+        `navigation: « ${chapter.slug} » is its own page (${chapter.path}), ` +
+          "so it can hold no other. Give that page an address of its own " +
+          "(with a redirect, #50) and the chapter gets its list back.",
+      );
+    }
+  }
+}
+
+assertChapterPages();
 
 /** A row the account popover draws, with the title that state earns it. */
 export interface MenuRow {

@@ -1,0 +1,97 @@
+/* A container: the toolbar folds on the tool's own width, not the window's, so
+   it does the right thing in all three shells — as `NumberSpeaker` does. */
+.tool {
+  container-type: inline-size;
+  margin-top: var(--space-24);
+}
+
+.tool > * + * {
+  margin-top: var(--space-12);
+}
+
+.fieldWrap {
+  position: relative;
+}
+
+/* Serif and larger than the page: what is typed here is the French itself, and
+   the learner reads it back while the voice says it. Room on the right for the
+   clear cross, and below for the toolbar: its buttons (34px) on a 8px floor,
+   and a 14px gap over them so the last line never touches them. No handle:
+   the toolbar sits in the corner it would use, and 200 characters fit.
+   Doubled to beat `textarea.input` (`globals.css`). */
+.zone.zone {
+  padding-right: var(--space-40);
+  padding-bottom: var(--space-56);
+  font-size: var(--type-120);
+  line-height: 1.5;
+  resize: none;
+}
+
+/* It grows with what is typed, so a long sentence never slides under the
+   toolbar; two lines at least, the `rows` it had. Where `field-sizing` is
+   missing (Firefox) `rows` holds and the field scrolls. */
+@supports (field-sizing: content) {
+  .zone.zone {
+    field-sizing: content;
+    min-height: calc(2lh + var(--space-12) + var(--space-56));
+  }
+}
+
+/* The shared cross (`speech.module.css`), on the field's first line rather
+   than its middle: a two-line field with a cross halfway down reads as a
+   cross on the second line. */
+.clear {
+  top: var(--space-8);
+}
+
+/* Along the field's bottom edge, inside its border. The row itself lets the
+   pointer through, so a click between the buttons lands in the field and
+   writes; only the buttons take it. */
+.toolbar {
+  position: absolute;
+  right: var(--space-8);
+  bottom: var(--space-8);
+  left: var(--space-8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  pointer-events: none;
+}
+
+.toolbar > *,
+.speak > * {
+  pointer-events: auto;
+}
+
+.speak {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  pointer-events: none;
+}
+
+/* A note, not a control, at the line's end. */
+.count {
+  margin-left: auto;
+  font-size: var(--type-80);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-3);
+}
+
+/* The examples or the count, one at a time. Its floor is a chip's row, so
+   swapping one for the other does not move the box below. */
+.line {
+  display: flex;
+  align-items: center;
+  min-height: 2.25rem; /* measured: one row of chips, 34px, and air */
+}
+
+/* A phone, or any column too narrow for three words in the toolbar: the snail
+   keeps its icon and drops its word, which its `aria-label` still says. The
+   breakpoint is `NumberSpeaker`'s. */
+@container (max-width: 26rem) {
+  .slowWord {
+    display: none;
+  }
+}

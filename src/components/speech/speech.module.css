@@ -1,0 +1,116 @@
+/* What the course's two speaking tools share — `NumberSpeaker` and
+   `/prononciation` — so the head, the icons, the clear cross and the
+   « Essayez : » chips cannot drift apart. Each tool's own module places its
+   field and its rows; nothing here does. */
+
+/* The tool's name, with the pronunciation chapter's mark in front: the same
+   sound bars the sidebar shows, so the tool says where it comes from. Worn
+   with `.label`. */
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  color: var(--accent-text);
+}
+
+/* An icon beside its word, in the button's ink. */
+.icon {
+  flex: 0 0 auto;
+  width: 1.2em;
+  height: 1.2em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The cross inside the field's right end. 32px square: over the 24px floor
+   (§5), and small enough to stay inside a one-line field. The tool sets
+   `top` and leaves the field room on the right. */
+.clear {
+  position: absolute;
+  right: var(--space-6);
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-3);
+  cursor: pointer;
+  transition: color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.clear:hover {
+  background: var(--surface-2);
+  color: var(--text-1);
+}
+
+/* A control that lives inside a field (`/prononciation`): the field
+   already draws the edge, so a second border inside it would be a box in a
+   box. The ink of the clear cross, a word beside its icon, the shared
+   button's size so it lines up with « Écouter » beside it. */
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-6) var(--space-10);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-2);
+  font-size: var(--type-90);
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.ghost:hover {
+  background: var(--surface-2);
+  color: var(--text-1);
+}
+
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.try {
+  margin-right: var(--space-4);
+  font-size: var(--type-85);
+  color: var(--text-3);
+}
+
+/* Something to hear in one click. A chip, not a button: it belongs to the
+   field, and five full buttons would outweigh « Écouter ». ≥ 24px tall. */
+.chip {
+  padding: var(--space-4) var(--space-12);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-pill);
+  background: var(--accent-subtle);
+  color: var(--accent-text);
+  font-size: var(--type-90);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) ease;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+}
+
+/* A figure: sans and tabular (`NumberSpeaker`). */
+.chip[data-figures] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* A sentence: the French taught, so serif (§5). An attribute, not `:lang(fr)`:
+   `<html lang="fr">` would match every chip (§4). */
+.chip[data-sentence] {
+  font-family: var(--font-serif);
+  font-size: var(--type-100);
+}

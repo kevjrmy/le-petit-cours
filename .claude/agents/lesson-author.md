@@ -310,7 +310,7 @@ client leaf; the page stays a Server Component.
 Audio goes through `useSpeech` (`src/hooks/useSpeech.ts`, #94) — **never hand-roll
 `SpeechSynthesisUtterance`**. It resolves a French voice lazily (`getVoices()` is empty until
 `voiceschanged`) and speaks with that voice or not at all: `problem` says why, **after the first
-play**. It exposes a `speaking` flag and cancels on unmount. `prononciation/ecouter` is the pattern;
+play**. It exposes a `speaking` flag and cancels on unmount. `/prononciation` is the pattern;
 `SpeechProblemMessage` is the one wording of `problem`. A tool on a lesson page (`NumberSpeaker`,
 #94) sits after `<PageHeader>`, outside the paired sections, and prints both languages itself.
 
@@ -331,8 +331,9 @@ writing `<td>` for either, you are in the wrong file.**
 - **The futur and imparfait are generated from a stem.** `assertVerbs()` refuses a futur stem not
   ending in `r`, or an imparfait stem ending in `e`, `g` or `ç` — one stem cannot give both *je
   mangeais* and *nous mangions*. Such a verb stores two.
-- **`prononciation/`'s sound sheets are unbuilt** (§12). Its one page is a hand-written tool,
-  `prononciation/ecouter` (#94).
+- **`prononciation/`'s sound sheets are unbuilt** (§12). Its one page is a hand-written tool, and
+  the chapter's own page: `src/app/prononciation/page.tsx` (#94). A sheet means the tool moves out
+  first (`nav-wiring.md`).
 
 ## Wiring — same change
 

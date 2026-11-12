@@ -14,15 +14,6 @@
   margin-top: var(--space-12);
 }
 
-/* The tool's name, with the pronunciation chapter's mark in front: the same
-   sound bars the sidebar shows, so the tool says where it comes from. */
-.head {
-  display: flex;
-  align-items: center;
-  gap: var(--space-8);
-  color: var(--accent-text);
-}
-
 /* Field and both buttons on one row: the buttons sit right after the number,
    never across the column from it. Stretched, so the buttons take the field's
    height — placed, not redrawn: `.button` centres its own content. */
@@ -52,47 +43,16 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* The cross inside the field's right end. 32px square: over the 24px floor
-   (§5), and small enough to stay inside a 49px field. */
+/* The shared cross (`speech.module.css`), centred on a one-line field. */
 .clear {
-  position: absolute;
   top: 50%;
-  right: var(--space-6);
-  display: grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
   transform: translateY(-50%);
-  border: 0;
-  border-radius: var(--radius-sm);
-  background: none;
-  color: var(--text-3);
-  cursor: pointer;
-  transition: color var(--dur-fast) ease, background var(--dur-fast) ease;
-}
-
-.clear:hover {
-  background: var(--surface-2);
-  color: var(--text-1);
 }
 
 .actions {
   display: flex;
   flex: 0 0 auto;
   gap: var(--space-8);
-}
-
-/* An icon beside its word, in the button's ink: the word stays, so a snail
-   is never asked to say « slowly » on its own. */
-.icon {
-  flex: 0 0 auto;
-  width: 1.2em;
-  height: 1.2em;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }
 
 /* A phone, or any column too narrow for the row: the field takes the whole
@@ -155,36 +115,4 @@
   margin: 0;
   font-size: var(--type-90);
   color: var(--danger-text);
-}
-
-.examples {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-6);
-}
-
-.try {
-  margin-right: var(--space-4);
-  font-size: var(--type-85);
-  color: var(--text-3);
-}
-
-/* A number to hear in one click. A chip, not a button: it belongs to the
-   field, and five full buttons would outweigh « Écouter ». ≥ 24px tall. */
-.chip {
-  padding: var(--space-4) var(--space-12);
-  border: 1px solid var(--accent-line);
-  border-radius: var(--radius-pill);
-  background: var(--accent-subtle);
-  color: var(--accent-text);
-  font-size: var(--type-90);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  cursor: pointer;
-  transition: border-color var(--dur-fast) ease;
-}
-
-.chip:hover {
-  border-color: var(--accent);
 }

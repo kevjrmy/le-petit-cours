@@ -6,7 +6,9 @@ import { ChapterIcon } from "@/components/nav/ChapterIcon";
 import { useLang } from "@/hooks/useLang";
 import { useSpeech } from "@/hooks/useSpeech";
 import { groupDigits, numberToFrench, parseTypedNumber } from "@/lib/numbers";
+import { ClearIcon, SnailIcon, SpeakerIcon, StopIcon } from "./icons";
 import { SpeechProblemMessage } from "./SpeechProblemMessage";
+import shared from "./speech.module.css";
 import styles from "./NumberSpeaker.module.css";
 
 const SLOW = 0.7;
@@ -15,56 +17,11 @@ const SLOW = 0.7;
    quatre-vingt-dix-neuf milliards… » wraps in three lines, not six. */
 const LONG = 32;
 
-/* Same hand as the chrome (`ChapterIcon`): a 24-grid, round caps, stroked in
-   `currentColor`, so each follows its button's ink in both themes. */
-
-/** A speaker and two waves: « hear it ». */
-function SpeakerIcon() {
-  return (
-    <svg className={styles.icon} viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M4 9.5h3l4.5-4v13L7 14.5H4z" />
-      <path d="M15 9.5a3.5 3.5 0 0 1 0 5" />
-      <path d="M17.8 7a7 7 0 0 1 0 10" />
-    </svg>
-  );
-}
-
-/** A square: « stop », the mark every player uses. */
-function StopIcon() {
-  return (
-    <svg className={styles.icon} viewBox="0 0 24 24" aria-hidden="true">
-      <rect x="6.5" y="6.5" width="11" height="11" rx="2" />
-    </svg>
-  );
-}
-
-/** A snail: « slowly ». The shell is a coil, the foot one line, two horns. */
-function SnailIcon() {
-  return (
-    <svg className={styles.icon} viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="14.5" cy="12" r="6" />
-      <path d="M17 12a2.5 2.5 0 1 0-2.5 2.5" />
-      <path d="M3.5 19.5H21" />
-      <path d="M9 19.5c-2.6 0-4.2-1.8-4.2-4.3" />
-      <path d="M4.8 15.2 3.5 11.8M4.8 15.2l1.9-3.2" />
-    </svg>
-  );
-}
-
-/** A cross: « clear the field ». */
-function ClearIcon() {
-  return (
-    <svg className={styles.icon} viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M7 7l10 10M17 7 7 17" />
-    </svg>
-  );
-}
-
 /**
  * Type a number in figures, read it in French words and hear it (#94). A leaf
  * on the pages that teach the numbers; the page around it stays a Server
  * Component. Nothing is scored or stored: it is a tool, like
- * `prononciation/ecouter`.
+ * `/prononciation`.
  *
  * **The French is written as the learner types**, before any button: reading
  * *soixante et onze* appear under « 71 » is half of what the tool teaches, and
@@ -111,7 +68,7 @@ export function NumberSpeaker({ examples = [] }: { examples?: number[] }) {
         say();
       }}
     >
-      <label className={`label ${styles.head}`} htmlFor={id}>
+      <label className={`label ${shared.head}`} htmlFor={id}>
         <ChapterIcon name="prononciation" />
         <T fr="Écouter un nombre" es="Escuchar un número" />
       </label>
@@ -143,7 +100,7 @@ export function NumberSpeaker({ examples = [] }: { examples?: number[] }) {
           {!empty && (
             <button
               type="button"
-              className={styles.clear}
+              className={`${shared.clear} ${styles.clear}`}
               onClick={clear}
               aria-label={es ? "Borrar" : "Effacer"}
             >
@@ -201,8 +158,8 @@ export function NumberSpeaker({ examples = [] }: { examples?: number[] }) {
         )}
 
         {empty && examples.length > 0 && (
-          <div className={styles.examples}>
-            <span className={styles.try}>
+          <div className={shared.examples}>
+            <span className={shared.try}>
               <T fr="Essayez :" es="Prueba:" />
             </span>
             {examples.map((example) => {
@@ -211,7 +168,8 @@ export function NumberSpeaker({ examples = [] }: { examples?: number[] }) {
                 <button
                   key={example}
                   type="button"
-                  className={styles.chip}
+                  className={shared.chip}
+                  data-figures
                   onClick={() => {
                     setTyped(digits);
                     say(undefined, numberToFrench(example));

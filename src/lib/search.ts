@@ -2,6 +2,7 @@ import {
   annexes,
   chapters,
   inView,
+  isChapterPage,
   listedAt,
   tagEs,
   type Level,
@@ -114,7 +115,10 @@ function entry(
 const listed = chapters.filter((chapter) => chapter.lessons.length > 0);
 
 const index: Entry[] = [
-  ...listed.map((chapter) =>
+  /* A chapter that is its own page (#94) is found through that page, which
+     carries the chapter's titles as terms: two rows to one address would be
+     one result printed twice. */
+  ...listed.filter((chapter) => !isChapterPage(chapter)).map((chapter) =>
     entry(
       {
         path: chapter.path,

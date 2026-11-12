@@ -214,7 +214,9 @@ never edit a global rule for one component. The four ways it has happened:
   order would decide and a tidy-up would reverse it. `.active.active` in `Board.module.css`.
 
 **CSS Module class names are hashed**, so a selector in one module never reaches another's class.
-What two components share belongs in `globals.css` or a shared module.
+What two components share belongs in `globals.css` or a shared module. **A global class named in a
+module's selector is hashed too**: `.actions > .button` matches nothing, silently — write the
+element (`.actions > button`) or `:global(.button)`.
 
 ## What a control says back
 
@@ -388,8 +390,15 @@ read `--sidebar-now`, so they cannot disagree.
 - **The rail's look is a container query on the panel** (`@container sidebar`), not a third copy of
   a width.
 - « Index » adds 81.25rem and 93.75rem (`LessonToc.module.css`, #66). Two drill boards fold at
-  30rem. `NumberSpeaker` folds at 26rem of its own width (`@container`), so it behaves alike in
-  all three shells. A new breakpoint is a decision, not a convenience.
+  30rem. `NumberSpeaker` and the listening tool fold at 26rem of their own width (`@container`), so
+  they behave alike in all three shells; their icons, cross and chips are one module,
+  `src/components/speech/speech.module.css`. `AccentBar` turns into an eight-column grid
+  below the width one row needs (36rem with a mouse, 46rem with a finger). `AccentMenu` folds
+  it behind one « é à ç » button where accents help now and then (the listening tool); a
+  drill whose answer is the spelling keeps the bar open (§9). **A control inside a field** (the
+  listening tool's toolbar) is `speech.module.css`'s `.ghost`, borderless, placed over the
+  `.input` — never a second frame drawn around a bare textarea (#97). A new breakpoint is a
+  decision, not a convenience.
 
 ## Faces, wordmark and icons
 

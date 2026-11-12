@@ -28,6 +28,8 @@ const GROUPS = [
 
 export function AccentBar({
   target,
+  className,
+  onInsert,
 }: {
   /**
    * The field to type into. Its caret position is where the character lands.
@@ -38,6 +40,10 @@ export function AccentBar({
    * field (`exercices/les-terminaisons`).
    */
   target: RefObject<HTMLTextAreaElement | HTMLInputElement | null>;
+  /** Placement only — a margin, never the keys' look (§5, #97). */
+  className?: string;
+  /** Called after each letter lands — `AccentMenu` closes on it. */
+  onInsert?: () => void;
 }) {
   /* Attributes only, so `useLang` rather than `<T>` (#102): a screen reader
      hears them, nobody sees them flash. */
@@ -58,34 +64,45 @@ export function AccentBar({
     const start = field.selectionStart ?? field.value.length;
     const end = field.selectionEnd ?? start;
     field.setRangeText(character, start, end, "end");
+    /* `setRangeText` fires no event, so a controlled field's state would miss
+       the letter: a word ending on a tapped « é » was checked without it.
+       React reads this `input` as the field's own `onChange`. */
+    field.dispatchEvent(new Event("input", { bubbles: true }));
     field.focus();
+    onInsert?.();
   }
 
   return (
-    <div
-      className={styles.bar}
-      role="group"
-      aria-label={es ? "Letras acentuadas" : "Lettres accentuées"}
-    >
-      {GROUPS.map((group) => (
-        <div key={group[0]} className={styles.group}>
-          {group.map((character) => (
-            <button
-              key={character}
-              type="button"
-              className={styles.key}
-              aria-label={es ? `Insertar ${character}` : `Insérer ${character}`}
-              /* Keeps the caret in the field: without this the mousedown moves
-                 focus to the button first, and the field scrolls away on a
-                 phone just as the character lands. */
-              onMouseDown={(event) => event.preventDefault()}
-              onClick={() => insert(character)}
-            >
-              {character}
-            </button>
-          ))}
-        </div>
-      ))}
+    /* The wrapper is the container the narrow layout measures: a box cannot
+       query its own width. */
+    <div className={`${styles.wrap} ${className ?? ""}`}>
+      <div
+        className={styles.bar}
+        role="group"
+        aria-label={es ? "Letras acentuadas" : "Lettres accentuées"}
+      >
+        {GROUPS.map((group) => (
+          <div key={group[0]} className={styles.group}>
+            {group.map((character) => (
+              <button
+                key={character}
+                type="button"
+                className={styles.key}
+                aria-label={
+                  es ? `Insertar ${character}` : `Insérer ${character}`
+                }
+                /* Keeps the caret in the field: without this the mousedown
+                   moves focus to the button first, and the field scrolls away
+                   on a phone just as the character lands. */
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => insert(character)}
+              >
+                {character}
+              </button>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

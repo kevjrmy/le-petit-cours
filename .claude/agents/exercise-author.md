@@ -152,8 +152,11 @@ into drags that dropped the chip back (`exercices/etre-ou-avoir`).
 Spanish keyboard tests the keyboard. Type-in earns its place where the *spelling* is the skill.
 
 **Every text field ships `AccentBar`** (`src/components/exercice/AccentBar.tsx`). It takes a ref to
-the field and writes at the caret, replacing a selection, keeping focus. Import it, never
-re-implement it; a missing character goes into the row.
+the field and writes at the caret, replacing a selection, keeping focus, **and fires an `input`
+event**, so a controlled field's `onChange` hears a tapped « é » like a typed one (before, an answer
+ending on a tapped letter was checked without it). Import it, never re-implement it; a missing
+character goes into the row. Where accents only help (a tool, not a spelling drill), `AccentMenu`
+folds the same row behind one « é à ç » button.
 
 **A fixed pool beats per-item distractors.** Keep the nine pronouns or eighteen terminaisons on
 screen all round in a stable order, never shuffled: the learner recalls the paradigm. Three

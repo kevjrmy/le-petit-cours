@@ -1089,7 +1089,7 @@ dropped the same day: a wrong form is never bold.
 ## 94 · The course speaks with the device's French voice, or not at all
 **2026-10-07 · Binding · a trial · builds #51, #82**
 
-**`/prononciation/ecouter` reads aloud what the learner types**, through the browser's own speech
+**`/prononciation` reads aloud what the learner types**, through the browser's own speech
 (`speechSynthesis`): no server, no recording, no cost, any word or sentence. It is the first page of
 `prononciation` and the first thing in the course that makes a sound. **A trial**: the voice is the
 device's, so its quality is not the course's to promise, and the page is kept or dropped on what it
@@ -1104,6 +1104,19 @@ sound goes through this hook** (a dictée, a listening drill).
 **The chapter is `untracked`** (#82) while its one page is a tool: nothing there is ever finished.
 **Revisit when a sound sheet lands**: the flag is the chapter's, and a sheet wants its tick. The
 chapter moved below `musique` at the maintainer's word.
+
+**The tool is the chapter's page** (2026-11-12, the maintainer's call): `/prononciation` opens it,
+where a generated landing listed one line to click through. The lesson's `path` is the chapter's,
+and that is the whole signal (`isChapterPage`): `[chapitre]` generates nothing for it, search drops
+the duplicate chapter row, the audit expects its folder. `/prononciation/ecouter` redirects; the id
+`pron-ecouter` stays (#50). **A second page under it throws at import** (`assertChapterPages`): the
+chapter's address shows the tool, never a list, so a sound sheet would be listed nowhere. When one
+lands, the tool takes an address of its own again and the chapter gets its list back.
+
+**Its title follows the interface** (2026-11-12, the maintainer's call): « ¿Cómo se pronuncia? »
+in Spanish, through a lesson's optional `titleEs`/`subtitleEs`, drawn by `PageHeader` and search.
+#102 keeps a lesson's title French because it names the French taught; a tool's names what it
+does, like an annexe's. **Only a tool takes them**; the tab title stays French.
 
 **Chosen against a written pronunciation.** A rule engine is confidently wrong on *femme*,
 *monsieur*, *ils parlent*; a dictionary is megabytes and still blind to liaison; IPA is metalanguage
@@ -1120,7 +1133,7 @@ figures is written in French **as it is typed**, and the buttons only make it he
 the figures** — a device left to read « 81 » chooses its own way, and the page shows what is said.
 The words come from `numberToFrench` (`src/lib/numbers.ts`): France's 70, 80 and 90, the
 traditional spelling, the plural rules of *vingt* and *cent*. **Chosen against a link to
-`/prononciation/ecouter`**: typing « 81 » there leaves the reading to the device, and shows no
+`/prononciation`**: typing « 81 » there leaves the reading to the device, and shows no
 spelling. Why `useSpeech` said nothing is one component, `SpeechProblemMessage`, for both tools.
 
 **Seen on the first try** (desktop Linux): Chrome reads well, and every voice it lists is one of
@@ -1299,19 +1312,6 @@ gloss or a label reads without effort. `#0044AA` is untouched.
 **Chosen against** a neutral grey-black (the book's cover is blue) and against pure white text
 (it halos on a dark ground).
 
-**Gold is ornament, for the interface and nothing else.** `--star` colours `.ciel`, a few stars and a planet round a
-block's edges: the home page's title, and `/design`. It marks no state, so it has no contrast
-floor and never enters a lesson, where a gold mark would be read as a signal next to amber's
-« à retenir ». **Chosen against stars across the page background**: they would sit under text.
-**And never on it**: the first sky placed two of its marks in `%` of the home page's header, which
-grows with the tagline, and on a phone they landed on « petit ». They are placed in `rem` now,
-above the title and beside it.
-
-**The course has its own motif** (second pass, same day): an open book on a little planet under a
-few stars, `Planete.tsx`, in `--accent`, `--planet` and `--star`. It goes where a page has nothing
-to show (a chapter or a search with nothing in it, the 404, through `Vide`) and over the sign-in
-form. **Not over a lesson or a listing that has rows**: there it would compete with the content it
-decorates.
 **Steeped, not pasted** (fourth pass, 2026-11-12, at the maintainer's request: « easy on the eyes
 and elegant, not flashy »). Same grounds, same hues; what sat on them was the screen's, not the
 book's. **By day** the tints (`--blue-50…200`, `--red-100/200`, `--amber-100`, `--green-100/300`,
@@ -1328,6 +1328,19 @@ their hue as well as their label) and against lowering contrast for softness: ev
 clears `scripts/contrast.mjs`, and the floor's tightest pair (`--text-3` on `--accent-soft` by day,
 4.57) is what set how far the « Règle » tint could move.
 
+**Gold is ornament, for the interface and nothing else.** `--star` colours `.ciel`, a few stars and a planet round a
+block's edges: the home page's title, and `/design`. It marks no state, so it has no contrast
+floor and never enters a lesson, where a gold mark would be read as a signal next to amber's
+« à retenir ». **Chosen against stars across the page background**: they would sit under text.
+**And never on it**: the first sky placed two of its marks in `%` of the home page's header, which
+grows with the tagline, and on a phone they landed on « petit ». They are placed in `rem` now,
+above the title and beside it.
+
+**The course has its own motif** (second pass, same day): an open book on a little planet under a
+few stars, `Planete.tsx`, in `--accent`, `--planet` and `--star`. It goes where a page has nothing
+to show (a chapter or a search with nothing in it, the 404, through `Vide`) and over the sign-in
+form. **Not over a lesson or a listing that has rows**: there it would compete with the content it
+decorates.
 
 **The wordmark is written with a pen** (third pass, same day). The same Playwrite FR Trad outlines,
 swept along a short segment at 40°, as a broad nib draws: thick across the pen, thin along it, the

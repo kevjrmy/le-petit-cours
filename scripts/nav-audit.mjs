@@ -44,7 +44,11 @@ if (existsSync("src/app/page.tsx")) routes.add("/");
 // Every chapter landing page comes from one generated route (#29), and so does
 // every verb sheet (#56). A new chapter generated from a data file needs a
 // line here, or its lessons read as missing.
-if (existsSync("src/app/[chapitre]/page.tsx")) for (const c of chapters) routes.add(c.path);
+// A chapter that is its own page (`isChapterPage`, #94) is not generated: its
+// folder must exist like any lesson's, so it is left to the walk above.
+if (existsSync("src/app/[chapitre]/page.tsx"))
+  for (const c of chapters)
+    if (!c.lessons.some((l) => l.path === c.path)) routes.add(c.path);
 if (existsSync("src/app/conjugaison/[verbe]/page.tsx"))
   for (const l of chapters.find((c) => c.slug === "conjugaison").lessons) routes.add(l.path);
 

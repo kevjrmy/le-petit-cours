@@ -1,4 +1,5 @@
 import { findLesson } from "@/data/navigation";
+import { T } from "@/components/lang/T";
 import { LessonDelf } from "./LessonDelf";
 import styles from "./PageHeader.module.css";
 
@@ -18,6 +19,9 @@ export function PageHeader({ path }: { path: string }) {
       <h1>
         {lesson.titleHtml ? (
           <span dangerouslySetInnerHTML={{ __html: lesson.titleHtml }} />
+        ) : lesson.titleEs ? (
+          /* A tool's name, not French taught: it follows the interface. */
+          <T fr={lesson.title} es={lesson.titleEs} />
         ) : (
           lesson.title
         )}

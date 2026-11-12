@@ -71,7 +71,8 @@ Language (#102):
 - **Two copies, one change**: an explanation edited in one language only is the silent failure.
 - **French in both interfaces**: the French taught (no gloss or translation from A2), titles,
   subtitles, DELF descriptors, a DELF épreuve, the atelier, tab title and `<meta>`, the PWA
-  manifest. **Spanish in both**: a `traduction` source (#55), an A1 page's glosses and a literary
+  manifest — **save a tool's name** (`/prononciation`'s `titleEs`, #94), which teaches no French.
+  **Spanish in both**: a `traduction` source (#55), an A1 page's glosses and a literary
   A1 body's Spanish lines (#85, #92), `/instalar` (#101). Chapter/annexe titles and badges need
   their Spanish twins in the manifest (`es`, `titleEs`, `tagEs`).
 - **`lang` is not optional**: `lang="es"` on each Spanish `<section>`, `.resume` and
@@ -203,7 +204,8 @@ folder is a 404, a folder without an entry is unreachable — `node scripts/nav-
   links in, no redirect on removal, `level: null`, its own `noindex`; its row still draws
   everywhere.
 - **Chapter landing pages and verb sheets are one dynamic route each** (#29, #56),
-  `dynamicParams = false`.
+  `dynamicParams = false`. **Save a chapter that is its own page** (`prononciation`, #94): a lesson
+  whose `path` is the chapter's, alone in it — a second page throws at import.
 - **`/` is a search field** (#39); the sommaire is `/sommaire`. Signed out, the prerendered `/` is
   the welcome (#71): `HomeStart`'s slot has a **measured floor — re-measure when its content
   changes height**. **Never choose the half on the server.**
@@ -232,7 +234,7 @@ folder is a 404, a folder without an entry is unreachable — `node scripts/nav-
 | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | `grammaire`, `orthographe`, `vocabulaire`, `astuces`, `musique`, `culture` | prose lesson                                                                                             |
 | `conjugaison`, `prononciation`                                             | **data-driven** — one component, one data file; never a hand-written table                               |
-| `prononciation/ecouter`                                                    | a **tool**, the chapter's one page: type, hear the device's French voice; no tick, no score (#94)        |
+| `/prononciation`                                                           | a **tool**, the chapter's own page: type, hear the device's French voice; no tick, no score (#94)        |
 | `exercices`                                                                | graded drill, scored on screen, stored nowhere                                                           |
 | `jeux`                                                                     | replayable game, records nothing; not a second `exercices/`                                              |
 | `dictees`                                                                  | listen, type, compare                                                                                    |
@@ -333,6 +335,8 @@ None of these fail a build; each reached a published page.
 
 - **A module's list inside `.prose` doubles its class and zeroes its items**, or `.prose ul` and
   `li + li` add 20px and 6px it never asked for (`design-system.md`, « Two rules that tie »).
+- **A global class in a module's selector is hashed** — `.actions > .button` matches nothing; write
+  the element or `:global()` (`design-system.md`).
 
 **Images** (a DELF épreuve, the atelier, `culture/` later)
 

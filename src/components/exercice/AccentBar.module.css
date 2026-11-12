@@ -1,3 +1,11 @@
+/* The container the narrow layout below measures. Its own bottom margin is the
+   default placement, above a field; a caller placing the bar elsewhere passes
+   a class that overrides it. */
+.wrap {
+  container-type: inline-size;
+  margin-bottom: var(--space-8);
+}
+
 /* The groups (é è ê ë · à â · …) are a reading aid, not structure: the row
    sets them apart with a wider column gap than the keys inside one. Not a
    spacer element: a spacer wraps with its group, and on a phone the second
@@ -6,7 +14,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-6) var(--space-16);
-  margin-bottom: var(--space-8);
 }
 
 .group {
@@ -46,5 +53,44 @@
   .key {
     min-width: 2.75rem;
     min-height: 2.75rem;
+  }
+}
+
+/* Too narrow for one line, the fourteen keys wrapped wherever the width fell —
+   a lone « ô » here, « ç œ » on a third line there. They become a keyboard
+   instead: eight equal columns, two rows, the e-a-i keys above and o-u-ç
+   below. Measured: one row needs 36rem with a mouse (14 × 2.1rem and the
+   gaps) and 46rem with a finger (14 × 2.75rem). */
+@container (max-width: 36rem) {
+  .bar {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  .group {
+    display: contents;
+  }
+
+  .bar .key {
+    min-width: 0;
+  }
+}
+
+@media (pointer: coarse) {
+  @container (max-width: 46rem) {
+    .bar {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      gap: var(--space-6);
+    }
+
+    .group {
+      display: contents;
+    }
+
+    .bar .key {
+      min-width: 0;
+    }
   }
 }

@@ -93,7 +93,11 @@ everywhere until its first lesson lands. **No placeholder entry, dimmed row or "
    the site. Test tracking with `isTracked()`, never either flag. The sommaire card draws the same
    icon; nothing else to keep in step.
 2. **Nothing else.** `src/app/[chapitre]/page.tsx` renders every landing page from the manifest
-   (#29); never add a `src/app/{chapitre}/page.tsx` beside it. A chapter with no lessons is invisible
+   (#29); never add a `src/app/{chapitre}/page.tsx` beside it — **save a chapter that is its own
+   page** (`prononciation`, #94): one lesson whose `path` is the chapter's, written in that folder.
+   `isChapterPage` keeps it out of `[chapitre]`, search and the audit's generated routes, and
+   `assertChapterPages` throws if it gains a second page. To add one, give the first an address of
+   its own (redirect, same id) and the chapter is generated again. A chapter with no lessons is invisible
    until its first page exists (#51) — expected, not a fault.
 3. `AGENTS.md` §7 if the page type is new.
 

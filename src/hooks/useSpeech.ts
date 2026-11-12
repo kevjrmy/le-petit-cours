@@ -59,7 +59,6 @@ function loadVoices(synth: SpeechSynthesis): Promise<SpeechSynthesisVoice[]> {
 export function useSpeech(lang = "fr-FR") {
   const [speaking, setSpeaking] = useState(false);
   const [problem, setProblem] = useState<SpeechProblem | null>(null);
-  const [voiceName, setVoiceName] = useState<string | null>(null);
 
   /* Held for two reasons: Chrome drops `onend` when the utterance is garbage
      collected mid-speech, and the `end` of a cancelled utterance arrives after
@@ -120,7 +119,6 @@ export function useSpeech(lang = "fr-FR") {
 
       current.current = utterance;
       setProblem(null);
-      setVoiceName(voice.name);
       setSpeaking(true);
       synth.speak(utterance);
     };
@@ -140,5 +138,5 @@ export function useSpeech(lang = "fr-FR") {
     setSpeaking(false);
   }
 
-  return { speak, stop, speaking, problem, voiceName };
+  return { speak, stop, speaking, problem };
 }

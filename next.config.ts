@@ -72,6 +72,12 @@ const nextConfig: NextConfig = {
         destination: "/litterature/romeo-et-juliette",
         permanent: false,
       },
+      /* The listening tool became its chapter's page (#94); id kept (#50). */
+      {
+        source: "/prononciation/ecouter",
+        destination: "/prononciation",
+        permanent: false,
+      },
       /* The reading list was dropped, not replaced: its chapter is what is left. */
       {
         source: "/litterature/par-ou-commencer",
