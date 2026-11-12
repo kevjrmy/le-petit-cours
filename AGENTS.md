@@ -207,7 +207,8 @@ folder is a 404, a folder without an entry is unreachable — `node scripts/nav-
   the welcome (#71): `HomeStart`'s slot has a **measured floor — re-measure when its content
   changes height**. **Never choose the half on the server.**
 - **The sidebar is one level deep** (#40); **one sidebar control, in the topbar, at every
-  breakpoint.** The topbar never names the current page (#45); its trail is the chapter alone (#65).
+  breakpoint**, its label and glyph following the mode (#45). The topbar never names the current
+  page (#45); its trail is the chapter alone (#65).
 - **Annexe position is a manifest field** (`where`, #47); the footer draws only on `/` and its own
   pages (#63). **`featuredChapterSlugs` is the one hand-kept list**, and fails soft. A route
   outside the course goes in `unlistedPages`.

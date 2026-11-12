@@ -118,10 +118,31 @@
   border-radius: var(--radius-sm);
   color: var(--text-1);
   font-size: var(--type-90);
-  font-weight: 600;
+  /* 500, so that 600 means one thing in this list: the row you are on
+     (`design-system.md`, « Current, in navigation »). Fourteen rows at 600
+     read as a wall, and the current one stood out by its fill alone. */
+  font-weight: 500;
   text-decoration: none;
   white-space: nowrap;
 }
+
+/* The mark is quieter than the word beside it, and comes up with the row:
+   under the pointer to the row's ink, on the current row to its accent. In
+   the rail the mark is the whole row, and `--text-2` still holds 4.5:1 on
+   every ground the sidebar has (`scripts/contrast.mjs`). */
+.chapter > svg,
+.lesson > svg {
+  color: var(--text-2);
+  transition: color var(--dur-fast) ease;
+}
+
+a.chapter:hover > svg,
+a.lesson:hover > svg { color: var(--text-1); }
+
+.activeChapter > svg,
+.activeLesson > svg,
+a.activeChapter:hover > svg,
+a.activeLesson:hover > svg { color: inherit; }
 
 a.chapter:hover {
   background: var(--surface-3);

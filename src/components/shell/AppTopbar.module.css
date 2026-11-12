@@ -76,6 +76,16 @@
 
 .menu:hover { background: var(--surface-3); color: var(--text-1); }
 
+/* The menu mark below the drawer breakpoint, the panel mark above it (#45):
+   one button, its glyph following the mode as its label does. Keep the
+   number in step with --shell-mode in globals.css. */
+.glyphPanel { display: none; }
+
+@media (min-width: 56.25rem) {
+  .glyphDrawer { display: none; }
+  .glyphPanel { display: block; }
+}
+
 .menu svg {
   width: 1.25rem;
   height: 1.25rem;

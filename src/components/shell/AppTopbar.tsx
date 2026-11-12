@@ -6,7 +6,7 @@ import { findLesson } from "@/data/navigation";
 import { T } from "@/components/lang/T";
 import { useLang } from "@/hooks/useLang";
 import { setRail, type ShellMode } from "@/hooks/useShellMode";
-import { PanelIcon } from "./PanelIcon";
+import { MenuIcon, PanelIcon } from "./PanelIcon";
 import styles from "./AppTopbar.module.css";
 
 /**
@@ -70,6 +70,7 @@ export function AppTopbar({
     <header className={styles.topbar}>
       <button
         type="button"
+        id="sidebar-toggle"
         className={styles.menu}
         aria-expanded={expanded}
         aria-controls="sidebar"
@@ -81,7 +82,12 @@ export function AppTopbar({
         <span className="visually-hidden">
           <T fr={label.fr} es={label.es} />
         </span>
-        <PanelIcon expanded={expanded} />
+        {/* Both glyphs, and CSS shows the one for the breakpoint: `mode` is
+            "drawer" until the shell has measured itself, so choosing here
+            would prerender the menu mark on every desktop and swap it after
+            hydration. The breakpoint lives in CSS anyway (`globals.css`). */}
+        <MenuIcon className={styles.glyphDrawer} />
+        <PanelIcon expanded={expanded} className={styles.glyphPanel} />
       </button>
 
       {parent && (

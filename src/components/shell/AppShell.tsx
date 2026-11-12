@@ -44,11 +44,44 @@ export function AppShell({ children }: { children: ReactNode }) {
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    /* Focus goes into the drawer with the eye: to the row of the page you are
+       on, else its first link. The drawer comes *before* the page in the
+       DOM, so without this a keyboard or switch user opened it and had to
+       travel backwards to reach it. The page behind is `inert` (below), so
+       Tab stays inside until the drawer closes. */
+    /* Retried a frame at a time until it takes, for at most ten: the panel's
+       `visibility` transitions from hidden and a hidden element refuses
+       focus, and when it becomes focusable depends on the motion setting
+       (measured: one frame is too early with motion, two with reduced
+       motion still missed). Ten frames is a sixth of a second. */
+    let frame = 0;
+    let tries = 0;
+    const settle = () => {
+      const panel = document.getElementById("sidebar");
+      const target =
+        panel?.querySelector<HTMLElement>('[aria-current="page"]') ??
+        panel?.querySelector<HTMLElement>("a[href], button");
+      target?.focus();
+      if (target && document.activeElement !== target && ++tries < 10) {
+        frame = requestAnimationFrame(settle);
+      }
+    };
+    frame = requestAnimationFrame(settle);
+
     return () => {
+      cancelAnimationFrame(frame);
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = previous;
+      /* Closed by Escape, the scrim or a link: focus returns to the button
+         that opened it, rather than to a row that is no longer on screen. */
+      if (mode === "drawer") document.getElementById("sidebar-toggle")?.focus();
     };
   }, [open, mode]);
+
+  /* Behind an open drawer the page is covered, so it is out of reach for the
+     keyboard and the screen reader too. Only in the drawer: a panel beside
+     the page covers nothing. */
+  const covered = mode === "drawer" && open;
 
   return (
     /* One account and one set of ticks for the whole shell: the sidebar, the
@@ -66,7 +99,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           />
         )}
 
-        <div className={styles.main}>
+        <div className={styles.main} inert={covered}>
           <AppTopbar mode={mode} open={open} onToggle={() => setOpen((value) => !value)} />
           {/* Before `<main>` in the DOM, because a table of contents is read
               before what it indexes — and fixed, so the order costs no layout.

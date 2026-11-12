@@ -33,4 +33,12 @@
   inset: 0;
   z-index: var(--z-scrim);
   background: var(--surface-overlay);
+  /* It fades in as the drawer slides, on the drawer's own motion, rather
+     than snapping dark under a panel still on its way. Reduced motion is
+     handled in the reset. */
+  transition: opacity var(--dur) var(--ease);
+}
+
+@starting-style {
+  .scrim { opacity: 0; }
 }

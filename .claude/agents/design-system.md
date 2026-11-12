@@ -234,6 +234,8 @@ One look per state, by what the thing is. `/design` shows each.
   tick, `aria-pressed`) keeps its rule and lists its own `:hover` in it.
 - **Current, in navigation, is not chosen**: `--accent-soft`, `--accent-text`, weight 600, no
   border (the sidebar's row, a tab, the tense toggle). « Index » marks it with a line instead.
+  **So the rows around it are not 600**: the sidebar's are 500, with their marks in `--text-2`,
+  coming up to `--text-1` under the pointer and to the accent on the current row.
 - **Done, in a listing**: the row wears `--success-soft` and `--success-line` (#79).
 - **Under a dragged chip**: `--accent-subtle`, `--accent` border. The chip left behind is
   `--opacity-lifted`.
@@ -281,6 +283,10 @@ A chip, a button or a card carries words and keeps its quiet line. The search fi
   its parent (the topbar's crumb); inside a bordered row the ring is inset (`RowTick`).
 - A heading that takes focus by script when a slide changes shows no ring (`Onboarding`). It is
   not a control.
+- **What covers the page takes focus and gives it back.** The open drawer focuses the current row
+  (else its first link), the page behind it is `inert`, and closing returns focus to the button.
+  A panel that fades in from `visibility: hidden` refuses focus until it shows: retry per frame,
+  never a fixed delay (`AppShell`, measured under both motion settings).
 
 **24px for a target, both ways** (`--target-min`), by its own size rather than by the room around
 it. A link inside a sentence is exempt and nothing else is.

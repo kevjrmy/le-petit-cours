@@ -319,7 +319,11 @@ under the bar and vanishes against the page. **The translucent `--surface-bar` s
 
 **One button, every breakpoint**, at the content's left edge: it opens the drawer or collapses the
 panel. **Its label follows the mode** — *ouvert* / *fermé* for a drawer, *réduit* / *développé* for
-a panel.
+a panel — **and so does its glyph** (2026-11-12): three lines for the drawer, the panel with its
+chevron above. The panel mark on a phone read as « fold », which is not what a closed drawer does.
+Both glyphs are in the HTML and CSS picks one by breakpoint, so a prerendered desktop never shows
+the menu mark first. **The open drawer takes focus and the page behind it is `inert`**; it closes
+by Escape, the scrim or a link, and focus goes back to the button.
 
 **The trail does not name the current page** — the `<h1>` is right beneath it. It keeps **the
 chapter, as a link up**, the only place a lesson names it. **It grows *upward*** (a parcours step;
