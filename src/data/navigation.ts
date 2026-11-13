@@ -337,8 +337,8 @@ export const chapters: Chapter[] = [
       {
         id: "gram-articles-definis",
         path: "/grammaire/les-articles-definis",
-        title: "Les articles définis",
-        subtitle: "le · la · l’ · les",
+        title: "Les articles définis (le, la, les)",
+        subtitle: "Nommer une chose connue",
         level: "A1",
         delf: "Nommer une chose connue, et dire où l’on va",
         created: "2026-09-21",
@@ -346,8 +346,8 @@ export const chapters: Chapter[] = [
       {
         id: "gram-articles-indefinis",
         path: "/grammaire/les-articles-indefinis",
-        title: "Les articles indéfinis",
-        subtitle: "un · une · des",
+        title: "Les articles indéfinis (un, une, des)",
+        subtitle: "Présenter une chose nouvelle",
         level: "A1",
         delf: "Présenter une chose nouvelle, et compter ce dont on parle",
         created: "2026-09-21",
@@ -355,24 +355,37 @@ export const chapters: Chapter[] = [
       {
         id: "gram-singulier-pluriel",
         path: "/grammaire/le-singulier-et-le-pluriel",
-        title: "Le singulier et le pluriel",
-        subtitle: "Le -s muet, les, des et la liaison",
+        title: "Le singulier et le pluriel (un livre, des livres)",
+        subtitle: "Le -s qu’on n’entend pas, et la liaison",
         level: "A1",
         created: "2026-09-30",
       },
       {
         id: "gram-c-est-ce-sont",
         path: "/grammaire/c-est-ce-sont",
-        title: "C’est, ce sont",
+        title: "Les présentatifs (c’est, ce sont)",
         subtitle: "Nommer, présenter, dire non",
         level: "A1",
         delf: "Nommer une chose, présenter une personne, dire ce que ce n’est pas",
         created: "2026-09-21",
       },
+      /* Le possessif du point de vue de l'apprenant : la page part des deux
+         mots espagnols qui le cachent, « mi » (trois formes) et « su » (trois
+         possesseurs). Le tableau complet reste à `orth-determinants-possessifs`,
+         qui est sans niveau et écrit pour qui l'écrit plutôt que le choisit. */
+      {
+        id: "gram-determinants-possessifs",
+        path: "/grammaire/les-determinants-possessifs",
+        title: "Les déterminants possessifs (mon, ton, son)",
+        subtitle: "« mi » et « su » en français",
+        level: "A1",
+        delf: "Dire à qui est une chose, et parler des siens",
+        created: "2026-11-13",
+      },
       {
         id: "gram-verbes-er-a1",
         path: "/grammaire/les-verbes-en-er",
-        title: "Les verbes en -er",
+        title: "Le présent des verbes en -er (je parle)",
         subtitle: "Je parle, ils parlent : le même son",
         level: "A1",
         delf: "Dire ce que l’on fait, où l’on habite et ce que l’on aime",
@@ -381,8 +394,8 @@ export const chapters: Chapter[] = [
       {
         id: "gram-parler-de-ses-gouts",
         path: "/grammaire/parler-de-ses-gouts",
-        title: "Parler de ses goûts",
-        subtitle: "Aimer, adorer, détester, préférer",
+        title: "Les verbes de goût (aimer, adorer, détester)",
+        subtitle: "Dire ce qu’on aime et ce qu’on n’aime pas",
         level: "A1",
         delf: "Dire ce qu’on aime, ce qu’on adore et ce qu’on déteste",
         created: "2026-09-30",
@@ -390,8 +403,8 @@ export const chapters: Chapter[] = [
       {
         id: "gram-poser-une-question",
         path: "/grammaire/poser-une-question",
-        title: "Poser une question",
-        subtitle: "Intonation, est-ce que, qui, où, quand, quel",
+        title: "L’interrogation (est-ce que, qui, où)",
+        subtitle: "Poser une question, demander où et quand",
         level: "A1",
         delf: "Poser une question simple : oui ou non, où, quand, combien, pourquoi",
         created: "2026-09-30",
@@ -404,8 +417,8 @@ export const chapters: Chapter[] = [
       {
         id: "gram-articles-partitifs",
         path: "/grammaire/les-articles-partitifs",
-        title: "Les articles partitifs",
-        subtitle: "du · de la · de l’ · des",
+        title: "Les articles partitifs (du, de la, des)",
+        subtitle: "Ce qui ne se compte pas",
         level: "A2",
         delf: "Demander une quantité de ce qui ne se compte pas",
         created: "2026-09-21",
@@ -413,8 +426,8 @@ export const chapters: Chapter[] = [
       {
         id: "gram-determinants-demonstratifs",
         path: "/grammaire/les-determinants-demonstratifs",
-        title: "Les déterminants démonstratifs",
-        subtitle: "ce · cet · cette · ces",
+        title: "Les déterminants démonstratifs (ce, cet, cette, ces)",
+        subtitle: "Montrer une chose, situer un moment",
         level: "A2",
         delf: "Montrer une chose et situer un moment dont on parle",
         created: "2026-09-21",
@@ -422,7 +435,8 @@ export const chapters: Chapter[] = [
       {
         id: "gram-negation",
         path: "/grammaire/la-negation",
-        title: "La négation",
+        title: "La négation (ne… pas, ne… plus)",
+        subtitle: "Dire ce qu’on ne fait pas, ce qu’on n’a plus",
         level: "A2",
         delf: "Dire ce qu’on ne fait pas, ce qu’on n’a pas",
         created: "2026-09-12",
@@ -430,7 +444,8 @@ export const chapters: Chapter[] = [
       {
         id: "gram-passe-compose",
         path: "/grammaire/le-passe-compose",
-        title: "Le passé composé",
+        title: "Le passé composé (j’ai parlé, je suis venu)",
+        subtitle: "Raconter ce qui s’est passé",
         level: "A2",
         delf: "Raconter un événement passé",
         created: "2026-09-06",
@@ -438,7 +453,8 @@ export const chapters: Chapter[] = [
       {
         id: "gram-imparfait",
         path: "/grammaire/l-imparfait",
-        title: "L’imparfait",
+        title: "L’imparfait (je parlais)",
+        subtitle: "Décrire comment c’était",
         level: "A2",
         delf: "Décrire une situation ou une habitude au passé",
         created: "2026-09-06",
@@ -447,6 +463,7 @@ export const chapters: Chapter[] = [
         id: "gram-pc-ou-imparfait",
         path: "/grammaire/passe-compose-ou-imparfait",
         title: "Passé composé ou imparfait ?",
+        subtitle: "Choisir le temps d’un récit",
         level: "A2",
         delf: "Choisir le temps du passé dans un récit",
         created: "2026-09-06",
@@ -454,7 +471,8 @@ export const chapters: Chapter[] = [
       {
         id: "gram-futur-proche",
         path: "/grammaire/le-futur-proche",
-        title: "Le futur proche",
+        title: "Le futur proche (je vais partir)",
+        subtitle: "Dire ce qu’on va faire",
         level: "A2",
         delf: "Dire ce qu’on va faire, projeter une action",
         created: "2026-09-12",
@@ -462,7 +480,8 @@ export const chapters: Chapter[] = [
       {
         id: "gram-pronoms-cod-coi",
         path: "/grammaire/les-pronoms-cod-coi",
-        title: "Les pronoms COD et COI",
+        title: "Les pronoms COD et COI (le, la, lui, leur)",
+        subtitle: "Ne pas répéter le nom",
         level: "A2",
         delf: "Reprendre un mot déjà dit sans le répéter",
         created: "2026-09-06",
@@ -473,11 +492,22 @@ export const chapters: Chapter[] = [
       {
         id: "gram-pronoms-demonstratifs",
         path: "/grammaire/les-pronoms-demonstratifs",
-        title: "Les pronoms démonstratifs",
-        subtitle: "celui · celle · ceux · celles",
+        title: "Les pronoms démonstratifs (celui, celle)",
+        subtitle: "Choisir sans répéter le nom",
         level: "A2",
         delf: "Choisir un objet parmi d’autres sans répéter son nom",
         created: "2026-09-21",
+      },
+      /* Le même geste que le démonstratif, ne pas répéter le nom, et le
+         possessif A1 sur lequel il se construit. */
+      {
+        id: "gram-pronoms-possessifs",
+        path: "/grammaire/les-pronoms-possessifs",
+        title: "Les pronoms possessifs (le mien, le tien)",
+        subtitle: "À qui est-ce ? C’est à moi, c’est le mien",
+        level: "A2",
+        delf: "Dire à qui est une chose sans répéter son nom",
+        created: "2026-11-13",
       },
       /* En dernier dans l'A2 : relier ses phrases demande d'abord d'en avoir,
          au passé comme au présent. La page se lit seule, ses exemples ne
@@ -485,8 +515,8 @@ export const chapters: Chapter[] = [
       {
         id: "gram-connecteurs",
         path: "/grammaire/les-connecteurs",
-        title: "Les connecteurs",
-        subtitle: "d’abord · parce que · donc · pourtant",
+        title: "Les connecteurs (d’abord, donc, pourtant)",
+        subtitle: "Relier ses phrases",
         level: "A2",
         delf: "Relier ses phrases pour raconter, expliquer et nuancer",
         created: "2026-10-05",
@@ -498,7 +528,8 @@ export const chapters: Chapter[] = [
       {
         id: "gram-plus-que-parfait",
         path: "/grammaire/le-plus-que-parfait",
-        title: "Le plus-que-parfait",
+        title: "Le plus-que-parfait (j’avais parlé)",
+        subtitle: "Raconter ce qui s’était passé avant",
         level: "B1",
         delf: "Raconter en situant une action avant une autre",
         created: "2026-09-21",
@@ -506,7 +537,8 @@ export const chapters: Chapter[] = [
       {
         id: "gram-conditionnel-present",
         path: "/grammaire/le-conditionnel-present",
-        title: "Le conditionnel présent",
+        title: "Le conditionnel présent (je voudrais)",
+        subtitle: "Demander poliment, imaginer",
         level: "B1",
         delf: "Demander poliment, et dire ce qui arriverait",
         created: "2026-09-21",
@@ -517,17 +549,28 @@ export const chapters: Chapter[] = [
       {
         id: "gram-ce-qui-ce-que",
         path: "/grammaire/ce-qui-ce-que-ce-dont",
-        title: "Ce qui, ce que, ce dont",
-        subtitle: "Le pronom qui ne reprend aucun nom",
+        title: "Les pronoms relatifs indéfinis (ce qui, ce que, ce dont)",
+        subtitle: "Reprendre une idée qui n’a pas de nom",
         level: "B1",
         delf: "Reprendre une idée entière, et mettre en avant ce qui compte",
         created: "2026-09-21",
       },
+      /* L'autre mise en relief, celle qui commence par « c'est » : juste après
+         la page qui la ferme par « c'est ». */
+      {
+        id: "gram-mise-en-relief",
+        path: "/grammaire/la-mise-en-relief",
+        title: "La mise en relief (c’est… qui, c’est… que)",
+        subtitle: "Insister sur un mot",
+        level: "B1",
+        delf: "Insister sur une personne, un lieu, un moment ou une raison",
+        created: "2026-11-13",
+      },
       {
         id: "gram-article-disparait",
         path: "/grammaire/quand-l-article-disparait",
-        title: "Quand l’article disparaît",
-        subtitle: "sans · en · un cours de français",
+        title: "L’omission de l’article (sans, en, il est médecin)",
+        subtitle: "Là où le français n’en met pas",
         level: "B1",
         delf: "Écrire sans l’article là où le français n’en met pas",
         created: "2026-09-21",
@@ -694,8 +737,8 @@ export const chapters: Chapter[] = [
       {
         id: "orth-accents",
         path: "/orthographe/les-accents",
-        title: "Les accents et la cédille",
-        subtitle: "é · è · ê · ë · ç",
+        title: "Les accents et la cédille (é, è, ê, ç)",
+        subtitle: "Des signes qui font partie du mot",
         level: null,
         delf: "Écrire les signes qui font partie du mot",
         created: "2026-09-12",
@@ -703,8 +746,8 @@ export const chapters: Chapter[] = [
       {
         id: "orth-homophones",
         path: "/orthographe/les-homophones",
-        title: "Les homophones",
-        subtitle: "a / à · et / est · on / ont · son / sont · ou / où",
+        title: "Les homophones (a / à, et / est, on / ont)",
+        subtitle: "Des mots qui se disent pareil, et le test qui les sépare",
         level: null,
         delf: "Écrire sans confondre les mots qui se prononcent pareil",
         created: "2026-09-06",
@@ -712,8 +755,8 @@ export const chapters: Chapter[] = [
       {
         id: "orth-homophones-demonstratif",
         path: "/orthographe/les-homophones-du-demonstratif",
-        title: "Les homophones du démonstratif",
-        subtitle: "ce / se · ces / ses · c’est / s’est · ça / sa",
+        title: "Les homophones du démonstratif (ces / ses, c’est / s’est)",
+        subtitle: "Montrer, ou dire à qui",
         level: null,
         delf: "Écrire ce qui montre sans le confondre avec ce qui appartient",
         created: "2026-09-21",
@@ -721,8 +764,8 @@ export const chapters: Chapter[] = [
       {
         id: "orth-homophones-article",
         path: "/orthographe/les-homophones-de-l-article",
-        title: "Les homophones de l’article",
-        subtitle: "la / l’a / là · des / dès · du / dû",
+        title: "Les homophones de l’article (la / l’a / là, des / dès)",
+        subtitle: "L’article et ses sosies",
         level: null,
         delf: "Écrire l’article sans le confondre avec un verbe ou un adverbe",
         created: "2026-09-21",
@@ -730,8 +773,8 @@ export const chapters: Chapter[] = [
       {
         id: "orth-determinants-possessifs",
         path: "/orthographe/les-determinants-possessifs",
-        title: "Les déterminants possessifs",
-        subtitle: "mon / ma / mes · son / sa / ses · leur / leurs",
+        title: "Les déterminants possessifs (son / sont, leur / leurs)",
+        subtitle: "Écrire à qui est la chose, et l’accorder",
         level: null,
         delf: "Écrire à qui la chose appartient, et l’accorder",
         created: "2026-09-12",
@@ -739,8 +782,8 @@ export const chapters: Chapter[] = [
       {
         id: "orth-terminaisons-verbales",
         path: "/orthographe/les-terminaisons-verbales",
-        title: "Les terminaisons verbales",
-        subtitle: "-er · -é · -ez · -ais / -ait",
+        title: "Les terminaisons verbales (-er, -é, -ez, -ais)",
+        subtitle: "La fin du verbe, celle qu’on n’entend pas",
         level: null,
         delf: "Écrire la terminaison du verbe sans se fier à l’oreille",
         created: "2026-09-17",
@@ -748,8 +791,8 @@ export const chapters: Chapter[] = [
       {
         id: "orth-nombres",
         path: "/orthographe/ecrire-les-nombres",
-        title: "Écrire les nombres",
-        subtitle: "vingt et un · quatre-vingts · deux cents · mille",
+        title: "Les nombres en lettres (vingt et un, quatre-vingts)",
+        subtitle: "Traits d’union, pluriels, « mille »",
         level: null,
         delf: "Écrire un nombre en lettres : traits d’union, pluriels, « mille »",
         created: "2026-11-12",
@@ -2419,7 +2462,7 @@ const handWrittenLinks: Record<string, string[]> = {
     "/orthographe/les-homophones-du-demonstratif",
     "/orthographe/les-homophones",
     "/orthographe/les-accents",
-    "/vocabulaire/la-famille",
+    "/grammaire/les-pronoms-possessifs",
   ],
   "/orthographe/les-terminaisons-verbales": [
     "/orthographe/les-homophones",
@@ -2737,7 +2780,7 @@ const handWrittenLinks: Record<string, string[]> = {
     "/conjugaison/prendre",
   ],
   "/vocabulaire/la-famille": [
-    "/orthographe/les-determinants-possessifs",
+    "/grammaire/les-determinants-possessifs",
     "/conversation/se-presenter",
     "/vocabulaire/les-nombres",
     "/vocabulaire/le-travail",
@@ -2884,10 +2927,29 @@ const handWrittenLinks: Record<string, string[]> = {
     "/grammaire/ce-qui-ce-que-ce-dont",
   ],
   "/grammaire/ce-qui-ce-que-ce-dont": [
+    "/grammaire/la-mise-en-relief",
     "/grammaire/les-pronoms-demonstratifs",
     "/exercices/ce-ou-celui",
     "/grammaire/les-pronoms-cod-coi",
+  ],
+  "/grammaire/la-mise-en-relief": [
+    "/grammaire/ce-qui-ce-que-ce-dont",
     "/grammaire/c-est-ce-sont",
+    "/grammaire/les-pronoms-possessifs",
+  ],
+  /* Les pages du possessif, du déterminant au pronom ; la page d'orthographe
+     pour qui écrit ces mots plutôt que de les choisir. */
+  "/grammaire/les-determinants-possessifs": [
+    "/vocabulaire/la-famille",
+    "/grammaire/c-est-ce-sont",
+    "/grammaire/les-pronoms-possessifs",
+    "/orthographe/les-determinants-possessifs",
+  ],
+  "/grammaire/les-pronoms-possessifs": [
+    "/grammaire/les-determinants-possessifs",
+    "/grammaire/les-pronoms-demonstratifs",
+    "/grammaire/les-pronoms-cod-coi",
+    "/orthographe/les-determinants-possessifs",
   ],
   /* La leçon d'orthographe, son astuce et son exercice : trois pages sur les
      mêmes huit mots, qui doivent se trouver l'une l'autre sans passer par le

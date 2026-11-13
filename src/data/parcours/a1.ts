@@ -43,6 +43,7 @@ export const A1: Parcours = {
         "gram-articles-indefinis",
         "gram-singulier-pluriel",
         "lect-lion-et-rat",
+        "gram-determinants-possessifs",
         "voc-famille",
         "lect-romeo-juliette",
       ],

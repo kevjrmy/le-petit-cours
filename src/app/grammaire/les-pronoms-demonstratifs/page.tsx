@@ -305,7 +305,7 @@ export default function Page() {
           <span className="fr">ce qui compte, c’est d’essayer</span>. C’est la
           suite de cette leçon, dans{" "}
           <Link href="/grammaire/ce-qui-ce-que-ce-dont">
-            Ce qui, ce que, ce dont
+            Les pronoms relatifs indéfinis
           </Link>
           .
         </div>
@@ -351,7 +351,7 @@ export default function Page() {
           <span className="fr" lang="fr">ce qui compte, c’est d’essayer</span>.
           Es la continuación de esta lección, en{" "}
           <Link href="/grammaire/ce-qui-ce-que-ce-dont" lang="fr">
-            Ce qui, ce que, ce dont
+            Les pronoms relatifs indéfinis
           </Link>
           .
         </div>

@@ -115,7 +115,7 @@ export const A2: Parcours = {
     {
       title: "Ne pas répéter le nom",
       es: { title: "No repetir el nombre" },
-      lessons: ["gram-pronoms-cod-coi", "lect-cosette-bois"],
+      lessons: ["gram-pronoms-cod-coi", "gram-pronoms-possessifs", "lect-cosette-bois"],
     },
     {
       title: "Lire et relire",

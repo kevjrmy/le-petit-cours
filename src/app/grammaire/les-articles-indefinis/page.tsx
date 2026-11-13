@@ -252,7 +252,7 @@ export default function Page() {
           <span lang="es">« es médico »</span>, sans article. En français, sans
           article, la phrase change de forme :{" "}
           <span className="fr">il est médecin</span>. C’est expliqué dans{" "}
-          <Link href="/grammaire/c-est-ce-sont" lang="fr">C’est, ce sont</Link>.
+          <Link href="/grammaire/c-est-ce-sont" lang="fr">Les présentatifs</Link>.
         </div>
       </section>
 
@@ -290,7 +290,7 @@ export default function Page() {
           una amiga). En español dices «es médico», sin artículo. En francés,
           sin artículo, la frase cambia de forma:{" "}
           <span className="fr" lang="fr">il est médecin</span>. Se explica en{" "}
-          <Link href="/grammaire/c-est-ce-sont" lang="fr">C’est, ce sont</Link>.
+          <Link href="/grammaire/c-est-ce-sont" lang="fr">Les présentatifs</Link>.
         </div>
       </section>
 

@@ -78,7 +78,8 @@ not a lookup key**: a lesson that moves chapter keeps the id it was born with. D
 malformed ids throw on import, so they fail the build and the audit.
 
 Optional keys: a rich label for superscripts, a subtitle (author, scenario), a short tag badge, the
-DELF descriptor, `created`. **Title, subtitle and DELF descriptor stay French in both interfaces**
+DELF descriptor, `created`. A `grammaire` or `orthographe` title and subtitle follow
+`lesson-author.md` « The title » (#104). **Title, subtitle and DELF descriptor stay French in both interfaces**
 (#102). **A new badge needs its Spanish in `TAG_ES`**, or the manifest throws at import.
 
 **No entry before its `page.tsx`** (#51). An empty chapter is normal: `listedChapters()` hides it

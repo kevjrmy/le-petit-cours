@@ -72,7 +72,7 @@ export default function Page() {
           question à l’autre et réagir à sa réponse. Vous parlez de cuisine, de
           musique, de sport et de temps libre. La grammaire de la phrase est
           dans{" "}
-          <Link href="/grammaire/parler-de-ses-gouts">Parler de ses goûts</Link>
+          <Link href="/grammaire/parler-de-ses-gouts">Les verbes de goût</Link>
           .
         </p>
 
@@ -89,7 +89,7 @@ export default function Page() {
           cuenta. Habláis de cocina, de música, de deporte y del tiempo libre.
           La gramática de la frase está en{" "}
           <Link href="/grammaire/parler-de-ses-gouts" lang="fr">
-            Parler de ses goûts
+            Les verbes de goût
           </Link>
           .
         </p>

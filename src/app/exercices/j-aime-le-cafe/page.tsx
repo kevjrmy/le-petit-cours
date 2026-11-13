@@ -31,7 +31,7 @@ export default function Page() {
           négative. Avec <span className="fr">je voudrais</span> et{" "}
           <span className="fr">je mange</span>, d’autres règles s’appliquent.
           Tout est dans{" "}
-          <Link href="/grammaire/parler-de-ses-gouts">Parler de ses goûts</Link>.
+          <Link href="/grammaire/parler-de-ses-gouts">Les verbes de goût</Link>.
         </p>
         <p data-ui="es" lang="es">
           En cada frase falta el artículo. Mira el verbo antes de elegir: con{" "}
@@ -40,7 +40,7 @@ export default function Page() {
           ), también en la negación. Con <span lang="fr">je voudrais</span> y{" "}
           <span lang="fr">je mange</span> se aplican otras reglas. Todo está en{" "}
           <Link lang="fr" href="/grammaire/parler-de-ses-gouts">
-            Parler de ses goûts
+            Les verbes de goût
           </Link>
           .
         </p>

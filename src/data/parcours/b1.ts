@@ -40,6 +40,7 @@ export const B1: Parcours = {
       es: { title: "Retomar sin nombrar" },
       lessons: [
         "gram-ce-qui-ce-que",
+        "gram-mise-en-relief",
         "ex-ce-ou-celui",
         "gram-article-disparait",
         "ex-le-un-ou-du",

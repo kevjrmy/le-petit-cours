@@ -84,6 +84,20 @@ plus loin »; a cross-link is declared in `relatedPages`, never rendered.
 **The title is never typed on the page.** `lessonMetadata(PATH)` and `<PageHeader path={PATH} />`
 read it from the manifest.
 
+### The title (#104)
+
+**A `grammaire` or `orthographe` page is titled « Type (forms) »**: the school name, then three or
+four of the forms it teaches — *Les déterminants possessifs (mon, ton, son)*, *La négation (ne… pas,
+ne… plus)*, *Les homophones (a / à, et / est, on / ont)*. Capital on the type, the forms as written;
+« / » between homophones, commas in a family, « … » for a split form. A page about choosing between
+two forms keeps its question (*Passé composé ou imparfait ?*).
+
+- **The subtitle says what the page lets you do** (« Nommer, présenter, dire non »), in a few words —
+  never the forms again.
+- **No title twice in one chapter**; across chapters the hint tells them apart.
+- **A link in prose quotes the type without its hint**: « comme dans *Les présentatifs* ».
+- **Retitling never moves the path** (#50).
+
 **There are no `<Rule>` / `<Table>` / `<Attention>` components.** The patterns are CSS classes in
 `globals.css`, all rendered on `/design` — read it before writing prose. `.rule`, `.attention`,
 `.astuce` and `.exception` print their own label. `PageHeader` is the only component a lesson calls. While #10 is

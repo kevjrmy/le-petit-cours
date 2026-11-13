@@ -32,7 +32,7 @@ export default function Page() {
           et le verbe ; choisissez ce qui manque. Parfois, ce qui manque est{" "}
           <span className="fr">je</span> ou <span className="fr">j’</span>. Les
           règles sont dans{" "}
-          <Link href="/grammaire/les-verbes-en-er">Les verbes en -er</Link>.
+          <Link href="/grammaire/les-verbes-en-er">Le présent des verbes en -er</Link>.
         </p>
         <p data-ui="es" lang="es">
           Con los verbos en <span lang="fr">-er</span>, la terminación cambia
@@ -44,7 +44,7 @@ export default function Page() {
           <span lang="fr">je</span> o <span lang="fr">j’</span>. Las reglas
           están en{" "}
           <Link lang="fr" href="/grammaire/les-verbes-en-er">
-            Les verbes en -er
+            Le présent des verbes en -er
           </Link>
           .
         </p>

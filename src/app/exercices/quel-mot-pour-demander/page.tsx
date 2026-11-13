@@ -35,7 +35,7 @@ export default function Page() {
           pour choisir entre{" "}
           <span className="fr">quel, quelle, quels, quelles</span>. Les règles
           sont dans{" "}
-          <Link href="/grammaire/poser-une-question">Poser une question</Link>.
+          <Link href="/grammaire/poser-une-question">L’interrogation</Link>.
         </p>
         <p data-ui="es" lang="es">
           En cada pregunta falta una palabra. Lee la respuesta que aparece
@@ -47,7 +47,7 @@ export default function Page() {
           entre <span lang="fr">quel, quelle, quels, quelles</span>. Las
           reglas están en{" "}
           <Link lang="fr" href="/grammaire/poser-une-question">
-            Poser une question
+            L’interrogation
           </Link>
           .
         </p>

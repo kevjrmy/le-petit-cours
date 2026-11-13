@@ -223,7 +223,7 @@ export default function Page() {
           Le cas du métier a une contrepartie qu’il faut connaître avec lui :
           dès qu’un article apparaît, la phrase change de forme et commence par{" "}
           <span className="fr">c’est</span>. Les deux sont dans{" "}
-          <Link href="/grammaire/c-est-ce-sont">C’est, ce sont</Link>.
+          <Link href="/grammaire/c-est-ce-sont">Les présentatifs</Link>.
         </p>
 
         <div className="attention">
@@ -275,7 +275,7 @@ export default function Page() {
           empieza por <span className="fr" lang="fr">c’est</span>. Los dos están
           en{" "}
           <Link href="/grammaire/c-est-ce-sont" lang="fr">
-            C’est, ce sont
+            Les présentatifs
           </Link>
           .
         </p>

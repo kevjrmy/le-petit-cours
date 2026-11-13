@@ -351,7 +351,7 @@ export default function Page() {
           <span className="fr">ce sont</span> :{" "}
           <span className="fr">ce qui me manque, ce sont les vacances</span>. La
           règle est la même que dans{" "}
-          <Link href="/grammaire/c-est-ce-sont">C’est, ce sont</Link>.
+          <Link href="/grammaire/c-est-ce-sont">Les présentatifs</Link>.
         </div>
 
         <div className="astuce">
@@ -395,7 +395,7 @@ export default function Page() {
           <span className="fr" lang="fr">ce qui me manque, ce sont les vacances</span>.
           La regla es la misma que en{" "}
           <Link href="/grammaire/c-est-ce-sont" lang="fr">
-            C’est, ce sont
+            Les présentatifs
           </Link>
           .
         </div>

@@ -192,6 +192,8 @@ folder is a 404, a folder without an entry is unreachable — `node scripts/nav-
   tracked lesson **ids**, checked at import. **A level's parcours is the whole level**: every
   tracked page written at it (`level` or a `sets` entry), its épreuves as `exam`, nothing from
   another rung. A page left off fails the import; so does a choosable level with no parcours.
+- **A `grammaire` or `orthographe` title is « Type (forms) »** (#104), its subtitle what the page is
+  for; a retitle never moves the path.
 - **`level` is required; `null` is deliberate** (#86). A row draws its level, one badge.
 - **The view filters listings, never access** (#86): sommaire, chapters, sidebar. Search groups
   rather than cuts; `/ma-progression` is a record; a direct link always renders.

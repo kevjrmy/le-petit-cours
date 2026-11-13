@@ -1462,3 +1462,26 @@ the data module says which.
 works and silent on what it costs. Such a source is allowed and named as what it is; the page asks
 « qui parle ? ». Many French publishers refuse automated readers, so an agent asks the maintainer
 to paste the text — and **reads it whole before pitching it**, never from a search summary.
+
+## 104 · A rule page is titled by its type, with its forms in parentheses
+**2026-11-13 · Binding · `grammaire` and `orthographe` only**
+
+A title is the one label the page itself shows — the `<h1>` and the tab; the subtitle reaches only
+listings and « La suite ». « Mon, ton, son » named three forms and not what they are; « Les verbes
+en -er » named a group and not the tense. Grammaire mixed five shapes (category, forms, task,
+choice, phenomenon). So a page that teaches a rule is titled **« Type (forms) »**: the type is the
+school name — *Les présentatifs*, *L'omission de l'article* — and the parentheses carry three or
+four forms as a hint, « / » between homophones, « … » for a split form. **The subtitle says what
+the page lets you do**, never the forms again. A page that teaches the choice between two forms
+keeps the question (« Passé composé ou imparfait ? »).
+
+**Decided against plain forms** (« C'est, ce sont »): readable at A1, but nothing to search for and
+nothing to recognise from a textbook. **Decided against a type alone**: *présentatif* or *COD* in a
+title an A1 learner cannot decode; the parentheses are what make the school name allowed at every
+level, though the explanation underneath stays bound by `AGENTS.md` §1.
+**Decided against forbidding a repeated title**: a grammaire page and an orthographe page on the
+same forms (*Les déterminants possessifs*) differ by chapter and by hint. Within a chapter, never.
+
+**Decided against renaming addresses with titles**: a path change is a redirect (#50) and nobody
+reads a URL; the ids never move. Other chapters keep their own shapes — a theme, a task, a work's
+title, an astuce's question.
