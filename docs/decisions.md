@@ -1118,7 +1118,8 @@ lands, the tool takes an address of its own again and the chapter gets its list 
 **Its title follows the interface** (2026-11-12, the maintainer's call): « ¿Cómo se pronuncia? »
 in Spanish, through a lesson's optional `titleEs`/`subtitleEs`, drawn by `PageHeader` and search.
 #102 keeps a lesson's title French because it names the French taught; a tool's names what it
-does, like an annexe's. **Only a tool takes them**; the tab title stays French.
+does, like an annexe's. A tool took them first; #104 gives them to the rule pages' types. The tab
+title stays French.
 
 **Chosen against a written pronunciation.** A rule engine is confidently wrong on *femme*,
 *monsieur*, *ils parlent*; a dictionary is megabytes and still blind to liaison; IPA is metalanguage
@@ -1422,7 +1423,8 @@ hydration. `html lang` stays `fr`; a Spanish element says `lang="es"` itself.
 **Stays French in both:** the French taught — examples, forms, a table's French cells, drill items,
 answers — and, from A2, **no gloss or translation column on it** (the old rule's reasoning still holds there:
 a translation beside each example is dead weight, and it turns reading into decoding); lesson
-titles, subtitles and DELF descriptors, which name the French taught; a DELF épreuve's content and
+titles, subtitles and DELF descriptors, which name the French taught — save a tool's name (#94) and
+a rule page's type and subtitle (#104); a DELF épreuve's content and
 consignes (a DELF is sat in French); the atelier (#80, a class taught in French); the tab title and
 `<meta>` (switching them needs a server read, §8); the PWA manifest. **An A1 page has both too**
 (amended the same day, at the maintainer's request): its Spanish is written first (#85), its French
@@ -1485,3 +1487,12 @@ same forms (*Les déterminants possessifs*) differ by chapter and by hint. Withi
 **Decided against renaming addresses with titles**: a path change is a redirect (#50) and nobody
 reads a URL; the ids never move. Other chapters keep their own shapes — a theme, a task, a work's
 title, an astuce's question.
+
+**The type and the subtitle have a Spanish twin** (2026-11-13, the maintainer's call; amends
+#102): « Los artículos definidos (le, la, les) », `titleEs` and `subtitleEs` in the manifest. The
+type is explanation, not French taught — *présentatif* is a word about French — and the A1 reader
+the title is most for reads Spanish. **The forms in parentheses stay French** in the Spanish
+string, and `LessonTitle` marks them `lang="fr"`; it is the one component that draws a lesson's
+name, so a row, « La suite », the record and the cross-links cannot forget the twin. Other
+chapters' titles stay French: there the title is the French taught (« La maison », « Se
+présenter », a book). The tab title stays French (a server read, §8).

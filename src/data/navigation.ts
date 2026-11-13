@@ -124,11 +124,13 @@ export interface PageEntry {
 export interface Lesson extends PageEntry {
   id: LessonId;
   /**
-   * The title and subtitle in the Spanish interface — **only for a page whose
-   * title is not French being taught**: a tool (`/prononciation`, #94), named
-   * like an annexe. A lesson's title names the French it teaches and stays
-   * French in both interfaces (#102); never give one of those a twin. The tab
-   * title stays French either way (`lessonMetadata`).
+   * The title and subtitle in the Spanish interface — **only where the title is
+   * not French being taught**: a tool (`/prononciation`, #94), named like an
+   * annexe, and a `grammaire` or `orthographe` page (#104), whose type is
+   * explanation — « Los artículos definidos (le, la, les) », the forms in
+   * parentheses kept French. Any other lesson's title names the French it
+   * teaches and stays French in both interfaces (#102). The tab title stays
+   * French either way (`lessonMetadata`).
    */
   titleEs?: string;
   subtitleEs?: string;
@@ -205,8 +207,8 @@ export interface Chapter {
   blurb: string;
   /**
    * The chapter in the Spanish interface (#102). **Required**, so a chapter
-   * added without it does not compile. Lesson titles have no twin: a lesson's
-   * title names the French it teaches, and stays French in both.
+   * added without it does not compile. Most lesson titles have no twin: a
+   * lesson's title names the French it teaches (`Lesson.titleEs`, #104).
    */
   es: { title: string; blurb: string };
   /**
@@ -339,6 +341,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/les-articles-definis",
         title: "Les articles définis (le, la, les)",
         subtitle: "Nommer une chose connue",
+        titleEs: "Los artículos definidos (le, la, les)",
+        subtitleEs: "Nombrar una cosa conocida",
         level: "A1",
         delf: "Nommer une chose connue, et dire où l’on va",
         created: "2026-09-21",
@@ -348,6 +352,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/les-articles-indefinis",
         title: "Les articles indéfinis (un, une, des)",
         subtitle: "Présenter une chose nouvelle",
+        titleEs: "Los artículos indefinidos (un, une, des)",
+        subtitleEs: "Presentar una cosa nueva",
         level: "A1",
         delf: "Présenter une chose nouvelle, et compter ce dont on parle",
         created: "2026-09-21",
@@ -357,6 +363,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/le-singulier-et-le-pluriel",
         title: "Le singulier et le pluriel (un livre, des livres)",
         subtitle: "Le -s qu’on n’entend pas, et la liaison",
+        titleEs: "El singular y el plural (un livre, des livres)",
+        subtitleEs: "La -s que no se oye, y el enlace entre palabras",
         level: "A1",
         created: "2026-09-30",
       },
@@ -365,6 +373,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/c-est-ce-sont",
         title: "Les présentatifs (c’est, ce sont)",
         subtitle: "Nommer, présenter, dire non",
+        titleEs: "Los presentativos (c’est, ce sont)",
+        subtitleEs: "Nombrar, presentar, decir que no",
         level: "A1",
         delf: "Nommer une chose, présenter une personne, dire ce que ce n’est pas",
         created: "2026-09-21",
@@ -378,6 +388,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/les-determinants-possessifs",
         title: "Les déterminants possessifs (mon, ton, son)",
         subtitle: "« mi » et « su » en français",
+        titleEs: "Los determinantes posesivos (mon, ton, son)",
+        subtitleEs: "«mi» y «su» en francés",
         level: "A1",
         delf: "Dire à qui est une chose, et parler des siens",
         created: "2026-11-13",
@@ -387,6 +399,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/les-verbes-en-er",
         title: "Le présent des verbes en -er (je parle)",
         subtitle: "Je parle, ils parlent : le même son",
+        titleEs: "El presente de los verbos en -er (je parle)",
+        subtitleEs: "Tres formas que suenan igual",
         level: "A1",
         delf: "Dire ce que l’on fait, où l’on habite et ce que l’on aime",
         created: "2026-09-30",
@@ -396,6 +410,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/parler-de-ses-gouts",
         title: "Les verbes de goût (aimer, adorer, détester)",
         subtitle: "Dire ce qu’on aime et ce qu’on n’aime pas",
+        titleEs: "Los verbos de gusto (aimer, adorer, détester)",
+        subtitleEs: "Decir lo que te gusta y lo que no",
         level: "A1",
         delf: "Dire ce qu’on aime, ce qu’on adore et ce qu’on déteste",
         created: "2026-09-30",
@@ -405,6 +421,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/poser-une-question",
         title: "L’interrogation (est-ce que, qui, où)",
         subtitle: "Poser une question, demander où et quand",
+        titleEs: "La interrogación (est-ce que, qui, où)",
+        subtitleEs: "Hacer una pregunta, preguntar dónde y cuándo",
         level: "A1",
         delf: "Poser une question simple : oui ou non, où, quand, combien, pourquoi",
         created: "2026-09-30",
@@ -419,6 +437,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/les-articles-partitifs",
         title: "Les articles partitifs (du, de la, des)",
         subtitle: "Ce qui ne se compte pas",
+        titleEs: "Los artículos partitivos (du, de la, des)",
+        subtitleEs: "Lo que no se cuenta",
         level: "A2",
         delf: "Demander une quantité de ce qui ne se compte pas",
         created: "2026-09-21",
@@ -428,6 +448,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/les-determinants-demonstratifs",
         title: "Les déterminants démonstratifs (ce, cet, cette, ces)",
         subtitle: "Montrer une chose, situer un moment",
+        titleEs: "Los determinantes demostrativos (ce, cet, cette, ces)",
+        subtitleEs: "Señalar una cosa, situar un momento",
         level: "A2",
         delf: "Montrer une chose et situer un moment dont on parle",
         created: "2026-09-21",
@@ -437,6 +459,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/la-negation",
         title: "La négation (ne… pas, ne… plus)",
         subtitle: "Dire ce qu’on ne fait pas, ce qu’on n’a plus",
+        titleEs: "La negación (ne… pas, ne… plus)",
+        subtitleEs: "Decir lo que no haces, lo que ya no tienes",
         level: "A2",
         delf: "Dire ce qu’on ne fait pas, ce qu’on n’a pas",
         created: "2026-09-12",
@@ -446,6 +470,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/le-passe-compose",
         title: "Le passé composé (j’ai parlé, je suis venu)",
         subtitle: "Raconter ce qui s’est passé",
+        titleEs: "El passé composé (j’ai parlé, je suis venu)",
+        subtitleEs: "Contar lo que pasó",
         level: "A2",
         delf: "Raconter un événement passé",
         created: "2026-09-06",
@@ -455,6 +481,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/l-imparfait",
         title: "L’imparfait (je parlais)",
         subtitle: "Décrire comment c’était",
+        titleEs: "El imperfecto (je parlais)",
+        subtitleEs: "Describir cómo era",
         level: "A2",
         delf: "Décrire une situation ou une habitude au passé",
         created: "2026-09-06",
@@ -464,6 +492,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/passe-compose-ou-imparfait",
         title: "Passé composé ou imparfait ?",
         subtitle: "Choisir le temps d’un récit",
+        titleEs: "¿Passé composé o imperfecto?",
+        subtitleEs: "Elegir el tiempo de un relato",
         level: "A2",
         delf: "Choisir le temps du passé dans un récit",
         created: "2026-09-06",
@@ -473,6 +503,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/le-futur-proche",
         title: "Le futur proche (je vais partir)",
         subtitle: "Dire ce qu’on va faire",
+        titleEs: "El futuro próximo (je vais partir)",
+        subtitleEs: "Decir lo que vas a hacer",
         level: "A2",
         delf: "Dire ce qu’on va faire, projeter une action",
         created: "2026-09-12",
@@ -482,6 +514,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/les-pronoms-cod-coi",
         title: "Les pronoms COD et COI (le, la, lui, leur)",
         subtitle: "Ne pas répéter le nom",
+        titleEs: "Los pronombres CD y CI (le, la, lui, leur)",
+        subtitleEs: "No repetir el nombre",
         level: "A2",
         delf: "Reprendre un mot déjà dit sans le répéter",
         created: "2026-09-06",
@@ -494,6 +528,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/les-pronoms-demonstratifs",
         title: "Les pronoms démonstratifs (celui, celle)",
         subtitle: "Choisir sans répéter le nom",
+        titleEs: "Los pronombres demostrativos (celui, celle)",
+        subtitleEs: "Elegir sin repetir el nombre",
         level: "A2",
         delf: "Choisir un objet parmi d’autres sans répéter son nom",
         created: "2026-09-21",
@@ -505,6 +541,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/les-pronoms-possessifs",
         title: "Les pronoms possessifs (le mien, le tien)",
         subtitle: "À qui est-ce ? C’est à moi, c’est le mien",
+        titleEs: "Los pronombres posesivos (le mien, le tien)",
+        subtitleEs: "Decir de quién es una cosa",
         level: "A2",
         delf: "Dire à qui est une chose sans répéter son nom",
         created: "2026-11-13",
@@ -517,6 +555,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/les-connecteurs",
         title: "Les connecteurs (d’abord, donc, pourtant)",
         subtitle: "Relier ses phrases",
+        titleEs: "Los conectores (d’abord, donc, pourtant)",
+        subtitleEs: "Enlazar las frases",
         level: "A2",
         delf: "Relier ses phrases pour raconter, expliquer et nuancer",
         created: "2026-10-05",
@@ -530,6 +570,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/le-plus-que-parfait",
         title: "Le plus-que-parfait (j’avais parlé)",
         subtitle: "Raconter ce qui s’était passé avant",
+        titleEs: "El pluscuamperfecto (j’avais parlé)",
+        subtitleEs: "Contar lo que había pasado antes",
         level: "B1",
         delf: "Raconter en situant une action avant une autre",
         created: "2026-09-21",
@@ -539,6 +581,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/le-conditionnel-present",
         title: "Le conditionnel présent (je voudrais)",
         subtitle: "Demander poliment, imaginer",
+        titleEs: "El condicional presente (je voudrais)",
+        subtitleEs: "Pedir con educación, imaginar",
         level: "B1",
         delf: "Demander poliment, et dire ce qui arriverait",
         created: "2026-09-21",
@@ -551,6 +595,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/ce-qui-ce-que-ce-dont",
         title: "Les pronoms relatifs indéfinis (ce qui, ce que, ce dont)",
         subtitle: "Reprendre une idée qui n’a pas de nom",
+        titleEs: "Los pronombres relativos indefinidos (ce qui, ce que, ce dont)",
+        subtitleEs: "Retomar una idea que no tiene nombre",
         level: "B1",
         delf: "Reprendre une idée entière, et mettre en avant ce qui compte",
         created: "2026-09-21",
@@ -562,6 +608,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/la-mise-en-relief",
         title: "La mise en relief (c’est… qui, c’est… que)",
         subtitle: "Insister sur un mot",
+        titleEs: "Las construcciones enfáticas (c’est… qui, c’est… que)",
+        subtitleEs: "Insistir en una palabra",
         level: "B1",
         delf: "Insister sur une personne, un lieu, un moment ou une raison",
         created: "2026-11-13",
@@ -571,6 +619,8 @@ export const chapters: Chapter[] = [
         path: "/grammaire/quand-l-article-disparait",
         title: "L’omission de l’article (sans, en, il est médecin)",
         subtitle: "Là où le français n’en met pas",
+        titleEs: "La omisión del artículo (sans, en, il est médecin)",
+        subtitleEs: "Donde el francés no lo pone",
         level: "B1",
         delf: "Écrire sans l’article là où le français n’en met pas",
         created: "2026-09-21",
@@ -739,6 +789,8 @@ export const chapters: Chapter[] = [
         path: "/orthographe/les-accents",
         title: "Les accents et la cédille (é, è, ê, ç)",
         subtitle: "Des signes qui font partie du mot",
+        titleEs: "Los acentos y la cedilla (é, è, ê, ç)",
+        subtitleEs: "Signos que forman parte de la palabra",
         level: null,
         delf: "Écrire les signes qui font partie du mot",
         created: "2026-09-12",
@@ -748,6 +800,8 @@ export const chapters: Chapter[] = [
         path: "/orthographe/les-homophones",
         title: "Les homophones (a / à, et / est, on / ont)",
         subtitle: "Des mots qui se disent pareil, et le test qui les sépare",
+        titleEs: "Los homófonos (a / à, et / est, on / ont)",
+        subtitleEs: "Palabras que suenan igual, y la prueba que las separa",
         level: null,
         delf: "Écrire sans confondre les mots qui se prononcent pareil",
         created: "2026-09-06",
@@ -757,6 +811,8 @@ export const chapters: Chapter[] = [
         path: "/orthographe/les-homophones-du-demonstratif",
         title: "Les homophones du démonstratif (ces / ses, c’est / s’est)",
         subtitle: "Montrer, ou dire à qui",
+        titleEs: "Los homófonos del demostrativo (ces / ses, c’est / s’est)",
+        subtitleEs: "Señalar, o decir de quién es",
         level: null,
         delf: "Écrire ce qui montre sans le confondre avec ce qui appartient",
         created: "2026-09-21",
@@ -766,6 +822,8 @@ export const chapters: Chapter[] = [
         path: "/orthographe/les-homophones-de-l-article",
         title: "Les homophones de l’article (la / l’a / là, des / dès)",
         subtitle: "L’article et ses sosies",
+        titleEs: "Los homófonos del artículo (la / l’a / là, des / dès)",
+        subtitleEs: "El artículo y sus dobles",
         level: null,
         delf: "Écrire l’article sans le confondre avec un verbe ou un adverbe",
         created: "2026-09-21",
@@ -775,6 +833,8 @@ export const chapters: Chapter[] = [
         path: "/orthographe/les-determinants-possessifs",
         title: "Les déterminants possessifs (son / sont, leur / leurs)",
         subtitle: "Écrire à qui est la chose, et l’accorder",
+        titleEs: "Los determinantes posesivos (son / sont, leur / leurs)",
+        subtitleEs: "Escribir de quién es la cosa, y hacer la concordancia",
         level: null,
         delf: "Écrire à qui la chose appartient, et l’accorder",
         created: "2026-09-12",
@@ -784,6 +844,8 @@ export const chapters: Chapter[] = [
         path: "/orthographe/les-terminaisons-verbales",
         title: "Les terminaisons verbales (-er, -é, -ez, -ais)",
         subtitle: "La fin du verbe, celle qu’on n’entend pas",
+        titleEs: "Las terminaciones verbales (-er, -é, -ez, -ais)",
+        subtitleEs: "El final del verbo, el que no se oye",
         level: null,
         delf: "Écrire la terminaison du verbe sans se fier à l’oreille",
         created: "2026-09-17",
@@ -793,6 +855,8 @@ export const chapters: Chapter[] = [
         path: "/orthographe/ecrire-les-nombres",
         title: "Les nombres en lettres (vingt et un, quatre-vingts)",
         subtitle: "Traits d’union, pluriels, « mille »",
+        titleEs: "Los números en letras (vingt et un, quatre-vingts)",
+        subtitleEs: "Guiones, plurales y el número mil",
         level: null,
         delf: "Écrire un nombre en lettres : traits d’union, pluriels, « mille »",
         created: "2026-11-12",
@@ -3026,6 +3090,7 @@ export const relatedPages: Record<string, string[]> = {
 export interface RelatedLink {
   path: string;
   title: string;
+  titleEs?: string;
   chapter: string;
 }
 
@@ -3037,12 +3102,13 @@ export interface RelatedLink {
 export function relatedFor(routePath: string): RelatedLink[] {
   return (relatedPages[routePath] ?? [])
     .slice(0, MAX_RELATED)
-    .map((path) => {
+    .map((path): RelatedLink | null => {
       const found = findLesson(path);
       if (!found) return null;
       return {
         path,
         title: found.lesson.title,
+        titleEs: found.lesson.titleEs,
         chapter: found.chapter.shortTitle ?? found.chapter.title,
       };
     })

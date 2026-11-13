@@ -71,7 +71,8 @@ Language (#102):
 - **Two copies, one change**: an explanation edited in one language only is the silent failure.
 - **French in both interfaces**: the French taught (no gloss or translation from A2), titles,
   subtitles, DELF descriptors, a DELF épreuve, the atelier, tab title and `<meta>`, the PWA
-  manifest — **save a tool's name** (`/prononciation`'s `titleEs`, #94), which teaches no French.
+  manifest — **save a tool's name** (`/prononciation`'s `titleEs`, #94), which teaches no French,
+  and **a `grammaire` or `orthographe` title's type and subtitle** (#104), its forms kept French.
   **Spanish in both**: a `traduction` source (#55), an A1 page's glosses and a literary
   A1 body's Spanish lines (#85, #92), `/instalar` (#101). Chapter/annexe titles and badges need
   their Spanish twins in the manifest (`es`, `titleEs`, `tagEs`).

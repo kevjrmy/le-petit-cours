@@ -96,6 +96,9 @@ two forms keeps its question (*Passé composé ou imparfait ?*).
   never the forms again.
 - **No title twice in one chapter**; across chapters the hint tells them apart.
 - **A link in prose quotes the type without its hint**: « comme dans *Les présentatifs* ».
+- **Both get a Spanish twin**, `titleEs` and `subtitleEs`: the type translated, the forms in
+  parentheses left French — « Los artículos definidos (le, la, les) ». `LessonTitle` marks them
+  `lang="fr"`; a lesson's name is drawn through it everywhere, never `lesson.title` bare.
 - **Retitling never moves the path** (#50).
 
 **There are no `<Rule>` / `<Table>` / `<Attention>` components.** The patterns are CSS classes in

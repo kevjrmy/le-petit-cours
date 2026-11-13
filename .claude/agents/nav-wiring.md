@@ -79,8 +79,8 @@ malformed ids throw on import, so they fail the build and the audit.
 
 Optional keys: a rich label for superscripts, a subtitle (author, scenario), a short tag badge, the
 DELF descriptor, `created`. A `grammaire` or `orthographe` title and subtitle follow
-`lesson-author.md` « The title » (#104). **Title, subtitle and DELF descriptor stay French in both interfaces**
-(#102). **A new badge needs its Spanish in `TAG_ES`**, or the manifest throws at import.
+`lesson-author.md` « The title » (#104), Spanish twin included. **Any other title, subtitle and the
+DELF descriptor stay French in both interfaces** (#102). **A new badge needs its Spanish in `TAG_ES`**, or the manifest throws at import.
 
 **No entry before its `page.tsx`** (#51). An empty chapter is normal: `listedChapters()` hides it
 everywhere until its first lesson lands. **No placeholder entry, dimmed row or "planned" count.**

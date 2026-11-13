@@ -2,18 +2,20 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { tagEs, type Level } from "@/data/navigation";
 import { T } from "@/components/lang/T";
+import { LessonSubtitle, LessonTitle } from "@/components/lesson/LessonTitle";
 import styles from "./PageRow.module.css";
 
 export interface PageRowProps {
   path: string;
   title: string;
-  /** The title in the Spanish interface (#102) — a chapter's or an annexe's.
-   *  A lesson has none: its title names the French it teaches. */
+  /** The title in the Spanish interface (#102): a chapter's, an annexe's, a
+   *  tool's, or a rule page's type (#104). Most lessons have none: their title
+   *  names the French they teach. */
   titleEs?: string;
   titleHtml?: string;
   subtitle?: string;
-  /** The subtitle in the Spanish interface, where there is one (a chapter's
-   *  blurb). A lesson's subtitle stays French. */
+  /** The subtitle in the Spanish interface, where there is one: a chapter's
+   *  blurb, or what a rule page is for (#104). */
   subtitleEs?: string;
   tag?: string;
   /** The page's rung, drawn as a badge; `null` draws none — see the note below. */
@@ -90,15 +92,13 @@ export function PageRow({
           <span className={styles.title}>
             {titleHtml ? (
               <span dangerouslySetInnerHTML={{ __html: titleHtml }} />
-            ) : titleEs ? (
-              <T fr={title} es={titleEs} />
             ) : (
-              title
+              <LessonTitle title={title} titleEs={titleEs} />
             )}
           </span>
           {subtitle && (
             <span className={styles.subtitle}>
-              {subtitleEs ? <T fr={subtitle} es={subtitleEs} /> : subtitle}
+              <LessonSubtitle subtitle={subtitle} subtitleEs={subtitleEs} />
             </span>
           )}
         </span>

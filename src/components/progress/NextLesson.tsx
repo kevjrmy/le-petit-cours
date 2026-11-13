@@ -6,6 +6,7 @@ import { useAccount } from "@/hooks/useAccount";
 import { useProgress } from "@/hooks/useProgress";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
 import { T } from "@/components/lang/T";
+import { LessonSubtitle, LessonTitle } from "@/components/lesson/LessonTitle";
 import styles from "./NextLesson.module.css";
 
 /**
@@ -29,9 +30,9 @@ import styles from "./NextLesson.module.css";
  * Signed out it draws nothing at all: an offer to resume is meaningless without
  * the ticks that say what is left (#18).
  *
- * **Both languages through `<T>`** (#102). The lesson's title stays French in
- * both (it names the French it teaches); the étape and the chapter have their
- * Spanish twins in the data.
+ * **Both languages through `<T>`** (#102). The lesson's title is French in
+ * both unless the manifest gives it a twin (`LessonTitle`, #104); the étape and
+ * the chapter have their Spanish twins in the data.
  */
 export function NextLesson({ as }: { as: "line" | "card" }) {
   const account = useAccount();
@@ -151,9 +152,13 @@ export function NextLesson({ as }: { as: "line" | "card" }) {
             <ChapterIcon name={first.chapter.icon} />
           </span>
           <span className={styles.text}>
-            <span className={styles.title}>{first.lesson.title}</span>
+            <span className={styles.title}>
+              <LessonTitle {...first.lesson} />
+            </span>
             <span className={styles.chapter}>
-              {first.lesson.subtitle ?? (
+              {first.lesson.subtitle ? (
+                <LessonSubtitle subtitle={first.lesson.subtitle} subtitleEs={first.lesson.subtitleEs} />
+              ) : (
                 <T fr={first.chapter.title} es={first.chapter.es.title} />
               )}
             </span>
@@ -176,7 +181,9 @@ export function NextLesson({ as }: { as: "line" | "card" }) {
       <p className={styles.slot}>
         <Link href={step.lesson.path} className={styles.line}>
           <span className={styles.verb}>{verb}</span>
-          <span className={styles.lesson}>{step.lesson.title}</span>
+          <span className={styles.lesson}>
+            <LessonTitle {...step.lesson} />
+          </span>
           <Chevron />
         </Link>
       </p>
@@ -195,7 +202,9 @@ export function NextLesson({ as }: { as: "line" | "card" }) {
           <ChapterIcon name={step.chapter.icon} />
         </span>
         <span className={styles.text}>
-          <span className={styles.title}>{step.lesson.title}</span>
+          <span className={styles.title}>
+            <LessonTitle {...step.lesson} />
+          </span>
           {/* The étape, then the chapter: where the lesson sits in the path,
               and where it lives in the course. */}
           <span className={styles.chapter}>

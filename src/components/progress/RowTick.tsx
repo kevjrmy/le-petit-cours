@@ -53,7 +53,7 @@ export function RowTick({
          list of these is otherwise a list of identical buttons. */
       aria-pressed={done}
       aria-label={
-        lang === "es" ? `Terminada: ${lesson.title}` : `Terminé : ${lesson.title}`
+        lang === "es" ? `Terminada: ${lesson.titleEs ?? lesson.title}` : `Terminé : ${lesson.title}`
       }
       title={
         lang === "es"

@@ -6,6 +6,7 @@ import { etapesOf, examOf, nextUp, tallyOf, type IsDone, type Parcours } from "@
 import { useAccount } from "@/hooks/useAccount";
 import { useLang } from "@/hooks/useLang";
 import { T } from "@/components/lang/T";
+import { LessonSubtitle, LessonTitle } from "@/components/lesson/LessonTitle";
 import type { Lang } from "@/lib/lang";
 import { useProgress } from "@/hooks/useProgress";
 import { ChapterIcon } from "@/components/nav/ChapterIcon";
@@ -38,7 +39,8 @@ import styles from "./Progression.module.css";
  * of reach — and they are gone by next week, which would then move the
  * denominator under a record that is supposed to only grow.
  *
- * **Both languages through `<T>`** (#102); lesson titles stay French in both.
+ * **Both languages through `<T>`** (#102); a lesson's title is French in both
+ * unless the manifest gives it a twin (`LessonTitle`, #104).
  * `useLang` only for the date, which `Intl` formats in code: the record draws
  * after the account has loaded, so the language is already the real one.
  */
@@ -275,11 +277,17 @@ function ParcoursRecord({ parcours, isDone }: { parcours: Parcours; isDone: IsDo
             {exam.map(({ chapter, lesson }) => (
               <li key={lesson.id}>
                 <Link href={lesson.path} className={styles.lesson}>
-                  <span className={styles.lessonTitle}>{lesson.title}</span>
+                  <span className={styles.lessonTitle}>
+          <LessonTitle {...lesson} />
+        </span>
                   <span className="visually-hidden">
                     , <T fr={chapter.title} es={chapter.es.title} />
                   </span>
-                  {lesson.subtitle && <span className={styles.when}>{lesson.subtitle}</span>}
+                  {lesson.subtitle && (
+                    <span className={styles.when}>
+                      <LessonSubtitle subtitle={lesson.subtitle} subtitleEs={lesson.subtitleEs} />
+                    </span>
+                  )}
                 </Link>
               </li>
             ))}
@@ -302,7 +310,9 @@ function Step({ lesson, chapter, done }: { lesson: Lesson; chapter: Chapter; don
         ) : (
           <span className={styles.ring} aria-hidden="true" />
         )}
-        <span className={styles.lessonTitle}>{lesson.title}</span>
+        <span className={styles.lessonTitle}>
+          <LessonTitle {...lesson} />
+        </span>
         <span className="visually-hidden">
           ,{" "}
           <T
@@ -337,7 +347,9 @@ function Done({
         <svg className={styles.check} viewBox="0 0 24 24" aria-hidden="true">
           <path d="M5 12.5l4.5 4.5L19 7.5" />
         </svg>
-        <span className={styles.lessonTitle}>{lesson.title}</span>
+        <span className={styles.lessonTitle}>
+          <LessonTitle {...lesson} />
+        </span>
         <span className="visually-hidden">
           , <T fr={chapter.title} es={chapter.es.title} />
         </span>

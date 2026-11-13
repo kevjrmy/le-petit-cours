@@ -1,5 +1,5 @@
 import { findLesson } from "@/data/navigation";
-import { T } from "@/components/lang/T";
+import { LessonTitle } from "./LessonTitle";
 import { LessonDelf } from "./LessonDelf";
 import styles from "./PageHeader.module.css";
 
@@ -19,11 +19,9 @@ export function PageHeader({ path }: { path: string }) {
       <h1>
         {lesson.titleHtml ? (
           <span dangerouslySetInnerHTML={{ __html: lesson.titleHtml }} />
-        ) : lesson.titleEs ? (
-          /* A tool's name, not French taught: it follows the interface. */
-          <T fr={lesson.title} es={lesson.titleEs} />
         ) : (
-          lesson.title
+          /* French, or a twin where the title is not French taught (#104). */
+          <LessonTitle title={lesson.title} titleEs={lesson.titleEs} />
         )}
       </h1>
       {/* A leaf, because on a page with a question set per level the descriptor

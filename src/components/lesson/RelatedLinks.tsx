@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { findLesson, relatedFor } from "@/data/navigation";
 import { T } from "@/components/lang/T";
+import { LessonTitle } from "./LessonTitle";
 import styles from "./RelatedLinks.module.css";
 
 /**
@@ -26,11 +27,13 @@ export function RelatedLinks({ path }: { path: string }) {
           <li key={link.path}>
             <Link href={link.path}>
               <span className={styles.chapter}>
-                {/* The chapter is interface text; the lesson's title names the
-                    French taught and stays French (#102). */}
+                {/* The chapter is interface text; the lesson's title is French
+                    unless the manifest gives it a twin (#104). */}
                 <T fr={link.chapter} es={findLesson(link.path)?.chapter.es.title ?? link.chapter} />
               </span>
-              <span className={styles.title}>{link.title}</span>
+              <span className={styles.title}>
+                <LessonTitle title={link.title} titleEs={link.titleEs} />
+              </span>
             </Link>
           </li>
         ))}
