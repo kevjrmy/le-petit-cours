@@ -17,6 +17,12 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/",
     scope: "/",
     display: "standalone",
+    /* A shared link opens in the installed app, not a tab (#101). Chrome and
+       Edge on a computer capture a link into the app only when the manifest
+       states launch_handler; navigate-existing reuses the open window instead
+       of stacking a new one per link. Android's installed app takes links from
+       other apps by itself; iOS never does, and no manifest field changes it. */
+    launch_handler: { client_mode: ["navigate-existing", "auto"] },
     orientation: "portrait-primary",
     lang: "fr",
     dir: "ltr",

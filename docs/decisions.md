@@ -1395,6 +1395,16 @@ container, and the course asks nothing of a visitor it does not need.
 HTTPS, the manifest's name, 192 and 512 icons and `display`, and one tap on the page. Offline is
 still Serwist's (§2), not this page's.
 
+**A shared link opens the installed app** where the platform allows it (2026-11-13). The manifest
+states `launch_handler` with `navigate-existing`: Chrome and Edge on a computer capture an in-scope
+link into an installed app only once that field is present, and `navigate-existing` loads the link
+in the window already open rather than one window per link. **Chosen against** `focus-existing`,
+which would need a `launchQueue` handler to load the URL at all. On Android the installed app
+(a WebAPK) takes in-scope links from other apps with no field; a link tapped inside Chrome stays in
+Chrome. **On iOS no installed web app ever receives a link** — Safari opens it, and no manifest
+field, header or file changes that. The user can still opt out in the browser's or the phone's
+settings, and that wins.
+
 **Platform detection happens on the client only** (`useSyncExternalStore`, a `pending` server
 snapshot), so the page stays prerendered (§8). An iPad says it is a Mac; a touch screen gives it
 away.
