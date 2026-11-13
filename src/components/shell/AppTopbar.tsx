@@ -48,7 +48,10 @@ export function AppTopbar({
   const pathname = usePathname();
   const lang = useLang();
   const found = findLesson(pathname);
-  const parent = found?.chapter ?? null;
+  /* A chapter that is its own page (`/prononciation`, #94) would link to
+     itself: that is naming the page you are on, so it draws nothing. */
+  const parent =
+    found && found.chapter.path !== found.lesson.path ? found.chapter : null;
 
   const drawer = mode === "drawer";
   const railed = mode === "rail";

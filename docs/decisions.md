@@ -327,7 +327,9 @@ by Escape, the scrim or a link, and focus goes back to the button.
 
 **The trail does not name the current page** — the `<h1>` is right beneath it. It keeps **the
 chapter, as a link up**, the only place a lesson names it. **It grows *upward*** (a parcours step;
-not a level, #65); **putting the leaf back is not growth.**
+not a level, #65); **putting the leaf back is not growth.** A chapter that is its own page
+(`/prononciation`, #94) shows no trail: its chapter *is* the page, and the link would point at
+itself.
 
 ## 47 · The account popover holds the account, and nothing else
 **2026-09-06 · Binding**

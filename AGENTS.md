@@ -211,7 +211,7 @@ folder is a 404, a folder without an entry is unreachable — `node scripts/nav-
   changes height**. **Never choose the half on the server.**
 - **The sidebar is one level deep** (#40); **one sidebar control, in the topbar, at every
   breakpoint**, its label and glyph following the mode (#45). The topbar never names the current
-  page (#45); its trail is the chapter alone (#65).
+  page (#45); its trail is the chapter alone (#65), and nothing on a chapter that is its own page.
 - **Annexe position is a manifest field** (`where`, #47); the footer draws only on `/` and its own
   pages (#63). **`featuredChapterSlugs` is the one hand-kept list**, and fails soft. A route
   outside the course goes in `unlistedPages`.
