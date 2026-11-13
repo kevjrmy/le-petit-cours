@@ -2039,7 +2039,7 @@ export const annexes: Annexe[] = [
  * because it has to sit *outside* `/atelier`, where the proxy cannot intercept the
  * Server Function that opens it — the onboarding a first sign-in passes
  * through (`/bienvenue`), and `/installer` in Spanish (`/instalar`, #101),
- * reached from the French page: its Spanish title would be a manifest title, and lesson titles stay French (#102). Declaring them is what lets the `nav-wiring`
+ * reached from the French page: its Spanish title would be a manifest title, and a lesson's title stays French (#102) unless it names a rule page's type (#104). Declaring them is what lets the `nav-wiring`
  * audit report a route that is in neither the manifest nor this list, instead
  * of letting a page exist that nothing links to and nothing notices.
  *

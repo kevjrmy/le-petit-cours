@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 /* `/installer` in Spanish (#101), the one page outside the account screens
    (#91) written in Spanish from its title down — so `lang="es"` sits on the
-   article here, where an A1 page keeps it off because its title stays French.
+   article here, where an A1 page keeps it off because it holds as much French as Spanish.
    The course's name stays French, marked `lang="fr"`. Since #102 `/installer`
    follows the interface language, so this one is the link to send someone in
    Spanish; the two change together. */

@@ -1374,7 +1374,7 @@ or after a « non »). Installed already, it says so.
 (`src/components/install/InstallApp.tsx`) holding both texts, and a link from each to the other.
 Installing comes before any lesson, so it is said in the language the visitor reads, and each names
 the buttons a phone in that language prints. **The Spanish page is in `unlistedPages`**, reached
-from the French one: a manifest title is French (#102: lesson titles stay French). The course's name stays French in it (#91).
+from the French one: a manifest title is French (#102; only a rule page's type has a twin, #104). The course's name stays French in it (#91).
 **Chosen against** following the account's language (#91): the page is for visitors before they
 have an account, and it prerenders.
 
