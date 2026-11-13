@@ -492,7 +492,7 @@ export const chapters: Chapter[] = [
         path: "/grammaire/passe-compose-ou-imparfait",
         title: "Passé composé ou imparfait ?",
         subtitle: "Choisir le temps d’un récit",
-        titleEs: "¿Passé composé o imperfecto?",
+        titleEs: "¿Passé composé o imparfait?",
         subtitleEs: "Elegir el tiempo de un relato",
         level: "A2",
         delf: "Choisir le temps du passé dans un récit",

@@ -1495,4 +1495,8 @@ the title is most for reads Spanish. **The forms in parentheses stay French** in
 string, and `LessonTitle` marks them `lang="fr"`; it is the one component that draws a lesson's
 name, so a row, « La suite », the record and the cross-links cannot forget the twin. Other
 chapters' titles stay French: there the title is the French taught (« La maison », « Se
-présenter », a book). The tab title stays French (a server read, §8).
+présenter », a book). The tab title stays French (a server read, §8). **A tense with no Spanish
+match keeps its French name**: *j'ai parlé* is both *he hablado* and *hablé*, so « el pretérito
+perfecto » would teach half of it — « El passé composé », as Spanish textbooks of French say. A
+true match is translated (« El imperfecto », « El pluscuamperfecto »); a choice between two tenses
+names both in French (« ¿Passé composé o imparfait? »).
