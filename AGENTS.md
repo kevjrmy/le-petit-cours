@@ -146,6 +146,9 @@ Read `node_modules/next/dist/docs/` first. The traps:
 - **`beforeinstallprompt` is caught by `src/lib/install.ts`, imported by the shell** (#101): it
   fires once per load, on the landing page, so a listener in `/installer` would miss it. Its
   `preventDefault()` keeps the browser's own pop-up away: our button is the one offer.
+- **A shared link opens the installed app because the manifest states `launch_handler`** (#101):
+  drop it, or narrow `scope`, and a computer's Chrome or Edge opens links in a tab again. iOS never
+  hands a link to an installed web app — nothing to fix there.
 - **`html lang` stays `fr`** (#102); a Spanish element carries `lang="es"` itself.
 
 ## 5. Design system
